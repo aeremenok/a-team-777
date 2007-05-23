@@ -412,6 +412,7 @@ namespace lab_3
 
 		private void button1_Click(object sender, EventArgs e)
 		{
+			
 			string ResultMessage;
 			try
 			{
@@ -425,7 +426,7 @@ namespace lab_3
 						
 						byte[] b = StringOps.ConvertStringToByteArray(inStr);
 						lastOper = myRsa.encrypt(b);
-						string strRes = StringOps.ConvertByteArrayToString(lastOper);
+						string strRes = StringOps.ConvertByteArrayToStringNUMBERS(lastOper);
 						this.rtbEncr.Text = strRes;
 
 						/*_L3RSAH.SetInString(inStr);
@@ -444,7 +445,7 @@ namespace lab_3
 					ResultMessage = "Не задан ключ шифрования";
 				}
 		}catch(Exception ex){
-			ResultMessage = ex.Message;
+			ResultMessage = "Ошибка при шифровании: возможно, Вы не сгенерировали корректный ключ.";
 		}
 			MessageBox.Show(ResultMessage);
 		}
@@ -462,8 +463,8 @@ namespace lab_3
 //					string key2 = this.tBKey2.Text;
 				    
 					
-					byte[] b = StringOps.ConvertStringToByteArray(inStr);
-					byte[] res = myRsa.decrypt(lastOper);
+					byte[] b = StringOps.ConvertStringNUMBERSToByteArray(inStr);
+					byte[] res = myRsa.decrypt(b);
 					string strRes = StringOps.ConvertByteArrayToString(res);
 					this.rtbDecrypt.Text = strRes;
 					
@@ -484,7 +485,7 @@ namespace lab_3
             }
 			}catch(Exception ex)
 			{
-				ResultMessage = ex.Message;
+				ResultMessage = "Ошибка при шифровании: возможно, текст не является зашифрованным текстом.";
 			}
             MessageBox.Show(ResultMessage);
 		}
