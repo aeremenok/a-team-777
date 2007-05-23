@@ -1,0 +1,53 @@
+<Configuration>
+  <RecentFilesTracker>
+    <RecentFilesTracker>
+      <TrackedFile location="H:\lab_3_6\Form1.cs" offset="21111" line="261" column="0" />
+      <TrackedFile location="H:\lab_3_6\myRSA.cs" offset="614" line="6" column="0" />
+      <TrackedFile location="H:\lab_3_6\RSAHandler.cs" offset="245" line="4" column="0" />
+    </RecentFilesTracker>
+  </RecentFilesTracker>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean />
+  </SettingsComponent>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Qualified:lab_1.myRSA">
+      <Item value="generateNewKeys" priority="0" />
+      <Item value="Rsaencpub" priority="0" />
+      <Item value="Rsaencpriv" priority="0" />
+      <Item value="encrypt" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:lab_3.lab3RSAHandler">
+      <Item value="SetInString" priority="1" />
+      <Item value="GenerateKeys" priority="1" />
+      <Item value="GetDecryptedString" priority="0" />
+      <Item value="GetEncryptedString" priority="1" />
+      <Item value="Encrypt" priority="0" />
+      <Item value="EncryptMessage" priority="0" />
+      <Item value="Decrypt" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.bouncycastle.math.BigInteger">
+      <Item value="toByteArray" priority="1" />
+      <Item value="ToString" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.TextBox">
+      <Item value="Text" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Exception">
+      <Item value="Message" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:byte[]">
+      <Item value="Length" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Security.Cryptography.RSACryptoServiceProvider">
+      <Item value="Decrypt" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.RichTextBox">
+      <Item value="Text" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Security.Cryptography.RSAParameters">
+      <Item value="Modulus" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+</Configuration>
