@@ -43,7 +43,7 @@ namespace lab_1
 			EncPrivPresent=true;
 			EncPubPresent=true;
 				
-			MessageBox.Show( "EncPrivPresent " + EncPrivPresent + "  EncPubPresent" + EncPubPresent );
+			MessageBox.Show( "Ключи сгенерированы." );
 		}
 
 		public byte[] encrypt(byte[] inc)
@@ -127,34 +127,34 @@ namespace lab_1
 			byte []outbuf=new byte[MaxRSABlockSize];
 			
 
-			byte[] output = new byte[(inc.Length/MaxRSABlockSize+1)*64]; 
+			byte[] output = new byte[(inc.Length/MaxRSABlockSize+1)*MaxRSABlockSize]; 
 
 			int len;
 			int i = 0;
 
-			while(i + KeyLen/8 < inc.Length)
+			while((i+1)*KeyLen/8 < inc.Length)
 			{
-				inbuf = fillin(inc,i,KeyLen/8);
+				inbuf = fillin(inc,i*KeyLen/8,KeyLen/8);
 				byte []enc;
 				
 				enc = rsa.Decrypt(inbuf,true);
 				
 				for(int t = 0; t < enc.Length; t++)
 				{
-					output[i + t] = enc[t];
+					output[i*MaxRSABlockSize + t] = enc[t];
 				}
 
 
-				i += KeyLen/8;
+				i++;
 			}
 				
-			inbuf = fillin(inc,i,inc.Length-i);
+			inbuf = fillin(inc,i*KeyLen/8,inc.Length-(i*KeyLen/8));
 
 			outbuf=rsa.Decrypt(inbuf,true);
 
 			for(int t = 0; t < outbuf.Length; t++)
 			{
-				output[i + t ] = outbuf[t];
+				output[i*MaxRSABlockSize + t ] = outbuf[t];
 			}
 			
 
