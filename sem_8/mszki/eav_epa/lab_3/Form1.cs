@@ -35,10 +35,8 @@ namespace lab_3
 		private Button button2;
 		private Splitter splitter1;
 		private Splitter splitter2;
-		private TextBox tBKey2;
 		private RichTextBox rTBkey2;
 		private Button bGen;
-		private System.Windows.Forms.TextBox tb_Key;
 		private System.Windows.Forms.Label label1;
 
 		private myRSA myRsa = new myRSA();
@@ -84,10 +82,10 @@ namespace lab_3
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.rTBkey2 = new System.Windows.Forms.RichTextBox();
-			this.tBKey2 = new System.Windows.Forms.TextBox();
-			this.tbKEY = new System.Windows.Forms.RichTextBox();
 			this.bGen = new System.Windows.Forms.Button();
+			this.label1 = new System.Windows.Forms.Label();
+			this.tbKEY = new System.Windows.Forms.RichTextBox();
+			this.rTBkey2 = new System.Windows.Forms.RichTextBox();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.rtbINPUT = new System.Windows.Forms.RichTextBox();
 			this.bSaveIn = new System.Windows.Forms.Button();
@@ -103,8 +101,6 @@ namespace lab_3
 			this.rtbDecrypt = new System.Windows.Forms.RichTextBox();
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.splitter2 = new System.Windows.Forms.Splitter();
-			this.tb_Key = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.panel3.SuspendLayout();
@@ -120,6 +116,7 @@ namespace lab_3
 			this.b_Encrypt.Size = new System.Drawing.Size(504, 24);
 			this.b_Encrypt.TabIndex = 1;
 			this.b_Encrypt.Text = "Зашифровать";
+			this.b_Encrypt.UseVisualStyleBackColor = false;
 			this.b_Encrypt.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// b_Decrypt
@@ -172,8 +169,6 @@ namespace lab_3
 			this.panel1.Controls.Add(this.bGen);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Controls.Add(this.tbKEY);
-			this.panel1.Controls.Add(this.tBKey2);
-			this.panel1.Controls.Add(this.tb_Key);
 			this.panel1.Controls.Add(this.rTBkey2);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -181,40 +176,6 @@ namespace lab_3
 			this.panel1.Size = new System.Drawing.Size(504, 128);
 			this.panel1.TabIndex = 9;
 			this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-			// 
-			// rTBkey2
-			// 
-			this.rTBkey2.BackColor = System.Drawing.SystemColors.GrayText;
-			this.rTBkey2.Location = new System.Drawing.Point(248, 64);
-			this.rTBkey2.Name = "rTBkey2";
-			this.rTBkey2.ReadOnly = true;
-			this.rTBkey2.Size = new System.Drawing.Size(240, 48);
-			this.rTBkey2.TabIndex = 10;
-			this.rTBkey2.Text = "";
-			this.rTBkey2.TextChanged += new System.EventHandler(this.rTBkey2_TextChanged);
-			// 
-			// tBKey2
-			// 
-			this.tBKey2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.tBKey2.BackColor = System.Drawing.SystemColors.HighlightText;
-			this.tBKey2.Location = new System.Drawing.Point(248, 40);
-			this.tBKey2.Name = "tBKey2";
-			this.tBKey2.Size = new System.Drawing.Size(240, 20);
-			this.tBKey2.TabIndex = 9;
-			this.tBKey2.Text = "";
-			this.tBKey2.TextChanged += new System.EventHandler(this.tBKey2_TextChanged);
-			// 
-			// tbKEY
-			// 
-			this.tbKEY.BackColor = System.Drawing.SystemColors.GrayText;
-			this.tbKEY.Location = new System.Drawing.Point(8, 64);
-			this.tbKEY.Name = "tbKEY";
-			this.tbKEY.ReadOnly = true;
-			this.tbKEY.Size = new System.Drawing.Size(232, 48);
-			this.tbKEY.TabIndex = 7;
-			this.tbKEY.Text = "";
-			this.tbKEY.TextChanged += new System.EventHandler(this.tbKEY_TextChanged);
 			// 
 			// bGen
 			// 
@@ -224,6 +185,36 @@ namespace lab_3
 			this.bGen.TabIndex = 10;
 			this.bGen.Text = "Сгенерировать";
 			this.bGen.Click += new System.EventHandler(this.bGen_Click);
+			// 
+			// label1
+			// 
+			this.label1.Location = new System.Drawing.Point(8, 8);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(100, 24);
+			this.label1.TabIndex = 15;
+			this.label1.Text = "КЛЮЧИ:";
+			// 
+			// tbKEY
+			// 
+			this.tbKEY.BackColor = System.Drawing.SystemColors.GrayText;
+			this.tbKEY.Location = new System.Drawing.Point(8, 35);
+			this.tbKEY.Name = "tbKEY";
+			this.tbKEY.ReadOnly = true;
+			this.tbKEY.Size = new System.Drawing.Size(232, 77);
+			this.tbKEY.TabIndex = 7;
+			this.tbKEY.Text = "";
+			this.tbKEY.TextChanged += new System.EventHandler(this.tbKEY_TextChanged);
+			// 
+			// rTBkey2
+			// 
+			this.rTBkey2.BackColor = System.Drawing.SystemColors.GrayText;
+			this.rTBkey2.Location = new System.Drawing.Point(248, 35);
+			this.rTBkey2.Name = "rTBkey2";
+			this.rTBkey2.ReadOnly = true;
+			this.rTBkey2.Size = new System.Drawing.Size(240, 77);
+			this.rTBkey2.TabIndex = 10;
+			this.rTBkey2.Text = "";
+			this.rTBkey2.TextChanged += new System.EventHandler(this.rTBkey2_TextChanged);
 			// 
 			// panel2
 			// 
@@ -256,6 +247,7 @@ namespace lab_3
 			this.bSaveIn.Size = new System.Drawing.Size(140, 20);
 			this.bSaveIn.TabIndex = 11;
 			this.bSaveIn.Text = "Сохранить";
+			this.bSaveIn.UseVisualStyleBackColor = false;
 			this.bSaveIn.Click += new System.EventHandler(this.bSaveIn_Click);
 			// 
 			// bLoadInputFromFile
@@ -267,6 +259,7 @@ namespace lab_3
 			this.bLoadInputFromFile.Size = new System.Drawing.Size(140, 20);
 			this.bLoadInputFromFile.TabIndex = 10;
 			this.bLoadInputFromFile.Text = "Загрузить из файла";
+			this.bLoadInputFromFile.UseVisualStyleBackColor = false;
 			this.bLoadInputFromFile.Click += new System.EventHandler(this.button1_Click_1);
 			// 
 			// panel3
@@ -330,6 +323,7 @@ namespace lab_3
 			this.button2.Size = new System.Drawing.Size(140, 20);
 			this.button2.TabIndex = 13;
 			this.button2.Text = "Сохранить";
+			this.button2.UseVisualStyleBackColor = false;
 			this.button2.Click += new System.EventHandler(this.button2_Click_1);
 			// 
 			// rtbDecrypt
@@ -362,23 +356,6 @@ namespace lab_3
 			this.splitter2.TabIndex = 14;
 			this.splitter2.TabStop = false;
 			// 
-			// tb_Key
-			// 
-			this.tb_Key.Location = new System.Drawing.Point(8, 40);
-			this.tb_Key.Name = "tb_Key";
-			this.tb_Key.Size = new System.Drawing.Size(232, 20);
-			this.tb_Key.TabIndex = 14;
-			this.tb_Key.Text = "";
-			this.tb_Key.TextChanged += new System.EventHandler(this.tb_Key_TextChanged_1);
-			// 
-			// label1
-			// 
-			this.label1.Location = new System.Drawing.Point(8, 8);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 24);
-			this.label1.TabIndex = 15;
-			this.label1.Text = "КЛЮЧИ:";
-			// 
 			// Form1
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
@@ -397,7 +374,6 @@ namespace lab_3
 			this.panel3.ResumeLayout(false);
 			this.panel4.ResumeLayout(false);
 			this.ResumeLayout(false);
-
 		}
 		#endregion
 
@@ -416,7 +392,7 @@ namespace lab_3
 			string ResultMessage;
 			try
 			{
-				if ( !this.tb_Key.Text.Equals(""))
+				if ( !this.tbKEY.Text.Equals(""))
 				{
 					if ( !this.rtbINPUT.Text.Equals("") )
 					{
@@ -454,7 +430,7 @@ namespace lab_3
 		{
             string ResultMessage;
             try{
-				if ( !this.tb_Key.Text.Equals(""))
+				if ( !this.tbKEY.Text.Equals(""))
             {
                 if ( !this.rtbEncr.Text.Equals("") )
                 {
@@ -485,7 +461,7 @@ namespace lab_3
             }
 			}catch(Exception ex)
 			{
-				ResultMessage = "Ошибка при шифровании: возможно, текст не является зашифрованным текстом.";
+				ResultMessage = "Ошибка при шифровании: возможно, текст не является зашифрованным текстом, либо ключ не подходящий.";
 			}
             MessageBox.Show(ResultMessage);
 		}
@@ -506,7 +482,7 @@ namespace lab_3
 
 		private void tb_Key_TextChanged(object sender, EventArgs e)
 		{
-			byte[] b = Encoding.UTF8.GetBytes(this.tb_Key.Text);
+			byte[] b = Encoding.UTF8.GetBytes(this.tbKEY.Text);
 			string str = "";
 			for(int i =0; i < b.Length; i++)
 			{
@@ -563,7 +539,7 @@ namespace lab_3
 
 		private void tBKey2_TextChanged(object sender, EventArgs e)
 		{
-			byte[] b = Encoding.UTF8.GetBytes(this.tBKey2.Text);
+			byte[] b = Encoding.UTF8.GetBytes(this.rTBkey2.Text);
 			string str = "";
 			for(int i =0; i < b.Length; i++)
 			{
@@ -579,9 +555,9 @@ namespace lab_3
 		{
 			myRsa.generateNewKeys();
 
-			this.tb_Key.Text = StringOps.ConvertByteArrayToString(myRsa.Rsaencpriv.Modulus);
+			this.tbKEY.Text = StringOps.ConvertByteArrayToStringNUMBERS(myRsa.Rsaencpriv.Modulus);
 
-			this.tBKey2.Text = StringOps.ConvertByteArrayToString(myRsa.Rsaencpub.Modulus);
+			this.rTBkey2.Text = StringOps.ConvertByteArrayToStringNUMBERS(myRsa.Rsaencpub.Modulus);
 
 
 			/*string[] str = _L3RSAH.GenerateKeys();
@@ -611,7 +587,7 @@ namespace lab_3
 
 		private void tb_Key_TextChanged_1(object sender, System.EventArgs e)
 		{
-			byte[] b = Encoding.UTF8.GetBytes(this.tb_Key.Text);
+			byte[] b = Encoding.UTF8.GetBytes(this.tbKEY.Text);
 			string str = "";
 			for(int i =0; i < b.Length; i++)
 			{
