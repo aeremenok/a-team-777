@@ -237,7 +237,8 @@ namespace lab_3
 			this.rtbINPUT.Name = "rtbINPUT";
 			this.rtbINPUT.Size = new System.Drawing.Size(504, 64);
 			this.rtbINPUT.TabIndex = 9;
-			this.rtbINPUT.Text = "Текст 123 text jsfhsdjkah asdjkh asdghf ghjashs ajsa sdhf ghsd";
+			this.rtbINPUT.Text = "Алгоритм использует два ключа — открытый (public) и секретный (private), вместе о" +
+			"ткрытый и соответствующий ему секретный ключи образуют пару ключей (keypair). ";
 			// 
 			// bSaveIn
 			// 
