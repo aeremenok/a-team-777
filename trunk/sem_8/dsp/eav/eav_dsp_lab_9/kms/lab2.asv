@@ -1,0 +1,94 @@
+clear;
+fs = 1024;
+n1 = 0.1;		         % длина реализации первого сигнала
+n2 = 0.2;                 % длина реализации второго сигнала 
+f1=  50;                     % частота для первого сигнала   
+f2 = 150;                  % частота для второго сигнала 
+t1 = 0:1/fs:n1;          % шаг дискретизации для первого сигнала
+t2 = 0:1/fs:n2;          % шаг дискретизации для второго сигнала
+N = 1024;
+
+
+% первая входная последовательность - гармонический сигнал
+y1=cos(2*pi*f1*t1); 
+% вторая входная последовательность - гармонический сигнал
+y2=cos(2*pi*f2*t2);
+
+% вывод на экран первого гармонического сигнала
+xlim([0 0.1])
+figure(1);
+xlim([0 16]);
+plot(t1,y1);
+grid on;
+xlabel('Time');
+ylabel('Amplitude');
+title('Harmonic signal');
+
+% вывод на экран второго гармонического сигнала
+figure(2);
+clf,plot(t2,y2);
+grid on;
+xlabel('Time');
+ylabel('Amplitude');
+title('Harmonic signal');
+
+% построение спектра первого сигнала
+Fy1  = fft(y1,N);
+figure(3);
+clf, plot(abs(Fy1));
+grid on;
+ylabel('Power');
+xlabel('Frequence');
+title('Spectrum');
+
+% построение спектра второго сигнала
+Fy2 = fft(y2,N);
+figure(4);
+clf, plot(abs(Fy2));
+grid on;
+ylabel('Power');
+xlabel('Frequence');
+title('Spectrum');
+
+%задание окон для анализа
+w_rect = window(@rectwin,n1);
+w_tr=window(@triang,n1);
+w_bl=window(@blackman,n1);
+w_ch=window(@chebwin,n1,40);
+
+
+% спектр входного сигнала с использованием прямоугольного окна
+Fy1  = fft(w_rect.*y1');
+figure(5);
+clf, plot(abs(Fy1));
+grid on;
+ylabel('Power');
+xlabel('Frequence');
+title('Spectrum');
+
+% спектр входного сигнала с использованием треугольного окна
+Fy2  = fft(w_tr.*y1');
+figure(6);
+clf, plot(abs(Fy2));
+grid on;
+ylabel('Power');
+xlabel('Frequence');
+title('Spectrum');
+
+% спектр входного сигнала с использованием окна Блэкмана
+Fy3  = fft(w_bl.*y1');
+figure(7);
+clf, plot(abs(Fy3));
+grid on;
+ylabel('Power');
+xlabel('Frequence');
+title('Spectrum');
+
+% спектр входного сигнала с использованием кна Чебышева
+Fy4  = fft(w_ch.*y1');
+figure(8);
+clf, plot(abs(Fy4));
+grid on;
+ylabel('Power');
+xlabel('Frequence');
+title('Spectrum');
