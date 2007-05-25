@@ -1,1 +1,1 @@
-*obj* *bin* *debug* *release* *suo* *asv* *tmp*
+*obj* *bin* *debug* *release* *suo* *asv* *tmp* *bak*
