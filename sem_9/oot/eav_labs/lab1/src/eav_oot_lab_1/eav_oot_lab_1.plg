@@ -1,0 +1,57 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: eav_oot_lab_1 - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Temp\RSP63.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\_leti\_sem_9\главное\оот\lab1\SRC\eav_oot_lab_1\Oval.cpp"
+"E:\_leti\_sem_9\главное\оот\lab1\SRC\eav_oot_lab_1\Rectangle.cpp"
+"E:\_leti\_sem_9\главное\оот\lab1\SRC\eav_oot_lab_1\Shape.cpp"
+"E:\_leti\_sem_9\главное\оот\lab1\SRC\eav_oot_lab_1\Text.cpp"
+"E:\_leti\_sem_9\главное\оот\lab1\SRC\eav_oot_lab_1\TextInOval.cpp"
+]
+Creating command line "cl.exe @C:\Temp\RSP63.tmp" 
+Creating temporary file "C:\Temp\RSP64.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/eav_oot_lab_1.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\_leti\_sem_9\главное\оот\lab1\src\eav_oot_lab_1\main.cpp"
+]
+Creating command line "cl.exe @C:\Temp\RSP64.tmp" 
+Creating temporary file "C:\Temp\RSP65.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/eav_oot_lab_1.pdb" /debug /machine:I386 /out:"Debug/eav_oot_lab_1.exe" /pdbtype:sept 
+".\Debug\Oval.obj"
+".\Debug\Rectangle.obj"
+".\Debug\Shape.obj"
+".\Debug\Text.obj"
+".\Debug\TextInOval.obj"
+".\Debug\main.obj"
+]
+Creating command line "link.exe @C:\Temp\RSP65.tmp"
+<h3>Output Window</h3>
+Compiling...
+Oval.cpp
+Rectangle.cpp
+Shape.cpp
+Text.cpp
+TextInOval.cpp
+Generating Code...
+Compiling...
+main.cpp
+Linking...
+Creating command line "bscmake.exe /nologo /o"Debug/eav_oot_lab_1.bsc"  ".\Debug\Oval.sbr" ".\Debug\Rectangle.sbr" ".\Debug\Shape.sbr" ".\Debug\Text.sbr" ".\Debug\TextInOval.sbr" ".\Debug\main.sbr""
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+eav_oot_lab_1.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
