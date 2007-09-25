@@ -85,6 +85,18 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE=.\Elem.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Graph.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\List.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\main.cpp
 # End Source File
 # Begin Source File
@@ -156,6 +168,18 @@ SOURCE=.\TextInOval.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\Elem.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Graph.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\List.h
+# End Source File
 # Begin Source File
 
 SOURCE=.\Oval.h
