@@ -12,7 +12,13 @@ class ostream;
 //##ModelId=46F50BDC00BB
 class Shape 
 {
+private:
+
+
 public:
+	//##ModelId=46FAAC9E01F4
+	const int get__id() const;
+
 	//оператор вывода в поток
 	//##ModelId=46F6755D0025
 	friend ostream& operator<<(ostream& o, const Shape& rhs) ;
@@ -43,6 +49,13 @@ public:
 	virtual void speak() const;
 
 protected:
+	//счетчик объектов
+	//##ModelId=46FAAC8E0251
+	static int counter;
+	//идентификатор объекта
+	//##ModelId=46FAAC8E02AF
+	int _id;
+
 	//абсцисса фигуры. все фигуры по умолчанию по€вл€ютс€ в 
 	//начале координат
 	//##ModelId=46F50D19006D

@@ -45,3 +45,16 @@ void Shape::setX(int value)
 	return;
 }
 
+
+
+//##ModelId=46FAAC8E0251
+int Shape::counter = 0;
+
+
+
+//##ModelId=46FAAC9E01F4
+const int Shape::get__id() const
+{
+	return _id;
+}
+
