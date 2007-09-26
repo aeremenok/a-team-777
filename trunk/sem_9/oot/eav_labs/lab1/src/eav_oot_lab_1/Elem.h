@@ -12,8 +12,6 @@ class Shape;
 class Elem 
 {
 public:
-	//##ModelId=46F917550018
-	Shape* vertex1;
 
 	//##ModelId=46F90EFF00B7
 	virtual ~Elem();
@@ -21,10 +19,13 @@ public:
 	//##ModelId=46F90EFF028E
 	Elem();
 
-	//##ModelId=46F8FB7101C7
-	Shape* vertex;
 
 private:
+	//##ModelId=46F917550018
+	Shape* vertex1;
+	//##ModelId=46F8FB7101C7
+	Shape* vertex2;
+
 	//##ModelId=46F913BE0325
 	Elem* _next;
 

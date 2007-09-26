@@ -11,9 +11,11 @@ class Elem;
 //##ModelId=46F8F9DF017A
 class List 
 {
-public:
+private:
 	//##ModelId=46F8FB4F039C
 	Elem* firstElem;
+
+public:
 
 	//##ModelId=46F8FD04033E
 	virtual ~List();
