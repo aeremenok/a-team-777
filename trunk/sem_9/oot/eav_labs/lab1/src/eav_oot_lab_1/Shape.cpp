@@ -2,8 +2,7 @@
 
 #include "Shape.h"
 #include <ostream.h>
-
-
+//////////////////////////////////////////////////////////////////////////
 
 //##ModelId=46F50D80038A
 void Shape::moveToPoint(int x_pos, int y_pos)
@@ -11,13 +10,6 @@ void Shape::moveToPoint(int x_pos, int y_pos)
     _x = x_pos;
     _y = y_pos;
 }
-
-//##ModelId=46F50F9F0222
-void Shape::speak() const
-{
-}
-
-
 
 //##ModelId=46F675DE02AF
 const int Shape::getY() const
@@ -46,15 +38,17 @@ void Shape::setX(int value)
 }
 
 
-
-//##ModelId=46FAAC8E0251
-int Shape::counter = 0;
-
-
-
-//##ModelId=46FAAC9E01F4
-const int Shape::get__id() const
+//##ModelId=4708DDC303C8
+Shape::Shape()
 {
-	return _id;
+    _x = 0;
+    _y = 0;
 }
+
+//##ModelId=4708DDC4001F
+Shape::~Shape()
+{
+
+}
+
 

@@ -21,6 +21,10 @@ private:
 	//##ModelId=46F512910128
 	int _width;
 public:
+ //вычисляет площадь фигуры
+ //##ModelId=4708F05E03D8
+ virtual int Area();
+
 	//получить длину
 	//##ModelId=46F67BE003BB
 	const int get__length() const;
@@ -36,10 +40,6 @@ public:
 	//задать ширину
 	//##ModelId=46F67BED01C5
 	void set__width(int value);
-
-	//вывести информацию об объекте
-	//##ModelId=46F677B702B5
-	virtual void speak() const;
 
 	//##ModelId=46F677C502EE
 	Rectangle();

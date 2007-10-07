@@ -22,10 +22,6 @@ public:
 	//##ModelId=46F677F30128
 	TextInOval();
 
-	//вывести информацию об объекте
-	//##ModelId=46F6787D009C
-	virtual void speak() const;
-
 };
 
 #endif /* _INC_TEXTINOVAL_46F50C7B01D4_INCLUDED */

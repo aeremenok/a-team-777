@@ -15,8 +15,8 @@ using namespace std;
 
 int main()
 {
-    Rectangle * rectangle = new Rectangle();
-    rectangle->speak();
+//     Rectangle * rectangle = new Rectangle();
+//     rectangle->speak();
     return 0;
 }
 //  [9/23/2007 eav]

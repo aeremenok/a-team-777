@@ -16,14 +16,6 @@ Oval::Oval()
 	// ToDo: Add your specialized code here and/or call the base class
 }
 
-//##ModelId=46F67864008C
-void Oval::speak() const
-{
-	// ToDo: Add your specialized code here
-	
-	static_cast<void>(0);
-}
-
 
 
 //##ModelId=46F67B2D004E
@@ -52,4 +44,14 @@ void Oval::set__lesserRad(int value)
 	return;
 }
 
+
+
+
+//##ModelId=4708F071008C
+int Oval::Area()
+{
+ // ToDo: Add your specialized code here
+ 
+ return static_cast<int>(0);
+}
 
