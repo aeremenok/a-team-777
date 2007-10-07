@@ -1,0 +1,32 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: TrialRun - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Temp\RSPAB.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/TrialRun.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
+"E:\_leti\_sem_9\главное\оот\.eav_labs\lab1\src\TrialRun\TrialRun.cpp"
+]
+Creating command line "cl.exe @C:\Temp\RSPAB.tmp" 
+Creating temporary file "C:\Temp\RSPAC.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/TrialRun.pdb" /debug /machine:I386 /out:"Debug/TrialRun.exe" /pdbtype:sept 
+".\Debug\TrialRun.obj"
+]
+Creating command line "link.exe @C:\Temp\RSPAC.tmp"
+<h3>Output Window</h3>
+Compiling...
+TrialRun.cpp
+Linking...
+
+
+
+<h3>Results</h3>
+TrialRun.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
