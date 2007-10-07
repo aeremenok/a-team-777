@@ -20,12 +20,8 @@ public:
 	//##ModelId=46F676990213
 	virtual ~Text();
 
-	//вывести информацию об объекте
-	//##ModelId=46F67960031E
-	virtual void speak();
-
 	//##ModelId=46F510F20232
-	char *  getText();
+	char *  getText() const;
 
 	//##ModelId=46F511550280
 	void setText(char * text = "");

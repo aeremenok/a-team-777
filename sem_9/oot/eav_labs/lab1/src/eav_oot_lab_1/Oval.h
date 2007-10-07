@@ -14,6 +14,10 @@ class Oval
 : public Shape
 {
 public:
+ //вычисляет площадь фигуры
+ //##ModelId=4708F071008C
+ virtual int Area();
+
 	//получить больший радиус
 	//##ModelId=46F67B2D004E
 	const int get__biggerRad() const;
@@ -35,10 +39,6 @@ public:
 
 	//##ModelId=46F674F4000F
 	Oval();
-
-	//вывести информацию об объекте
-	//##ModelId=46F67864008C
-	virtual void speak() const;
 
 private:
 	//больший радиус овала

@@ -16,8 +16,15 @@ private:
 
 
 public:
-	//##ModelId=46FAAC9E01F4
-	const int get__id() const;
+    //вычисл€ет площадь фигуры
+    //##ModelId=4708E2B00186
+    virtual int Area()=0;
+
+    //##ModelId=4708DDC303C8
+    Shape();
+
+    //##ModelId=4708DDC4001F
+    virtual ~Shape();
 
 	//оператор вывода в поток
 	//##ModelId=46F6755D0025
@@ -44,18 +51,7 @@ public:
 	//##ModelId=46F50D80038A
 	void moveToPoint(int x_pos = 0, int y_pos = 0);
 
-	//вывести информацию об объекте
-	//##ModelId=46F50F9F0222
-	virtual void speak() const;
-
 protected:
-	//счетчик объектов
-	//##ModelId=46FAAC8E0251
-	static int counter;
-	//идентификатор объекта
-	//##ModelId=46FAAC8E02AF
-	int _id;
-
 	//абсцисса фигуры. все фигуры по умолчанию по€вл€ютс€ в 
 	//начале координат
 	//##ModelId=46F50D19006D

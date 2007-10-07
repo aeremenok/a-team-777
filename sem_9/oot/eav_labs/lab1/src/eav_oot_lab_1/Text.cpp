@@ -5,7 +5,7 @@
 
 
 //##ModelId=46F510F20232
-char *  Text::getText()
+char *  Text::getText() const
 {
     return _content;
 }
@@ -33,13 +33,5 @@ Text::Text()
 Text::~Text()
 {
 	// ToDo: Add your specialized code here and/or call the base class
-}
-
-//##ModelId=46F67960031E
-void Text::speak()
-{
-	// ToDo: Add your specialized code here or after the call to base class
-	
-	Shape::speak();
 }
 

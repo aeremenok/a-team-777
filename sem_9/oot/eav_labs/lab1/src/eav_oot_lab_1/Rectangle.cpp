@@ -4,14 +4,6 @@
 
 
 
-//##ModelId=46F677B702B5
-void Rectangle::speak() const
-{
-	// ToDo: Add your specialized code here
-	
-	static_cast<void>(0);
-}
-
 //##ModelId=46F677C502EE
 Rectangle::Rectangle()
 {
@@ -50,5 +42,15 @@ void Rectangle::set__width(int value)
 {
 	_width = value;
 	return;
+}
+
+
+
+//##ModelId=4708F05E03D8
+int Rectangle::Area()
+{
+ // ToDo: Add your specialized code here
+ 
+ return static_cast<int>(0);
 }
 
