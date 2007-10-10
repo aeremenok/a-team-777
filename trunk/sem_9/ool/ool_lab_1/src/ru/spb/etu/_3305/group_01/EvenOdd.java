@@ -92,15 +92,15 @@ public class EvenOdd
                     prettyArrayPrint( numbers, out, "Все введённые числа:", new BogusIntFilter() );
 
                     // выводим чётные числа
-                    prettyArrayPrint( numbers, out, "Чётные числа:", new OddIntFilter() );
+                    prettyArrayPrint( numbers, out, "Нечётные числа:", new OddIntFilter() );
 
                     // выводим нечётные числа
-                    prettyArrayPrint( numbers, out, "Нечётные числа:", new EvenIntFilter() );
+                    prettyArrayPrint( numbers, out, "Чётные числа:", new EvenIntFilter() );
 
                     // до свидания, пользователь
                     out.write( "\n" );
-                    out.write( "Спасибо за использование программы, всего доброго!\n" );
-                    out.write( "(C) Свириденко С.В., 2007\n" );
+                    out.write( "Спасибо за использование программы!\n" );
+                    out.write( "(C) 2007, Свириденко С.В., Лысенко А.А., Бессонов А.В.\n" );
                     out.flush();
                 }
             }
