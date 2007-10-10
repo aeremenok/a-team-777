@@ -6,6 +6,10 @@ import java.io.*;
  * Created by IntelliJ IDEA. User: ssv Date: 09.10.2007 Time: 21:47:37 To change this template use File | Settings |
  * File Templates.
  */
+
+/**
+ * Класс вводит или получает n целых чисел, выводит все чётные и нечётные
+ */
 public class EvenOdd
 {
     public static void main( String[] args )
@@ -19,9 +23,9 @@ public class EvenOdd
             // настраиваем кодировку вывода на Windows
             out = new BufferedWriter( new OutputStreamWriter( System.out, "cp866" ) );
 
-            // вывод справки
+            // помощь в работе с программой
             if ( args.length == 1 && args[0].indexOf( "help" ) != -1 )
-            {
+            {// вывод справки
                 out.write( "\n" );
                 out.write( "Использование: EvenOdd\n" );
                 out.write( "               или\n" );
@@ -34,7 +38,7 @@ public class EvenOdd
                 out.flush();
             }
             else
-            {
+            {// работа
                 // открываем входной поток
                 in = new BufferedReader( new InputStreamReader( System.in, "cp866" ) );
 
@@ -53,15 +57,14 @@ public class EvenOdd
                     n = args.length;
                 }
 
-                // если чисел много/мало
+                // проверяем количество чисел для обработки
                 if ( n > 10 || n < 1 )
-                {
+                {// если чисел много/мало
                     out.write( "Число вне границ указанного диапазона!" );
                     out.flush();
                 }
                 else
-                {
-                    // если количество чисел в норме
+                {// если количество чисел в норме
                     numbers = new int[n];
 
                     // узнаём числа
@@ -85,50 +88,14 @@ public class EvenOdd
                         }
                     }
 
-                    // выводим числа
-                    out.write( "\n" );
-                    out.write( "Введены числа:\n" );
-                    out.write( "==============\n" );
-                    out.write( "    " );
-
-                    for ( int number : numbers )
-                    {
-                        out.write( number + "\t" );
-                    }
-                    out.write( "\n" );
-                    out.flush();
+                    // выводим все числа
+                    prettyArrayPrint( numbers, out, "Все введённые числа:", new BogusIntFilter() );
 
                     // выводим чётные числа
-                    out.write( "\n" );
-                    out.write( "Чётные числа:\n" );
-                    out.write( "=============\n" );
-                    out.write( "    " );
-
-                    for ( int number1 : numbers )
-                    {
-                        if ( number1 % 2 == 0 )
-                        {
-                            out.write( number1 + "\t" );
-                        }
-                    }
-                    out.write( "\n" );
-                    out.flush();
+                    prettyArrayPrint( numbers, out, "Чётные числа:", new OddIntFilter() );
 
                     // выводим нечётные числа
-                    out.write( "\n" );
-                    out.write( "Нечётные числа:\n" );
-                    out.write( "===============\n" );
-                    out.write( "    " );
-
-                    for ( int number2 : numbers )
-                    {
-                        if ( number2 % 2 != 0 )
-                        {
-                            out.write( number2 + "\t" );
-                        }
-                    }
-                    out.write( "\n" );
-                    out.flush();
+                    prettyArrayPrint( numbers, out, "Нечётные числа:", new EvenIntFilter() );
 
                     // до свидания, пользователь
                     out.write( "\n" );
@@ -148,7 +115,7 @@ public class EvenOdd
             {
                 out.write( "Ошибки работы с потоками, попробуйте перезапустить программу!\n" );
             }
-            catch( IOException e1 )
+            catch ( IOException e1 )
             {
             }
         }
@@ -188,5 +155,39 @@ public class EvenOdd
                 }
             }
         }
+    }
+
+    /**
+     * Аккуратный вывод подходящих под фильтр элементов массива с заголовком
+     *
+     * @param values массив чисел
+     * @param writer поток для записи
+     * @param header заголовок
+     * @param filter фильтр элементов
+     *
+     * @throws IOException если не удаётся запись в поток
+     */
+    private static void prettyArrayPrint( int[] values, Writer writer, String header, IntFilter filter )
+            throws
+            IOException
+    {
+        // выводим заголовок
+        writer.write( "\n" );
+        writer.write( "\n" + header + "\n" );
+        StringBuffer s = new StringBuffer( header );
+        String stub = s.toString().replaceAll( ".", "=" );
+        writer.write( stub + "\n" );
+        writer.write( "    " );
+
+        // печатаем числа, попадающие под условие
+        for ( int value : values )
+        {
+            if ( filter.accepts( value ) )
+            {
+                writer.write( value + "\t" );
+            }
+        }
+        writer.write( "\n" );
+        writer.flush();
     }
 }
