@@ -20,7 +20,7 @@ public class EvenOdd
         try
         {
             // настраиваем кодировку вывода на Windows
-            out = new BufferedWriter( new OutputStreamWriter( System.out, "Windows-1251" ) );
+            out = new BufferedWriter( new OutputStreamWriter( System.out, "cp866" ) );
 
             // вывод справки
             if ( args.length == 1 &&
@@ -35,11 +35,12 @@ public class EvenOdd
                         "указать программе параметры в ходе короткого диалога, " +
                         "во втором будут использоваться числа, заданные в качестве " +
                         "аргументов командной строки.\n" );
+                out.flush();
             }
             else
             {
                 // открываем входной поток
-                in = new BufferedReader( new InputStreamReader( System.in, "Windows-1251" ) );
+                in = new BufferedReader( new InputStreamReader( System.in, "cp866" ) );
 
                 // узнаём количество чисел для работы
                 int n = 0;
@@ -47,6 +48,7 @@ public class EvenOdd
                 if ( args.length == 0 )
                 {// если аргументов командной строки нет - поболтаем с пользователем
                     out.write( "Пожалуйста, введите количество чисел для работы ( 1 <= n <= 10 ): " );
+                    out.flush();
                     String str = in.readLine();
                     n = Integer.parseInt( str );
                 }
@@ -72,6 +74,7 @@ public class EvenOdd
                     for ( int i = 0; i < n; i++ )
                     {
                         out.write( "" + ( i + 1 ) + ". Введите целое число: " );
+                        out.flush();
                         String str = in.readLine();
                         numbers[i] = Integer.parseInt( str );
                     }
@@ -95,6 +98,7 @@ public class EvenOdd
                     out.write( number + "\t" );
                 }
                 out.write("\n");
+                out.flush();
 
                 // выводим чётные числа
                 out.write("\n");
@@ -110,6 +114,7 @@ public class EvenOdd
                     }
                 }
                 out.write("\n");
+                out.flush();
 
                 // выводим нечётные числа
                 out.write("\n");
@@ -125,16 +130,18 @@ public class EvenOdd
                     }
                 }
                 out.write("\n");
+                out.flush();
 
                 // до свидания, пользователь
                 out.write("\n");
                 out.write( "Спасибо за использование программы, всего доброго!\n" );
                 out.write( "(C) Свириденко С.В., 2007\n" );
+                out.flush();
             }
         }
         catch ( UnsupportedEncodingException e )
         {
-            System.out.println( "Windows-1251 is not supported! Try running under Windwos-compatible OS ^_^" );
+            System.out.println( "Current encoding is not supported! Try running under Windows-compatible OS ^_^" );
         }
         catch ( IOException e )
         {
