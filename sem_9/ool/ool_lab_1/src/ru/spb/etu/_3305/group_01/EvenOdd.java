@@ -1,9 +1,6 @@
 package ru.spb.etu._3305.group_01;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,27 +15,29 @@ public class EvenOdd
     {
         int[] numbers = null;
         BufferedReader in = null;
+        BufferedWriter out = null;
 
-        // вывод справки
-        if ( args.length == 1 &&
-                ( args[0].equalsIgnoreCase( "/?" ) || args[0].equalsIgnoreCase( "-help" ) ) )
+        try
         {
-            System.out.println();
-            System.out.println( "Использование: EvenOdd" );
-            System.out.println( "               или" );
-            System.out.println( "               EvenOdd [список_чисел]" );
-            System.out.println();
-            System.out.print( "В первом случае вы можете указать вы должны будете " +
-                    "указать программе параметры в ходе короткого диалога, " +
-                    "во втором будут использоваться числа, заданные в качестве " +
-                    "аргументов командной строки." );
-        }
-        else
-        {
-            try
+            // настраиваем кодировку вывода на Windows
+            out = new BufferedWriter( new OutputStreamWriter( System.out, "Windows-1251" ) );
+
+            // вывод справки
+            if ( args.length == 1 &&
+                    ( args[0].equalsIgnoreCase( "/?" ) || args[0].equalsIgnoreCase( "-help" ) ) )
             {
-                // TODO здесь будет настройка System.out на кодировку Windows-1251
-
+                out.write("");
+                out.write( "Использование: EvenOdd\n" );
+                out.write( "               или\n" );
+                out.write( "               EvenOdd [список_чисел]\n" );
+                out.write("\n");
+                out.write( "В первом случае вы можете указать вы должны будете " +
+                        "указать программе параметры в ходе короткого диалога, " +
+                        "во втором будут использоваться числа, заданные в качестве " +
+                        "аргументов командной строки.\n" );
+            }
+            else
+            {
                 // открываем входной поток
                 in = new BufferedReader( new InputStreamReader( System.in, "Windows-1251" ) );
 
@@ -47,7 +46,7 @@ public class EvenOdd
 
                 if ( args.length == 0 )
                 {// если аргументов командной строки нет - поболтаем с пользователем
-                    System.out.print( "Пожалуйста, введите количество чисел для работы ( 1 <= n <= 10 ): " );
+                    out.write( "Пожалуйста, введите количество чисел для работы ( 1 <= n <= 10 ): " );
                     String str = in.readLine();
                     n = Integer.parseInt( str );
                 }
@@ -68,11 +67,11 @@ public class EvenOdd
                 // узнаём числа
                 if ( args.length == 0 )
                 {// пользователь вводит числа
-                    System.out.println();
+                    out.write("\n");
 
                     for ( int i = 0; i < n; i++ )
                     {
-                        System.out.print( "" + ( i + 1 ) + ". Введите целое число: " );
+                        out.write( "" + ( i + 1 ) + ". Введите целое число: " );
                         String str = in.readLine();
                         numbers[i] = Integer.parseInt( str );
                     }
@@ -86,78 +85,85 @@ public class EvenOdd
                 }
 
                 // выводим числа
-                System.out.println();
-                System.out.println( "Введены числа:" );
-                System.out.println( "==============" );
-                System.out.print( "    " );
+                out.write("\n");
+                out.write( "Введены числа:\n" );
+                out.write( "==============\n" );
+                out.write( "    " );
 
                 for ( int number : numbers )
                 {
-                    System.out.print( number + "\t" );
+                    out.write( number + "\t" );
                 }
-                System.out.println();
+                out.write("\n");
 
                 // выводим чётные числа
-                System.out.println();
-                System.out.println( "Чётные числа:" );
-                System.out.println( "=============" );
-                System.out.print( "    " );
+                out.write("\n");
+                out.write( "Чётные числа:\n" );
+                out.write( "=============\n" );
+                out.write( "    " );
 
                 for ( int number1 : numbers )
                 {
                     if ( number1 % 2 == 0 )
                     {
-                        System.out.print( number1 + "\t" );
+                        out.write( number1 + "\t" );
                     }
                 }
-                System.out.println();
+                out.write("\n");
 
                 // выводим нечётные числа
-                System.out.println();
-                System.out.println( "Нечётные числа:" );
-                System.out.println( "===============" );
-                System.out.print( "    " );
+                out.write("\n");
+                out.write( "Нечётные числа:\n" );
+                out.write( "===============\n" );
+                out.write( "    " );
 
                 for ( int number2 : numbers )
                 {
                     if ( number2 % 2 != 0 )
                     {
-                        System.out.print( number2 + "\t" );
+                        out.write( number2 + "\t" );
                     }
                 }
-                System.out.println();
+                out.write("\n");
 
                 // до свидания, пользователь
-                System.out.println();
-                System.out.println( "Спасибо за использование программы, всего доброго!" );
-                System.out.println( "(C) Свириденко С.В., 2007" );
+                out.write("\n");
+                out.write( "Спасибо за использование программы, всего доброго!\n" );
+                out.write( "(C) Свириденко С.В., 2007\n" );
             }
-            catch ( UnsupportedEncodingException e )
+        }
+        catch ( UnsupportedEncodingException e )
+        {
+            System.out.println( "Windows-1251 is not supported! Try running under Windwos-compatible OS ^_^" );
+        }
+        catch ( IOException e )
+        {
+            System.out.println( "Stream is corrupted!" );
+        }
+        catch ( NumberFormatException e )
+        {
+            System.out.println( "Not a number!" );
+        }
+        catch ( Exception e )
+        {
+            System.out.println( e.getMessage() );
+        }
+        finally
+        {
+            try
             {
-                System.out.println( "Кодировка Windows-1251 не поддерживается системой!" );
+                in.close();
             }
-            catch ( IOException e )
+            catch ( IOException ex )
             {
-                System.out.println( "Ошибки при работе с потоком" );
             }
-            catch ( NumberFormatException e )
+
+            try
             {
-                System.out.println( "Введённая строка не является числом!" );
+                out.close();
             }
-            catch ( Exception e )
+            catch ( IOException ex )
             {
-                System.out.println( e.getMessage() );
-            }
-            finally
-            {
-                try
-                {
-                    in.close();
-                }
-                catch ( IOException ex )
-                {
-                    System.out.println( "Поток сопротивляется закрытию!" );
-                }
             }
         }
     }
