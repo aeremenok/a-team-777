@@ -19,11 +19,6 @@
     <list default="true" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ool_lab_1.iws" afterPath="$PROJECT_DIR$/ool_lab_1.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/EvenOdd.java" afterPath="$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/EvenOdd.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/OddIntFilter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/EvenIntFilter.java" />
-      <change type="MODIFICATION" beforePath="D:\PROJECTS\a-team-777\sem_9\ool\ool_lab_1\src\ru\spb\etu\_3305\group_01\EmptyIntFilter.java" afterPath="D:\PROJECTS\a-team-777\sem_9\ool\ool_lab_1\src\ru\spb\etu\_3305\group_01\EmptyIntFilter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/IntFilter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/BogusIntFilter.java" />
     </list>
   </component>
   <component name="ChangeListSynchronizer" />
@@ -139,10 +134,10 @@
   <component name="FavoritesProjectViewPane" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="EvenOdd.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="EvenOdd.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/EvenOdd.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="109" column="42" selection-start="4220" selection-end="4220" vertical-scroll-proportion="-0.87894076">
+            <state line="101" column="40" selection-start="3931" selection-end="3931" vertical-scroll-proportion="0.6817043">
               <folding />
             </state>
           </provider>
@@ -151,16 +146,16 @@
       <file leaf-file-name="IntFilter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/IntFilter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="0" selection-start="450" selection-end="450" vertical-scroll-proportion="0.4287516">
+            <state line="20" column="0" selection-start="450" selection-end="450" vertical-scroll-proportion="0.42606518">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BogusIntFilter.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="BogusIntFilter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/BogusIntFilter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="22" selection-start="207" selection-end="207" vertical-scroll-proportion="0.17150062">
+            <state line="8" column="22" selection-start="207" selection-end="207" vertical-scroll-proportion="0.17042607">
               <folding />
             </state>
           </provider>
@@ -169,7 +164,7 @@
       <file leaf-file-name="OddIntFilter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/OddIntFilter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="0" selection-start="185" selection-end="185" vertical-scroll-proportion="0.17150062">
+            <state line="8" column="0" selection-start="185" selection-end="185" vertical-scroll-proportion="0.17042607">
               <folding />
             </state>
           </provider>
@@ -178,7 +173,7 @@
       <file leaf-file-name="EvenIntFilter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/EvenIntFilter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="0" selection-start="270" selection-end="270" vertical-scroll-proportion="0.27868852">
+            <state line="13" column="0" selection-start="270" selection-end="270" vertical-scroll-proportion="0.27694234">
               <folding />
             </state>
           </provider>
@@ -352,6 +347,18 @@
   <component name="RecentsManager" />
   <component name="RestoreUpdateTree" />
   <component name="RunManager" selected="Application.App">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -371,17 +378,12 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" />
@@ -395,13 +397,6 @@
       <method>
         <option name="Make" value="true" />
       </method>
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
     </configuration>
     <configuration default="false" name="App" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="ru.spb.etu._3305.group_01.EvenOdd" />
@@ -510,7 +505,7 @@
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2495935" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24898621" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938388" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938388" order="8" />
@@ -613,37 +608,37 @@
     <option name="myLastEditedConfigurable" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/EvenOdd.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="109" column="42" selection-start="4220" selection-end="4220" vertical-scroll-proportion="-0.87894076">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/IntFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="450" selection-end="450" vertical-scroll-proportion="0.4287516">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/EvenIntFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="270" selection-end="270" vertical-scroll-proportion="0.27868852">
+        <state line="20" column="0" selection-start="450" selection-end="450" vertical-scroll-proportion="0.42606518">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/OddIntFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="185" selection-end="185" vertical-scroll-proportion="0.17150062">
+        <state line="8" column="0" selection-start="185" selection-end="185" vertical-scroll-proportion="0.17042607">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/EvenIntFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="0" selection-start="270" selection-end="270" vertical-scroll-proportion="0.27694234">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/BogusIntFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="22" selection-start="207" selection-end="207" vertical-scroll-proportion="0.17150062">
+        <state line="8" column="22" selection-start="207" selection-end="207" vertical-scroll-proportion="0.17042607">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/spb/etu/_3305/group_01/EvenOdd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="101" column="40" selection-start="3931" selection-end="3931" vertical-scroll-proportion="0.6817043">
           <folding />
         </state>
       </provider>
