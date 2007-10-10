@@ -3,11 +3,8 @@ package ru.spb.etu._3305.group_01;
 import java.io.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: ssv
- * Date: 09.10.2007
- * Time: 21:47:37
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: ssv Date: 09.10.2007 Time: 21:47:37 To change this template use File | Settings |
+ * File Templates.
  */
 public class EvenOdd
 {
@@ -23,18 +20,17 @@ public class EvenOdd
             out = new BufferedWriter( new OutputStreamWriter( System.out, "cp866" ) );
 
             // вывод справки
-            if ( args.length == 1 &&
-                    ( args[0].equalsIgnoreCase( "/?" ) || args[0].equalsIgnoreCase( "-help" ) ) )
+            if ( args.length == 1 && args[0].indexOf( "help" ) != -1 )
             {
-                out.write("");
+                out.write( "\n" );
                 out.write( "Использование: EvenOdd\n" );
                 out.write( "               или\n" );
                 out.write( "               EvenOdd [список_чисел]\n" );
-                out.write("\n");
+                out.write( "\n" );
                 out.write( "В первом случае вы можете указать вы должны будете " +
-                        "указать программе параметры в ходе короткого диалога, " +
-                        "во втором будут использоваться числа, заданные в качестве " +
-                        "аргументов командной строки.\n" );
+                           "указать программе параметры в ходе короткого диалога, " +
+                           "во втором будут использоваться числа, заданные в качестве " +
+                           "аргументов командной строки.\n" );
                 out.flush();
             }
             else
@@ -60,83 +56,86 @@ public class EvenOdd
                 // если чисел много/мало
                 if ( n > 10 || n < 1 )
                 {
-                    throw new Exception( "Число вне границ указанного диапазона!" );
-                }
-
-                // если количество чисел в норме
-                numbers = new int[n];
-
-                // узнаём числа
-                if ( args.length == 0 )
-                {// пользователь вводит числа
-                    out.write("\n");
-
-                    for ( int i = 0; i < n; i++ )
-                    {
-                        out.write( "" + ( i + 1 ) + ". Введите целое число: " );
-                        out.flush();
-                        String str = in.readLine();
-                        numbers[i] = Integer.parseInt( str );
-                    }
+                    out.write( "Число вне границ указанного диапазона!" );
+                    out.flush();
                 }
                 else
-                {// берём числа из командной строки
-                    for ( int i = 0; i < args.length; i++ )
-                    {
-                        numbers[i] = Integer.parseInt( args[i] );
-                    }
-                }
-
-                // выводим числа
-                out.write("\n");
-                out.write( "Введены числа:\n" );
-                out.write( "==============\n" );
-                out.write( "    " );
-
-                for ( int number : numbers )
                 {
-                    out.write( number + "\t" );
-                }
-                out.write("\n");
-                out.flush();
+                    // если количество чисел в норме
+                    numbers = new int[n];
 
-                // выводим чётные числа
-                out.write("\n");
-                out.write( "Чётные числа:\n" );
-                out.write( "=============\n" );
-                out.write( "    " );
+                    // узнаём числа
+                    if ( args.length == 0 )
+                    {// пользователь вводит числа
+                        out.write( "\n" );
 
-                for ( int number1 : numbers )
-                {
-                    if ( number1 % 2 == 0 )
-                    {
-                        out.write( number1 + "\t" );
+                        for ( int i = 0; i < n; i++ )
+                        {
+                            out.write( "" + ( i + 1 ) + ". Введите целое число: " );
+                            out.flush();
+                            String str = in.readLine();
+                            numbers[i] = Integer.parseInt( str );
+                        }
                     }
-                }
-                out.write("\n");
-                out.flush();
-
-                // выводим нечётные числа
-                out.write("\n");
-                out.write( "Нечётные числа:\n" );
-                out.write( "===============\n" );
-                out.write( "    " );
-
-                for ( int number2 : numbers )
-                {
-                    if ( number2 % 2 != 0 )
-                    {
-                        out.write( number2 + "\t" );
+                    else
+                    {// берём числа из командной строки
+                        for ( int i = 0; i < args.length; i++ )
+                        {
+                            numbers[i] = Integer.parseInt( args[i] );
+                        }
                     }
-                }
-                out.write("\n");
-                out.flush();
 
-                // до свидания, пользователь
-                out.write("\n");
-                out.write( "Спасибо за использование программы, всего доброго!\n" );
-                out.write( "(C) Свириденко С.В., 2007\n" );
-                out.flush();
+                    // выводим числа
+                    out.write( "\n" );
+                    out.write( "Введены числа:\n" );
+                    out.write( "==============\n" );
+                    out.write( "    " );
+
+                    for ( int number : numbers )
+                    {
+                        out.write( number + "\t" );
+                    }
+                    out.write( "\n" );
+                    out.flush();
+
+                    // выводим чётные числа
+                    out.write( "\n" );
+                    out.write( "Чётные числа:\n" );
+                    out.write( "=============\n" );
+                    out.write( "    " );
+
+                    for ( int number1 : numbers )
+                    {
+                        if ( number1 % 2 == 0 )
+                        {
+                            out.write( number1 + "\t" );
+                        }
+                    }
+                    out.write( "\n" );
+                    out.flush();
+
+                    // выводим нечётные числа
+                    out.write( "\n" );
+                    out.write( "Нечётные числа:\n" );
+                    out.write( "===============\n" );
+                    out.write( "    " );
+
+                    for ( int number2 : numbers )
+                    {
+                        if ( number2 % 2 != 0 )
+                        {
+                            out.write( number2 + "\t" );
+                        }
+                    }
+                    out.write( "\n" );
+                    out.flush();
+
+                    // до свидания, пользователь
+                    out.write( "\n" );
+                    out.write( "Спасибо за использование программы, всего доброго!\n" );
+                    out.write( "(C) Свириденко С.В., 2007\n" );
+                    out.flush();
+                }
             }
         }
         catch ( UnsupportedEncodingException e )
@@ -145,32 +144,48 @@ public class EvenOdd
         }
         catch ( IOException e )
         {
-            System.out.println( "Stream is corrupted!" );
+            try
+            {
+                out.write( "Ошибки работы с потоками, попробуйте перезапустить программу!\n" );
+            }
+            catch( IOException e1 )
+            {
+            }
         }
         catch ( NumberFormatException e )
         {
-            System.out.println( "Not a number!" );
-        }
-        catch ( Exception e )
-        {
-            System.out.println( e.getMessage() );
+            try
+            {
+                out.write( "Введено не число!\n" );
+            }
+            catch ( IOException e1 )
+            {
+            }
         }
         finally
         {
-            try
+            //  пробуем закрыть входной поток
+            if ( in != null )
             {
-                in.close();
-            }
-            catch ( IOException ex )
-            {
+                try
+                {
+                    in.close();
+                }
+                catch ( IOException e )
+                {
+                }
             }
 
-            try
+            // пробуем закрыть выходной поток
+            if ( out != null )
             {
-                out.close();
-            }
-            catch ( IOException ex )
-            {
+                try
+                {
+                    out.close();
+                }
+                catch ( IOException e )
+                {
+                }
             }
         }
     }
