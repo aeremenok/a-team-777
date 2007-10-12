@@ -1,1 +1,1 @@
-*obj* *bin* *debug* *release* *suo* *asv* *tmp* *bak* *doc*(храним filtered html) 
+*obj* *bin* *debug* *release* *suo* *asv* *tmp* *bak* *doc*(храним filtered html) *iws*
