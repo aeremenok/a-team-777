@@ -9,6 +9,8 @@
 #include "Oval.h"
 #include "Text.h"
 
+class ostream;
+
 //текст в овале
 //##ModelId=46F50C7B01D4
 class TextInOval 
@@ -16,6 +18,9 @@ class TextInOval
 , public Text
 {
 public:
+ //##ModelId=47111D72006D
+ friend ostream& operator<<(ostream& o, const TextInOval &rhs);
+
 	//##ModelId=46F677F2002E
 	virtual ~TextInOval();
 

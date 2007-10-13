@@ -316,6 +316,55 @@
 					result     	"int"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "operator<<"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here and/or call the base class
+|
+|return o;
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"operator<<(ostream&, const $NAME&)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"Oval"))
+					quid       	"47111D51003E"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "o"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	""))
+						quid       	"47111D51006D"
+						type       	"ostream&")
+					    (object Parameter "rhs"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	""))
+						quid       	"47111D5100BB"
+						type       	"const Oval&"))
+					result     	"ostream&"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_biggerRad"
@@ -516,6 +565,55 @@
 					documentation 	"вычисляет площадь фигуры"
 					stereotype 	"virtual"
 					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "operator<<"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here and/or call the base class
+|
+|return o;
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"operator<<(ostream&, const $NAME&)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"Rectangle"))
+					quid       	"47111D3F00CB"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "o"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	""))
+						quid       	"47111D3F00EA"
+						type       	"ostream&")
+					    (object Parameter "rhs"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	""))
+						quid       	"47111D3F0109"
+						type       	"const Rectangle&"))
+					result     	"ostream&"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -920,6 +1018,55 @@
 					stereotype 	"virtual"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "operator<<"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here and/or call the base class
+|
+|return o;
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"operator<<(ostream&, const $NAME&)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"Text"))
+					quid       	"47111D6101B5"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "o"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	""))
+						quid       	"47111D6101E4"
+						type       	"ostream&")
+					    (object Parameter "rhs"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	""))
+						quid       	"47111D610232"
+						type       	"const Text&"))
+					result     	"ostream&"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_content"
@@ -1014,6 +1161,55 @@
 					quid       	"46F677F30128"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "operator<<"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here and/or call the base class
+|
+|return o;
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"operator<<(ostream&, const $NAME&)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"TextInOval"))
+					quid       	"47111D72006D"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "o"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	""))
+						quid       	"47111D72008C"
+						type       	"ostream&")
+					    (object Parameter "rhs"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	""))
+						quid       	"47111D7200CB"
+						type       	"const TextInOval&"))
+					result     	"ostream&"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				module     	"Component View::eav_oot_lab_1"
 				quidu      	"46F5147A02BF"
@@ -1032,9 +1228,9 @@
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
-					location   	(1389, 1371)
+					location   	(1377, 1236)
 					font       	(object Font
-					    size       	12
+					    size       	10
 					    face       	"Consolas"
 					    charSet    	126
 					    bold       	FALSE
@@ -1045,10 +1241,10 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@1
-					    location   	(929, 1041)
+					    location   	(1012, 948)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	920
+					    max_width  	730
 					    justify    	0
 					    label      	"Oval")
 					icon_style 	"Icon"
@@ -1057,9 +1253,9 @@
 					quidu      	"46F50C54004E"
 					compartment 	(object Compartment
 					    Parent_View 	@1
-					    location   	(929, 1111)
+					    location   	(1012, 1006)
 					    font       	(object Font
-						size       	12
+						size       	10
 						face       	"Consolas"
 						charSet    	126
 						bold       	FALSE
@@ -1071,19 +1267,19 @@
 					    icon_style 	"Icon"
 					    fill_color 	13434879
 					    anchor     	2
-					    nlines     	10
-					    max_width  	782)
-					width      	938
-					height     	688
+					    nlines     	11
+					    max_width  	619)
+					width      	748
+					height     	598
 					annotation 	8
 					autoResize 	TRUE)
 				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Rectangle" @2
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
-					location   	(456, 1371)
+					location   	(573, 1239)
 					font       	(object Font
-					    size       	12
+					    size       	10
 					    face       	"Consolas"
 					    charSet    	126
 					    bold       	FALSE
@@ -1094,10 +1290,10 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@2
-					    location   	(29, 1041)
+					    location   	(233, 951)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	854
+					    max_width  	680
 					    justify    	0
 					    label      	"Rectangle")
 					icon_style 	"Icon"
@@ -1106,9 +1302,9 @@
 					quidu      	"46F50C350000"
 					compartment 	(object Compartment
 					    Parent_View 	@2
-					    location   	(29, 1111)
+					    location   	(233, 1009)
 					    font       	(object Font
-						size       	12
+						size       	10
 						face       	"Consolas"
 						charSet    	126
 						bold       	FALSE
@@ -1120,10 +1316,10 @@
 					    icon_style 	"Icon"
 					    fill_color 	13434879
 					    anchor     	2
-					    nlines     	10
-					    max_width  	726)
-					width      	872
-					height     	688
+					    nlines     	11
+					    max_width  	575)
+					width      	698
+					height     	598
 					annotation 	8
 					autoResize 	TRUE)
 				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Shape" @3
@@ -1132,7 +1328,7 @@
 					IncludeOperation 	TRUE
 					location   	(1284, 474)
 					font       	(object Font
-					    size       	12
+					    size       	10
 					    face       	"Consolas"
 					    charSet    	126
 					    bold       	FALSE
@@ -1143,10 +1339,10 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@3
-					    location   	(873, 85)
+					    location   	(957, 162)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	822
+					    max_width  	654
 					    justify    	0
 					    label      	"Shape")
 					icon_style 	"Icon"
@@ -1155,9 +1351,9 @@
 					quidu      	"46F50BDC00BB"
 					compartment 	(object Compartment
 					    Parent_View 	@3
-					    location   	(873, 155)
+					    location   	(957, 220)
 					    font       	(object Font
-						size       	12
+						size       	10
 						face       	"Consolas"
 						charSet    	126
 						bold       	FALSE
@@ -1170,9 +1366,9 @@
 					    fill_color 	13434879
 					    anchor     	2
 					    nlines     	12
-					    max_width  	697)
-					width      	840
-					height     	806
+					    max_width  	554)
+					width      	672
+					height     	646
 					annotation 	8
 					autoResize 	TRUE)
 				    (object InheritView "" @4
@@ -1213,9 +1409,9 @@
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
-					location   	(2241, 1320)
+					location   	(2142, 1200)
 					font       	(object Font
-					    size       	12
+					    size       	10
 					    face       	"Consolas"
 					    charSet    	126
 					    bold       	FALSE
@@ -1226,10 +1422,10 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@6
-					    location   	(1896, 1078)
+					    location   	(1803, 983)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	690
+					    max_width  	678
 					    justify    	0
 					    label      	"Text")
 					icon_style 	"Icon"
@@ -1238,9 +1434,9 @@
 					quidu      	"46F50C7401C5"
 					compartment 	(object Compartment
 					    Parent_View 	@6
-					    location   	(1896, 1148)
+					    location   	(1803, 1041)
 					    font       	(object Font
-						size       	12
+						size       	10
 						face       	"Consolas"
 						charSet    	126
 						bold       	FALSE
@@ -1252,10 +1448,10 @@
 					    icon_style 	"Icon"
 					    fill_color 	13434879
 					    anchor     	2
-					    nlines     	7
-					    max_width  	585)
-					width      	708
-					height     	512
+					    nlines     	8
+					    max_width  	575)
+					width      	696
+					height     	456
 					annotation 	8
 					autoResize 	TRUE)
 				    (object InheritView "" @7
@@ -1279,9 +1475,9 @@
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
-					location   	(1773, 2097)
+					location   	(1836, 1794)
 					font       	(object Font
-					    size       	12
+					    size       	10
 					    face       	"Consolas"
 					    charSet    	126
 					    bold       	FALSE
@@ -1292,10 +1488,10 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@8
-					    location   	(1329, 1973)
+					    location   	(1483, 1671)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	888
+					    max_width  	706
 					    justify    	0
 					    label      	"TextInOval")
 					icon_style 	"Icon"
@@ -1304,9 +1500,9 @@
 					quidu      	"46F50C7B01D4"
 					compartment 	(object Compartment
 					    Parent_View 	@8
-					    location   	(1329, 2043)
+					    location   	(1483, 1729)
 					    font       	(object Font
-						size       	12
+						size       	10
 						face       	"Consolas"
 						charSet    	126
 						bold       	FALSE
@@ -1318,10 +1514,10 @@
 					    icon_style 	"Icon"
 					    fill_color 	13434879
 					    anchor     	2
-					    nlines     	3
-					    max_width  	754)
-					width      	906
-					height     	276
+					    nlines     	4
+					    max_width  	597)
+					width      	724
+					height     	268
 					annotation 	8
 					autoResize 	TRUE)
 				    (object InheritView "" @9
@@ -1644,24 +1840,6 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F8F9DF017A"
-					compartment 	(object Compartment
-					    Parent_View 	@13
-					    location   	(677, 194)
-					    font       	(object Font
-						size       	12
-						face       	"Arial"
-						charSet    	204
-						bold       	FALSE
-						italics    	FALSE
-						underline  	FALSE
-						strike     	FALSE
-						color      	8143653
-						default_color 	TRUE)
-					    icon_style 	"Icon"
-					    fill_color 	16777215
-					    anchor     	2
-					    nlines     	3
-					    max_width  	525)
 					width      	638
 					height     	318
 					annotation 	8
@@ -1904,24 +2082,6 @@
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"46F50BDC00BB"
-				compartment 	(object Compartment
-				    Parent_View 	@24
-				    location   	(1881, 799)
-				    font       	(object Font
-					size       	10
-					face       	"Arial"
-					charSet    	204
-					bold       	FALSE
-					italics    	FALSE
-					underline  	FALSE
-					strike     	FALSE
-					color      	8143653
-					default_color 	TRUE)
-				    icon_style 	"Icon"
-				    fill_color 	13434879
-				    anchor     	2
-				    nlines     	12
-				    max_width  	490)
 				width      	588
 				height     	606
 				annotation 	8
@@ -1953,24 +2113,6 @@
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"46F8F9DF017A"
-				compartment 	(object Compartment
-				    Parent_View 	@25
-				    location   	(109, 404)
-				    font       	(object Font
-					size       	10
-					face       	"Arial"
-					charSet    	204
-					bold       	FALSE
-					italics    	FALSE
-					underline  	FALSE
-					strike     	FALSE
-					color      	8143653
-					default_color 	TRUE)
-				    icon_style 	"Icon"
-				    fill_color 	13434879
-				    anchor     	2
-				    nlines     	3
-				    max_width  	462)
 				width      	554
 				height     	350
 				annotation 	8
@@ -2009,24 +2151,6 @@
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"46F8FABB02B2"
-				compartment 	(object Compartment
-				    Parent_View 	@27
-				    location   	(984, 405)
-				    font       	(object Font
-					size       	10
-					face       	"Arial"
-					charSet    	204
-					bold       	FALSE
-					italics    	FALSE
-					underline  	FALSE
-					strike     	FALSE
-					color      	8143653
-					default_color 	TRUE)
-				    icon_style 	"Icon"
-				    fill_color 	13434879
-				    anchor     	2
-				    nlines     	4
-				    max_width  	447)
 				width      	548
 				height     	350
 				annotation 	8
@@ -8665,7 +8789,15 @@
 		    (object Attribute
 			tool       	"cg"
 			name       	"AlwaysKeepOrphanedCode"
-			value      	FALSE)))
+			value      	FALSE)
+		    (object Attribute
+			tool       	"cg"
+			name       	"UseMSVC"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"cg"
+			name       	"CommentWidth"
+			value      	60)))
 	    (object Attribute
 		tool       	"cg"
 		name       	"compiler3.0__Project"
@@ -8825,7 +8957,15 @@
 		    (object Attribute
 			tool       	"cg"
 			name       	"AlwaysKeepOrphanedCode"
-			value      	FALSE)))
+			value      	FALSE)
+		    (object Attribute
+			tool       	"cg"
+			name       	"UseMSVC"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"cg"
+			name       	"CommentWidth"
+			value      	60)))
 	    (object Attribute
 		tool       	"cg"
 		name       	"default__Class"

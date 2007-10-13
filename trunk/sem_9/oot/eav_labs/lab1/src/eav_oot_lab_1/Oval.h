@@ -8,12 +8,17 @@
 
 #include "Shape.h"
 
+class ostream;
+
 //овал
 //##ModelId=46F50C54004E
 class Oval 
 : public Shape
 {
 public:
+ //##ModelId=47111D51003E
+ friend ostream& operator<<(ostream& o, const Oval &rhs);
+
  //вычисляет площадь фигуры
  //##ModelId=4708F071008C
  virtual int Area();

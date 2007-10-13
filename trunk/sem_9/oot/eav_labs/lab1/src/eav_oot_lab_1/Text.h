@@ -8,12 +8,17 @@
 
 #include "Shape.h"
 
+class ostream;
+
 //текст
 //##ModelId=46F50C7401C5
 class Text 
 : public Shape
 {
 public:
+ //##ModelId=47111D6101B5
+ friend ostream& operator<<(ostream& o, const Text &rhs);
+
 	//##ModelId=46F6769602BF
 	Text();
 

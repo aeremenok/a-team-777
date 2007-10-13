@@ -1,13 +1,15 @@
 // Copyright (C) 1991 - 1999 Rational Software Corporation
 
 #include "Rectangle.h"
+#include <ostream.h>
 
 
 
 //##ModelId=46F677C502EE
-Rectangle::Rectangle()
+Rectangle::Rectangle(int ii )
 {
-	// ToDo: Add your specialized code here and/or call the base class
+	_width = 5;
+    _length = 6;
 }
 
 //##ModelId=46F677C6037B
@@ -53,4 +55,13 @@ int Rectangle::Area()
  
  return static_cast<int>(0);
 }
+
+//##ModelId=47111D3F00CB
+ostream& operator<<( ostream &o, const Rectangle &rhs)
+{
+    o<<rhs._length<<' '<<rhs._width;
+    return o;
+}
+
+
 
