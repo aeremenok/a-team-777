@@ -7,6 +7,10 @@
 #define _INC_RECTANGLE_46F50C350000_INCLUDED
 
 #include "Shape.h"
+#include <ostream.h>
+
+class ostream;
+
 
 //прямоугольник
 //##ModelId=46F50C350000
@@ -21,6 +25,15 @@ private:
 	//##ModelId=46F512910128
 	int _width;
 public:
+    //##ModelId=46F677C502EE
+    Rectangle( int ii);
+    
+    //##ModelId=46F677C6037B
+	virtual ~Rectangle();
+
+ //##ModelId=47111D3F00CB
+ friend ostream& operator <<( ostream& o, const Rectangle &rhs);
+
  //вычисляет площадь фигуры
  //##ModelId=4708F05E03D8
  virtual int Area();
@@ -41,12 +54,10 @@ public:
 	//##ModelId=46F67BED01C5
 	void set__width(int value);
 
-	//##ModelId=46F677C502EE
-	Rectangle();
 
-	//##ModelId=46F677C6037B
-	virtual ~Rectangle();
 
 };
+
+
 
 #endif /* _INC_RECTANGLE_46F50C350000_INCLUDED */

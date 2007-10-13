@@ -1,6 +1,7 @@
 // Copyright (C) 1991 - 1999 Rational Software Corporation
 
 #include "Oval.h"
+#include <ostream.h>
 
 
 
@@ -53,5 +54,15 @@ int Oval::Area()
  // ToDo: Add your specialized code here
  
  return static_cast<int>(0);
+}
+
+
+
+//##ModelId=47111D51003E
+ostream& operator<<(ostream& o, const Oval &rhs)
+{
+ // ToDo: Add your specialized code here and/or call the base class
+ 
+ return o;
 }
 
