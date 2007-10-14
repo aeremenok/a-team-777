@@ -15,10 +15,18 @@ class ostream;
 class Oval 
 : public Shape
 {
-public:
- //##ModelId=47111D51003E
- friend ostream& operator<<(ostream& o, const Oval &rhs);
+protected:
+ //вывести состояние овала в поток
+ //##ModelId=471218B200EA
+ virtual ostream& speak(ostream& os) const;
 
+	//больший радиус овала
+	//##ModelId=46F5136F00BB
+	int _biggerRad;
+    //меньший радиус овала
+    //##ModelId=46F5139C0138
+	int _lesserRad;
+public:
  //вычисляет площадь фигуры
  //##ModelId=4708F071008C
  virtual int Area();
@@ -41,17 +49,6 @@ public:
 
 	//##ModelId=46F674D6002E
 	virtual ~Oval();
-
-	//##ModelId=46F674F4000F
-	Oval();
-
-private:
-	//больший радиус овала
-	//##ModelId=46F5136F00BB
-	int _biggerRad;
-	//меньший радиус овала
-	//##ModelId=46F5139C0138
-	int _lesserRad;
 
 };
 

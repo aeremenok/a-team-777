@@ -1,6 +1,7 @@
 // Copyright (C) 1991 - 1999 Rational Software Corporation
-
+//////////////////////////////////////////////////////////////////////////
 #include "Shape.h"
+
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
 
@@ -43,12 +44,22 @@ Shape::Shape()
 {
     _x = 0;
     _y = 0;
+    cout<<"создана фигура с центром: ("<<_x<<", "<<_y<<")"<<endl;
 }
 
 //##ModelId=4708DDC4001F
 Shape::~Shape()
 {
-
+    cout<<"фигура разрушена"<<endl;
 }
 
+//##ModelId=4712170B0271
+ostream& Shape::speak(ostream& os) const
+{
+    return os<<"координаты центра фигуры: ("<<_x<<", "<<_y<<")"<<endl;
+}
 
+ostream& operator<<( ostream& o, const Shape& rhs )
+{
+    return rhs.speak(o);
+}

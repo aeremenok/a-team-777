@@ -12,11 +12,8 @@ class ostream;
 //##ModelId=46F50BDC00BB
 class Shape 
 {
-private:
-
-
 public:
-    //вычисляет площадь фигуры
+    //вычислить площадь фигуры
     //##ModelId=4708E2B00186
     virtual int Area()=0;
 
@@ -49,9 +46,13 @@ public:
 	//перенести фигуру в заданную точку. по умолчанию - в 
 	//начало координат
 	//##ModelId=46F50D80038A
-	void moveToPoint(int x_pos = 0, int y_pos = 0);
+	void moveToPoint(int x_pos  , int y_pos  );
 
 protected:
+ //вывести состояние фигуры в поток
+ //##ModelId=4712170B0271
+ virtual ostream& speak(ostream& os) const;
+
 	//абсцисса фигуры. все фигуры по умолчанию появляются в 
 	//начале координат
 	//##ModelId=46F50D19006D

@@ -17,15 +17,14 @@ class TextInOval
 : public Oval
 , public Text
 {
-public:
- //##ModelId=47111D72006D
- friend ostream& operator<<(ostream& o, const TextInOval &rhs);
+private:
+ //вывести состояние текста в овале в поток
+ //##ModelId=471219010148
+ virtual ostream& speak(ostream& os) const;
 
+public:
 	//##ModelId=46F677F2002E
 	virtual ~TextInOval();
-
-	//##ModelId=46F677F30128
-	TextInOval();
 
 };
 

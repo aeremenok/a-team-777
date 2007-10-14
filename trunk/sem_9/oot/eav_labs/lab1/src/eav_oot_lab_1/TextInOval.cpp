@@ -4,26 +4,15 @@
 #include <ostream.h>
 
 
-
 //##ModelId=46F677F2002E
 TextInOval::~TextInOval()
 {
 	// ToDo: Add your specialized code here and/or call the base class
 }
 
-//##ModelId=46F677F30128
-TextInOval::TextInOval()
+//##ModelId=471219010148
+ostream& TextInOval::speak(ostream& os) const
 {
-	// ToDo: Add your specialized code here and/or call the base class
-}
-
-
-
-//##ModelId=47111D72006D
-ostream& operator<<(ostream& o, const TextInOval &rhs)
-{
- // ToDo: Add your specialized code here and/or call the base class
- 
- return o;
+    return Oval::speak(os)<<"текст:\n\t"<<_content<<endl;
 }
 

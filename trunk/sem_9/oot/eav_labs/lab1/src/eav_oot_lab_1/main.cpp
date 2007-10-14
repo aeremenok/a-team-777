@@ -10,18 +10,14 @@
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
 #include "Rectangle.h"
+#include "Text.h"
 //////////////////////////////////////////////////////////////////////////
 
 int main()
 {
-//     Shape * shape = new Rectangle(1);
-//         shape->setX(1);
-//         shape->setY(2);
-//         ((Rectangle*)shape)->set__length(3);
-//         ((Rectangle*)shape)->set__width(4);
-//         cout<<shape;
-    Rectangle rect(1);
-    cout<<rect;
+    Shape* rect = new Rectangle(1,2);
+    cout<<*rect;
+    Shape* txt = new Text();
     return 0;
 }
 
