@@ -5,20 +5,11 @@
 
 
 
-//##ModelId=46F677C502EE
-Rectangle::Rectangle(int ii )
-{
-	_width = 5;
-    _length = 6;
-}
-
 //##ModelId=46F677C6037B
 Rectangle::~Rectangle()
 {
-	// ToDo: Add your specialized code here and/or call the base class
+	cout<<"прямоугольник уничтожен"<<endl;
 }
-
-
 
 //##ModelId=46F67BE003BB
 const int Rectangle::get__length() const
@@ -51,17 +42,20 @@ void Rectangle::set__width(int value)
 //##ModelId=4708F05E03D8
 int Rectangle::Area()
 {
- // ToDo: Add your specialized code here
- 
- return static_cast<int>(0);
+    return _width * _length;
 }
 
-//##ModelId=47111D3F00CB
-ostream& operator<<( ostream &o, const Rectangle &rhs)
+//##ModelId=4712182B029F
+ostream& Rectangle::speak(ostream& os) const
 {
-    o<<rhs._length<<' '<<rhs._width;
-    return o;
+    return Shape::speak(os)
+        <<"размеры прямоугольника: ("<<_length<<", "<<_width<<")"<<endl;
 }
 
-
-
+//##ModelId=47125E3F035B
+Rectangle::Rectangle( int l, int w )
+{
+    Shape::Shape();
+    _length = l;
+    _width = w;    
+}

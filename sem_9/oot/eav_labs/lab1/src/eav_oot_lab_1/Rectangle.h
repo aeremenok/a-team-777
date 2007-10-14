@@ -18,6 +18,10 @@ class Rectangle
 : public Shape
 {
 private:
+ //вывести состояние прямоугольника в поток
+ //##ModelId=4712182B029F
+ virtual ostream& speak(ostream& os) const;
+
 	//длина
 	//##ModelId=46F51212001F
 	int _length;
@@ -25,18 +29,16 @@ private:
 	//##ModelId=46F512910128
 	int _width;
 public:
-    //##ModelId=46F677C502EE
-    Rectangle( int ii);
-    
+
+	//##ModelId=47125E3F035B
+    Rectangle(int l, int w);
+
     //##ModelId=46F677C6037B
 	virtual ~Rectangle();
 
- //##ModelId=47111D3F00CB
- friend ostream& operator <<( ostream& o, const Rectangle &rhs);
-
- //вычисляет площадь фигуры
- //##ModelId=4708F05E03D8
- virtual int Area();
+    //вычисляет площадь фигуры
+    //##ModelId=4708F05E03D8
+    virtual int Area();
 
 	//получить длину
 	//##ModelId=46F67BE003BB
@@ -53,11 +55,6 @@ public:
 	//задать ширину
 	//##ModelId=46F67BED01C5
 	void set__width(int value);
-
-
-
 };
-
-
 
 #endif /* _INC_RECTANGLE_46F50C350000_INCLUDED */

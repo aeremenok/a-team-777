@@ -11,12 +11,6 @@ Oval::~Oval()
 	// ToDo: Add your specialized code here and/or call the base class
 }
 
-//##ModelId=46F674F4000F
-Oval::Oval()
-{
-	// ToDo: Add your specialized code here and/or call the base class
-}
-
 
 
 //##ModelId=46F67B2D004E
@@ -45,24 +39,17 @@ void Oval::set__lesserRad(int value)
 	return;
 }
 
-
-
-
 //##ModelId=4708F071008C
 int Oval::Area()
 {
- // ToDo: Add your specialized code here
- 
- return static_cast<int>(0);
+    return static_cast<int>(0);
 }
 
 
-
-//##ModelId=47111D51003E
-ostream& operator<<(ostream& o, const Oval &rhs)
+//##ModelId=471218B200EA
+ostream& Oval::speak(ostream& os) const
 {
- // ToDo: Add your specialized code here and/or call the base class
- 
- return o;
+    return Shape::speak(os)
+        <<"радиусы овала: ("<<_biggerRad<<", "<<_lesserRad<<")"<<endl;
 }
 
