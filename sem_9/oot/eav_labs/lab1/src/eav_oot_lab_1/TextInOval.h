@@ -23,6 +23,9 @@ private:
  virtual ostream& speak(ostream& os) const;
 
 public:
+ //##ModelId=4713C74D038A
+ TextInOval(int big, int less);
+
 	//##ModelId=46F677F2002E
 	virtual ~TextInOval();
 

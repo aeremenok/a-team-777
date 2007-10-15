@@ -1,17 +1,15 @@
 // Copyright (C) 1991 - 1999 Rational Software Corporation
-
+//////////////////////////////////////////////////////////////////////////
 #include "Oval.h"
 #include <ostream.h>
-
-
+//////////////////////////////////////////////////////////////////////////
 
 //##ModelId=46F674D6002E
 Oval::~Oval()
 {
-	// ToDo: Add your specialized code here and/or call the base class
+    Shape::~Shape();
+	cout<<"oval destroyed"<<endl;
 }
-
-
 
 //##ModelId=46F67B2D004E
 const int Oval::get__biggerRad() const
@@ -23,7 +21,6 @@ const int Oval::get__biggerRad() const
 void Oval::set__biggerRad(int value)
 {
 	_biggerRad = value;
-	return;
 }
 
 //##ModelId=46F67B2F0263
@@ -36,7 +33,6 @@ const int Oval::get__lesserRad() const
 void Oval::set__lesserRad(int value)
 {
 	_lesserRad = value;
-	return;
 }
 
 //##ModelId=4708F071008C
@@ -50,6 +46,18 @@ int Oval::Area()
 ostream& Oval::speak(ostream& os) const
 {
     return Shape::speak(os)
-        <<"радиусы овала: ("<<_biggerRad<<", "<<_lesserRad<<")"<<endl;
+        <<"oval is speaking:\n\t"
+        <<"oval chords: ("<<_biggerRad<<", "<<_lesserRad<<")"<<endl;
 }
+
+
+
+//##ModelId=4713C61F0203
+Oval::Oval(int bigger, int less)
+{
+    _biggerRad = bigger;
+    _lesserRad = less;
+    cout<<"oval created"<<endl;
+}
+
 

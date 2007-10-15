@@ -16,9 +16,9 @@ class Oval
 : public Shape
 {
 protected:
- //вывести состояние овала в поток
- //##ModelId=471218B200EA
- virtual ostream& speak(ostream& os) const;
+    //вывести состояние овала в поток
+    //##ModelId=471218B200EA
+    virtual ostream& speak(ostream& os) const;
 
 	//больший радиус овала
 	//##ModelId=46F5136F00BB
@@ -27,9 +27,12 @@ protected:
     //##ModelId=46F5139C0138
 	int _lesserRad;
 public:
- //вычисляет площадь фигуры
- //##ModelId=4708F071008C
- virtual int Area();
+ //##ModelId=4713C61F0203
+ Oval(int bigger, int less);
+
+    //вычисляет площадь фигуры
+    //##ModelId=4708F071008C
+    virtual int Area();
 
 	//получить больший радиус
 	//##ModelId=46F67B2D004E
@@ -49,7 +52,6 @@ public:
 
 	//##ModelId=46F674D6002E
 	virtual ~Oval();
-
 };
 
 #endif /* _INC_OVAL_46F50C54004E_INCLUDED */

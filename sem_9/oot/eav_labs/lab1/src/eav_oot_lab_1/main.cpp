@@ -10,14 +10,15 @@
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
 #include "Rectangle.h"
-#include "Text.h"
+#include "TextInOval.h"
 //////////////////////////////////////////////////////////////////////////
 
 int main()
 {
     Shape* rect = new Rectangle(1,2);
-    cout<<*rect;
-    Shape* txt = new Text();
+    cout<<*rect<<endl;
+    Shape* txt = new TextInOval(3,4);
+    cout<<*txt<<endl;
     return 0;
 }
 
