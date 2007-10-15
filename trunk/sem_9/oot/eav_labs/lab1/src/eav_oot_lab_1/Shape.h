@@ -49,9 +49,9 @@ public:
 	void moveToPoint(int x_pos  , int y_pos  );
 
 protected:
- //вывести состояние фигуры в поток
- //##ModelId=4712170B0271
- virtual ostream& speak(ostream& os) const;
+    //вывести состояние фигуры в поток
+    //##ModelId=4712170B0271
+    virtual ostream& speak(ostream& os) const;
 
 	//абсцисса фигуры. все фигуры по умолчанию появляются в 
 	//начале координат

@@ -44,19 +44,19 @@ Shape::Shape()
 {
     _x = 0;
     _y = 0;
-    cout<<"создана фигура с центром: ("<<_x<<", "<<_y<<")"<<endl;
+    cout<<"default figure created"<<endl;
 }
 
 //##ModelId=4708DDC4001F
 Shape::~Shape()
 {
-    cout<<"фигура разрушена"<<endl;
+    cout<<"figure destroyed"<<endl;
 }
 
 //##ModelId=4712170B0271
 ostream& Shape::speak(ostream& os) const
 {
-    return os<<"координаты центра фигуры: ("<<_x<<", "<<_y<<")"<<endl;
+    return os<<"shape is speaking:\n\t"<<"shape center coordinates: ("<<_x<<", "<<_y<<")"<<endl;
 }
 
 ostream& operator<<( ostream& o, const Shape& rhs )

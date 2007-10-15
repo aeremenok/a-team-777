@@ -328,6 +328,39 @@
 					result     	"ostream&"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "Oval"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"4713C61F0203"
+					parameters 	(list Parameters
+					    (object Parameter "big"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	"bigger"))
+						quid       	"4713C61F0222"
+						documentation 	"больший радиус вновь создаваемого овала"
+						type       	"int")
+					    (object Parameter "less"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	"less"))
+						quid       	"4713C68B0271"
+						documentation 	"меньший радиус вновь создаваемого овала"
+						type       	"int"))
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_biggerRad"
@@ -927,11 +960,10 @@
 						value      	FALSE))
 					quid       	"46F510F20232"
 					stereotype 	"const"
-					result     	"CString"
+					result     	"char*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
-					uid        	0
-					quidu      	"4712547E03CD")
+					uid        	0)
 				    (object Operation "setText"
 					attributes 	(list Attribute_Set
 					    (object Attribute
@@ -946,8 +978,7 @@
 					    (object Parameter "text"
 						quid       	"46F51164036B"
 						documentation 	"новое содержимое текста"
-						type       	"CString*"
-						quidu      	"4712547E03CD"))
+						type       	"char*"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -964,8 +995,7 @@
 					    (object Parameter "text"
 						quid       	"46F511B602DE"
 						documentation 	"текст для добавления"
-						type       	"CString*"
-						quidu      	"4712547E03CD"))
+						type       	"char*"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -1066,8 +1096,7 @@
 				    (object ClassAttribute "_content"
 					quid       	"46F510A50251"
 					documentation 	"содержимое текста"
-					type       	"CString*"
-					quidu      	"4712547E03CD"
+					type       	"char*"
 					exportControl 	"Protected"))
 				statemachine 	(object State_Machine "State/Activity Model"
 				    quid       	"46F679E200CB"
@@ -1169,6 +1198,39 @@
 					result     	"ostream&"
 					concurrency 	"Sequential"
 					opExportControl 	"Private"
+					uid        	0)
+				    (object Operation "TextInOval"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"4713C74D038A"
+					parameters 	(list Parameters
+					    (object Parameter "big"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	"big"))
+						quid       	"4713C74D03A9"
+						documentation 	"больший радиус вновь создаваемого овала"
+						type       	"int")
+					    (object Parameter "less"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	"less"))
+						quid       	"4713C76D008C"
+						documentation 	"меньший радиус вновь создаваемого овала"
+						type       	"int"))
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				module     	"Component View::eav_oot_lab_1"
 				quidu      	"46F5147A02BF"
@@ -1180,7 +1242,7 @@
 				zoom       	100
 				max_height 	28350
 				max_width  	21600
-				origin_x   	275
+				origin_x   	400
 				origin_y   	0
 				items      	(list diagram_item_list
 				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Oval" @1
@@ -1200,7 +1262,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@1
-					    location   	(1039, 972)
+					    location   	(1039, 948)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	730
@@ -1212,7 +1274,7 @@
 					quidu      	"46F50C54004E"
 					compartment 	(object Compartment
 					    Parent_View 	@1
-					    location   	(1039, 1030)
+					    location   	(1039, 1006)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -1226,17 +1288,17 @@
 					    icon_style 	"Icon"
 					    fill_color 	13434879
 					    anchor     	2
-					    nlines     	10
-					    max_width  	628)
+					    nlines     	11
+					    max_width  	618)
 					width      	748
-					height     	550
+					height     	598
 					annotation 	8
 					autoResize 	TRUE)
 				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Rectangle" @2
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
-					location   	(600, 1239)
+					location   	(594, 1257)
 					font       	(object Font
 					    size       	10
 					    face       	"Consolas"
@@ -1249,7 +1311,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@2
-					    location   	(235, 951)
+					    location   	(229, 969)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	730
@@ -1261,7 +1323,7 @@
 					quidu      	"46F50C350000"
 					compartment 	(object Compartment
 					    Parent_View 	@2
-					    location   	(235, 1009)
+					    location   	(229, 1027)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -1381,7 +1443,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@6
-					    location   	(1801, 1691)
+					    location   	(1801, 1668)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	730
@@ -1393,7 +1455,7 @@
 					quidu      	"46F50C7B01D4"
 					compartment 	(object Compartment
 					    Parent_View 	@6
-					    location   	(1801, 1749)
+					    location   	(1801, 1726)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -1407,10 +1469,10 @@
 					    icon_style 	"Icon"
 					    fill_color 	13434879
 					    anchor     	2
-					    nlines     	3
-					    max_width  	628)
+					    nlines     	4
+					    max_width  	618)
 					width      	748
-					height     	222
+					height     	268
 					annotation 	8
 					autoResize 	TRUE)
 				    (object InheritView "" @7
@@ -1434,7 +1496,7 @@
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
-					location   	(2205, 1179)
+					location   	(2205, 1215)
 					font       	(object Font
 					    size       	10
 					    face       	"Consolas"
@@ -1447,7 +1509,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@8
-					    location   	(1840, 938)
+					    location   	(1840, 974)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	730
@@ -1459,7 +1521,7 @@
 					quidu      	"46F50C7401C5"
 					compartment 	(object Compartment
 					    Parent_View 	@8
-					    location   	(1840, 996)
+					    location   	(1840, 1032)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -1474,7 +1536,7 @@
 					    fill_color 	13434879
 					    anchor     	2
 					    nlines     	9
-					    max_width  	628)
+					    max_width  	618)
 					width      	748
 					height     	504
 					annotation 	8
