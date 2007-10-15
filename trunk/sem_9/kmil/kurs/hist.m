@@ -1,3 +1,5 @@
+% standard histogram method realization
+
 % get lost, old variables ]=)
 clear all; clc;
 
@@ -5,9 +7,9 @@ clear all; clc;
 % You are free to change parameters listed below, but be careful about limits
 
 DB_PATH = 'D:\LETI\9\kmil\bases\orl_bmp\s'; % path to database file
-LEVELS = 16;    % levels of color in histogram
-K = 10;         % number of classes in database
-L = 1;          % number of images to use in database
+LEVELS = 64;    % levels of color in histogram
+K = 40;         % number of classes in database
+L = 3;          % number of images to use in database
 Q = 10;         % number of images in class
 
 % You should NOT change anything below this line
