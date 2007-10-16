@@ -5,9 +5,9 @@
 #endif
 #ifndef _INC_SHAPE_46F50BDC00BB_INCLUDED
 #define _INC_SHAPE_46F50BDC00BB_INCLUDED
-
+//////////////////////////////////////////////////////////////////////////
 class ostream;
-
+//////////////////////////////////////////////////////////////////////////
 //обобщенная фигура
 //##ModelId=46F50BDC00BB
 class Shape 
@@ -15,7 +15,7 @@ class Shape
 public:
     //вычислить площадь фигуры
     //##ModelId=4708E2B00186
-    virtual int Area()=0;
+    virtual float Area()=0;
 
     //##ModelId=4708DDC303C8
     Shape();
@@ -29,40 +29,38 @@ public:
 
 	//получить ординату фигуры
 	//##ModelId=46F675DE02AF
-	const int getY() const;
+	const float get__y() const;
 
 	//задать ординату фигуры
 	//##ModelId=46F675DF010B
-	void setY(int value);
+	void set__y(float value);
 
 	//получить абсциссу фигуры
 	//##ModelId=46F675E401C7
-	const int getX() const;
+	const float get__x() const;
 
 	//задать абциссу фигуры
 	//##ModelId=46F675E403AB
-	void setX(int value);
+	void set__x(float value);
 
 	//перенести фигуру в заданную точку. по умолчанию - в 
 	//начало координат
 	//##ModelId=46F50D80038A
-	void moveToPoint(int x_pos  , int y_pos  );
+	void moveToPoint(float x_pos  , float y_pos  );
 
 protected:
     //вывести состояние фигуры в поток
     //##ModelId=4712170B0271
     virtual ostream& speak(ostream& os) const;
 
-	//абсцисса фигуры. все фигуры по умолчанию появляются в 
-	//начале координат
+    //абсцисса фигуры. все фигуры по умолчанию появляются в начале координат
 	//##ModelId=46F50D19006D
-	int _x;
+	float _x;
 
-	//ордината фигуры. все фигуры по умолчанию появляются в 
-	//начале координат
+    //ордината фигуры. все фигуры по умолчанию появляются в начале координат
 	//##ModelId=46F50D1D00AB
-	int _y;
+	float _y;
 
 };
-
+//////////////////////////////////////////////////////////////////////////
 #endif /* _INC_SHAPE_46F50BDC00BB_INCLUDED */

@@ -8,23 +8,29 @@
 //##ModelId=46F677F2002E
 TextInOval::~TextInOval()
 {
-	// ToDo: Add your specialized code here and/or call the base class
+	cout<<"text in oval destroyed"<<endl;
 }
 
 //##ModelId=471219010148
 ostream& TextInOval::speak(ostream& os) const
 {
-    return os<<"text_in_oval is speaking:\n\t"
-        <<Oval::speak(os)
-        <<TextInOval::speak(os)<<endl;
+    return 
+        os<<
+        "text_in_oval is speaking:\n\t"<<
+        Oval::speak(os)<<
+        Text::speak(os)<<endl;
 }
 
-
-
 //##ModelId=4713C74D038A
-TextInOval::TextInOval(int big, int less):
+TextInOval::TextInOval(float big, float less):
 Text(), Oval(big, less)
 {
+    cout<<"text in oval created"<<endl;
+}
 
+//##ModelId=4715113903D8
+float TextInOval::Area()
+{
+    return Oval::Area();
 }
 
