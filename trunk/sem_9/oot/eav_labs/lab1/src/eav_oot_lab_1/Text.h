@@ -13,7 +13,7 @@ class ostream;
 //текст
 //##ModelId=46F50C7401C5
 class Text 
-: public Shape
+: public virtual Shape
 {
 protected:
     //содержимое текста
@@ -26,7 +26,7 @@ protected:
 public:
     //вычислить площадь фигуры
     //##ModelId=47125F23009C
-    virtual int Area();
+    virtual float Area();
 
     //##ModelId=471220F702FD
     Text();

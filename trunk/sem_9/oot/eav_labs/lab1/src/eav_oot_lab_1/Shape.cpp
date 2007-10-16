@@ -6,33 +6,33 @@
 //////////////////////////////////////////////////////////////////////////
 
 //##ModelId=46F50D80038A
-void Shape::moveToPoint(int x_pos, int y_pos)
+void Shape::moveToPoint(float x_pos, float y_pos)
 {
     _x = x_pos;
     _y = y_pos;
 }
 
 //##ModelId=46F675DE02AF
-const int Shape::getY() const
+const float Shape::get__y() const
 {
 	return _y;
 }
 
 //##ModelId=46F675DF010B
-void Shape::setY(int value)
+void Shape::set__y(float value)
 {
 	_y = value;
 	return;
 }
 
 //##ModelId=46F675E401C7
-const int Shape::getX() const
+const float Shape::get__x() const
 {
 	return _x;
 }
 
 //##ModelId=46F675E403AB
-void Shape::setX(int value)
+void Shape::set__x(float value)
 {
 	_x = value;
 	return;

@@ -21,11 +21,13 @@ void Text::setText( char* text )
 //##ModelId=46F5119901A5
 void Text::appendText( char* text )
 {
+    // todo
 }
 
 //##ModelId=46F676990213
 Text::~Text()
 {
+    delete(_content);
 	cout<<"text destroyed"<<endl;
 }
 
@@ -40,13 +42,13 @@ ostream& Text::speak(ostream& os) const
 //##ModelId=471220F702FD
 Text::Text()
 {
-    _content = "lorem ipsum";
+    _content = "lorem ipsum dolor";
     cout<<"default text created"<<endl;
 }
 
 //##ModelId=47125F23009C
-int Text::Area()
+float Text::Area()
 {
-    return -1;
+    return -1.0f;
 }
 

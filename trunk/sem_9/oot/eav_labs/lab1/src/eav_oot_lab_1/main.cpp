@@ -17,8 +17,13 @@ int main()
 {
     Shape* rect = new Rectangle(1,2);
     cout<<*rect<<endl;
-    Shape* txt = new TextInOval(3,4);
+    Shape* txt = new Text();
     cout<<*txt<<endl;
+    Shape* ovl = new Oval(3.0f, 4.0f);
+    cout<<*ovl<<endl;
+    Shape* txt_in_oval = new TextInOval(5.0f, 6.0f);
+    cout<<*txt_in_oval<<endl;
+
     return 0;
 }
 

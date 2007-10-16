@@ -12,31 +12,31 @@ Rectangle::~Rectangle()
 }
 
 //##ModelId=46F67BE003BB
-const int Rectangle::get__length() const
+const float Rectangle::get__length() const
 {
 	return _length;
 }
 
 //##ModelId=46F67BE1035D
-void Rectangle::set__length(int value)
+void Rectangle::set__length(float value)
 {
 	_length = value;
 }
 
 //##ModelId=46F67BEC002E
-const int Rectangle::get__width() const
+const float Rectangle::get__width() const
 {
 	return _width;
 }
 
 //##ModelId=46F67BED01C5
-void Rectangle::set__width(int value)
+void Rectangle::set__width(float value)
 {
 	_width = value;
 }
 
 //##ModelId=4708F05E03D8
-int Rectangle::Area()
+float Rectangle::Area()
 {
     return _width * _length;
 }
@@ -50,7 +50,7 @@ ostream& Rectangle::speak(ostream& os) const
 }
 
 //##ModelId=47125E3F035B
-Rectangle::Rectangle( int l, int w )
+Rectangle::Rectangle( float l, float w )
 {
     _length = l;
     _width = w;    
