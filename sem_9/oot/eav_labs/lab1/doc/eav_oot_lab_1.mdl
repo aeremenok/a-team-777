@@ -149,7 +149,6 @@
 				    (object Inheritance_Relationship
 					quid       	"46F50C9401C5"
 					documentation 	"овал - тоже фигура"
-					label      	"instance of"
 					supplier   	"Logical View::ru.spb.eav::shapes::Shape"
 					quidu      	"46F50BDC00BB"
 					virtual    	TRUE))
@@ -442,7 +441,6 @@
 				    (object Inheritance_Relationship
 					quid       	"46F50C4C03D8"
 					documentation 	"прямоугольник - тоже фигура"
-					label      	"instance of"
 					supplier   	"Logical View::ru.spb.eav::shapes::Shape"
 					quidu      	"46F50BDC00BB"))
 				operations 	(list Operations
@@ -1063,7 +1061,6 @@
 				    (object Inheritance_Relationship
 					quid       	"46F50C980280"
 					documentation 	"как ни странно, текст - тоже фигура"
-					label      	"instance of"
 					supplier   	"Logical View::ru.spb.eav::shapes::Shape"
 					quidu      	"46F50BDC00BB"
 					virtual    	TRUE))
@@ -1256,13 +1253,11 @@
 				    (object Inheritance_Relationship
 					quid       	"46F50C9D00EA"
 					documentation 	"текст в овале - это овал %)"
-					label      	"inherits"
 					supplier   	"Logical View::ru.spb.eav::shapes::Oval"
 					quidu      	"46F50C54004E")
 				    (object Inheritance_Relationship
 					quid       	"46F50C9F03C8"
 					documentation 	"текст в овале - это текст %)"
-					label      	"inherits"
 					supplier   	"Logical View::ru.spb.eav::shapes::Text"
 					quidu      	"46F50C7401C5"))
 				operations 	(list Operations
@@ -1487,7 +1482,7 @@
 					    fill_color 	13434879
 					    anchor     	2
 					    nlines     	11
-					    max_width  	618)
+					    max_width  	628)
 					width      	748
 					height     	598
 					annotation 	8
@@ -1541,7 +1536,7 @@
 					height     	692
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "instance of" @4
+				    (object InheritView "" @4
 					font       	(object Font
 					    size       	10
 					    face       	"Consolas"
@@ -1552,21 +1547,13 @@
 					    strike     	FALSE
 					    color      	0
 					    default_color 	FALSE)
-					label      	(object ItemLabel
-					    Parent_View 	@4
-					    location   	(1404, 878)
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	239
-					    justify    	0
-					    label      	"instance of")
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C9401C5"
 					client     	@1
 					supplier   	@3
 					line_style 	0)
-				    (object InheritView "instance of" @5
+				    (object InheritView "" @5
 					font       	(object Font
 					    size       	10
 					    face       	"Consolas"
@@ -1577,14 +1564,6 @@
 					    strike     	FALSE
 					    color      	0
 					    default_color 	FALSE)
-					label      	(object ItemLabel
-					    Parent_View 	@5
-					    location   	(977, 876)
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	239
-					    justify    	0
-					    label      	"instance of")
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C4C03D8"
@@ -1640,7 +1619,7 @@
 					height     	316
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "inherits" @7
+				    (object InheritView "" @7
 					font       	(object Font
 					    size       	10
 					    face       	"Consolas"
@@ -1651,14 +1630,6 @@
 					    strike     	FALSE
 					    color      	0
 					    default_color 	FALSE)
-					label      	(object ItemLabel
-					    Parent_View 	@7
-					    location   	(1863, 1569)
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	173
-					    justify    	0
-					    label      	"inherits")
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C9D00EA"
@@ -1714,7 +1685,7 @@
 					height     	504
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "instance of" @9
+				    (object InheritView "" @9
 					font       	(object Font
 					    size       	10
 					    face       	"Consolas"
@@ -1725,21 +1696,13 @@
 					    strike     	FALSE
 					    color      	0
 					    default_color 	FALSE)
-					label      	(object ItemLabel
-					    Parent_View 	@9
-					    location   	(1851, 869)
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	239
-					    justify    	0
-					    label      	"instance of")
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C980280"
 					client     	@8
 					supplier   	@3
 					line_style 	0)
-				    (object InheritView "inherits" @10
+				    (object InheritView "" @10
 					font       	(object Font
 					    size       	10
 					    face       	"Consolas"
@@ -1750,14 +1713,6 @@
 					    strike     	FALSE
 					    color      	0
 					    default_color 	FALSE)
-					label      	(object ItemLabel
-					    Parent_View 	@10
-					    location   	(2181, 1534)
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	173
-					    justify    	0
-					    label      	"inherits")
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C9F03C8"
@@ -2377,7 +2332,7 @@
 					height     	198
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "inherits" @28
+				    (object InheritView "" @28
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2388,21 +2343,13 @@
 					    strike     	FALSE
 					    color      	0
 					    default_color 	FALSE)
-					label      	(object ItemLabel
-					    Parent_View 	@28
-					    location   	(290, 844)
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	222
-					    justify    	0
-					    label      	"inherits")
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C9D00EA"
 					client     	@27
 					supplier   	@24
 					line_style 	0)
-				    (object InheritView "inherits" @29
+				    (object InheritView "" @29
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2413,14 +2360,6 @@
 					    strike     	FALSE
 					    color      	0
 					    default_color 	FALSE)
-					label      	(object ItemLabel
-					    Parent_View 	@29
-					    location   	(535, 844)
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	222
-					    justify    	0
-					    label      	"inherits")
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C9F03C8"
@@ -2521,7 +2460,7 @@
 					height     	204
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "instance of" @34
+				    (object InheritView "" @34
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2532,21 +2471,13 @@
 					    strike     	FALSE
 					    color      	0
 					    default_color 	FALSE)
-					label      	(object ItemLabel
-					    Parent_View 	@34
-					    location   	(289, 553)
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	310
-					    justify    	0
-					    label      	"instance of")
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C9401C5"
 					client     	@24
 					supplier   	@33
 					line_style 	0)
-				    (object InheritView "instance of" @35
+				    (object InheritView "" @35
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2557,21 +2488,13 @@
 					    strike     	FALSE
 					    color      	0
 					    default_color 	FALSE)
-					label      	(object ItemLabel
-					    Parent_View 	@35
-					    location   	(395, 553)
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	310
-					    justify    	0
-					    label      	"instance of")
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C4C03D8"
 					client     	@25
 					supplier   	@33
 					line_style 	0)
-				    (object InheritView "instance of" @36
+				    (object InheritView "" @36
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2582,14 +2505,6 @@
 					    strike     	FALSE
 					    color      	0
 					    default_color 	FALSE)
-					label      	(object ItemLabel
-					    Parent_View 	@36
-					    location   	(538, 553)
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	310
-					    justify    	0
-					    label      	"instance of")
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C980280"
