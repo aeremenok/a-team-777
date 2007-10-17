@@ -13,33 +13,33 @@ Oval::~Oval()
 }
 
 //##ModelId=46F67B2D004E
-const float Oval::get__biggerRad() const
+const float Oval::getRad1() const
 {
-	return _biggerRad;
+	return _rad1;
 }
 
 //##ModelId=46F67B2D0244
-void Oval::set__biggerRad(float value)
+void Oval::setRad1(float value)
 {
-	_biggerRad = value;
+	_rad1 = value;
 }
 
 //##ModelId=46F67B2F0263
-const float Oval::get__lesserRad() const
+const float Oval::getRad2() const
 {
-	return _lesserRad;
+	return _rad2;
 }
 
 //##ModelId=46F67B30008E
-void Oval::set__lesserRad(float value)
+void Oval::setRad2(float value)
 {
-	_lesserRad = value;
+	_rad2 = value;
 }
 
 //##ModelId=4708F071008C
 float Oval::Area()
 {
-    return static_cast<int>(0);
+    return (float)M_PI * _rad1 * _rad2;
 }
 
 
@@ -48,14 +48,14 @@ ostream& Oval::speak(ostream& os) const
 {
     return Shape::speak(os)
         <<"oval is speaking:\n\t"
-        <<"oval chords: ("<<_biggerRad<<", "<<_lesserRad<<")"<<endl;
+        <<"oval chords: ("<<_rad1<<", "<<_rad2<<")"<<endl;
 }
 
 //##ModelId=4713C61F0203
-Oval::Oval(float bigger, float less)
+Oval::Oval(float rad1, float rad2)
 {
-    _biggerRad = bigger;
-    _lesserRad = less;
+    _rad1 = rad1;
+    _rad2 = rad2;
     cout<<"oval created"<<endl;
 }
 

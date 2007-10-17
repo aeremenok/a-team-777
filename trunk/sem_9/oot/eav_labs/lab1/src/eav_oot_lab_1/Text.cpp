@@ -36,7 +36,7 @@ ostream& Text::speak(ostream& os) const
 {
     return Shape::speak(os)
         <<"text is speaking:\n\t"
-        <<_content<<endl;
+        <<"text content: "<<_content<<endl;
 }
 
 //##ModelId=471220F702FD
