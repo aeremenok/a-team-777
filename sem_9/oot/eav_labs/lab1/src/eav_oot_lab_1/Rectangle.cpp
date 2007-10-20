@@ -35,12 +35,6 @@ void Rectangle::set__width(float value)
 	_width = value;
 }
 
-//##ModelId=4708F05E03D8
-float Rectangle::Area()
-{
-    return _width * _length;
-}
-
 //##ModelId=4712182B029F
 ostream& Rectangle::speak(ostream& os) const
 {

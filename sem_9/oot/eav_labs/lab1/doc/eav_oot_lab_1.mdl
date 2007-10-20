@@ -176,7 +176,7 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "get__biggerRad"
+				    (object Operation "getRad1"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
@@ -195,13 +195,18 @@
 						name       	"CodeName"
 						value      	""))
 					quid       	"46F67B2D004E"
-					documentation 	"получить больший радиус"
+					documentation 	
+|**********************************************************************
+| геттеры/сеттеры                                                      
+|**********************************************************************
+|получить больший радиус
+					
 					stereotype 	"const"
 					result     	"const float"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "set__biggerRad"
+				    (object Operation "setRad1"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
@@ -237,7 +242,7 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "get__lesserRad"
+				    (object Operation "getRad2"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
@@ -262,7 +267,7 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "set__lesserRad"
+				    (object Operation "setRad2"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
@@ -295,31 +300,6 @@
 						quid       	"46F67B3000AB"
 						type       	"float"))
 					result     	"void"
-					concurrency 	"Sequential"
-					opExportControl 	"Public"
-					uid        	0)
-				    (object Operation "Area"
-					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"DefaultBody"
-						value      	(value Text 
-|// ToDo: Add your specialized code here
-|
-|return static_cast<int>(0);
-						))
-					    (object Attribute
-						tool       	"VC++"
-						name       	"Inline"
-						value      	FALSE)
-					    (object Attribute
-						tool       	"VC++"
-						name       	"CodeName"
-						value      	""))
-					quid       	"4708F071008C"
-					documentation 	"вычисляет площадь фигуры"
-					stereotype 	"virtual"
-					result     	"int"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -368,13 +348,18 @@
 						name       	"CodeName"
 						value      	""))
 					quid       	"4713C61F0203"
+					documentation 	
+|**********************************************************************
+| конструкторы и деструктор                                            
+|**********************************************************************
+					
 					parameters 	(list Parameters
 					    (object Parameter "big"
 						attributes 	(list Attribute_Set
 						    (object Attribute
 							tool       	"VC++"
 							name       	"CodeName"
-							value      	"bigger"))
+							value      	"rad1"))
 						quid       	"4713C61F0222"
 						documentation 	"больший радиус вновь создаваемого овала"
 						type       	"float")
@@ -383,7 +368,7 @@
 						    (object Attribute
 							tool       	"VC++"
 							name       	"CodeName"
-							value      	"less"))
+							value      	"rad2"))
 						quid       	"4713C68B0271"
 						documentation 	"меньший радиус вновь создаваемого овала"
 						type       	"float"))
@@ -391,17 +376,22 @@
 					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
-				    (object ClassAttribute "_biggerRad"
+				    (object ClassAttribute "_rad1"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
 						name       	"CodeName"
 						value      	""))
 					quid       	"46F5136F00BB"
-					documentation 	"больший радиус овала"
+					documentation 	
+|**********************************************************************
+| атрибуты                                                             
+|**********************************************************************
+|больший радиус овала
+					
 					type       	"float"
 					exportControl 	"Protected")
-				    (object ClassAttribute "_lesserRad"
+				    (object ClassAttribute "_rad2"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
@@ -486,7 +476,12 @@
 						name       	"CodeName"
 						value      	""))
 					quid       	"46F67BE003BB"
-					documentation 	"получить длину"
+					documentation 	
+|**********************************************************************
+| геттеры/сеттеры                                                      
+|**********************************************************************
+|получить длину
+					
 					stereotype 	"const"
 					result     	"const float"
 					concurrency 	"Sequential"
@@ -591,31 +586,6 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "Area"
-					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"DefaultBody"
-						value      	(value Text 
-|// ToDo: Add your specialized code here
-|
-|return static_cast<int>(0);
-						))
-					    (object Attribute
-						tool       	"VC++"
-						name       	"Inline"
-						value      	FALSE)
-					    (object Attribute
-						tool       	"VC++"
-						name       	"CodeName"
-						value      	""))
-					quid       	"4708F05E03D8"
-					documentation 	"вычисляет площадь фигуры"
-					stereotype 	"virtual"
-					result     	"int"
-					concurrency 	"Sequential"
-					opExportControl 	"Public"
-					uid        	0)
 				    (object Operation "speak"
 					attributes 	(list Attribute_Set
 					    (object Attribute
@@ -648,7 +618,7 @@
 						type       	"ostream&"))
 					result     	"ostream&"
 					concurrency 	"Sequential"
-					opExportControl 	"Private"
+					opExportControl 	"Protected"
 					uid        	0)
 				    (object Operation "Rectangle"
 					attributes 	(list Attribute_Set
@@ -657,6 +627,11 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"47125E3F035B"
+					documentation 	
+|**********************************************************************
+| конструкторы и деструктор                                            
+|**********************************************************************
+					
 					parameters 	(list Parameters
 					    (object Parameter "l"
 						quid       	"47125E3F037A"
@@ -675,7 +650,12 @@
 						name       	"CodeName"
 						value      	""))
 					quid       	"46F51212001F"
-					documentation 	"длина"
+					documentation 	
+|**********************************************************************
+| атрибуты                                                             
+|**********************************************************************
+|длина
+					
 					type       	"float")
 				    (object ClassAttribute "_width"
 					attributes 	(list Attribute_Set
@@ -725,8 +705,10 @@
 						value      	""))
 					quid       	"46F50D80038A"
 					documentation 	
-|перенести фигуру в заданную точку. по умолчанию - в 
-|начало координат
+|**********************************************************************
+| прочие методы                                                        
+|**********************************************************************    
+|перенести фигуру в заданную точку
 					
 					parameters 	(list Parameters
 					    (object Parameter "x_pos"
@@ -780,7 +762,12 @@
 						name       	"ReplaceExistingBody"
 						value      	"False"))
 					quid       	"46F6755D0025"
-					documentation 	"оператор вывода в поток"
+					documentation 	
+|**********************************************************************
+| операторы                                                            
+|**********************************************************************
+|оператор вывода в поток
+					
 					stereotype 	"friend"
 					parameters 	(list Parameters
 					    (object Parameter "o"
@@ -813,7 +800,12 @@
 						name       	"CodeName"
 						value      	""))
 					quid       	"46F675DE02AF"
-					documentation 	"получить ординату фигуры"
+					documentation 	
+|**********************************************************************
+| геттеры/сеттеры                                                      
+|**********************************************************************
+|получить ординату фигуры
+					
 					stereotype 	"const"
 					result     	"const float"
 					concurrency 	"Sequential"
@@ -935,6 +927,11 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"4708DDC303C8"
+					documentation 	
+|**********************************************************************
+| конструкторы и деструктор                                            
+|**********************************************************************
+					
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -958,27 +955,6 @@
 						value      	FALSE))
 					quid       	"4708DDC4001F"
 					stereotype 	"virtual"
-					concurrency 	"Sequential"
-					opExportControl 	"Public"
-					uid        	0)
-				    (object Operation "Area"
-					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"Inline"
-						value      	FALSE)
-					    (object Attribute
-						tool       	"VC++"
-						name       	"CodeName"
-						value      	"")
-					    (object Attribute
-						tool       	"VC++"
-						name       	"ReplaceExistingBody"
-						value      	"False"))
-					quid       	"4708E2B00186"
-					documentation 	"вычислить площадь фигуры"
-					stereotype 	"abstract"
-					result     	"float"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -1017,7 +993,12 @@
 						name       	"CodeName"
 						value      	""))
 					quid       	"46F50D19006D"
-					documentation 	"абсцисса фигуры. все фигуры по умолчанию появляются в начале координат"
+					documentation 	
+|**********************************************************************
+| атрибуты                                                             
+|**********************************************************************
+|абсцисса фигуры. все фигуры по умолчанию появляются в начале координат
+					
 					type       	"float"
 					exportControl 	"Protected")
 				    (object ClassAttribute "_y"
@@ -1072,6 +1053,11 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"46F510F20232"
+					documentation 	
+|**********************************************************************
+| геттеры/сеттеры                                                      
+|**********************************************************************
+					
 					stereotype 	"const"
 					result     	"char*"
 					concurrency 	"Sequential"
@@ -1103,7 +1089,12 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"46F5119901A5"
-					documentation 	"добавить новый текст к старому"
+					documentation 	
+|**********************************************************************
+| прочие методы                                                        
+|**********************************************************************    
+|добавить новый текст к старому
+					
 					parameters 	(list Parameters
 					    (object Parameter "text"
 						quid       	"46F511B602DE"
@@ -1155,7 +1146,7 @@
 						name       	"CodeName"
 						value      	"speak"))
 					quid       	"471218CE00DA"
-					documentation 	"вывести состояние текста в поток"
+					documentation 	"вывести состояние прямоугольника в поток"
 					stereotype 	"virtual, const"
 					parameters 	(list Parameters
 					    (object Parameter "os"
@@ -1177,38 +1168,23 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"471220F702FD"
-					concurrency 	"Sequential"
-					opExportControl 	"Public"
-					uid        	0)
-				    (object Operation "Area"
-					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"DefaultBody"
-						value      	(value Text 
-|// ToDo: Add your specialized code here
-|
-|return static_cast<int>(0);
-						))
-					    (object Attribute
-						tool       	"VC++"
-						name       	"Inline"
-						value      	FALSE)
-					    (object Attribute
-						tool       	"VC++"
-						name       	"CodeName"
-						value      	""))
-					quid       	"47125F23009C"
-					documentation 	"вычислить площадь фигуры"
-					stereotype 	"virtual"
-					result     	"int"
+					documentation 	
+|**********************************************************************
+| конструкторы и деструктор                                            
+|**********************************************************************
+					
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_content"
 					quid       	"46F510A50251"
-					documentation 	"содержимое текста"
+					documentation 	
+|**********************************************************************
+| атрибуты                                                             
+|**********************************************************************
+|содержимое текста
+					
 					type       	"char*"
 					exportControl 	"Protected"))
 				statemachine 	(object State_Machine "State/Activity Model"
@@ -1248,7 +1224,10 @@
 					name       	"Generate"
 					value      	TRUE))
 				quid       	"46F50C7B01D4"
-				documentation 	"текст в овале"
+				documentation 	
+|////////////////////////////////////////////////////////////////////////
+|текст в овале
+				
 				superclasses 	(list inheritance_relationship_list
 				    (object Inheritance_Relationship
 					quid       	"46F50C9D00EA"
@@ -1316,7 +1295,7 @@
 						type       	"ostream&"))
 					result     	"ostream&"
 					concurrency 	"Sequential"
-					opExportControl 	"Private"
+					opExportControl 	"Protected"
 					uid        	0)
 				    (object Operation "TextInOval"
 					attributes 	(list Attribute_Set
@@ -1329,6 +1308,11 @@
 						name       	"CodeName"
 						value      	""))
 					quid       	"4713C74D038A"
+					documentation 	
+|**********************************************************************
+| конструкторы и деструктор                                            
+|**********************************************************************
+					
 					parameters 	(list Parameters
 					    (object Parameter "big"
 						attributes 	(list Attribute_Set
@@ -1348,31 +1332,6 @@
 						quid       	"4713C76D008C"
 						documentation 	"меньший радиус вновь создаваемого овала"
 						type       	"float"))
-					concurrency 	"Sequential"
-					opExportControl 	"Public"
-					uid        	0)
-				    (object Operation "Area"
-					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"DefaultBody"
-						value      	(value Text 
-|// ToDo: Add your specialized code here
-|
-|return static_cast<int>(0);
-						))
-					    (object Attribute
-						tool       	"VC++"
-						name       	"Inline"
-						value      	FALSE)
-					    (object Attribute
-						tool       	"VC++"
-						name       	"CodeName"
-						value      	""))
-					quid       	"4715113903D8"
-					documentation 	"вычисляет площадь фигуры"
-					stereotype 	"virtual"
-					result     	"float"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -1406,7 +1365,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@1
-					    location   	(1039, 948)
+					    location   	(1039, 971)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	730
@@ -1418,7 +1377,7 @@
 					quidu      	"46F50C54004E"
 					compartment 	(object Compartment
 					    Parent_View 	@1
-					    location   	(1039, 1006)
+					    location   	(1039, 1029)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -1432,10 +1391,10 @@
 					    icon_style 	"Icon"
 					    fill_color 	13434879
 					    anchor     	2
-					    nlines     	11
-					    max_width  	628)
+					    nlines     	10
+					    max_width  	618)
 					width      	748
-					height     	598
+					height     	552
 					annotation 	8
 					autoResize 	TRUE)
 				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Rectangle" @2
@@ -1455,7 +1414,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@2
-					    location   	(235, 945)
+					    location   	(235, 968)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	730
@@ -1467,7 +1426,7 @@
 					quidu      	"46F50C350000"
 					compartment 	(object Compartment
 					    Parent_View 	@2
-					    location   	(235, 1003)
+					    location   	(235, 1026)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -1481,10 +1440,10 @@
 					    icon_style 	"Icon"
 					    fill_color 	13434879
 					    anchor     	2
-					    nlines     	11
-					    max_width  	628)
+					    nlines     	10
+					    max_width  	618)
 					width      	748
-					height     	598
+					height     	552
 					annotation 	8
 					autoResize 	TRUE)
 				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Shape" @3
@@ -1504,7 +1463,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@3
-					    location   	(1042, 139)
+					    location   	(1042, 162)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	730
@@ -1516,7 +1475,7 @@
 					quidu      	"46F50BDC00BB"
 					compartment 	(object Compartment
 					    Parent_View 	@3
-					    location   	(1042, 197)
+					    location   	(1042, 220)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -1530,10 +1489,10 @@
 					    icon_style 	"Icon"
 					    fill_color 	13434879
 					    anchor     	2
-					    nlines     	13
-					    max_width  	628)
+					    nlines     	12
+					    max_width  	618)
 					width      	748
-					height     	692
+					height     	646
 					annotation 	8
 					autoResize 	TRUE)
 				    (object InheritView "" @4
@@ -1587,7 +1546,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@6
-					    location   	(1801, 1644)
+					    location   	(1801, 1667)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	730
@@ -1599,7 +1558,7 @@
 					quidu      	"46F50C7B01D4"
 					compartment 	(object Compartment
 					    Parent_View 	@6
-					    location   	(1801, 1702)
+					    location   	(1801, 1725)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -1613,10 +1572,10 @@
 					    icon_style 	"Icon"
 					    fill_color 	13434879
 					    anchor     	2
-					    nlines     	5
-					    max_width  	628)
+					    nlines     	4
+					    max_width  	618)
 					width      	748
-					height     	316
+					height     	270
 					annotation 	8
 					autoResize 	TRUE)
 				    (object InheritView "" @7
@@ -1653,7 +1612,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@8
-					    location   	(1840, 944)
+					    location   	(1840, 967)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	730
@@ -1665,7 +1624,7 @@
 					quidu      	"46F50C7401C5"
 					compartment 	(object Compartment
 					    Parent_View 	@8
-					    location   	(1840, 1002)
+					    location   	(1840, 1025)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -1679,10 +1638,10 @@
 					    icon_style 	"Icon"
 					    fill_color 	13434879
 					    anchor     	2
-					    nlines     	9
-					    max_width  	628)
+					    nlines     	8
+					    max_width  	618)
 					width      	748
-					height     	504
+					height     	458
 					annotation 	8
 					autoResize 	TRUE)
 				    (object InheritView "" @9
