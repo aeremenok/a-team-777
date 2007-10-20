@@ -15,12 +15,11 @@ TextInOval::~TextInOval()
 ostream& TextInOval::speak(ostream& os) const
 {
     return 
-        os<<
-        "text_in_oval is speaking:\n\t"<<
-        // todo
         Shape::speak(os)
+        <<"text_in_oval is speaking:\n"
         <<"\toval chords: ("<<_rad1<<", "<<_rad2<<")"<<endl
-        <<"\ttext content: "<<_content<<endl;
+        <<"\ttext content: "<<_content<<endl
+        ;
 }
 
 //##ModelId=4713C74D038A
