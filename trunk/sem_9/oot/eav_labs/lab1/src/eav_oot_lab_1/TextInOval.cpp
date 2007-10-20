@@ -30,9 +30,3 @@ Text(), Oval(big, less)
     cout<<"text in oval created"<<endl;
 }
 
-//##ModelId=4715113903D8
-float TextInOval::Area()
-{
-    return Oval::Area();
-}
-

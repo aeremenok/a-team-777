@@ -46,9 +46,3 @@ Text::Text()
     cout<<"default text created"<<endl;
 }
 
-//##ModelId=47125F23009C
-float Text::Area()
-{
-    return -1.0f;
-}
-

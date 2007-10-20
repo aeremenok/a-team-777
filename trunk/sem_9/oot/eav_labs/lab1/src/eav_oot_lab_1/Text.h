@@ -48,13 +48,9 @@ public:
 	//##ModelId=46F5119901A5
     void appendText(char* text);
 
-    //вычислить площадь фигуры
-    //##ModelId=47125F23009C
-    virtual float Area();
-
 protected:
     //вывести состояние прямоугольника в поток
-    //##ModelId=4712182B029F
+    //##ModelId=471218CE00DA
     virtual ostream& speak(ostream& os) const;
 };
 //////////////////////////////////////////////////////////////////////////

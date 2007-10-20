@@ -36,12 +36,6 @@ void Oval::setRad2(float value)
 	_rad2 = value;
 }
 
-//##ModelId=4708F071008C
-float Oval::Area()
-{
-    return (float)M_PI * _rad1 * _rad2;
-}
-
 
 //##ModelId=471218B200EA
 ostream& Oval::speak(ostream& os) const
