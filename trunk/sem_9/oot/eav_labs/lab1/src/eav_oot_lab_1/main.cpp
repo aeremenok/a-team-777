@@ -88,8 +88,10 @@ void adapterTest()
 }
 /////////////////////////////////////////////////////////////////////////
 // отношение порядка
+//##ModelId=471BB28203B9
 struct ltstr
 {
+	//##ModelId=471BB28203BB
     bool operator()(const char* s1, const char* s2) const
     {
         return strcmp(s1, s2) < 0;
