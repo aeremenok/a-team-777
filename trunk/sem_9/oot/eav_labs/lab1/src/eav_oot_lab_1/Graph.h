@@ -19,9 +19,27 @@ template<class T> class Graph
 private:
  //список ребер
  //##ModelId=471BB7C90138
- list<T> _ribbleList;
+ list< Ribble<T> > _ribbleList;
 
 public:
+ //добавить ребро
+ //##ModelId=471BBA1B0177
+ void addRibble(T vertex1, T vertex2);
+
+
+ //добавить готовое ребро
+ //##ModelId=471BBA680399
+ void addRibble(Ribble<T> ribble);
+
+
+ //удалить ребро, не удаляя его вершин
+ //##ModelId=471BBA9D038A
+ void removeRibble(Ribble<T> ribble);
+
+
+ //##ModelId=471BBAE20290
+ void removeVertex(T vertex);
+
  //##ModelId=471BB2E30271
  Graph();
 
