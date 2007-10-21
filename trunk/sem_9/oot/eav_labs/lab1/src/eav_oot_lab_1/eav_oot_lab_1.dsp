@@ -198,6 +198,10 @@ SOURCE=.\Rectangle.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Ribble.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Shape.cpp
 
 !IF  "$(CFG)" == "eav_oot_lab_1 - Win32 Release"
@@ -271,6 +275,10 @@ SOURCE=.\Oval.h
 # Begin Source File
 
 SOURCE=.\Rectangle.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Ribble.h
 # End Source File
 # Begin Source File
 
