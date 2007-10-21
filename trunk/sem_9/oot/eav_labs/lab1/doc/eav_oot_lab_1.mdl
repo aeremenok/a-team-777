@@ -103,24 +103,6 @@
 		quid       	"46F51045003E"
 		exportControl 	"Public"
 		logical_models 	(list unit_reference_list
-		    (object Association "firstVertex"
-			quid       	"46F9175401BE"
-			stereotype 	"extend"
-			roles      	(list role_list
-			    (object Role "vertex1"
-				quid       	"46F917550018"
-				label      	"vertex1"
-				supplier   	"Logical View::ru.spb.eav::shapes::Shape"
-				quidu      	"46F50BDC00BB"
-				client_cardinality 	(value cardinality "1")
-				exportControl 	"Private"
-				is_navigable 	TRUE)
-			    (object Role "$UNNAMED$0"
-				quid       	"46F917550037"
-				supplier   	"Logical View::ru.spb.eav::container::Elem"
-				quidu      	"46F8FABB02B2"
-				client_cardinality 	(value cardinality "1")
-				Containment 	"By Reference")))
 		    (object Class_Category "shapes"
 			quid       	"46F8F8A50238"
 			exportControl 	"Public"
@@ -1375,24 +1357,6 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F50C54004E"
-					compartment 	(object Compartment
-					    Parent_View 	@1
-					    location   	(1039, 1029)
-					    font       	(object Font
-						size       	10
-						face       	"Consolas"
-						charSet    	126
-						bold       	FALSE
-						italics    	FALSE
-						underline  	FALSE
-						strike     	FALSE
-						color      	0
-						default_color 	FALSE)
-					    icon_style 	"Icon"
-					    fill_color 	13434879
-					    anchor     	2
-					    nlines     	10
-					    max_width  	618)
 					width      	748
 					height     	552
 					annotation 	8
@@ -1424,24 +1388,6 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F50C350000"
-					compartment 	(object Compartment
-					    Parent_View 	@2
-					    location   	(235, 1026)
-					    font       	(object Font
-						size       	10
-						face       	"Consolas"
-						charSet    	126
-						bold       	FALSE
-						italics    	FALSE
-						underline  	FALSE
-						strike     	FALSE
-						color      	0
-						default_color 	FALSE)
-					    icon_style 	"Icon"
-					    fill_color 	13434879
-					    anchor     	2
-					    nlines     	10
-					    max_width  	618)
 					width      	748
 					height     	552
 					annotation 	8
@@ -1475,7 +1421,7 @@
 					quidu      	"46F50BDC00BB"
 					compartment 	(object Compartment
 					    Parent_View 	@3
-					    location   	(1042, 220)
+					    location   	(1042, 188)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -1556,24 +1502,6 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F50C7B01D4"
-					compartment 	(object Compartment
-					    Parent_View 	@6
-					    location   	(1801, 1725)
-					    font       	(object Font
-						size       	10
-						face       	"Consolas"
-						charSet    	126
-						bold       	FALSE
-						italics    	FALSE
-						underline  	FALSE
-						strike     	FALSE
-						color      	0
-						default_color 	FALSE)
-					    icon_style 	"Icon"
-					    fill_color 	13434879
-					    anchor     	2
-					    nlines     	4
-					    max_width  	618)
 					width      	748
 					height     	270
 					annotation 	8
@@ -1622,24 +1550,6 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F50C7401C5"
-					compartment 	(object Compartment
-					    Parent_View 	@8
-					    location   	(1840, 1025)
-					    font       	(object Font
-						size       	10
-						face       	"Consolas"
-						charSet    	126
-						bold       	FALSE
-						italics    	FALSE
-						underline  	FALSE
-						strike     	FALSE
-						color      	0
-						default_color 	FALSE)
-					    icon_style 	"Icon"
-					    fill_color 	13434879
-					    anchor     	2
-					    nlines     	8
-					    max_width  	618)
 					width      	748
 					height     	458
 					annotation 	8
@@ -1682,86 +1592,107 @@
 			quid       	"46F8F8B60072"
 			exportControl 	"Public"
 			logical_models 	(list unit_reference_list
-			    (object Class "List"
+			    (object Parameterized_Class "Graph"
 				attributes 	(list Attribute_Set
 				    (object Attribute
 					tool       	"VC++"
-					name       	"LastAppliedTemplate"
-					value      	"C:\\Program Files\\Rational\\Rose\\vc\\templates")
-				    (object Attribute
-					tool       	"VC++"
-					name       	"Generate"
-					value      	TRUE)
-				    (object Attribute
-					tool       	"VC++"
 					name       	"AfxSupportMacro"
-					value      	""))
-				quid       	"46F8F9DF017A"
+					value      	"")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"LastAppliedTemplate"
+					value      	"C:\\Program Files\\Rational\\Rose\\vc\\templates"))
+				quid       	"46F8FA7D014A"
+				documentation 	"граф на базе списка рёбер"
+				used_nodes 	(list uses_relationship_list
+				    (object Uses_Relationship
+					quid       	"471B9A45004E"
+					label      	"is a list of"
+					supplier   	"Logical View::ru.spb.eav::container::Ribble"
+					quidu      	"46F8FABB02B2"
+					supplier_cardinality 	(value cardinality "0..n")
+					client_cardinality 	(value cardinality "1..1")))
 				operations 	(list Operations
-				    (object Operation "~List"
+				    (object Operation "addRibble"
 					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"DefaultBody"
-						value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
-					    (object Attribute
-						tool       	"VC++"
-						name       	"ClassMethod"
-						value      	"~$NAME()")
 					    (object Attribute
 						tool       	"VC++"
 						name       	"Inline"
 						value      	FALSE)
 					    (object Attribute
 						tool       	"VC++"
-						name       	"ClassName"
-						value      	"List"))
-					quid       	"46F8FD04033E"
-					stereotype 	"virtual"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471B9CAA02BF"
+					documentation 	"добавить ребро из 2х вершин"
+					parameters 	(list Parameters
+					    (object Parameter "vertex1"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	""))
+						quid       	"471B9CAA02CE"
+						documentation 	"начальная вершина ребра"
+						type       	"<T>")
+					    (object Parameter "vertex2"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	""))
+						quid       	"471B9CF00157"
+						documentation 	"конечная вершина ребра"
+						type       	"<T>"))
+					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "List"
+				    (object Operation "addRibble"
 					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"DefaultBody"
-						value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
-					    (object Attribute
-						tool       	"VC++"
-						name       	"ClassMethod"
-						value      	"$NAME()")
 					    (object Attribute
 						tool       	"VC++"
 						name       	"Inline"
 						value      	FALSE)
 					    (object Attribute
 						tool       	"VC++"
-						name       	"ClassName"
-						value      	"List"))
-					quid       	"46F8FD05016C"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471B9D2A02DE"
+					documentation 	"добавить готовое ребро"
+					parameters 	(list Parameters
+					    (object Parameter "ribble"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	""))
+						quid       	"471B9D2A02EE"
+						documentation 	"новое ребро"
+						type       	"Ribble<T>"))
+					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
+				class_attributes 	(list class_attribute_list
+				    (object ClassAttribute "_ribbleList"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471B99A5002E"
+					documentation 	"список рёбер"
+					type       	"list<Ribble<T>>"))
 				module     	"Component View::eav_oot_lab_1"
 				quidu      	"46F5147A02BF"
-				language   	"VC++")
-			    (object Class "Graph"
-				attributes 	(list Attribute_Set
-				    (object Attribute
-					tool       	"VC++"
-					name       	"AfxSupportMacro"
-					value      	""))
-				quid       	"46F8FA7D014A"
-				superclasses 	(list inheritance_relationship_list
-				    (object Inheritance_Relationship
-					quid       	"46F8FA870235"
-					supplier   	"Logical View::ru.spb.eav::container::List"
-					quidu      	"46F8F9DF017A"))
-				module     	"Component View::eav_oot_lab_1"
-				quidu      	"46F5147A02BF"
-				language   	"VC++")
-			    (object Class "Elem"
+				language   	"VC++"
+				parameters 	(list Parameters
+				    (object Parameter "T"
+					quid       	"471B9C0701A5"
+					documentation 	"тип вершин графа"
+					type       	"class")))
+			    (object Parameterized_Class "Ribble"
 				attributes 	(list Attribute_Set
 				    (object Attribute
 					tool       	"VC++"
@@ -1770,10 +1701,14 @@
 				    (object Attribute
 					tool       	"VC++"
 					name       	"AfxSupportMacro"
-					value      	""))
+					value      	"")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"Generate"
+					value      	TRUE))
 				quid       	"46F8FABB02B2"
 				operations 	(list Operations
-				    (object Operation "~Elem"
+				    (object Operation "~Ribble"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
@@ -1790,13 +1725,13 @@
 					    (object Attribute
 						tool       	"VC++"
 						name       	"ClassName"
-						value      	"Elem"))
+						value      	"Ribble"))
 					quid       	"46F90EFF00B7"
 					stereotype 	"virtual"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "Elem"
+				    (object Operation "Ribble"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
@@ -1813,58 +1748,145 @@
 					    (object Attribute
 						tool       	"VC++"
 						name       	"ClassName"
-						value      	"Elem"))
+						value      	"Ribble"))
 					quid       	"46F90EFF028E"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "get__vertex1"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "return _vertex1;"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AccessorGet"
+						value      	"471B9A8D03B9")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471B9C31033C"
+					stereotype 	"const"
+					result     	"const <T>&"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "set__vertex1"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|_vertex1 = value;
+|return;
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AccessorSet"
+						value      	"471B9A8D03B9")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471B9C33005F"
+					parameters 	(list Parameters
+					    (object Parameter "value"
+						quid       	"471B9C33007D"
+						type       	"<T>&"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "get__vertex2"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "return _vertex2;"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AccessorGet"
+						value      	"471B9C3C02EE")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471B9C5A001F"
+					stereotype 	"const"
+					result     	"const <T>&"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "set__vertex2"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|_vertex2 = value;
+|return;
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AccessorSet"
+						value      	"471B9C3C02EE")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471B9C5A0177"
+					parameters 	(list Parameters
+					    (object Parameter "value"
+						quid       	"471B9C5A0186"
+						type       	"<T>&"))
+					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
-				    (object ClassAttribute "_next"
-					quid       	"46F913BE0325"
-					type       	"Elem*"
-					quidu      	"46F8FABB02B2"
-					Containment 	"By Reference"))
+				    (object ClassAttribute "_vertex1"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471B9A8D03B9"
+					documentation 	"начальная вершина"
+					type       	"<T>")
+				    (object ClassAttribute "_vertex2"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471B9C3C02EE"
+					documentation 	"конечная вершина графа"
+					type       	"<T>"))
 				module     	"Component View::eav_oot_lab_1"
 				quidu      	"46F5147A02BF"
-				language   	"VC++")
-			    (object Association "contains"
-				quid       	"46F8FB4F013B"
-				documentation 	"содержит эл-ты типа"
-				stereotype 	"include"
-				roles      	(list role_list
-				    (object Role "firstElem"
-					quid       	"46F8FB4F039C"
-					label      	"firstElem"
-					supplier   	"Logical View::ru.spb.eav::container::Elem"
-					quidu      	"46F8FABB02B2"
-					client_cardinality 	(value cardinality "0..n")
-					exportControl 	"Private"
-					is_navigable 	TRUE
-					is_aggregate 	TRUE)
-				    (object Role "$UNNAMED$1"
-					quid       	"46F8FB4F03AC"
-					supplier   	"Logical View::ru.spb.eav::container::List"
-					quidu      	"46F8F9DF017A"
-					client_cardinality 	(value cardinality "1")
-					Containment 	"By Reference")))
-			    (object Association "secondVertex"
-				quid       	"46F8FB710022"
-				stereotype 	"extend"
-				roles      	(list role_list
-				    (object Role "vertex2"
-					quid       	"46F8FB7101C7"
-					label      	"vertex2"
-					supplier   	"Logical View::ru.spb.eav::shapes::Shape"
-					quidu      	"46F50BDC00BB"
-					client_cardinality 	(value cardinality "1")
-					exportControl 	"Private"
-					is_navigable 	TRUE)
-				    (object Role "$UNNAMED$2"
-					quid       	"46F8FB7101D7"
-					supplier   	"Logical View::ru.spb.eav::container::Elem"
-					quidu      	"46F8FABB02B2"
-					client_cardinality 	(value cardinality "1")
-					Containment 	"By Reference"))))
+				language   	"VC++"
+				parameters 	(list Parameters
+				    (object Parameter "T"
+					quid       	"471B9B91038A"
+					type       	"class"))))
 			logical_presentations 	(list unit_reference_list
 			    (object ClassDiagram "cont_view"
 				quid       	"46F8F9C600CE"
@@ -1875,11 +1897,11 @@
 				origin_x   	0
 				origin_y   	0
 				items      	(list diagram_item_list
-				    (object ClassView "Class" "Logical View::ru.spb.eav::container::Graph" @11
+				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Graph" @11
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
-					location   	(545, 794)
+					location   	(705, 702)
 					font       	(object Font
 					    size       	12
 					    face       	"Arial"
@@ -1892,25 +1914,43 @@
 					    default_color 	TRUE)
 					label      	(object ItemLabel
 					    Parent_View 	@11
-					    location   	(440, 737)
+					    location   	(318, 580)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	210
+					    max_width  	774
 					    justify    	0
 					    label      	"Graph")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F8FA7D014A"
-					width      	228
-					height     	142
+					compartment 	(object Compartment
+					    Parent_View 	@11
+					    location   	(318, 647)
+					    font       	(object Font
+						size       	12
+						face       	"Arial"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	8143653
+						default_color 	TRUE)
+					    icon_style 	"Icon"
+					    fill_color 	16777215
+					    anchor     	2
+					    nlines     	4
+					    max_width  	657)
+					width      	792
+					height     	356
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::container::Elem" @12
+				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Ribble" @12
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
-					location   	(2001, 768)
+					location   	(1812, 1446)
 					font       	(object Font
 					    size       	12
 					    face       	"Arial"
@@ -1923,97 +1963,21 @@
 					    default_color 	TRUE)
 					label      	(object ItemLabel
 					    Parent_View 	@12
-					    location   	(1722, 623)
+					    location   	(1456, 1184)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	558
+					    max_width  	712
 					    justify    	0
-					    label      	"Elem")
+					    label      	"Ribble")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F8FABB02B2"
-					width      	576
-					height     	318
-					annotation 	8
-					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::container::List" @13
-					ShowCompartmentStereotypes 	TRUE
-					IncludeAttribute 	TRUE
-					IncludeOperation 	TRUE
-					location   	(987, 272)
-					font       	(object Font
-					    size       	12
-					    face       	"Arial"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	8143653
-					    default_color 	TRUE)
-					label      	(object ItemLabel
-					    Parent_View 	@13
-					    location   	(677, 127)
-					    fill_color 	13434879
-					    nlines     	1
-					    max_width  	620
-					    justify    	0
-					    label      	"List")
-					icon_style 	"Icon"
-					line_color 	3342489
-					fill_color 	13434879
-					quidu      	"46F8F9DF017A"
-					width      	638
-					height     	318
-					annotation 	8
-					autoResize 	TRUE)
-				    (object InheritView "" @14
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"46F8FA870235"
-					client     	@11
-					supplier   	@13
-					line_style 	0)
-				    (object AssociationViewNew "contains" @15
-					location   	(1509, 526)
-					font       	(object Font
-					    size       	12
-					    face       	"Arial"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	8143653
-					    default_color 	TRUE)
-					label      	(object SegLabel @16
-					    Parent_View 	@15
-					    location   	(1509, 467)
+					compartment 	(object Compartment
+					    Parent_View 	@12
+					    location   	(1456, 1251)
 					    font       	(object Font
 						size       	12
-						face       	"Arial"
-						charSet    	204
-						bold       	FALSE
-						italics    	TRUE
-						underline  	FALSE
-						strike     	FALSE
-						color      	8143653
-						default_color 	TRUE)
-					    anchor     	1
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	450
-					    justify    	0
-					    label      	"contains"
-					    pctDist    	0.500000
-					    height     	60
-					    orientation 	0)
-					stereotype 	(object SegLabel @17
-					    Parent_View 	@15
-					    location   	(1530, 377)
-					    font       	(object Font
-						size       	10
 						face       	"Arial"
 						charSet    	204
 						bold       	FALSE
@@ -2022,122 +1986,40 @@
 						strike     	FALSE
 						color      	8143653
 						default_color 	TRUE)
-					    anchor     	10
+					    icon_style 	"Icon"
+					    fill_color 	16777215
+					    anchor     	2
+					    nlines     	9
+					    max_width  	603)
+					width      	730
+					height     	636
+					annotation 	8
+					autoResize 	TRUE)
+				    (object UsesView "is a list of" @13
+					font       	(object Font
+					    size       	12
+					    face       	"Consolas"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	FALSE)
+					label      	(object ItemLabel
+					    Parent_View 	@13
+					    location   	(1207, 1040)
 					    anchor_loc 	1
 					    nlines     	1
-					    max_width  	450
+					    max_width  	348
 					    justify    	0
-					    label      	"<<include>>"
-					    pctDist    	0.500000
-					    height     	120
-					    orientation 	0)
+					    label      	"is a list of")
+					stereotype 	TRUE
 					line_color 	3342489
-					quidu      	"46F8FB4F013B"
-					roleview_list 	(list RoleViews
-					    (object RoleView "firstElem" @18
-						Parent_View 	@15
-						location   	(522, 254)
-						font       	(object Font
-						    size       	12
-						    face       	"Arial"
-						    charSet    	204
-						    bold       	FALSE
-						    italics    	FALSE
-						    underline  	FALSE
-						    strike     	FALSE
-						    color      	8143653
-						    default_color 	TRUE)
-						label      	(object SegLabel @19
-						    Parent_View 	@18
-						    location   	(1653, 644)
-						    font       	(object Font
-							size       	12
-							face       	"Arial"
-							charSet    	204
-							bold       	FALSE
-							italics    	FALSE
-							underline  	FALSE
-							strike     	FALSE
-							color      	8143653
-							default_color 	TRUE)
-						    anchor     	1
-						    anchor_loc 	1
-						    nlines     	1
-						    max_width  	349
-						    justify    	0
-						    label      	"-firstElem"
-						    pctDist    	0.800000
-						    height     	42
-						    orientation 	1)
-						stereotype 	TRUE
-						line_color 	3342489
-						quidu      	"46F8FB4F039C"
-						client     	@15
-						supplier   	@12
-						line_style 	0
-						label      	(object SegLabel @20
-						    Parent_View 	@18
-						    location   	(1714, 568)
-						    font       	(object Font
-							size       	10
-							face       	"Arial"
-							charSet    	204
-							bold       	FALSE
-							italics    	FALSE
-							underline  	FALSE
-							strike     	FALSE
-							color      	8143653
-							default_color 	TRUE)
-						    anchor     	2
-						    anchor_loc 	1
-						    nlines     	1
-						    max_width  	15
-						    justify    	0
-						    label      	"0..n"
-						    pctDist    	0.900000
-						    height     	54
-						    orientation 	0))
-					    (object RoleView "$UNNAMED$1" @21
-						Parent_View 	@15
-						location   	(522, 254)
-						font       	(object Font
-						    size       	12
-						    face       	"Arial"
-						    charSet    	204
-						    bold       	FALSE
-						    italics    	FALSE
-						    underline  	FALSE
-						    strike     	FALSE
-						    color      	8143653
-						    default_color 	TRUE)
-						stereotype 	TRUE
-						line_color 	3342489
-						quidu      	"46F8FB4F03AC"
-						client     	@15
-						supplier   	@13
-						line_style 	0
-						label      	(object SegLabel @22
-						    Parent_View 	@21
-						    location   	(1351, 389)
-						    font       	(object Font
-							size       	10
-							face       	"Arial"
-							charSet    	204
-							bold       	FALSE
-							italics    	FALSE
-							underline  	FALSE
-							strike     	FALSE
-							color      	8143653
-							default_color 	TRUE)
-						    anchor     	2
-						    anchor_loc 	1
-						    nlines     	1
-						    max_width  	15
-						    justify    	0
-						    label      	"1"
-						    pctDist    	0.900000
-						    height     	54
-						    orientation 	1)))))))))
+					quidu      	"471B9A45004E"
+					client     	@11
+					supplier   	@12
+					line_style 	0))))))
 		logical_presentations 	(list unit_reference_list))
 	    (object Class_Category "VC++ Reverse Engineered"
 		quid       	"46F515C2032C"
@@ -2157,7 +2039,7 @@
 				origin_x   	0
 				origin_y   	0
 				items      	(list diagram_item_list
-				    (object Label @23
+				    (object Label @14
 					font       	(object Font
 					    size       	12
 					    face       	"Arial"
@@ -2175,7 +2057,7 @@
 |This diagram was automatically created by Rational Rose Model Update Tool.
 |22 Сентябрь 2007 г. 17:16:50
 					)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Oval" @24
+				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Oval" @15
 					ShowCompartmentStereotypes 	TRUE
 					location   	(187, 698)
 					font       	(object Font
@@ -2189,7 +2071,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@24
+					    Parent_View 	@15
 					    location   	(9, 613)
 					    fill_color 	13434879
 					    nlines     	1
@@ -2204,7 +2086,7 @@
 					height     	198
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Rectangle" @25
+				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Rectangle" @16
 					ShowCompartmentStereotypes 	TRUE
 					location   	(395, 698)
 					font       	(object Font
@@ -2218,7 +2100,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@25
+					    Parent_View 	@16
 					    location   	(217, 613)
 					    fill_color 	13434879
 					    nlines     	1
@@ -2233,7 +2115,7 @@
 					height     	198
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Text" @26
+				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Text" @17
 					ShowCompartmentStereotypes 	TRUE
 					location   	(680, 698)
 					font       	(object Font
@@ -2247,7 +2129,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@26
+					    Parent_View 	@17
 					    location   	(502, 613)
 					    fill_color 	13434879
 					    nlines     	1
@@ -2262,7 +2144,7 @@
 					height     	198
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::TextInOval" @27
+				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::TextInOval" @18
 					ShowCompartmentStereotypes 	TRUE
 					location   	(395, 990)
 					font       	(object Font
@@ -2276,7 +2158,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@27
+					    Parent_View 	@18
 					    location   	(217, 905)
 					    fill_color 	13434879
 					    nlines     	1
@@ -2291,7 +2173,7 @@
 					height     	198
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @28
+				    (object InheritView "" @19
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2305,10 +2187,10 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C9D00EA"
-					client     	@27
-					supplier   	@24
+					client     	@18
+					supplier   	@15
 					line_style 	0)
-				    (object InheritView "" @29
+				    (object InheritView "" @20
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2322,10 +2204,10 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C9F03C8"
-					client     	@27
-					supplier   	@26
+					client     	@18
+					supplier   	@17
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::container::Graph" @30
+				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Graph" @21
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1350, 390)
 					font       	(object Font
@@ -2339,58 +2221,22 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@30
-					    location   	(1245, 338)
+					    Parent_View 	@21
+					    location   	(1170, 325)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	210
+					    max_width  	360
 					    justify    	0
 					    label      	"Graph")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F8FA7D014A"
-					width      	228
-					height     	132
+					width      	378
+					height     	242
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::container::List" @31
-					ShowCompartmentStereotypes 	TRUE
-					location   	(900, 390)
-					font       	(object Font
-					    size       	12
-					    face       	"Arial"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	8143653
-					    default_color 	TRUE)
-					label      	(object ItemLabel
-					    Parent_View 	@31
-					    location   	(804, 338)
-					    fill_color 	13434879
-					    nlines     	1
-					    max_width  	192
-					    justify    	0
-					    label      	"List")
-					icon_style 	"Icon"
-					line_color 	3342489
-					fill_color 	13434879
-					quidu      	"46F8F9DF017A"
-					width      	210
-					height     	132
-					annotation 	8
-					autoResize 	TRUE)
-				    (object InheritView "" @32
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"46F8FA870235"
-					client     	@30
-					supplier   	@31
-					line_style 	0)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Shape" @33
+				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Shape" @22
 					ShowCompartmentStereotypes 	TRUE
 					location   	(395, 406)
 					font       	(object Font
@@ -2404,7 +2250,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@33
+					    Parent_View 	@22
 					    location   	(211, 318)
 					    fill_color 	13434879
 					    nlines     	1
@@ -2419,7 +2265,7 @@
 					height     	204
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @34
+				    (object InheritView "" @23
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2433,10 +2279,10 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C9401C5"
-					client     	@24
-					supplier   	@33
+					client     	@15
+					supplier   	@22
 					line_style 	0)
-				    (object InheritView "" @35
+				    (object InheritView "" @24
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2450,10 +2296,10 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C4C03D8"
-					client     	@25
-					supplier   	@33
+					client     	@16
+					supplier   	@22
 					line_style 	0)
-				    (object InheritView "" @36
+				    (object InheritView "" @25
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2467,10 +2313,10 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C980280"
-					client     	@26
-					supplier   	@33
+					client     	@17
+					supplier   	@22
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::container::Elem" @37
+				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Ribble" @26
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1170, 750)
 					font       	(object Font
@@ -2484,19 +2330,19 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@37
-					    location   	(995, 667)
+					    Parent_View 	@26
+					    location   	(989, 685)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	350
+					    max_width  	362
 					    justify    	0
-					    label      	"Elem")
+					    label      	"Ribble")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F8FABB02B2"
-					width      	368
-					height     	194
+					width      	380
+					height     	242
 					annotation 	8
 					autoResize 	TRUE))))))
 		logical_presentations 	(list unit_reference_list))
@@ -28421,6 +28267,26 @@
 						type       	"class"))))
 				logical_presentations 	(list unit_reference_list)))
 			logical_presentations 	(list unit_reference_list)))
+		logical_presentations 	(list unit_reference_list))
+	    (object Class_Category "ru"
+		quid       	"471B9AE0035B"
+		exportControl 	"Public"
+		logical_models 	(list unit_reference_list
+		    (object Class_Category "spb"
+			quid       	"471B9AE0036C"
+			exportControl 	"Public"
+			logical_models 	(list unit_reference_list
+			    (object Class_Category "eav"
+				quid       	"471B9AE0036E"
+				exportControl 	"Public"
+				logical_models 	(list unit_reference_list
+				    (object Class_Category "container"
+					quid       	"471B9AE00370"
+					exportControl 	"Public"
+					logical_models 	(list unit_reference_list)
+					logical_presentations 	(list unit_reference_list)))
+				logical_presentations 	(list unit_reference_list)))
+			logical_presentations 	(list unit_reference_list)))
 		logical_presentations 	(list unit_reference_list)))
 	logical_presentations 	(list unit_reference_list
 	    (object ClassDiagram "Main"
@@ -28432,7 +28298,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object CategoryView "Logical View::ru.spb.eav" @38
+		    (object CategoryView "Logical View::ru.spb.eav" @27
 			location   	(328, 238)
 			font       	(object Font
 			    size       	12
@@ -28445,7 +28311,7 @@
 			    color      	8143653
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@38
+			    Parent_View 	@27
 			    location   	(184, 154)
 			    fill_color 	13434879
 			    nlines     	2
@@ -33810,7 +33676,11 @@
 		    (object Attribute
 			tool       	"VC++"
 			name       	"CodeFileName"
-			value      	"")))
+			value      	"")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"Pattern applied"
+			value      	"False")))
 	    (object Attribute
 		tool       	"VC++"
 		name       	"default__Module-Spec"
