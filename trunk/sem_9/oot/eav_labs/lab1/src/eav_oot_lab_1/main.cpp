@@ -11,29 +11,19 @@
 #include <cstring>
 
 #include <vector>
-#include <list>
-#include <deque>
-
 #include <stack>
-#include <queue>
-
 #include <map>
-#include <algorithm>
-//////////////////////////////////////////////////////////////////////////
-// class vector;
-// class list;
-// class string;
+
 //////////////////////////////////////////////////////////////////////////
 #include "Rectangle.h"
 #include "TextInOval.h"
 //////////////////////////////////////////////////////////////////////////
 using namespace std;
-
 //////////////////////////////////////////////////////////////////////////
 // тестирует операции с фигурами
 void shapeTest()
 {
-    cout<<"\ttesting shapes"<<endl;
+    cout<<"\ttesting shapes\n"<<endl;
 
     Shape* rect = new Rectangle(1,2);
     cout<<*rect<<endl;
@@ -48,55 +38,36 @@ void shapeTest()
 // тестирует операции с последовательностями
 void sequenceTest()
 {
-    cout<<"\t\ttesting sequences"<<endl<<"\t\t";
+    cout<<"\t\ttesting sequence\n\t\t";
     int i;
     int containerSize = 7;
 
     // создаем вектор
     vector<int> numVector(0);
+    vector<int>::iterator iter;
     // заполняем его
     for (i = 0; i < containerSize; ++i)
     {
         numVector.push_back(i);
     }
     // проверяем порядок заполнения   
+    for (iter = numVector.begin(); iter != numVector.end(); iter++)
+    {
+        cout<< *iter <<" "; 
+    }
+    cout<<"\n\t\tsame as\n\t\t";
+    // то же самое индексированием
     for (i = 0; i < numVector.size(); ++i)
     {
-        cout<<numVector[i]<<" ";
+        cout<<numVector.at(i)<<" ";
     }
     cout<<endl;
-
-//     // создаем список
-//     list<int> numList(0);
-//     // заполняем его
-//     for (i=0; i < containerSize; i++)
-//     {
-//         numList.push_back(i);
-//     }
-//     // тестируем порядок заполнения
-//     int res;
-//     for (i = 0; i < numList.size(); i++)
-//     {
-//         res = numList.front();
-//         cout<<res<<" ";
-//         numList.pop_front();
-//         numList.push_back(res);
-//     }
-//     cout<<endl;
-// 
-//     // создаем двунаправленную очередь
-//     deque<int> numDeque(0);
-//     // заполняем ее
-//     for (i = 0; i < containerSize; ++i)
-//     {
-// 
-//     }
 }
 //////////////////////////////////////////////////////////////////////////
 // тестирует операции с адаптерами последовательностей
 void adapterTest()
 {
-    cout<<"\t\ttesting adapters"<<endl<<"\t\t";
+    cout<<"\t\ttesting adaptor\n\t\t";
     int i;
     int containerSize = 7;
     // создаем стек
@@ -116,18 +87,19 @@ void adapterTest()
     cout<<endl;
 }
 /////////////////////////////////////////////////////////////////////////
+// отношение порядка
 struct ltstr
 {
-  bool operator()(const char* s1, const char* s2) const
-  {
-    return strcmp(s1, s2) < 0;
-  }
+    bool operator()(const char* s1, const char* s2) const
+    {
+        return strcmp(s1, s2) < 0;
+    }
 };
 
 // тестирует операции с ассоциативными контейнерами
 void assocTest()
 {
-    cout<<"\t\ttesting associative containers"<<endl<<"\t\t";
+    cout<<"\t\ttesting associative containers\n\t\t";
 
     map<const char*, int, ltstr> monthMap;
     map<const char*, int, ltstr>::iterator iter;
@@ -151,21 +123,36 @@ void assocTest()
     cout<<endl;
 }
 //////////////////////////////////////////////////////////////////////////
-// тестирует операции с контейнерами и итераторами
-void containerTest()
+// тестирует операции с последовательностями и фигурами
+void shapeSequenceTest()
 {
-    cout<<"\ttesting containers"<<endl;
-
-    sequenceTest();
-    adapterTest();
-    assocTest();    
+    cout<<"\t\ttesting shape sequence\n";
+    
+    // создаем вектор
+    vector<Shape*> shapeVector(0);
+    vector<Shape*>::iterator iter;
+    // заполняем его
+    shapeVector.push_back(new Rectangle(1, 2));
+    shapeVector.push_back(new Oval(3, 4));
+    shapeVector.push_back(new Text());
+    shapeVector.push_back(new TextInOval(5,6));
+    // проверяем порядок заполнения   
+    for (iter = shapeVector.begin(); iter != shapeVector.end(); iter++)
+    {
+        cout<<*((Shape*)*iter);
+    }
+    cout<<endl;
 }
 //////////////////////////////////////////////////////////////////////////
 int main()
 {
     shapeTest();
 
-    containerTest();
+    sequenceTest();
+    adapterTest();
+    assocTest();
+    
+    shapeSequenceTest();
 
     return 0;
 }
