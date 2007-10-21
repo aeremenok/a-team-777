@@ -12,6 +12,13 @@
 class Graph 
 : public List
 {
+public:
+ //##ModelId=471BB2E30271
+ Graph();
+
+ //##ModelId=471BB2E30280
+ virtual ~Graph();
+
 };
 
 #endif /* _INC_GRAPH_46F8FA7D014A_INCLUDED */

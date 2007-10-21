@@ -8,19 +8,19 @@
 
 class Elem;
 
-//##ModelId=46F8F9DF017A
+//##ModelId=471BB282031C
 class List 
 {
 private:
-	//##ModelId=46F8FB4F039C
+	//##ModelId=471BB282032D
 	Elem* firstElem;
 
 public:
 
-	//##ModelId=46F8FD04033E
+	//##ModelId=471BB2820331
 	virtual ~List();
 
-	//##ModelId=46F8FD05016C
+	//##ModelId=471BB2820333
 	List();
 
 };
