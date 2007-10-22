@@ -9,6 +9,7 @@
 #include <list>
 
 #include "Ribble.h"
+#include "stdafx.h"
 //////////////////////////////////////////////////////////////////////////
 using namespace std;
 //////////////////////////////////////////////////////////////////////////
@@ -17,6 +18,39 @@ using namespace std;
 template<class T> class Graph 
 {
 private:
+ //внутрениий итератор
+ //##ModelId=471C6F3A0222
+ template<class T>
+ class internalIterator 
+ {
+ public:
+  //##ModelId=471C7927034B
+  virtual Ribble<T> first()
+ {
+  // ToDo: Add your specialized code here
+  
+  return static_cast<Ribble<T>>(0);
+ }
+
+
+  //##ModelId=471C79280271
+  virtual Ribble<T> nextLeft()
+ {
+  // ToDo: Add your specialized code here
+  
+  return static_cast<Ribble<T>>(0);
+ }
+
+
+  //##ModelId=471C79320119
+  internalIterator()
+ {
+  // ToDo: Add your specialized code here and/or call the base class
+ }
+
+ };
+
+
  //список ребер
  //##ModelId=471BB7C90138
  list< Ribble<T> > _ribbleList;
