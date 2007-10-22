@@ -9,7 +9,6 @@
 #include <list>
 
 #include "Ribble.h"
-#include "stdafx.h"
 //////////////////////////////////////////////////////////////////////////
 using namespace std;
 //////////////////////////////////////////////////////////////////////////
@@ -21,7 +20,7 @@ private:
  //внутрениий итератор
  //##ModelId=471C6F3A0222
  template<class T>
- class internalIterator 
+ class GraphIterator 
  {
  public:
   //##ModelId=471C7927034B
@@ -41,12 +40,6 @@ private:
   return static_cast<Ribble<T>>(0);
  }
 
-
-  //##ModelId=471C79320119
-  internalIterator()
- {
-  // ToDo: Add your specialized code here and/or call the base class
- }
 
  };
 
