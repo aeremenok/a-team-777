@@ -17,33 +17,19 @@ class GraphIterator
 {
 public:
  //##ModelId=471BCC2A0242
- virtual Ribble<T> first()
- {
-  // ToDo: Add your specialized code here
-  
-  return static_cast<Ribble<T>>(0);
- }
+ virtual Ribble<T> first();
 
 
  //##ModelId=471BCC2B008E
- virtual Ribble<T> nextLeft()
- {
-  // ToDo: Add your specialized code here
-  
-  return static_cast<Ribble<T>>(0);
- }
-
+ virtual Ribble<T> nextLeft();
 
  //##ModelId=471BCCB800FA
- GraphIterator()
- {
-  // ToDo: Add your specialized code here and/or call the base class
- }
+ GraphIterator();
 
 private:
  //##ModelId=471BCC37037A
  Graph* _graph;
 
 };
-
+//////////////////////////////////////////////////////////////////////////
 #endif /* _INC_GRAPHITERATOR_471BCB66034B_INCLUDED */
