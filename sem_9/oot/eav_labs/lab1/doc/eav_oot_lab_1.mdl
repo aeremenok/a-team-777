@@ -1798,14 +1798,21 @@
 					    (object Attribute
 						tool       	"VC++"
 						name       	"CodeName"
-						value      	"internalIterator"))
+						value      	"")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AttachedTemplateName"
+						value      	""))
 					quid       	"471C6F3A0222"
 					documentation 	"внутрениий итератор"
 					superclasses 	(list inheritance_relationship_list
 					    (object Inheritance_Relationship
 						quid       	"471C791C02CE"
+						documentation 	"внутренний итератор реализует внешний интерфейс"
+						label      	"implements"
 						supplier   	"Logical View::ru.spb.eav::container::Iterator"
 						quidu      	"471BCA1D009C"
+						exportControl 	"Private"
 						virtual    	TRUE))
 					exportControl 	"Private"
 					operations 	(list Operations
@@ -1854,32 +1861,6 @@
 						quid       	"471C79280271"
 						stereotype 	"virtual"
 						result     	"Ribble<T>"
-						concurrency 	"Sequential"
-						opExportControl 	"Public"
-						uid        	0)
-					    (object Operation "GraphIterator"
-						attributes 	(list Attribute_Set
-						    (object Attribute
-							tool       	"VC++"
-							name       	"DefaultBody"
-							value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
-						    (object Attribute
-							tool       	"VC++"
-							name       	"ClassMethod"
-							value      	"$NAME()")
-						    (object Attribute
-							tool       	"VC++"
-							name       	"Inline"
-							value      	FALSE)
-						    (object Attribute
-							tool       	"VC++"
-							name       	"CodeName"
-							value      	"internalIterator")
-						    (object Attribute
-							tool       	"VC++"
-							name       	"ClassName"
-							value      	"GraphIterator"))
-						quid       	"471C79320119"
 						concurrency 	"Sequential"
 						opExportControl 	"Public"
 						uid        	0))
@@ -2168,7 +2149,7 @@
 				zoom       	100
 				max_height 	28350
 				max_width  	21600
-				origin_x   	332
+				origin_x   	331
 				origin_y   	0
 				items      	(list diagram_item_list
 				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Ribble" @11
@@ -2385,10 +2366,10 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@16
-					    location   	(254, 989)
+					    location   	(253, 1012)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	626
+					    max_width  	628
 					    justify    	0
 					    label      	"GraphIterator")
 					icon_style 	"Icon"
@@ -2397,7 +2378,7 @@
 					quidu      	"471C6F3A0222"
 					compartment 	(object Compartment
 					    Parent_View 	@16
-					    location   	(254, 1109)
+					    location   	(253, 1132)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -2411,13 +2392,31 @@
 					    icon_style 	"Icon"
 					    fill_color 	13434879
 					    anchor     	2
-					    nlines     	4
+					    nlines     	3
 					    max_width  	531)
-					width      	644
-					height     	378
+					width      	646
+					height     	332
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @17
+				    (object InheritView "implements" @17
+					font       	(object Font
+					    size       	12
+					    face       	"Consolas"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	FALSE)
+					label      	(object ItemLabel
+					    Parent_View 	@17
+					    location   	(822, 685)
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	284
+					    justify    	0
+					    label      	"implements")
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"471C791C02CE"
