@@ -118,30 +118,6 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\Graph.cpp
-
-!IF  "$(CFG)" == "eav_oot_lab_1 - Win32 Release"
-
-# SUBTRACT CPP /YX
-
-!ELSEIF  "$(CFG)" == "eav_oot_lab_1 - Win32 Debug"
-
-# SUBTRACT CPP /YX /Yc /Yu
-
-!ELSEIF  "$(CFG)" == "eav_oot_lab_1 - Win32 777"
-
-# SUBTRACT BASE CPP /YX /Yc /Yu
-# SUBTRACT CPP /YX /Yc /Yu
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\GraphIterator.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\main.cpp
 
 !IF  "$(CFG)" == "eav_oot_lab_1 - Win32 Release"
@@ -199,10 +175,6 @@ SOURCE=.\Rectangle.cpp
 
 !ENDIF 
 
-# End Source File
-# Begin Source File
-
-SOURCE=.\Ribble.cpp
 # End Source File
 # Begin Source File
 
@@ -271,10 +243,6 @@ SOURCE=.\TextInOval.cpp
 # Begin Source File
 
 SOURCE=.\Graph.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\GraphIterator.h
 # End Source File
 # Begin Source File
 

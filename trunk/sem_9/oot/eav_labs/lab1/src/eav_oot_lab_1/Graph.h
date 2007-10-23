@@ -21,54 +21,83 @@ private:
     //внутрениий итератор
     //##ModelId=471C6F3A0222
     template<class T>
-        class GraphIterator : Iterator<T>
+        class GraphIterator : public Iterator<T>
     {
     public:
-        //##ModelId=471C7927034B
-        virtual Ribble<T> first()
+        //перейти к первому эл-ту
+        //##ModelId=471E5F210177
+        virtual Ribble<T>* first()
         {
 
-        };
+        }
 
-        //##ModelId=471C79280271
-        virtual Ribble<T> nextLeft()
+        //перейти к следующему эл-ту
+        //##ModelId=471E5F21031C
+        virtual Ribble<T>* next()
         {
 
-        };
+        }
+
+        //##ModelId=471E5A1F0213
+        GraphIterator()
+        {
+
+        }
     };
 
     //список ребер
     //##ModelId=471BB7C90138
-    list< Ribble<T> > _ribbleList;
-
+    list< Ribble<T> >* _ribbleList;
 public:
     //добавить ребро
     //##ModelId=471BBA1B0177
     void addRibble(T vertex1, T vertex2)
     {
         Ribble<T> ribble(vertex1, vertex2);
-        _ribbleList.push_back(ribble);
+        addRibble(ribble);
     };
 
     //добавить готовое ребро
     //##ModelId=471BBA680399
     void addRibble(Ribble<T> ribble)
     {
-        _ribbleList.push_back(ribble);
+        // проверяем, нет ли уже такого ребра
+        list< Ribble<T> >::iterator iter;
+        bool isPresent = false;
+        for (iter = _ribbleList->begin(); iter != _ribbleList->end(); iter++)
+        {
+            if (*(iter) == ribble)
+            {
+                isPresent = true;
+                iter = _ribbleList->end();
+            }
+        }
+        // если нет - добавляем
+        if (!isPresent)
+        {
+            _ribbleList->push_back(ribble);
+        }
     };
 
     //удалить ребро, не удаляя его вершин
     //##ModelId=471BBA9D038A
     void removeRibble(Ribble<T> ribble)
     {
-        _ribbleList.remove(ribble);
+        _ribbleList->remove(ribble);
     };
 
-    // удалить вершину
+    //удалить вершину
     //##ModelId=471BBAE20290
     void removeVertex(T vertex)
     {
-
+        list< Ribble<T> >::iterator iter;
+        for (iter = _ribbleList->begin(); iter != _ribbleList->end(); iter++)
+        {
+            if ((*iter).contains(T))
+            {
+                _ribbleList->remove(*iter);
+            }
+        }
     };
 
     //##ModelId=471BB2E30271
@@ -80,7 +109,7 @@ public:
     //##ModelId=471BB2E30280
     virtual ~Graph()
     {
-        _ribbleList.clear();
+        _ribbleList->clear();
     };
 };
 //////////////////////////////////////////////////////////////////////////

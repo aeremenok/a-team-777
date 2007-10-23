@@ -12,6 +12,19 @@ template<class T>
 class Ribble 
 {
 public:
+    //##ModelId=471E60A600FA
+    bool operator==(const Ribble& rhs) const
+    {
+        return (_vertex1==rhs._vertex1) && (_vertex2==rhs._vertex2);
+    }
+
+ //принадлежит ли вершина ребру
+ //##ModelId=471E5B6D032C
+ bool contains(T vertex)
+ {
+    return (_vertex1 == vertex) || (_vertex2 == vertex);
+ }
+
  //##ModelId=471E4BB5034B
  Ribble(T vertex1, T vertex2)
  {
