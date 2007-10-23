@@ -12,8 +12,15 @@ template<class T>
 class Ribble 
 {
 public:
- //##ModelId=471BB589037A
- Ribble();
+ //##ModelId=471E4BB5034B
+ Ribble(T vertex1, T vertex2);
+
+ //##ModelId=471E3CE002EE
+ const T& get__vertex2() const;
+
+
+ //##ModelId=471E3CE10215
+ void set__vertex2(T& value);
 
  //##ModelId=471BB58C010A
  virtual ~Ribble();
@@ -27,19 +34,13 @@ public:
  void set__vertex1(T& value);
 
 
- //##ModelId=471BB5B101A6
- const T& get__vertext2() const;
-
-
- //##ModelId=471BB5B1032E
- void set__vertext2(T& value);
 
 private:
  //##ModelId=471BB58F01E4
  T _vertex1;
 
  //##ModelId=471BB5A20157
- T _vertext2;
+ T _vertex2;
 
 };
 //////////////////////////////////////////////////////////////////////////
