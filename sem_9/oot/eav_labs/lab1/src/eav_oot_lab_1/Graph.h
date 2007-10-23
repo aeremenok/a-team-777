@@ -9,6 +9,7 @@
 #include <list>
 
 #include "Ribble.h"
+#include "Iterator.h"
 //////////////////////////////////////////////////////////////////////////
 using namespace std;
 //////////////////////////////////////////////////////////////////////////
@@ -17,61 +18,44 @@ using namespace std;
 template<class T> class Graph 
 {
 private:
- //внутрениий итератор
- //##ModelId=471C6F3A0222
- template<class T>
- class GraphIterator 
- {
- public:
-  //##ModelId=471C7927034B
-  virtual Ribble<T> first()
- {
-  // ToDo: Add your specialized code here
-  
-  return static_cast<Ribble<T>>(0);
- }
+    //внутрениий итератор
+    //##ModelId=471C6F3A0222
+    template<class T>
+        class GraphIterator : Iterator<T>
+    {
+    public:
+        //##ModelId=471C7927034B
+        virtual Ribble<T> first();
 
+        //##ModelId=471C79280271
+        virtual Ribble<T> nextLeft();
+    };
 
-  //##ModelId=471C79280271
-  virtual Ribble<T> nextLeft()
- {
-  // ToDo: Add your specialized code here
-  
-  return static_cast<Ribble<T>>(0);
- }
-
-
- };
-
-
- //список ребер
- //##ModelId=471BB7C90138
- list< Ribble<T> > _ribbleList;
+    //список ребер
+    //##ModelId=471BB7C90138
+    list< Ribble<T> > _ribbleList;
 
 public:
- //добавить ребро
- //##ModelId=471BBA1B0177
- void addRibble(T vertex1, T vertex2);
+    //добавить ребро
+    //##ModelId=471BBA1B0177
+    void addRibble(T vertex1, T vertex2);
 
+    //добавить готовое ребро
+    //##ModelId=471BBA680399
+    void addRibble(Ribble<T> ribble);
 
- //добавить готовое ребро
- //##ModelId=471BBA680399
- void addRibble(Ribble<T> ribble);
+    //удалить ребро, не удаляя его вершин
+    //##ModelId=471BBA9D038A
+    void removeRibble(Ribble<T> ribble);
 
+    //##ModelId=471BBAE20290
+    void removeVertex(T vertex);
 
- //удалить ребро, не удаляя его вершин
- //##ModelId=471BBA9D038A
- void removeRibble(Ribble<T> ribble);
+    //##ModelId=471BB2E30271
+    Graph();
 
-
- //##ModelId=471BBAE20290
- void removeVertex(T vertex);
-
- //##ModelId=471BB2E30271
- Graph();
-
- //##ModelId=471BB2E30280
- virtual ~Graph();
+    //##ModelId=471BB2E30280
+    virtual ~Graph();
 };
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_GRAPH_46F8FA7D014A_INCLUDED */

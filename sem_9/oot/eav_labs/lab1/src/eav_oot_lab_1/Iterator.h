@@ -5,9 +5,9 @@
 #endif
 #ifndef _INC_EXTERNALITERATOR_471BCA1D009C_INCLUDED
 #define _INC_EXTERNALITERATOR_471BCA1D009C_INCLUDED
-
+//////////////////////////////////////////////////////////////////////////
 #include "Ribble.h"
-
+//////////////////////////////////////////////////////////////////////////
 //внешний интерфейс итератора
 //##ModelId=471BCA1D009C
 template<class T>
@@ -23,5 +23,5 @@ public:
  virtual Ribble<T> first() = 0;
 
 };
-
+//////////////////////////////////////////////////////////////////////////
 #endif /* _INC_EXTERNALITERATOR_471BCA1D009C_INCLUDED */

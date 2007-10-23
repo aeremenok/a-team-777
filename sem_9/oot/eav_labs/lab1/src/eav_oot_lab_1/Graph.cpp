@@ -4,22 +4,22 @@
 #include "Ribble.h"
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=471BB2E30271
-template<class T> Graph<T >::Graph ()
+template<class T> Graph<T>::Graph()
 {
- // ToDo: Add your specialized code here and/or call the base class
+    cout<<"!"<<endl;
 }
 
 //##ModelId=471BB2E30280
-template<class T> Graph<T> ::~Graph ()
+template<class T> Graph<T>::~Graph ()
 {
- // ToDo: Add your specialized code here and/or call the base class
+    cout<<"?"<<endl;
 }
 
 //##ModelId=471BBA1B0177
 template<class T>
 void Graph<T>::addRibble( T vertex1, T vertex2 )
 {
-    // TODO: Add your specialized code here.
+    cout<<"???"<<endl;
 }
 
 //##ModelId=471BBA680399
@@ -41,5 +41,20 @@ template<class T>
 void Graph<T>::removeVertex( T vertex )
 {
     // TODO: Add your specialized code here.
+}
+//////////////////////////////////////////////////////////////////////////
+template<class T>
+Ribble<T> Graph<T>::GraphIterator<T>::first()
+{
+    // ToDo: Add your specialized code here
+    
+    return static_cast<Ribble<T>>(0);
+}
+template<class T>
+Ribble<T> Graph<T>::GraphIterator<T>::nextLeft()
+{
+    // ToDo: Add your specialized code here
+    
+    return static_cast<Ribble<T>>(0);
 }
 //////////////////////////////////////////////////////////////////////////
