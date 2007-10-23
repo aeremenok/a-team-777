@@ -25,10 +25,16 @@ private:
     {
     public:
         //##ModelId=471C7927034B
-        virtual Ribble<T> first();
+        virtual Ribble<T> first()
+        {
+
+        };
 
         //##ModelId=471C79280271
-        virtual Ribble<T> nextLeft();
+        virtual Ribble<T> nextLeft()
+        {
+
+        };
     };
 
     //список ребер
@@ -38,24 +44,44 @@ private:
 public:
     //добавить ребро
     //##ModelId=471BBA1B0177
-    void addRibble(T vertex1, T vertex2);
+    void addRibble(T vertex1, T vertex2)
+    {
+        Ribble<T> ribble(vertex1, vertex2);
+        _ribbleList.push_back(ribble);
+    };
 
     //добавить готовое ребро
     //##ModelId=471BBA680399
-    void addRibble(Ribble<T> ribble);
+    void addRibble(Ribble<T> ribble)
+    {
+        _ribbleList.push_back(ribble);
+    };
 
     //удалить ребро, не удаляя его вершин
     //##ModelId=471BBA9D038A
-    void removeRibble(Ribble<T> ribble);
+    void removeRibble(Ribble<T> ribble)
+    {
+        _ribbleList.remove(ribble);
+    };
 
+    // удалить вершину
     //##ModelId=471BBAE20290
-    void removeVertex(T vertex);
+    void removeVertex(T vertex)
+    {
+
+    };
 
     //##ModelId=471BB2E30271
-    Graph();
+    Graph() 
+    {
+        
+    };
 
     //##ModelId=471BB2E30280
-    virtual ~Graph();
+    virtual ~Graph()
+    {
+        _ribbleList.clear();
+    };
 };
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_GRAPH_46F8FA7D014A_INCLUDED */
