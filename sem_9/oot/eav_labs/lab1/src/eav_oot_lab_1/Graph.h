@@ -86,7 +86,7 @@ public:
         _ribbleList->remove(ribble);
     };
 
-    //удалить вершину
+ // удалить вершину
     //##ModelId=471BBAE20290
     void removeVertex(T vertex)
     {

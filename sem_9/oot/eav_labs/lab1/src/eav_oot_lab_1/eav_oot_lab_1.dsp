@@ -67,7 +67,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
+# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /c
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
 # ADD RSC /l 0x419 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -116,6 +116,21 @@ LINK32=link.exe
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# Begin Source File
+
+SOURCE=.\GraphException.cpp
+
+!IF  "$(CFG)" == "eav_oot_lab_1 - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "eav_oot_lab_1 - Win32 Debug"
+
+# SUBTRACT CPP /YX
+
+!ELSEIF  "$(CFG)" == "eav_oot_lab_1 - Win32 777"
+
+!ENDIF 
+
+# End Source File
 # Begin Source File
 
 SOURCE=.\main.cpp
@@ -172,6 +187,36 @@ SOURCE=.\Rectangle.cpp
 
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\RibbleExistsException.cpp
+
+!IF  "$(CFG)" == "eav_oot_lab_1 - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "eav_oot_lab_1 - Win32 Debug"
+
+# SUBTRACT CPP /YX
+
+!ELSEIF  "$(CFG)" == "eav_oot_lab_1 - Win32 777"
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\RibbleNotFoundException.cpp
+
+!IF  "$(CFG)" == "eav_oot_lab_1 - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "eav_oot_lab_1 - Win32 Debug"
+
+# SUBTRACT CPP /YX
+
+!ELSEIF  "$(CFG)" == "eav_oot_lab_1 - Win32 777"
 
 !ENDIF 
 
@@ -236,6 +281,21 @@ SOURCE=.\TextInOval.cpp
 !ENDIF 
 
 # End Source File
+# Begin Source File
+
+SOURCE=.\VertexNotFoundException.cpp
+
+!IF  "$(CFG)" == "eav_oot_lab_1 - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "eav_oot_lab_1 - Win32 Debug"
+
+# SUBTRACT CPP /YX
+
+!ELSEIF  "$(CFG)" == "eav_oot_lab_1 - Win32 777"
+
+!ENDIF 
+
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -243,6 +303,10 @@ SOURCE=.\TextInOval.cpp
 # Begin Source File
 
 SOURCE=.\Graph.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\GraphException.h
 # End Source File
 # Begin Source File
 
@@ -262,6 +326,14 @@ SOURCE=.\Ribble.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\RibbleExistsException.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\RibbleNotFoundException.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Shape.h
 # End Source File
 # Begin Source File
@@ -271,6 +343,10 @@ SOURCE=.\Text.h
 # Begin Source File
 
 SOURCE=.\TextInOval.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\VertexNotFoundException.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

@@ -151,8 +151,16 @@ void shapeSequenceTest()
 //////////////////////////////////////////////////////////////////////////
 void graphTest()
 {
-     Graph<int>* myGraph = new Graph<int>();
-     myGraph->addRibble(1, 2);
+    Graph<int>* myGraph = new Graph<int>();
+//     try
+//     {
+        myGraph->addRibble(1, 2);
+//    }
+//     catch (CException* e)
+//     {
+//         LPCSTR result;
+//         cout<<e->GetErrorMessage(result, 777)<<endl;
+//     }
 }
 //////////////////////////////////////////////////////////////////////////
 int main()
