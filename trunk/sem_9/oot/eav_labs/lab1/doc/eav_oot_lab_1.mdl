@@ -1688,6 +1688,7 @@
 						documentation 	"конечная вершина"
 						type       	"T"))
 					result     	"void"
+					exceptions 	"Logical View::ru.spb.eav::exceptions::RibbleExistsException[471F7F900290]"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -1714,6 +1715,7 @@
 						documentation 	"новое ребро"
 						type       	"Ribble<T>"))
 					result     	"void"
+					exceptions 	"Logical View::ru.spb.eav::exceptions::RibbleExistsException[471F7F900290]"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -1739,6 +1741,7 @@
 						quid       	"471BBA9D03A9"
 						type       	"Ribble<T>"))
 					result     	"void"
+					exceptions 	"Logical View::ru.spb.eav::exceptions::RibbleNotFoundException[471F7FD6004E]"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -1765,6 +1768,7 @@
 						documentation 	"удалить вершину"
 						type       	"T"))
 					result     	"void"
+					exceptions 	"Logical View::ru.spb.eav::exceptions::VertexNotFoundException[471F7FBF03D8]"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -2238,16 +2242,16 @@
 				zoom       	100
 				max_height 	28350
 				max_width  	21600
-				origin_x   	212
+				origin_x   	0
 				origin_y   	0
 				items      	(list diagram_item_list
 				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Ribble" @11
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
-					location   	(2013, 885)
+					location   	(2151, 1203)
 					font       	(object Font
-					    size       	12
+					    size       	10
 					    face       	"Consolas"
 					    charSet    	204
 					    bold       	FALSE
@@ -2258,10 +2262,10 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@11
-					    location   	(1586, 580)
+					    location   	(1811, 958)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	854
+					    max_width  	680
 					    justify    	0
 					    label      	"Ribble")
 					icon_style 	"Icon"
@@ -2270,9 +2274,9 @@
 					quidu      	"471BB47802AF"
 					compartment 	(object Compartment
 					    Parent_View 	@11
-					    location   	(1586, 650)
+					    location   	(1811, 1016)
 					    font       	(object Font
-						size       	12
+						size       	10
 						face       	"Consolas"
 						charSet    	204
 						bold       	FALSE
@@ -2285,18 +2289,18 @@
 					    fill_color 	13434879
 					    anchor     	2
 					    nlines     	10
-					    max_width  	725)
-					width      	872
-					height     	728
+					    max_width  	584)
+					width      	698
+					height     	584
 					annotation 	8
 					autoResize 	TRUE)
 				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Iterator" @12
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
-					location   	(1065, 279)
+					location   	(1158, 1473)
 					font       	(object Font
-					    size       	12
+					    size       	10
 					    face       	"Consolas"
 					    charSet    	204
 					    bold       	FALSE
@@ -2307,7 +2311,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@12
-					    location   	(777, 199)
+					    location   	(870, 1392)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	576
@@ -2319,7 +2323,7 @@
 					quidu      	"471BCA1D009C"
 					compartment 	(object Compartment
 					    Parent_View 	@12
-					    location   	(777, 269)
+					    location   	(870, 1450)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -2334,9 +2338,9 @@
 					    fill_color 	13434879
 					    anchor     	2
 					    nlines     	3
-					    max_width  	488)
+					    max_width  	496)
 					width      	594
-					height     	278
+					height     	256
 					annotation 	8
 					autoResize 	TRUE)
 				    (object UsesView "iterates by" @13
@@ -2352,7 +2356,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@13
-					    location   	(1431, 511)
+					    location   	(1629, 1344)
 					    anchor_loc 	1
 					    nlines     	1
 					    max_width  	370
@@ -2368,9 +2372,9 @@
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
-					location   	(1125, 1710)
+					location   	(2196, 1956)
 					font       	(object Font
-					    size       	12
+					    size       	10
 					    face       	"Consolas"
 					    charSet    	204
 					    bold       	FALSE
@@ -2381,10 +2385,10 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@14
-					    location   	(583, 1464)
+					    location   	(1766, 1758)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	1084
+					    max_width  	860
 					    justify    	0
 					    label      	"Graph")
 					icon_style 	"Icon"
@@ -2393,9 +2397,9 @@
 					quidu      	"46F8FA7D014A"
 					compartment 	(object Compartment
 					    Parent_View 	@14
-					    location   	(583, 1534)
+					    location   	(1766, 1816)
 					    font       	(object Font
-						size       	12
+						size       	10
 						face       	"Consolas"
 						charSet    	204
 						bold       	FALSE
@@ -2408,14 +2412,18 @@
 					    fill_color 	16777215
 					    anchor     	2
 					    nlines     	8
-					    max_width  	922)
-					width      	1102
-					height     	610
+					    max_width  	737)
+					width      	878
+					height     	490
 					annotation 	8
 					autoResize 	TRUE)
-				    (object UsesView "has as base a list of" @15
+				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Graph::GraphIterator" @15
+					ShowCompartmentStereotypes 	TRUE
+					IncludeAttribute 	TRUE
+					IncludeOperation 	TRUE
+					location   	(1167, 2049)
 					font       	(object Font
-					    size       	12
+					    size       	10
 					    face       	"Consolas"
 					    charSet    	204
 					    bold       	FALSE
@@ -2426,36 +2434,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@15
-					    location   	(1535, 1327)
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	588
-					    justify    	0
-					    label      	"has as base a list of")
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"471BB48C006D"
-					client     	@14
-					supplier   	@11
-					line_style 	0)
-				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Graph::GraphIterator" @16
-					ShowCompartmentStereotypes 	TRUE
-					IncludeAttribute 	TRUE
-					IncludeOperation 	TRUE
-					location   	(591, 957)
-					font       	(object Font
-					    size       	12
-					    face       	"Consolas"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	0
-					    default_color 	FALSE)
-					label      	(object ItemLabel
-					    Parent_View 	@16
-					    location   	(316, 827)
+					    location   	(892, 1925)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	550
@@ -2466,8 +2445,8 @@
 					fill_color 	13434879
 					quidu      	"471C6F3A0222"
 					compartment 	(object Compartment
-					    Parent_View 	@16
-					    location   	(316, 947)
+					    Parent_View 	@15
+					    location   	(892, 2021)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -2482,17 +2461,818 @@
 					    fill_color 	13434879
 					    anchor     	2
 					    nlines     	4
-					    max_width  	466)
+					    max_width  	475)
 					width      	568
-					height     	378
+					height     	342
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @17
+				    (object InheritView "" @16
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"471E5F1C03B9"
-					client     	@16
+					client     	@15
 					supplier   	@12
+					line_style 	0)
+				    (object UsesView "has as base a list of" @17
+					font       	(object Font
+					    size       	12
+					    face       	"Consolas"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	FALSE)
+					label      	(object ItemLabel
+					    Parent_View 	@17
+					    location   	(2173, 1602)
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	588
+					    justify    	0
+					    label      	"has as base a list of")
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"471BB48C006D"
+					client     	@14
+					supplier   	@11
+					line_style 	0)))))
+		    (object Class_Category "exceptions"
+			quid       	"471F99640271"
+			exportControl 	"Public"
+			logical_models 	(list unit_reference_list
+			    (object Class "GraphException"
+				attributes 	(list Attribute_Set
+				    (object Attribute
+					tool       	"VC++"
+					name       	"LastAppliedTemplate"
+					value      	"C:\\Program Files\\Rational\\Rose\\vc\\templates")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"Generate"
+					value      	TRUE)
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AppliedPattern"
+					value      	"Default"))
+				quid       	"471F849B00AB"
+				operations 	(list Operations
+				    (object Operation "get__description"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "return _description;"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AccessorGet"
+						value      	"471F866C0000")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F868D0109"
+					stereotype 	"const, virtual"
+					result     	"const string&"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Exception"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F872800BB"
+					parameters 	(list Parameters
+					    (object Parameter "message"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"CodeName"
+							value      	""))
+						quid       	"471F872800DA"
+						type       	"string"))
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text ""))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F8742038A"
+					documentation 	"получить информацию об исключении"
+					stereotype 	"virtual"
+					result     	"string"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "printException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text ""))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F878E02DE"
+					documentation 	"вывести информацию об исключении в консоль"
+					stereotype 	"virtual"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "GraphException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"$NAME()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"GraphException"))
+					quid       	"471F9A8700DA"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "~GraphException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"~$NAME()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"GraphException"))
+					quid       	"471F9A8700EA"
+					stereotype 	"virtual"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0))
+				class_attributes 	(list class_attribute_list
+				    (object ClassAttribute "_description"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F866C0000"
+					documentation 	"описание ошибки"
+					type       	"string")
+				    (object ClassAttribute "_exceptionName"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F869B03C8"
+					documentation 	"название ошибки"
+					type       	"string"
+					initv      	
+|"exception"
+					
+					exportControl 	"Protected"
+					static     	TRUE))
+				module     	"Component View::eav_oot_lab_1"
+				quidu      	"46F5147A02BF"
+				language   	"VC++")
+			    (object Class "RibbleExistsException"
+				attributes 	(list Attribute_Set
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AfxBaseClass"
+					value      	"CException:CException")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AppliedPattern"
+					value      	"Default")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"LastAppliedTemplate"
+					value      	"C:\\Program Files\\Rational\\Rose\\vc\\templates"))
+				quid       	"471F7F900290"
+				superclasses 	(list inheritance_relationship_list
+				    (object Inheritance_Relationship
+					quid       	"471F7FB003A9"
+					supplier   	"Logical View::MFC 6.0::CObject Classes::Exceptions::CException"
+					quidu      	"4712547C003E")
+				    (object Inheritance_Relationship
+					quid       	"471F850C032C"
+					supplier   	"Logical View::ru.spb.eav::exceptions::GraphException"
+					quidu      	"471F849B00AB"))
+				operations 	(list Operations
+				    (object Operation "RibbleExistsException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"$NAME()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"RibbleExistsException"))
+					quid       	"471F991501E4"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|return Exception::getException();
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F99170139"
+					documentation 	"получить информацию об исключении"
+					stereotype 	"virtual"
+					result     	"string"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "printException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|Exception::printException();
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F9917031E"
+					documentation 	"вывести информацию об исключении в консоль"
+					stereotype 	"virtual"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "get__description"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "return _description;"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F995102CE"
+					stereotype 	"virtual, const"
+					result     	"const string&"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0))
+				module     	"Component View::eav_oot_lab_1"
+				quidu      	"46F5147A02BF"
+				language   	"VC++")
+			    (object Class "RibbleNotFoundException"
+				attributes 	(list Attribute_Set
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AfxBaseClass"
+					value      	"CException:CException")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AppliedPattern"
+					value      	"Default")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"LastAppliedTemplate"
+					value      	"C:\\Program Files\\Rational\\Rose\\vc\\templates")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"Generate"
+					value      	TRUE))
+				quid       	"471F7FD6004E"
+				superclasses 	(list inheritance_relationship_list
+				    (object Inheritance_Relationship
+					quid       	"471F7FEE01E4"
+					supplier   	"Logical View::MFC 6.0::CObject Classes::Exceptions::CException"
+					quidu      	"4712547C003E")
+				    (object Inheritance_Relationship
+					quid       	"471F850B000F"
+					supplier   	"Logical View::ru.spb.eav::exceptions::GraphException"
+					quidu      	"471F849B00AB"))
+				operations 	(list Operations
+				    (object Operation "getException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|return Exception::getException();
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F98E9009C"
+					documentation 	"получить информацию об исключении"
+					stereotype 	"virtual"
+					result     	"string"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "printException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|Exception::printException();
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F98E902C1"
+					documentation 	"вывести информацию об исключении в консоль"
+					stereotype 	"virtual"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "RibbleNotFoundException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"$NAME()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"RibbleNotFoundException"))
+					quid       	"471F98ED03BB"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "get__description"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "return _description;"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F993F000F"
+					stereotype 	"virtual, const"
+					result     	"const string&"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0))
+				module     	"Component View::eav_oot_lab_1"
+				quidu      	"46F5147A02BF"
+				language   	"VC++")
+			    (object Class "VertexNotFoundException"
+				attributes 	(list Attribute_Set
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AfxBaseClass"
+					value      	"CException:CException")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AppliedPattern"
+					value      	"Default")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"LastAppliedTemplate"
+					value      	"C:\\Program Files\\Rational\\Rose\\vc\\templates"))
+				quid       	"471F7FBF03D8"
+				superclasses 	(list inheritance_relationship_list
+				    (object Inheritance_Relationship
+					quid       	"471F7FD2029F"
+					supplier   	"Logical View::MFC 6.0::CObject Classes::Exceptions::CException"
+					quidu      	"4712547C003E")
+				    (object Inheritance_Relationship
+					quid       	"471F85100242"
+					supplier   	"Logical View::ru.spb.eav::exceptions::GraphException"
+					quidu      	"471F849B00AB"))
+				operations 	(list Operations
+				    (object Operation "getException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|return Exception::getException();
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F98F6036B"
+					documentation 	"получить информацию об исключении"
+					stereotype 	"virtual"
+					result     	"string"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "printException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|Exception::printException();
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F98F7013A"
+					documentation 	"вывести информацию об исключении в консоль"
+					stereotype 	"virtual"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "VertexNotFoundException"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"$NAME()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"VertexNotFoundException"))
+					quid       	"471F98F803CA"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "get__description"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "return _description;"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"CodeName"
+						value      	""))
+					quid       	"471F9958037A"
+					stereotype 	"virtual, const"
+					result     	"const string&"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0))
+				module     	"Component View::eav_oot_lab_1"
+				quidu      	"46F5147A02BF"
+				language   	"VC++"))
+			logical_presentations 	(list unit_reference_list
+			    (object ClassDiagram "except_view"
+				quid       	"471F99840280"
+				title      	"except_view"
+				zoom       	100
+				max_height 	28350
+				max_width  	21600
+				origin_x   	100
+				origin_y   	0
+				items      	(list diagram_item_list
+				    (object ClassView "Class" "Logical View::ru.spb.eav::exceptions::GraphException" @18
+					ShowCompartmentStereotypes 	TRUE
+					IncludeAttribute 	TRUE
+					IncludeOperation 	TRUE
+					location   	(1206, 438)
+					font       	(object Font
+					    size       	12
+					    face       	"Consolas"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	FALSE)
+					label      	(object ItemLabel
+					    Parent_View 	@18
+					    location   	(701, 191)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	1010
+					    justify    	0
+					    label      	"GraphException")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"471F849B00AB"
+					compartment 	(object Compartment
+					    Parent_View 	@18
+					    location   	(701, 261)
+					    font       	(object Font
+						size       	10
+						face       	"Consolas"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	FALSE)
+					    icon_style 	"Icon"
+					    fill_color 	13434879
+					    anchor     	2
+					    nlines     	9
+					    max_width  	859)
+					width      	1028
+					height     	522
+					annotation 	8
+					autoResize 	TRUE)
+				    (object ClassView "Class" "Logical View::ru.spb.eav::exceptions::RibbleExistsException" @19
+					ShowCompartmentStereotypes 	TRUE
+					IncludeAttribute 	TRUE
+					IncludeOperation 	TRUE
+					location   	(600, 1140)
+					font       	(object Font
+					    size       	12
+					    face       	"Consolas"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	FALSE)
+					label      	(object ItemLabel
+					    Parent_View 	@19
+					    location   	(95, 987)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	1010
+					    justify    	0
+					    label      	"RibbleExistsException")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"471F7F900290"
+					compartment 	(object Compartment
+					    Parent_View 	@19
+					    location   	(95, 1057)
+					    font       	(object Font
+						size       	10
+						face       	"Consolas"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	FALSE)
+					    icon_style 	"Icon"
+					    fill_color 	13434879
+					    anchor     	2
+					    nlines     	5
+					    max_width  	860)
+					width      	1028
+					height     	334
+					annotation 	8
+					autoResize 	TRUE)
+				    (object InheritView "" @20
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"471F850C032C"
+					client     	@19
+					supplier   	@18
+					line_style 	0)
+				    (object ClassView "Class" "Logical View::ru.spb.eav::exceptions::RibbleNotFoundException" @21
+					ShowCompartmentStereotypes 	TRUE
+					IncludeAttribute 	TRUE
+					IncludeOperation 	TRUE
+					location   	(1851, 1134)
+					font       	(object Font
+					    size       	12
+					    face       	"Consolas"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	FALSE)
+					label      	(object ItemLabel
+					    Parent_View 	@21
+					    location   	(1346, 981)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	1010
+					    justify    	0
+					    label      	"RibbleNotFoundException")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"471F7FD6004E"
+					compartment 	(object Compartment
+					    Parent_View 	@21
+					    location   	(1346, 1051)
+					    font       	(object Font
+						size       	10
+						face       	"Consolas"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	FALSE)
+					    icon_style 	"Icon"
+					    fill_color 	13434879
+					    anchor     	2
+					    nlines     	5
+					    max_width  	860)
+					width      	1028
+					height     	334
+					annotation 	8
+					autoResize 	TRUE)
+				    (object InheritView "" @22
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"471F850B000F"
+					client     	@21
+					supplier   	@18
+					line_style 	0)
+				    (object ClassView "Class" "Logical View::ru.spb.eav::exceptions::VertexNotFoundException" @23
+					ShowCompartmentStereotypes 	TRUE
+					IncludeAttribute 	TRUE
+					IncludeOperation 	TRUE
+					location   	(1221, 1605)
+					font       	(object Font
+					    size       	12
+					    face       	"Consolas"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	FALSE)
+					label      	(object ItemLabel
+					    Parent_View 	@23
+					    location   	(715, 1452)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	1012
+					    justify    	0
+					    label      	"VertexNotFoundException")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"471F7FBF03D8"
+					compartment 	(object Compartment
+					    Parent_View 	@23
+					    location   	(715, 1522)
+					    font       	(object Font
+						size       	10
+						face       	"Consolas"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	FALSE)
+					    icon_style 	"Icon"
+					    fill_color 	13434879
+					    anchor     	2
+					    nlines     	5
+					    max_width  	860)
+					width      	1030
+					height     	334
+					annotation 	8
+					autoResize 	TRUE)
+				    (object InheritView "" @24
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"471F85100242"
+					client     	@23
+					supplier   	@18
 					line_style 	0))))))
 		logical_presentations 	(list unit_reference_list))
 	    (object Class_Category "VC++ Reverse Engineered"
@@ -2570,10 +3350,10 @@
 				zoom       	100
 				max_height 	28350
 				max_width  	21600
-				origin_x   	0
+				origin_x   	406
 				origin_y   	0
 				items      	(list diagram_item_list
-				    (object Label @18
+				    (object Label @25
 					font       	(object Font
 					    size       	12
 					    face       	"Arial"
@@ -2591,9 +3371,9 @@
 |This diagram was automatically created by Rational Rose Model Update Tool.
 |22 Сентябрь 2007 г. 17:16:50
 					)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Oval" @19
+				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Oval" @26
 					ShowCompartmentStereotypes 	TRUE
-					location   	(187, 698)
+					location   	(186, 699)
 					font       	(object Font
 					    size       	12
 					    face       	"Arial"
@@ -2605,24 +3385,24 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@19
-					    location   	(9, 613)
+					    Parent_View 	@26
+					    location   	(38, 614)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	356
+					    max_width  	296
 					    justify    	0
 					    label      	"Oval")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F50C54004E"
-					width      	374
+					width      	314
 					height     	198
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Rectangle" @20
+				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Rectangle" @27
 					ShowCompartmentStereotypes 	TRUE
-					location   	(395, 698)
+					location   	(396, 699)
 					font       	(object Font
 					    size       	12
 					    face       	"Arial"
@@ -2634,24 +3414,24 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@20
-					    location   	(217, 613)
+					    Parent_View 	@27
+					    location   	(244, 614)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	356
+					    max_width  	304
 					    justify    	0
 					    label      	"Rectangle")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F50C350000"
-					width      	374
+					width      	322
 					height     	198
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Text" @21
+				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Text" @28
 					ShowCompartmentStereotypes 	TRUE
-					location   	(680, 698)
+					location   	(681, 699)
 					font       	(object Font
 					    size       	12
 					    face       	"Arial"
@@ -2663,24 +3443,24 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@21
-					    location   	(502, 613)
+					    Parent_View 	@28
+					    location   	(533, 614)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	356
+					    max_width  	296
 					    justify    	0
 					    label      	"Text")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F50C7401C5"
-					width      	374
+					width      	314
 					height     	198
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::TextInOval" @22
+				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::TextInOval" @29
 					ShowCompartmentStereotypes 	TRUE
-					location   	(395, 990)
+					location   	(396, 990)
 					font       	(object Font
 					    size       	12
 					    face       	"Arial"
@@ -2692,22 +3472,22 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@22
-					    location   	(217, 905)
+					    Parent_View 	@29
+					    location   	(245, 905)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	356
+					    max_width  	302
 					    justify    	0
 					    label      	"TextInOval")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F50C7B01D4"
-					width      	374
+					width      	320
 					height     	198
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @23
+				    (object InheritView "" @30
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2721,10 +3501,10 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C9D00EA"
-					client     	@22
-					supplier   	@19
+					client     	@29
+					supplier   	@26
 					line_style 	0)
-				    (object InheritView "" @24
+				    (object InheritView "" @31
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2738,10 +3518,10 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C9F03C8"
-					client     	@22
-					supplier   	@21
+					client     	@29
+					supplier   	@28
 					line_style 	0)
-				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Graph" @25
+				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Graph" @32
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1350, 390)
 					font       	(object Font
@@ -2755,7 +3535,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@25
+					    Parent_View 	@32
 					    location   	(1170, 325)
 					    fill_color 	13434879
 					    nlines     	1
@@ -2770,9 +3550,9 @@
 					height     	242
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Shape" @26
+				    (object ClassView "Class" "Logical View::ru.spb.eav::shapes::Shape" @33
 					ShowCompartmentStereotypes 	TRUE
-					location   	(395, 406)
+					location   	(396, 405)
 					font       	(object Font
 					    size       	12
 					    face       	"Arial"
@@ -2784,22 +3564,22 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@26
-					    location   	(211, 318)
+					    Parent_View 	@33
+					    location   	(247, 317)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	368
+					    max_width  	298
 					    justify    	0
 					    label      	"Shape")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"46F50BDC00BB"
-					width      	386
+					width      	316
 					height     	204
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @27
+				    (object InheritView "" @34
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2813,10 +3593,10 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C9401C5"
-					client     	@19
-					supplier   	@26
+					client     	@26
+					supplier   	@33
 					line_style 	0)
-				    (object InheritView "" @28
+				    (object InheritView "" @35
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2830,10 +3610,10 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C4C03D8"
-					client     	@20
-					supplier   	@26
+					client     	@27
+					supplier   	@33
 					line_style 	0)
-				    (object InheritView "" @29
+				    (object InheritView "" @36
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2847,10 +3627,10 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"46F50C980280"
-					client     	@21
-					supplier   	@26
+					client     	@28
+					supplier   	@33
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::eav_oot_lab_1::ltstr" @30
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::eav_oot_lab_1::ltstr" @37
 					ShowCompartmentStereotypes 	TRUE
 					location   	(900, 1020)
 					font       	(object Font
@@ -2864,7 +3644,7 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@30
+					    Parent_View 	@37
 					    location   	(760, 986)
 					    fill_color 	13434879
 					    nlines     	1
@@ -2872,7 +3652,7 @@
 					    justify    	0
 					    label      	"ltstr")
 					stereotype 	(object ItemLabel
-					    Parent_View 	@30
+					    Parent_View 	@37
 					    location   	(760, 939)
 					    fill_color 	13434879
 					    anchor     	10
@@ -2888,7 +3668,7 @@
 					height     	190
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Ribble" @31
+				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Ribble" @38
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1350, 810)
 					font       	(object Font
@@ -2902,7 +3682,7 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@31
+					    Parent_View 	@38
 					    location   	(1135, 743)
 					    fill_color 	13434879
 					    nlines     	1
@@ -2917,7 +3697,7 @@
 					height     	252
 					annotation 	8
 					autoResize 	TRUE)
-				    (object UsesView "has as base a list of" @32
+				    (object UsesView "has as base a list of" @39
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2929,7 +3709,7 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@32
+					    Parent_View 	@39
 					    location   	(1350, 597)
 					    anchor_loc 	1
 					    nlines     	1
@@ -2939,12 +3719,12 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"471BB48C006D"
-					client     	@25
-					supplier   	@31
+					client     	@32
+					supplier   	@38
 					line_style 	0)
-				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::eav_oot_lab_1::Iterator<T>" @33
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::eav_oot_lab_1::Iterator<T>" @40
 					ShowCompartmentStereotypes 	TRUE
-					location   	(900, 390)
+					location   	(2199, 1248)
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2956,22 +3736,22 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@33
-					    location   	(695, 330)
+					    Parent_View 	@40
+					    location   	(1990, 1188)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	410
+					    max_width  	418
 					    justify    	0
 					    label      	"Iterator<T>")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"471E58E00109"
-					width      	428
+					width      	436
 					height     	148
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Graph::GraphIterator" @34
+				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Graph::GraphIterator" @41
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1350, 1260)
 					font       	(object Font
@@ -2985,7 +3765,7 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@34
+					    Parent_View 	@41
 					    location   	(1118, 1205)
 					    fill_color 	13434879
 					    nlines     	1
@@ -3000,16 +3780,16 @@
 					height     	228
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @35
+				    (object InheritView "" @42
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"471E58E00196"
-					client     	@34
-					supplier   	@33
+					client     	@41
+					supplier   	@40
 					line_style 	0)
-				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Iterator" @36
+				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Iterator" @43
 					ShowCompartmentStereotypes 	TRUE
-					location   	(1890, 630)
+					location   	(2280, 765)
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -3021,8 +3801,8 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@36
-					    location   	(1670, 575)
+					    Parent_View 	@43
+					    location   	(2060, 710)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	440
@@ -3036,14 +3816,14 @@
 					height     	228
 					annotation 	8
 					autoResize 	TRUE)
-				    (object UsesView "" @37
+				    (object UsesView "" @44
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"471E58E0010A"
-					client     	@33
-					supplier   	@36
+					client     	@40
+					supplier   	@43
 					line_style 	0)
-				    (object UsesView "iterates by" @38
+				    (object UsesView "iterates by" @45
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -3055,8 +3835,8 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@38
-					    location   	(1617, 719)
+					    Parent_View 	@45
+					    location   	(1812, 786)
 					    anchor_loc 	1
 					    nlines     	1
 					    max_width  	318
@@ -3065,8 +3845,8 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"471BCB39007D"
-					client     	@36
-					supplier   	@31
+					client     	@43
+					supplier   	@38
 					line_style 	0))))))
 		logical_presentations 	(list unit_reference_list))
 	    (object Class_Category "MFC 6.0"
@@ -10387,7 +11167,11 @@
 					    (object Attribute
 						tool       	"VC++"
 						name       	"AfxClassType"
-						value      	"CObject"))
+						value      	"CObject")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"LastAppliedTemplate"
+						value      	"C:\\Program Files\\Rational\\Rose\\vc\\templates"))
 					quid       	"4712547C003E"
 					documentation 	"CException is the base class for all exceptions in the Microsoft Foundation Class Library."
 					superclasses 	(list inheritance_relationship_list
@@ -28990,26 +29774,6 @@
 						type       	"class"))))
 				logical_presentations 	(list unit_reference_list)))
 			logical_presentations 	(list unit_reference_list)))
-		logical_presentations 	(list unit_reference_list))
-	    (object Class_Category "ru"
-		quid       	"471B9AE0035B"
-		exportControl 	"Public"
-		logical_models 	(list unit_reference_list
-		    (object Class_Category "spb"
-			quid       	"471B9AE0036C"
-			exportControl 	"Public"
-			logical_models 	(list unit_reference_list
-			    (object Class_Category "eav"
-				quid       	"471B9AE0036E"
-				exportControl 	"Public"
-				logical_models 	(list unit_reference_list
-				    (object Class_Category "container"
-					quid       	"471B9AE00370"
-					exportControl 	"Public"
-					logical_models 	(list unit_reference_list)
-					logical_presentations 	(list unit_reference_list)))
-				logical_presentations 	(list unit_reference_list)))
-			logical_presentations 	(list unit_reference_list)))
 		logical_presentations 	(list unit_reference_list)))
 	logical_presentations 	(list unit_reference_list
 	    (object ClassDiagram "Main"
@@ -29021,7 +29785,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object CategoryView "Logical View::ru.spb.eav" @39
+		    (object CategoryView "Logical View::ru.spb.eav" @46
 			location   	(328, 238)
 			font       	(object Font
 			    size       	12
@@ -29034,7 +29798,7 @@
 			    color      	8143653
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@39
+			    Parent_View 	@46
 			    location   	(184, 154)
 			    fill_color 	13434879
 			    nlines     	2

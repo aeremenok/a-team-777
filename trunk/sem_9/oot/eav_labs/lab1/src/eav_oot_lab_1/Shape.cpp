@@ -58,7 +58,7 @@ ostream& Shape::speak(ostream& os) const
 {
     return os<<"shape is speaking:\n\t"<<"shape center coordinates: ("<<_x<<", "<<_y<<")"<<endl;
 }
-
+//////////////////////////////////////////////////////////////////////////
 ostream& operator<<( ostream& o, const Shape& rhs )
 {
     return rhs.speak(o);
