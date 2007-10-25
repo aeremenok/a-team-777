@@ -5,7 +5,8 @@
 //##ModelId=471F991501E4
 RibbleExistsException::RibbleExistsException(string message):GraphException(message)
 {
-    cout<<getName().c_str()<<" has been thrown"<<endl;
+//     string s = this->getName() + " has been thrown\n";
+//     cout<<s;
 }
 
 //##ModelId=471F99170139
@@ -25,25 +26,10 @@ const string& RibbleExistsException::get__description() const
 {
     return _description;
 }
+
+const string RibbleExistsException::getName() const
+{
+    return "RibbleExistsException";
+}
 //////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

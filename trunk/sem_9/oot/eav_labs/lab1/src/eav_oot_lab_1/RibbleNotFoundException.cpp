@@ -17,13 +17,18 @@ void RibbleNotFoundException::printException()
 //##ModelId=471F98ED03BB
 RibbleNotFoundException::RibbleNotFoundException(string message) : GraphException(message)
 {
-    cout<<getName().c_str()<<" has been thrown"<<endl;
+    //cout<<this->getName().c_str()<<" has been thrown"<<endl;
 }
 
 //##ModelId=471F993F000F
 const string& RibbleNotFoundException::get__description() const
 {
     return _description;
+}
+
+const string RibbleNotFoundException::getName() const
+{
+    return "RibbleNotFoundException";
 }
 //////////////////////////////////////////////////////////////////////////
 

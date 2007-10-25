@@ -17,12 +17,18 @@ void VertexNotFoundException::printException()
 //##ModelId=471F98F803CA
 VertexNotFoundException::VertexNotFoundException(string message) : GraphException(message)
 {
-    cout<<getName().c_str()<<" has been thrown"<<endl;
+//     string s = this->getName() + " has been thrown\n";
+//     cout<<s.c_str();
 }
 
 //##ModelId=471F9958037A
 const string& VertexNotFoundException::get__description() const
 {
     return _description;
+}
+
+const string VertexNotFoundException::getName() const
+{
+    return "VertexNotFoundException";
 }
 //////////////////////////////////////////////////////////////////////////

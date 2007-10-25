@@ -18,12 +18,6 @@ void Text::setText( char* text )
     _content = text;
 }
 
-//##ModelId=46F5119901A5
-void Text::appendText( char* text )
-{
-    // todo
-}
-
 //##ModelId=46F676990213
 Text::~Text()
 {
