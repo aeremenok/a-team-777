@@ -6,6 +6,8 @@
 #ifndef _INC_RIBBLE_471BB47802AF_INCLUDED
 #define _INC_RIBBLE_471BB47802AF_INCLUDED
 //////////////////////////////////////////////////////////////////////////
+#include "Graph.h"
+//////////////////////////////////////////////////////////////////////////
 //ребро графа
 //##ModelId=471BB47802AF
 template<class T>
@@ -15,53 +17,49 @@ public:
     //##ModelId=471E60A600FA
     bool operator==(const Ribble& rhs) const
     {
-        return (_vertex1==rhs._vertex1) && (_vertex2==rhs._vertex2);
+        return (*_vertex1==*(rhs._vertex1)) && (*_vertex2==*(rhs._vertex2));
     }
 
     //принадлежит ли вершина ребру
     //##ModelId=471E5B6D032C
-    bool contains(T vertex)
+    bool contains(T* vertex)
     {
-        return (_vertex1 == vertex) || (_vertex2 == vertex);
+        return (*_vertex1 == *vertex) || (*_vertex2 == *vertex);
     }
 
+    //##ModelId=471E3CE002EE
+    const T* get__vertex2() const
+    {
+        return _vertex2;
+    };
+
+    //##ModelId=471BB59F0222
+    const T* get__vertex1() const
+    {
+        return _vertex1;
+    };
+
     //##ModelId=471E4BB5034B
-    Ribble(T vertex1, T vertex2)
+    Ribble(T* vertex1, T* vertex2)
     {
         _vertex1 = vertex1;
         _vertex2 = vertex2;
     };
 
-    //##ModelId=471E3CE002EE
-    const T& get__vertex2() const
+    ~Ribble()
     {
-        return _vertex2;
-    };
-
-    //##ModelId=471E3CE10215
-    void set__vertex2(T& value)
-    {
-        _vertex2 = value;
-    };
-
-    //##ModelId=471BB59F0222
-    const T& get__vertex1() const
-    {
-        return _vertex1;
-    };
-
-    //##ModelId=471BB5A000DA
-    void set__vertex1(T& value)
-    {
-        _vertex1 = value;
+//         delete(_vertex1);
+//         delete(_vertex2);
     };
 
 private:
+
     //##ModelId=471BB58F01E4
-    T _vertex1;
+    const T* _vertex1;
 
     //##ModelId=471BB5A20157
-    T _vertex2;
+    const T* _vertex2;
 };
+
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_RIBBLE_471BB47802AF_INCLUDED */

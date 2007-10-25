@@ -26,7 +26,7 @@ public:
 
  //##ModelId=471F995102CE
  virtual const string& get__description() const;
-
+    virtual const string getName() const;    
 };
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_RIBBLEEXISTSEXCEPTION_471F7F900290_INCLUDED */

@@ -16,12 +16,13 @@ class Iterator
 public:
  //перейти к следующему эл-ту
  //##ModelId=471BCA6300EA
- virtual Ribble<T> *  next() = 0;
+ virtual Ribble<T>  next() = 0;
 
  //перейти к первому эл-ту
  //##ModelId=471BCAB501A5
- virtual Ribble<T> *  first() = 0;
+ virtual Ribble<T>  first() = 0;
 
+ virtual bool hasNext() = 0;
 };
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_EXTERNALITERATOR_471BCA1D009C_INCLUDED */

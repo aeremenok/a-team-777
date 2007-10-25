@@ -20,6 +20,11 @@
 #include "Graph.h"
 #include "Ribble.h"
 #include "Iterator.h"
+
+#include "GraphException.h"
+#include "RibbleExistsException.h"
+#include "RibbleNotFoundException.h"
+#include "VertexNotFoundException.h"
 //////////////////////////////////////////////////////////////////////////
 using namespace std;
 //////////////////////////////////////////////////////////////////////////
@@ -152,26 +157,51 @@ void shapeSequenceTest()
 void graphTest()
 {
     Graph<int>* myGraph = new Graph<int>();
-//     try
-//     {
+
+    myGraph->addRibble(1, 2);
+    myGraph->addRibble(2, 3);
+    myGraph->addRibble(4, 5);
+    myGraph->addRibble(6, 7);
+
+    try
+    {   // пытаемся добавить уже существующее ребро
         myGraph->addRibble(1, 2);
-//    }
-//     catch (CException* e)
-//     {
-//         LPCSTR result;
-//         cout<<e->GetErrorMessage(result, 777)<<endl;
-//     }
+    }
+    catch (GraphException* e)
+    {
+    	e->printException();
+    }
+
+    try
+    {   // пытаемся удалить несуществующее ребро
+        myGraph->removeRibble(10, 11);
+    }
+    catch (GraphException* e)
+    {
+    	e->printException();
+    }
+
+    try
+    {   // пытаемся удалить несуществующую вершину
+        myGraph->removeVertex(77);
+    }
+    catch (GraphException* e)
+    {
+    	e->printException();
+    }
 }
 //////////////////////////////////////////////////////////////////////////
 int main()
 {
-    shapeTest();
+//     shapeTest();
+// 
+//     sequenceTest();
+//     adapterTest();
+//     assocTest();
+//     
+//     shapeSequenceTest();
 
-    sequenceTest();
-    adapterTest();
-    assocTest();
-    
-    shapeSequenceTest();
+    graphTest();
 
     return 0;
 }
