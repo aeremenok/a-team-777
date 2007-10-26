@@ -68,15 +68,6 @@ public:
     //##ModelId=471BBA1B0177
     void addRibble(T vertex1, T vertex2)
     {
-        Ribble<T>* ribble = new Ribble<T>(&vertex1, &vertex2);
-        addRibble(ribble);
-        delete(ribble);
-    };
-
-    //добавить готовое ребро
-    //##ModelId=471BBA680399
-    void addRibble(const Ribble<T>* ribble)
-    {
         // проверяем, нет ли уже такого ребра
         GraphIterator<T>* iter = getIterator();
         bool isPresent = false;
@@ -84,8 +75,8 @@ public:
         {
             Ribble<T> current = iter->next();
             if (
-                current.get__vertex1() == ribble->get__vertex1() &&
-                current.get__vertex2() == ribble->get__vertex2()
+                current.get__vertex1() == vertex1 &&
+                current.get__vertex2() == vertex2
                 )
             {
                 isPresent = true;
@@ -95,7 +86,39 @@ public:
         // если нет - добавляем
         if (!isPresent)
         {
-            _ribbleList->push_back(*ribble);
+            Ribble<T> ribble(vertex1, vertex2);
+            _ribbleList->push_back(ribble);
+            cout<<"ribble added successfully\n";
+        }
+
+//         Ribble<T> ribble(&vertex1, &vertex2);
+//         addRibble(ribble);
+        //delete(ribble);
+    };
+
+    //добавить готовое ребро
+    //##ModelId=471BBA680399
+    void addRibble(const Ribble<T> ribble)
+    {
+        // проверяем, нет ли уже такого ребра
+        GraphIterator<T>* iter = getIterator();
+        bool isPresent = false;
+        while (iter->hasNext() && !isPresent)
+        {
+            Ribble<T> current = iter->next();
+            if (
+                current.get__vertex1() == ribble.get__vertex1() &&
+                current.get__vertex2() == ribble.get__vertex2()
+                )
+            {
+                isPresent = true;
+                throw new RibbleExistsException("cannot add: ribble already exists in graph");
+            }
+        }
+        // если нет - добавляем
+        if (!isPresent)
+        {
+            _ribbleList->push_back(ribble);
             cout<<"ribble added successfully\n";
         }
     };
