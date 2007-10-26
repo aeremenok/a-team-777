@@ -68,8 +68,9 @@ public:
     //##ModelId=471BBA1B0177
     void addRibble(T vertex1, T vertex2)
     {
+        cout<<"adding ribble\n";
         // проверяем, нет ли уже такого ребра
-        GraphIterator<T>* iter = getIterator();
+        Iterator<T>* iter = getIterator();
         bool isPresent = false;
         while (iter->hasNext() && !isPresent)
         {
@@ -90,92 +91,61 @@ public:
             _ribbleList->push_back(ribble);
             cout<<"ribble added successfully\n";
         }
-
-//         Ribble<T> ribble(&vertex1, &vertex2);
-//         addRibble(ribble);
-        //delete(ribble);
     };
 
-    //добавить готовое ребро
-    //##ModelId=471BBA680399
-    void addRibble(const Ribble<T> ribble)
+    //удалить ребро
+    void removeRibble(T vertex1, T vertex2)
     {
-        // проверяем, нет ли уже такого ребра
-        GraphIterator<T>* iter = getIterator();
+        cout<<"removing ribble\n";
+        // проверяем, есть ли такое ребро
+        // проверка не обязательна, но нужна, чтобы продемонстрировать экспешен =)
+        Iterator<T> *iter = getIterator();
         bool isPresent = false;
         while (iter->hasNext() && !isPresent)
         {
             Ribble<T> current = iter->next();
             if (
-                current.get__vertex1() == ribble.get__vertex1() &&
-                current.get__vertex2() == ribble.get__vertex2()
+                current.get__vertex1() == vertex1 &&
+                current.get__vertex2() == vertex2
                 )
-            {
+            { // если есть - удаляем
                 isPresent = true;
-                throw new RibbleExistsException("cannot add: ribble already exists in graph");
+                _ribbleList->remove(current);
+                cout<<"ribble removed successfully\n";
             }
         }
-        // если нет - добавляем
         if (!isPresent)
-        {
-            _ribbleList->push_back(ribble);
-            cout<<"ribble added successfully\n";
+        {   // нет - бросаем эксепшен
+            throw new RibbleNotFoundException("cannot remove: ribble not found");
         }
-    };
-
-    void removeRibble(T vertex1, T vertex2)
-    {
-        const Ribble<T>* ribble = new Ribble<T>(&vertex1, &vertex2);
-        removeRibble(ribble);
     }
-
-    //удалить ребро, не удаляя его вершин
-    //##ModelId=471BBA9D038A
-    void removeRibble(const Ribble<T>* ribble)
-    {
-        // проверяем, есть ли такое ребро
-        // проверка не обязательна, но нужна, чтобы продемонстрировать экспешен =)
-        list< Ribble<T> >::iterator iter;
-        bool isPresent = false;
-        for (iter = _ribbleList->begin(); iter != _ribbleList->end(); iter++)
-        {
-            if (*(iter) == *ribble)
-            {
-                isPresent = true;
-                iter = _ribbleList->end();
-            }
-        }
-        // если есть - удаляем
-        if (isPresent)
-        {
-            _ribbleList->remove(*ribble);
-            cout<<"ribble removed successfully\n";
-        }
-        else
-        {
-            throw new RibbleNotFoundException("cannot remove: ribble niot found");
-        }
-    };
 
     // удалить вершину
     //##ModelId=471BBAE20290
     void removeVertex(T vertex)
     {
-//         // проверяем, есть ли такая вершина
-//         list< Ribble<T> >::iterator iter;
-//         for (iter = _ribbleList->begin(); iter != _ribbleList->end(); iter++)
-//         {
-//             if (iter->contains(&vertex))
-//             {   // если есть - удаляем
-//                 _ribbleList->remove(*iter);
-//                 iter = _ribbleList->end();
-//                 cout<<"vertex removed successfully\n";
-//             }
-//             else
-//             {
-//                 throw new VertexNotFoundException("cannot remove: vertex not found");
-//             }
-//         }
+        cout<<"removoing all ribbles, containing vertex "<<vertex<<endl;
+        // проверяем, есть ли такая вершина
+        Iterator<T>* iter = getIterator();
+        bool isPresent = false;
+        while (iter->hasNext())
+        {
+            Ribble<T> current = iter->next();
+            if (current.contains(vertex))
+            {
+                _ribbleList->remove(current);
+                isPresent = true;
+                cout<<"\tribble containig vertex removed\n";
+            }
+        }
+        if (!isPresent)
+        {
+            throw new VertexNotFoundException("cannot remove: vertex not found");
+        }
+        else
+        {
+            cout<<"vertex removed successfully\n";
+        }
     };
 
     // получить итератор для обхода графа

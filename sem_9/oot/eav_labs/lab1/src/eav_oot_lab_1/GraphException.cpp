@@ -17,7 +17,7 @@ GraphException::GraphException(string message)
 //##ModelId=471F8742038A
 string GraphException::getException()
 {
-    return "exception "+getName()+":\n"+_description;
+    return "[exception] "+getName()+":\n\t"+_description;
 }
 
 //##ModelId=471F878E02DE
