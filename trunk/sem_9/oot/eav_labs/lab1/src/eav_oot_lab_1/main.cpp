@@ -31,7 +31,7 @@ using namespace std;
 // тестирует операции с фигурами
 void shapeTest()
 {
-    cout<<"\ttesting shapes\n"<<endl;
+    cout<<"\t\ttesting shapes\n"<<endl;
 
     Shape* rect = new Rectangle(1,2);
     cout<<*rect<<endl;
@@ -157,6 +157,7 @@ void shapeSequenceTest()
 // тестирует шаблон итератора для int
 void graphTest()
 {
+    cout<<"\t\ttesting graph\n";
     Graph<int>* myGraph = new Graph<int>();
     cout<<endl;
 
@@ -212,6 +213,8 @@ void graphTest()
 // тестирует шаблон итератора для графических объектов
 void shapeGraphTest()
 {
+    cout<<"\n\t\ttesting shape graph\n";
+
     Graph<Shape*>* shapeGraph = new Graph<Shape*>();
     cout<<endl;
     shapeGraph->addRibble(
@@ -234,15 +237,15 @@ void shapeGraphTest()
 //////////////////////////////////////////////////////////////////////////
 int main()
 {
-//     shapeTest();
-// 
-//     sequenceTest();
-//     adapterTest();
-//     assocTest();
-//     
-//     shapeSequenceTest();
+    shapeTest();
 
-    //graphTest();
+    sequenceTest();
+    adapterTest();
+    assocTest();
+    
+    shapeSequenceTest();
+
+    graphTest();
     shapeGraphTest();
 
     return 0;
