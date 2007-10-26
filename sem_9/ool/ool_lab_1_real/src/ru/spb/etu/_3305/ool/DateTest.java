@@ -24,7 +24,7 @@ public class DateTest
 
             writer.write(
                     "Дата сдачи задания:     " + date.getDate() + "." + ( date.getMonth() + 1 ) + "." +
-                    ( date.getYear() + 1900 ) + "\t" + date.getHours() + ":" + date.getMinutes() + "\n" );
+                            ( date.getYear() + 1900 ) + "\t" + date.getHours() + ":" + date.getMinutes() + "\n" );
             writer.flush();
         }
         catch ( UnsupportedEncodingException e )
