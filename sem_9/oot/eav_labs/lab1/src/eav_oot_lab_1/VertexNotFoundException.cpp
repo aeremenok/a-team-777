@@ -27,6 +27,7 @@ const string& VertexNotFoundException::get__description() const
     return _description;
 }
 
+//##ModelId=4721A0BA0167
 const string VertexNotFoundException::getName() const
 {
     return "VertexNotFoundException";

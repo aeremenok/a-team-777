@@ -31,6 +31,7 @@ public:
 
     
 protected:
+	//##ModelId=4721A0BA02FD
     virtual const string getName() const;
  //описание ошибки
  //##ModelId=471F866C0000

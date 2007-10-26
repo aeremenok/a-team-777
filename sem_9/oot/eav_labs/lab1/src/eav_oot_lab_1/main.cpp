@@ -154,6 +154,7 @@ void shapeSequenceTest()
     cout<<endl;
 }
 //////////////////////////////////////////////////////////////////////////
+// тестирует шаблон итератора для int
 void graphTest()
 {
     Graph<int>* myGraph = new Graph<int>();
@@ -208,6 +209,29 @@ void graphTest()
     }
 }
 //////////////////////////////////////////////////////////////////////////
+// тестирует шаблон итератора для графических объектов
+void shapeGraphTest()
+{
+    Graph<Shape*>* shapeGraph = new Graph<Shape*>();
+    cout<<endl;
+    shapeGraph->addRibble(
+        new Rectangle(1, 2),
+        new Text()
+        );
+    cout<<endl;
+    shapeGraph->addRibble(
+        new Oval(3, 4),
+        new TextInOval(5, 6)
+        );
+    cout<<endl;
+    Iterator<Shape*> *iter = shapeGraph->getIterator();
+    while (iter->hasNext())
+    {
+        Ribble<Shape*> ribble = iter->next();
+        cout<<"ribble vertices:\n"<<*ribble.get__vertex1()<<"-\n"<<*ribble.get__vertex2()<<endl;
+    }
+}
+//////////////////////////////////////////////////////////////////////////
 int main()
 {
 //     shapeTest();
@@ -218,7 +242,8 @@ int main()
 //     
 //     shapeSequenceTest();
 
-    graphTest();
+    //graphTest();
+    shapeGraphTest();
 
     return 0;
 }

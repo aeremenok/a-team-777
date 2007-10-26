@@ -26,6 +26,7 @@ const string& RibbleNotFoundException::get__description() const
     return _description;
 }
 
+//##ModelId=4721A0BA01D4
 const string RibbleNotFoundException::getName() const
 {
     return "RibbleNotFoundException";
