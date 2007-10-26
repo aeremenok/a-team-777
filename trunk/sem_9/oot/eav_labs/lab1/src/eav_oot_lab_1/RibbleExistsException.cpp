@@ -27,6 +27,7 @@ const string& RibbleExistsException::get__description() const
     return _description;
 }
 
+//##ModelId=4721A0BA01F4
 const string RibbleExistsException::getName() const
 {
     return "RibbleExistsException";

@@ -22,6 +22,7 @@ public:
  //##ModelId=471BCAB501A5
  virtual Ribble<T>  first() = 0;
 
+	//##ModelId=4721A0BA0290
  virtual bool hasNext() = 0;
 };
 //////////////////////////////////////////////////////////////////////////

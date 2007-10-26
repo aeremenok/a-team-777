@@ -29,8 +29,10 @@ private:
     {
     private:
         // локальная копия указателя на список
+		//##ModelId=4721A0BB0010
         list< Ribble <T> >* _innerList;
         // итератор обхода списка рёбер
+		//##ModelId=4721A0BB0020
         list< Ribble <T> >::iterator _iter;
     public:
         //перейти к первому эл-ту
@@ -50,6 +52,7 @@ private:
             return res;
         }
 
+		//##ModelId=4721A0BB002E
         virtual bool hasNext()
         {
             return _iter != _innerList->end();
@@ -94,6 +97,7 @@ public:
     };
 
     //удалить ребро
+	//##ModelId=4721A0BA034B
     void removeRibble(T vertex1, T vertex2)
     {
         cout<<"removing ribble\n";
@@ -149,6 +153,7 @@ public:
     };
 
     // получить итератор для обхода графа
+	//##ModelId=4721A0BA03A9
     GraphIterator<T>* getIterator()
     {
         return new GraphIterator<T>(_ribbleList);

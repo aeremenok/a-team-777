@@ -27,6 +27,7 @@ public:
     //##ModelId=471F9958037A
     virtual const string& get__description() const;
 
+	//##ModelId=4721A0BA0167
     virtual const string getName() const;
 };
 //////////////////////////////////////////////////////////////////////////

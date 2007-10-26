@@ -26,6 +26,7 @@ void GraphException::printException()
     cout<<getException().c_str()<<endl;
 }
 
+//##ModelId=4721A0BA02FD
 const string GraphException::getName() const
 {
     return "GraphException";
