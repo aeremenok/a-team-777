@@ -157,11 +157,16 @@ void shapeSequenceTest()
 void graphTest()
 {
     Graph<int>* myGraph = new Graph<int>();
+    cout<<endl;
 
     myGraph->addRibble(1, 2);
+    cout<<endl;
     myGraph->addRibble(12, 13);
+    cout<<endl;
     myGraph->addRibble(24, 25);
+    cout<<endl;
     myGraph->addRibble(36, 37);
+    cout<<endl;
 
     try
     {   // пытаемся добавить уже существующее ребро
@@ -170,6 +175,7 @@ void graphTest()
     catch (GraphException* e)
     {
     	e->printException();
+        cout<<endl;
     }
 
     try
@@ -179,6 +185,7 @@ void graphTest()
     catch (GraphException* e)
     {
     	e->printException();
+        cout<<endl;
     }
 
     try
@@ -188,6 +195,16 @@ void graphTest()
     catch (GraphException* e)
     {
     	e->printException();
+        cout<<endl;
+    }
+
+    // тестируем обход внешним итератором
+    cout<<"iterating graph ribbles\n";
+    Iterator<int>* iter = myGraph->getIterator();
+    while (iter->hasNext())
+    {
+        Ribble<int> ribble = iter->next();
+        cout<<"ribble vertices: "<<ribble.get__vertex1()<<"-"<<ribble.get__vertex2()<<endl;
     }
 }
 //////////////////////////////////////////////////////////////////////////

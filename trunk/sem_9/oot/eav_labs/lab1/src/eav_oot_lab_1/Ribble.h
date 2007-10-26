@@ -42,14 +42,6 @@ public:
     //##ModelId=471E4BB5034B
     Ribble(T vertex1, T vertex2): _vertex1(vertex1), _vertex2(vertex2)
     {
-//         _vertex1 = vertex1;
-//         _vertex2 = vertex2;
-    };
-
-    ~Ribble()
-    {
-//         delete(_vertex1);
-//         delete(_vertex2);
     };
 
 private:
