@@ -159,9 +159,9 @@ void graphTest()
     Graph<int>* myGraph = new Graph<int>();
 
     myGraph->addRibble(1, 2);
-    myGraph->addRibble(2, 3);
-    myGraph->addRibble(4, 5);
-    myGraph->addRibble(6, 7);
+    myGraph->addRibble(12, 13);
+    myGraph->addRibble(24, 25);
+    myGraph->addRibble(36, 37);
 
     try
     {   // пытаемся добавить уже существующее ребро
