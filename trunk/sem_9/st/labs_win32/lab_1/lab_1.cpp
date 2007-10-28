@@ -1,5 +1,5 @@
 /**
- *РІСЃС‚Р°РІРєР° РґР»СЏ РїРµСЂРµРЅРѕСЃРёРјРѕСЃС‚Рё РєРѕРґР° 8-)
+ *вставка для переносимости кода 8-)
  */
 //#ifdef WIN32
 #include "StdAfx.h"
@@ -28,32 +28,32 @@
 ///////////////////////////////////
 using namespace std;
 ///////////////////////////////////
-// С‡РёСЃР»Рѕ РїР°РєРµС‚РѕРІ
+// число пакетов
 #define PACKET_NUM ((DWORD)1000)
-// СЂР°Р·РјРµСЂ Р·Р°РїСЂРѕСЃР°
+// размер запроса
 #define DATA_SIZE ((DWORD)0x10000)
-// СЂР°Р·РјРµСЂ РѕС‡РµСЂРµРґРё
+// размер очереди
 #define QUEUE_SIZE ((DWORD)5)
-// РёРЅС‚РµСЂРІР°Р»
+// интервал
 #define CLIENT_TIMEOUT ((DWORD)50)
-// РѕР¶РёРґР°РЅРёРµ РѕС‚РІРµС‚Р°
+// ожидание ответа
 #define TIME_LIMIT ((DWORD)50)
-// РІСЂРµРјСЏ РѕР±СЂР°Р±РѕС‚РєРё
+// время обработки
 #define SERV_TIME ((DWORD)50)
-// СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР°
+// размер буфера
 //#define BUFSIZ 100
 ///////////////////////////////////
-// РёРјСЏ СЃРµСЂРІРµСЂР°
+// имя сервера
 char* SERVER_NAME;
-// РїРѕСЂС‚ СЃРµСЂРІРµСЂР°
+// порт сервера
 short SERVER_PORT;
-// СЂРѕР»СЊ
+// роль
 bool SERVER_ROLE = false;
-// С‡РёСЃР»Рѕ СѓСЃРїРµС€РЅРѕ РѕР±СЂР°Р±РѕС‚Р°РЅРЅС‹С… Р·Р°РїСЂРѕСЃРѕРІ
+// число успешно обработанных запросов
 unsigned g_success = 0;
 ///////////////////////////////////
 /**
- * РІС‹РІРѕРґ РЅР° СЌРєСЂР°РЅ РёРЅС„РѕСЂРјР°С†РёРё Рѕ РїР°СЂР°РјРµС‚СЂР°С… РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
+ * вывод на экран информации о параметрах командной строки
  */
 void printUsage()
 {
@@ -97,21 +97,21 @@ int printError(const char* msg = 0)
 //Host address determination
 void resaddr(sockaddr_in *addr)
 {
- hostent *he;
+    hostent *he;
 
- ZeroMemory(addr, sizeof(sockaddr_in));
+    ZeroMemory(addr, sizeof(sockaddr_in));
 
- // Host address request by name
- !(he = gethostbyname(SERVER_NAME)) && printError("gethostbyname");
- 
- CopyMemory(&addr->sin_addr,he->h_addr /*РЅРµС‚Сѓ С‚Р°Рј С‚Р°РєРѕРіРѕ РїРѕР»СЏ РІРѕРѕР±С‰Рµ-С‚Рѕ*/,sizeof(sockaddr_in));
- addr->sin_family = AF_INET, addr->sin_port=htons(SERVER_PORT);
+    // Host address request by name
+    !(he = gethostbyname(SERVER_NAME)) && printError("gethostbyname");
 
- printf("host=%s, IP=%s\n",SERVER_NAME,inet_ntoa(addr->sin_addr));
+    CopyMemory(&addr->sin_addr,he->h_addr /*нету там такого поля вообще-то*/,sizeof(sockaddr_in));
+    addr->sin_family = AF_INET, addr->sin_port=htons(SERVER_PORT);
+
+    printf("host=%s, IP=%s\n",SERVER_NAME,inet_ntoa(addr->sin_addr));
 }
 ///////////////////////////////////
 /**
- * СЂРµР°Р»РёР·Р°С†РёСЏ СЃРµСЂРІРµСЂР°
+ * реализация сервера
  */
 void server()
 {
@@ -119,20 +119,20 @@ void server()
 
     sockaddr_in addr;
     SOCKET sock;
-    // СЃС‡РµС‚С‡РёРє РєР»РёРµРЅС‚РѕРІ
+    // счетчик клиентов
     int c = 0;
-    // РїРѕР»СѓС‡РµРЅРёРµ РёРјРµРЅРё РєРѕРјРїСЊСЋС‚РµСЂР°, РіРґРµ Р·Р°РїСѓС‰РµРЅР°
+    // получение имени компьютера, где запущена
     gethostname(hostName, BUFSIZ) && printError("gethostname");
     
     SERVER_NAME = new char[strlen(hostName)+1];
     strcpy(SERVER_NAME, hostName);
     resaddr(&addr);
 
-    // РѕС‚РєСЂС‹С‚РёРµ СЃРµСЂРІРµСЂРЅРѕРіРѕ СЃРѕРєРµС‚Р°
+    // открытие серверного сокета
     SOCKET_ERROR==(sock = socket(AF_INET,SOCK_STREAM,0)) && printError("socket");
-    // РїСЂРёРІСЏР·РєР° СЃРѕРєРµС‚Р° Рє Р»РѕРєР°Р»СЊРЅРѕРјСѓ Р°РґСЂРµСЃСѓ
+    // привязка сокета к локальному адресу
     SOCKET_ERROR==bind(sock, (sockaddr*) &addr, sizeof(addr)) && printError("bind");
-    // РІРєР»СЋС‡РµРЅРёРµ РїСЂРѕСЃР»СѓС€РёРІР°РЅРёСЏ СЃРµС‚Рё
+    // включение прослушивания сети
     SOCKET_ERROR==listen(sock, QUEUE_SIZE) && printError("listen");
 
 
@@ -142,16 +142,16 @@ void server()
         sockaddr addr;
         int sz = sizeof(addr);
 
-        // СЃРѕР·РґР°РЅРёРµ СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ РєР»РёРµРЅС‚РѕРј, РїРѕСЃР»Р°РІС€РёРј Р·Р°РїСЂРѕСЃ
+        // создание соединения с клиентом, пославшим запрос
         SOCKET s = accept(sock, (sockaddr*)&addr, &sz);
 
         printf("accepted = %d\n", c++);
 
-        // РїСЂРёРµРј РґР°РЅРЅС‹С… Р·Р°РїСЂРѕСЃР° РѕС‚ РєР»РёРµРЅС‚Р°
+        // прием данных запроса от клиента
         recv(s, buf, DATA_SIZE, 0);
-        // Р·Р°РґРµСЂР¶РєР° РЅР° РІСЂРµРјСЏ РѕР±СЂР°Р±РѕС‚РєРё
+        // задержка на время обработки
         Sleep(SERV_TIME);
-        // РїРѕСЃС‹Р»РєР° РєР»РёРµРЅС‚Сѓ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РѕР±СЂР°Р±РѕС‚РєРё Р·Р°РїСЂРѕСЃР°
+        // посылка клиенту результатов обработки запроса
         send(s, buf, DATA_SIZE, 0);
     }
 }
@@ -192,27 +192,27 @@ DWORD WINAPI client(void*) {
 // main. Entry point
 int main(int argc, char *argv[])
 {
-       WSADATA wsad;
+    WSADATA wsad;
 
-        // parse arguments
-        clparse(argc,argv);
+    // parse arguments
+    clparse(argc,argv);
 
-        // WinSock library initialization
-        if ( WSAStartup( MAKEWORD(2,0), &wsad ) ) 
-            printError("WSAStartup");
+    // WinSock library initialization
+    if ( WSAStartup( MAKEWORD(2,0), &wsad ) ) 
+        printError("WSAStartup");
 
-        // if programm runs as a server: 
-        if (SERVER_ROLE) server();
+    // if programm runs as a server: 
+    if (SERVER_ROLE) server();
 
-        // otherwise - creating number of client threads 
-        else for (int i=0; i < PACKET_NUM; i++) CreateThread(0,0,client,0,0,0), Sleep(CLIENT_TIMEOUT);
+    // otherwise - creating number of client threads 
+    else for (int i=0; i < PACKET_NUM; i++) CreateThread(0,0,client,0,0,0), Sleep(CLIENT_TIMEOUT);
 
-        // waiting 
-        Sleep (TIME_LIMIT);
+    // waiting 
+    Sleep (TIME_LIMIT);
 
-        // Print statistics 
-        printf("Sent %d, received %d, total = %2.1f%%\n",PACKET_NUM,g_success,((float)g_success*100)/PACKET_NUM);
-        return 0;
+    // Print statistics 
+    printf("Sent %d, received %d, total = %2.1f%%\n",PACKET_NUM,g_success,((float)g_success*100)/PACKET_NUM);
+    return 0;
 }
 ///////////////////////////////////
 
