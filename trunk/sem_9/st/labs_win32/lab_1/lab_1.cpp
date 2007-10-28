@@ -1,26 +1,27 @@
 /**
  *вставка для переносимости кода 8-)
  */
-#ifdef WIN32
+//#ifdef WIN32
+#include "StdAfx.h"
 #include <winsock.h>
-#else
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#endif
+// #elseif
+// #include <netdb.h>
+// #include <arpa/inet.h>
+// #include <netinet/in.h>
+// #include <sys/socket.h>
+// #include <sys/types.h>
+// #endif
 
-#ifdef WIN32
-#define FILE_SEPARATOR ''
-#define MSG_WAITALL 0
-#else
-#define FILE_SEPARATOR '/'
-#endif
+// #ifdef WIN32
+// #define FILE_SEPARATOR ''
+// #define MSG_WAITALL 0
+// #else
+// #define FILE_SEPARATOR '/'
+// #endif
 ///////////////////////////////////
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+// #ifdef HAVE_CONFIG_H
+// #include <config.h>
+// #endif
 
 #include <iostream>
 #include <cstdlib>
@@ -40,7 +41,7 @@ using namespace std;
 // время обработки
 #define SERV_TIME ((DWORD)50)
 // размер буфера
-#define BUFSIZ 100
+//#define BUFSIZ 100
 ///////////////////////////////////
 // имя сервера
 char* SERVER_NAME;
@@ -92,10 +93,21 @@ int printError(const char* msg = 0)
     return -1;
 }
 ///////////////////////////////////
-void resaddr(sockaddr_in* addr)
+//Fucntion: resaddr
+//Host address determination
+void resaddr(sockaddr_in *addr)
 {
+ hostent *he;
 
-    
+ ZeroMemory(addr, sizeof(sockaddr_in));
+
+ // Host address request by name
+ !(he = gethostbyname(SERVER_NAME)) && printError("gethostbyname");
+ 
+ CopyMemory(&addr->sin_addr,he->h_addr /*нету там такого поля вообще-то*/,sizeof(sockaddr_in));
+ addr->sin_family = AF_INET, addr->sin_port=htons(SERVER_PORT);
+
+ printf("host=%s, IP=%s\n",SERVER_NAME,inet_ntoa(addr->sin_addr));
 }
 ///////////////////////////////////
 /**
@@ -138,7 +150,7 @@ void server()
         // прием данных запроса от клиента
         recv(s, buf, DATA_SIZE, 0);
         // задержка на время обработки
-        Sleep(s, SERV_TIME);
+        Sleep(SERV_TIME);
         // посылка клиенту результатов обработки запроса
         send(s, buf, DATA_SIZE, 0);
     }
@@ -149,7 +161,7 @@ void server()
 DWORD WINAPI client(void*) {
     SOCKET sock;
     sockaddr_in addr;
-    char BUF[DATA_SIZE];
+    char buf[DATA_SIZE];
     static int i = 0;
     DWORD id = GetCurrentThreadId();
 
@@ -157,22 +169,22 @@ DWORD WINAPI client(void*) {
 
     printf("thread_id = %04X\n",i++);
 
-    //client socket initializatioin 
-    SOCKET_ERROR == (sock = socket(AF_INET,SOCK_STREAM,0)) && PrintError("socket");
-    //connecting to server
-    connect(sock,(sockaddr*)&addr,sizeof(sockaddr_in)) && PrintError("connect");
+    //client socket initializatioin 
+    SOCKET_ERROR == (sock = socket(AF_INET,SOCK_STREAM,0)) && printError("socket");
+    //connecting to server
+    connect(sock,(sockaddr*)&addr,sizeof(sockaddr_in)) && printError("connect");
 
     *((DWORD*)buf)=id;
 
-    //sending request data to server 
-    !send(sock,buf,DATA_SIZE,0) && PrintError("send");
+    //sending request data to server 
+    !send(sock,buf,DATA_SIZE,0) && printError("send");
 
-    //getting respose
-    !recv(sock,buf,DATA_SIZE,0) && PrintError("recv");
+    //getting respose
+    !recv(sock,buf,DATA_SIZE,0) && printError("recv");
 
-    *((DWORD*)buf) == id; && printf("thead %40X success\n", *((DWORD*)buf)),g_success++;
+    *((DWORD*)buf) == id && printf("thead %40X success\n", *((DWORD*)buf)),g_success++;
 
-    //closing client socket (respectively server's socket closing automatically) 
+    //closing client socket (respectively server's socket closing automatically) 
     closesocket(sock);
     return 0;
 }
@@ -182,25 +194,25 @@ int main(int argc, char *argv[])
 {
        WSADATA wsad;
 
-    // parse arguments
+        // parse arguments
         clparse(argc,argv);
 
-    // WinSock library initialization
-        //if (WSAStartup(MAKEWORD(2.0),&wsad)) PrintError("WSAStartup");
+        // WinSock library initialization
+        if ( WSAStartup( MAKEWORD(2,0), &wsad ) ) 
+            printError("WSAStartup");
 
-    // if programm runs as a server: 
-        if (SERVER_POLE) server();
+        // if programm runs as a server: 
+        if (SERVER_ROLE) server();
 
-    // otherwise - creating number of client threads 
+        // otherwise - creating number of client threads 
         else for (int i=0; i < PACKET_NUM; i++) CreateThread(0,0,client,0,0,0), Sleep(CLIENT_TIMEOUT);
 
-    // waiting 
+        // waiting 
         Sleep (TIME_LIMIT);
 
-    // Print statistics 
-        printf("Sent %d, received %d, total = %2.1f%%\n",PACKET_NUM,g_success,((float)g_success*100)|PACKET_NUM);
+        // Print statistics 
+        printf("Sent %d, received %d, total = %2.1f%%\n",PACKET_NUM,g_success,((float)g_success*100)/PACKET_NUM);
         return 0;
-
-    }
-};
+}
 ///////////////////////////////////
+
