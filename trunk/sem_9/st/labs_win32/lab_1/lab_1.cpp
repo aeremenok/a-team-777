@@ -3,7 +3,7 @@
  */
 //#ifdef WIN32
 #include "StdAfx.h"
-#include <winsock.h>
+#include <winsock2.h>
 // #elseif
 // #include <netdb.h>
 // #include <arpa/inet.h>
