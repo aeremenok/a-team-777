@@ -24,21 +24,23 @@ public class EvenOdd
             out = new BufferedWriter( new OutputStreamWriter( System.out, "cp866" ) );
 
             // помощь в работе с программой
-            if ( args.length == 1 && args[0].indexOf( "help" ) != -1 )
-            {// вывод справки
+            if ( args.length == 1 && args[ 0 ].indexOf( "help" ) != -1 )
+            {
+                // вывод справки
                 out.write( "\n" );
                 out.write( "Использование: EvenOdd\n" );
                 out.write( "               или\n" );
                 out.write( "               EvenOdd [список_чисел]\n" );
                 out.write( "\n" );
                 out.write( "В первом случае вы можете указать вы должны будете " +
-                           "указать программе параметры в ходе короткого диалога, " +
-                           "во втором будут использоваться числа, заданные в качестве " +
-                           "аргументов командной строки.\n" );
+                        "указать программе параметры в ходе короткого диалога, " +
+                        "во втором будут использоваться числа, заданные в качестве " +
+                        "аргументов командной строки.\n" );
                 out.flush();
             }
             else
-            {// работа
+            {
+                // работа
                 // открываем входной поток
                 in = new BufferedReader( new InputStreamReader( System.in, "cp866" ) );
 
@@ -46,30 +48,35 @@ public class EvenOdd
                 int n = 0;
 
                 if ( args.length == 0 )
-                {// если аргументов командной строки нет - поболтаем с пользователем
+                {
+                    // если аргументов командной строки нет - поболтаем с пользователем
                     out.write( "Пожалуйста, введите количество чисел для работы ( 1 <= n <= 10 ): " );
                     out.flush();
                     String str = in.readLine();
                     n = Integer.parseInt( str );
                 }
                 else
-                {// если есть аргументы командной строки - используем их
+                {
+                    // если есть аргументы командной строки - используем их
                     n = args.length;
                 }
 
                 // проверяем количество чисел для обработки
                 if ( n > 10 || n < 1 )
-                {// если чисел много/мало
+                {
+                    // если чисел много/мало
                     out.write( "Число вне границ указанного диапазона!" );
                     out.flush();
                 }
                 else
-                {// если количество чисел в норме
+                {
+                    // если количество чисел в норме
                     numbers = new int[n];
 
                     // узнаём числа
                     if ( args.length == 0 )
-                    {// пользователь вводит числа
+                    {
+                        // пользователь вводит числа
                         out.write( "\n" );
 
                         for ( int i = 0; i < n; i++ )
@@ -77,14 +84,15 @@ public class EvenOdd
                             out.write( "" + ( i + 1 ) + ". Введите целое число: " );
                             out.flush();
                             String str = in.readLine();
-                            numbers[i] = Integer.parseInt( str );
+                            numbers[ i ] = Integer.parseInt( str );
                         }
                     }
                     else
-                    {// берём числа из командной строки
+                    {
+                        // берём числа из командной строки
                         for ( int i = 0; i < args.length; i++ )
                         {
-                            numbers[i] = Integer.parseInt( args[i] );
+                            numbers[ i ] = Integer.parseInt( args[ i ] );
                         }
                     }
 
@@ -167,7 +175,11 @@ public class EvenOdd
      *
      * @throws IOException если не удаётся запись в поток
      */
-    private static void prettyArrayPrint( int[] values, Writer writer, String header, IntFilter filter )
+    private static void prettyArrayPrint(
+            int[] values,
+            Writer writer,
+            String header,
+            IntFilter filter )
             throws
             IOException
     {
