@@ -23,9 +23,14 @@ public class TestApplet
     private Dimension _dimension = null;
 
     /**
-     * радиус круга
+     * минимальный диаметр круга
      */
-    private int _diameter = 40;
+    private int MIN_DIAMETER = 20;
+
+    /**
+     * максимальный диаметр круга
+     */
+    private int MAX_DIAMETER = 70;
 
     /**
      * список кругов для отрисовки
@@ -102,8 +107,8 @@ public class TestApplet
         _circleList = new ArrayList<Circle>();
 
         // сколько влезет кругов максимально
-        int h = height / _diameter;
-        int w = width / _diameter;
+        int h = 2 * height / ( MIN_DIAMETER + MAX_DIAMETER );
+        int w = 2 * width / ( MIN_DIAMETER + MAX_DIAMETER );
 
         // столько кругов будем рисовать
         int num = h * w / 4;
@@ -111,18 +116,21 @@ public class TestApplet
         // заполняем массив кругами
         for ( int i = 0; i < num; i++ )
         {
+            // генерируем диаметр нового круга
+            int d = _random.nextInt( MAX_DIAMETER - MIN_DIAMETER ) + MIN_DIAMETER;
+
             // генерируем расположение для нового круга
-            int wi = _random.nextInt( width - 2 * _diameter );
-            int he = _random.nextInt( height - 2 * _diameter );
+            int wi = _random.nextInt( width - 2 * d );
+            int he = _random.nextInt( height - 2 * d );
 
             // генерируем цвет для нового круга
             int red = _random.nextInt( 255 );
             int green = _random.nextInt( 255 );
             int blue = _random.nextInt( 255 );
-            Color color = new Color( red, green, blue );
+            Color c = new Color( red, green, blue );
 
             // сохраняем в массив
-            _circleList.add( new Circle( wi, he, _diameter, color ) );
+            _circleList.add( new Circle( wi, he, d, c ) );
         }
     }
 
