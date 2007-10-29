@@ -1,33 +1,12 @@
-/**
- *вставка для переносимости кода 8-)
- */
-//#ifdef WIN32
+//////////////////////////////////////////////////////////////////////////
 #include "StdAfx.h"
+
 #include <winsock2.h>
-// #elseif
-// #include <netdb.h>
-// #include <arpa/inet.h>
-// #include <netinet/in.h>
-// #include <sys/socket.h>
-// #include <sys/types.h>
-// #endif
-
-// #ifdef WIN32
-// #define FILE_SEPARATOR ''
-// #define MSG_WAITALL 0
-// #else
-// #define FILE_SEPARATOR '/'
-// #endif
-///////////////////////////////////
-// #ifdef HAVE_CONFIG_H
-// #include <config.h>
-// #endif
-
 #include <iostream>
 #include <cstdlib>
-///////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 using namespace std;
-///////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 // число пакетов
 #define PACKET_NUM ((DWORD)1000)
 // размер запроса
@@ -42,7 +21,7 @@ using namespace std;
 #define SERV_TIME ((DWORD)50)
 // размер буфера
 //#define BUFSIZ 100
-///////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 // имя сервера
 char* SERVER_NAME;
 // порт сервера
@@ -51,7 +30,7 @@ short SERVER_PORT;
 bool SERVER_ROLE = false;
 // число успешно обработанных запросов
 unsigned g_success = 0;
-///////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 /**
  * вывод на экран информации о параметрах командной строки
  */
@@ -62,9 +41,13 @@ void printUsage()
     printf("\tclient role: csm --C server_name port\nExample:\n");
     printf("\tcsm --S 3000\n");
     printf("\tcsm --C myserver 3000\n");
+    // завершаем работу
     ExitProcess(0);
 }
-///////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+/**
+ * разбирает поданные на вход аргументы
+ */
 void clparse(int c, char** v)
 {
     if (c==3)
@@ -83,33 +66,46 @@ void clparse(int c, char** v)
         printf("started as client. server = %s, server port = %d", SERVER_NAME, SERVER_PORT);
         return;
     }
+    // если ничего подходящего не ввели - выводим инструкции и завершаем работу
     printUsage();
 }
-///////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+/**
+ * выводит сообщение об ошибке
+ */
 int printError(const char* msg = 0)
 {
     printf("fatal error in %s, WSAError %d", msg, WSAGetLastError());
+    // завершаем поток
     ExitThread(-1);
     return -1;
 }
-///////////////////////////////////
-//Fucntion: resaddr
-//Host address determination
+//////////////////////////////////////////////////////////////////////////
+/**
+ * определяет адрес хоста
+ */
 void resaddr(sockaddr_in *addr)
 {
-    hostent *he;
+   hostent *he;
+   ZeroMemory(addr, sizeof(sockaddr_in));
+   // получение хоста по его имени
+   !(he = gethostbyname(SERVER_NAME)) && printError("gethostbyname");
 
-    ZeroMemory(addr, sizeof(sockaddr_in));
+   CopyMemory(
+        &addr->sin_addr,
+        he->h_addr, 
+        sizeof(sockaddr_in)
+        );
+   addr->sin_family = AF_INET;
+   addr->sin_port=htons(SERVER_PORT);
 
-    // Host address request by name
-    !(he = gethostbyname(SERVER_NAME)) && printError("gethostbyname");
-
-    CopyMemory(&addr->sin_addr,he->h_addr /*нету там такого поля вообще-то*/,sizeof(sockaddr_in));
-    addr->sin_family = AF_INET, addr->sin_port=htons(SERVER_PORT);
-
-    printf("host=%s, IP=%s\n",SERVER_NAME,inet_ntoa(addr->sin_addr));
+   printf(
+       "host=%s, IP=%s\n",
+       SERVER_NAME,
+       inet_ntoa(addr->sin_addr)
+       );
 }
-///////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 /**
  * реализация сервера
  */
@@ -121,11 +117,12 @@ void server()
     SOCKET sock;
     // счетчик клиентов
     int c = 0;
-    // получение имени компьютера, где запущена
+    // получаем имя компьютера, где запущено
     gethostname(hostName, BUFSIZ) && printError("gethostname");
     
     SERVER_NAME = new char[strlen(hostName)+1];
     strcpy(SERVER_NAME, hostName);
+    // получаем параметры хоста по имени
     resaddr(&addr);
 
     // открытие серверного сокета
@@ -134,7 +131,6 @@ void server()
     SOCKET_ERROR==bind(sock, (sockaddr*) &addr, sizeof(addr)) && printError("bind");
     // включение прослушивания сети
     SOCKET_ERROR==listen(sock, QUEUE_SIZE) && printError("listen");
-
 
     for(;;)
     {
@@ -155,64 +151,72 @@ void server()
         send(s, buf, DATA_SIZE, 0);
     }
 }
-///////////////////////////////////
-//Function: client 
-//Client realization 
-DWORD WINAPI client(void*) {
+//////////////////////////////////////////////////////////////////////////
+/*
+ * реализация клиента
+ */
+DWORD WINAPI client(void*)
+{
     SOCKET sock;
     sockaddr_in addr;
     char buf[DATA_SIZE];
     static int i = 0;
     DWORD id = GetCurrentThreadId();
 
+    // получаем параметры хоста по имени
     resaddr(&addr);
 
     printf("thread_id = %04X\n",i++);
 
-    //client socket initializatioin 
+    // инициализируем сокет клиента
     SOCKET_ERROR == (sock = socket(AF_INET,SOCK_STREAM,0)) && printError("socket");
-    //connecting to server
+    // соединяемся с сервером
     connect(sock,(sockaddr*)&addr,sizeof(sockaddr_in)) && printError("connect");
 
     *((DWORD*)buf)=id;
 
-    //sending request data to server 
+    // отправляем запрос на сервер
     !send(sock,buf,DATA_SIZE,0) && printError("send");
 
-    //getting respose
+    // получаем ответ
     !recv(sock,buf,DATA_SIZE,0) && printError("recv");
 
     *((DWORD*)buf) == id && printf("thead %40X success\n", *((DWORD*)buf)),g_success++;
 
-    //closing client socket (respectively server's socket closing automatically) 
+    // закрываем сокетное соединение (сервер закрывает сокет автоматически)
     closesocket(sock);
+
     return 0;
 }
-///////////////////////////////////
-// main. Entry point
+//////////////////////////////////////////////////////////////////////////
 int main(int argc, char *argv[])
 {
-    WSADATA wsad;
-
-    // parse arguments
+    // разбираем входные данные
     clparse(argc,argv);
 
-    // WinSock library initialization
+    // инициализируем сокеты windows
+    WSADATA wsad;
     if ( WSAStartup( MAKEWORD(2,0), &wsad ) ) 
         printError("WSAStartup");
 
-    // if programm runs as a server: 
-    if (SERVER_ROLE) server();
+    if (SERVER_ROLE) // запущен сервер
+        server();
+    else             // запущен клиент
+        for (int i=0; i < PACKET_NUM; i++) 
+            CreateThread(0,0,client,0,0,0), Sleep(CLIENT_TIMEOUT);
 
-    // otherwise - creating number of client threads 
-    else for (int i=0; i < PACKET_NUM; i++) CreateThread(0,0,client,0,0,0), Sleep(CLIENT_TIMEOUT);
-
-    // waiting 
+    // ждем ответа
     Sleep (TIME_LIMIT);
 
-    // Print statistics 
-    printf("Sent %d, received %d, total = %2.1f%%\n",PACKET_NUM,g_success,((float)g_success*100)/PACKET_NUM);
+    // выводим статистику
+    printf(
+        "Sent %d, received %d, total = %2.1f%%\n",
+        PACKET_NUM,
+        g_success,
+        ((float)g_success*100)/PACKET_NUM
+        );
+
     return 0;
 }
-///////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
