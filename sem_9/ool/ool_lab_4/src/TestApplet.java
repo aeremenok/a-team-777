@@ -30,7 +30,7 @@ public class TestApplet
     /**
      * максимальный диаметр круга
      */
-    private int MAX_DIAMETER = 70;
+    private int MAX_DIAMETER = 50;
 
     /**
      * список кругов для отрисовки
