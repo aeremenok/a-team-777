@@ -41,6 +41,8 @@ public class TestApplet
     {
         _dimension = getSize();
 
+        paint( getGraphics() );
+
         addMouseMotionListener( new MouseMotionListener()
         {
             public void mouseDragged( MouseEvent e )
@@ -67,11 +69,27 @@ public class TestApplet
                         int jumpX = _random.nextInt( rightX - leftX - c.diameter ) + leftX;
                         int jumpY = _random.nextInt( downY - upY - c.diameter ) + upY;
 
+                        // todo залить окружность цветом фона
+                        Circle temp = new Circle( c.x, c.y, c.diameter, Color.white );
+                        temp.draw( getGraphics() );
+
+                        // todo перерисовать окр-ти с пересечениями
+                        for ( Circle cc : _circleList )
+                        {
+                            if ( cc != c && cc.intersectsWith( c ) )
+                            {
+                                cc.draw( getGraphics() );
+                            }
+                        }
+
                         // двигаем круг
                         c.moveTo( jumpX, jumpY );
 
+                        // todo нарисовать новую окр-ть
+                        c.draw( getGraphics() );
+
                         // перерисовка
-                        paint( getGraphics() );
+                        //paint( getGraphics() );
                     }
                 }
             }
@@ -83,7 +101,7 @@ public class TestApplet
 
     public void stop()
     {
-        removeMouseMotionListener( getMouseMotionListeners()[0] );
+        removeMouseMotionListener( getMouseMotionListeners()[ 0 ] );
     }
 
     public void init()
@@ -101,7 +119,9 @@ public class TestApplet
      * @param width  новая ширина апплета
      * @param height новая высота апплета
      */
-    private void rebuild( int width, int height )
+    private void rebuild(
+            int width,
+            int height )
     {
         // создаём новый список кругов
         _circleList = new ArrayList<Circle>();
@@ -139,7 +159,7 @@ public class TestApplet
         // размеры
         Dimension dim = getSize();
 
-        // fixme заглушка неработающего onresize
+        // fixme заглушка  неработающего onresize
         if ( !dim.equals( _dimension ) )
         {
             rebuild( dim.width, dim.height );
@@ -147,7 +167,7 @@ public class TestApplet
         }
 
         // очистка
-        g.clearRect( 0, 0, dim.width - 1, dim.height - 1 );
+        //g.clearRect( 0, 0, dim.width - 1, dim.height - 1 );
 
         // рисуем круги
         for ( Circle c : _circleList )
