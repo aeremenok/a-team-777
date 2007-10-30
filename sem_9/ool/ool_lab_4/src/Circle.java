@@ -10,7 +10,11 @@ public class Circle
     public int diameter;
     public Color color;
 
-    Circle( int x, int y, int diameter, Color color )
+    Circle(
+            int x,
+            int y,
+            int diameter,
+            Color color )
     {
         this.x = x;
         this.y = y;
@@ -51,14 +55,7 @@ public class Circle
         // растояние от точки до точки
         int distance = (int) Math.sqrt( ( xDiff * xDiff ) + ( yDiff * yDiff ) );
 
-        if ( distance <= diameter / 2 )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return distance <= diameter / 2;
     }
 
     /**
@@ -67,9 +64,28 @@ public class Circle
      * @param x абсцисса новой точки
      * @param y ордината новой точки
      */
-    public void moveTo( int x, int y )
+    public void moveTo(
+            int x,
+            int y )
     {
         this.x = x;
         this.y = y;
+    }
+
+    /**
+     * проверка на пересечение с другим кругом
+     *
+     * @param c круг для проверки
+     *
+     * @return true если пересечение есть, false иначе
+     */
+    public boolean intersectsWith( Circle c )
+    {
+        int diffX = this.x - c.x;
+        int diffY = this.y - c.y;
+
+        int distance = (int) Math.sqrt( ( diffX * diffX ) + ( diffY * diffY ) );
+
+        return distance < ( c.diameter + this.diameter ) / 2;
     }
 }
