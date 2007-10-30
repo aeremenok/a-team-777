@@ -8,7 +8,7 @@
 using namespace std;
 //////////////////////////////////////////////////////////////////////////
 // число пакетов
-#define PACKET_NUM ((DWORD)1000)
+#define PACKET_NUM ((DWORD)100)
 // размер запроса
 #define DATA_SIZE ((DWORD)0x10000)
 // интервал
@@ -138,27 +138,28 @@ void server()
         )) && printError("socket");
     // привязка сокета к локальному адресу
     SOCKET_ERROR==bind(sock, (sockaddr*) &addr, sizeof(addr)) && printError("bind");
-    // включение прослушивания сети
-    SOCKET_ERROR==listen(sock, QUEUE_SIZE) && printError("listen");
-
+    
+    int sz = sizeof(addr);
     for(;;)
     {
         char buf[DATA_SIZE];
-        sockaddr addr;
-        int sz = sizeof(addr);
-
-        // создание соединения с клиентом, пославшим запрос
-        SOCKET s = accept(sock, (sockaddr*)&addr, &sz);
-
         printf("accepted = %d\n", c++);
 
         // прием данных запроса от клиента
-        recv(s, buf, DATA_SIZE, 0);
+        if (recvfrom(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, &sz) == -1)
+        {
+            printError("server<<recvfrom");
+        }
+        
         // задержка на время обработки
         Sleep(SERV_TIME);
         // посылка клиенту результатов обработки запроса
-        send(s, buf, DATA_SIZE, 0);
+        if ( sendto(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, sz) == -1)
+        {
+            printError("server<<sendto");
+        }
     }
+    closesocket(sock);
 }
 //////////////////////////////////////////////////////////////////////////
 /*
@@ -187,12 +188,18 @@ DWORD WINAPI client(void*)
     connect(sock,(sockaddr*)&addr,sizeof(sockaddr_in)) && printError("connect");
 
     *((DWORD*)buf)=id;
-
+    int sz = sizeof(addr);
     // отправляем запрос на сервер
-    !send(sock,buf,DATA_SIZE,0) && printError("send");
+    if (sendto(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, sz) == -1)
+    {
+        printError("client<<sendto");
+    }
 
     // получаем ответ
-    !recv(sock,buf,DATA_SIZE,0) && printError("recv");
+    if (recvfrom(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, &sz) == -1)
+    {
+        printError("client<<recvfrom");
+    }
 
     *((DWORD*)buf) == id && printf("thead %40X success\n", *((DWORD*)buf)),g_success++;
 
