@@ -18,7 +18,7 @@ public class TestApplet
     private Random _random = null;
 
     /**
-     * текущие размеры апплета (для заглушки onresize)
+     * fixme текущие размеры апплета (для заглушки onresize)
      */
     private Dimension _dimension = null;
 
@@ -40,8 +40,6 @@ public class TestApplet
     public void start()
     {
         _dimension = getSize();
-
-        paint( getGraphics() );
 
         addMouseMotionListener( new MouseMotionListener()
         {
@@ -69,14 +67,14 @@ public class TestApplet
                         int jumpX = _random.nextInt( rightX - leftX - c.diameter ) + leftX;
                         int jumpY = _random.nextInt( downY - upY - c.diameter ) + upY;
 
-                        // todo залить окружность цветом фона
+                        // заливаем круг цветом фона
                         Circle temp = new Circle( c.x, c.y, c.diameter, Color.white );
                         temp.draw( getGraphics() );
 
-                        // todo перерисовать окр-ти с пересечениями
+                        // перерисовываем круги, у которых были пересечения с нашим
                         for ( Circle cc : _circleList )
                         {
-                            if ( cc != c && cc.intersectsWith( c ) )
+                            if ( c != cc && cc.intersectsWith( c ) )
                             {
                                 cc.draw( getGraphics() );
                             }
@@ -85,11 +83,8 @@ public class TestApplet
                         // двигаем круг
                         c.moveTo( jumpX, jumpY );
 
-                        // todo нарисовать новую окр-ть
+                        // рисуем круг на новом месте
                         c.draw( getGraphics() );
-
-                        // перерисовка
-                        //paint( getGraphics() );
                     }
                 }
             }
@@ -156,10 +151,8 @@ public class TestApplet
 
     public void paint( Graphics g )
     {
-        // размеры
+        // fixme заглушка неработающего onresize
         Dimension dim = getSize();
-
-        // fixme заглушка  неработающего onresize
         if ( !dim.equals( _dimension ) )
         {
             rebuild( dim.width, dim.height );
@@ -167,7 +160,7 @@ public class TestApplet
         }
 
         // очистка
-        //g.clearRect( 0, 0, dim.width - 1, dim.height - 1 );
+        g.clearRect( 0, 0, dim.width - 1, dim.height - 1 );
 
         // рисуем круги
         for ( Circle c : _circleList )
