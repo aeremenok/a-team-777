@@ -4,11 +4,12 @@
 #include <winsock2.h>
 #include <iostream>
 #include <cstdlib>
+#include <queue>
 //////////////////////////////////////////////////////////////////////////
 using namespace std;
 //////////////////////////////////////////////////////////////////////////
 // число пакетов
-#define PACKET_NUM ((DWORD)100)
+#define PACKET_NUM ((DWORD)500)
 // размер запроса
 #define DATA_SIZE ((DWORD)0x10000)
 // интервал
@@ -140,23 +141,45 @@ void server()
     SOCKET_ERROR==bind(sock, (sockaddr*) &addr, sizeof(addr)) && printError("bind");
     
     int sz = sizeof(addr);
+    // очереди клиентов и их сообщений
+    queue<char*> client_messages;
+    queue<sockaddr_in*> client_addresses;
+
     for(;;)
     {
         char buf[DATA_SIZE];
-        printf("accepted = %d\n", c++);
 
         // прием данных запроса от клиента
         if (recvfrom(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, &sz) == -1)
         {
             printError("server<<recvfrom");
         }
+        else if (client_addresses.size() < QUEUE_SIZE)
+        {   // очередь не заполнена - отправляем на обработку
+            client_messages.push(buf);
+            client_addresses.push(&addr);
+            printf("accepted = %d\n", c++);
+        }
         
         // задержка на время обработки
         Sleep(SERV_TIME);
-        // посылка клиенту результатов обработки запроса
-        if ( sendto(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, sz) == -1)
+        
+        if ( client_addresses.size() > 0 )
+        {   // есть запросы - обрабатываем
+            strcpy(buf, client_messages.front());
+            client_messages.pop();
+            addr = *(client_addresses.front());
+            client_addresses.pop();
+
+            // посылка клиенту результатов обработки запроса
+            if ( sendto(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, sz) == -1)
+            {
+                printError("server<<sendto");
+            }
+        }
+        else
         {
-            printError("server<<sendto");
+            printError("server<<queue");
         }
     }
     closesocket(sock);
@@ -201,7 +224,8 @@ DWORD WINAPI client(void*)
         printError("client<<recvfrom");
     }
 
-    *((DWORD*)buf) == id && printf("thead %40X success\n", *((DWORD*)buf)),g_success++;
+    *((DWORD*)buf) == id && 
+        printf("thead %40X success\n", *((DWORD*)buf)), g_success++;
 
     // закрываем сокетное соединение (сервер закрывает сокет автоматически)
     closesocket(sock);
