@@ -9,7 +9,7 @@
 using namespace std;
 //////////////////////////////////////////////////////////////////////////
 // число пакетов
-#define PACKET_NUM ((DWORD)500)
+#define PACKET_NUM ((DWORD)1000)
 // размер запроса
 #define DATA_SIZE ((DWORD)0x10000)
 // интервал
@@ -17,12 +17,10 @@ using namespace std;
 // ожидание ответа
 #define TIME_LIMIT ((DWORD)50)
 //////////////////////////////////////////////////////////////////////////
-/************************************************************************/
 // размер очереди
 int QUEUE_SIZE = 5;
 // время обработки
 int SERV_TIME = 50;
-/************************************************************************/
 // имя сервера
 char* SERVER_NAME;
 // порт сервера
@@ -56,10 +54,8 @@ void clparse(int c, char** v)
     {
         SERVER_PORT = atoi(v[2]);
         SERVER_ROLE = true;
-        /************************************************************************/
         SERV_TIME = atoi(v[3]);
         QUEUE_SIZE = atoi(v[4]);
-        /************************************************************************/
         printf("started as server. port = %d\n", SERVER_PORT);
         return;
     }
@@ -132,13 +128,11 @@ void server()
     resaddr(&addr);
 
     // открытие серверного сокета
-    SOCKET_ERROR==(sock = socket(AF_INET,SOCK_DGRAM,
-        /************************************************************************/
-        IPPROTO_UDP
-        /************************************************************************/
-        )) && printError("socket");
+    SOCKET_ERROR==(sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) 
+        && printError("socket");
     // привязка сокета к локальному адресу
-    SOCKET_ERROR==bind(sock, (sockaddr*) &addr, sizeof(addr)) && printError("bind");
+    SOCKET_ERROR==bind(sock, (sockaddr*) &addr, sizeof(addr)) 
+        && printError("bind");
     
     int sz = sizeof(addr);
     // очереди клиентов и их сообщений
@@ -152,7 +146,7 @@ void server()
         // прием данных запроса от клиента
         if (recvfrom(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, &sz) == -1)
         {
-            printError("server<<recvfrom");
+            printError("server<< recvfrom");
         }
         else if (client_addresses.size() < QUEUE_SIZE)
         {   // очередь не заполнена - отправляем на обработку
@@ -161,25 +155,25 @@ void server()
             printf("accepted = %d\n", c++);
         }
         
-        // задержка на время обработки
-        Sleep(SERV_TIME);
-        
         if ( client_addresses.size() > 0 )
         {   // есть запросы - обрабатываем
             strcpy(buf, client_messages.front());
             client_messages.pop();
             addr = *(client_addresses.front());
             client_addresses.pop();
-
+            
+            // задержка на время обработки
+            Sleep(SERV_TIME);
+            
             // посылка клиенту результатов обработки запроса
             if ( sendto(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, sz) == -1)
             {
-                printError("server<<sendto");
+                printError("server<< sendto");
             }
         }
         else
         {
-            printError("server<<queue");
+            printError("server<< queue");
         }
     }
     closesocket(sock);
@@ -202,11 +196,8 @@ DWORD WINAPI client(void*)
     printf("thread_id = %04X\n",i++);
 
     // инициализируем сокет клиента
-    SOCKET_ERROR == (sock = socket(AF_INET,SOCK_DGRAM,
-        /************************************************************************/
-        IPPROTO_UDP
-        /************************************************************************/
-        )) && printError("socket");
+    SOCKET_ERROR == (sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) 
+        && printError("socket");
     // соединяемся с сервером
     connect(sock,(sockaddr*)&addr,sizeof(sockaddr_in)) && printError("connect");
 
@@ -215,13 +206,13 @@ DWORD WINAPI client(void*)
     // отправляем запрос на сервер
     if (sendto(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, sz) == -1)
     {
-        printError("client<<sendto");
+        printError("client<< sendto");
     }
 
     // получаем ответ
     if (recvfrom(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, &sz) == -1)
     {
-        printError("client<<recvfrom");
+        printError("client<< recvfrom");
     }
 
     *((DWORD*)buf) == id && 
