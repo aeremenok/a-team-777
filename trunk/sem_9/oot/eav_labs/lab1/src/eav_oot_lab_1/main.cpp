@@ -8,6 +8,7 @@
 // 
 // ***************************************************************
 #include <ostream.h>
+#include <istream.h>
 #include <cstring>
 
 #include <vector>
@@ -210,12 +211,111 @@ void graphTest()
     }
 }
 //////////////////////////////////////////////////////////////////////////
+Shape* inputVertexMenu()
+{
+    Shape* shape;
+    int res = 0;
+    int a, b;
+    char* c;
+    Text* text = NULL;
+    TextInOval* textInOval = NULL;
+    cout<<"select a type of vertex to operate\n"
+        <<"1 - rectangle\n"
+        <<"2 - oval\n"
+        <<"3 - text\n"
+        <<"4 - text in oval\n"
+        <<"0 - exit\n";
+    cout<<"your selection: "; cin>>res;
+    switch(res)
+    {
+        case 0:
+            exit(0);
+            break;
+        case 1:
+            cout<<"enter length and width: "; cin>>a>>b;
+            shape = new Rectangle(a, b);
+            break;
+        case 2:
+            cout<<"enter rad1 and rad2: "; cin>>a>>b;
+            shape = new Oval(a, b);
+            break;
+        case 3:
+            cout<<"enter text content: "; cin>>c;
+            text = new Text();
+            text->setText(c);
+            shape = text;
+            break;
+        case 4:
+            cout<<"enter rad1 and rad2: "; cin>>a>>b;
+            cout<<"enter text content: "; cin>>c;
+            textInOval = new TextInOval(a, b);
+            textInOval->setText(c);
+            shape = textInOval;
+            break;
+        default:
+            break;
+    }
+    return shape;
+}
+//////////////////////////////////////////////////////////////////////////
+int printGraphMenu()
+{
+    int res = 0;
+    cout<<"#####################################\n"
+        <<"testing graph with shapes\n"
+        <<"select what do you want to do\n"
+        <<"1 - clear graph\n"
+        <<"2 - add ribble to graph\n"
+        <<"3 - remove ribble from graph\n"
+        <<"4 - remove vertex from graph\n"
+        <<"5 - print graph state\n"
+        <<"0 - exit\n";
+    cout<<"your selection: "; cin>>res;
+    cout<<"#####################################\n";
+    return res;
+}
+//////////////////////////////////////////////////////////////////////////
 // тестирует шаблон итератора для графических объектов
 void shapeGraphTest()
 {
-    cout<<"\n\t\ttesting shape graph\n";
-
     Graph<Shape*>* shapeGraph = new Graph<Shape*>();
+    for (;;)
+    {
+        switch(printGraphMenu())
+        {
+            case 0:
+                return;
+        	    break;
+            case 1:
+                // todo
+        	    break;
+            case 2:
+                cout<<"adding a ribble to graph. input 2 vertices:\n";
+                shapeGraph->addRibble(
+                    inputVertexMenu(),
+                    inputVertexMenu()
+                );
+                break;
+            case 3:
+                cout<<"removing a ribble from graph. input 2 vertices:\n";
+                shapeGraph->removeRibble(
+                    inputVertexMenu(),
+                    inputVertexMenu()
+                    );
+                break;
+            case 4:
+                cout<<"removing a vertex from graph. input a vertex:\n";
+                shapeGraph->removeVertex(
+                    inputVertexMenu()
+                    );
+        	    break;
+            case 5:
+        	    break;
+            default:
+                break;
+        }
+    }
+
     cout<<endl;
     shapeGraph->addRibble(
         new Rectangle(1, 2),
@@ -235,19 +335,52 @@ void shapeGraphTest()
     }
 }
 //////////////////////////////////////////////////////////////////////////
-int main()
+int printMainMenu()
 {
-    shapeTest();
-
-    sequenceTest();
-    adapterTest();
-    assocTest();
-    
-    shapeSequenceTest();
-
-    graphTest();
-    shapeGraphTest();
-
-    return 0;
+    int res = 0;
+    cout<<"========================================\n"
+        <<"OOT lab #1 (c)eav, 3351\n"    
+        <<"select, what do yo want to test:\n"
+        <<"1 - simple shapes\n"
+        <<"2 - STL containers\n"
+        <<"3 - STL containers with shapes\n"
+        <<"4 - graph container, throwing exceptions\n"
+        <<"5 - graph container with shapes\n"
+        <<"0 - exit\n";
+    cout<<"your selection: "; cin>>res;
+    cout<<"========================================\n";
+    return res;
+}
+//////////////////////////////////////////////////////////////////////////
+void main()
+{
+    for (;;)
+    {
+        switch(printMainMenu())
+        {
+            case 0:
+                return;
+        	    break;
+            case 1:
+                shapeTest();
+        	    break;
+            case 2:
+                sequenceTest();
+                adapterTest();
+                assocTest();
+                break;
+            case 3:
+                shapeSequenceTest();
+                break;
+            case 4:
+                graphTest();
+        	    break;
+            case 5:
+                shapeGraphTest();
+        	    break;
+            default:
+                break;
+        }
+    }
 }
 //////////////////////////////////////////////////////////////////////////
