@@ -30,18 +30,19 @@ bool SERVER_ROLE = false;
 // число успешно обработанных запросов
 unsigned g_success = 0;
 //////////////////////////////////////////////////////////////////////////
+// очередь сообщений
 queue<char*> _client_messages;
+// очередь адресов
 queue<sockaddr_in*> _client_addresses;
 
-char hostName[BUFSIZ];
 // счетчик клиентов
 int c = 0;
-sockaddr_in addr;
+// параметры рабочего сокета
 SOCKET sock;
+sockaddr_in addr;
 int sz = 0;
-
+// критическая секция для обработки очереди
 CRITICAL_SECTION cr;
-
 //////////////////////////////////////////////////////////////////////////
 /**
  * вывод на экран информации о параметрах командной строки
@@ -121,8 +122,12 @@ void resaddr(sockaddr_in *addr)
        );
 }
 //////////////////////////////////////////////////////////////////////////
+/**
+ * инициализирует сокет
+ */
 void initSocket()
 {
+    char hostName[BUFSIZ];
     // получаем имя компьютера, где запущено
     gethostname(hostName, BUFSIZ) && printError("gethostname");
     
@@ -146,27 +151,19 @@ void initSocket()
  */
 void server()
 {
+    char* buf;
     for(;;)
     {
-		char buf[DATA_SIZE];
 		EnterCriticalSection(&cr);
         
         if ( _client_addresses.size() > 0 )
         {   // есть запросы - обрабатываем
-            strcpy(buf, _client_messages.front());
- 
-			printf("%40X\n",*((DWORD*)buf));
-			printf("%40X\n",*((DWORD*)_client_messages.front()));
-
+            buf = _client_messages.front();
 			_client_messages.pop();
 
             addr = *(_client_addresses.front());
             _client_addresses.pop();
 
-			//////////////////////////////
-			printf("\n--------------\n");
-			//////////////////////////////
-            
             // задержка на время обработки
             Sleep(SERV_TIME);
             
@@ -176,10 +173,7 @@ void server()
                 printError("server << sendto");
             } 
 		}
-        /*else
-        {
-            printf("server<< queue");
-        }*/
+
 		LeaveCriticalSection(&cr);
     }
     closesocket(sock);
@@ -187,25 +181,23 @@ void server()
 //////////////////////////////////////////////////////////////////////////
 DWORD WINAPI handleQueue(void*)
 {
-	for(;;)
+    char buf[DATA_SIZE];
+    for(;;)
 	{
-		char buf[DATA_SIZE];
-
 		EnterCriticalSection(&cr);
-		if (recvfrom(sock, buf, DATA_SIZE, 0, (sockaddr*)&addr, &sz) == -1)
+
+		if (recvfrom(sock, buf, DATA_SIZE, 0, (sockaddr*)&addr, &sz) == SOCKET_ERROR)
 		{
 			printError("handleQueue<< recvfrom");
 		}
 		else if (_client_addresses.size() < QUEUE_SIZE)
 		{   // очередь не заполнена - отправляем на обработку
-			printf("=================\n");
-			printf("%40X\n",*((DWORD*)buf));
 			_client_messages.push(buf);
-			printf("%40X\n",*((DWORD*)_client_messages.front()));
 			_client_addresses.push(&addr);
-			printf("=================\n");
+
 			printf("accepted = %d\n", ++c);
 		}
+
 		LeaveCriticalSection(&cr);
 	}
 }
@@ -216,38 +208,43 @@ DWORD WINAPI handleQueue(void*)
 DWORD WINAPI client(void*)
 {
     SOCKET sock;
-    sockaddr_in addr;
+    sockaddr_in serv_addr;
     char buf[DATA_SIZE];
-    static int i = 0;
     DWORD id = GetCurrentThreadId();
-
+    DWORD receivedID;
+    
     // получаем параметры хоста по имени
-    resaddr(&addr);
+    resaddr(&serv_addr);
 
-    printf("thread_id = %04X\n",i++);
+    printf("thread_id = %d\n",id);
 
     // инициализируем сокет клиента
     SOCKET_ERROR == (sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) 
         && printError("socket");
     // соединяемся с сервером
-    connect(sock,(sockaddr*)&addr,sizeof(sockaddr_in)) && printError("connect");
+    connect(sock,(sockaddr*)&serv_addr,sizeof(sockaddr_in)) && printError("clinet<< connect");
 
-    *((DWORD*)buf)=id;
-    int sz = sizeof(addr);
+    sprintf(buf, "%d", id);
+    int sz = sizeof(serv_addr);
     // отправляем запрос на сервер
-    if (sendto(sock, buf, DATA_SIZE, 0, (sockaddr*)&addr, sz) == -1)
+    if (sendto(sock, buf, DATA_SIZE, 0, (sockaddr*)&serv_addr, sz) == SOCKET_ERROR)
     {
         printError("client<< sendto");
     }
 
     // получаем ответ
-    if (recvfrom(sock, buf, DATA_SIZE, 0, (sockaddr*)&addr, &sz) == -1)
+    if (recvfrom(sock, buf, DATA_SIZE, 0, (sockaddr*)&serv_addr, &sz) == SOCKET_ERROR)
     {
         printError("client<< recvfrom");
     }
 
-    if (*((DWORD*)buf) == id ) {  g_success++; } 
-	printf("thread got: %40X  current thread id: %40X \n", *((DWORD*)buf), id);
+    receivedID = atof(buf);
+    if (receivedID==id)
+    {
+        printf("thead %d success\n", id);
+        g_success++; 
+    } 
+
     // закрываем сокетное соединение
     closesocket(sock);
 
@@ -256,6 +253,8 @@ DWORD WINAPI client(void*)
 //////////////////////////////////////////////////////////////////////////
 int main(int argc, char *argv[])
 {
+    int timeLimit;
+
     // разбираем входные данные
     clparse(argc,argv);
 
@@ -272,21 +271,24 @@ int main(int argc, char *argv[])
 		CreateThread(0,0,handleQueue,0,0,0);
         server();
 	}
-    else             // запущен клиент
+    else
+    {   // запущен клиент
         for (int i=0; i < PACKET_NUM; i++) 
-            CreateThread(0,0,client,0,0,0), Sleep(CLIENT_TIMEOUT);
+            CreateThread(0,0,client,0,0,0), Sleep( CLIENT_TIMEOUT );
 
-    // ждем ответа
-    Sleep (TIME_LIMIT);
+        // ждем ответа
+        timeLimit = 2 * SERV_TIME * PACKET_NUM + TIME_LIMIT;
+        printf("sleeping for %d\n", timeLimit);
+        Sleep (timeLimit);
 
-    // выводим статистику
-    printf(
-        "Sent %d, received %d, total = %2.1f%%\n",
-        PACKET_NUM,
-        g_success,
-        ((float)g_success*100)/PACKET_NUM
-        );
-
+        // выводим статистику
+        printf(
+            "Sent %d, received %d, total = %2.1f%%\n",
+            PACKET_NUM,
+            g_success,
+            ((float)g_success*100)/PACKET_NUM
+            );
+    }
     return 0;
 }
 //////////////////////////////////////////////////////////////////////////
