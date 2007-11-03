@@ -9,9 +9,9 @@
 using namespace std;
 //////////////////////////////////////////////////////////////////////////
 // число пакетов
-#define PACKET_NUM ((DWORD)1000)
+#define PACKET_NUM ((DWORD)100)
 // размер запроса
-#define DATA_SIZE ((DWORD)0x10000)
+#define DATA_SIZE BUFSIZ
 // интервал
 #define CLIENT_TIMEOUT ((DWORD)50)
 // ожидание ответа
@@ -29,6 +29,19 @@ short SERVER_PORT;
 bool SERVER_ROLE = false;
 // число успешно обработанных запросов
 unsigned g_success = 0;
+//////////////////////////////////////////////////////////////////////////
+queue<char*> _client_messages;
+queue<sockaddr_in*> _client_addresses;
+
+char hostName[BUFSIZ];
+// счетчик клиентов
+int c = 0;
+sockaddr_in addr;
+SOCKET sock;
+int sz = 0;
+
+CRITICAL_SECTION cr;
+
 //////////////////////////////////////////////////////////////////////////
 /**
  * вывод на экран информации о параметрах командной строки
@@ -108,17 +121,8 @@ void resaddr(sockaddr_in *addr)
        );
 }
 //////////////////////////////////////////////////////////////////////////
-/**
- * реализация сервера
- */
-void server()
+void initSocket()
 {
-    char hostName[BUFSIZ];
-
-    sockaddr_in addr;
-    SOCKET sock;
-    // счетчик клиентов
-    int c = 0;
     // получаем имя компьютера, где запущено
     gethostname(hostName, BUFSIZ) && printError("gethostname");
     
@@ -134,49 +138,76 @@ void server()
     SOCKET_ERROR==bind(sock, (sockaddr*) &addr, sizeof(addr)) 
         && printError("bind");
     
-    int sz = sizeof(addr);
-    // очереди клиентов и их сообщений
-    queue<char*> client_messages;
-    queue<sockaddr_in*> client_addresses;
-
+    sz = sizeof(addr);
+}
+//////////////////////////////////////////////////////////////////////////
+/**
+ * реализация сервера
+ */
+void server()
+{
     for(;;)
     {
-        char buf[DATA_SIZE];
-
-        // прием данных запроса от клиента
-        if (recvfrom(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, &sz) == -1)
-        {
-            printError("server<< recvfrom");
-        }
-        else if (client_addresses.size() < QUEUE_SIZE)
-        {   // очередь не заполнена - отправляем на обработку
-            client_messages.push(buf);
-            client_addresses.push(&addr);
-            printf("accepted = %d\n", c++);
-        }
+		char buf[DATA_SIZE];
+		EnterCriticalSection(&cr);
         
-        if ( client_addresses.size() > 0 )
+        if ( _client_addresses.size() > 0 )
         {   // есть запросы - обрабатываем
-            strcpy(buf, client_messages.front());
-            client_messages.pop();
-            addr = *(client_addresses.front());
-            client_addresses.pop();
+            strcpy(buf, _client_messages.front());
+ 
+			printf("%40X\n",*((DWORD*)buf));
+			printf("%40X\n",*((DWORD*)_client_messages.front()));
+
+			_client_messages.pop();
+
+            addr = *(_client_addresses.front());
+            _client_addresses.pop();
+
+			//////////////////////////////
+			printf("\n--------------\n");
+			//////////////////////////////
             
             // задержка на время обработки
             Sleep(SERV_TIME);
             
             // посылка клиенту результатов обработки запроса
-            if ( sendto(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, sz) == -1)
+            if ( sendto(sock, buf, DATA_SIZE, 0, (sockaddr*)&addr, sz) == -1)
             {
-                printError("server<< sendto");
-            }
-        }
-        else
+                printError("server << sendto");
+            } 
+		}
+        /*else
         {
-            printError("server<< queue");
-        }
+            printf("server<< queue");
+        }*/
+		LeaveCriticalSection(&cr);
     }
     closesocket(sock);
+}
+//////////////////////////////////////////////////////////////////////////
+DWORD WINAPI handleQueue(void*)
+{
+	for(;;)
+	{
+		char buf[DATA_SIZE];
+
+		EnterCriticalSection(&cr);
+		if (recvfrom(sock, buf, DATA_SIZE, 0, (sockaddr*)&addr, &sz) == -1)
+		{
+			printError("handleQueue<< recvfrom");
+		}
+		else if (_client_addresses.size() < QUEUE_SIZE)
+		{   // очередь не заполнена - отправляем на обработку
+			printf("=================\n");
+			printf("%40X\n",*((DWORD*)buf));
+			_client_messages.push(buf);
+			printf("%40X\n",*((DWORD*)_client_messages.front()));
+			_client_addresses.push(&addr);
+			printf("=================\n");
+			printf("accepted = %d\n", ++c);
+		}
+		LeaveCriticalSection(&cr);
+	}
 }
 //////////////////////////////////////////////////////////////////////////
 /*
@@ -204,21 +235,20 @@ DWORD WINAPI client(void*)
     *((DWORD*)buf)=id;
     int sz = sizeof(addr);
     // отправляем запрос на сервер
-    if (sendto(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, sz) == -1)
+    if (sendto(sock, buf, DATA_SIZE, 0, (sockaddr*)&addr, sz) == -1)
     {
         printError("client<< sendto");
     }
 
     // получаем ответ
-    if (recvfrom(sock, buf, BUFSIZ, 0, (sockaddr*)&addr, &sz) == -1)
+    if (recvfrom(sock, buf, DATA_SIZE, 0, (sockaddr*)&addr, &sz) == -1)
     {
         printError("client<< recvfrom");
     }
 
-    *((DWORD*)buf) == id && 
-        printf("thead %40X success\n", *((DWORD*)buf)), g_success++;
-
-    // закрываем сокетное соединение (сервер закрывает сокет автоматически)
+    if (*((DWORD*)buf) == id ) {  g_success++; } 
+	printf("thread got: %40X  current thread id: %40X \n", *((DWORD*)buf), id);
+    // закрываем сокетное соединение
     closesocket(sock);
 
     return 0;
@@ -235,7 +265,13 @@ int main(int argc, char *argv[])
         printError("WSAStartup");
 
     if (SERVER_ROLE) // запущен сервер
+	{
+		initSocket();
+
+		InitializeCriticalSection(&cr);
+		CreateThread(0,0,handleQueue,0,0,0);
         server();
+	}
     else             // запущен клиент
         for (int i=0; i < PACKET_NUM; i++) 
             CreateThread(0,0,client,0,0,0), Sleep(CLIENT_TIMEOUT);
