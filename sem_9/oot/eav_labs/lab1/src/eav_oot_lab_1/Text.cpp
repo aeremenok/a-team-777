@@ -7,13 +7,13 @@
 class ostream;
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=46F510F20232
-char* Text::getText() const
+std::string Text::getText() const
 {
     return _content;
 }
 
 //##ModelId=46F511550280
-void Text::setText( char* text )
+void Text::setText( std::string text )
 {
     _content = text;
 }
@@ -21,7 +21,6 @@ void Text::setText( char* text )
 //##ModelId=46F676990213
 Text::~Text()
 {
-    delete(_content);
 	cout<<"text destroyed"<<endl;
 }
 
@@ -30,7 +29,7 @@ ostream& Text::speak(ostream& os) const
 {
     return Shape::speak(os)
         <<"text is speaking:\n\t"
-        <<"text content: "<<_content<<endl;
+        <<"text content: "<<_content.c_str()<<endl;
 }
 
 //##ModelId=471220F702FD
