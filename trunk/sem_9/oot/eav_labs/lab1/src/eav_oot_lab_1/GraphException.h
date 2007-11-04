@@ -15,27 +15,28 @@ using namespace std;
 class GraphException 
 {
 public:
- //##ModelId=471F868D0109
- virtual const string& get__description() const;
+    //##ModelId=471F868D0109
+    virtual const string& get__description() const;
 
- //##ModelId=471F872800BB
- GraphException(string message);
+    //##ModelId=471F872800BB
+    GraphException(string message);
 
- //получить информацию об исключении
- //##ModelId=471F8742038A
- virtual string getException();
+    //получить информацию об исключении
+    //##ModelId=471F8742038A
+    virtual string getException();
 
- //вывести информацию об исключении в консоль
- //##ModelId=471F878E02DE
- virtual void printException();
-
-    
+    //вывести информацию об исключении в консоль
+    //##ModelId=471F878E02DE
+    virtual void printException();
+   
 protected:
+    // название исключения
 	//##ModelId=4721A0BA02FD
     virtual const string getName() const;
- //описание ошибки
- //##ModelId=471F866C0000
- string _description;
+
+    //описание ошибки
+    //##ModelId=471F866C0000
+    string _description;
 };
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_GRAPHEXCEPTION_471F849B00AB_INCLUDED */

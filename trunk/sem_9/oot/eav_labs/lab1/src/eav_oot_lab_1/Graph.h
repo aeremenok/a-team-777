@@ -68,13 +68,13 @@ private:
         {
             _innerList = innerList;
             _iter = _innerList->begin();
-            cout<<"graph iterator created\n";
+            cout<<"[graph_iterator]graph iterator created\n";
         }
     };
 public:
     //очистить граф. очистка объектов по указателям не производится, 
     // т.к. для этого нужно знать тип удаляемого объекта. 
-    // такую очистку пользователь должен сделать сам
+    // это пользователь должен сделать сам
     //##ModelId=472D959B029F
     void clear()
     {
@@ -85,25 +85,28 @@ public:
     //##ModelId=471BBA1B0177
     void addRibble(T* vertex1, T* vertex2)
     {
-        cout<<"adding ribble\n";
+        cout<<"[graph] adding ribble, checking if it already exists\n";
+
         // проверяем, нет ли уже такого ребра
         Iterator<T>* iter = getIterator();
         bool isPresent = false;
         Ribble<T>* ribble = new Ribble<T>(vertex1, vertex2);
+
         while (iter->hasNext() && !isPresent)
         {
             Ribble<T>* current = iter->next();
-            if ( *current == *ribble )
+            if ( current->equals(ribble) )
             {
                 isPresent = true;
                 throw new RibbleExistsException("cannot add: ribble already exists in graph");
             }
         }
+
         // если нет - добавляем
         if (!isPresent)
         {
             _ribbleList->push_back(ribble);
-            cout<<"ribble added successfully\n";
+            cout<<"[graph] ribble added successfully\n";
         }
     };
 
@@ -111,24 +114,27 @@ public:
 	//##ModelId=4721A0BA034B
     void removeRibble(T* vertex1, T* vertex2)
     {
-        cout<<"removing ribble\n";
+        cout<<"[graph] removing ribble\n";
+
         // проверяем, есть ли такое ребро
         // проверка не обязательна, но нужна, чтобы продемонстрировать экспешен =)
         Iterator<T> *iter = getIterator();
         bool isPresent = false;
         Ribble<T>* ribble = new Ribble<T>(vertex1, vertex2);
+
         while (iter->hasNext() && !isPresent)
         {
             Ribble<T>* current = iter->next();
-            if ( *current == *ribble )
+            if ( current->equals(ribble) )
             { // если есть - удаляем
                 isPresent = true;
                 _ribbleList->remove(current);
-                cout<<"ribble removed successfully\n";
+                cout<<"[graph] ribble removed successfully\n";
             }
         }
+        // если нет - бросаем эксепшен
         if (!isPresent)
-        {   // нет - бросаем эксепшен
+        {   
             throw new RibbleNotFoundException("cannot remove: ribble not found");
         }
     }
@@ -137,10 +143,12 @@ public:
     //##ModelId=471BBAE20290
     void removeVertex(T* vertex)
     {
-        cout<<"removoing all ribbles, containing vertex "<<vertex<<endl;
+        cout<<"[graph] removoing all ribbles, containing vertex "<<vertex<<endl;
+
         // проверяем, есть ли такая вершина
         Iterator<T>* iter = getIterator();
         bool isPresent = false;
+
         while (iter->hasNext())
         {
             Ribble<T>* current = iter->next();
@@ -148,16 +156,17 @@ public:
             {
                 _ribbleList->remove(current);
                 isPresent = true;
-                cout<<"\tribble containig vertex removed\n";
+                cout<<"\t[graph] ribble containig vertex removed\n";
             }
         }
+
         if (!isPresent)
         {
             throw new VertexNotFoundException("cannot remove: vertex not found");
         }
         else
         {
-            cout<<"vertex removed successfully\n";
+            cout<<"[graph] vertex removed successfully\n";
         }
     };
 
@@ -172,13 +181,13 @@ public:
     Graph() 
     {
         _ribbleList = new list< Ribble<T>* >;
-        cout<<"graph created\n";
+        cout<<"[graph] graph created\n";
     };
 
     //##ModelId=472D958301A5
     friend ostream_withassign& operator<<(ostream_withassign& o, const Graph<T>& rhs);
 };
-
+//////////////////////////////////////////////////////////////////////////
 template <class T>
 ostream_withassign& operator<<( ostream_withassign& o, const Graph<T>& rhs )
 {

@@ -16,9 +16,10 @@ ostream& TextInOval::speak(ostream& os) const
 {
     return 
         Shape::speak(os)
-        <<"text_in_oval is speaking:\n"
-        <<"\toval chords: ("<<_rad1<<", "<<_rad2<<")"<<endl
-        <<"\ttext content: "<<_content.c_str()<<endl
+        <<"[text_in_oval] oval chords: ("
+        <<_rad1<<", "<<_rad2<<")"<<endl
+        <<"[text_in_oval] text content: "
+        <<_content.c_str()<<endl
         ;
 }
 
@@ -26,6 +27,19 @@ ostream& TextInOval::speak(ostream& os) const
 TextInOval::TextInOval(float big, float less):
 Text(), Oval(big, less)
 {
-    cout<<"text in oval created"<<endl;
+    cout<<"[text_in_oval] text in oval created"<<endl;
 }
 
+TextInOval::TextInOval( float big, float less, std::string text ):
+Text(text), Oval(big, less)
+{
+    cout<<"[text_in_oval] text in oval created"<<endl;
+}
+
+//##ModelId=472DDB2C0280
+bool TextInOval::operator==(const TextInOval& rhs) const
+{
+    return Oval::operator ==(rhs) &&
+           Text::operator ==(rhs);
+}
+//////////////////////////////////////////////////////////////////////////

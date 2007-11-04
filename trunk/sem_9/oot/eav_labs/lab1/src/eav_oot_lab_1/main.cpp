@@ -309,23 +309,45 @@ void shapeGraphTest()
         	    break;
             case 2:
                 cout<<"adding a ribble to graph. input 2 vertices:\n";
-                shapeGraph.addRibble(
-                    inputVertexMenu(),
-                    inputVertexMenu()
-                );
+                try
+                {
+                    shapeGraph.addRibble(
+                        inputVertexMenu(),
+                        inputVertexMenu()
+                    );
+                }
+                catch (GraphException* e)
+                {
+                	e->printException();
+                }
+
                 break;
             case 3:
                 cout<<"removing a ribble from graph. input 2 vertices:\n";
-                shapeGraph.removeRibble(
-                    inputVertexMenu(),
-                    inputVertexMenu()
+                try
+                {
+                    shapeGraph.removeRibble(
+                        inputVertexMenu(),
+                        inputVertexMenu()
                     );
+                }
+                catch (GraphException* e)
+                {
+                	e->printException();
+                }
                 break;
             case 4:
                 cout<<"removing a vertex from graph. input a vertex:\n";
-                shapeGraph.removeVertex(
-                    inputVertexMenu()
+                try
+                {
+                    shapeGraph.removeVertex(
+                        inputVertexMenu()
                     );
+                }
+                catch (GraphException* e)
+                {
+                	e->printException();
+                }
         	    break;
             case 5:
                 cout << shapeGraph;

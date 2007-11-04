@@ -9,7 +9,7 @@
 Oval::~Oval()
 {
     Shape::~Shape();
-	cout<<"oval destroyed"<<endl;
+	cout<<"[oval] oval destroyed"<<endl;
 }
 
 //##ModelId=46F67B2D004E
@@ -41,8 +41,8 @@ void Oval::setRad2(float value)
 ostream& Oval::speak(ostream& os) const
 {
     return Shape::speak(os)
-        <<"oval is speaking:\n\t"
-        <<"oval chords: ("<<_rad1<<", "<<_rad2<<")"<<endl;
+        <<"[oval] oval chords: ("
+        <<_rad1<<", "<<_rad2<<")"<<endl;
 }
 
 //##ModelId=4713C61F0203
@@ -50,7 +50,15 @@ Oval::Oval(float rad1, float rad2)
 {
     _rad1 = rad1;
     _rad2 = rad2;
-    cout<<"oval created"<<endl;
+    cout<<"[oval] oval created"<<endl;
 }
 
+//##ModelId=472DDB2002EE
+bool Oval::operator==(const Oval& rhs) const
+{
+    return 
+        Shape::operator ==(rhs) && 
+        (_rad1 == rhs._rad1) && 
+        (_rad2 == rhs._rad2);
+}
 

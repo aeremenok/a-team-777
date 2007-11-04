@@ -17,15 +17,21 @@ public:
     //##ModelId=472D97EC0167
     virtual ~Ribble()
     {
-//         delete(_vertex1);
-//         delete(_vertex2);
+        cout<<"[ribble] ribble destroyed\n";
     }
 
     //##ModelId=471E60A600FA
-    bool operator==(const Ribble& rhs) const
+    bool operator==(const Ribble<T>& rhs) const
     {
-        return  (_vertex1==rhs._vertex1) && 
-                (_vertex2==rhs._vertex2);
+        return rhs.equals(this);
+    }
+
+    //сравннение по указателю
+	//##ModelId=472DDAF4033C
+    bool equals(const Ribble<T>* ribble)
+    {
+        return (*_vertex1 == *(ribble->_vertex1)) && 
+               (*_vertex2 == *(ribble->_vertex2));
     }
 
     //принадлежит ли вершина ребру
@@ -50,6 +56,7 @@ public:
     //##ModelId=471E4BB5034B
     Ribble(T* vertex1, T* vertex2): _vertex1(vertex1), _vertex2(vertex2)
     {
+        cout<<"[ribble] ribble created\n";
     };
 
 private:
