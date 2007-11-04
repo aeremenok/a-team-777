@@ -9,7 +9,7 @@
 // ***************************************************************
 #include <ostream.h>
 #include <istream.h>
-#include <cstring>
+#include <string>
 
 #include <vector>
 #include <stack>
@@ -216,7 +216,8 @@ Shape* inputVertexMenu()
     int res = 0;
 
     int a, b;
-    char* c;
+    char c[TEXT_SIZE] = "777";
+    std::string s;
 
     Shape* shape;
     Text* text = NULL;
@@ -245,15 +246,17 @@ Shape* inputVertexMenu()
             break;
         case 3:
             cout<<"enter text content: "; cin>>c;
+            s = ""; s.append(c);
             text = new Text();
-            text->setText(c);
+            text->setText(s);
             shape = text;
             break;
         case 4:
             cout<<"enter rad1 and rad2: "; cin>>a>>b;
             cout<<"enter text content: "; cin>>c;
             textInOval = new TextInOval(a, b);
-            textInOval->setText(c);
+            s = ""; s.append(c);
+            textInOval->setText(s);
             shape = textInOval;
             break;
         default:
@@ -283,6 +286,7 @@ int printGraphMenu()
 void shapeGraphTest()
 {
     Graph<Shape> shapeGraph;
+    Iterator<Shape>* iter = NULL;
     for (;;)
     {
         switch(printGraphMenu())
@@ -291,7 +295,17 @@ void shapeGraphTest()
                 exit(0);
         	    break;
             case 1:
-                shapeGraph.clear(); // todo
+                cout<<"clearing graph\n";
+                iter = shapeGraph.getIterator();
+                while (iter->hasNext())
+                {
+                    Ribble<Shape>* current = iter->next();
+                    current->get__vertex1()->~Shape();
+                    current->get__vertex2()->~Shape();
+                    current->~Ribble();
+                }
+                shapeGraph.clear();
+                cout<<"graph cleared\n";
         	    break;
             case 2:
                 cout<<"adding a ribble to graph. input 2 vertices:\n";

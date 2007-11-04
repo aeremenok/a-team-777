@@ -18,7 +18,7 @@ ostream& TextInOval::speak(ostream& os) const
         Shape::speak(os)
         <<"text_in_oval is speaking:\n"
         <<"\toval chords: ("<<_rad1<<", "<<_rad2<<")"<<endl
-        <<"\ttext content: "<<_content<<endl
+        <<"\ttext content: "<<_content.c_str()<<endl
         ;
 }
 
