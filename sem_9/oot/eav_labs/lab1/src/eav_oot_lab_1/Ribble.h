@@ -14,6 +14,12 @@ template<class T>
 class Ribble 
 {
 public:
+    //##ModelId=472D97EC0167
+    virtual ~Ribble()
+    {
+        
+    }
+
     //##ModelId=471E60A600FA
     bool operator==(const Ribble& rhs) const
     {
@@ -45,7 +51,6 @@ public:
     };
 
 private:
-
     //##ModelId=471BB58F01E4
     const T _vertex1;
 
