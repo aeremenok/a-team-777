@@ -6,8 +6,9 @@
 #ifndef _INC_GRAPH_46F8FA7D014A_INCLUDED
 #define _INC_GRAPH_46F8FA7D014A_INCLUDED
 //////////////////////////////////////////////////////////////////////////
-#include <list>
 #include <ostream.h>
+#include <string>
+#include <list>
 
 #include "Ribble.h"
 #include "Iterator.h"
@@ -23,7 +24,7 @@ template<class T> class Graph
 private:
     //список ребер
     //##ModelId=471BB7C90138
-    list< Ribble<T> >* _ribbleList;
+    list< Ribble<T> *>* _ribbleList;
 
     //внутрениий итератор
     //##ModelId=471C6F3A0222
@@ -33,15 +34,15 @@ private:
     private:
         // локальна€ копи€ указател€ на список
 		//##ModelId=4721A0BB0010
-        list< Ribble <T> >* _innerList;
+        list< Ribble <T>* >* _innerList;
 
         // итератор обхода списка рЄбер
 		//##ModelId=4721A0BB0020
-        list< Ribble <T> >::iterator _iter;
+        list< Ribble <T>* >::iterator _iter;
     public:
         //перейти к первому эл-ту
         //##ModelId=471E5F210177
-        virtual Ribble<T> first()
+        virtual Ribble<T>* first()
         {
             _iter = _innerList->begin();
             return *_iter;
@@ -49,9 +50,9 @@ private:
 
         //перейти к следующему эл-ту
         //##ModelId=471E5F21031C
-        virtual Ribble<T> next()
+        virtual Ribble<T>* next()
         {
-            Ribble<T> res = *_iter;
+            Ribble<T>* res = *_iter;
             _iter++;
             return res;
         }
@@ -63,7 +64,7 @@ private:
         }
 
         //##ModelId=471E5A1F0213
-        GraphIterator(list< Ribble<T> >* innerList)
+        GraphIterator(list< Ribble<T>* >* innerList)
         {
             _innerList = innerList;
             _iter = _innerList->begin();
@@ -71,38 +72,28 @@ private:
         }
     };
 public:
-    //##ModelId=472D958301A5
-    friend ostream& operator<<(ostream& o, const Graph& rhs)
-    {
-        return o;
-    }
-
-    //очистить граф
+    //очистить граф. очистка объектов по указател€м не производитс€, 
+    // т.к. дл€ этого нужно знать тип удал€емого объекта. 
+    // такую очистку пользователь должен сделать сам
     //##ModelId=472D959B029F
     void clear()
     {
-        Iterator<T>* iter = getIterator();
-        while (iter->hasNext())
-        {
-            // todo
-        }
+        _ribbleList->clear();
     }
 
     //добавить ребро
     //##ModelId=471BBA1B0177
-    void addRibble(T vertex1, T vertex2)
+    void addRibble(T* vertex1, T* vertex2)
     {
         cout<<"adding ribble\n";
         // провер€ем, нет ли уже такого ребра
         Iterator<T>* iter = getIterator();
         bool isPresent = false;
+        Ribble<T>* ribble = new Ribble<T>(vertex1, vertex2);
         while (iter->hasNext() && !isPresent)
         {
-            Ribble<T> current = iter->next();
-            if (
-                current.get__vertex1() == vertex1 &&
-                current.get__vertex2() == vertex2
-                )
+            Ribble<T>* current = iter->next();
+            if ( *current == *ribble )
             {
                 isPresent = true;
                 throw new RibbleExistsException("cannot add: ribble already exists in graph");
@@ -111,7 +102,6 @@ public:
         // если нет - добавл€ем
         if (!isPresent)
         {
-            Ribble<T> ribble(vertex1, vertex2);
             _ribbleList->push_back(ribble);
             cout<<"ribble added successfully\n";
         }
@@ -119,20 +109,18 @@ public:
 
     //удалить ребро
 	//##ModelId=4721A0BA034B
-    void removeRibble(T vertex1, T vertex2)
+    void removeRibble(T* vertex1, T* vertex2)
     {
         cout<<"removing ribble\n";
         // провер€ем, есть ли такое ребро
         // проверка не об€зательна, но нужна, чтобы продемонстрировать экспешен =)
         Iterator<T> *iter = getIterator();
         bool isPresent = false;
+        Ribble<T>* ribble = new Ribble<T>(vertex1, vertex2);
         while (iter->hasNext() && !isPresent)
         {
-            Ribble<T> current = iter->next();
-            if (
-                current.get__vertex1() == vertex1 &&
-                current.get__vertex2() == vertex2
-                )
+            Ribble<T>* current = iter->next();
+            if ( *current == *ribble )
             { // если есть - удал€ем
                 isPresent = true;
                 _ribbleList->remove(current);
@@ -147,7 +135,7 @@ public:
 
     // удалить вершину
     //##ModelId=471BBAE20290
-    void removeVertex(T vertex)
+    void removeVertex(T* vertex)
     {
         cout<<"removoing all ribbles, containing vertex "<<vertex<<endl;
         // провер€ем, есть ли така€ вершина
@@ -155,8 +143,8 @@ public:
         bool isPresent = false;
         while (iter->hasNext())
         {
-            Ribble<T> current = iter->next();
-            if (current.contains(vertex))
+            Ribble<T>* current = iter->next();
+            if (current->contains(vertex))
             {
                 _ribbleList->remove(current);
                 isPresent = true;
@@ -175,7 +163,7 @@ public:
 
     // получить итератор дл€ обхода графа
 	//##ModelId=4721A0BA03A9
-    GraphIterator<T>* getIterator()
+    GraphIterator<T>* getIterator() const
     {
         return new GraphIterator<T>(_ribbleList);
     }
@@ -183,9 +171,28 @@ public:
     //##ModelId=471BB2E30271
     Graph() 
     {
-        _ribbleList = new list< Ribble<T> >;
+        _ribbleList = new list< Ribble<T>* >;
         cout<<"graph created\n";
     };
+
+    //##ModelId=472D958301A5
+    friend ostream_withassign& operator<<(ostream_withassign& o, const Graph<T>& rhs);
 };
+
+template <class T>
+ostream_withassign& operator<<( ostream_withassign& o, const Graph<T>& rhs )
+{
+    Iterator<T>* iter = rhs.getIterator();
+    int i = 0;
+    while (iter->hasNext())
+    {
+        o<<"ribble #"<<++i<<endl;
+        Ribble<T>* current = iter->next();
+        o<<"===vertex 1===\n"<<*(current->get__vertex1())
+         <<"===vertex 2===\n"<<*(current->get__vertex2())
+         <<endl;
+    }
+    return o;
+}   
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_GRAPH_46F8FA7D014A_INCLUDED */

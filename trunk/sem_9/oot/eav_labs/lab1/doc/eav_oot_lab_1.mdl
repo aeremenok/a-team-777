@@ -1637,7 +1637,7 @@
 							value      	""))
 						quid       	"471BBA1B0196"
 						documentation 	"начальная вершина"
-						type       	"T")
+						type       	"T*")
 					    (object Parameter "vertex2"
 						attributes 	(list Attribute_Set
 						    (object Attribute
@@ -1646,7 +1646,7 @@
 							value      	""))
 						quid       	"471BBA3E0148"
 						documentation 	"конечная вершина"
-						type       	"T"))
+						type       	"T*"))
 					result     	"void"
 					exceptions 	"Logical View::ru.spb.eav::exceptions::RibbleExistsException[471F7F900290]"
 					concurrency 	"Sequential"
@@ -1673,7 +1673,7 @@
 							value      	""))
 						quid       	"471BBAE202AF"
 						documentation 	"удалить вершину"
-						type       	"T"))
+						type       	"T*"))
 					result     	"void"
 					exceptions 	"Logical View::ru.spb.eav::exceptions::VertexNotFoundException[471F7FBF03D8]"
 					concurrency 	"Sequential"
@@ -1690,10 +1690,10 @@
 					parameters 	(list Parameters
 					    (object Parameter "vertex1"
 						quid       	"4721A0BA036B"
-						type       	"T")
+						type       	"T*")
 					    (object Parameter "vertex2"
 						quid       	"4721A0BA038A"
-						type       	"T"))
+						type       	"T*"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -1706,6 +1706,7 @@
 						value      	TRUE))
 					quid       	"4721A0BA03A9"
 					documentation 	" получить итератор для обхода графа"
+					stereotype 	"const"
 					result     	"GraphIterator<T>*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -1741,12 +1742,12 @@
 					parameters 	(list Parameters
 					    (object Parameter "o"
 						quid       	"472D958301C5"
-						type       	"ostream&")
+						type       	"ostream_withassign&")
 					    (object Parameter "rhs"
 						quid       	"472D958301F4"
-						type       	"const Graph&"
+						type       	"const Graph<T>&"
 						const      	TRUE))
-					result     	"ostream&"
+					result     	"ostream_withassign&"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -1765,7 +1766,11 @@
 						name       	"CodeName"
 						value      	""))
 					quid       	"472D959B029F"
-					documentation 	"очистить граф"
+					documentation 	
+|очистить граф. очистка объектов по указателям не производится, 
+| т.к. для этого нужно знать тип удаляемого объекта. 
+| такую очистку пользователь должен сделать сам
+					
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -1779,7 +1784,7 @@
 						value      	""))
 					quid       	"471BB7C90138"
 					documentation 	"список ребер"
-					type       	"list<Ribble<T> >*"))
+					type       	"list<Ribble<T>*>*"))
 				module     	"Component View::eav_oot_lab_1"
 				quidu      	"46F5147A02BF"
 				language   	"VC++"
@@ -1833,7 +1838,7 @@
 						    (object Attribute
 							tool       	"VC++"
 							name       	"ClassMethod"
-							value      	"$NAME()")
+							value      	"")
 						    (object Attribute
 							tool       	"VC++"
 							name       	"Inline"
@@ -1850,7 +1855,7 @@
 						parameters 	(list Parameters
 						    (object Parameter "innerList"
 							quid       	"4721A0BB004E"
-							type       	"list<Ribble<T> >*"))
+							type       	"list<Ribble<T>*>*"))
 						concurrency 	"Sequential"
 						opExportControl 	"Public"
 						uid        	0)
@@ -1875,7 +1880,7 @@
 						quid       	"471E5F210177"
 						documentation 	"перейти к первому эл-ту"
 						stereotype 	"virtual"
-						result     	"Ribble<T>"
+						result     	"Ribble<T>*"
 						concurrency 	"Sequential"
 						opExportControl 	"Public"
 						uid        	0)
@@ -1900,7 +1905,7 @@
 						quid       	"471E5F21031C"
 						documentation 	"перейти к следующему эл-ту"
 						stereotype 	"virtual"
-						result     	"Ribble<T>"
+						result     	"Ribble<T>*"
 						concurrency 	"Sequential"
 						opExportControl 	"Public"
 						uid        	0)
@@ -1962,7 +1967,7 @@
 						value      	""))
 					quid       	"471BB59F0222"
 					stereotype 	"const"
-					result     	"const T"
+					result     	"const T*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -1986,7 +1991,7 @@
 						value      	""))
 					quid       	"471E3CE002EE"
 					stereotype 	"const"
-					result     	"const T"
+					result     	"const T*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -2009,7 +2014,7 @@
 							name       	"CodeName"
 							value      	""))
 						quid       	"471E4BB5035B"
-						type       	"T")
+						type       	"T*")
 					    (object Parameter "vertex2"
 						attributes 	(list Attribute_Set
 						    (object Attribute
@@ -2017,7 +2022,7 @@
 							name       	"CodeName"
 							value      	""))
 						quid       	"471E4BCE033C"
-						type       	"T"))
+						type       	"T*"))
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -2033,6 +2038,7 @@
 						value      	""))
 					quid       	"471E5B6D032C"
 					documentation 	"принадлежит ли вершина ребру"
+					stereotype 	"const"
 					parameters 	(list Parameters
 					    (object Parameter "vertex"
 						attributes 	(list Attribute_Set
@@ -2042,7 +2048,8 @@
 							value      	""))
 						quid       	"471E5B6D034B"
 						documentation 	"искомая вершина"
-						type       	"T"))
+						type       	"const T*"
+						const      	TRUE))
 					result     	"bool"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -2119,7 +2126,7 @@
 						name       	"CodeName"
 						value      	""))
 					quid       	"471BB58F01E4"
-					type       	"const T")
+					type       	"const T*")
 				    (object ClassAttribute "_vertex2"
 					attributes 	(list Attribute_Set
 					    (object Attribute
@@ -2127,7 +2134,7 @@
 						name       	"CodeName"
 						value      	""))
 					quid       	"471BB5A20157"
-					type       	"const T"))
+					type       	"const T*"))
 				module     	"Component View::eav_oot_lab_1"
 				quidu      	"46F5147A02BF"
 				language   	"VC++"
@@ -2181,7 +2188,7 @@
 					quid       	"471BCA6300EA"
 					documentation 	"перейти к следующему эл-ту"
 					stereotype 	"abstract"
-					result     	"Ribble<T>"
+					result     	"Ribble<T>*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -2202,7 +2209,7 @@
 					quid       	"471BCAB501A5"
 					documentation 	"перейти к первому эл-ту"
 					stereotype 	"abstract"
-					result     	"Ribble<T>"
+					result     	"Ribble<T>*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -2228,10 +2235,10 @@
 			    (object Association "$UNNAMED$0"
 				quid       	"4721A0BB000F"
 				roles      	(list role_list
-				    (object Role "_innerList:list<Ribble<T> >*"
+				    (object Role "_innerList:list<Ribble<T>*>*"
 					quid       	"4721A0BB0010"
 					documentation 	" локальная копия указателя на список"
-					label      	"_innerList:list<Ribble<T> >*"
+					label      	"_innerList:list<Ribble<T>*>*"
 					supplier   	">"
 					exportControl 	"Private"
 					is_navigable 	TRUE)
@@ -2242,10 +2249,10 @@
 			    (object Association "$UNNAMED$2"
 				quid       	"4721A0BB001F"
 				roles      	(list role_list
-				    (object Role "_iter:list<Ribble<T> >::iterator"
+				    (object Role "_iter:list<Ribble<T>*>::iterator"
 					quid       	"4721A0BB0020"
 					documentation 	" итератор обхода списка рёбер"
-					label      	"_iter:list<Ribble<T> >::iterator"
+					label      	"_iter:list<Ribble<T>*>::iterator"
 					supplier   	"iterator"
 					exportControl 	"Private"
 					is_navigable 	TRUE)
@@ -2356,37 +2363,12 @@
 					    fill_color 	13434879
 					    anchor     	2
 					    nlines     	4
-					    max_width  	540)
+					    max_width  	531)
 					width      	644
 					height     	302
 					annotation 	8
 					autoResize 	TRUE)
-				    (object UsesView "iterates by" @13
-					font       	(object Font
-					    size       	12
-					    face       	"Consolas"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	0
-					    default_color 	FALSE)
-					label      	(object ItemLabel
-					    Parent_View 	@13
-					    location   	(1324, 678)
-					    anchor_loc 	1
-					    nlines     	1
-					    max_width  	370
-					    justify    	0
-					    label      	"iterates by")
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"471BCB39007D"
-					client     	@12
-					supplier   	@11
-					line_style 	0)
-				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Graph" @14
+				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Graph" @13
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
@@ -2402,7 +2384,7 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@14
+					    Parent_View 	@13
 					    location   	(705, 1606)
 					    fill_color 	13434879
 					    nlines     	1
@@ -2414,7 +2396,7 @@
 					fill_color 	13434879
 					quidu      	"46F8FA7D014A"
 					compartment 	(object Compartment
-					    Parent_View 	@14
+					    Parent_View 	@13
 					    location   	(705, 1664)
 					    font       	(object Font
 						size       	10
@@ -2435,11 +2417,11 @@
 					height     	536
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Graph::GraphIterator" @15
+				    (object ClassView "ParameterizedClass" "Logical View::ru.spb.eav::container::Graph::GraphIterator" @14
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
-					location   	(765, 1314)
+					location   	(741, 1251)
 					font       	(object Font
 					    size       	10
 					    face       	"Consolas"
@@ -2451,8 +2433,8 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@15
-					    location   	(464, 1167)
+					    Parent_View 	@14
+					    location   	(440, 1104)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	602
@@ -2463,8 +2445,8 @@
 					fill_color 	13434879
 					quidu      	"471C6F3A0222"
 					compartment 	(object Compartment
-					    Parent_View 	@15
-					    location   	(464, 1263)
+					    Parent_View 	@14
+					    location   	(440, 1200)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -2479,12 +2461,12 @@
 					    fill_color 	13434879
 					    anchor     	2
 					    nlines     	5
-					    max_width  	518)
+					    max_width  	509)
 					width      	620
 					height     	388
 					annotation 	8
 					autoResize 	TRUE)
-				    (object UsesView "has as base a list of" @16
+				    (object UsesView "has as base a list of" @15
 					font       	(object Font
 					    size       	12
 					    face       	"Consolas"
@@ -2496,7 +2478,7 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@16
+					    Parent_View 	@15
 					    location   	(1527, 1252)
 					    anchor_loc 	1
 					    nlines     	1
@@ -2506,15 +2488,40 @@
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"471BB48C006D"
-					client     	@14
+					client     	@13
 					supplier   	@11
 					line_style 	0)
-				    (object RealizeView "" @17
+				    (object RealizeView "" @16
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"471E59EA0177"
-					client     	@15
+					client     	@14
 					supplier   	@12
+					line_style 	0)
+				    (object UsesView "iterates by" @17
+					font       	(object Font
+					    size       	12
+					    face       	"Consolas"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	FALSE)
+					label      	(object ItemLabel
+					    Parent_View 	@17
+					    location   	(1324, 678)
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	370
+					    justify    	0
+					    label      	"iterates by")
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"471BCB39007D"
+					client     	@12
+					supplier   	@11
 					line_style 	0)))))
 		    (object Class_Category "exceptions"
 			quid       	"471F99640271"
@@ -3769,18 +3776,18 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@43
-					    location   	(2060, 710)
+					    location   	(2122, 730)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	440
+					    max_width  	316
 					    justify    	0
 					    label      	"Iterator")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"471BCA1D009C"
-					width      	458
-					height     	228
+					width      	334
+					height     	188
 					annotation 	8
 					autoResize 	TRUE)
 				    (object UsesView "" @44
@@ -3803,7 +3810,7 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@45
-					    location   	(1812, 786)
+					    location   	(1843, 785)
 					    anchor_loc 	1
 					    nlines     	1
 					    max_width  	318

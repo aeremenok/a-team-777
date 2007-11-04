@@ -161,19 +161,17 @@ void graphTest()
     cout<<"\t\ttesting graph\n";
     Graph<int>* myGraph = new Graph<int>();
     cout<<endl;
-
-    myGraph->addRibble(1, 2);
-    cout<<endl;
-    myGraph->addRibble(12, 13);
-    cout<<endl;
-    myGraph->addRibble(24, 25);
-    cout<<endl;
-    myGraph->addRibble(36, 37);
-    cout<<endl;
+    
+    for (int i = 1; i < 4; i++)
+    {
+        myGraph->addRibble(&i, &i);
+        cout<<endl;
+    }
 
     try
     {   // пытаемся добавить уже существующее ребро
-        myGraph->addRibble(1, 2);
+        int a = 1, b = 2;
+        myGraph->addRibble(&a, &b);
     }
     catch (GraphException* e)
     {
@@ -183,7 +181,8 @@ void graphTest()
 
     try
     {   // пытаемся удалить несуществующее ребро
-        myGraph->removeRibble(10, 11);
+        int a = 10, b = 11;
+        myGraph->removeRibble(&a, &b);
     }
     catch (GraphException* e)
     {
@@ -193,7 +192,8 @@ void graphTest()
 
     try
     {   // пытаемся удалить несуществующую вершину
-        myGraph->removeVertex(77);
+        int a = 77;
+        myGraph->removeVertex(&a);
     }
     catch (GraphException* e)
     {
@@ -206,19 +206,22 @@ void graphTest()
     Iterator<int>* iter = myGraph->getIterator();
     while (iter->hasNext())
     {
-        Ribble<int> ribble = iter->next();
-        cout<<"ribble vertices: "<<ribble.get__vertex1()<<"-"<<ribble.get__vertex2()<<endl;
+        Ribble<int>* ribble = iter->next();
+        cout<<"ribble vertices: "<<ribble->get__vertex1()<<"-"<<ribble->get__vertex2()<<endl;
     }
 }
 //////////////////////////////////////////////////////////////////////////
 Shape* inputVertexMenu()
 {
-    Shape* shape;
     int res = 0;
+
     int a, b;
     char* c;
+
+    Shape* shape;
     Text* text = NULL;
     TextInOval* textInOval = NULL;
+
     cout<<"select a type of vertex to operate\n"
         <<"1 - rectangle\n"
         <<"2 - oval\n"
@@ -226,6 +229,7 @@ Shape* inputVertexMenu()
         <<"4 - text in oval\n"
         <<"0 - exit\n";
     cout<<"your selection: "; cin>>res;
+
     switch(res)
     {
         case 0:
@@ -278,60 +282,43 @@ int printGraphMenu()
 // тестирует шаблон итератора для графических объектов
 void shapeGraphTest()
 {
-    Graph<Shape*>* shapeGraph = new Graph<Shape*>();
+    Graph<Shape> shapeGraph;
     for (;;)
     {
         switch(printGraphMenu())
         {
             case 0:
-                return;
+                exit(0);
         	    break;
             case 1:
-                // todo
+                shapeGraph.clear(); // todo
         	    break;
             case 2:
                 cout<<"adding a ribble to graph. input 2 vertices:\n";
-                shapeGraph->addRibble(
+                shapeGraph.addRibble(
                     inputVertexMenu(),
                     inputVertexMenu()
                 );
                 break;
             case 3:
                 cout<<"removing a ribble from graph. input 2 vertices:\n";
-                shapeGraph->removeRibble(
+                shapeGraph.removeRibble(
                     inputVertexMenu(),
                     inputVertexMenu()
                     );
                 break;
             case 4:
                 cout<<"removing a vertex from graph. input a vertex:\n";
-                shapeGraph->removeVertex(
+                shapeGraph.removeVertex(
                     inputVertexMenu()
                     );
         	    break;
             case 5:
+                cout << shapeGraph;
         	    break;
             default:
                 break;
         }
-    }
-
-    cout<<endl;
-    shapeGraph->addRibble(
-        new Rectangle(1, 2),
-        new Text()
-        );
-    cout<<endl;
-    shapeGraph->addRibble(
-        new Oval(3, 4),
-        new TextInOval(5, 6)
-        );
-    cout<<endl;
-    Iterator<Shape*> *iter = shapeGraph->getIterator();
-    while (iter->hasNext())
-    {
-        Ribble<Shape*> ribble = iter->next();
-        cout<<"ribble vertices:\n"<<*ribble.get__vertex1()<<"-\n"<<*ribble.get__vertex2()<<endl;
     }
 }
 //////////////////////////////////////////////////////////////////////////

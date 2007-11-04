@@ -17,45 +17,47 @@ public:
     //##ModelId=472D97EC0167
     virtual ~Ribble()
     {
-        
+//         delete(_vertex1);
+//         delete(_vertex2);
     }
 
     //##ModelId=471E60A600FA
     bool operator==(const Ribble& rhs) const
     {
-        return (_vertex1==rhs._vertex1) && (_vertex2==rhs._vertex2);
+        return  (_vertex1==rhs._vertex1) && 
+                (_vertex2==rhs._vertex2);
     }
 
     //принадлежит ли вершина ребру
     //##ModelId=471E5B6D032C
-    bool contains(T vertex)
+    bool contains(const T* vertex) const
     {
         return (_vertex1 == vertex) || (_vertex2 == vertex);
     }
 
     //##ModelId=471E3CE002EE
-    const T get__vertex2() const
+    const T* get__vertex2() const
     {
         return _vertex2;
     };
 
     //##ModelId=471BB59F0222
-    const T get__vertex1() const
+    const T* get__vertex1() const
     {
         return _vertex1;
     };
 
     //##ModelId=471E4BB5034B
-    Ribble(T vertex1, T vertex2): _vertex1(vertex1), _vertex2(vertex2)
+    Ribble(T* vertex1, T* vertex2): _vertex1(vertex1), _vertex2(vertex2)
     {
     };
 
 private:
     //##ModelId=471BB58F01E4
-    const T _vertex1;
+    const T* _vertex1;
 
     //##ModelId=471BB5A20157
-    const T _vertex2;
+    const T* _vertex2;
 };
 
 //////////////////////////////////////////////////////////////////////////
