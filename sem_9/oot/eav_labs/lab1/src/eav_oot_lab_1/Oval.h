@@ -57,8 +57,16 @@ public:
     /* прочие методы                                                        */
     /************************************************************************/    
     //##ModelId=472DDB2002EE
-    bool operator==(const Oval& rhs) const;
+    virtual bool operator==(const Oval& rhs) const;
+
+    //вычисляет площадь фигуры
+    //##ModelId=472DF28503A9
+    virtual float Area() const;
 protected:
+    //имя класса
+    //##ModelId=472DFDF60203
+    virtual int getName() const;
+
     //вывести состояние овала в поток
     //##ModelId=471218B200EA
     virtual ostream& speak(ostream& os) const;

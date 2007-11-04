@@ -24,6 +24,7 @@ public:
     //##ModelId=4713C74D038A
     TextInOval(float big, float less);
 
+	//##ModelId=472DF1EC00DA
     TextInOval(float big, float less, std::string text);
 
 	//##ModelId=46F677F2002E
@@ -33,8 +34,16 @@ public:
     /* прочие методы                                                        */
     /************************************************************************/    
     //##ModelId=472DDB2C0280
-    bool operator==(const TextInOval& rhs) const;
+    virtual bool operator==(const TextInOval& rhs) const;
+
+    //вычисляет площадь фигуры
+    //##ModelId=472DF2A20119
+    virtual float Area() const;
 protected:
+    //имя класса
+    //##ModelId=472DFE0402CE
+    virtual int getName() const;
+
     //вывести состояние текста в овале в поток
     //##ModelId=471219010148
     virtual ostream& speak(ostream& os) const;

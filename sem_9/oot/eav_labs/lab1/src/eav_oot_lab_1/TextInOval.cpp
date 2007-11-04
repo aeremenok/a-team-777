@@ -30,6 +30,7 @@ Text(), Oval(big, less)
     cout<<"[text_in_oval] text in oval created"<<endl;
 }
 
+//##ModelId=472DF1EC00DA
 TextInOval::TextInOval( float big, float less, std::string text ):
 Text(text), Oval(big, less)
 {
@@ -41,5 +42,17 @@ bool TextInOval::operator==(const TextInOval& rhs) const
 {
     return Oval::operator ==(rhs) &&
            Text::operator ==(rhs);
+}
+
+//##ModelId=472DF2A20119
+float TextInOval::Area() const
+{
+    return Oval::Area();
+}
+
+//##ModelId=472DFE0402CE
+int TextInOval::getName() const
+{
+    return TEXT_IN_OVAL;
 }
 //////////////////////////////////////////////////////////////////////////
