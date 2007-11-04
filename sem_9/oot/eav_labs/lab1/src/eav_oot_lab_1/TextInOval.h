@@ -24,12 +24,16 @@ public:
     //##ModelId=4713C74D038A
     TextInOval(float big, float less);
 
+    TextInOval(float big, float less, std::string text);
+
 	//##ModelId=46F677F2002E
 	virtual ~TextInOval();
     
     /************************************************************************/
     /* прочие методы                                                        */
     /************************************************************************/    
+    //##ModelId=472DDB2C0280
+    bool operator==(const TextInOval& rhs) const;
 protected:
     //вывести состояние текста в овале в поток
     //##ModelId=471219010148

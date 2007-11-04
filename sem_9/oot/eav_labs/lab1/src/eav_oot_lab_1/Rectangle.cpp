@@ -4,11 +4,10 @@
 
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
-
 //##ModelId=46F677C6037B
 Rectangle::~Rectangle()
 {
-	cout<<"rectangle destroyed"<<endl;
+	cout<<"[rectangle] rectangle destroyed"<<endl;
 }
 
 //##ModelId=46F67BE003BB
@@ -39,8 +38,8 @@ void Rectangle::set__width(float value)
 ostream& Rectangle::speak(ostream& os) const
 {
     return Shape::speak(os)
-        <<"rectangle is speaking:\n\t"
-        <<"rectangle size: ("<<_length<<", "<<_width<<")"<<endl;
+        <<"[rectangle] rectangle size: ("
+        <<_length<<", "<<_width<<")"<<endl;
 }
 
 //##ModelId=47125E3F035B
@@ -48,5 +47,16 @@ Rectangle::Rectangle( float l, float w )
 {
     _length = l;
     _width = w;    
-    cout<<"rectangle created"<<endl;
+    cout<<"[rectangle] rectangle created"<<endl;
 }
+
+
+//##ModelId=472DDB180213
+bool Rectangle::operator==(const Rectangle& rhs) const
+{
+    return  Shape::operator ==(rhs) &&
+            (_length == rhs._length) &&
+            (_width == rhs._width);
+}
+//////////////////////////////////////////////////////////////////////////
+

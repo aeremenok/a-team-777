@@ -44,22 +44,33 @@ Shape::Shape()
 {
     _x = 0;
     _y = 0;
-    cout<<"default figure created"<<endl;
+    cout<<"[shape] default shape created"<<endl;
 }
 
 //##ModelId=4708DDC4001F
 Shape::~Shape()
 {
-    cout<<"figure destroyed"<<endl;
+    cout<<"[shape] shape destroyed"<<endl;
 }
 
 //##ModelId=4712170B0271
 ostream& Shape::speak(ostream& os) const
 {
-    return os<<"shape is speaking:\n\t"<<"shape center coordinates: ("<<_x<<", "<<_y<<")"<<endl;
+    return os<<"[shape] shape center coordinates: ("
+             <<_x<<", "<<_y<<")"<<endl;
+}
+
+//##ModelId=472DDB08029F
+bool Shape::operator==(const Shape& rhs) const
+{
+    return (_x == rhs._x) && ( _y == rhs._y );
 }
 //////////////////////////////////////////////////////////////////////////
 ostream& operator<<( ostream& o, const Shape& rhs )
 {
     return rhs.speak(o);
 }
+
+
+
+

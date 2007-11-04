@@ -60,6 +60,8 @@ public:
     //##ModelId=46F6755D0025
 	friend ostream& operator<<(ostream& o, const Shape& rhs);
 
+    //##ModelId=472DDB08029F
+    bool operator==(const Shape& rhs) const;
     /************************************************************************/
     /* прочие методы                                                        */
     /************************************************************************/    
