@@ -7,11 +7,14 @@
 #define _INC_GRAPH_46F8FA7D014A_INCLUDED
 //////////////////////////////////////////////////////////////////////////
 #include <list>
+#include <ostream.h>
 
 #include "Ribble.h"
 #include "Iterator.h"
 //////////////////////////////////////////////////////////////////////////
 using namespace std;
+
+class ostream;
 //////////////////////////////////////////////////////////////////////////
 //граф на базе списка ребер
 //##ModelId=46F8FA7D014A
@@ -31,6 +34,7 @@ private:
         // локальная копия указателя на список
 		//##ModelId=4721A0BB0010
         list< Ribble <T> >* _innerList;
+
         // итератор обхода списка рёбер
 		//##ModelId=4721A0BB0020
         list< Ribble <T> >::iterator _iter;
@@ -67,6 +71,23 @@ private:
         }
     };
 public:
+    //##ModelId=472D958301A5
+    friend ostream& operator<<(ostream& o, const Graph& rhs)
+    {
+        return o;
+    }
+
+    //очистить граф
+    //##ModelId=472D959B029F
+    void clear()
+    {
+        Iterator<T>* iter = getIterator();
+        while (iter->hasNext())
+        {
+            // todo
+        }
+    }
+
     //добавить ребро
     //##ModelId=471BBA1B0177
     void addRibble(T vertex1, T vertex2)
