@@ -58,5 +58,17 @@ bool Rectangle::operator==(const Rectangle& rhs) const
             (_length == rhs._length) &&
             (_width == rhs._width);
 }
+
+//##ModelId=472DF2720138
+float Rectangle::Area() const
+{
+    return _length * _width;
+}
+
+//##ModelId=472DFDF0005D
+int Rectangle::getName() const
+{
+    return RECTANGLE;
+}
 //////////////////////////////////////////////////////////////////////////
 

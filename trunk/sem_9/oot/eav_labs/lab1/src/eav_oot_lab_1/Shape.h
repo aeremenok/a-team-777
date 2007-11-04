@@ -8,6 +8,11 @@
 //////////////////////////////////////////////////////////////////////////
 class ostream;
 //////////////////////////////////////////////////////////////////////////
+//##ModelId=472E052302FD
+enum SHAPES{
+    SHAPE, RECTANGLE, OVAL, TEXT, TEXT_IN_OVAL
+};
+//////////////////////////////////////////////////////////////////////////
 //обобщенная фигура
 //##ModelId=46F50BDC00BB
 class Shape 
@@ -61,7 +66,7 @@ public:
 	friend ostream& operator<<(ostream& o, const Shape& rhs);
 
     //##ModelId=472DDB08029F
-    bool operator==(const Shape& rhs) const;
+    virtual bool operator==(const Shape& rhs) const;
     /************************************************************************/
     /* прочие методы                                                        */
     /************************************************************************/    
@@ -69,7 +74,14 @@ public:
 	//##ModelId=46F50D80038A
 	void moveToPoint(float x_pos  , float y_pos);
 
+    //вычисляет площадь фигуры
+    //##ModelId=472DF22D0000
+    virtual float Area() const = 0;
 protected:
+    //возвращает идентификатор класса из перечисления SHAPES
+    //##ModelId=472DFDC300EA
+    virtual int getName() const;
+
     //вывести состояние фигуры в поток
     //##ModelId=4712170B0271
     virtual ostream& speak(ostream& os) const;

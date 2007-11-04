@@ -33,6 +33,7 @@ public:
     //##ModelId=471220F702FD
     Text();
 
+	//##ModelId=472DF1EC01B5
     Text(std::string text);
 
 	//##ModelId=46F676990213
@@ -47,12 +48,20 @@ public:
 	//##ModelId=46F511550280
     void setText(std::string text);
 
+    //вычисляет площадь фигуры
+    //##ModelId=472DF2970261
+    virtual float Area() const;
+
     /************************************************************************/
     /* прочие методы                                                        */
     /************************************************************************/    
     //##ModelId=472DDB2602DE
-    bool operator==(const Text& rhs) const;
+    virtual bool operator==(const Text& rhs) const;
 protected:
+    //имя класса
+    //##ModelId=472DFDFD0128
+    virtual int getName();
+
     //вывести состояние прямоугольника в поток
     //##ModelId=471218CE00DA
     virtual ostream& speak(ostream& os) const;

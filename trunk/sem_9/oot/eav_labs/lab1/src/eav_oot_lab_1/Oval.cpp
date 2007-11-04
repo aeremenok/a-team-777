@@ -1,6 +1,7 @@
 // Copyright (C) 1991 - 1999 Rational Software Corporation
 //////////////////////////////////////////////////////////////////////////
 #include "Oval.h"
+
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
 #define M_PI 3.1415926
@@ -61,4 +62,17 @@ bool Oval::operator==(const Oval& rhs) const
         (_rad1 == rhs._rad1) && 
         (_rad2 == rhs._rad2);
 }
+
+//##ModelId=472DF28503A9
+float Oval::Area() const
+{
+    return M_PI * _rad1 * _rad2;
+}
+
+//##ModelId=472DFDF60203
+int Oval::getName() const
+{
+    return OVAL;
+}
+//////////////////////////////////////////////////////////////////////////
 

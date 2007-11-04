@@ -60,8 +60,16 @@ public:
     /* прочие методы                                                        */
     /************************************************************************/    
     //##ModelId=472DDB180213
-    bool operator==(const Rectangle& rhs) const;
+    virtual bool operator==(const Rectangle& rhs) const;
+
+    //вычисляет площадь фигуры
+    //##ModelId=472DF2720138
+    virtual float Area() const;
 protected:
+    //имя класса
+    //##ModelId=472DFDF0005D
+    virtual int getName() const;
+
     //вывести состояние прямоугольника в поток
     //##ModelId=4712182B029F
     virtual ostream& speak(ostream& os) const;

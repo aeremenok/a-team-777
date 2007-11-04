@@ -47,7 +47,7 @@ void shapeTest()
 // тестирует операции с последовательностями
 void sequenceTest()
 {
-    cout<<"\t\ttesting sequence\n\t\t";
+    cout<<"\t\ttesting sequence\n";
     int i;
     int containerSize = 7;
 
@@ -55,45 +55,51 @@ void sequenceTest()
     vector<int> numVector(0);
     vector<int>::iterator iter;
     // заполняем его
+    cout<<"filling vector\n";
     for (i = 0; i < containerSize; ++i)
     {
         numVector.push_back(i);
     }
+    cout<<"watching result with iterator\n";
     // проверяем порядок заполнения   
     for (iter = numVector.begin(); iter != numVector.end(); iter++)
     {
         cout<< *iter <<" "; 
     }
-    cout<<"\n\t\tsame as\n\t\t";
+    cout<<"\nwatching result with index\n";
     // то же самое индексированием
     for (i = 0; i < numVector.size(); ++i)
     {
         cout<<numVector.at(i)<<" ";
     }
-    cout<<endl;
+    cout<<"\nresults are equal\n";
 }
 //////////////////////////////////////////////////////////////////////////
 // тестирует операции с адаптерами последовательностей
 void adapterTest()
 {
-    cout<<"\t\ttesting adaptor\n\t\t";
-    int i;
+    cout<<"\t\ttesting adaptor\n";
     int containerSize = 7;
     // создаем стек
     stack<int> numStack;
+
     // заполняем его
-    for (i = 0; i < containerSize; ++i)
+    cout<<"filling stack, pushing values:\n";
+    for (int i = 0; i < containerSize; ++i)
     {
+        cout<<i<<" ";
         numStack.push(i);
     }
+
     // проверяем порядок заполнения   
+    cout<<"\nwatching result\n";
     while (numStack.size() > 0)
     {
         int res = numStack.top();
         cout<<res<<" ";
         numStack.pop();
     }
-    cout<<endl;
+    cout<<"\nresult reversed\n";
 }
 /////////////////////////////////////////////////////////////////////////
 // отношение порядка
@@ -110,10 +116,12 @@ struct ltstr
 // тестирует операции с ассоциативными контейнерами
 void assocTest()
 {
-    cout<<"\t\ttesting associative containers\n\t\t";
+    cout<<"\t\ttesting associative containers\n";
 
     map<const char*, int, ltstr> monthMap;
     map<const char*, int, ltstr>::iterator iter;
+
+    cout<<"filling map\n";
     monthMap["january"] = 31;
     monthMap["february"] = 28;
     monthMap["march"] = 31;
@@ -127,9 +135,10 @@ void assocTest()
     monthMap["november"] = 30;
     monthMap["december"] = 31;
 
+    cout<<"watching result\n";
     for (iter = monthMap.begin(); iter != monthMap.end(); iter++)
     {
-        cout<<iter->second<<" days in "<<iter->first<<endl<<"\t\t";
+        cout<<iter->second<<" days in "<<iter->first<<endl;
     }
     cout<<endl;
 }
@@ -142,12 +151,16 @@ void shapeSequenceTest()
     // создаем вектор
     vector<Shape*> shapeVector(0);
     vector<Shape*>::iterator iter;
+
     // заполняем его
+    cout<<"\tfilling vector with shapes\n";
     shapeVector.push_back(new Rectangle(1, 2));
     shapeVector.push_back(new Oval(3, 4));
     shapeVector.push_back(new Text());
     shapeVector.push_back(new TextInOval(5,6));
+
     // проверяем порядок заполнения   
+    cout<<"\twatching result\n";
     for (iter = shapeVector.begin(); iter != shapeVector.end(); iter++)
     {
         cout<<*((Shape*)*iter);
@@ -160,18 +173,15 @@ void graphTest()
 {
     cout<<"\t\ttesting graph\n";
     Graph<int>* myGraph = new Graph<int>();
-    cout<<endl;
-    
-    for (int i = 1; i < 4; i++)
-    {
-        myGraph->addRibble(&i, &i);
-        cout<<endl;
-    }
 
     try
     {   // пытаемся добавить уже существующее ребро
-        int a = 1, b = 2;
-        myGraph->addRibble(&a, &b);
+        for (int i = 1; i < 5; i++)
+        {
+            cout<<"\tadding ribble "<<i<<"-"<<i<<endl;
+            myGraph->addRibble(&i, &i);
+            cout<<endl;
+        }
     }
     catch (GraphException* e)
     {
@@ -207,7 +217,9 @@ void graphTest()
     while (iter->hasNext())
     {
         Ribble<int>* ribble = iter->next();
-        cout<<"ribble vertices: "<<ribble->get__vertex1()<<"-"<<ribble->get__vertex2()<<endl;
+        cout<<"ribble vertices: "
+            <<*(ribble->get__vertex1())<<"-"
+            <<*(ribble->get__vertex2())<<endl;
     }
 }
 //////////////////////////////////////////////////////////////////////////

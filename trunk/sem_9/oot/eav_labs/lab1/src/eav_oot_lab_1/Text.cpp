@@ -39,16 +39,30 @@ Text::Text()
     cout<<"[text] default text created"<<endl;
 }
 
+//##ModelId=472DF1EC01B5
 Text::Text( std::string text )
 {
     _content = text;
     cout<<"[text] text created"<<endl;
 }
 
+//##ModelId=472DDB2602DE
 bool Text::operator==( const Text& rhs ) const
 {
     return 
         Shape::operator ==(rhs) &&
         ( _content == rhs._content);
+}
+
+//##ModelId=472DF2970261
+float Text::Area() const
+{
+    return -1;
+}
+
+//##ModelId=472DFDFD0128
+int Text::getName()
+{
+    return TEXT;
 }
 //////////////////////////////////////////////////////////////////////////

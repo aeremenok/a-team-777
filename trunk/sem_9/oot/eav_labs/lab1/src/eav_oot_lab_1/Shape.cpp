@@ -4,7 +4,6 @@
 
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
-
 //##ModelId=46F50D80038A
 void Shape::moveToPoint(float x_pos, float y_pos)
 {
@@ -38,7 +37,6 @@ void Shape::set__x(float value)
 	return;
 }
 
-
 //##ModelId=4708DDC303C8
 Shape::Shape()
 {
@@ -57,20 +55,26 @@ Shape::~Shape()
 ostream& Shape::speak(ostream& os) const
 {
     return os<<"[shape] shape center coordinates: ("
-             <<_x<<", "<<_y<<")"<<endl;
+             <<_x<<", "<<_y<<"), "
+             <<"area = "<<Area()<<endl;
 }
 
 //##ModelId=472DDB08029F
 bool Shape::operator==(const Shape& rhs) const
 {
-    return (_x == rhs._x) && ( _y == rhs._y );
+    return  (getName() == rhs.getName()) &&
+            (_x == rhs._x) && 
+            ( _y == rhs._y );
+}
+
+//##ModelId=472DFDC300EA
+int Shape::getName() const
+{
+    return SHAPE;
 }
 //////////////////////////////////////////////////////////////////////////
 ostream& operator<<( ostream& o, const Shape& rhs )
 {
     return rhs.speak(o);
 }
-
-
-
 
