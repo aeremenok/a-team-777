@@ -1,0 +1,65 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Sketcher - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Temp\RSP3B.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Fp"Debug/Sketcher.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /c 
+"E:\_leti\_sem_9\главное\оот\.eav_labs\lab2\src\Sketcher01\shapes\Oval.cpp"
+"E:\_leti\_sem_9\главное\оот\.eav_labs\lab2\src\Sketcher01\shapes\Rectangle.cpp"
+"E:\_leti\_sem_9\главное\оот\.eav_labs\lab2\src\Sketcher01\shapes\Shape.cpp"
+"E:\_leti\_sem_9\главное\оот\.eav_labs\lab2\src\Sketcher01\shapes\Text.cpp"
+"E:\_leti\_sem_9\главное\оот\.eav_labs\lab2\src\Sketcher01\shapes\TextInOval.cpp"
+"E:\_leti\_sem_9\главное\оот\.eav_labs\lab2\src\Sketcher01\container\exceptions\GraphException.cpp"
+"E:\_leti\_sem_9\главное\оот\.eav_labs\lab2\src\Sketcher01\container\exceptions\RibbleExistsException.cpp"
+"E:\_leti\_sem_9\главное\оот\.eav_labs\lab2\src\Sketcher01\container\exceptions\RibbleNotFoundException.cpp"
+"E:\_leti\_sem_9\главное\оот\.eav_labs\lab2\src\Sketcher01\container\exceptions\VertexNotFoundException.cpp"
+]
+Creating command line "cl.exe @C:\Temp\RSP3B.tmp" 
+Creating temporary file "C:\Temp\RSP3F.tmp" with contents
+[
+/nologo /subsystem:windows /incremental:yes /pdb:"Debug/Sketcher.pdb" /debug /machine:I386 /out:"Debug/Sketcher.exe" /pdbtype:sept 
+".\Debug\ChildFrm.obj"
+".\Debug\MainFrm.obj"
+".\Debug\Sketcher.obj"
+".\Debug\SketcherDoc.obj"
+".\Debug\SketcherView.obj"
+".\Debug\StdAfx.obj"
+".\Debug\Sketcher.res"
+".\Debug\Oval.obj"
+".\Debug\Rectangle.obj"
+".\Debug\Shape.obj"
+".\Debug\Text.obj"
+".\Debug\TextInOval.obj"
+".\Debug\GraphException.obj"
+".\Debug\RibbleExistsException.obj"
+".\Debug\RibbleNotFoundException.obj"
+".\Debug\VertexNotFoundException.obj"
+]
+Creating command line "link.exe @C:\Temp\RSP3F.tmp"
+<h3>Output Window</h3>
+Compiling...
+Oval.cpp
+E:\_leti\_sem_9\главное\оот\.eav_labs\lab2\src\Sketcher01\shapes\Oval.cpp(71) : warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
+Rectangle.cpp
+Shape.cpp
+Text.cpp
+TextInOval.cpp
+GraphException.cpp
+RibbleExistsException.cpp
+RibbleNotFoundException.cpp
+VertexNotFoundException.cpp
+Generating Code...
+Linking...
+
+
+
+<h3>Results</h3>
+Sketcher.exe - 0 error(s), 1 warning(s)
+</pre>
+</body>
+</html>
