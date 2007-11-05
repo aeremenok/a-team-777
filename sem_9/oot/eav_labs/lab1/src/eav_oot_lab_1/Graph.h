@@ -86,25 +86,15 @@ public:
     void addRibble(T* vertex1, T* vertex2)
     {
         cout<<"[graph] adding ribble, checking if it already exists\n";
-		//fixme
-        cout<<"====="<<*vertex1<<"-"<<*vertex2<<"======"<<endl;
-        
+       
         // проверяем, нет ли уже такого ребра
         Iterator<T>* iter = getIterator();
         bool isPresent = false;
         Ribble<T>* ribble = new Ribble<T>(vertex1, vertex2);
 
-        cout<<"===========created "
-            <<*(ribble->get__vertex1())<<"-"
-            <<*(ribble->get__vertex2())<<endl;
-
         while (iter->hasNext() && !isPresent)
         {
             Ribble<T>* current = iter->next();
-
-            cout<<"===========checking "
-                <<*(current->get__vertex1())<<"-"
-                <<*(current->get__vertex2())<<endl;
 
             if ( current->equals(ribble) )
             {
@@ -155,7 +145,7 @@ public:
     //##ModelId=471BBAE20290
     void removeVertex(T* vertex)
     {
-        cout<<"[graph] removoing all ribbles, containing vertex "
+        cout<<"[graph] removoing all ribbles, containing vertex\n"
             <<*vertex<<endl;
 
         // проверяем, есть ли такая вершина

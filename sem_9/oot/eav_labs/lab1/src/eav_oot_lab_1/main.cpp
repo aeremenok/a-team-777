@@ -168,67 +168,12 @@ void shapeSequenceTest()
     cout<<endl;
 }
 //////////////////////////////////////////////////////////////////////////
-// тестирует шаблон итератора для int
-void graphTest()
-{
-    cout<<"\t\ttesting graph\n";
-    Graph<int>* myGraph = new Graph<int>();
-
-    try
-    {   // пытаемся добавить уже существующее ребро
-        for (int i = 1; i < 5; i++)
-        {
-            cout<<"\tadding ribble "<<i<<"-"<<i<<endl;
-            myGraph->addRibble(&i, &i);
-            cout<<endl;
-        }
-    }
-    catch (GraphException* e)
-    {
-    	e->printException();
-        cout<<endl;
-    }
-
-    try
-    {   // пытаемся удалить несуществующее ребро
-        int a = 10, b = 11;
-        myGraph->removeRibble(&a, &b);
-    }
-    catch (GraphException* e)
-    {
-    	e->printException();
-        cout<<endl;
-    }
-
-    try
-    {   // пытаемся удалить несуществующую вершину
-        int a = 77;
-        myGraph->removeVertex(&a);
-    }
-    catch (GraphException* e)
-    {
-    	e->printException();
-        cout<<endl;
-    }
-
-    // тестируем обход внешним итератором
-    cout<<"iterating graph ribbles\n";
-    Iterator<int>* iter = myGraph->getIterator();
-    while (iter->hasNext())
-    {
-        Ribble<int>* ribble = iter->next();
-        cout<<"ribble vertices: "
-            <<*(ribble->get__vertex1())<<"-"
-            <<*(ribble->get__vertex2())<<endl;
-    }
-}
-//////////////////////////////////////////////////////////////////////////
 Shape* inputVertexMenu()
 {
     int res = 0;
 
     int a, b;
-    char c[TEXT_SIZE] = "777";
+    char c[BUFSIZ];
     std::string s;
 
     Shape* shape;
@@ -379,8 +324,7 @@ int printMainMenu()
         <<"1 - simple shapes\n"
         <<"2 - STL containers\n"
         <<"3 - STL containers with shapes\n"
-        <<"4 - graph container, throwing exceptions\n"
-        <<"5 - graph container with shapes\n"
+        <<"4 - graph container with shapes\n"
         <<"0 - exit\n";
     cout<<"your selection: "; cin>>res;
     cout<<"========================================\n";
@@ -408,9 +352,6 @@ void main()
                 shapeSequenceTest();
                 break;
             case 4:
-                graphTest();
-        	    break;
-            case 5:
                 shapeGraphTest();
         	    break;
             default:
