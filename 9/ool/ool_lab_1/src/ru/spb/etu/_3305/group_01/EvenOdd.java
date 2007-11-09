@@ -1,18 +1,20 @@
 package ru.spb.etu._3305.group_01;
 
-import java.io.*;
-
-/**
- * Created by IntelliJ IDEA. User: ssv Date: 09.10.2007 Time: 21:47:37 To change this template use File | Settings |
- * File Templates.
- */
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 
 /**
  * Класс вводит или получает n целых чисел, выводит все чётные и нечётные
  */
 public class EvenOdd
 {
-    public static void main( String[] args )
+    public static void main(
+        String[] args )
     {
         int[] numbers = null;
         BufferedReader in = null;
@@ -24,7 +26,7 @@ public class EvenOdd
             out = new BufferedWriter( new OutputStreamWriter( System.out, "cp866" ) );
 
             // помощь в работе с программой
-            if ( args.length == 1 && args[ 0 ].indexOf( "help" ) != -1 )
+            if ( args.length == 1 && args[0].indexOf( "help" ) != -1 )
             {
                 // вывод справки
                 out.write( "\n" );
@@ -32,10 +34,10 @@ public class EvenOdd
                 out.write( "               или\n" );
                 out.write( "               EvenOdd [список_чисел]\n" );
                 out.write( "\n" );
-                out.write( "В первом случае вы можете указать вы должны будете " +
-                        "указать программе параметры в ходе короткого диалога, " +
-                        "во втором будут использоваться числа, заданные в качестве " +
-                        "аргументов командной строки.\n" );
+                out.write( "В первом случае вы можете указать вы должны будете "
+                           + "указать программе параметры в ходе короткого диалога, "
+                           + "во втором будут использоваться числа, заданные в качестве "
+                           + "аргументов командной строки.\n" );
                 out.flush();
             }
             else
@@ -49,7 +51,8 @@ public class EvenOdd
 
                 if ( args.length == 0 )
                 {
-                    // если аргументов командной строки нет - поболтаем с пользователем
+                    // если аргументов командной строки нет - поболтаем с
+                    // пользователем
                     out.write( "Пожалуйста, введите количество чисел для работы ( 1 <= n <= 10 ): " );
                     out.flush();
                     String str = in.readLine();
@@ -81,10 +84,10 @@ public class EvenOdd
 
                         for ( int i = 0; i < n; i++ )
                         {
-                            out.write( "" + ( i + 1 ) + ". Введите целое число: " );
+                            out.write( "" + (i + 1) + ". Введите целое число: " );
                             out.flush();
                             String str = in.readLine();
-                            numbers[ i ] = Integer.parseInt( str );
+                            numbers[i] = Integer.parseInt( str );
                         }
                     }
                     else
@@ -92,7 +95,7 @@ public class EvenOdd
                         // берём числа из командной строки
                         for ( int i = 0; i < args.length; i++ )
                         {
-                            numbers[ i ] = Integer.parseInt( args[ i ] );
+                            numbers[i] = Integer.parseInt( args[i] );
                         }
                     }
 
@@ -139,7 +142,7 @@ public class EvenOdd
         }
         finally
         {
-            //  пробуем закрыть входной поток
+            // пробуем закрыть входной поток
             if ( in != null )
             {
                 try
@@ -167,21 +170,19 @@ public class EvenOdd
 
     /**
      * Аккуратный вывод подходящих под фильтр элементов массива с заголовком
-     *
+     * 
      * @param values массив чисел
      * @param writer поток для записи
      * @param header заголовок
      * @param filter фильтр элементов
-     *
      * @throws IOException если не удаётся запись в поток
      */
     private static void prettyArrayPrint(
-            int[] values,
-            Writer writer,
-            String header,
-            IntFilter filter )
-            throws
-            IOException
+        int[] values,
+        Writer writer,
+        String header,
+        IntFilter filter )
+        throws IOException
     {
         // выводим заголовок
         writer.write( "\n" );
