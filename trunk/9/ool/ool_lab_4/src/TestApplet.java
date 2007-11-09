@@ -1,41 +1,44 @@
 import java.applet.Applet;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by IntelliJ IDEA. User: ssv Date: 29.10.2007 Time: 12:19:01 To change this template use File | Settings |
- * File Templates.
+ * Апплет, рисующий несколько кругов в зависимости от размера экрана, круги
+ * "разбегаются" при наведении курсора
  */
 public class TestApplet
-        extends Applet
+    extends Applet
 {
     /**
      * датчик случайных чисел
      */
-    private Random _random = null;
+    private Random            _random      = null;
 
     /**
      * fixme текущие размеры апплета (для заглушки onresize)
      */
-    private Dimension _dimension = null;
+    private Dimension         _dimension   = null;
 
     /**
      * минимальный диаметр круга
      */
-    private int MIN_DIAMETER = 20;
+    private int               MIN_DIAMETER = 20;
 
     /**
      * максимальный диаметр круга
      */
-    private int MAX_DIAMETER = 50;
+    private int               MAX_DIAMETER = 50;
 
     /**
      * список кругов для отрисовки
      */
-    private ArrayList<Circle> _circleList = null;
+    private ArrayList<Circle> _circleList  = null;
 
     public void start()
     {
@@ -43,12 +46,14 @@ public class TestApplet
 
         addMouseMotionListener( new MouseMotionListener()
         {
-            public void mouseDragged( MouseEvent e )
+            public void mouseDragged(
+                MouseEvent e )
             {
                 // ничего не делаем
             }
 
-            public void mouseMoved( MouseEvent e )
+            public void mouseMoved(
+                MouseEvent e )
             {
                 // новое положение курсора
                 Point cursor = new Point( e.getX(), e.getY() );
@@ -58,10 +63,10 @@ public class TestApplet
                     if ( c.contains( cursor ) ) // надо прыгать
                     {
                         // вычисляем в какую четверть будем прыгать
-                        int leftX = ( _dimension.width - cursor.x > cursor.x ) ? cursor.x : 0;
-                        int rightX = ( _dimension.width - cursor.x > cursor.x ) ? _dimension.width : cursor.x;
-                        int upY = ( _dimension.height - cursor.y > cursor.y ) ? cursor.y : 0;
-                        int downY = ( _dimension.height - cursor.y > cursor.y ) ? _dimension.height : cursor.y;
+                        int leftX = (_dimension.width - cursor.x > cursor.x) ? cursor.x : 0;
+                        int rightX = (_dimension.width - cursor.x > cursor.x) ? _dimension.width : cursor.x;
+                        int upY = (_dimension.height - cursor.y > cursor.y) ? cursor.y : 0;
+                        int downY = (_dimension.height - cursor.y > cursor.y) ? _dimension.height : cursor.y;
 
                         // точка для прыжка
                         int jumpX = _random.nextInt( rightX - leftX - c.diameter ) + leftX;
@@ -71,7 +76,8 @@ public class TestApplet
                         Circle temp = new Circle( c.x, c.y, c.diameter, Color.white );
                         temp.draw( getGraphics() );
 
-                        // перерисовываем круги, у которых были пересечения с нашим
+                        // перерисовываем круги, у которых были пересечения с
+                        // нашим
                         for ( Circle cc : _circleList )
                         {
                             if ( c != cc && cc.intersectsWith( c ) )
@@ -88,15 +94,14 @@ public class TestApplet
                     }
                 }
             }
-        }
-        );
+        } );
 
         // fixme добавить обработчик resize
     }
 
     public void stop()
     {
-        removeMouseMotionListener( getMouseMotionListeners()[ 0 ] );
+        removeMouseMotionListener( getMouseMotionListeners()[0] );
     }
 
     public void init()
@@ -110,20 +115,20 @@ public class TestApplet
 
     /**
      * пересчёт под новый размер экрана
-     *
-     * @param width  новая ширина апплета
+     * 
+     * @param width новая ширина апплета
      * @param height новая высота апплета
      */
     private void rebuild(
-            int width,
-            int height )
+        int width,
+        int height )
     {
         // создаём новый список кругов
         _circleList = new ArrayList<Circle>();
 
         // сколько влезет кругов максимально
-        int h = 2 * height / ( MIN_DIAMETER + MAX_DIAMETER );
-        int w = 2 * width / ( MIN_DIAMETER + MAX_DIAMETER );
+        int h = 2 * height / (MIN_DIAMETER + MAX_DIAMETER);
+        int w = 2 * width / (MIN_DIAMETER + MAX_DIAMETER);
 
         // столько кругов будем рисовать
         int num = h * w / 4;
@@ -149,7 +154,8 @@ public class TestApplet
         }
     }
 
-    public void paint( Graphics g )
+    public void paint(
+        Graphics g )
     {
         // fixme заглушка неработающего onresize
         Dimension dim = getSize();
