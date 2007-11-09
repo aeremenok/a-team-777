@@ -9,34 +9,34 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Апплет, рисующий несколько кругов в зависимости от размера экрана, круги
- * "разбегаются" при наведении курсора
+ * РђРїРїР»РµС‚, СЂРёСЃСѓСЋС‰РёР№ РЅРµСЃРєРѕР»СЊРєРѕ РєСЂСѓРіРѕРІ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЂР°Р·РјРµСЂР° СЌРєСЂР°РЅР°, РєСЂСѓРіРё
+ * "СЂР°Р·Р±РµРіР°СЋС‚СЃСЏ" РїСЂРё РЅР°РІРµРґРµРЅРёРё РєСѓСЂСЃРѕСЂР°
  */
 public class TestApplet
     extends Applet
 {
     /**
-     * датчик случайных чисел
+     * РґР°С‚С‡РёРє СЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР»
      */
     private Random            _random      = null;
 
     /**
-     * fixme текущие размеры апплета (для заглушки onresize)
+     * С‚РµРєСѓС‰РёРµ СЂР°Р·РјРµСЂС‹ Р°РїРїР»РµС‚Р° (РґР»СЏ Р·Р°РіР»СѓС€РєРё onresize)
      */
     private Dimension         _dimension   = null;
 
     /**
-     * минимальный диаметр круга
+     * РјРёРЅРёРјР°Р»СЊРЅС‹Р№ РґРёР°РјРµС‚СЂ РєСЂСѓРіР°
      */
     private int               MIN_DIAMETER = 20;
 
     /**
-     * максимальный диаметр круга
+     * РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РґРёР°РјРµС‚СЂ РєСЂСѓРіР°
      */
     private int               MAX_DIAMETER = 50;
 
     /**
-     * список кругов для отрисовки
+     * СЃРїРёСЃРѕРє РєСЂСѓРіРѕРІ РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё
      */
     private ArrayList<Circle> _circleList  = null;
 
@@ -49,35 +49,36 @@ public class TestApplet
             public void mouseDragged(
                 MouseEvent e )
             {
-                // ничего не делаем
+                // РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµРј
             }
 
             public void mouseMoved(
                 MouseEvent e )
             {
-                // новое положение курсора
+                // РЅРѕРІРѕРµ РїРѕР»РѕР¶РµРЅРёРµ РєСѓСЂСЃРѕСЂР°
                 Point cursor = new Point( e.getX(), e.getY() );
 
                 for ( Circle c : _circleList )
                 {
-                    if ( c.contains( cursor ) ) // надо прыгать
+                    if ( c.contains( cursor ) ) // РЅР°РґРѕ РїСЂС‹РіР°С‚СЊ
                     {
-                        // вычисляем в какую четверть будем прыгать
+                        // РІС‹С‡РёСЃР»СЏРµРј РІ РєР°РєСѓСЋ С‡РµС‚РІРµСЂС‚СЊ Р±СѓРґРµРј РїСЂС‹РіР°С‚СЊ
                         int leftX = (_dimension.width - cursor.x > cursor.x) ? cursor.x : 0;
                         int rightX = (_dimension.width - cursor.x > cursor.x) ? _dimension.width : cursor.x;
                         int upY = (_dimension.height - cursor.y > cursor.y) ? cursor.y : 0;
                         int downY = (_dimension.height - cursor.y > cursor.y) ? _dimension.height : cursor.y;
 
-                        // точка для прыжка
+                        // С‚РѕС‡РєР° РґР»СЏ РїСЂС‹Р¶РєР°
                         int jumpX = _random.nextInt( rightX - leftX - c.diameter ) + leftX;
                         int jumpY = _random.nextInt( downY - upY - c.diameter ) + upY;
 
-                        // заливаем круг цветом фона
+                        // Р·Р°Р»РёРІР°РµРј РєСЂСѓРі С†РІРµС‚РѕРј С„РѕРЅР°
+                        // todo Р·РґРµСЃСЊ РЅСѓР¶РµРЅ РЅРµ Р±РµР»С‹Р№ С†РІРµС‚, Р° С†РІРµС‚ С„РѕРЅР°
                         Circle temp = new Circle( c.x, c.y, c.diameter, Color.white );
                         temp.draw( getGraphics() );
 
-                        // перерисовываем круги, у которых были пересечения с
-                        // нашим
+                        // РїРµСЂРµСЂРёСЃРѕРІС‹РІР°РµРј РєСЂСѓРіРё, Сѓ РєРѕС‚РѕСЂС‹С… Р±С‹Р»Рё РїРµСЂРµСЃРµС‡РµРЅРёСЏ СЃ
+                        // РЅР°С€РёРј
                         for ( Circle cc : _circleList )
                         {
                             if ( c != cc && cc.intersectsWith( c ) )
@@ -86,17 +87,15 @@ public class TestApplet
                             }
                         }
 
-                        // двигаем круг
+                        // РґРІРёРіР°РµРј РєСЂСѓРі
                         c.moveTo( jumpX, jumpY );
 
-                        // рисуем круг на новом месте
+                        // СЂРёСЃСѓРµРј РєСЂСѓРі РЅР° РЅРѕРІРѕРј РјРµСЃС‚Рµ
                         c.draw( getGraphics() );
                     }
                 }
             }
         } );
-
-        // fixme добавить обработчик resize
     }
 
     public void stop()
@@ -106,50 +105,50 @@ public class TestApplet
 
     public void init()
     {
-        // инициализируем новый датчик
+        // РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РЅРѕРІС‹Р№ РґР°С‚С‡РёРє
         _random = new Random( System.currentTimeMillis() );
 
-        // пересчитываем количество кругов
+        // РїРµСЂРµСЃС‡РёС‚С‹РІР°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РєСЂСѓРіРѕРІ
         rebuild( getSize().width, getSize().height );
     }
 
     /**
-     * пересчёт под новый размер экрана
+     * РїРµСЂРµСЃС‡С‘С‚ РїРѕРґ РЅРѕРІС‹Р№ СЂР°Р·РјРµСЂ СЌРєСЂР°РЅР°
      * 
-     * @param width новая ширина апплета
-     * @param height новая высота апплета
+     * @param width РЅРѕРІР°СЏ С€РёСЂРёРЅР° Р°РїРїР»РµС‚Р°
+     * @param height РЅРѕРІР°СЏ РІС‹СЃРѕС‚Р° Р°РїРїР»РµС‚Р°
      */
     private void rebuild(
         int width,
         int height )
     {
-        // создаём новый список кругов
+        // СЃРѕР·РґР°С‘Рј РЅРѕРІС‹Р№ СЃРїРёСЃРѕРє РєСЂСѓРіРѕРІ
         _circleList = new ArrayList<Circle>();
 
-        // сколько влезет кругов максимально
+        // СЃРєРѕР»СЊРєРѕ РІР»РµР·РµС‚ РєСЂСѓРіРѕРІ РјР°РєСЃРёРјР°Р»СЊРЅРѕ
         int h = 2 * height / (MIN_DIAMETER + MAX_DIAMETER);
         int w = 2 * width / (MIN_DIAMETER + MAX_DIAMETER);
 
-        // столько кругов будем рисовать
+        // СЃС‚РѕР»СЊРєРѕ РєСЂСѓРіРѕРІ Р±СѓРґРµРј СЂРёСЃРѕРІР°С‚СЊ
         int num = h * w / 4;
 
-        // заполняем массив кругами
+        // Р·Р°РїРѕР»РЅСЏРµРј РјР°СЃСЃРёРІ РєСЂСѓРіР°РјРё
         for ( int i = 0; i < num; i++ )
         {
-            // генерируем диаметр нового круга
+            // РіРµРЅРµСЂРёСЂСѓРµРј РґРёР°РјРµС‚СЂ РЅРѕРІРѕРіРѕ РєСЂСѓРіР°
             int d = _random.nextInt( MAX_DIAMETER - MIN_DIAMETER ) + MIN_DIAMETER;
 
-            // генерируем расположение для нового круга
+            // РіРµРЅРµСЂРёСЂСѓРµРј СЂР°СЃРїРѕР»РѕР¶РµРЅРёРµ РґР»СЏ РЅРѕРІРѕРіРѕ РєСЂСѓРіР°
             int wi = _random.nextInt( width - 2 * d );
             int he = _random.nextInt( height - 2 * d );
 
-            // генерируем цвет для нового круга
+            // РіРµРЅРµСЂРёСЂСѓРµРј С†РІРµС‚ РґР»СЏ РЅРѕРІРѕРіРѕ РєСЂСѓРіР°
             int red = _random.nextInt( 255 );
             int green = _random.nextInt( 255 );
             int blue = _random.nextInt( 255 );
             Color c = new Color( red, green, blue );
 
-            // сохраняем в массив
+            // СЃРѕС…СЂР°РЅСЏРµРј РІ РјР°СЃСЃРёРІ
             _circleList.add( new Circle( wi, he, d, c ) );
         }
     }
@@ -157,7 +156,7 @@ public class TestApplet
     public void paint(
         Graphics g )
     {
-        // fixme заглушка неработающего onresize
+        // РµСЃР»Рё РёР·РјРµРЅРёР»РёСЃСЊ СЂР°Р·РјРµСЂС‹ Р°РїРїР»РµС‚Р° - РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ РІСЃРµ РєСЂСѓРіРё
         Dimension dim = getSize();
         if ( !dim.equals( _dimension ) )
         {
@@ -165,10 +164,10 @@ public class TestApplet
             _dimension = dim;
         }
 
-        // очистка
+        // РѕС‡РёСЃС‚РєР°
         g.clearRect( 0, 0, dim.width - 1, dim.height - 1 );
 
-        // рисуем круги
+        // СЂРёСЃСѓРµРј РєСЂСѓРіРё
         for ( Circle c : _circleList )
         {
             c.draw( g );
