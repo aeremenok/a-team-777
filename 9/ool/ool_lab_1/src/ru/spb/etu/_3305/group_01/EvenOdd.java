@@ -16,13 +16,18 @@ public class EvenOdd
     public static void main(
         String[] args )
     {
+        // числа для работы
         int[] numbers = null;
+
+        // входной поток
         BufferedReader in = null;
+
+        // выходной поток
         BufferedWriter out = null;
 
         try
         {
-            // настраиваем кодировку вывода на Windows
+            // настраиваем кодировку вывода на Dos для работы из Windows-консоли
             out = new BufferedWriter( new OutputStreamWriter( System.out, "cp866" ) );
 
             // помощь в работе с программой
