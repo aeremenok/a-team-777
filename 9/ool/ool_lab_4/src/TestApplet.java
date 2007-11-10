@@ -73,8 +73,8 @@ public class TestApplet
                         int jumpY = _random.nextInt( downY - upY - c.diameter ) + upY;
 
                         // заливаем круг цветом фона
-                        // todo здесь нужен не белый цвет, а цвет фона
-                        Circle temp = new Circle( c.x, c.y, c.diameter, Color.white );
+                        Color background = getBackground();
+                        Circle temp = new Circle( c.x, c.y, c.diameter, background );
                         temp.draw( getGraphics() );
 
                         // перерисовываем круги, у которых были пересечения с
