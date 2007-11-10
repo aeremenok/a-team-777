@@ -1,7 +1,7 @@
 package ru.spb.etu._3305.group_01;
 
 /**
- * Фильтр чётных чисел
+ * Р¤РёР»СЊС‚СЂ С‡С‘С‚РЅС‹С… С‡РёСЃРµР»
  */
 public class EvenIntFilter
     implements
