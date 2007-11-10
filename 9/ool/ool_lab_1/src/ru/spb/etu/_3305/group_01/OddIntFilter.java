@@ -1,7 +1,7 @@
 package ru.spb.etu._3305.group_01;
 
 /**
- * Фильтр нечётных чисел
+ * Р¤РёР»СЊС‚СЂ РЅРµС‡С‘С‚РЅС‹С… С‡РёСЃРµР»
  */
 public class OddIntFilter
     implements
