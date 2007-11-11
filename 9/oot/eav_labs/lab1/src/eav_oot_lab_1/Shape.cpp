@@ -49,14 +49,6 @@ void Shape::set__x(float value)
 	return;
 }
 
-//##ModelId=4708DDC303C8
-Shape::Shape()
-{
-    _x = 0;
-    _y = 0;
-    cout<<"[shape] default shape created"<<endl;
-}
-
 //##ModelId=4708DDC4001F
 Shape::~Shape()
 {
@@ -66,7 +58,7 @@ Shape::~Shape()
 //##ModelId=4712170B0271
 ostream& Shape::speak(ostream& os) const
 {
-    return os<<"[shape] shape center coordinates: ("
+    return os<<"[shape] id="<<_id<<", shape center coordinates: ("
              <<_x<<", "<<_y<<"), "
              <<"area = "<<Area()<<endl;
 }

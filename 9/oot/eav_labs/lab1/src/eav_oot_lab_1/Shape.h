@@ -29,8 +29,6 @@ protected:
     //##ModelId=46F50D1D00AB
 	float _y;
 
-    //##ModelId=4708DDC303C8
-    Shape();
     //##ModelId=4736C3EF00AB
     Shape(float x, float y);
     

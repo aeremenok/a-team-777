@@ -17,8 +17,9 @@ public:
     //##ModelId=472D97EC0167
     virtual ~Ribble()
     {
-        delete _vertex1;
-        delete _vertex2;
+        // вершины по указателям не удаляем, т.к. возможны ещё
+        //  указатели на эти вершины, которые (указатели) нам
+        //  не доступны
         cout<<"[ribble] ribble destroyed\n";
     }
 
