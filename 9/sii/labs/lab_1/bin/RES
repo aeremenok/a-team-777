@@ -1,0 +1,103 @@
+
+
+
+
+Область:
+progLangs
+
+
+
+Автор: 
+eav, epa. 3351
+
+
+
+Текст начала: 
+Выбор среды и окружения для разработки приложений
+
+
+
+Текст конца:
+Согласно введенным данным, оптимальным языком для разработки в данном
+случае является
+
+
+Останов после первого результативного правила вывода. 
+ПР-ЛА:
+
+
+
+----------------------------------------
+
+
+
+
+ПРАВИЛО:     1   
+
+IF:
+       Generic Static typing 
+   и   Java = 9/10
+   и   C++ = 9/10
+   и   C# = 9/10
+   и   Python = 0/10
+   и   Ruby = 0/10
+   и   Arrays Lightweight array
+   и   Java = 9/10
+
+
+THEN:
+       Java - Вероятность=9/10
+
+
+ПРИМ.
+no
+
+
+ССЫЛКА:   
+no ref
+
+ПОКАЗАТЕЛИ:
+
+
+
+
+1  Generic
+
+Static typing 
+Garbage Collection
+Aliases
+
+
+
+
+2  Arrays
+
+Lightweight array
+Array bounds checking
+Array slicing
+Array of bits / Finite set 
+
+
+РЕШЕНИЯ:
+
+1  Java
+
+
+
+2  C++
+
+
+
+3  C#
+
+
+
+4  Python
+
+
+
+5  Ruby
+
+
+
+
