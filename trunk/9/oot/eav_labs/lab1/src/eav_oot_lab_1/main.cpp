@@ -184,7 +184,7 @@ Shape* inputVertexMenu()
         <<"4 - text in oval\n"
         <<"0 - exit\n";
     cout<<"your selection: "; cin>>res;
-
+    cout<<endl;
     switch(res)
     {
         case 0:
@@ -212,6 +212,7 @@ Shape* inputVertexMenu()
         default:
             break;
     }
+    cout<<endl;
     return shape;
 }
 //////////////////////////////////////////////////////////////////////////
@@ -244,7 +245,6 @@ void shapeGraphTest()
                 exit(0);
         	    break;
             case 1:
-                cout<<"clearing graph\n";
                 shapeGraph.clear();
         	    break;
             case 2:

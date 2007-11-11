@@ -78,11 +78,12 @@ public:
     //##ModelId=472D959B029F
     void clear()
     {
+        cout<<"\n[graph] clearing graph\n";
         Iterator<T>* iter = getIterator();
         while (iter->hasNext())
         {
             Ribble<T>* current = iter->next();
-            current->~Ribble();
+            delete current;
         }
         _ribbleList->clear();
         cout<<"[graph] graph cleared\n";
@@ -92,7 +93,7 @@ public:
     //##ModelId=471BBA1B0177
     void addRibble(T* vertex1, T* vertex2)
     {
-        cout<<"[graph] adding ribble, checking if it already exists\n";
+        cout<<"\n[graph] adding ribble, checking if it already exists\n";
        
         // проверяем, нет ли уже такого ребра
         Iterator<T>* iter = getIterator();
@@ -122,7 +123,7 @@ public:
 	//##ModelId=4721A0BA034B
     void removeRibble(T* vertex1, T* vertex2)
     {
-        cout<<"[graph] removing ribble\n";
+        cout<<"\n[graph] removing ribble\n";
 
         // проверяем, есть ли такое ребро
         // проверка не обязательна, но нужна, чтобы продемонстрировать экспешен =)
@@ -152,7 +153,7 @@ public:
     //##ModelId=471BBAE20290
     void removeVertex(T* vertex)
     {
-        cout<<"[graph] removoing all ribbles, containing vertex\n"
+        cout<<"\n[graph] removoing all ribbles, containing\n===vertex===\n"
             <<*vertex<<endl;
 
         // проверяем, есть ли такая вершина
@@ -211,6 +212,10 @@ ostream_withassign& operator<<( ostream_withassign& o, const Graph<T>& rhs )
         o<<"===vertex 1===\n"<<*(current->get__vertex1())
          <<"===vertex 2===\n"<<*(current->get__vertex2())
          <<endl;
+    }
+    if (i == 0)
+    {
+        o<<"[graph] graph is empty"<<endl;
     }
     return o;
 }   

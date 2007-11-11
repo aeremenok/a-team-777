@@ -54,7 +54,7 @@ ostream& TextInOval::speak(ostream& os) const
 
 //##ModelId=472DF1EC00DA
 TextInOval::TextInOval( float rad1, float rad2, std::string content, float x, float y ):
-Text(content, 0, 0), Oval(rad1, rad2, 0, 0)
+Text(content, 0, 0), Oval(rad1, rad2, 0, 0), Shape(x, y)
 {
     cout<<"[text_in_oval] text in oval created"<<endl;
 }
