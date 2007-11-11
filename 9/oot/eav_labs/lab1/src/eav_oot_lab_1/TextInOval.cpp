@@ -4,10 +4,39 @@
 
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
+//##ModelId=4736C5F102FD
+list<TextInOval*> TextInOval::_textsInOvals;
+//////////////////////////////////////////////////////////////////////////
+//##ModelId=4736C62903A9
+TextInOval* TextInOval::create(float rad1, float rad2, std::string content, float x, float y)
+{
+    // проверяем, нет ли уже такого текста в овале
+    using namespace std;
+    list<TextInOval*>::iterator iter;
+    for (iter = _textsInOvals.begin(); iter != _textsInOvals.end(); iter++)
+    {
+        TextInOval* textInOval = *iter;
+        if (
+            textInOval->_rad1 == rad1 &&
+            textInOval->_rad2 == rad2 &&
+            textInOval->_x == x &&
+            textInOval->_y == y &&
+            textInOval->_content.compare(content) == 0
+            )
+        {   // такой есть
+            return textInOval;
+        }
+    }
+    // не нашли - создаем новый
+    TextInOval* textInOval = new TextInOval(rad1, rad2, content, x, y);
+    _textsInOvals.push_back(textInOval);
+    return textInOval;
+}
 
 //##ModelId=46F677F2002E
 TextInOval::~TextInOval()
 {
+    _textsInOvals.remove(this);
 	cout<<"[text in oval] text in oval destroyed"<<endl;
 }
 
@@ -23,36 +52,16 @@ ostream& TextInOval::speak(ostream& os) const
         ;
 }
 
-//##ModelId=4713C74D038A
-TextInOval::TextInOval(float big, float less):
-Text(), Oval(big, less)
-{
-    cout<<"[text_in_oval] text in oval created"<<endl;
-}
-
 //##ModelId=472DF1EC00DA
-TextInOval::TextInOval( float big, float less, std::string text ):
-Text(text), Oval(big, less)
+TextInOval::TextInOval( float rad1, float rad2, std::string content, float x, float y ):
+Text(content, 0, 0), Oval(rad1, rad2, 0, 0)
 {
     cout<<"[text_in_oval] text in oval created"<<endl;
-}
-
-//##ModelId=472DDB2C0280
-bool TextInOval::operator==(const TextInOval& rhs) const
-{
-    return Oval::operator ==(rhs) &&
-           Text::operator ==(rhs);
 }
 
 //##ModelId=472DF2A20119
 float TextInOval::Area() const
 {
     return Oval::Area();
-}
-
-//##ModelId=472DFE0402CE
-int TextInOval::getName() const
-{
-    return TEXT_IN_OVAL;
 }
 //////////////////////////////////////////////////////////////////////////

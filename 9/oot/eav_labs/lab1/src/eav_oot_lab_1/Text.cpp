@@ -6,21 +6,45 @@
 //////////////////////////////////////////////////////////////////////////
 class ostream;
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=46F510F20232
-std::string Text::getText() const
+//##ModelId=4736C55C01C5
+list<Text*> Text::_texts;
+//////////////////////////////////////////////////////////////////////////
+//##ModelId=472DF1EC01B5
+Text::Text( std::string content, float x, float y )
+: Shape(x, y)
 {
-    return _content;
+    _content = content;
+    cout<<"[text] text created"<<endl;
 }
 
-//##ModelId=46F511550280
-void Text::setText( std::string text )
+//##ModelId=4736C4CA000F
+Text* Text::create(std::string content, float x, float y)
 {
-    _content = text;
+    // проверяем, нет ли уже такого текста
+    using namespace std;
+    list<Text*>::iterator iter;
+    for (iter = _texts.begin(); iter != _texts.end(); iter++)
+    {
+        Text* text = *iter;
+        if (
+            text->_x == x &&
+            text->_y == y &&
+            text->_content.compare(content) == 0
+            )
+        {   // такой есть
+            return text;
+        }
+    }
+    // не нашли - создаем новый
+    Text* text = new Text(content, x, y);
+    _texts.push_back(text);
+    return text;
 }
 
 //##ModelId=46F676990213
 Text::~Text()
 {
+    _texts.remove(this);
 	cout<<"[text] text destroyed"<<endl;
 }
 
@@ -32,26 +56,17 @@ ostream& Text::speak(ostream& os) const
         <<_content.c_str()<<endl;
 }
 
-//##ModelId=471220F702FD
-Text::Text()
+//##ModelId=4736C4B9037A
+const std::string& Text::get__content() const
 {
-    _content = "lorem ipsum dolor";
-    cout<<"[text] default text created"<<endl;
+    return _content;
 }
 
-//##ModelId=472DF1EC01B5
-Text::Text( std::string text )
+//##ModelId=4736C4BA02D0
+void Text::set__content(std::string& value)
 {
-    _content = text;
-    cout<<"[text] text created"<<endl;
-}
-
-//##ModelId=472DDB2602DE
-bool Text::operator==( const Text& rhs ) const
-{
-    return 
-        Shape::operator ==(rhs) &&
-        ( _content == rhs._content);
+    _content = value;
+    return;
 }
 
 //##ModelId=472DF2970261
@@ -60,9 +75,4 @@ float Text::Area() const
     return -1;
 }
 
-//##ModelId=472DFDFD0128
-int Text::getName()
-{
-    return TEXT;
-}
 //////////////////////////////////////////////////////////////////////////
