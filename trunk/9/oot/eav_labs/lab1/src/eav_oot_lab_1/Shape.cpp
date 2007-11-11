@@ -4,6 +4,18 @@
 
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
+//##ModelId=4736B8520000
+int Shape::_counter = 0;
+//////////////////////////////////////////////////////////////////////////
+//##ModelId=4736C3EF00AB
+Shape::Shape(float x, float y)
+{
+    _id = _counter++;
+    _x = x;
+    _y = y;
+    cout<<"[shape] shape created"<<endl;
+}
+
 //##ModelId=46F50D80038A
 void Shape::moveToPoint(float x_pos, float y_pos)
 {
@@ -62,19 +74,14 @@ ostream& Shape::speak(ostream& os) const
 //##ModelId=472DDB08029F
 bool Shape::operator==(const Shape& rhs) const
 {
-    return  (getName() == rhs.getName()) &&
-            (_x == rhs._x) && 
-            ( _y == rhs._y );
+    // учитывая проверку при создании объектов,
+    //  достаточно сравнить идентификаторы
+    return (_id == rhs._id);
 }
 
-//##ModelId=472DFDC300EA
-int Shape::getName() const
-{
-    return SHAPE;
-}
 //////////////////////////////////////////////////////////////////////////
 ostream& operator<<( ostream& o, const Shape& rhs )
 {
     return rhs.speak(o);
 }
-
+//////////////////////////////////////////////////////////////////////////

@@ -33,13 +33,13 @@ void shapeTest()
 {
     cout<<"\t\ttesting shapes\n"<<endl;
 
-    Shape* rect = new Rectangle(1,2);
+    Shape* rect = Rectangle::create(1,2,0,0);
     cout<<*rect<<endl;
-    Shape* txt = new Text();
+    Shape* txt = Text::create("lorem ipsum dolor", 0, 0);
     cout<<*txt<<endl;
-    Shape* ovl = new Oval(3.0f, 4.0f);
+    Shape* ovl = Oval::create(3,4,0,0);
     cout<<*ovl<<endl;
-    Shape* txt_in_oval = new TextInOval(5.0f, 6.0f);
+    Shape* txt_in_oval = TextInOval::create(5, 6, "777", 0, 0);
     cout<<*txt_in_oval<<endl;
 }
 //////////////////////////////////////////////////////////////////////////
@@ -153,10 +153,10 @@ void shapeSequenceTest()
 
     // заполняем его
     cout<<"\tfilling vector with shapes\n";
-    shapeVector.push_back(new Rectangle(1, 2));
-    shapeVector.push_back(new Oval(3, 4));
-    shapeVector.push_back(new Text());
-    shapeVector.push_back(new TextInOval(5,6));
+    shapeVector.push_back(Rectangle::create(1, 2, 0, 0));
+    shapeVector.push_back(Oval::create(3, 4, 0, 0));
+    shapeVector.push_back(Text::create("lorem ipsum dolor", 0, 0));
+    shapeVector.push_back(TextInOval::create(5, 6, "lorem ipsum dolor", 0, 0));
 
     // проверяем порядок заполнения   
     cout<<"\twatching result\n";
@@ -176,8 +176,6 @@ Shape* inputVertexMenu()
     std::string s;
 
     Shape* shape;
-    Text* text = NULL;
-    TextInOval* textInOval = NULL;
 
     cout<<"select a type of vertex to operate\n"
         <<"1 - rectangle\n"
@@ -194,26 +192,22 @@ Shape* inputVertexMenu()
             break;
         case 1:
             cout<<"enter length and width: "; cin>>a>>b;
-            shape = new Rectangle(a, b);
+            shape = Rectangle::create(a, b, 0, 0);
             break;
         case 2:
             cout<<"enter rad1 and rad2: "; cin>>a>>b;
-            shape = new Oval(a, b);
+            shape = Oval::create(a, b, 0, 0);
             break;
         case 3:
             cout<<"enter text content: "; cin>>c;
             s = ""; s.append(c);
-            text = new Text();
-            text->setText(s);
-            shape = text;
+            shape = Text::create(s, 0, 0);
             break;
         case 4:
             cout<<"enter rad1 and rad2: "; cin>>a>>b;
             cout<<"enter text content: "; cin>>c;
-            textInOval = new TextInOval(a, b);
             s = ""; s.append(c);
-            textInOval->setText(s);
-            shape = textInOval;
+            shape = TextInOval::create(a, b, s, 0, 0);
             break;
         default:
             break;
@@ -321,35 +315,30 @@ int printMainMenu()
 //////////////////////////////////////////////////////////////////////////
 void main()
 {
-    Shape* shape1 = new Text("asdfhgf");
-    Shape* shape2 = new Text("xccccgv");
-    //bool res1 = (shape1 == shape2);
-    bool res2 = shape1->equals(shape2);
-    cout<</*res1<<*/res2<<endl;
-//     for (;;)
-//     {
-//         switch(printMainMenu())
-//         {
-//             case 0:
-//                 return;
-//         	    break;
-//             case 1:
-//                 shapeTest();
-//         	    break;
-//             case 2:
-//                 sequenceTest();
-//                 adapterTest();
-//                 assocTest();
-//                 break;
-//             case 3:
-//                 shapeSequenceTest();
-//                 break;
-//             case 4:
-//                 shapeGraphTest();
-//         	    break;
-//             default:
-//                 break;
-//         }
-//     }
+    for (;;)
+    {
+        switch(printMainMenu())
+        {
+            case 0:
+                return;
+        	    break;
+            case 1:
+                shapeTest();
+        	    break;
+            case 2:
+                sequenceTest();
+                adapterTest();
+                assocTest();
+                break;
+            case 3:
+                shapeSequenceTest();
+                break;
+            case 4:
+                shapeGraphTest();
+        	    break;
+            default:
+                break;
+        }
+    }
 }
 //////////////////////////////////////////////////////////////////////////

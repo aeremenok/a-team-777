@@ -1,5 +1,4 @@
 // Copyright (C) 1991 - 1999 Rational Software Corporation
-
 #if defined (_MSC_VER) && (_MSC_VER >= 1000)
 #pragma once
 #endif
@@ -8,8 +7,11 @@
 //////////////////////////////////////////////////////////////////////////
 #include "Oval.h"
 #include "Text.h"
+
+#include <list>
 //////////////////////////////////////////////////////////////////////////
 class ostream;
+using std::list;
 //////////////////////////////////////////////////////////////////////////
 //текст в овале
 //##ModelId=46F50C7B01D4
@@ -17,33 +19,27 @@ class TextInOval
 : public Oval
 , public Text
 {
-public:
-    /************************************************************************/
-    /* конструкторы и деструктор                                            */
-    /************************************************************************/
-    //##ModelId=4713C74D038A
-    TextInOval(float big, float less);
+private:
+    //##ModelId=472DF1EC00DA
+    TextInOval(float rad1, float rad2, std::string content, float x, float y);
 
-	//##ModelId=472DF1EC00DA
-    TextInOval(float big, float less, std::string text);
+    //указатели на созданные тексты в овалах
+    //##ModelId=4736C5F102FD
+    static list<TextInOval*> _textsInOvals;
+public:
+    //выдает указатель на уже существующий текст в овале, если он имеет заданные 
+    //параметры
+    //если такого не существует - создает новый
+    //##ModelId=4736C62903A9
+    static TextInOval* create(float rad1, float rad2, std::string content, float x, float y);
 
 	//##ModelId=46F677F2002E
 	virtual ~TextInOval();
     
-    /************************************************************************/
-    /* прочие методы                                                        */
-    /************************************************************************/    
-    //##ModelId=472DDB2C0280
-    virtual bool operator==(const TextInOval& rhs) const;
-
     //вычисляет площадь фигуры
     //##ModelId=472DF2A20119
     virtual float Area() const;
 protected:
-    //имя класса
-    //##ModelId=472DFE0402CE
-    virtual int getName() const;
-
     //вывести состояние текста в овале в поток
     //##ModelId=471219010148
     virtual ostream& speak(ostream& os) const;
