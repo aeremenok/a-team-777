@@ -7,8 +7,7 @@
 // ***************************************************************
 // 
 // ***************************************************************
-#include <ostream.h>
-#include <istream.h>
+#include <iostream.h>
 #include <string>
 
 #include <vector>
@@ -243,7 +242,6 @@ int printGraphMenu()
 void shapeGraphTest()
 {
     Graph<Shape> shapeGraph;
-    Iterator<Shape>* iter = NULL;
     for (;;)
     {
         switch(printGraphMenu())
@@ -253,16 +251,7 @@ void shapeGraphTest()
         	    break;
             case 1:
                 cout<<"clearing graph\n";
-                iter = shapeGraph.getIterator();
-                while (iter->hasNext())
-                {
-                    Ribble<Shape>* current = iter->next();
-                    current->get__vertex1()->~Shape();
-                    current->get__vertex2()->~Shape();
-                    current->~Ribble();
-                }
                 shapeGraph.clear();
-                cout<<"graph cleared\n";
         	    break;
             case 2:
                 cout<<"adding a ribble to graph. input 2 vertices:\n";
@@ -277,7 +266,6 @@ void shapeGraphTest()
                 {
                 	e->printException();
                 }
-
                 break;
             case 3:
                 cout<<"removing a ribble from graph. input 2 vertices:\n";
@@ -333,30 +321,35 @@ int printMainMenu()
 //////////////////////////////////////////////////////////////////////////
 void main()
 {
-    for (;;)
-    {
-        switch(printMainMenu())
-        {
-            case 0:
-                return;
-        	    break;
-            case 1:
-                shapeTest();
-        	    break;
-            case 2:
-                sequenceTest();
-                adapterTest();
-                assocTest();
-                break;
-            case 3:
-                shapeSequenceTest();
-                break;
-            case 4:
-                shapeGraphTest();
-        	    break;
-            default:
-                break;
-        }
-    }
+    Shape* shape1 = new Text("asdfhgf");
+    Shape* shape2 = new Text("xccccgv");
+    //bool res1 = (shape1 == shape2);
+    bool res2 = shape1->equals(shape2);
+    cout<</*res1<<*/res2<<endl;
+//     for (;;)
+//     {
+//         switch(printMainMenu())
+//         {
+//             case 0:
+//                 return;
+//         	    break;
+//             case 1:
+//                 shapeTest();
+//         	    break;
+//             case 2:
+//                 sequenceTest();
+//                 adapterTest();
+//                 assocTest();
+//                 break;
+//             case 3:
+//                 shapeSequenceTest();
+//                 break;
+//             case 4:
+//                 shapeGraphTest();
+//         	    break;
+//             default:
+//                 break;
+//         }
+//     }
 }
 //////////////////////////////////////////////////////////////////////////
