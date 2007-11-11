@@ -72,7 +72,7 @@ public:
     /************************************************************************/    
 	//перенести фигуру в заданную точку
 	//##ModelId=46F50D80038A
-	void moveToPoint(float x_pos  , float y_pos);
+	void moveToPoint(float x_pos, float y_pos);
 
     //вычисляет площадь фигуры
     //##ModelId=472DF22D0000

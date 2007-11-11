@@ -9,7 +9,6 @@
 //##ModelId=46F674D6002E
 Oval::~Oval()
 {
-    Shape::~Shape();
 	cout<<"[oval] oval destroyed"<<endl;
 }
 

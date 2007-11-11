@@ -68,7 +68,7 @@ private:
         {
             _innerList = innerList;
             _iter = _innerList->begin();
-            cout<<"[graph_iterator]graph iterator created\n";
+            cout<<"[graph_iterator] graph iterator created\n";
         }
     };
 public:
@@ -78,7 +78,14 @@ public:
     //##ModelId=472D959B029F
     void clear()
     {
+        Iterator<T>* iter = getIterator();
+        while (iter->hasNext())
+        {
+            Ribble<T>* current = iter->next();
+            current->~Ribble();
+        }
         _ribbleList->clear();
+        cout<<"[graph] graph cleared\n";
     }
 
     //добавить ребро

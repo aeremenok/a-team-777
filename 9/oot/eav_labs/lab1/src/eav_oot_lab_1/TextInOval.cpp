@@ -8,7 +8,7 @@
 //##ModelId=46F677F2002E
 TextInOval::~TextInOval()
 {
-	cout<<"text in oval destroyed"<<endl;
+	cout<<"[text in oval] text in oval destroyed"<<endl;
 }
 
 //##ModelId=471219010148

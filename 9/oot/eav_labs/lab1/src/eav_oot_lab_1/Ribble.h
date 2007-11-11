@@ -17,6 +17,8 @@ public:
     //##ModelId=472D97EC0167
     virtual ~Ribble()
     {
+        delete _vertex1;
+        delete _vertex2;
         cout<<"[ribble] ribble destroyed\n";
     }
 
