@@ -1,0 +1,14 @@
+10          SIMULATE             
+20          GENERATE     1        
+21 FLOAT0   FVARIABLE    RN1
+30 TAB1     TABLE        V$FLOAT0,50,50,20        
+40          TABULATE     TAB1  
+41 FLOAT    FVARIABLE    -4#LOG((RN1+1)/1000)
+42 TAB2     TABLE         V$FLOAT,1,1,50
+43          TABULATE      TAB2  
+44 FLOAT2   FVARIABLE    20#(1-SQR((RN1+1)/1000))
+45 TAB3     TABLE        V$FLOAT2,1,1,50
+46          TABULATE     TAB3
+60          TERMINATE    1        
+70          START        100000
+71          SHOW V$FLOAT
