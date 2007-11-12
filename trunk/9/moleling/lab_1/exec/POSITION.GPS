@@ -1,0 +1,129 @@
+;Background Layout, and Shape Definitions: 8 X 8 (200 line) or 14 X 8 (350 line)
+;     Use SETTING #32 to set EGA mode: 0=no shapes, 1=200 line, 2=350 line.
+
+MAXBACKGROUND 17,80
+LABEL 16,24 "ÄÇíéåÄÉÄáàç"
+LABEL 4,26 " É‡„≠‚Æ¢™† "
+LABEL 4,57 " é™‡†·™† "
+LABEL 12,13 " èêéÑÄÜÄ "
+
+; This is the background for the animation
+
+BACKGROUND 4,1
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+"                             X                             X    "
+"                   "
+" "
+"                             X                             X    "
+"                             X                             X    "
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+"                                                                         X"
+"                                                                         X"
+"                             XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+"                                                                         "
+" "
+ENDBACKGROUND
+
+
+
+; Shape Definitions: 8 rows (200 line) or 14 rows (350 line)
+
+; This is the shape of the car as it moves to the right (CAR_BODY_RIGHT)
+
+SHAPE	1
+"        "
+"        "
+"        "
+"        "
+"   XX   "
+"  X  X  "
+" XXXXXXX"
+" X    X "
+ENDSHAPE
+
+
+; This is the shape of the down moving car (CAR_BODY_DOWN)
+
+SHAPE      4
+"        "
+"        "
+"  XXXX  "
+"  X  X  "
+"  XXXX  "
+"  X  X  "
+"  XXXX  "
+"        "
+ENDSHAPE
+
+; This is the shape of the left moving car (CAR_BODY_LEFT)
+
+SHAPE      5
+"        "
+"        "
+"        "
+"        "
+"   XX   "
+"  X  X  "
+"XXXXXXX "
+" X    X "
+ENDSHAPE
+
+; This is the shape of the man in the car with car moving left (MAN_IN_CAR_LEFT)
+
+SHAPE      6
+"        "
+"    X   "
+"   XXX  "
+"    X   "
+"   XX   "
+"  X  X  "
+"XXXXXXX "
+" X    X "
+ENDSHAPE
+
+
+
+; This is the shape of the customer (CUSTOMER)
+
+SHAPE      7
+"   X    "
+"  XXX   "
+"   X    "
+"  XXX   "
+" X X X  "
+"   X    "
+"  X X   "
+" X    X "
+ENDSHAPE
+
+
+
+
+; This is the shape of the robot with arm to left (ROBOT_1)
+
+SHAPE      8
+"XXXXXXXX"
+" XXXXXX "
+"  XXXX  "
+"  XXXX  "
+"  XXXX  "
+"   X    "
+"  X     "
+"XX      "
+ENDSHAPE
+
+
+; This is the shape of the robot with arm to the right (ROBOT_2)  
+
+SHAPE      9
+"XXXXXXXX"
+" XXXXXX "
+"  XXXX  "
+"  XXXX  "
+"  XXXX  "
+"    X   "
+"     X  "
+"      XX"
+ENDSHAPE
+
+
