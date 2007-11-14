@@ -4,7 +4,7 @@
 clear all; clc;
 
 % префикс пути к картинке
-PATH_PREFIX = 'D:\PROJECTS\a-team-777\9\kmil\kurs\brightness_test\';
+PATH_PREFIX = 'D:\PROJECTS\a-team-777\9\kmil\kurs\editor_vs_matlab\';
 
 % первая
 PIC1_PATH = [PATH_PREFIX, '1.jpg']; 
@@ -18,10 +18,13 @@ PIC3_PATH = [PATH_PREFIX, '3.jpg'];
 % количество уровней гистограммы
 LEVELS = 256;
 
+% осветление/затемнение
+COLOR_CHANGE = 50;
+
 % размер блока гистограммы
 hist_block_size = uint8( 256 / LEVELS );    
 
-% 1-ая картинка
+% 1-ая картинка - оригинал
 
     image1 = imread( PIC1_PATH );   % чтение изображения из файла
 
@@ -50,7 +53,7 @@ hist_block_size = uint8( 256 / LEVELS );
     subplot( 3, 3, 3 );
     bar( short_spectrum1 ); % рисуем укороченную гистограмму
 
-% 2-я картинка
+% 2-я картинка - осветление редактором +50
 
     image2 = imread( PIC2_PATH);    % чтение изображения из файла
 
@@ -79,21 +82,29 @@ hist_block_size = uint8( 256 / LEVELS );
     subplot( 3, 3, 6 );
     bar( short_spectrum2 ); % рисуем укороченную гистограмму
 
-% 3-я картинка
+% 3-я картинка - ручное осветление + 50
 
-    image3 = imread( PIC3_PATH);    % чтение изображения из файла
-
-    figure( 1 );
-    subplot( 3, 3, 7 );
-    imshow( image3 );   % показываем картинку
+    image3 = imread( PIC1_PATH);    % чтение изображения из файла
 
     full_spectrum3 = uint8( zeros( 1, 256 ) );
     for i = 1 : size( image3, 1 )
         for j = 1: size( image3, 2 )
-            color = image3( i, j );
+            color = image3( i, j ) + COLOR_CHANGE;
+            if color < 0
+                color = 0;
+            elseif color > 255
+                color = 255;
+            end;
             full_spectrum3( color + 1 ) = full_spectrum3( color + 1 ) + 1;
+            image3( i, j ) = color;
         end;
-    end;    % расчёт полной гистограммы
+    end;    % расчёт полной гистограммы, коррекция цвета
+    
+    imwrite( image3, PIC3_PATH ); % запись полученной картинки в файл
+
+    figure( 1 );
+    subplot( 3, 3, 7 );
+    imshow( image3 );   % показываем полученную картинку
     
     figure( 1 );
     subplot( 3, 3, 8 );
