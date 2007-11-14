@@ -88,9 +88,9 @@ hist_block_size = uint8( 256 / LEVELS );
     imshow( image3 );   % показываем картинку
 
     full_spectrum3 = uint8( zeros( 1, 256 ) );
-    for i = 1 : size( image2, 1 )
-        for j = 1: size( image2, 2 )
-            color = image2( i, j );
+    for i = 1 : size( image3, 1 )
+        for j = 1: size( image3, 2 )
+            color = image3( i, j );
             full_spectrum3( color + 1 ) = full_spectrum3( color + 1 ) + 1;
         end;
     end;    % расчёт полной гистограммы
@@ -99,7 +99,7 @@ hist_block_size = uint8( 256 / LEVELS );
     subplot( 3, 3, 8 );
     plot( full_spectrum3 ); % рисуем полную гистограмму
 
-    short_spectrum2 = uint8( zeros( 1, LEVELS ) );
+    short_spectrum3 = uint8( zeros( 1, LEVELS ) );
     for i = 1 : LEVELS
         short_spectrum3( i ) = mean( full_spectrum3( 1, ( i - 1 ) * hist_block_size + 1 : i * hist_block_size + 1 ) );
     end;    % расчёт укороченной гистограммы
