@@ -4,7 +4,7 @@
 clear all; clc;
 
 % префикс пути к картинке
-PATH_PREFIX = 'D:\PROJECTS\a-team-777\9\kmil\kurs\editor_vs_matlab\';
+PATH_PREFIX = 'D:\PROJECTS\a-team-777\9\kmil\kurs\editor_vs_matlab\img\';
 
 % первая
 PIC1_PATH = [PATH_PREFIX, '1.jpg']; 
