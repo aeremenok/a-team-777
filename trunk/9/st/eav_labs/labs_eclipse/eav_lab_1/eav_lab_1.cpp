@@ -4,19 +4,20 @@
 // Version     :
 // Copyright   : Your copyright notice
 //============================================================================
-
+#include "StdAfx.h"
+//////////////////////////////////////////////////////////////////////////
 #include <winsock2.h>
 
 #include <stdio.h>
 #include <stdlib.h>
-
+//////////////////////////////////////////////////////////////////////////
 #define ICMP_ECHO ((USHORT)8) // код сообщения icmp-echo
 #define ICMP_MAXBUF ((DWORD)0x1000) // максимальный размер пакета icmp
 #define ICMP_DATA ((DWORD)32) // размер данных icmp
 #define ICMP_TIMEOUT ((DWORD)1000) // интервал
 // макрос инициализации структур
-#define constructor() { ZeroMemory(this, sizeof(*this)) }
-
+#define constructor() { ZeroMemory(this, sizeof(*this)); }
+//////////////////////////////////////////////////////////////////////////
 // структура заголовка пакета IP
 typedef struct tagIP_header
 {
@@ -48,8 +49,8 @@ typedef struct tagICMP_MSG
         // атрибут в области доп.данных
         DWORD timestamp; // временная метка
 } ICMP_MSG, *PICMP_MSG;
-
-USHORT g_appid; // xxx а это что?
+//////////////////////////////////////////////////////////////////////////
+USHORT g_appid; // идентификатор процесса
 
 /**
  * вывод на экран ошибки winsock и завершение работы
@@ -65,7 +66,7 @@ bool _sc(int wsacode, const char* msg = 0)
     return res;
 }
 
-USHORT checksum(USORT* buffer, int size)
+USHORT checksum(USHORT* buffer, int size)
 {
     unsigned long chksum = 0;
 
@@ -80,10 +81,11 @@ USHORT checksum(USORT* buffer, int size)
         chksum += *(UCHAR*)buffer;
     }
 
-    chksum = (chksum >> 16) + (chksum&0xffff); // xxx что это?
+    // xxx как это работает?
+    chksum = (chksum >> 16) + (chksum&0xffff);
     chksum += (chksum >> 16);
 
-    return (USHORT)(~chksum); // xxx %)
+    return (USHORT)(~chksum); 
 }
 
 /**
@@ -97,7 +99,7 @@ bool icmp_parse(IP_HEADER *iph, ICMP_MSG *icmph, sockaddr_in* from, int len)
         return false;
     }
 
-    printf("Reply from %s bytes = %d TTL = %d time = %d ms",
+    printf("Reply from %s bytes = %d TTL = %d time = %d ms\n",
             inet_ntoa(from->sin_addr), len, iph->ttl, GetTickCount()
                     -icmph->timestamp);
 
@@ -147,14 +149,15 @@ void echo(const char* hostname)
         size = sizeof(ICMP_MSG)+ICMP_DATA; // общий размер пакета
 
         // заполнение поля необязательных данных пакета
-        memset((dhar*)(buf+sizeof(ICMP_MSG)), '#', ICMP_DATA);
+        memset((char*)(buf+sizeof(ICMP_MSG)), '#', ICMP_DATA);
         // заполнение заголовка пакета
         data_out.timestamp = GetTickCount(); // время отправления
         data_out.i_type = ICMP_ECHO; // тип  
+        data_out.i_id = g_appid; // 
         data_out.i_chksum = checksum((USHORT*)&data_out, size); // контольная сумма
         
         // отправка пакета с запросом ICMP_ECHO
-        _sc(sendto(sock, (char*)&data_out, size, 0, (sockaddr*)&dest, &len));
+        _sc(sendto(sock, (char*)&data_out, size, 0, (sockaddr*)&dest, len));
         
         // получение ответа и разбор пакета
         do 
@@ -185,3 +188,5 @@ int main(int argc, char* argv[])
     }
     return 0;
 }
+//////////////////////////////////////////////////////////////////////////
+
