@@ -21,6 +21,15 @@ protected:
 
 // Operations
 public:
+	WORD GetElementType()        // Get the element type
+	{
+		return m_Element;
+	}
+   
+	COLORREF GetElementColor()   // Get the element color
+	{
+		return m_Color;
+	}
 
 // Overrides
 	// ClassWizard generated virtual function overrides

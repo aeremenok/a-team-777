@@ -6,6 +6,7 @@
 
 #include "MainFrm.h"
 #include "ChildFrm.h"
+#include "Elements.h"
 #include "SketcherDoc.h"
 #include "SketcherView.h"
 
@@ -100,7 +101,10 @@ BOOL CSketcherApp::InitInstance()
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 
-	// The main window has been initialized, so show and update it.
+	// The main window has been initialized, so show and update it
+    pMainFrame->CenterWindow();
+    pMainFrame->SetIcon(IDR_SKETCHTYPE, TRUE);
+
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
 

@@ -88,57 +88,13 @@ LINK32=link.exe
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
-# Begin Group "shapes_impl"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\shapes\Oval.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\shapes\Rectangle.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\shapes\Shape.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\shapes\Text.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\shapes\TextInOval.cpp
-# End Source File
-# End Group
-# Begin Group "container_impl"
-
-# PROP Default_Filter ""
-# Begin Group "exceptions_impl"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\container\exceptions\GraphException.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\container\exceptions\RibbleExistsException.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\container\exceptions\RibbleNotFoundException.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\container\exceptions\VertexNotFoundException.cpp
-# End Source File
-# End Group
-# End Group
 # Begin Source File
 
 SOURCE=.\ChildFrm.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Elements.cpp
 # End Source File
 # Begin Source File
 
@@ -169,69 +125,13 @@ SOURCE=.\StdAfx.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
-# Begin Group "shapes"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\shapes\Oval.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\shapes\Rectangle.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\shapes\Shape.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\shapes\Text.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\shapes\TextInOval.h
-# End Source File
-# End Group
-# Begin Group "container"
-
-# PROP Default_Filter ""
-# Begin Group "exceptions"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\container\exceptions\GraphException.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\container\exceptions\RibbleExistsException.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\container\exceptions\RibbleNotFoundException.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\container\exceptions\VertexNotFoundException.h
-# End Source File
-# End Group
-# Begin Source File
-
-SOURCE=.\container\Graph.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\container\Iterator.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\container\Ribble.h
-# End Source File
-# End Group
 # Begin Source File
 
 SOURCE=.\ChildFrm.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Elements.h
 # End Source File
 # Begin Source File
 
