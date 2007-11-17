@@ -102,6 +102,45 @@ SOURCE=.\MainFrm.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\shapes\Oval.cpp
+
+!IF  "$(CFG)" == "Sketcher - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "Sketcher - Win32 Debug"
+
+# SUBTRACT CPP /YX /Yc /Yu
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\Rectangle.cpp
+
+!IF  "$(CFG)" == "Sketcher - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "Sketcher - Win32 Debug"
+
+# SUBTRACT CPP /YX /Yc /Yu
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\Shape.cpp
+
+!IF  "$(CFG)" == "Sketcher - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "Sketcher - Win32 Debug"
+
+# SUBTRACT CPP /YX /Yc /Yu
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\Sketcher.cpp
 # End Source File
 # Begin Source File
@@ -120,6 +159,32 @@ SOURCE=.\SketcherView.cpp
 
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\Text.cpp
+
+!IF  "$(CFG)" == "Sketcher - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "Sketcher - Win32 Debug"
+
+# SUBTRACT CPP /YX /Yc /Yu
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\TextInOval.cpp
+
+!IF  "$(CFG)" == "Sketcher - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "Sketcher - Win32 Debug"
+
+# SUBTRACT CPP /YX /Yc /Yu
+
+!ENDIF 
+
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -143,7 +208,19 @@ SOURCE=.\OurConstants.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\shapes\Oval.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\Rectangle.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Resource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\Shape.h
 # End Source File
 # Begin Source File
 
@@ -160,6 +237,14 @@ SOURCE=.\SketcherView.h
 # Begin Source File
 
 SOURCE=.\StdAfx.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\Text.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\TextInOval.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

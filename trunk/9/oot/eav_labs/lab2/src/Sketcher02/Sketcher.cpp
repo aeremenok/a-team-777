@@ -35,6 +35,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherApp construction
 
+//##ModelId=473EDD6D02FF
 CSketcherApp::CSketcherApp()
 {
 	// TODO: add construction code here,
@@ -49,6 +50,7 @@ CSketcherApp theApp;
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherApp initialization
 
+//##ModelId=473EDD6D0300
 BOOL CSketcherApp::InitInstance()
 {
 	// Standard initialization
@@ -103,7 +105,6 @@ BOOL CSketcherApp::InitInstance()
 
 	// The main window has been initialized, so show and update it
     pMainFrame->CenterWindow();
-    pMainFrame->SetIcon(IDR_SKETCHTYPE, TRUE);
 
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
@@ -114,9 +115,11 @@ BOOL CSketcherApp::InitInstance()
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
+//##ModelId=473EDD6D0385
 class CAboutDlg : public CDialog
 {
 public:
+	//##ModelId=473EDD6D038B
 	CAboutDlg();
 
 // Dialog Data
@@ -127,6 +130,7 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CAboutDlg)
 	protected:
+	//##ModelId=473EDD6D038C
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 
@@ -138,12 +142,14 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
+//##ModelId=473EDD6D038B
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
 {
 	//{{AFX_DATA_INIT(CAboutDlg)
 	//}}AFX_DATA_INIT
 }
 
+//##ModelId=473EDD6D038C
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -158,6 +164,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 END_MESSAGE_MAP()
 
 // App command to run the dialog
+//##ModelId=473EDD6D0302
 void CSketcherApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;

@@ -17,21 +17,25 @@
 
 #include "OurConstants.h"
 
+//##ModelId=473EDD6D02FD
 class CSketcherApp : public CWinApp
 {
 public:
+	//##ModelId=473EDD6D02FF
 	CSketcherApp();
 
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherApp)
 	public:
+	//##ModelId=473EDD6D0300
 	virtual BOOL InitInstance();
 	//}}AFX_VIRTUAL
 
 // Implementation
 
 	//{{AFX_MSG(CSketcherApp)
+	//##ModelId=473EDD6D0302
 	afx_msg void OnAppAbout();
 		// NOTE - the ClassWizard will add and remove member functions here.
 		//    DO NOT EDIT what you see in these blocks of generated code !
