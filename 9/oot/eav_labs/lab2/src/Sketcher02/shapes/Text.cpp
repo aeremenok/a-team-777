@@ -1,5 +1,6 @@
 // Copyright (C) 1991 - 1999 Rational Software Corporation
 //////////////////////////////////////////////////////////////////////////
+#include "StdAfx.h"
 #include "Text.h"
 
 #include <ostream.h>

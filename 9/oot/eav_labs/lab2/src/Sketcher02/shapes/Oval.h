@@ -38,6 +38,10 @@ protected:
     //##ModelId=473EDDF403D8
     virtual ostream& speak(ostream& os) const;
 public:
+	//Virtual draw operation
+	//##ModelId=473EF25A00EA
+	virtual void Draw(CDC* pDC);
+
     //выдает указатель на уже существующий овал, если он имеет заданные параметры
     //если такого не существует - создает новый
     //##ModelId=473EDDF403DB
@@ -66,5 +70,6 @@ public:
     //##ModelId=473EDDF5000F
     virtual float Area() const;
 };
+
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_OVAL_46F50C54004E_INCLUDED */

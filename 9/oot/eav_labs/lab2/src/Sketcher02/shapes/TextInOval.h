@@ -16,8 +16,8 @@ using std::list;
 //текст в овале
 //##ModelId=473EDDF401E4
 class TextInOval 
-: public Oval
-, public Text
+: public virtual Oval
+, public virtual Text
 {
 private:
     //##ModelId=473EDDF401E7
@@ -39,6 +39,10 @@ public:
     //вычисляет площадь фигуры
     //##ModelId=473EDDF40252
     virtual float Area() const;
+
+    //Virtual draw operation
+    //##ModelId=473EF4F500DA
+	virtual void Draw(CDC* pDC);
 protected:
     //вывести состояние текста в овале в поток
     //##ModelId=473EDDF40254
