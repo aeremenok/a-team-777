@@ -34,6 +34,39 @@ TextInOval* TextInOval::create(float rad1, float rad2, std::string content, floa
     return textInOval;
 }
 
+TextInOval* TextInOval::create( CPoint Start, CPoint End, COLORREF aColor )
+{
+    float x, y, r1, r2;
+    if ( Start.x > End.x )
+    {
+        x = End.x;
+        r1 = (Start.x - x) / 2;
+    }
+    else
+    {
+        x = Start.x;
+        r1 = (End.x - x) / 2;
+    }
+    if ( Start.y > End.y )
+    {
+        y = End.y;
+        r2 = (Start.y - y) / 2;
+    }
+    else
+    {
+        y = Start.y;
+        r2 = (End.y - y) / 2;
+    }
+    
+    TextInOval* textInOval = create(r1, r2, "777", x, y);
+    
+    textInOval->m_Pen = 1;
+    textInOval->m_EnclosingRect = CRect(Start, End);
+    textInOval->m_EnclosingRect.NormalizeRect();
+    
+    return textInOval;    
+}
+
 //##ModelId=473EDDF40245
 TextInOval::~TextInOval()
 {

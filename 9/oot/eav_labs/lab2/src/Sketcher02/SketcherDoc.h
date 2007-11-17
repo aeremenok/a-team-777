@@ -63,22 +63,20 @@ protected:
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CSketcherDoc)
-	//##ModelId=473EDD6D02E2
 	afx_msg void OnColorBlack();
-	//##ModelId=473EDD6D02E4
 	afx_msg void OnColorRed();
-	//##ModelId=473EDD6D02E6
 	afx_msg void OnElementLine();
-	//##ModelId=473EDD6D02E8
 	afx_msg void OnElementRectangle();
-	//##ModelId=473EDD6D02EA
 	afx_msg void OnUpdateColorBlack(CCmdUI* pCmdUI);
-	//##ModelId=473EDD6D02F0
 	afx_msg void OnUpdateColorRed(CCmdUI* pCmdUI);
-	//##ModelId=473EDD6D02F3
 	afx_msg void OnUpdateElementLine(CCmdUI* pCmdUI);
-	//##ModelId=473EDD6D02F6
 	afx_msg void OnUpdateElementRectangle(CCmdUI* pCmdUI);
+	afx_msg void OnElementOval();
+	afx_msg void OnUpdateElementOval(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateElementText(CCmdUI* pCmdUI);
+	afx_msg void OnElementText();
+	afx_msg void OnElementTextInOval();
+	afx_msg void OnUpdateElementTextInOval(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

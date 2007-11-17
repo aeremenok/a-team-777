@@ -42,6 +42,36 @@ Text* Text::create(std::string content, float x, float y)
     return text;
 }
 
+Text* Text::create( CPoint Start, CPoint End, COLORREF aColor )
+{
+    float x, y;
+    if ( Start.x > End.x )
+    {
+        x = End.x;
+    }
+    else
+    {
+        x = Start.x;
+    }
+    if ( Start.y > End.y )
+    {
+        y = End.y;
+    }
+    else
+    {
+        y = Start.y;
+    }
+
+    // todo
+    Text* text = create("777", x, y);
+
+    text->m_Pen = 1;
+    text->m_EnclosingRect = CRect(Start, End);
+    text->m_EnclosingRect.NormalizeRect();
+
+    return text;
+}
+
 //##ModelId=473EDDF402CF
 Text::~Text()
 {
