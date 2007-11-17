@@ -108,7 +108,7 @@ SOURCE=.\shapes\Oval.cpp
 
 !ELSEIF  "$(CFG)" == "Sketcher - Win32 Debug"
 
-# SUBTRACT CPP /YX /Yc /Yu
+# ADD CPP /Yu
 
 !ENDIF 
 
@@ -121,7 +121,8 @@ SOURCE=.\shapes\Rectangle.cpp
 
 !ELSEIF  "$(CFG)" == "Sketcher - Win32 Debug"
 
-# SUBTRACT CPP /YX /Yc /Yu
+# PROP Exclude_From_Build 1
+# ADD CPP /Yu
 
 !ENDIF 
 
@@ -134,7 +135,7 @@ SOURCE=.\shapes\Shape.cpp
 
 !ELSEIF  "$(CFG)" == "Sketcher - Win32 Debug"
 
-# SUBTRACT CPP /YX /Yc /Yu
+# ADD CPP /Yu
 
 !ENDIF 
 
@@ -168,7 +169,7 @@ SOURCE=.\shapes\Text.cpp
 
 !ELSEIF  "$(CFG)" == "Sketcher - Win32 Debug"
 
-# SUBTRACT CPP /YX /Yc /Yu
+# ADD CPP /Yu
 
 !ENDIF 
 
@@ -181,7 +182,7 @@ SOURCE=.\shapes\TextInOval.cpp
 
 !ELSEIF  "$(CFG)" == "Sketcher - Win32 Debug"
 
-# SUBTRACT CPP /YX /Yc /Yu
+# ADD CPP /Yu
 
 !ENDIF 
 
@@ -213,6 +214,15 @@ SOURCE=.\shapes\Oval.h
 # Begin Source File
 
 SOURCE=.\shapes\Rectangle.h
+
+!IF  "$(CFG)" == "Sketcher - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "Sketcher - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

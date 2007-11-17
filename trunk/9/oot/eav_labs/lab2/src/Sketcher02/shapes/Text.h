@@ -35,6 +35,10 @@ protected:
     //##ModelId=473EDDF402A4
     virtual ostream& speak(ostream& os) const;
 public:
+	//Virtual draw operation
+	//##ModelId=473EF26003D8
+	virtual void Draw(CDC* pDC);
+
     //##ModelId=473EDDF402B0
     const std::string& get__content() const;
 

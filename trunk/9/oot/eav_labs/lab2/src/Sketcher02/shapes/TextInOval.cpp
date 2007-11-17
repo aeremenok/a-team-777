@@ -1,5 +1,6 @@
 // Copyright (C) 1991 - 1999 Rational Software Corporation
 //////////////////////////////////////////////////////////////////////////
+#include "StdAfx.h"
 #include "TextInOval.h"
 
 #include <ostream.h>
@@ -63,5 +64,12 @@ Text(content, 0, 0), Oval(rad1, rad2, 0, 0), Shape(x, y)
 float TextInOval::Area() const
 {
     return Oval::Area();
+}
+
+//##ModelId=473EF4F500DA
+void TextInOval::Draw( CDC* pDC )
+{
+    Oval::Draw(pDC);
+    Text::Draw(pDC);
 }
 //////////////////////////////////////////////////////////////////////////

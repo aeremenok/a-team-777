@@ -34,6 +34,10 @@ private:
     //##ModelId=473EDDF4038A
     Rectangle(float l, float w, float x, float y);
 public:
+	//Virtual draw operation
+	//##ModelId=473EF26702EE
+	virtual void Draw(CDC* pDC);
+
     //выдает указатель на уже существующий прямоугольник, если он имеет заданные 
     //параметры
     //если такого не существует - создает новый
