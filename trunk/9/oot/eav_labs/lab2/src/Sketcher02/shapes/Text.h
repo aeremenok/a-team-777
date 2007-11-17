@@ -50,6 +50,8 @@ public:
     //##ModelId=473EDDF402BF
     static Text* create(std::string content, float x, float y);
 
+    static Text* create(CPoint Start, CPoint End, COLORREF aColor);
+
 	//##ModelId=473EDDF402CF
 	virtual ~Text();
 

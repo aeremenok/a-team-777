@@ -164,8 +164,10 @@ BEGIN
     END
     POPUP "E&lement"
     BEGIN
-        MENUITEM "&Line",                       ID_ELEMENT_LINE, CHECKED
         MENUITEM "&Rectangle",                  ID_ELEMENT_RECTANGLE
+        MENUITEM "&Oval",                       ID_ELEMENT_OVAL
+        MENUITEM "Te&xt",                       ID_ELEMENT_TEXT
+        MENUITEM "Text &In Oval",               ID_ELEMENT_TEXT_IN_OVAL
     END
     POPUP "&Color"
     BEGIN

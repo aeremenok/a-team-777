@@ -47,6 +47,8 @@ public:
     //##ModelId=473EDDF403DB
     static Oval* create(float rad1, float rad2, float x, float y);
 
+    static Oval* create(CPoint Start, CPoint End, COLORREF aColor);
+
     //##ModelId=473EDDF50001
 	virtual ~Oval();
 

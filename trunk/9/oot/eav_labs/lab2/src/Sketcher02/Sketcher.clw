@@ -29,14 +29,14 @@ Type=0
 HeaderFile=Sketcher.h
 ImplementationFile=Sketcher.cpp
 Filter=N
-LastObject=CSketcherApp
+LastObject=ID_COLOR_BLACK
 
 [CLS:CSketcherDoc]
 Type=0
 HeaderFile=SketcherDoc.h
 ImplementationFile=SketcherDoc.cpp
 Filter=N
-LastObject=ID_COLOR_BLACK
+LastObject=CSketcherDoc
 BaseClass=CDocument
 VirtualFilter=DC
 
@@ -45,7 +45,7 @@ Type=0
 HeaderFile=SketcherView.h
 ImplementationFile=SketcherView.cpp
 Filter=C
-LastObject=ID_COLOR_BLACK
+LastObject=CSketcherView
 BaseClass=CView
 VirtualFilter=VWC
 
@@ -54,6 +54,9 @@ Type=0
 HeaderFile=MainFrm.h
 ImplementationFile=MainFrm.cpp
 Filter=T
+BaseClass=CMDIFrameWnd
+VirtualFilter=fWC
+LastObject=ID_ELEMENT_RECTANGLE
 
 
 [CLS:CChildFrame]
@@ -167,7 +170,7 @@ CommandCount=14
 
 [MNU:IDR_SKETCHTYPE (English (U.S.))]
 Type=1
-Class=?
+Class=CSketcherView
 Command1=ID_FILE_NEW
 Command2=ID_FILE_OPEN
 Command3=ID_FILE_CLOSE
@@ -184,16 +187,18 @@ Command13=ID_EDIT_COPY
 Command14=ID_EDIT_PASTE
 Command15=ID_VIEW_TOOLBAR
 Command16=ID_VIEW_STATUS_BAR
-Command17=ID_ELEMENT_LINE
-Command18=ID_ELEMENT_RECTANGLE
-Command19=ID_COLOR_BLACK
-Command20=ID_COLOR_RED
-Command21=ID_WINDOW_NEW
-Command22=ID_WINDOW_CASCADE
-Command23=ID_WINDOW_TILE_HORZ
-Command24=ID_WINDOW_ARRANGE
-Command25=ID_APP_ABOUT
-CommandCount=25
+Command17=ID_ELEMENT_RECTANGLE
+Command18=ID_ELEMENT_OVAL
+Command19=ID_ELEMENT_TEXT
+Command20=ID_ELEMENT_TEXT_IN_OVAL
+Command21=ID_COLOR_BLACK
+Command22=ID_COLOR_RED
+Command23=ID_WINDOW_NEW
+Command24=ID_WINDOW_CASCADE
+Command25=ID_WINDOW_TILE_HORZ
+Command26=ID_WINDOW_ARRANGE
+Command27=ID_APP_ABOUT
+CommandCount=27
 
 [MNU:IDR_MAINFRAME (English (U.S.))]
 Type=1

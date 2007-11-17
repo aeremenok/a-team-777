@@ -27,6 +27,12 @@ BEGIN_MESSAGE_MAP(CSketcherDoc, CDocument)
 	ON_UPDATE_COMMAND_UI(ID_COLOR_RED, OnUpdateColorRed)
 	ON_UPDATE_COMMAND_UI(ID_ELEMENT_LINE, OnUpdateElementLine)
 	ON_UPDATE_COMMAND_UI(ID_ELEMENT_RECTANGLE, OnUpdateElementRectangle)
+	ON_COMMAND(ID_ELEMENT_OVAL, OnElementOval)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENT_OVAL, OnUpdateElementOval)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENT_TEXT, OnUpdateElementText)
+	ON_COMMAND(ID_ELEMENT_TEXT, OnElementText)
+	ON_COMMAND(ID_ELEMENT_TEXT_IN_OVAL, OnElementTextInOval)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENT_TEXT_IN_OVAL, OnUpdateElementTextInOval)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -144,6 +150,35 @@ void CSketcherDoc::OnUpdateElementLine(CCmdUI* pCmdUI)
 //##ModelId=473EDD6D02F6
 void CSketcherDoc::OnUpdateElementRectangle(CCmdUI* pCmdUI) 
 {
-   // Set Checked if the current element is a rectangle
    pCmdUI->SetCheck(m_Element==RECTANGLE);
+}
+
+void CSketcherDoc::OnElementOval() 
+{
+	m_Element = OVAL;
+}
+
+void CSketcherDoc::OnUpdateElementOval(CCmdUI* pCmdUI) 
+{
+    pCmdUI->SetCheck(m_Element==OVAL);
+}
+
+void CSketcherDoc::OnUpdateElementText(CCmdUI* pCmdUI) 
+{
+    pCmdUI->SetCheck(m_Element==TEXT);
+}
+
+void CSketcherDoc::OnElementText() 
+{
+	m_Element = TEXT;
+}
+
+void CSketcherDoc::OnElementTextInOval() 
+{
+	m_Element = TEXT_IN_OVAL;	
+}
+
+void CSketcherDoc::OnUpdateElementTextInOval(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(m_Element==TEXT_IN_OVAL);
 }

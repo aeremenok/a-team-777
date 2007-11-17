@@ -15,13 +15,13 @@ using std::list;
 //////////////////////////////////////////////////////////////////////////
 //прямоугольник
 //##ModelId=473EDDF4036B
-class Rectangle 
+class Rectangle2 
 : public Shape
 {
 private:
     //указатели на созданные прямоугольники
     //##ModelId=473EDDF40370
-    static list<Rectangle*> _rectangles;
+    static list<Rectangle2*> _rectangles;
 
 	//длина
 	//##ModelId=473EDDF4037C
@@ -32,7 +32,7 @@ private:
 	float _width;
 
     //##ModelId=473EDDF4038A
-    Rectangle(float l, float w, float x, float y);
+    Rectangle2(float l, float w, float x, float y);
 public:
 	//Virtual draw operation
 	//##ModelId=473EF26702EE
@@ -42,10 +42,13 @@ public:
     //параметры
     //если такого не существует - создает новый
     //##ModelId=473EDDF4038F
-    static Rectangle* create(float length, float width, float x, float y);
+    static Rectangle2* create(float length, float width, float x, float y);
+
+    // создает прямоугольник по точкам углов
+    static Rectangle2* create(CPoint Start, CPoint End, COLORREF aColor);
 
     //##ModelId=473EDDF4039B
-	virtual ~Rectangle();
+	virtual ~Rectangle2();
 
 	//получить длину
 	//##ModelId=473EDDF4039D

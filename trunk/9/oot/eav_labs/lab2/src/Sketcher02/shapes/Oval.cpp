@@ -44,6 +44,39 @@ Oval* Oval::create(float rad1, float rad2, float x, float y)
     return oval;
 }
 
+Oval* Oval::create( CPoint Start, CPoint End, COLORREF aColor )
+{
+    float x, y, r1, r2;
+    if ( Start.x > End.x )
+    {
+        x = End.x;
+        r1 = (Start.x - x) / 2;
+    }
+    else
+    {
+        x = Start.x;
+        r1 = (End.x - x) / 2;
+    }
+    if ( Start.y > End.y )
+    {
+        y = End.y;
+        r2 = (Start.y - y) / 2;
+    }
+    else
+    {
+        y = Start.y;
+        r2 = (End.y - y) / 2;
+    }
+    
+    Oval* oval = create(r1, r2, x, y);
+    
+    oval->m_Pen = 1;
+    oval->m_EnclosingRect = CRect(Start, End);
+    oval->m_EnclosingRect.NormalizeRect();
+    
+    return oval;
+}
+
 //##ModelId=473EDDF50001
 Oval::~Oval()
 {

@@ -1,13 +1,18 @@
 // SketcherView.cpp : implementation of the CSketcherView class
-//
-
+//////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include "Sketcher.h"
 
 #include "Elements.h"
+
+#include "shapes/Rectangle.h"
+#include "shapes/Text.h"
+#include "shapes/Oval.h"
+#include "shapes/TextInOval.h"
+
 #include "SketcherDoc.h"
 #include "SketcherView.h"
-
+//////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -180,8 +185,18 @@ CElement* CSketcherView::CreateElement()
 	switch(pDoc->GetElementType())
 	{
 		case RECTANGLE:
-			return new CRectangle(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
+            return Rectangle2::create(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
       
+        case TEXT:
+            return Text::create(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
+
+        case OVAL:
+            return Oval::create(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
+
+        case TEXT_IN_OVAL:
+            return TextInOval::create(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
+
+        //////////////////////////////////////////////////////////////////////////
 		case LINE:                  
 			return new CLine(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
 
