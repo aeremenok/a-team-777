@@ -34,13 +34,24 @@ void shapeTest()
     cout<<"\t\ttesting shapes\n"<<endl;
 
     Shape* rect = Rectangle::create(1,2,0,0);
-    cout<<*rect<<endl;
+    cout<<*rect;
+    delete rect;
+    cout<<endl;
+
     Shape* txt = Text::create("lorem ipsum dolor", 0, 0);
-    cout<<*txt<<endl;
+    cout<<*txt;
+    delete txt;
+    cout<<endl;
+        
     Shape* ovl = Oval::create(3,4,0,0);
-    cout<<*ovl<<endl;
+    cout<<*ovl;
+    delete ovl;
+    cout<<endl;
+
     Shape* txt_in_oval = TextInOval::create(5, 6, "777", 0, 0);
-    cout<<*txt_in_oval<<endl;
+    cout<<*txt_in_oval;
+    delete txt_in_oval;
+    cout<<endl;
 }
 //////////////////////////////////////////////////////////////////////////
 // тестирует операции с последовательностями
