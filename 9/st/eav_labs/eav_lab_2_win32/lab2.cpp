@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 //////////////////////////////////////////////////////////////////////////
+#define ICMP_TIMESTAMP ((USHORT)13) // код запроса временной метки
 #define ICMP_ECHO ((USHORT)8) // код сообщения icmp-echo
 #define ICMP_MAXBUF ((DWORD)0x1000) // максимальный размер пакета icmp
 #define ICMP_DATA ((DWORD)32) // размер данных icmp
@@ -46,8 +47,10 @@ typedef struct tagICMP_MSG
         USHORT i_chksum; // контрольная сумма
         USHORT i_id; // идентификатор приложения
         USHORT i_seq; // номер в последовательности
-        // атрибут в области доп.данных
-        DWORD timestamp; // временная метка
+        
+        DWORD originate_timestamp; // временная метка
+        DWORD received_timestamp; // временная метка
+        DWORD transmit_timestamp; // временная метка
 } ICMP_MSG, *PICMP_MSG;
 //////////////////////////////////////////////////////////////////////////
 USHORT g_appid; // xxx а это что?
@@ -66,6 +69,9 @@ bool _sc(int wsacode, const char* msg = 0)
     return res;
 }
 
+/**
+ * вычисление контрольной суммы
+ */
 USHORT checksum(USHORT* buffer, int size)
 {
     unsigned long chksum = 0;
@@ -98,10 +104,19 @@ bool icmp_parse(IP_HEADER *iph, ICMP_MSG *icmph, sockaddr_in* from, int len)
         return false;
     }
 
-    printf("Reply from %s bytes = %d TTL = %d time = %d ms\n",
-            inet_ntoa(from->sin_addr), len, iph->ttl, GetTickCount()
-                    -icmph->timestamp);
+    printf("Reply from %s bytes = %d TTL = %d\n",
+            inet_ntoa(from->sin_addr), len, iph->ttl);
 
+    printf("\toriginate timestamp\t= %d ms\n", icmph->originate_timestamp);
+    printf("\treceived timestamp\t= %d ms\n", icmph->received_timestamp);
+    printf("\ttransmit timestamp\t= %d ms\n", icmph->transmit_timestamp);
+
+//     printf("\tsending time\t= %d ms\n",
+//         icmph->received_timestamp - icmph->originate_timestamp);
+//     printf("\tprocessing time\t= %d ms\n",
+//         icmph->transmit_timestamp - icmph->received_timestamp);
+//     printf("\treceiving time\t= %d ms\n",
+//         GetTickCount() - icmph->transmit_timestamp);
     return true;
 }
 
@@ -145,17 +160,21 @@ void echo(const char* hostname)
     {
         ICMP_MSG data_out;
         int len = sizeof(dest);
-        size = sizeof(ICMP_MSG)+ICMP_DATA; // общий размер пакета
+        size = sizeof(ICMP_MSG) + ICMP_DATA; // общий размер пакета
 
         // заполнение поля необязательных данных пакета
-        memset((char*)(buf+sizeof(ICMP_MSG)), '#', ICMP_DATA);
+        memset( (char*)(buf+sizeof(ICMP_MSG)), '#', ICMP_DATA );
         // заполнение заголовка пакета
-        data_out.timestamp = GetTickCount(); // время отправления
-        data_out.i_type = ICMP_ECHO; // тип  
-        data_out.i_id = g_appid; // 
+        //////////////////////////////////////////////////////////////////////////
+        data_out.originate_timestamp = GetTickCount(); // время отправления
+        data_out.received_timestamp = 0;
+        data_out.transmit_timestamp = 0;
+        //////////////////////////////////////////////////////////////////////////
+        data_out.i_type = ICMP_TIMESTAMP; // тип  
+        data_out.i_id = g_appid; // идентификатор процесса
         data_out.i_chksum = checksum((USHORT*)&data_out, size); // контольная сумма
         
-        // отправка пакета с запросом ICMP_ECHO
+        // отправка пакета с запросом ICMP_TIMESTAMP
         _sc(sendto(sock, (char*)&data_out, size, 0, (sockaddr*)&dest, len));
         
         // получение ответа и разбор пакета
