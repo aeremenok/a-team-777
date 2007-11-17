@@ -15,8 +15,17 @@ protected: // create from serialization only
 public:
 	CSketcherDoc* GetDocument();
 
+protected:
+	CPoint m_FirstPoint;      // First point recorded for an element
+    CPoint m_SecondPoint;     // Second point recorded for an element
+    CElement* m_pTempElement; // Pointer to temporary element
+
+
 // Operations
 public:
+
+protected:
+    CElement* CreateElement(); // Create a new element on the heap
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -43,8 +52,9 @@ protected:
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CSketcherView)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

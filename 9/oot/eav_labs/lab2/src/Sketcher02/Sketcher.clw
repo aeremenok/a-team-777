@@ -36,7 +36,7 @@ Type=0
 HeaderFile=SketcherDoc.h
 ImplementationFile=SketcherDoc.cpp
 Filter=N
-LastObject=CSketcherDoc
+LastObject=ID_COLOR_BLACK
 BaseClass=CDocument
 VirtualFilter=DC
 
@@ -46,6 +46,8 @@ HeaderFile=SketcherView.h
 ImplementationFile=SketcherView.cpp
 Filter=C
 LastObject=ID_COLOR_BLACK
+BaseClass=CView
+VirtualFilter=VWC
 
 [CLS:CMainFrame]
 Type=0
