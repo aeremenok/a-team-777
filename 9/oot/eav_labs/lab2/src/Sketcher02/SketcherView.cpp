@@ -34,6 +34,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherView construction/destruction
 
+//##ModelId=473EDD6D01C6
 CSketcherView::CSketcherView()
 {
     m_FirstPoint = CPoint(0,0);         // Set 1st recorded point to 0,0
@@ -41,10 +42,12 @@ CSketcherView::CSketcherView()
     m_pTempElement = 0;                 // Set temporary element pointer to 0
 }
 
+//##ModelId=473EDD6D0273
 CSketcherView::~CSketcherView()
 {
 }
 
+//##ModelId=473EDD6D0246
 BOOL CSketcherView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
@@ -56,6 +59,7 @@ BOOL CSketcherView::PreCreateWindow(CREATESTRUCT& cs)
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherView drawing
 
+//##ModelId=473EDD6D0243
 void CSketcherView::OnDraw(CDC* pDC)
 {
 	CSketcherDoc* pDoc = GetDocument();
@@ -67,17 +71,20 @@ void CSketcherView::OnDraw(CDC* pDC)
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherView printing
 
+//##ModelId=473EDD6D0253
 BOOL CSketcherView::OnPreparePrinting(CPrintInfo* pInfo)
 {
 	// default preparation
 	return DoPreparePrinting(pInfo);
 }
 
+//##ModelId=473EDD6D0261
 void CSketcherView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
 	// TODO: add extra initialization before printing
 }
 
+//##ModelId=473EDD6D0265
 void CSketcherView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
 	// TODO: add cleanup after printing
@@ -87,16 +94,19 @@ void CSketcherView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 // CSketcherView diagnostics
 
 #ifdef _DEBUG
+//##ModelId=473EDD6D0275
 void CSketcherView::AssertValid() const
 {
 	CView::AssertValid();
 }
 
+//##ModelId=473EDD6D0280
 void CSketcherView::Dump(CDumpContext& dc) const
 {
 	CView::Dump(dc);
 }
 
+//##ModelId=473EDD6D01D4
 CSketcherDoc* CSketcherView::GetDocument() // non-debug version is inline
 {
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CSketcherDoc)));
@@ -107,6 +117,7 @@ CSketcherDoc* CSketcherView::GetDocument() // non-debug version is inline
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherView message handlers
 
+//##ModelId=473EDD6D0283
 void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
 	m_FirstPoint = point;               // Record the cursor position
@@ -114,6 +125,7 @@ void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point)
 	CView::OnLButtonDown(nFlags, point);
 }
 
+//##ModelId=473EDD6D0291
 void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point) 
 {
 	if(this == GetCapture())
@@ -131,6 +143,7 @@ void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point)
 	CView::OnLButtonUp(nFlags, point);
 }
 
+//##ModelId=473EDD6D029F
 void CSketcherView::OnMouseMove(UINT nFlags, CPoint point) 
 {
 	// Define a Device Context object for the view
@@ -156,6 +169,7 @@ void CSketcherView::OnMouseMove(UINT nFlags, CPoint point)
 	CView::OnMouseMove(nFlags, point);
 }
 
+//##ModelId=473EDD6D0242
 CElement* CSketcherView::CreateElement()
 {
 	// Get a pointer to the document for this view

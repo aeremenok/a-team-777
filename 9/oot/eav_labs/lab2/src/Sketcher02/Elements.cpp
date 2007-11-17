@@ -9,6 +9,7 @@
 // Add definitions for member functions here
 
 // CLine class constructor
+//##ModelId=473EDD6D0350
 CLine::CLine(CPoint Start, CPoint End, COLORREF aColor)
 {
    m_StartPoint = Start;      // Set line start point
@@ -22,6 +23,7 @@ CLine::CLine(CPoint Start, CPoint End, COLORREF aColor)
 }
 
 // Draw a CLine object
+//##ModelId=473EDD6D034D
 void CLine::Draw(CDC* pDC)
 {
    // Create a pen for this object and
@@ -44,6 +46,7 @@ void CLine::Draw(CDC* pDC)
 }
 
 // Get the bounding rectangle for an element
+//##ModelId=473EDD6D0342
 CRect CElement::GetBoundRect()
 {
    CRect BoundingRect;              // Object to store bounding rectangle
@@ -55,6 +58,7 @@ CRect CElement::GetBoundRect()
 }
 
 // CRectangle class constructor
+//##ModelId=473EDD6D036D
 CRectangle:: CRectangle(CPoint Start, CPoint End, COLORREF aColor)
 {
    m_Color = aColor;          // Set rectangle color
@@ -66,6 +70,7 @@ CRectangle:: CRectangle(CPoint Start, CPoint End, COLORREF aColor)
 }
 
 // Draw a CRectangle object
+//##ModelId=473EDD6D0360
 void CRectangle::Draw(CDC* pDC)
 {
    // Create a pen for this object and
