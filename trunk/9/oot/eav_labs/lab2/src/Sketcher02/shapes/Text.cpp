@@ -3,6 +3,9 @@
 #include "StdAfx.h"
 #include "Text.h"
 
+#include "..\resource.h"
+#include "..\TextRequest.h"
+
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
 class ostream;
@@ -44,29 +47,17 @@ Text* Text::create(std::string content, float x, float y)
 
 Text* Text::create( CPoint Start, CPoint End, COLORREF aColor )
 {
+    // определяем координаты центра
     float x, y;
     x = (End.x + Start.x) / 2;
     y = (End.y + Start.y) / 2;
-//     if ( Start.x > End.x )
-//     {
-//         x = (End.x - Start.x) / 2;
-//     }
-//     else
-//     {
-//         x = (Start.x - End.x) / 2;
-//     }
-//     if ( Start.y > End.y )
-//     {
-//         y = (End.y - Start.y) / 2;
-//     }
-//     else
-//     {
-//         y = (Start.y - End.y) / 2;
-//     }
 
-    // todo
-    Text* text = create("777", x, y);
+    // получаем последний введенный пользователем текст
+    CString cs = *(TextRequest::Text());
+    std::string str((LPCSTR)cs);
+    Text* text = create(str, x, y);
 
+    // задаем параметры отрисовки
     text->m_Pen = 1;
     text->m_EnclosingRect = CRect(Start, End);
     text->m_EnclosingRect.NormalizeRect();
@@ -107,5 +98,4 @@ float Text::Area() const
 {
     return -1;
 }
-
 //////////////////////////////////////////////////////////////////////////

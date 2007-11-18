@@ -1,11 +1,13 @@
 // SketcherDoc.cpp : implementation of the CSketcherDoc class
-//
-
+//////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include "Sketcher.h"
 
-#include "SketcherDoc.h"
+#include "resource.h"
+#include "TextRequest.h"
 
+#include "SketcherDoc.h"
+//////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -170,6 +172,7 @@ void CSketcherDoc::OnUpdateElementText(CCmdUI* pCmdUI)
 
 void CSketcherDoc::OnElementText() 
 {
+    TextRequest::getTextToShow();
 	m_Element = TEXT;
 }
 

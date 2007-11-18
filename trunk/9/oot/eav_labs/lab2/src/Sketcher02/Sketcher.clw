@@ -20,9 +20,9 @@ Resource2=IDR_SKETCHTYPE (English (U.S.))
 Resource3=IDR_SKETCHTYPE
 Class5=CAboutDlg
 Class6=CChildFrame
-Resource4=IDR_MAINFRAME (English (U.S.))
+Resource4=IDD_ABOUTBOX (English (U.S.))
 Resource5=IDD_ABOUTBOX
-Resource6=IDD_ABOUTBOX (English (U.S.))
+Resource6=IDR_MAINFRAME (English (U.S.))
 Class7=TextRequest
 Resource7=IDD_TEXTREQUEST_DIALOG
 
@@ -263,9 +263,11 @@ CommandCount=14
 [DLG:IDD_TEXTREQUEST_DIALOG]
 Type=1
 Class=TextRequest
-ControlCount=2
+ControlCount=4
 Control1=IDOK,button,1342242817
 Control2=IDCANCEL,button,1342242816
+Control3=IDC_STATIC,static,1342308865
+Control4=IDC_EDIT1,edit,1350631552
 
 [CLS:TextRequest]
 Type=0
@@ -273,4 +275,6 @@ HeaderFile=TextRequest.h
 ImplementationFile=TextRequest.cpp
 BaseClass=CDialog
 Filter=D
+VirtualFilter=dWC
+LastObject=IDOK
 
