@@ -3239,7 +3239,7 @@
 					IncludeOperation 	TRUE
 					location   	(717, 1788)
 					font       	(object Font
-					    size       	12
+					    size       	10
 					    face       	"Consolas"
 					    charSet    	204
 					    bold       	FALSE
@@ -3250,10 +3250,10 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@18
-					    location   	(346, 1590)
+					    location   	(377, 1590)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	742
+					    max_width  	680
 					    justify    	0
 					    label      	"ExternalGraphIterator")
 					icon_style 	"Icon"
@@ -3262,7 +3262,7 @@
 					quidu      	"474088CA0242"
 					compartment 	(object Compartment
 					    Parent_View 	@18
-					    location   	(346, 1660)
+					    location   	(377, 1648)
 					    font       	(object Font
 						size       	10
 						face       	"Consolas"
@@ -3278,8 +3278,8 @@
 					    anchor     	2
 					    nlines     	8
 					    max_width  	575)
-					width      	760
-					height     	514
+					width      	698
+					height     	490
 					annotation 	8
 					autoResize 	TRUE)
 				    (object RealizeView "" @19
