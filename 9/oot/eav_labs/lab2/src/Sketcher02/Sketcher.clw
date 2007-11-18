@@ -20,9 +20,9 @@ Resource2=IDR_SKETCHTYPE (English (U.S.))
 Resource3=IDR_SKETCHTYPE
 Class5=CAboutDlg
 Class6=CChildFrame
-Resource4=IDD_ABOUTBOX (English (U.S.))
+Resource4=IDR_MAINFRAME (English (U.S.))
 Resource5=IDD_ABOUTBOX
-Resource6=IDR_MAINFRAME (English (U.S.))
+Resource6=IDD_ABOUTBOX (English (U.S.))
 Class7=TextRequest
 Resource7=IDD_TEXTREQUEST_DIALOG
 

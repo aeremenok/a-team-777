@@ -44,27 +44,28 @@ Oval* Oval::create(float rad1, float rad2, float x, float y)
     return oval;
 }
 
+//##ModelId=474055EF02FD
 Oval* Oval::create( CPoint Start, CPoint End, COLORREF aColor )
 {
     float x, y, r1, r2;
+    // определяем координаты центра
+    x = (End.x + Start.x) / 2;
+    y = (End.y + Start.y) / 2;
+    // определяем радиусы
     if ( Start.x > End.x )
     {
-        x = End.x;
         r1 = (Start.x - x) / 2;
     }
     else
     {
-        x = Start.x;
         r1 = (End.x - x) / 2;
     }
     if ( Start.y > End.y )
     {
-        y = End.y;
         r2 = (Start.y - y) / 2;
     }
     else
     {
-        y = Start.y;
         r2 = (End.y - y) / 2;
     }
     
@@ -121,6 +122,29 @@ float Oval::Area() const
 {
     return M_PI * _rad1 * _rad2;
 }
-
+//////////////////////////////////////////////////////////////////////////
+//##ModelId=473EF25A00EA
+void Oval::Draw(CDC* pDC)
+{
+    // Create a pen for this object and
+    // initialize it to the object color and line width of 1 pixel
+    CPen aPen; 
+    if(!aPen.CreatePen(PS_SOLID, m_Pen, m_Color))
+    {                                           // Pen creation failed
+        AfxMessageBox("Pen creation failed drawing an oval", MB_OK);
+        AfxAbort();
+    }
+    
+    // Select the pen
+    CPen* pOldPen = pDC->SelectObject(&aPen);   
+    // Select the brush
+    CBrush* pOldBrush = (CBrush*)pDC->SelectStockObject(NULL_BRUSH); 
+    
+    // Now draw the rectangle
+    pDC->Ellipse(m_EnclosingRect);
+    
+    pDC->SelectObject(pOldBrush);              // Restore the old brush
+    pDC->SelectObject(pOldPen);                // Restore the old pen           
+}
 //////////////////////////////////////////////////////////////////////////
 

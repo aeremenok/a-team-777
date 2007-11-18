@@ -40316,7 +40316,7 @@
 			items      	(list diagram_item_list
 			    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Oval" @658
 				ShowCompartmentStereotypes 	TRUE
-				location   	(416, 1616)
+				location   	(784, 1584)
 				font       	(object Font
 				    size       	10
 				    face       	"Consolas"
@@ -40329,7 +40329,7 @@
 				    default_color 	FALSE)
 				label      	(object ItemLabel
 				    Parent_View 	@658
-				    location   	(276, 1547)
+				    location   	(644, 1515)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	280
@@ -40343,7 +40343,7 @@
 				height     	160
 				annotation 	8
 				autoResize 	TRUE)
-			    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Rectangle" @659
+			    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Rectangle2" @659
 				ShowCompartmentStereotypes 	TRUE
 				location   	(1904, 1616)
 				font       	(object Font
@@ -40358,17 +40358,17 @@
 				    default_color 	FALSE)
 				label      	(object ItemLabel
 				    Parent_View 	@659
-				    location   	(1764, 1547)
+				    location   	(1756, 1547)
 				    fill_color 	13434879
 				    nlines     	1
-				    max_width  	280
+				    max_width  	296
 				    justify    	0
-				    label      	"Rectangle")
+				    label      	"Rectangle2")
 				icon_style 	"Icon"
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"473EDDF4036B"
-				width      	298
+				width      	314
 				height     	160
 				annotation 	8
 				autoResize 	TRUE)
@@ -40538,7 +40538,7 @@
 				    fill_color 	13434879
 				    anchor     	2
 				    nlines     	8
-				    max_width  	553)
+				    max_width  	562)
 				width      	672
 				height     	496
 				annotation 	8
@@ -40594,7 +40594,7 @@
 				    fill_color 	13434879
 				    anchor     	2
 				    nlines     	5
-				    max_width  	750)
+				    max_width  	759)
 				width      	902
 				height     	356
 				annotation 	8
@@ -41183,6 +41183,117 @@
 					parameters 	(list Parameters
 					    (object Parameter "pCmdUI"
 						quid       	"473EDD6D02F8"
+						type       	"CCmdUI*"
+						quidu      	"365C7A7A028F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnElementOval"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_COMMAND(ID_ELEMENT_OVAL, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF0203"
+					stereotype 	"afx_msg"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnUpdateElementOval"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_UPDATE_COMMAND_UI(ID_ELEMENT_OVAL, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF0214"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "pCmdUI"
+						quid       	"474055EF0216"
+						type       	"CCmdUI*"
+						quidu      	"365C7A7A028F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnUpdateElementText"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_UPDATE_COMMAND_UI(ID_ELEMENT_TEXT, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF0217"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "pCmdUI"
+						quid       	"474055EF0222"
+						type       	"CCmdUI*"
+						quidu      	"365C7A7A028F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnElementText"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_COMMAND(ID_ELEMENT_TEXT, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF0223"
+					stereotype 	"afx_msg"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnElementTextInOval"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_COMMAND(ID_ELEMENT_TEXT_IN_OVAL, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF0225"
+					stereotype 	"afx_msg"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnUpdateElementTextInOval"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_UPDATE_COMMAND_UI(ID_ELEMENT_TEXT_IN_OVAL, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF0227"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "pCmdUI"
+						quid       	"474055EF0232"
 						type       	"CCmdUI*"
 						quidu      	"365C7A7A028F"))
 					result     	"void"
@@ -41945,7 +42056,32 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
-					uid        	0))
+					uid        	0)
+				    (object Operation "create"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF00AB"
+					stereotype 	"static"
+					parameters 	(list Parameters
+					    (object Parameter "Start"
+						quid       	"474055EF00BC"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "End"
+						quid       	"474055EF00EA"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "aColor"
+						quid       	"474055EF0109"
+						type       	"COLORREF"))
+					result     	"TextInOval*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0
+					quidu      	"473EDDF401E4"))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
 				language   	"VC++")
@@ -42137,7 +42273,32 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
-					uid        	0))
+					uid        	0)
+				    (object Operation "create"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF0167"
+					stereotype 	"static"
+					parameters 	(list Parameters
+					    (object Parameter "Start"
+						quid       	"474055EF0178"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "End"
+						quid       	"474055EF0186"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "aColor"
+						quid       	"474055EF0196"
+						type       	"COLORREF"))
+					result     	"Text*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0
+					quidu      	"473EDDF40261"))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
 				language   	"VC++")
@@ -42381,7 +42542,7 @@
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
 				language   	"VC++")
-			    (object Class "Rectangle"
+			    (object Class "Rectangle2"
 				attributes 	(list Attribute_Set
 				    (object Attribute
 					tool       	"VC++"
@@ -42410,7 +42571,7 @@
 					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::Shape"
 					quidu      	"473EDDF4032C"))
 				operations 	(list Operations
-				    (object Operation "Rectangle"
+				    (object Operation "Rectangle2"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
@@ -42459,12 +42620,12 @@
 					    (object Parameter "y"
 						quid       	"473EDDF4039A"
 						type       	"float"))
-					result     	"Rectangle*"
+					result     	"Rectangle2*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0
 					quidu      	"473EDDF4036B")
-				    (object Operation "~Rectangle"
+				    (object Operation "~Rectangle2"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
@@ -42588,7 +42749,33 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
-					uid        	0))
+					uid        	0)
+				    (object Operation "create"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF0280"
+					documentation 	" создает прямоугольник по точкам углов"
+					stereotype 	"static"
+					parameters 	(list Parameters
+					    (object Parameter "Start"
+						quid       	"474055EF0291"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "End"
+						quid       	"474055EF029F"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "aColor"
+						quid       	"474055EF02AF"
+						type       	"COLORREF"))
+					result     	"Rectangle2*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0
+					quidu      	"473EDDF4036B"))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_length"
 					quid       	"473EDDF4037C"
@@ -42830,7 +43017,32 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
-					uid        	0))
+					uid        	0)
+				    (object Operation "create"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF02FD"
+					stereotype 	"static"
+					parameters 	(list Parameters
+					    (object Parameter "Start"
+						quid       	"474055EF02FF"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "End"
+						quid       	"474055EF031C"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "aColor"
+						quid       	"474055EF032C"
+						type       	"COLORREF"))
+					result     	"Oval*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0
+					quidu      	"473EDDF403B9"))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_rad1"
 					quid       	"473EDDF403CD"
@@ -42860,6 +43072,184 @@
 				    (object Uses_Relationship
 					quid       	"473EDDF403BC"
 					supplier   	"list"))
+				module     	"Component View::Sketcher"
+				quidu      	"473EDD55031C"
+				language   	"VC++")
+			    (object Class "TextRequest"
+				attributes 	(list Attribute_Set
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AppliedPattern"
+					value      	"none")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AfxSupportMacro"
+					value      	"")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AfxBaseClass"
+					value      	"CDialog"))
+				quid       	"474055EE03C8"
+				documentation 	
+| TextRequest.h : header file
+|///////////////////////////////////////////////////////////////////////////
+| TextRequest dialog
+				
+				superclasses 	(list inheritance_relationship_list
+				    (object Inheritance_Relationship
+					quid       	"474055EE03C9"
+					supplier   	"Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Dialog Boxes::CDialog"
+					quidu      	"365C7A7500B1"))
+				operations 	(list Operations
+				    (object Operation "TextRequest"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EE03D8"
+					documentation 	"standard constructor"
+					parameters 	(list Parameters
+					    (object Parameter "pParent"
+						quid       	"474055EE03D9"
+						type       	"CWnd*"
+						quidu      	"365C7A74001A"
+						initv      	"NULL"))
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Text"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"474055EE03DA"
+					stereotype 	"static"
+					result     	"CString*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0
+					quidu      	"365C7A7A00C0")
+				    (object Operation "Text"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"474055EE03DC"
+					stereotype 	"static"
+					parameters 	(list Parameters
+					    (object Parameter "val"
+						quid       	"474055EE03DE"
+						type       	"CString*"
+						quidu      	"365C7A7A00C0"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Result"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"474055EF0000"
+					stereotype 	"const"
+					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Result"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"474055EF0002"
+					parameters 	(list Parameters
+					    (object Parameter "val"
+						quid       	"474055EF0003"
+						type       	"int"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getTextToShow"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF0004"
+					stereotype 	"static"
+					result     	"CString*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0
+					quidu      	"365C7A7A00C0")
+				    (object Operation "DoDataExchange"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxVirtual"
+						value      	"True")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF0006"
+					documentation 	"DDX/DDV support"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "pDX"
+						quid       	"474055EF0010"
+						type       	"CDataExchange*"
+						quidu      	"365C7A7A035F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnUpdateEdit1"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_EN_UPDATE(IDC_EDIT1, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF005E"
+					stereotype 	"afx_msg"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnOK"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474055EF006D"
+					stereotype 	"virtual"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0))
+				class_attributes 	(list class_attribute_list
+				    (object ClassAttribute "m_Text"
+					quid       	"474055EF0011"
+					type       	"CString*"
+					quidu      	"365C7A7A00C0"
+					initv      	"new CString()"
+					exportControl 	"Protected"
+					static     	TRUE)
+				    (object ClassAttribute "m_Result"
+					quid       	"474055EF005D"
+					type       	"int"
+					exportControl 	"Protected"))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
 				language   	"VC++")
@@ -42959,10 +43349,10 @@
 			    (object Association "$UNNAMED$12"
 				quid       	"473EDDF4036F"
 				roles      	(list role_list
-				    (object Role "_rectangles"
+				    (object Role "_rectangles:list<Rectangle2*>"
 					quid       	"473EDDF40370"
 					documentation 	"указатели на созданные прямоугольники"
-					label      	"_rectangles"
+					label      	"_rectangles:list<Rectangle2*>"
 					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::list<Rectangle*>"
 					quidu      	"473EDDF4036D"
 					exportControl 	"Private"
@@ -42970,7 +43360,7 @@
 					static     	TRUE)
 				    (object Role "$UNNAMED$13"
 					quid       	"473EDDF4037A"
-					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::Rectangle"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::Rectangle2"
 					quidu      	"473EDDF4036B"
 					is_aggregate 	TRUE)))
 			    (object Association "$UNNAMED$14"
@@ -43814,7 +44204,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Rectangle" @711
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Rectangle2" @711
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1664, 1648)
 					font       	(object Font
@@ -43829,17 +44219,17 @@
 					    default_color 	FALSE)
 					label      	(object ItemLabel
 					    Parent_View 	@711
-					    location   	(1489, 1588)
+					    location   	(1479, 1588)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	350
+					    max_width  	370
 					    justify    	0
-					    label      	"Rectangle")
+					    label      	"Rectangle2")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"473EDDF4036B"
-					width      	368
+					width      	388
 					height     	148
 					annotation 	8
 					autoResize 	TRUE)
@@ -43849,6 +44239,42 @@
 					quidu      	"473EDDF4036C"
 					client     	@711
 					supplier   	@674
+					line_style 	0)
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::TextRequest" @713
+					ShowCompartmentStereotypes 	TRUE
+					location   	(2432, 1200)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	8143653
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@713
+					    location   	(2275, 1150)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	314
+					    justify    	0
+					    label      	"TextRequest")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"474055EE03C8"
+					width      	332
+					height     	124
+					annotation 	8
+					autoResize 	TRUE)
+				    (object InheritView "" @714
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"474055EE03C9"
+					client     	@713
+					supplier   	@700
 					line_style 	0))))))
 		logical_presentations 	(list unit_reference_list)))
 	logical_presentations 	(list unit_reference_list
@@ -43861,7 +44287,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object CategoryView "Logical View::MFC 6.0" @713
+		    (object CategoryView "Logical View::MFC 6.0" @715
 			location   	(464, 432)
 			font       	(object Font
 			    size       	10
@@ -43874,7 +44300,7 @@
 			    color      	8143653
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@713
+			    Parent_View 	@715
 			    location   	(320, 348)
 			    fill_color 	13434879
 			    nlines     	2
@@ -43887,7 +44313,7 @@
 			quidu      	"365C7A6F006A"
 			width      	300
 			height     	180)
-		    (object NoteView @714
+		    (object NoteView @716
 			location   	(1552, 432)
 			font       	(object Font
 			    size       	10
@@ -43900,7 +44326,7 @@
 			    color      	8143653
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@714
+			    Parent_View 	@716
 			    location   	(1030, 273)
 			    fill_color 	13434879
 			    nlines     	6
@@ -43910,11 +44336,11 @@
 			fill_color 	8585215
 			width      	1069
 			height     	331)
-		    (object AttachView "" @715
+		    (object AttachView "" @717
 			stereotype 	TRUE
 			line_color 	3342489
-			client     	@713
-			supplier   	@714
+			client     	@715
+			supplier   	@716
 			line_style 	0)))))
     root_subsystem 	(object SubSystem "Component View"
 	quid       	"365C7A6603BD"

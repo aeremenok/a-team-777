@@ -45,6 +45,7 @@ public:
     static Rectangle2* create(float length, float width, float x, float y);
 
     // создает прямоугольник по точкам углов
+	//##ModelId=474055EF0280
     static Rectangle2* create(CPoint Start, CPoint End, COLORREF aColor);
 
     //##ModelId=473EDDF4039B

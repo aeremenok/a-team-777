@@ -50,6 +50,7 @@ public:
     //##ModelId=473EDDF402BF
     static Text* create(std::string content, float x, float y);
 
+	//##ModelId=474055EF0167
     static Text* create(CPoint Start, CPoint End, COLORREF aColor);
 
 	//##ModelId=473EDDF402CF

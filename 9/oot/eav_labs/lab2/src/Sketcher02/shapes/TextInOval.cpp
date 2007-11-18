@@ -3,6 +3,9 @@
 #include "StdAfx.h"
 #include "TextInOval.h"
 
+#include "../resource.h"
+#include "../TextRequest.h"
+
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF40223
@@ -34,11 +37,14 @@ TextInOval* TextInOval::create(float rad1, float rad2, std::string content, floa
     return textInOval;
 }
 
+//##ModelId=474055EF00AB
 TextInOval* TextInOval::create( CPoint Start, CPoint End, COLORREF aColor )
 {
     float x, y, r1, r2;
+    // определяем координаты центра
     x = (End.x + Start.x) / 2;
     y = (End.y + Start.y) / 2;
+    // определяем радиусы овала
     if ( Start.x > End.x )
     {
         r1 = (Start.x - x) / 2;
@@ -55,8 +61,11 @@ TextInOval* TextInOval::create( CPoint Start, CPoint End, COLORREF aColor )
     {
         r2 = (End.y - y) / 2;
     }
-    
-    TextInOval* textInOval = create(r1, r2, "777", x, y);
+
+    // получаем последний введенный пользователем текст
+    CString cs = *(TextRequest::Text());
+    std::string str((LPCSTR)cs);
+    TextInOval* textInOval = create(r1, r2, str, x, y);
     
     textInOval->m_Pen = 1;
     textInOval->m_EnclosingRect = CRect(Start, End);

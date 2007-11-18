@@ -155,32 +155,39 @@ void CSketcherDoc::OnUpdateElementRectangle(CCmdUI* pCmdUI)
    pCmdUI->SetCheck(m_Element==RECTANGLE);
 }
 
+//##ModelId=474055EF0203
 void CSketcherDoc::OnElementOval() 
 {
 	m_Element = OVAL;
 }
 
+//##ModelId=474055EF0214
 void CSketcherDoc::OnUpdateElementOval(CCmdUI* pCmdUI) 
 {
     pCmdUI->SetCheck(m_Element==OVAL);
 }
 
+//##ModelId=474055EF0217
 void CSketcherDoc::OnUpdateElementText(CCmdUI* pCmdUI) 
 {
     pCmdUI->SetCheck(m_Element==TEXT);
 }
 
+//##ModelId=474055EF0223
 void CSketcherDoc::OnElementText() 
 {
     TextRequest::getTextToShow();
 	m_Element = TEXT;
 }
 
+//##ModelId=474055EF0225
 void CSketcherDoc::OnElementTextInOval() 
 {
+    TextRequest::getTextToShow();
 	m_Element = TEXT_IN_OVAL;	
 }
 
+//##ModelId=474055EF0227
 void CSketcherDoc::OnUpdateElementTextInOval(CCmdUI* pCmdUI) 
 {
 	pCmdUI->SetCheck(m_Element==TEXT_IN_OVAL);
