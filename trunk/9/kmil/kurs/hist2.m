@@ -5,10 +5,11 @@ clear all; clc;
 
 % параметры
 DB_PATH = 'D:\LETI\9\kmil\bases\orl_bmp\s'; % путь к базе
-LEVELS = 32;    % количество уровней в гистограмме
+LEVELS = 256;    % количество уровней в гистограмме
 K = 40;          % количество классов изображений
-L = 1;          % количество изображений в базе
+L = 3;           % количество изображений в базе
 Q = 10;          % общее количество изображений в классе
+no_gui = 1;      % не выводить надоедливые окна, печатать результат в консоль в конце работы
 
 % инициализация
 rec_rate = 0;                               % количество распознанных верно изображений
@@ -34,9 +35,11 @@ for class = 1 : K
         size_db = [size_db vec'];
         
         % рисуем исходное изображение
-        figure( 1 );
-        subplot( 1, 3, 1 );
-        imshow( image );
+        if no_gui == 0
+            figure( 1 );
+            subplot( 1, 3, 1 );
+            imshow( image );
+        end;
         
         % считаем полную гистограмму
         full_spectrum = uint32( zeros( 1, 256 ) );
@@ -51,9 +54,11 @@ for class = 1 : K
         full_spectrum_db = [full_spectrum_db full_spectrum( : )];
         
         % рисуем полную гистограмму
-        figure( 1 );
-        subplot( 1, 3, 2 );
-        plot( full_spectrum );
+        if no_gui == 0
+            figure( 1 );
+            subplot( 1, 3, 2 );
+            plot( full_spectrum );
+        end;
         
         % считаем короткую гистограмму
         short_spectrum = uint32( zeros( 1, LEVELS ) );
@@ -65,12 +70,16 @@ for class = 1 : K
         short_spectrum_db = [short_spectrum_db short_spectrum( : )];
         
         % рисуем короткую гистограмму
-        figure( 1 );
-        subplot( 1, 3, 3 );
-        bar( short_spectrum );
+        if no_gui == 0
+            figure( 1 );
+            subplot( 1, 3, 3 );
+            bar( short_spectrum );
+        end;
 
         % ждёмс
-        pause( 0.04 );
+        if no_gui == 0
+            pause( 0.04 );
+        end;
     end;
 end;
 
@@ -84,9 +93,11 @@ for class = 1 : K
         image = imread( [DB_PATH, num2str( class ), '\', num2str( file ), '.bmp'] );
         
         % рисуем исходное изображение
-        figure( 2 );
-        subplot( 2, 3, 1 );
-        imshow( image );
+        if no_gui == 0
+            figure( 2 );
+            subplot( 2, 3, 1 );
+            imshow( image );
+        end;
 
         % считаем полную гистограмму
         full_spectrum = uint32( zeros( 1, 256 ) );
@@ -98,9 +109,11 @@ for class = 1 : K
         end;
 
         % рисуем полную гистограмму
-        figure( 2 );
-        subplot( 2, 3, 2 );
-        plot( full_spectrum );
+        if no_gui == 0
+            figure( 2 );
+            subplot( 2, 3, 2 );
+            plot( full_spectrum );
+        end;
 
         % считаем короткую гистограмму
         short_spectrum = uint32( zeros( 1, LEVELS ) );
@@ -109,9 +122,11 @@ for class = 1 : K
         end;
         
         % рисуем короткую гистограмму
-        figure( 2 );
-        subplot( 2, 3, 3 );
-        bar( short_spectrum );
+        if no_gui == 0
+            figure( 2 );
+            subplot( 2, 3, 3 );
+            bar( short_spectrum );
+        end;
 
         % выравниваем вектор в столбец
         vector = short_spectrum( : );
@@ -149,19 +164,21 @@ for class = 1 : K
         size_vector = size_db( :, min_index );
         rec_image = reshape( im_vector, size_vector' );
         
-        figure( 2 );
-        subplot( 2, 3, 4 );
-        imshow( rec_image );
-        
-        figure( 2 );
-        subplot( 2, 3, 5 );
-        full_sp_vector = full_spectrum_db( :, min_index );
-        plot( full_sp_vector' );
-        
-        figure( 2 );
-        subplot( 2, 3, 6 );
-        short_sp_vector = short_spectrum_db( :, min_index );
-        bar( short_sp_vector' );
+        if no_gui == 0
+            figure( 2 );
+            subplot( 2, 3, 4 );
+            imshow( rec_image );
+
+            figure( 2 );
+            subplot( 2, 3, 5 );
+            full_sp_vector = full_spectrum_db( :, min_index );
+            plot( full_sp_vector' );
+
+            figure( 2 );
+            subplot( 2, 3, 6 );
+            short_sp_vector = short_spectrum_db( :, min_index );
+            bar( short_sp_vector' );
+        end;
 
         % ищем класс распознанного изображения
         class_new = fix( ( min_index - 1 ) / L ) + 1;
@@ -171,10 +188,18 @@ for class = 1 : K
         
         % пересчитываем процент распознавания
         rec_percent = ( rec_rate / takt ) * 100;
-        subplot( 2, 3, 4 );
-        title( ['Recognition: ', num2str( rec_percent )] );
+
+        if no_gui == 0
+            subplot( 2, 3, 4 );
+            title( ['Recognition: ', num2str( rec_percent )] );
+        end;
 
         % ждёмс
-        pause( 0.04 );
+        if no_gui == 0
+            pause( 0.04 );
+        end;
     end;
 end;
+
+% вывод результата
+rec_percent
