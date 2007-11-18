@@ -1,3 +1,4 @@
+% colors.m
 clear all; clc;
 
 PATH = '/home/zps/test.png'
