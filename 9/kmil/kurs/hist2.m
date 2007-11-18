@@ -5,16 +5,16 @@ clear all; clc;
 
 % параметры
 DB_PATH = 'D:\LETI\9\kmil\bases\orl_bmp\s'; % путь к базе
-LEVELS = 64;    % количество уровней в гистограмме
-K = 5;          % количество классов изображений
-L = 3;          % количество изображений в базе
-Q = 6;          % общее количество изображений в классе
+LEVELS = 32;    % количество уровней в гистограмме
+K = 40;          % количество классов изображений
+L = 1;          % количество изображений в базе
+Q = 10;          % общее количество изображений в классе
 
 % инициализация
 rec_rate = 0;                               % количество распознанных верно изображений
 rec_percent = 0;                            % процент распознанных верно изображений
 takt = 0;                                   % номер шага
-hist_block_size = uint8( 256 / LEVELS );    % размер шага в гистограмме
+hist_block_size = uint32( 256 / LEVELS );    % размер шага в гистограмме
 image_db = [];                              % база изображений
 size_db = [];                               % база размеров изображений
 full_spectrum_db = [];                      % база полных гистограмм
@@ -39,7 +39,7 @@ for class = 1 : K
         imshow( image );
         
         % считаем полную гистограмму
-        full_spectrum = uint8( zeros( 1, 256 ) );
+        full_spectrum = uint32( zeros( 1, 256 ) );
         for i = 1 : size( image, 1 )
             for j = 1: size( image, 2 )
                 color = image( i, j );
@@ -56,9 +56,9 @@ for class = 1 : K
         plot( full_spectrum );
         
         % считаем короткую гистограмму
-        short_spectrum = uint8( zeros( 1, LEVELS ) );
+        short_spectrum = uint32( zeros( 1, LEVELS ) );
         for i = 1 : LEVELS
-            short_spectrum( i ) = mean( full_spectrum( 1, ( i - 1 ) * hist_block_size + 1 : i * hist_block_size + 1 ) );
+            short_spectrum( i ) = mean( full_spectrum( 1, ( i - 1 ) * hist_block_size + 1 : i * hist_block_size ) );
         end;
         
         % добавляем короткую гистограмму в базу
@@ -89,7 +89,7 @@ for class = 1 : K
         imshow( image );
 
         % считаем полную гистограмму
-        full_spectrum = uint8( zeros( 1, 256 ) );
+        full_spectrum = uint32( zeros( 1, 256 ) );
         for i = 1 : size( image, 1 )
             for j = 1: size( image, 2 )
                 color = image( i, j );
@@ -103,9 +103,9 @@ for class = 1 : K
         plot( full_spectrum );
 
         % считаем короткую гистограмму
-        short_spectrum = uint8( zeros( 1, LEVELS ) );
+        short_spectrum = uint32( zeros( 1, LEVELS ) );
         for i = 1 : LEVELS
-            short_spectrum( i ) = mean( full_spectrum( 1, ( i - 1 ) * hist_block_size + 1 : i * hist_block_size + 1 ) );
+            short_spectrum( i ) = mean( full_spectrum( 1, ( i - 1 ) * hist_block_size + 1 : i * hist_block_size ) );
         end;
         
         % рисуем короткую гистограмму
@@ -113,29 +113,40 @@ for class = 1 : K
         subplot( 2, 3, 3 );
         bar( short_spectrum );
 
-        % выравниваем короткую гистограмму
+        % выравниваем вектор в столбец
+        vector = short_spectrum( : );
+
+        % расширенный нулями вектор
+        ext_vector = [ uint32( zeros( LEVELS, 1 ) ); vector; uint32( zeros( LEVELS, 1 ) ); ];
+
+        % минимальное значение расстояния, индекс и смещение
+        min_value = uint32( intmax) * 2;
+        min_index = 0;
+        best_offset = 0;
 
         % сдвиг
-        for tr = 0 : 511
-            vector = short_spectrum( : );
-            
-            new_vector = [ uint8( zeros( 256, 1 ) ); vector; uint8( zeros( 256, 1 ) ); ];
-
-            % что-то
+        for offset = 0 : LEVELS * 2 - 1
+            % выбираем рабочую часть 
+            work_vector = ext_vector( offset : offset + LEVELS );
             
             % клонируем вектор до размера базы
-            QF = kron( vector, uint8( ones( 1, K * L ) ) );
+            cloned_vector = kron( work_vector, uint32( ones( 1, K * L ) ) );
 
             % рассчитываем и сортируем расстояние по метрике L2
-            %delta = sum( ( short_spectrum_db - QF ).^2 );
+            delta = sum( ( short_spectrum_db - cloned_vector ).^2 );
+            [ value, index ] = sort( delta );
+            
+            % выбираем
+            if value < min_value
+                min_value = value;
+                min_index = index;
+                best_offset = offset;
+            end;
         end;
         
-        % 
-        [ ss, index ] = sort( delta );
-        
         % рисуем распознанное изображение и его гистограммы ниже исходного изображения
-        im_vector = image_db( :, index( 1 ) );
-        size_vector = size_db( :, index( 1 ) );
+        im_vector = image_db( :, min_index( 1 ) );
+        size_vector = size_db( :, min_index( 1 ) );
         rec_image = reshape( im_vector, size_vector' );
         
         figure( 2 );
