@@ -12,6 +12,7 @@
 
 #include "Ribble.h"
 #include "Iterator.h"
+#include "ExternalGraphIterator.h"
 //////////////////////////////////////////////////////////////////////////
 using namespace std;
 
@@ -203,7 +204,7 @@ public:
 template <class T>
 ostream_withassign& operator<<( ostream_withassign& o, const Graph<T>& rhs )
 {
-    Iterator<T>* iter = rhs.getIterator();
+    Iterator<T>* iter = new ExternalGraphIterator<T>(&rhs);
     int i = 0;
     while (iter->hasNext())
     {
