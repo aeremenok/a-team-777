@@ -186,6 +186,10 @@ SOURCE=.\shapes\TextInOval.cpp
 !ENDIF 
 
 # End Source File
+# Begin Source File
+
+SOURCE=.\TextRequest.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -213,13 +217,6 @@ SOURCE=.\shapes\Oval.h
 # Begin Source File
 
 SOURCE=.\shapes\Rectangle.h
-
-!IF  "$(CFG)" == "Sketcher - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "Sketcher - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -252,6 +249,10 @@ SOURCE=.\shapes\Text.h
 # Begin Source File
 
 SOURCE=.\shapes\TextInOval.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\TextRequest.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

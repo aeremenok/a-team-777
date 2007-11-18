@@ -10,6 +10,9 @@
 #include "shapes/Rectangle.h"
 #include "shapes/TextInOval.h"
 
+#include "resource.h"
+#include "TextRequest.h"
+
 #include <math.h>
 //////////////////////////////////////////////////////////////////////////
 // Add definitions for member functions here
@@ -100,26 +103,6 @@ void CRectangle::Draw(CDC* pDC)
    pDC->SelectObject(pOldPen);                // Restore the old pen
 }
 //////////////////////////////////////////////////////////////////////////
-CString* getTextToShow()
-{
-    bool showFlag = true;
-    CString* cs;
-    while (showFlag)
-    {
-//         CDialog* dialog = new TextRequest();
-//         
-//         int res = dialog->DoModal();
-//         
-//         //         if ( dialog->Result == 1)
-//         //             showFlag = TRUE;
-//         //         else 
-//         showFlag = FALSE;
-//         
-//         cs = &(((TextRequest*)dialog)->Text());
-    }	
-    return cs;
-}
-
 //##ModelId=473EF26003D8
 void Text::Draw(CDC* pDC)
 {
@@ -138,10 +121,7 @@ void Text::Draw(CDC* pDC)
     CBrush* pOldBrush = (CBrush*)pDC->SelectStockObject(NULL_BRUSH); 
     
     // Now draw the text
-    CString cs = _content.c_str();
-    //CString cs = *getTextToShow();
-
-    pDC->TextOut(_x, _y, cs);
+    pDC->TextOut(_x, _y, _content.c_str());
     
     pDC->SelectObject(pOldBrush);              // Restore the old brush
     pDC->SelectObject(pOldPen);                // Restore the old pen
