@@ -6,6 +6,7 @@
 #define IDD_TEXTREQUEST_DIALOG          102
 #define IDR_MAINFRAME                   128
 #define IDR_SKETCHTYPE                  129
+#define IDR_CURSOR_MENU                 130
 #define IDC_EDIT1                       1000
 #define ID_ELEMENT_LINE                 32771
 #define ID_ELEMENT_RECTANGLE            32773
@@ -14,6 +15,9 @@
 #define ID_ELEMENT_OVAL                 32790
 #define ID_ELEMENT_TEXT                 32791
 #define ID_ELEMENT_TEXT_IN_OVAL         32792
+#define ID_MOVE                         32794
+#define ID_DELETE                       32795
+#define ID_SENDTOBACK                   32796
 
 // Next default values for new objects
 // 

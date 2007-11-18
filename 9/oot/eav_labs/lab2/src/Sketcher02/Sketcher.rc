@@ -235,6 +235,25 @@ BEGIN
     END
 END
 
+IDR_CURSOR_MENU MENU DISCARDABLE 
+BEGIN
+    POPUP "element"
+    BEGIN
+        MENUITEM "&Move",                       ID_MOVE
+        MENUITEM "&Delete",                     ID_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "&Send to Back",               ID_SENDTOBACK
+    END
+    POPUP "no element"
+    BEGIN
+        MENUITEM "&Line",                       ID_ELEMENT_LINE
+        MENUITEM "&Rectangle",                  ID_ELEMENT_RECTANGLE
+        MENUITEM SEPARATOR
+        MENUITEM "Blac&k",                      ID_COLOR_BLACK
+        MENUITEM "&Red",                        ID_COLOR_RED
+    END
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -472,6 +491,13 @@ BEGIN
     ID_ELEMENT_RECTANGLE    "Draw a rectangle\nRectangle"
     ID_COLOR_BLACK          "Draw in black\nBlack"
     ID_COLOR_RED            "Draw in red\nRed"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_MOVE                 "Move an element"
+    ID_DELETE               "Delete an element"
+    ID_SENDTOBACK           "Sends an element to the back of the list"
 END
 
 #endif    // English (U.S.) resources

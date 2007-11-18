@@ -98,6 +98,10 @@ SOURCE=.\Elements.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\exceptions\GraphException.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\MainFrm.cpp
 # End Source File
 # Begin Source File
@@ -125,6 +129,14 @@ SOURCE=.\shapes\Rectangle.cpp
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\exceptions\RibbleExistsException.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\exceptions\RibbleNotFoundException.cpp
 # End Source File
 # Begin Source File
 
@@ -190,6 +202,10 @@ SOURCE=.\shapes\TextInOval.cpp
 
 SOURCE=.\TextRequest.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=.\exceptions\VertexNotFoundException.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -201,6 +217,18 @@ SOURCE=.\ChildFrm.h
 # Begin Source File
 
 SOURCE=.\Elements.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\container\Graph.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\exceptions\GraphException.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\container\Iterator.h
 # End Source File
 # Begin Source File
 
@@ -221,6 +249,18 @@ SOURCE=.\shapes\Rectangle.h
 # Begin Source File
 
 SOURCE=.\Resource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\container\Ribble.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\exceptions\RibbleExistsException.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\exceptions\RibbleNotFoundException.h
 # End Source File
 # Begin Source File
 
@@ -253,6 +293,10 @@ SOURCE=.\shapes\TextInOval.h
 # Begin Source File
 
 SOURCE=.\TextRequest.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\exceptions\VertexNotFoundException.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
