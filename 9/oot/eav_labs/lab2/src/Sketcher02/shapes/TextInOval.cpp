@@ -37,24 +37,22 @@ TextInOval* TextInOval::create(float rad1, float rad2, std::string content, floa
 TextInOval* TextInOval::create( CPoint Start, CPoint End, COLORREF aColor )
 {
     float x, y, r1, r2;
+    x = (End.x + Start.x) / 2;
+    y = (End.y + Start.y) / 2;
     if ( Start.x > End.x )
     {
-        x = End.x;
         r1 = (Start.x - x) / 2;
     }
     else
     {
-        x = Start.x;
         r1 = (End.x - x) / 2;
     }
     if ( Start.y > End.y )
     {
-        y = End.y;
         r2 = (Start.y - y) / 2;
     }
     else
     {
-        y = Start.y;
         r2 = (End.y - y) / 2;
     }
     

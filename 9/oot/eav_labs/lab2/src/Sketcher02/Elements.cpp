@@ -100,6 +100,26 @@ void CRectangle::Draw(CDC* pDC)
    pDC->SelectObject(pOldPen);                // Restore the old pen
 }
 //////////////////////////////////////////////////////////////////////////
+CString* getTextToShow()
+{
+    bool showFlag = true;
+    CString* cs;
+    while (showFlag)
+    {
+//         CDialog* dialog = new TextRequest();
+//         
+//         int res = dialog->DoModal();
+//         
+//         //         if ( dialog->Result == 1)
+//         //             showFlag = TRUE;
+//         //         else 
+//         showFlag = FALSE;
+//         
+//         cs = &(((TextRequest*)dialog)->Text());
+    }	
+    return cs;
+}
+
 //##ModelId=473EF26003D8
 void Text::Draw(CDC* pDC)
 {
@@ -117,9 +137,11 @@ void Text::Draw(CDC* pDC)
     // Select the brush
     CBrush* pOldBrush = (CBrush*)pDC->SelectStockObject(NULL_BRUSH); 
     
-    // Now draw the rectangle
+    // Now draw the text
     CString cs = _content.c_str();
-    pDC->DrawText(cs, m_EnclosingRect, NULL_BRUSH);
+    //CString cs = *getTextToShow();
+
+    pDC->TextOut(_x, _y, cs);
     
     pDC->SelectObject(pOldBrush);              // Restore the old brush
     pDC->SelectObject(pOldPen);                // Restore the old pen
@@ -133,7 +155,7 @@ void Oval::Draw(CDC* pDC)
     CPen aPen; 
     if(!aPen.CreatePen(PS_SOLID, m_Pen, m_Color))
     {                                           // Pen creation failed
-        AfxMessageBox("Pen creation failed drawing a rectangle", MB_OK);
+        AfxMessageBox("Pen creation failed drawing an oval", MB_OK);
         AfxAbort();
     }
     
