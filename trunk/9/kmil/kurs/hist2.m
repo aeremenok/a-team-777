@@ -125,9 +125,9 @@ for class = 1 : K
         best_offset = 0;
 
         % сдвиг
-        for offset = 0 : LEVELS * 2 - 1
+        for offset = 1 : LEVELS * 2 + 1
             % выбираем рабочую часть 
-            work_vector = ext_vector( offset : offset + LEVELS );
+            work_vector = ext_vector( offset : offset + LEVELS - 1 );
             
             % клонируем вектор до размера базы
             cloned_vector = kron( work_vector, uint32( ones( 1, K * L ) ) );
