@@ -137,16 +137,16 @@ for class = 1 : K
             [ value, index ] = sort( delta );
             
             % выбираем
-            if value < min_value
-                min_value = value;
-                min_index = index;
+            if value( 1 ) < min_value
+                min_value = value( 1 );
+                min_index = index( 1 );
                 best_offset = offset;
             end;
         end;
         
         % рисуем распознанное изображение и его гистограммы ниже исходного изображения
-        im_vector = image_db( :, min_index( 1 ) );
-        size_vector = size_db( :, min_index( 1 ) );
+        im_vector = image_db( :, min_index );
+        size_vector = size_db( :, min_index );
         rec_image = reshape( im_vector, size_vector' );
         
         figure( 2 );
@@ -155,16 +155,16 @@ for class = 1 : K
         
         figure( 2 );
         subplot( 2, 3, 5 );
-        full_sp_vector = full_spectrum_db( :, index( 1 ) );
+        full_sp_vector = full_spectrum_db( :, min_index );
         plot( full_sp_vector' );
         
         figure( 2 );
         subplot( 2, 3, 6 );
-        short_sp_vector = short_spectrum_db( :, index( 1 ) );
+        short_sp_vector = short_spectrum_db( :, min_index );
         bar( short_sp_vector' );
 
         % ищем класс распознанного изображения
-        class_new = fix( ( index ( 1 ) - 1 ) / L ) + 1;
+        class_new = fix( ( min_index - 1 ) / L ) + 1;
         if class == class_new
             rec_rate = rec_rate + 1;
         end;
