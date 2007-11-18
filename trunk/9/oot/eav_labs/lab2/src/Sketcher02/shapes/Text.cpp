@@ -45,6 +45,7 @@ Text* Text::create(std::string content, float x, float y)
     return text;
 }
 
+//##ModelId=474055EF0167
 Text* Text::create( CPoint Start, CPoint End, COLORREF aColor )
 {
     // определяем координаты центра
@@ -97,5 +98,29 @@ void Text::set__content(std::string& value)
 float Text::Area() const
 {
     return -1;
+}
+//////////////////////////////////////////////////////////////////////////
+//##ModelId=473EF26003D8
+void Text::Draw(CDC* pDC)
+{
+    // Create a pen for this object and
+    // initialize it to the object color and line width of 1 pixel
+    CPen aPen; 
+    if(!aPen.CreatePen(PS_SOLID, m_Pen, m_Color))
+    {                                           // Pen creation failed
+        AfxMessageBox("Pen creation failed drawing a text", MB_OK);
+        AfxAbort();
+    }
+    
+    // Select the pen
+    CPen* pOldPen = pDC->SelectObject(&aPen);   
+    // Select the brush
+    CBrush* pOldBrush = (CBrush*)pDC->SelectStockObject(NULL_BRUSH); 
+    
+    // Now draw the text
+    pDC->TextOut(_x, _y, _content.c_str());
+    
+    pDC->SelectObject(pOldBrush);              // Restore the old brush
+    pDC->SelectObject(pOldPen);                // Restore the old pen
 }
 //////////////////////////////////////////////////////////////////////////

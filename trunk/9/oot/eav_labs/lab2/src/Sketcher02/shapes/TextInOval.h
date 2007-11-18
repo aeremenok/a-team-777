@@ -33,6 +33,7 @@ public:
     //##ModelId=473EDDF40232
     static TextInOval* create(float rad1, float rad2, std::string content, float x, float y);
 
+	//##ModelId=474055EF00AB
     static TextInOval* create(CPoint Start, CPoint End, COLORREF aColor);
 
 	//##ModelId=473EDDF40245

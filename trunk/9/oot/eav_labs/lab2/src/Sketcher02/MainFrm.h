@@ -46,6 +46,7 @@ protected:  // control bar embedded members
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CMainFrame)
+	//##ModelId=473EDD6D0326
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()

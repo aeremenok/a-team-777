@@ -4,15 +4,6 @@
 #include "OurConstants.h"
 #include "Elements.h"
 
-#include "shapes/Shape.h"
-#include "shapes/Text.h"
-#include "shapes/Oval.h"
-#include "shapes/Rectangle.h"
-#include "shapes/TextInOval.h"
-
-#include "resource.h"
-#include "TextRequest.h"
-
 #include <math.h>
 //////////////////////////////////////////////////////////////////////////
 // Add definitions for member functions here
@@ -102,76 +93,4 @@ void CRectangle::Draw(CDC* pDC)
    pDC->SelectObject(pOldBrush);              // Restore the old brush
    pDC->SelectObject(pOldPen);                // Restore the old pen
 }
-//////////////////////////////////////////////////////////////////////////
-//##ModelId=473EF26003D8
-void Text::Draw(CDC* pDC)
-{
-    // Create a pen for this object and
-    // initialize it to the object color and line width of 1 pixel
-    CPen aPen; 
-    if(!aPen.CreatePen(PS_SOLID, m_Pen, m_Color))
-    {                                           // Pen creation failed
-        AfxMessageBox("Pen creation failed drawing a text", MB_OK);
-        AfxAbort();
-    }
-    
-    // Select the pen
-    CPen* pOldPen = pDC->SelectObject(&aPen);   
-    // Select the brush
-    CBrush* pOldBrush = (CBrush*)pDC->SelectStockObject(NULL_BRUSH); 
-    
-    // Now draw the text
-    pDC->TextOut(_x, _y, _content.c_str());
-    
-    pDC->SelectObject(pOldBrush);              // Restore the old brush
-    pDC->SelectObject(pOldPen);                // Restore the old pen
-}
 
-//##ModelId=473EF25A00EA
-void Oval::Draw(CDC* pDC)
-{
-    // Create a pen for this object and
-    // initialize it to the object color and line width of 1 pixel
-    CPen aPen; 
-    if(!aPen.CreatePen(PS_SOLID, m_Pen, m_Color))
-    {                                           // Pen creation failed
-        AfxMessageBox("Pen creation failed drawing an oval", MB_OK);
-        AfxAbort();
-    }
-    
-    // Select the pen
-    CPen* pOldPen = pDC->SelectObject(&aPen);   
-    // Select the brush
-    CBrush* pOldBrush = (CBrush*)pDC->SelectStockObject(NULL_BRUSH); 
-    
-    // Now draw the rectangle
-    pDC->Ellipse(m_EnclosingRect);
-    
-    pDC->SelectObject(pOldBrush);              // Restore the old brush
-    pDC->SelectObject(pOldPen);                // Restore the old pen           
-}
-
-//##ModelId=473EF26702EE
-void Rectangle2::Draw(CDC* pDC)
-{
-    // Create a pen for this object and
-    // initialize it to the object color and line width of 1 pixel
-    CPen aPen; 
-    if(!aPen.CreatePen(PS_SOLID, m_Pen, m_Color))
-    {                                           // Pen creation failed
-        AfxMessageBox("Pen creation failed drawing a rectangle", MB_OK);
-        AfxAbort();
-    }
-    
-    // Select the pen
-    CPen* pOldPen = pDC->SelectObject(&aPen);   
-    // Select the brush
-    CBrush* pOldBrush = (CBrush*)pDC->SelectStockObject(NULL_BRUSH); 
-    
-    // Now draw the rectangle
-    pDC->Rectangle(m_EnclosingRect);
-    
-    pDC->SelectObject(pOldBrush);              // Restore the old brush
-    pDC->SelectObject(pOldPen);                // Restore the old pen    
-}
-//////////////////////////////////////////////////////////////////////////
