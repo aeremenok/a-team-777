@@ -302,6 +302,10 @@ SOURCE=.\VertexNotFoundException.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
+SOURCE=.\ExternalGraphIterator.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Graph.h
 # End Source File
 # Begin Source File
