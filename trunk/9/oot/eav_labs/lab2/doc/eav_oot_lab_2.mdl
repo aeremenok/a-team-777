@@ -40316,7 +40316,7 @@
 			items      	(list diagram_item_list
 			    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Oval" @658
 				ShowCompartmentStereotypes 	TRUE
-				location   	(784, 1584)
+				location   	(928, 1440)
 				font       	(object Font
 				    size       	10
 				    face       	"Consolas"
@@ -40329,23 +40329,23 @@
 				    default_color 	FALSE)
 				label      	(object ItemLabel
 				    Parent_View 	@658
-				    location   	(644, 1515)
+				    location   	(787, 1371)
 				    fill_color 	13434879
 				    nlines     	1
-				    max_width  	280
+				    max_width  	282
 				    justify    	0
 				    label      	"Oval")
 				icon_style 	"Icon"
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"473EDDF403B9"
-				width      	298
+				width      	300
 				height     	160
 				annotation 	8
 				autoResize 	TRUE)
 			    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Rectangle2" @659
 				ShowCompartmentStereotypes 	TRUE
-				location   	(1904, 1616)
+				location   	(1680, 1440)
 				font       	(object Font
 				    size       	10
 				    face       	"Consolas"
@@ -40358,7 +40358,7 @@
 				    default_color 	FALSE)
 				label      	(object ItemLabel
 				    Parent_View 	@659
-				    location   	(1756, 1547)
+				    location   	(1532, 1371)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	296
@@ -40374,7 +40374,7 @@
 				autoResize 	TRUE)
 			    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Shape" @660
 				ShowCompartmentStereotypes 	TRUE
-				location   	(1280, 1232)
+				location   	(1296, 1120)
 				font       	(object Font
 				    size       	10
 				    face       	"Consolas"
@@ -40387,7 +40387,7 @@
 				    default_color 	FALSE)
 				label      	(object ItemLabel
 				    Parent_View 	@660
-				    location   	(1140, 1163)
+				    location   	(1156, 1051)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	280
@@ -40417,7 +40417,7 @@
 				line_style 	0)
 			    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Text" @663
 				ShowCompartmentStereotypes 	TRUE
-				location   	(1280, 1584)
+				location   	(1296, 1440)
 				font       	(object Font
 				    size       	10
 				    face       	"Consolas"
@@ -40430,17 +40430,17 @@
 				    default_color 	FALSE)
 				label      	(object ItemLabel
 				    Parent_View 	@663
-				    location   	(1140, 1515)
+				    location   	(1155, 1371)
 				    fill_color 	13434879
 				    nlines     	1
-				    max_width  	280
+				    max_width  	282
 				    justify    	0
 				    label      	"Text")
 				icon_style 	"Icon"
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"473EDDF40261"
-				width      	298
+				width      	300
 				height     	160
 				annotation 	8
 				autoResize 	TRUE)
@@ -40453,7 +40453,7 @@
 				line_style 	0)
 			    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::TextInOval" @665
 				ShowCompartmentStereotypes 	TRUE
-				location   	(1104, 2144)
+				location   	(1104, 1744)
 				font       	(object Font
 				    size       	10
 				    face       	"Consolas"
@@ -40466,7 +40466,7 @@
 				    default_color 	FALSE)
 				label      	(object ItemLabel
 				    Parent_View 	@665
-				    location   	(959, 2075)
+				    location   	(959, 1675)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	290
@@ -40498,7 +40498,7 @@
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
-				location   	(1280, 816)
+				location   	(1296, 704)
 				font       	(object Font
 				    size       	10
 				    face       	"Consolas"
@@ -40511,7 +40511,7 @@
 				    default_color 	FALSE)
 				label      	(object ItemLabel
 				    Parent_View 	@668
-				    location   	(953, 579)
+				    location   	(969, 467)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	654
@@ -40523,7 +40523,7 @@
 				quidu      	"473EDD6D032D"
 				compartment 	(object Compartment
 				    Parent_View 	@668
-				    location   	(953, 675)
+				    location   	(969, 563)
 				    font       	(object Font
 					size       	10
 					face       	"Consolas"
@@ -40554,7 +40554,7 @@
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
-				location   	(1280, 304)
+				location   	(1296, 208)
 				font       	(object Font
 				    size       	10
 				    face       	"Consolas"
@@ -40567,7 +40567,7 @@
 				    default_color 	FALSE)
 				label      	(object ItemLabel
 				    Parent_View 	@670
-				    location   	(838, 137)
+				    location   	(854, 41)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	884
@@ -40579,7 +40579,7 @@
 				quidu      	"365C7A6F009C"
 				compartment 	(object Compartment
 				    Parent_View 	@670
-				    location   	(838, 233)
+				    location   	(854, 137)
 				    font       	(object Font
 					size       	10
 					face       	"Consolas"

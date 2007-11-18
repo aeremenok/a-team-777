@@ -4,8 +4,10 @@
 
 #if !defined(AFX_SKETCHERDOC_H__623441AB_57EA_11D0_9257_00201834E2A3__INCLUDED_)
 #define AFX_SKETCHERDOC_H__623441AB_57EA_11D0_9257_00201834E2A3__INCLUDED_
-
-
+//////////////////////////////////////////////////////////////////////////
+#include "container/Graph.h"
+#include "Elements.h"
+//////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDD6D02BF
 class CSketcherDoc : public CDocument
 {
@@ -23,20 +25,17 @@ protected:
 	//##ModelId=473EDD6D02CE
 	WORD m_Element;			// Current element type
 
+    Graph<CElement>* _container;
 // Operations
 public:
 	//##ModelId=473EDD6D02CF
-	WORD GetElementType()        // Get the element type
-	{
-		return m_Element;
-	}
-   
+	WORD GetElementType(){return m_Element;}
 	//##ModelId=473EDD6D02D0
-	COLORREF GetElementColor()   // Get the element color
-	{
-		return m_Color;
-	}
+	COLORREF GetElementColor(){return m_Color;}
 
+    // делегаты
+    Iterator<CElement>* getGraphIterator(){ return _container->getIterator(); }
+    void AddElement(CElement* m_pElement);
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherDoc)

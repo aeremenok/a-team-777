@@ -47,11 +47,14 @@ CSketcherDoc::CSketcherDoc()
 	// TODO: add one-time construction code here
    m_Element = LINE;   // Set initial element type
    m_Color = BLACK;    // Set initial drawing color
+   _container = new Graph<CElement>();
 }
 
 //##ModelId=473EDD6D02D6
 CSketcherDoc::~CSketcherDoc()
 {
+    _container->clear();
+    _container = NULL;
 }
 
 //##ModelId=473EDD6D02D1
@@ -65,8 +68,6 @@ BOOL CSketcherDoc::OnNewDocument()
 
 	return TRUE;
 }
-
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherDoc serialization
@@ -191,4 +192,22 @@ void CSketcherDoc::OnElementTextInOval()
 void CSketcherDoc::OnUpdateElementTextInOval(CCmdUI* pCmdUI) 
 {
 	pCmdUI->SetCheck(m_Element==TEXT_IN_OVAL);
+}
+
+void CSketcherDoc::AddElement( CElement* m_pElement )
+{
+    
+}
+
+void CSketcherDoc::SendToBack(CElement* pElement)
+{
+    if(pElement)
+    {
+        // If the element pointer is valid,
+        // find the pointer in the list and remove the element
+        POSITION aPosition = m_ElementList.Find(pElement);
+        m_ElementList.RemoveAt(aPosition);
+        
+        m_ElementList.AddHead(pElement);  // Put it back to the beginning
+   }    
 }

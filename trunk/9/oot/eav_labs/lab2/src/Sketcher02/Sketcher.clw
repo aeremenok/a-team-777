@@ -14,17 +14,18 @@ Class2=CSketcherDoc
 Class3=CSketcherView
 Class4=CMainFrame
 
-ResourceCount=7
+ResourceCount=8
 Resource1=IDR_MAINFRAME
 Resource2=IDR_SKETCHTYPE (English (U.S.))
 Resource3=IDR_SKETCHTYPE
 Class5=CAboutDlg
 Class6=CChildFrame
-Resource4=IDR_MAINFRAME (English (U.S.))
+Resource4=IDD_TEXTREQUEST_DIALOG
 Resource5=IDD_ABOUTBOX
 Resource6=IDD_ABOUTBOX (English (U.S.))
 Class7=TextRequest
-Resource7=IDD_TEXTREQUEST_DIALOG
+Resource7=IDR_CURSOR_MENU (English (U.S.))
+Resource8=IDR_MAINFRAME (English (U.S.))
 
 [CLS:CSketcherApp]
 Type=0
@@ -277,4 +278,16 @@ BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
 LastObject=IDOK
+
+[MNU:IDR_CURSOR_MENU (English (U.S.))]
+Type=1
+Class=?
+Command1=ID_MOVE
+Command2=ID_DELETE
+Command3=ID_SENDTOBACK
+Command4=ID_ELEMENT_LINE
+Command5=ID_ELEMENT_RECTANGLE
+Command6=ID_COLOR_BLACK
+Command7=ID_COLOR_RED
+CommandCount=7
 

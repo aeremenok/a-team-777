@@ -24,7 +24,7 @@ CLine::CLine(CPoint Start, CPoint End, COLORREF aColor)
 
 // Draw a CLine object
 //##ModelId=473EDD6D034D
-void CLine::Draw(CDC* pDC)
+void CLine::Draw(CDC* pDC, CElement* pElement)
 {
    // Create a pen for this object and
    // initialize it to the object color and line width of 1 pixel
@@ -71,7 +71,7 @@ CRectangle::CRectangle(CPoint Start, CPoint End, COLORREF aColor)
 
 // Draw a CRectangle object
 //##ModelId=473EDD6D0360
-void CRectangle::Draw(CDC* pDC)
+void CRectangle::Draw(CDC* pDC, CElement* pElement)
 {
    // Create a pen for this object and
    // initialize it to the object color and line width of 1 pixel
