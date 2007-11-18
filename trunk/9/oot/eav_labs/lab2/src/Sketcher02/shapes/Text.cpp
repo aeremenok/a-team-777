@@ -45,22 +45,24 @@ Text* Text::create(std::string content, float x, float y)
 Text* Text::create( CPoint Start, CPoint End, COLORREF aColor )
 {
     float x, y;
-    if ( Start.x > End.x )
-    {
-        x = End.x;
-    }
-    else
-    {
-        x = Start.x;
-    }
-    if ( Start.y > End.y )
-    {
-        y = End.y;
-    }
-    else
-    {
-        y = Start.y;
-    }
+    x = (End.x + Start.x) / 2;
+    y = (End.y + Start.y) / 2;
+//     if ( Start.x > End.x )
+//     {
+//         x = (End.x - Start.x) / 2;
+//     }
+//     else
+//     {
+//         x = (Start.x - End.x) / 2;
+//     }
+//     if ( Start.y > End.y )
+//     {
+//         y = (End.y - Start.y) / 2;
+//     }
+//     else
+//     {
+//         y = (Start.y - End.y) / 2;
+//     }
 
     // todo
     Text* text = create("777", x, y);

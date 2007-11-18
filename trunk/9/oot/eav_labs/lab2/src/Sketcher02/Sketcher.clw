@@ -2,27 +2,29 @@
 
 [General Info]
 Version=1
-LastClass=CSketcherDoc
+LastClass=TextRequest
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "Sketcher.h"
 LastPage=0
 
-ClassCount=6
+ClassCount=7
 Class1=CSketcherApp
 Class2=CSketcherDoc
 Class3=CSketcherView
 Class4=CMainFrame
 
-ResourceCount=8
+ResourceCount=7
 Resource1=IDR_MAINFRAME
 Resource2=IDR_SKETCHTYPE (English (U.S.))
 Resource3=IDR_SKETCHTYPE
 Class5=CAboutDlg
 Class6=CChildFrame
-Resource6=IDR_MAINFRAME (English (U.S.))
-Resource7=IDD_ABOUTBOX
-Resource8=IDD_ABOUTBOX (English (U.S.))
+Resource4=IDR_MAINFRAME (English (U.S.))
+Resource5=IDD_ABOUTBOX
+Resource6=IDD_ABOUTBOX (English (U.S.))
+Class7=TextRequest
+Resource7=IDD_TEXTREQUEST_DIALOG
 
 [CLS:CSketcherApp]
 Type=0
@@ -215,7 +217,7 @@ CommandCount=8
 
 [DLG:IDD_ABOUTBOX (English (U.S.))]
 Type=1
-Class=?
+Class=CAboutDlg
 ControlCount=4
 Control1=IDC_STATIC,static,1342177283
 Control2=IDC_STATIC,static,1342308480
@@ -257,4 +259,18 @@ Command12=ID_EDIT_PASTE
 Command13=ID_NEXT_PANE
 Command14=ID_PREV_PANE
 CommandCount=14
+
+[DLG:IDD_TEXTREQUEST_DIALOG]
+Type=1
+Class=TextRequest
+ControlCount=2
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
+
+[CLS:TextRequest]
+Type=0
+HeaderFile=TextRequest.h
+ImplementationFile=TextRequest.cpp
+BaseClass=CDialog
+Filter=D
 
