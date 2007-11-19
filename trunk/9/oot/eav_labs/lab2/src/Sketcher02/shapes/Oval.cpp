@@ -124,7 +124,7 @@ float Oval::Area() const
 }
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EF25A00EA
-void Oval::Draw(CDC* pDC)
+void Oval::Draw( CDC* pDC, CElement* pElement/*=0*/ )
 {
     // Create a pen for this object and
     // initialize it to the object color and line width of 1 pixel

@@ -107,9 +107,9 @@ float TextInOval::Area() const
 }
 
 //##ModelId=473EF4F500DA
-void TextInOval::Draw( CDC* pDC )
+void TextInOval::Draw( CDC* pDC, CElement* pElement/*=0*/ )
 {
-    Oval::Draw(pDC);
-    Text::Draw(pDC);
+    Oval::Draw(pDC, pElement);
+    Text::Draw(pDC, pElement);
 }
 //////////////////////////////////////////////////////////////////////////

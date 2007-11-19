@@ -37,7 +37,7 @@ protected:
 public:
 	//Virtual draw operation
 	//##ModelId=473EF26003D8
-	virtual void Draw(CDC* pDC);
+    virtual void Draw(CDC* pDC, CElement* pElement=0);
 
     //##ModelId=473EDDF402B0
     const std::string& get__content() const;

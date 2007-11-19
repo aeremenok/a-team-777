@@ -45,7 +45,7 @@ public:
 
     //Virtual draw operation
     //##ModelId=473EF4F500DA
-	virtual void Draw(CDC* pDC);
+    virtual void Draw(CDC* pDC, CElement* pElement=0);
 protected:
     //вывести состояние текста в овале в поток
     //##ModelId=473EDDF40254
