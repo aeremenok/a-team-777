@@ -21,6 +21,7 @@ public:
 
 	//##ModelId=473EDD6D0342
    CRect GetBoundRect();   // Get the bounding rectangle for an element
+	//##ModelId=4741F10F009C
    virtual void Move(CSize& aSize) {}
 protected:
 	//##ModelId=473EDD6D0343
@@ -34,6 +35,7 @@ class CLine: public CElement
 public:
 	//##ModelId=473EDD6D034D
 	virtual void Draw(CDC* pDC, CElement* pElement=0);  // Function to display a line
+	//##ModelId=4741F10F00FB
 	void Move(CSize& aSize);
    // Constructor for a line object
 	//##ModelId=473EDD6D0350
@@ -56,6 +58,7 @@ class CRectangle: public CElement
 public:
 	//##ModelId=473EDD6D0360
 	virtual void Draw(CDC* pDC, CElement* pElement=0);  // Function to display a rectangle
+	//##ModelId=4741F10F010A
 	void Move(CSize& aSize);
    // Constructor for a rectangle object
 	//##ModelId=473EDD6D036D

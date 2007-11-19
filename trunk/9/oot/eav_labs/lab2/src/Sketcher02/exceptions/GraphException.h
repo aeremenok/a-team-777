@@ -11,31 +11,31 @@
 //////////////////////////////////////////////////////////////////////////
 using namespace std;
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=471F849B00AB
+//##ModelId=4741F10E0381
 class GraphException 
 {
 public:
-    //##ModelId=471F868D0109
+    //##ModelId=4741F10E0382
     virtual const string& get__description() const;
 
-    //##ModelId=471F872800BB
+    //##ModelId=4741F10E038A
     GraphException(string message);
 
     //получить информацию об исключении
-    //##ModelId=471F8742038A
+    //##ModelId=4741F10E038C
     virtual string getException();
 
     //вывести информацию об исключении в консоль
-    //##ModelId=471F878E02DE
+    //##ModelId=4741F10E038E
     virtual void printException();
    
 protected:
     // название исключения
-	//##ModelId=4721A0BA02FD
+	//##ModelId=4741F10E0390
     virtual const string getName() const;
 
     //описание ошибки
-    //##ModelId=471F866C0000
+    //##ModelId=4741F10E0393
     string _description;
 };
 //////////////////////////////////////////////////////////////////////////
