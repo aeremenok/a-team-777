@@ -122,7 +122,7 @@ float Rectangle2::Area() const
 }
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EF26702EE
-void Rectangle2::Draw(CDC* pDC)
+void Rectangle2::Draw( CDC* pDC, CElement* pElement/*=0*/ )
 {
     // Create a pen for this object and
     // initialize it to the object color and line width of 1 pixel

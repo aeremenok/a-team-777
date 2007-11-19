@@ -36,7 +36,7 @@ private:
 public:
 	//Virtual draw operation
 	//##ModelId=473EF26702EE
-	virtual void Draw(CDC* pDC);
+    virtual void Draw(CDC* pDC, CElement* pElement=0);
 
     //выдает указатель на уже существующий прямоугольник, если он имеет заданные 
     //параметры

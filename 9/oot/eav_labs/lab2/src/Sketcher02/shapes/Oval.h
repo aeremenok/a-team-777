@@ -40,7 +40,7 @@ protected:
 public:
 	//Virtual draw operation
 	//##ModelId=473EF25A00EA
-	virtual void Draw(CDC* pDC);
+    virtual void Draw(CDC* pDC, CElement* pElement=0);
 
     //выдает указатель на уже существующий овал, если он имеет заданные параметры
     //если такого не существует - создает новый

@@ -101,7 +101,7 @@ float Text::Area() const
 }
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EF26003D8
-void Text::Draw(CDC* pDC)
+void Text::Draw( CDC* pDC, CElement* pElement/*=0*/ )
 {
     // Create a pen for this object and
     // initialize it to the object color and line width of 1 pixel
