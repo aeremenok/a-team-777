@@ -36,6 +36,8 @@ public:
     // делегаты
     Iterator<CElement>* getGraphIterator(){ return _container->getIterator(); }
     void AddElement(CElement* m_pElement);
+    void SendToBack(CElement* pElement);
+    void DeleteElement(CElement* m_pSelected);
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherDoc)
