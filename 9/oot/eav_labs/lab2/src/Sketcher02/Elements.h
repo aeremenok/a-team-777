@@ -1,6 +1,8 @@
 #ifndef Elements_h
 #define Elements_h
 
+class ostream;
+
 // Generic element class
 //##ModelId=473EDD6D032D
 class CElement: public CObject
@@ -14,6 +16,10 @@ protected:
    int m_Pen;                         // Pen width
 
 public:
+	//определен для совместимости с фигурой по указателю
+	//##ModelId=4741F1B1004E
+	virtual bool operator==(const CElement& rhs) const;
+
 	//##ModelId=473EDD6D033D
    virtual ~CElement(){}                      // Virtual destructor
 	//##ModelId=473EDD6D033F

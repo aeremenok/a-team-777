@@ -160,8 +160,8 @@ public:
     //##ModelId=4741F10E03BB
     void removeVertex(T* vertex)
     {
-        cout<<"\n[graph] removoing all ribbles, containing\n===vertex===\n"
-            <<*vertex<<endl;
+//         cout<<"\n[graph] removoing all ribbles, containing\n===vertex===\n"
+//             <<*vertex<<endl;
 
         // проверяем, есть ли такая вершина
         Iterator<T>* iter = getIterator();

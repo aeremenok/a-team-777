@@ -5,6 +5,7 @@
 #include "Elements.h"
 
 #include <math.h>
+#include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
 // Add definitions for member functions here
 
@@ -43,6 +44,12 @@ void CLine::Draw(CDC* pDC, CElement* pElement)
    pDC->LineTo(m_EndPoint);
 
    pDC->SelectObject(pOldPen);                // Restore the old pen
+}
+
+//##ModelId=4741F10F00FB
+void CLine::Move( CSize& aSize )
+{
+    CElement::Move(aSize);
 }
 
 // Get the bounding rectangle for an element
@@ -92,5 +99,20 @@ void CRectangle::Draw(CDC* pDC, CElement* pElement)
 
    pDC->SelectObject(pOldBrush);              // Restore the old brush
    pDC->SelectObject(pOldPen);                // Restore the old pen
+}
+
+//##ModelId=4741F10F010A
+void CRectangle::Move( CSize& aSize )
+{
+    CElement::Move(aSize);
+}
+
+//##ModelId=4741F1B1004E
+bool CElement::operator==(const CElement& rhs) const
+{
+    return 
+        this->m_Color == rhs.m_Color &&
+        this->m_EnclosingRect == rhs.m_EnclosingRect &&
+        this->m_Pen == rhs.m_Pen;
 }
 

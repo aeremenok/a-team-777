@@ -31,6 +31,11 @@ BEGIN_MESSAGE_MAP(CSketcherView, CScrollView)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
+	ON_WM_RBUTTONDOWN()
+	ON_WM_RBUTTONUP()
+	ON_COMMAND(ID_MOVE, OnMove)
+	ON_COMMAND(ID_SENDTOBACK, OnSendtoback)
+	ON_COMMAND(ID_DELETE, OnDelete)
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CView::OnFilePrint)
@@ -47,6 +52,10 @@ CSketcherView::CSketcherView()
     m_FirstPoint = CPoint(0,0);         // Set 1st recorded point to 0,0
     m_SecondPoint = CPoint(0,0);        // Set 2nd recorded point to 0,0
     m_pTempElement = 0;                 // Set temporary element pointer to 0
+    m_pSelected = 0;                    // No element selected initially
+    m_MoveMode = FALSE;                 // Set move mode off
+    m_CursorPos = CPoint(0,0);          // Initialize as zero
+    m_FirstPos = CPoint(0,0);           // Initialize as zero
 }
 
 //##ModelId=473EDD6D0273
@@ -65,11 +74,12 @@ BOOL CSketcherView::PreCreateWindow(CREATESTRUCT& cs)
 
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherView drawing
+
 //##ModelId=473EDD6D0243
 void CSketcherView::OnDraw(CDC* pDC)
 {
-	CSketcherDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
+   CSketcherDoc* pDoc = GetDocument();
+   ASSERT_VALID(pDoc);
     
     CElement* pElement = NULL;
     Iterator<CElement>* iter = pDoc->getGraphIterator();
