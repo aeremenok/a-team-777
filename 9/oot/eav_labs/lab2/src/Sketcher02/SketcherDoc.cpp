@@ -194,11 +194,13 @@ void CSketcherDoc::OnUpdateElementTextInOval(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(m_Element==TEXT_IN_OVAL);
 }
 
+//##ModelId=4741F10E029F
 void CSketcherDoc::AddElement( CElement* m_pElement )
 {
     
 }
 
+//##ModelId=4741F10E02A1
 void CSketcherDoc::SendToBack(CElement* pElement)
 {
     if(pElement)
@@ -208,6 +210,7 @@ void CSketcherDoc::SendToBack(CElement* pElement)
     }    
 }
 
+//##ModelId=4741F10E02A3
 void CSketcherDoc::DeleteElement( CElement* m_pSelected )
 {
     

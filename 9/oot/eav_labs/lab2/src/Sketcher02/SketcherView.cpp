@@ -274,6 +274,7 @@ CElement* CSketcherView::CreateElement()
 }
 
 // Find the element at the cursor
+//##ModelId=4741F10E0213
 CElement* CSketcherView::SelectElement(CPoint aPoint)
 {
     // Convert parameter aPoint to logical coordinates
@@ -304,6 +305,7 @@ CElement* CSketcherView::SelectElement(CPoint aPoint)
     return NULL;                              // No element found
 }
 
+//##ModelId=4741F10E0215
 void CSketcherView::MoveElement(CClientDC& aDC, CPoint& point)
 {
    CSize Distance = point - m_CursorPos;   // Get move distance
@@ -319,6 +321,7 @@ void CSketcherView::MoveElement(CClientDC& aDC, CPoint& point)
    }
 }
 
+//##ModelId=4741F10E0234
 void CSketcherView::OnRButtonDown(UINT nFlags, CPoint point) 
 {
    if(m_MoveMode)
@@ -335,6 +338,7 @@ void CSketcherView::OnRButtonDown(UINT nFlags, CPoint point)
 }
 
 
+//##ModelId=4741F10E0244
 void CSketcherView::OnRButtonUp(UINT nFlags, CPoint point) 
 {
 // Create the cursor menu
@@ -370,6 +374,7 @@ void CSketcherView::OnRButtonUp(UINT nFlags, CPoint point)
    
 }
 
+//##ModelId=4741F10E0225
 void CSketcherView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
    // Invalidate the area corresponding to the element pointed to
@@ -389,6 +394,7 @@ void CSketcherView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
       InvalidateRect(0);
 }
 
+//##ModelId=4741F10E0223
 void CSketcherView::OnInitialUpdate() 
 {
    CScrollView::OnInitialUpdate();
@@ -400,6 +406,7 @@ void CSketcherView::OnInitialUpdate()
    SetScrollSizes(MM_LOENGLISH, DocSize);
 }
 
+//##ModelId=4741F10E0251
 void CSketcherView::OnMove() 
 {
    CClientDC aDC(this);
@@ -412,11 +419,13 @@ void CSketcherView::OnMove()
 	
 }
 
+//##ModelId=4741F10E0253
 void CSketcherView::OnSendtoback() 
 {
    GetDocument()->SendToBack(m_pSelected);  // Move element in list	
 }
 
+//##ModelId=4741F10E0255
 void CSketcherView::OnDelete() 
 {
    if(m_pSelected)

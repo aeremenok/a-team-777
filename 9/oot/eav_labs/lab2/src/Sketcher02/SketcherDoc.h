@@ -25,6 +25,7 @@ protected:
 	//##ModelId=473EDD6D02CE
 	WORD m_Element;			// Current element type
 
+	//##ModelId=4741F10E0293
     Graph<CElement>* _container;
 // Operations
 public:
@@ -34,9 +35,13 @@ public:
 	COLORREF GetElementColor(){return m_Color;}
 
     // делегаты
+	//##ModelId=4741F10E0297
     Iterator<CElement>* getGraphIterator(){ return _container->getIterator(); }
+	//##ModelId=4741F10E029F
     void AddElement(CElement* m_pElement);
+	//##ModelId=4741F10E02A1
     void SendToBack(CElement* pElement);
+	//##ModelId=4741F10E02A3
     void DeleteElement(CElement* m_pSelected);
 // Overrides
 	// ClassWizard generated virtual function overrides

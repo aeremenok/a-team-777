@@ -3,31 +3,31 @@
 #include "StdAfx.h"
 #include "RibbleNotFoundException.h"
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=471F98E9009C
+//##ModelId=4741F10E02E0
 string RibbleNotFoundException::getException()
 {
     return GraphException::getException();
 }
 
-//##ModelId=471F98E902C1
+//##ModelId=4741F10E02E2
 void RibbleNotFoundException::printException()
 {
     GraphException::printException();
 }
 
-//##ModelId=471F98ED03BB
+//##ModelId=4741F10E02E4
 RibbleNotFoundException::RibbleNotFoundException(string message) : GraphException(message)
 {
     //cout<<this->getName().c_str()<<" has been thrown"<<endl;
 }
 
-//##ModelId=471F993F000F
+//##ModelId=4741F10E02EE
 const string& RibbleNotFoundException::get__description() const
 {
     return _description;
 }
 
-//##ModelId=4721A0BA01D4
+//##ModelId=4741F10E02F0
 const string RibbleNotFoundException::getName() const
 {
     return "RibbleNotFoundException";

@@ -19,12 +19,19 @@ public:
 	CSketcherDoc* GetDocument();
 
 protected:
+	//##ModelId=473EDD6D01D5
     CPoint m_FirstPoint;       // First point recorded for an element
+	//##ModelId=473EDD6D0222
     CPoint m_SecondPoint;      // Second point recorded for an element
+	//##ModelId=473EDD6D0233
     CElement* m_pTempElement;  // Pointer to temporary element
+	//##ModelId=4741F10E01B7
     CElement* m_pSelected;     // Currently selected element
+	//##ModelId=4741F10E01C5
     BOOL m_MoveMode;           // Move element flag
+	//##ModelId=4741F10E0203
     CPoint m_CursorPos;        // Cursor position
+	//##ModelId=4741F10E0204
     CPoint m_FirstPos;         // Original position in a move
 
 
@@ -34,7 +41,9 @@ public:
 protected:
 	//##ModelId=473EDD6D0242
     CElement* CreateElement(); // Create a new element on the heap
+	//##ModelId=4741F10E0213
     CElement* SelectElement(CPoint aPoint);           // Select an element
+	//##ModelId=4741F10E0215
     void MoveElement(CClientDC& aDC, CPoint& point);  // Move an element
 
 // Overrides
@@ -45,6 +54,7 @@ protected:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
 	//##ModelId=473EDD6D0246
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	//##ModelId=4741F10E0223
 	virtual void OnInitialUpdate();
 	protected:
 	//##ModelId=473EDD6D0253
@@ -53,6 +63,7 @@ protected:
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	//##ModelId=473EDD6D0265
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
+	//##ModelId=4741F10E0225
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	//}}AFX_VIRTUAL
 
@@ -78,10 +89,15 @@ protected:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	//##ModelId=473EDD6D029F
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	//##ModelId=4741F10E0234
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	//##ModelId=4741F10E0244
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
+	//##ModelId=4741F10E0251
 	afx_msg void OnMove();
+	//##ModelId=4741F10E0253
 	afx_msg void OnSendtoback();
+	//##ModelId=4741F10E0255
 	afx_msg void OnDelete();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()

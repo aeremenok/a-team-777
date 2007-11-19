@@ -3,30 +3,30 @@
 #include "StdAfx.h"
 #include "RibbleExistsException.h"
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=471F991501E4
+//##ModelId=4741F10E02F4
 RibbleExistsException::RibbleExistsException(string message):GraphException(message)
 {
 }
 
-//##ModelId=471F99170139
+//##ModelId=4741F10E02F6
 string RibbleExistsException::getException()
 {
     return GraphException::getException();
 }
 
-//##ModelId=471F9917031E
+//##ModelId=4741F10E02F8
 void RibbleExistsException::printException()
 {
     GraphException::printException();
 }
 
-//##ModelId=471F995102CE
+//##ModelId=4741F10E02FE
 const string& RibbleExistsException::get__description() const
 {
     return _description;
 }
 
-//##ModelId=4721A0BA01F4
+//##ModelId=4741F10E0300
 const string RibbleExistsException::getName() const
 {
     return "RibbleExistsException";

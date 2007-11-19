@@ -3,32 +3,32 @@
 #include "StdAfx.h"
 #include "VertexNotFoundException.h"
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=471F98F6036B
+//##ModelId=4741F10E00CC
 string VertexNotFoundException::getException()
 {
     return GraphException::getException();
 }
 
-//##ModelId=471F98F7013A
+//##ModelId=4741F10E00CE
 void VertexNotFoundException::printException()
 {
     GraphException::printException();
 }
 
-//##ModelId=471F98F803CA
+//##ModelId=4741F10E00DB
 VertexNotFoundException::VertexNotFoundException(string message) : GraphException(message)
 {
 //     string s = this->getName() + " has been thrown\n";
 //     cout<<s.c_str();
 }
 
-//##ModelId=471F9958037A
+//##ModelId=4741F10E00DD
 const string& VertexNotFoundException::get__description() const
 {
     return _description;
 }
 
-//##ModelId=4721A0BA0167
+//##ModelId=4741F10E00DF
 const string VertexNotFoundException::getName() const
 {
     return "VertexNotFoundException";

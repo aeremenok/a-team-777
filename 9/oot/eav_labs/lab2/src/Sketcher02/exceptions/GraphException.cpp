@@ -3,31 +3,31 @@
 #include "StdAfx.h"
 #include "GraphException.h"
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=471F868D0109
+//##ModelId=4741F10E0382
 const string& GraphException::get__description() const
 {
     return _description;
 }
 
-//##ModelId=471F872800BB
+//##ModelId=4741F10E038A
 GraphException::GraphException(string message)
 {
     _description = message;
 }
 
-//##ModelId=471F8742038A
+//##ModelId=4741F10E038C
 string GraphException::getException()
 {
     return "["+getName()+"]\n\t"+_description;
 }
 
-//##ModelId=471F878E02DE
+//##ModelId=4741F10E038E
 void GraphException::printException()
 {
     cout<<getException().c_str()<<endl;
 }
 
-//##ModelId=4721A0BA02FD
+//##ModelId=4741F10E0390
 const string GraphException::getName() const
 {
     return "GraphException";
