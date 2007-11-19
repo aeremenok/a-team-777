@@ -12,6 +12,11 @@
 
 #include "container/Ribble.h"
 #include "container/Iterator.h"
+
+#include "exceptions/GraphException.h"
+#include "exceptions/RibbleExistsException.h"
+#include "exceptions/RibbleNotFoundException.h"
+#include "exceptions/VertexNotFoundException.h"
 //////////////////////////////////////////////////////////////////////////
 using namespace std;
 

@@ -203,11 +203,12 @@ void CSketcherDoc::SendToBack(CElement* pElement)
 {
     if(pElement)
     {
-        // If the element pointer is valid,
-        // find the pointer in the list and remove the element
-        POSITION aPosition = m_ElementList.Find(pElement);
-        m_ElementList.RemoveAt(aPosition);
-        
-        m_ElementList.AddHead(pElement);  // Put it back to the beginning
-   }    
+        _container->removeVertex(pElement);
+        _container->addRibble(pElement, pElement);
+    }    
+}
+
+void CSketcherDoc::DeleteElement( CElement* m_pSelected )
+{
+    
 }
