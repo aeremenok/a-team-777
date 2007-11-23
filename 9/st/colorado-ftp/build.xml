@@ -1,0 +1,116 @@
+<project name="ColoradoFTP" default="help" basedir="./">
+
+  <property file="build.properties"/>
+
+  <property name="jar.name" value="coloradoftp-${version}.jar"/>
+  <property name="bin.name" value="generic-${version}-bin.zip"/>
+  <property name="scr.name" value="generic-${version}-src.zip"/>
+
+
+  <path id="src.classpath">
+    <fileset file="${log4j.jar}"/>
+    <fileset file="${spring.jar}"/>
+  </path>
+
+
+  <target name="clean">
+    <echo>=== REMOVING BUILD DIRECTORY ===</echo>
+    <delete dir="build"/>
+  </target>
+
+
+  <target name="prepare.build.dir">
+    <echo>=== CREATING BUILD DIRECTORY ===</echo>
+    <mkdir dir="build/classes"/>
+    <mkdir dir="build/dist/lib"/>
+    <mkdir dir="build/dist/conf"/>
+  </target>
+
+
+  <target name="compile.source">
+    <echo>=== COMPILING SOURCES ===</echo>
+    <javac classpathref="src.classpath" destdir="build/classes">
+      <src path="src"/>
+      <src path="ant.src"/>
+    </javac>
+  </target>
+
+
+  <target name="create.scripts">
+    <echo>=== CREATING STARTUP SCRIPTS ===</echo>
+    <java classpath="build/classes" classname="ant.StartupScript"/>
+  </target>
+
+
+  <target name="create.jar">
+    <echo>=== CREATING JAR ===</echo>
+    <delete file="build/dist/lib/${jar.name}"/>
+    <jar jarfile="build/dist/lib/${jar.name}">
+      <fileset dir="build/classes">
+        <exclude name="ant/**"/>
+      </fileset>
+    </jar>
+  </target>
+
+
+  <target name="create.myant.jar">
+    <echo>=== CREATING MYANT JAR ===</echo>
+    <delete file="build/dist/lib/myant.jar"/>
+    <jar jarfile="build/dist/lib/myant.jar">
+      <fileset dir="build/classes">
+        <include name="ant/**"/>
+      </fileset>
+    </jar>
+  </target>
+
+
+  <target name="all" depends="prepare.build.dir, compile.source, create.jar, create.myant.jar">
+    <copy todir="build/dist/conf">
+      <fileset dir="files">
+        <exclude name="update.*"/>
+      </fileset>
+    </copy>
+    <copy todir="build/dist">
+      <fileset dir="files">
+        <include name="update.*"/>
+      </fileset>
+    </copy>
+    <copy todir="build/dist/lib">
+      <fileset file="${log4j.jar}"/>
+      <fileset file="${spring.jar}"/>
+      <fileset file="${commons-logging.jar}"/>
+    </copy>
+    <antcall target="create.scripts"/>
+  </target>
+
+
+  <target name="release" depends="all">
+    <echo>=== RELEASING ===</echo>
+    <delete dir="build/release"/>
+    <mkdir dir="build/release"/>
+    <zip zipfile="build/release/${bin.name}">
+      <fileset dir="build/dist"/>
+    </zip>
+    <zip zipfile="build/release/${scr.name}">
+      <fileset dir=".">
+        <exclude name="**/.svn"/>
+        <exclude name="**/CVS"/>
+        <include name="**/ant.src/**"/>
+        <include name="**/files/**"/>
+        <include name="**/src/**"/>
+        <include name="*.txt"/>
+        <include name="*.properties"/>
+        <include name="*.xml"/>
+      </fileset>
+    </zip>
+  </target>
+
+
+  <target name="help">
+    <echo>Use targets:</echo>
+    <echo>  clean     - delete build dir for a clean build</echo>
+    <echo>  all       - build the project</echo>
+    <echo>  release   - pack the release files</echo>
+  </target>
+
+</project>
