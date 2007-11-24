@@ -29,44 +29,43 @@ V> Garbage Collection
 V> Aliases
 
 Q> Value types
-V> Typed Enumeration/Boolean 
+V> Typed Enumeration/Boolean
 V> Long double floating point (80bit)
-V> Complex and Imaginary 
-V> Rational 
+V> Complex and Imaginary
+V> Rational
 V> Arbitrary Precision Arithmetic
-V> Regular Expression 
+V> Regular Expression
 
 Q> Arrays
 V> Lightweight array 
-V> Array bounds checking 
-V> Array slicing 
-V> Array of bits / Finite set 
+V> Array bounds checking
+V> Array slicing
+V> Array of bits / Finite set
 
-Q> Other Data Models 
-V> List 
+Q> Other Data Models
+V> List
 V> Hash 
 V> Abstract collection 
 
-Q> Functions 
-V> Function delegates 
-V> Function overloading 
-V> Out function parameters 
-V> Nested functions 
-V> Function literals 
-V> Dynamic closures 
-V> Lexical closures 
-V> Currifying 
-V> Non-class functions 
+Q> Functions
+V> Function delegates
+V> Function overloading
+V> Out function parameters
+V> Nested functions
+V> Function literals
+V> Dynamic closures
+V> Lexical closures
+V> Non-class functions
 
 Q> OOP
-V> Modules/Namespaces 
+V> Modules/Namespaces
 V> Multiple Inheritance
-V> Interfaces 
-V> Fine grain export control 
+V> Interfaces
+V> Fine grain export control
 V> Inner classes 
-V> Operator overloading 
-V> Covariant return types 
-V> Generics 
+V> Operator overloading
+V> Covariant return types
+V> Generics
 
 Q> Multilevel programming
 V> Templates or executable macros
@@ -85,7 +84,7 @@ V> Explicit memory allocation control
 V> Independent of VM
 V> Direct native code gen
 V> Implicit Parallelism/Scheduling
-
+    
 Q> Reliability
 V> Design by Contract
 V> Unit testing
@@ -96,17 +95,6 @@ V> Explicit memory allocation control
 V> try-catch-finally blocks
 V> Thread synchronization primitives
 
-Q> Compatibility with C
-V> Syntax style
-V> Direct access to C
-V> Use existing debuggers
-V> Generates standard object files
-V> Independent of macro preprocessor
-
-Q> Other
-V> Conditional compilation
-V> String switches
-
 /* правила
 RULE: общее
     IF: 
@@ -116,6 +104,7 @@ RULE: общее
     AND: >C++: Probability = 9
     AND: >C#: Probability = 9
     ELSE:
+    
     IF:
     Generic {Garbage Collection}
     THEN: 
@@ -124,6 +113,7 @@ RULE: общее
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
     ELSE:
+    
     IF:
     Generic {Aliases}
     THEN:
@@ -133,7 +123,404 @@ RULE: общее
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
     
-    NOTE: правило записано в текстовом редакторе
-    REFERENCE: это простой пример описания БЗ
+RULE: типы значений
+    IF: 
+    Value types {Typed Enumeration/Boolean}
+    THEN: 
+         >Java: Probability = 9
+    AND: >C++: Probability = 9
+    AND: >C#: Probability = 9
+    ELSE:
+    
+    IF:
+    Value types {Long double floating point (80bit)}
+    THEN:
+         >C++: Probability = 9
+    AND: >C#: Probability = 6
+    ELSE:
+    
+    IF:
+    Value types {Complex and Imaginary}
+    THEN:
+         >Python: Probability = 9
+    AND: >Ruby: Probability = 6    
+    ELSE:
+    
+    IF:
+    Value types {Rational}
+    THEN:
+         >Java: Probability = 6
+    AND: >Ruby: Probability = 6        
+    ELSE:
+    
+    IF:
+    Value types {Arbitrary Precision Arithmetic}
+    THEN:
+         >Java: Probability = 7
+    ELSE:
+    
+    IF:
+    Value types {Regular Expression}
+    THEN:
+         >Java: Probability = 7
+    AND: >C++: Probability = 6        
+    AND: >C#: Probability = 6        
+    AND: >Python: Probability = 6
+    AND: >Ruby: Probability = 9    
 
+RULE: массивы
+    IF: 
+    Arrays {Lightweight array}
+    THEN: 
+         >C++: Probability = 9
+    AND: >Python: Probability = 6
+    ELSE:
+
+    IF: 
+    Arrays {Array bounds checking}
+    THEN: 
+         >Java: Probability = 9
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    Arrays {Array slicing}
+    THEN: 
+         >Java: Probability = 7
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    Arrays {Array of bits / Finite set}
+    THEN: 
+         >Java: Probability = 7
+    AND: >C++: Probability = 9
+
+RULE: прочие модели данных
+    IF: 
+    Other Data Models {List}
+    THEN: 
+         >Java: Probability = 6
+    AND: >C++: Probability = 6
+    AND: >C#: Probability = 6
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    Other Data Models {Hash}
+    THEN: 
+         >Java: Probability = 6
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    Other Data Models {Abstract collection}
+    THEN: 
+         >Java: Probability = 9
+
+RULE: функции
+    IF: 
+    Functions {Function delegates}
+    THEN: 
+         >C#: Probability = 9
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    Functions {Function overloading}
+    THEN: 
+         >Java: Probability = 9
+    AND: >C++: Probability = 9
+    AND: >C#: Probability = 9
+    ELSE:    
+
+    IF: 
+    Functions {Out function parameters}
+    THEN: 
+         >C++: Probability = 9
+    AND: >C#: Probability = 9
+    ELSE:
+
+    IF: 
+    Functions {Nested functions}
+    THEN: 
+         >Java: Probability = 5
+    AND: >Python: Probability = 9
+    ELSE:
+
+    IF: 
+    Functions {Function literals}
+    THEN: 
+         >Java: Probability = 5
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    Functions {Dynamic closures}
+    THEN: 
+         >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+    
+    IF: 
+    Functions {Lexical closures}
+    THEN: 
+         >Java: Probability = 5
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    Functions {Non-class functions}
+    THEN: 
+         >C++: Probability = 9
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+
+RULE: ООП!
+    IF: 
+    OOP {Modules/Namespaces}
+    THEN: 
+         >Java: Probability = 9
+    AND: >C++: Probability = 7
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 6
+    ELSE:
+
+    IF: 
+    OOP {Multiple Inheritance}
+    THEN: 
+         >Java: Probability = 4
+    AND: >C++: Probability = 9
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 3
+    ELSE:    
+    
+    IF: 
+    OOP {Interfaces}
+    THEN: 
+         >Java: Probability = 4
+    AND: >C++: Probability = 9
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    ELSE:
+
+    IF: 
+    OOP {Fine grain export control}
+    THEN: 
+         >Java: Probability = 7
+    AND: >C++: Probability = 7
+    AND: >C#: Probability = 7
+    ELSE:
+
+    IF: 
+    OOP {Inner classes}
+    THEN: 
+         >Java: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    OOP {Operator overloading}
+    THEN: 
+         >C++: Probability = 9
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    OOP {Covariant return types}
+    THEN: 
+         >Java: Probability = 9
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    ELSE:
+
+    IF: 
+    OOP {Generics}
+    THEN: 
+         >Java: Probability = 6
+    AND: >C++: Probability = 9
+    AND: >C#: Probability = 6
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+
+RULE: многоуровневое программирование
+    IF: 
+    Multilevel programming {Templates or executable macros}
+    THEN: 
+         >C#: Probability = 8
+    AND: >Python: Probability = 8
+    ELSE:
+
+    IF: 
+    Multilevel programming {Reflection/Introspection}
+    THEN: 
+         >Java: Probability = 9
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 8
+    AND: >Ruby: Probability = 8
+    ELSE:
+
+    IF: 
+    Multilevel programming {Dynamic inheritance change}
+    THEN: 
+         >Java: Probability = 3
+    ELSE:
+
+    IF: 
+    Multilevel programming {Dynamic class creation}
+    THEN: 
+         >Java: Probability = 8
+    AND: >C#: Probability = 8
+    ELSE:
+
+    IF: 
+    Multilevel programming {Dynamic method creation}
+    THEN: 
+         >Java: Probability = 8
+    AND: >C#: Probability = 9
+    ELSE:
+
+    IF: 
+    Multilevel programming {Dynamic class loading}
+    THEN: 
+         >Java: Probability = 9
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    Multilevel programming {Dynamic class unloading}
+    THEN: 
+         >Java: Probability = 9
+
+RULE: производительность
+    IF: 
+    Performance {Inline assembler}
+    THEN: 
+         >C++: Probability = 9
+    ELSE:
+
+    IF: 
+    Performance {Direct access to hardware}
+    THEN: 
+         >Java: Probability = 9
+    AND: >C++: Probability = 9
+    ELSE:
+
+    IF: 
+    Performance {Lightweight objects}
+    THEN: 
+         >Java: Probability = 7
+    AND: >C++: Probability = 9
+    AND: >C#: Probability = 9
+    ELSE:
+
+    IF: 
+    Performance {Explicit memory allocation control}
+    THEN: 
+         >Java: Probability = 6
+    AND: >C++: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    Performance {Independent of VM}
+    THEN: 
+         >Java: Probability = 4
+    AND: >C++: Probability = 9
+    ELSE:
+
+    IF: 
+    Performance {Direct native code gen}
+    THEN: 
+         >Java: Probability = 3
+    AND: >C++: Probability = 9
+    ELSE:
+
+    IF: 
+    Performance {Implicit Parallelism/Scheduling}
+    THEN: 
+         >Java: Probability = 8
+    AND: >C++: Probability = 3
+    AND: >C#: Probability = 3
+    AND: >Python: Probability = 3
+    AND: >Ruby: Probability = 3
+
+RULE: надежность
+    IF: 
+    Reliability {Design by Contract}
+    THEN: 
+         >Java: Probability = 8
+    ELSE:
+
+    IF: 
+    Reliability {Unit testing}
+    THEN: 
+         >Java: Probability = 8
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 8
+    ELSE:
+
+    IF: 
+    Reliability {Static construction order}
+    THEN: 
+         >Java: Probability = 9
+    AND: >C#: Probability = 8
+    ELSE:
+
+    IF: 
+    Reliability {Guaranteed initialization}
+    THEN: 
+         >Java: Probability = 9
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    ELSE:
+
+    IF: 
+    Reliability {RAII}
+    THEN: 
+         >C++: Probability = 9
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    ELSE:
+
+    IF: 
+    Reliability {Explicit memory allocation control}
+    THEN:
+         >C++: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    Reliability {try-catch-finally blocks}
+    THEN:
+         >Java: Probability = 9
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+    ELSE:
+
+    IF: 
+    Reliability {Thread synchronization primitives}
+    THEN:
+         >Java: Probability = 9
+    AND: >C#: Probability = 9
+    AND: >Python: Probability = 9
+    AND: >Ruby: Probability = 9
+    
 ENDING TEXT: СПАСИБО ЗА ВНИМАНИЕ
