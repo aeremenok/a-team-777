@@ -44,7 +44,7 @@ Q> Arrays
 Q> Other Data Models
     V> List
     V> Hash 
-    V> Abstract collection 
+    V> Abstract collection
 
 Q> Functions
     V> Function delegates
@@ -101,16 +101,16 @@ VARIABLES:
     DISPLAY AT END
 
 /* правила
-RULE: общее
+RULE:
     IF: 
     Generic {Static typing}
     THEN: 
          >Java: Probability = 9
     AND: >C++: Probability = 9
     AND: >C#: Probability = 9
-    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
-    ELSE:
-    
+    AND: [CODING_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
+/*    ELSE:
+RULE:    
     IF:
     Generic {Garbage Collection}
     THEN: 
@@ -129,6 +129,7 @@ RULE: общее
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
     
 RULE: типы значений
@@ -182,7 +183,9 @@ RULE: массивы
     THEN: 
          >C++: Probability = 9
     AND: >Python: Probability = 6
+
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 1.1
+
     ELSE:
 
     IF: 
@@ -192,7 +195,9 @@ RULE: массивы
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
+
     ELSE:
 
     IF: 
@@ -208,6 +213,7 @@ RULE: массивы
     THEN: 
          >Java: Probability = 7
     AND: >C++: Probability = 9
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
 
 RULE: особые модели данных
@@ -219,7 +225,9 @@ RULE: особые модели данных
     AND: >C#: Probability = 6
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
+
     ELSE:
 
     IF: 
@@ -229,7 +237,9 @@ RULE: особые модели данных
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
+
     ELSE:
 
     IF: 
@@ -238,6 +248,7 @@ RULE: особые модели данных
          >Java: Probability = 9
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
 
+
 RULE: работа с функциями
     IF: 
     Functions {Function delegates}
@@ -245,7 +256,9 @@ RULE: работа с функциями
          >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.85
+
     ELSE:
 
     IF: 
@@ -254,7 +267,9 @@ RULE: работа с функциями
          >Java: Probability = 9
     AND: >C++: Probability = 9
     AND: >C#: Probability = 9
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.85
+
     ELSE:    
 
     IF: 
@@ -262,8 +277,10 @@ RULE: работа с функциями
     THEN: 
          >C++: Probability = 9
     AND: >C#: Probability = 9
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 1.1
+
     ELSE:
 
     IF: 
@@ -296,7 +313,9 @@ RULE: работа с функциями
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
+
     ELSE:
 
     IF: 
@@ -305,6 +324,7 @@ RULE: работа с функциями
          >C++: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
 
 RULE: ООП!
@@ -316,8 +336,10 @@ RULE: ООП!
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 6
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.8
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.95
+
     ELSE:
 
     IF: 
@@ -327,8 +349,10 @@ RULE: ООП!
     AND: >C++: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 3
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.8
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 1.1
+
     ELSE:    
     
     IF: 
@@ -338,8 +362,10 @@ RULE: ООП!
     AND: >C++: Probability = 9
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.8
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.8
+
     ELSE:
 
     IF: 
@@ -348,7 +374,9 @@ RULE: ООП!
          >Java: Probability = 7
     AND: >C++: Probability = 7
     AND: >C#: Probability = 7
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
+
     ELSE:
 
     IF: 
@@ -356,7 +384,9 @@ RULE: ООП!
     THEN: 
          >Java: Probability = 9
     AND: >Ruby: Probability = 9
+
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
+
     ELSE:
 
     IF: 
@@ -366,8 +396,10 @@ RULE: ООП!
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 1.1
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
+
     ELSE:
 
     IF: 
@@ -402,15 +434,19 @@ RULE: многоуровневое программирование
     AND: >C#: Probability = 9
     AND: >Python: Probability = 8
     AND: >Ruby: Probability = 8
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
+
     ELSE:
 
     IF: 
     Multilevel programming {Dynamic inheritance change}
     THEN: 
          >Java: Probability = 3
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.8
+
     ELSE:
 
     IF: 
@@ -434,14 +470,18 @@ RULE: многоуровневое программирование
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
+
     ELSE:
 
     IF: 
     Multilevel programming {Dynamic class unloading}
     THEN: 
          >Java: Probability = 9
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
+
 
 RULE: производительность
     IF: 
@@ -473,8 +513,10 @@ RULE: надежность
     THEN: 
          >Java: Probability = 8
     AND: Multilevel programming {Dynamic class loading}
+
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 1.1
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
+
     ELSE:
 
     IF: 
@@ -490,7 +532,9 @@ RULE: надежность
          >Java: Probability = 9
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
+
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
+
     ELSE:
 
     IF: 
@@ -517,6 +561,8 @@ RULE: надежность
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
+
     
 ENDING TEXT: спасибо за внимание
