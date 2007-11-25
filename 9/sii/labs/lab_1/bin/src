@@ -1,108 +1,114 @@
-SUBJECT: лабораторная работа 1 
+SUBJECT: « Ў®а в®а­ п а Ў®в  1 
 
 AUTHOR: eav, epa, 3351
 
-STARTING TEXT: Выбор среды и окружения для разработки приложений
+STARTING TEXT: ‚лЎ®а п§лЄ  ¤«п а §а Ў®вЄЁ Їа®Ја ¬¬
 
-/* любые варианты с уверенностью больше 0 - верны
 DISPLAY THRESHOLD: 0
 
-/* уверенность 0-10
+/* гўҐаҐ­­®бвм 0-10
 PROBABILITY SYSTEM: 2
 
 DISPLAY RULES: YES
 
-/* пользуемся только первым правилом
-DERIVATION:F
+/* Їа®б¬ ваЁў Ґ¬ ­Ґ¤гЎ«Ёа®ў ­­лҐ ў аЁ ­вл
+DERIVATION:N
 
-CHOICES:     /*  начало списка решений
-C> Java
-C> C++
-C> C#
-C> Python
-C> Ruby
+CHOICES:     /* п§лЄЁ Їа®Ја ¬¬Ёа®ў ­Ёп
+    C> Java
+    C> C++
+    C> C#
+    C> Python
+    C> Ruby
 
-QUALIFIERS:    /* начало списка показателей
+QUALIFIERS:
 Q> Generic
-V> Static typing
-V> Garbage Collection
-V> Aliases
+    V> Static typing
+    V> Garbage Collection
+    V> Aliases
 
 Q> Value types
-V> Typed Enumeration/Boolean
-V> Long double floating point (80bit)
-V> Complex and Imaginary
-V> Rational
-V> Arbitrary Precision Arithmetic
-V> Regular Expression
+    V> Typed Enumeration/Boolean
+    V> Long double floating point (80bit)
+    V> Complex and Imaginary
+    V> Rational
+    V> Arbitrary Precision Arithmetic
+    V> Regular Expression
 
 Q> Arrays
-V> Lightweight array 
-V> Array bounds checking
-V> Array slicing
-V> Array of bits / Finite set
+    V> Lightweight array 
+    V> Array bounds checking
+    V> Array slicing
+    V> Array of bits / Finite set
 
 Q> Other Data Models
-V> List
-V> Hash 
-V> Abstract collection 
+    V> List
+    V> Hash 
+    V> Abstract collection 
 
 Q> Functions
-V> Function delegates
-V> Function overloading
-V> Out function parameters
-V> Nested functions
-V> Function literals
-V> Dynamic closures
-V> Lexical closures
-V> Non-class functions
+    V> Function delegates
+    V> Function overloading
+    V> Out function parameters
+    V> Nested functions
+    V> Function literals
+    V> Dynamic closures
+    V> Lexical closures
+    V> Non-class functions
 
 Q> OOP
-V> Modules/Namespaces
-V> Multiple Inheritance
-V> Interfaces
-V> Fine grain export control
-V> Inner classes 
-V> Operator overloading
-V> Covariant return types
-V> Generics
+    V> Modules/Namespaces
+    V> Multiple Inheritance
+    V> Interfaces
+    V> Fine grain export control
+    V> Inner classes 
+    V> Operator overloading
+    V> Covariant return types
+    V> Generics
 
 Q> Multilevel programming
-V> Templates or executable macros
-V> Reflection/Introspection
-V> Dynamic inheritance change
-V> Dynamic class creation
-V> Dynamic method creation
-V> Dynamic class loading
-V> Dynamic class unloading
+    V> Templates or executable macros
+    V> Reflection/Introspection
+    V> Dynamic inheritance change
+    V> Dynamic class creation
+    V> Dynamic method creation
+    V> Dynamic class loading
+    V> Dynamic class unloading
 
 Q> Performance
-V> Inline assembler
-V> Direct access to hardware
-V> Lightweight objects
-V> Explicit memory allocation control
-V> Independent of VM
-V> Direct native code gen
-V> Implicit Parallelism/Scheduling
+    V> Inline assembler
+    V> Explicit memory allocation control
+    V> Implicit Parallelism/Scheduling
     
 Q> Reliability
-V> Design by Contract
-V> Unit testing
-V> Static construction order
-V> Guaranteed initialization
-V> RAII
-V> Explicit memory allocation control
-V> try-catch-finally blocks
-V> Thread synchronization primitives
+    V> Design by Contract
+    V> Static construction order
+    V> Guaranteed initialization
+    V> RAII
+    V> try-catch-finally blocks
+    V> Thread synchronization primitives
 
-/* правила
-RULE: общее
+VARIABLES:
+
+    [PROJECT_TIME_RATIO] Є Є Ё§¬Ґ­Ёвбп ўаҐ¬п Їа®ҐЄвЁа®ў ­Ёп
+    TYPE = N
+    INITIALIZE = 1
+    DISPLAY AT END
+
+    [CODING_TIME_RATIO] Є Є Ё§¬Ґ­Ёвбп ўаҐ¬п Їа®Ја ¬¬Ёа®ў ­Ёп
+    TYPE = N
+    INITIALIZE = 1
+    DISPLAY AT END
+
+/* Їа ўЁ« 
+RULE: ®ЎйҐҐ
     IF: 
     Generic {Static typing}
     THEN: 
          >Java: Probability = 9
     AND: >C++: Probability = 9
     AND: >C#: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
     ELSE:
     
     IF:
@@ -112,6 +118,7 @@ RULE: общее
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.99
     ELSE:
     
     IF:
@@ -122,8 +129,9 @@ RULE: общее
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
     
-RULE: типы значений
+RULE: вЁЇл §­ зҐ­Ё©
     IF: 
     Value types {Typed Enumeration/Boolean}
     THEN: 
@@ -168,12 +176,13 @@ RULE: типы значений
     AND: >Python: Probability = 6
     AND: >Ruby: Probability = 9    
 
-RULE: массивы
+RULE: ¬ ббЁўл
     IF: 
     Arrays {Lightweight array}
     THEN: 
          >C++: Probability = 9
     AND: >Python: Probability = 6
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 1.1
     ELSE:
 
     IF: 
@@ -183,6 +192,7 @@ RULE: массивы
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
     ELSE:
 
     IF: 
@@ -198,8 +208,9 @@ RULE: массивы
     THEN: 
          >Java: Probability = 7
     AND: >C++: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
 
-RULE: прочие модели данных
+RULE: ®б®ЎлҐ ¬®¤Ґ«Ё ¤ ­­ле
     IF: 
     Other Data Models {List}
     THEN: 
@@ -208,6 +219,7 @@ RULE: прочие модели данных
     AND: >C#: Probability = 6
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
     ELSE:
 
     IF: 
@@ -217,20 +229,23 @@ RULE: прочие модели данных
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
     ELSE:
 
     IF: 
     Other Data Models {Abstract collection}
     THEN: 
          >Java: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
 
-RULE: функции
+RULE: а Ў®в  б дг­ЄжЁп¬Ё
     IF: 
     Functions {Function delegates}
     THEN: 
          >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.85
     ELSE:
 
     IF: 
@@ -239,6 +254,7 @@ RULE: функции
          >Java: Probability = 9
     AND: >C++: Probability = 9
     AND: >C#: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.85
     ELSE:    
 
     IF: 
@@ -246,6 +262,8 @@ RULE: функции
     THEN: 
          >C++: Probability = 9
     AND: >C#: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 1.1
     ELSE:
 
     IF: 
@@ -278,6 +296,7 @@ RULE: функции
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
     ELSE:
 
     IF: 
@@ -286,8 +305,9 @@ RULE: функции
          >C++: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
 
-RULE: ООП!
+RULE: ЋЋЏ!
     IF: 
     OOP {Modules/Namespaces}
     THEN: 
@@ -296,6 +316,8 @@ RULE: ООП!
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 6
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.8
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.95
     ELSE:
 
     IF: 
@@ -305,6 +327,8 @@ RULE: ООП!
     AND: >C++: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 3
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.8
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 1.1
     ELSE:    
     
     IF: 
@@ -314,6 +338,8 @@ RULE: ООП!
     AND: >C++: Probability = 9
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.8
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.8
     ELSE:
 
     IF: 
@@ -322,6 +348,7 @@ RULE: ООП!
          >Java: Probability = 7
     AND: >C++: Probability = 7
     AND: >C#: Probability = 7
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
     ELSE:
 
     IF: 
@@ -329,6 +356,7 @@ RULE: ООП!
     THEN: 
          >Java: Probability = 9
     AND: >Ruby: Probability = 9
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
     ELSE:
 
     IF: 
@@ -338,6 +366,8 @@ RULE: ООП!
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 1.1
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
     ELSE:
 
     IF: 
@@ -357,7 +387,7 @@ RULE: ООП!
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
 
-RULE: многоуровневое программирование
+RULE: ¬­®Ј®га®ў­Ґў®Ґ Їа®Ја ¬¬Ёа®ў ­ЁҐ
     IF: 
     Multilevel programming {Templates or executable macros}
     THEN: 
@@ -372,12 +402,15 @@ RULE: многоуровневое программирование
     AND: >C#: Probability = 9
     AND: >Python: Probability = 8
     AND: >Ruby: Probability = 8
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
     ELSE:
 
     IF: 
     Multilevel programming {Dynamic inheritance change}
     THEN: 
          >Java: Probability = 3
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.8
     ELSE:
 
     IF: 
@@ -401,33 +434,20 @@ RULE: многоуровневое программирование
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
     ELSE:
 
     IF: 
     Multilevel programming {Dynamic class unloading}
     THEN: 
          >Java: Probability = 9
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
 
-RULE: производительность
+RULE: Їа®Ё§ў®¤ЁвҐ«м­®бвм
     IF: 
     Performance {Inline assembler}
     THEN: 
          >C++: Probability = 9
-    ELSE:
-
-    IF: 
-    Performance {Direct access to hardware}
-    THEN: 
-         >Java: Probability = 9
-    AND: >C++: Probability = 9
-    ELSE:
-
-    IF: 
-    Performance {Lightweight objects}
-    THEN: 
-         >Java: Probability = 7
-    AND: >C++: Probability = 9
-    AND: >C#: Probability = 9
     ELSE:
 
     IF: 
@@ -439,20 +459,6 @@ RULE: производительность
     ELSE:
 
     IF: 
-    Performance {Independent of VM}
-    THEN: 
-         >Java: Probability = 4
-    AND: >C++: Probability = 9
-    ELSE:
-
-    IF: 
-    Performance {Direct native code gen}
-    THEN: 
-         >Java: Probability = 3
-    AND: >C++: Probability = 9
-    ELSE:
-
-    IF: 
     Performance {Implicit Parallelism/Scheduling}
     THEN: 
          >Java: Probability = 8
@@ -461,19 +467,14 @@ RULE: производительность
     AND: >Python: Probability = 3
     AND: >Ruby: Probability = 3
 
-RULE: надежность
+RULE: ­ ¤Ґ¦­®бвм
     IF: 
     Reliability {Design by Contract}
     THEN: 
          >Java: Probability = 8
-    ELSE:
-
-    IF: 
-    Reliability {Unit testing}
-    THEN: 
-         >Java: Probability = 8
-    AND: >Python: Probability = 9
-    AND: >Ruby: Probability = 8
+    AND: Multilevel programming {Dynamic class loading}
+    AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 1.1
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
     ELSE:
 
     IF: 
@@ -489,6 +490,7 @@ RULE: надежность
          >Java: Probability = 9
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
     ELSE:
 
     IF: 
@@ -497,13 +499,6 @@ RULE: надежность
          >C++: Probability = 9
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
-    ELSE:
-
-    IF: 
-    Reliability {Explicit memory allocation control}
-    THEN:
-         >C++: Probability = 9
-    AND: >Ruby: Probability = 9
     ELSE:
 
     IF: 
@@ -522,5 +517,6 @@ RULE: надежность
     AND: >C#: Probability = 9
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
+    AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
     
-ENDING TEXT: СПАСИБО ЗА ВНИМАНИЕ
+ENDING TEXT: бЇ бЁЎ® §  ў­Ё¬ ­ЁҐ
