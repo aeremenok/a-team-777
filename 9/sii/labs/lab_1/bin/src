@@ -1,20 +1,20 @@
-SUBJECT: лабораторная работа 1 
+SUBJECT: ais lab 1
 
 AUTHOR: eav, epa, 3351
 
-STARTING TEXT: Выбор языка для разработки программ
+STARTING TEXT: programming language selection
 
 DISPLAY THRESHOLD: 0
 
-/* уверенность 0-10
+/* probability 0-10
 PROBABILITY SYSTEM: 2
 
 DISPLAY RULES: YES
 
-/* просматриваем недублированные варианты
+/* only non-doubled rules
 DERIVATION:N
 
-CHOICES:     /* языки программирования
+CHOICES:     /* languages
     C> Java
     C> C++
     C> C#
@@ -90,17 +90,17 @@ Q> Reliability
 
 VARIABLES:
 
-    [PROJECT_TIME_RATIO] как изменится время проектирования
+    [PROJECT_TIME_RATIO] how projecting time will alter
     TYPE = N
     INITIALIZE = 1
     DISPLAY AT END
 
-    [CODING_TIME_RATIO] как изменится время программирования
+    [CODING_TIME_RATIO] how coding time will alter
     TYPE = N
     INITIALIZE = 1
     DISPLAY AT END
 
-/* правила
+/* rules
 RULE:
     IF: 
     Generic {Static typing}
@@ -132,7 +132,7 @@ RULE:
 
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
     
-RULE: типы значений
+RULE: 
     IF: 
     Value types {Typed Enumeration/Boolean}
     THEN: 
@@ -177,7 +177,7 @@ RULE: типы значений
     AND: >Python: Probability = 6
     AND: >Ruby: Probability = 9    
 
-RULE: массивы
+RULE: 
     IF: 
     Arrays {Lightweight array}
     THEN: 
@@ -216,7 +216,7 @@ RULE: массивы
 
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
 
-RULE: особые модели данных
+RULE: 
     IF: 
     Other Data Models {List}
     THEN: 
@@ -249,7 +249,7 @@ RULE: особые модели данных
     AND: [PROJECT_TIME_RATIO] := [PROJECT_TIME_RATIO] * 0.9
 
 
-RULE: работа с функциями
+RULE: 
     IF: 
     Functions {Function delegates}
     THEN: 
@@ -327,7 +327,7 @@ RULE: работа с функциями
 
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
 
-RULE: ООП!
+RULE: 
     IF: 
     OOP {Modules/Namespaces}
     THEN: 
@@ -419,7 +419,7 @@ RULE: ООП!
     AND: >Python: Probability = 9
     AND: >Ruby: Probability = 9
 
-RULE: многоуровневое программирование
+RULE: 
     IF: 
     Multilevel programming {Templates or executable macros}
     THEN: 
@@ -507,7 +507,7 @@ RULE: производительность
     AND: >Python: Probability = 3
     AND: >Ruby: Probability = 3
 
-RULE: надежность
+RULE:
     IF: 
     Reliability {Design by Contract}
     THEN: 
@@ -565,4 +565,4 @@ RULE: надежность
     AND: [CODING_TIME_RATIO] := [CODING_TIME_RATIO] * 0.9
 
     
-ENDING TEXT: спасибо за внимание
+ENDING TEXT: thank you!
