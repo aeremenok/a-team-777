@@ -1,11 +1,11 @@
 10          SIMULATE             
-20          RMULT        1,10        						
-30 VAL1     FVARIABLE    -200#LOG((RN1+1)/1000)        
-35 VAL2     FVARIABLE    -40#LOG((RN2+1)/1000)        
+20          RMULT        1,10        
+30 VAL1     FVARIABLE    -100#LOG((RN1+1)/1000)        
+35 VAL2     FVARIABLE    100#((RN2+1)/1000)       
 40          GENERATE     V$VAL1        
 50          QUEUE        1        
 60          SEIZE        1        
-70          DEPART       1
+70          DEPART      1        
 80          ADVANCE      V$VAL2
 90          RELEASE      1        
 100         TERMINATE    1        
