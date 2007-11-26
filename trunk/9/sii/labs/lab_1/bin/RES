@@ -3,7 +3,7 @@
 
 
 Область:
-лабораторная работа 1
+ais lab 1
 
 
 
@@ -13,7 +13,7 @@ eav, epa, 3351
 
 
 Текст начала: 
-Выбор языка для разработки программ
+programming language selection
 
 
 Применение всех правил в процессе вывода.     
@@ -36,7 +36,7 @@ THEN:
        Java - Вероятность=9/10
    и   C++ - Вероятность=9/10
    и   C# - Вероятность=9/10
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -55,7 +55,7 @@ THEN:
    и   C# - Вероятность=9/10
    и   Python - Вероятность=9/10
    и   Ruby - Вероятность=9/10
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [CODING_TIME_RATIO] * 0.99
 
 
 ----------------------------------------
@@ -75,7 +75,7 @@ THEN:
    и   C# - Вероятность=9/10
    и   Python - Вероятность=9/10
    и   Ruby - Вероятность=9/10
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [CODING_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -191,7 +191,7 @@ IF:
 THEN:
        C++ - Вероятность=9/10
    и   Python - Вероятность=6/10
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [CODING_TIME_RATIO] * 1.1
 
 
 ----------------------------------------
@@ -210,7 +210,7 @@ THEN:
    и   C# - Вероятность=9/10
    и   Python - Вероятность=9/10
    и   Ruby - Вероятность=9/10
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [CODING_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -244,7 +244,7 @@ IF:
 THEN:
        Java - Вероятность=7/10
    и   C++ - Вероятность=9/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -264,7 +264,7 @@ THEN:
    и   C# - Вероятность=6/10
    и   Python - Вероятность=9/10
    и   Ruby - Вероятность=9/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -283,7 +283,7 @@ THEN:
    и   C# - Вероятность=9/10
    и   Python - Вероятность=9/10
    и   Ruby - Вероятность=9/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -299,7 +299,7 @@ IF:
 
 THEN:
        Java - Вероятность=9/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -317,7 +317,7 @@ THEN:
        C# - Вероятность=9/10
    и   Python - Вероятность=9/10
    и   Ruby - Вероятность=9/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.85
 
 
 ----------------------------------------
@@ -335,7 +335,7 @@ THEN:
        Java - Вероятность=9/10
    и   C++ - Вероятность=9/10
    и   C# - Вероятность=9/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.85
 
 
 ----------------------------------------
@@ -352,8 +352,8 @@ IF:
 THEN:
        C++ - Вероятность=9/10
    и   C# - Вероятность=9/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.9
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [CODING_TIME_RATIO] * 1.1
 
 
 ----------------------------------------
@@ -422,7 +422,7 @@ THEN:
    и   C# - Вероятность=9/10
    и   Python - Вероятность=9/10
    и   Ruby - Вероятность=9/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -440,7 +440,7 @@ THEN:
        C++ - Вероятность=9/10
    и   Python - Вероятность=9/10
    и   Ruby - Вероятность=9/10
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [CODING_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -460,8 +460,8 @@ THEN:
    и   C# - Вероятность=9/10
    и   Python - Вероятность=9/10
    и   Ruby - Вероятность=6/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.8
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [CODING_TIME_RATIO] * 0.95
 
 
 ----------------------------------------
@@ -480,8 +480,8 @@ THEN:
    и   C++ - Вероятность=9/10
    и   Python - Вероятность=9/10
    и   Ruby - Вероятность=3/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.8
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [CODING_TIME_RATIO] * 1.1
 
 
 ----------------------------------------
@@ -500,8 +500,8 @@ THEN:
    и   C++ - Вероятность=9/10
    и   C# - Вероятность=9/10
    и   Python - Вероятность=9/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.8
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [CODING_TIME_RATIO] * 0.8
 
 
 ----------------------------------------
@@ -519,7 +519,7 @@ THEN:
        Java - Вероятность=7/10
    и   C++ - Вероятность=7/10
    и   C# - Вероятность=7/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -536,7 +536,7 @@ IF:
 THEN:
        Java - Вероятность=9/10
    и   Ruby - Вероятность=9/10
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [CODING_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -555,8 +555,8 @@ THEN:
    и   C# - Вероятность=9/10
    и   Python - Вероятность=9/10
    и   Ruby - Вероятность=9/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 1.1
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [CODING_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -627,8 +627,8 @@ THEN:
    и   C# - Вероятность=9/10
    и   Python - Вероятность=8/10
    и   Ruby - Вероятность=8/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
-   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.9
+   и   [CODING_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [CODING_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -644,7 +644,7 @@ IF:
 
 THEN:
        Java - Вероятность=3/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.8
 
 
 ----------------------------------------
@@ -695,7 +695,7 @@ THEN:
    и   C# - Вероятность=9/10
    и   Python - Вероятность=9/10
    и   Ruby - Вероятность=9/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -711,7 +711,7 @@ IF:
 
 THEN:
        Java - Вероятность=9/10
-   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ ╔
+   и   [PROJECT_TIME_RATIO] ПРИСВОЕНО ЗНАЧЕНИЕ [PROJECT_TIME_RATIO] * 0.9
 
 
 ----------------------------------------
@@ -1083,7 +1083,7 @@ Thread synchronization primitives
 
 ФОРМУЛЫ: 
 
-1   ╔
+1   [PROJECT_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (   1) 
@@ -1091,7 +1091,7 @@ Thread synchronization primitives
 
 
 
-2   ╔
+2   [CODING_TIME_RATIO] * 0.99
 
 
         Примен. правило:  (   2) 
@@ -1099,7 +1099,7 @@ Thread synchronization primitives
 
 
 
-3   ╔
+3   [CODING_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (   3) 
@@ -1107,7 +1107,7 @@ Thread synchronization primitives
 
 
 
-4   ╔
+4   [CODING_TIME_RATIO] * 1.1
 
 
         Примен. правило:  (  10) 
@@ -1115,7 +1115,7 @@ Thread synchronization primitives
 
 
 
-5   ╔
+5   [CODING_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  11) 
@@ -1123,7 +1123,7 @@ Thread synchronization primitives
 
 
 
-6   ╔
+6   [PROJECT_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  13) 
@@ -1131,7 +1131,7 @@ Thread synchronization primitives
 
 
 
-7   ╔
+7   [PROJECT_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  14) 
@@ -1139,7 +1139,7 @@ Thread synchronization primitives
 
 
 
-8   ╔
+8   [PROJECT_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  15) 
@@ -1147,7 +1147,7 @@ Thread synchronization primitives
 
 
 
-9   ╔
+9   [PROJECT_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  16) 
@@ -1155,7 +1155,7 @@ Thread synchronization primitives
 
 
 
-10   ╔
+10   [PROJECT_TIME_RATIO] * 0.85
 
 
         Примен. правило:  (  17) 
@@ -1163,7 +1163,7 @@ Thread synchronization primitives
 
 
 
-11   ╔
+11   [PROJECT_TIME_RATIO] * 0.85
 
 
         Примен. правило:  (  18) 
@@ -1171,7 +1171,7 @@ Thread synchronization primitives
 
 
 
-12   ╔
+12   [PROJECT_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  19) 
@@ -1179,7 +1179,7 @@ Thread synchronization primitives
 
 
 
-13   ╔
+13   [CODING_TIME_RATIO] * 1.1
 
 
         Примен. правило:  (  19) 
@@ -1187,7 +1187,7 @@ Thread synchronization primitives
 
 
 
-14   ╔
+14   [PROJECT_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  23) 
@@ -1195,7 +1195,7 @@ Thread synchronization primitives
 
 
 
-15   ╔
+15   [CODING_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  24) 
@@ -1203,7 +1203,7 @@ Thread synchronization primitives
 
 
 
-16   ╔
+16   [PROJECT_TIME_RATIO] * 0.8
 
 
         Примен. правило:  (  25) 
@@ -1211,7 +1211,7 @@ Thread synchronization primitives
 
 
 
-17   ╔
+17   [CODING_TIME_RATIO] * 0.95
 
 
         Примен. правило:  (  25) 
@@ -1219,7 +1219,7 @@ Thread synchronization primitives
 
 
 
-18   ╔
+18   [PROJECT_TIME_RATIO] * 0.8
 
 
         Примен. правило:  (  26) 
@@ -1227,7 +1227,7 @@ Thread synchronization primitives
 
 
 
-19   ╔
+19   [CODING_TIME_RATIO] * 1.1
 
 
         Примен. правило:  (  26) 
@@ -1235,7 +1235,7 @@ Thread synchronization primitives
 
 
 
-20   ╔
+20   [PROJECT_TIME_RATIO] * 0.8
 
 
         Примен. правило:  (  27) 
@@ -1243,7 +1243,7 @@ Thread synchronization primitives
 
 
 
-21   ╔
+21   [CODING_TIME_RATIO] * 0.8
 
 
         Примен. правило:  (  27) 
@@ -1251,7 +1251,7 @@ Thread synchronization primitives
 
 
 
-22   ╔
+22   [PROJECT_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  28) 
@@ -1259,7 +1259,7 @@ Thread synchronization primitives
 
 
 
-23   ╔
+23   [CODING_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  29) 
@@ -1267,7 +1267,7 @@ Thread synchronization primitives
 
 
 
-24   ╔
+24   [PROJECT_TIME_RATIO] * 1.1
 
 
         Примен. правило:  (  30) 
@@ -1275,7 +1275,7 @@ Thread synchronization primitives
 
 
 
-25   ╔
+25   [CODING_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  30) 
@@ -1283,7 +1283,7 @@ Thread synchronization primitives
 
 
 
-26   ╔
+26   [PROJECT_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  34) 
@@ -1291,7 +1291,7 @@ Thread synchronization primitives
 
 
 
-27   ╔
+27   [CODING_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  34) 
@@ -1299,7 +1299,7 @@ Thread synchronization primitives
 
 
 
-28   ╔
+28   [PROJECT_TIME_RATIO] * 0.8
 
 
         Примен. правило:  (  35) 
@@ -1307,7 +1307,7 @@ Thread synchronization primitives
 
 
 
-29   ╔
+29   [PROJECT_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  38) 
@@ -1315,7 +1315,7 @@ Thread synchronization primitives
 
 
 
-30   ╔
+30   [PROJECT_TIME_RATIO] * 0.9
 
 
         Примен. правило:  (  39) 
@@ -1359,28 +1359,33 @@ Thread synchronization primitives
 ПЕРЕМЕННЫЕ
 
 1   PROJECT_TIME_RATIO
-как изменится время проектирования
+how projecting time will alter
 Числ. переменная
 Отображено в конце выполнения 
 Инициализ. для 1.000000
 
-        Примен. правило:  (  13)* (  14)* (  15)* (  16)* (  17)* (  18)*
-                          (  19)* (  23)* (  25)* (  26)* (  27)* (  28)*
-                          (  30)* (  34)* (  35)* (  38)* (  39)* (  43)*
+        Примен. правило:  (   1)  (  13)* (  13)  (  14)* (  14)  (  15)*
+                          (  15)  (  16)* (  16)  (  17)* (  17)  (  18)*
+                          (  18)  (  19)* (  19)  (  23)* (  23)  (  25)*
+                          (  25)  (  26)* (  26)  (  27)* (  27)  (  28)*
+                          (  28)  (  30)* (  30)  (  34)* (  34)  (  35)*
+                          (  35)  (  38)* (  38)  (  39)* (  39)  (  43)*
                           (  43) 
 
 
 
 
 2   CODING_TIME_RATIO
-как изменится время программирования
+how coding time will alter
 Числ. переменная
 Отображено в конце выполнения 
 Инициализ. для 1.000000
 
-        Примен. правило:  (   1)* (   2)* (   3)* (  10)* (  11)* (  19)*
-                          (  24)* (  25)* (  26)* (  27)* (  29)* (  30)*
-                          (  34)* (  43)* (  43)  (  45)* (  45)  (  48)*
+        Примен. правило:  (   1)* (   2)* (   2)  (   3)* (   3)  (  10)*
+                          (  10)  (  11)* (  11)  (  19)* (  19)  (  24)*
+                          (  24)  (  25)* (  25)  (  26)* (  26)  (  27)*
+                          (  27)  (  29)* (  29)  (  30)* (  30)  (  34)*
+                          (  34)  (  43)* (  43)  (  45)* (  45)  (  48)*
                           (  48) 
 
 
