@@ -118,6 +118,7 @@ bool CElement::operator==(const CElement& rhs) const
         this->m_Pen == rhs.m_Pen;
 }
 
+//##ModelId=4741F10F009C
 void CElement::Move( CSize& aSize )
 {
     m_EnclosingRect += aSize;    

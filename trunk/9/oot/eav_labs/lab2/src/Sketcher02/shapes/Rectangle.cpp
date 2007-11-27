@@ -141,6 +141,7 @@ void Rectangle2::Draw( CDC* pDC, CElement* pElement/*=0*/ )
     
     // Now draw the rectangle
     pDC->Rectangle(m_EnclosingRect);
+    drawID(pDC);
     
     pDC->SelectObject(pOldBrush);              // Restore the old brush
     pDC->SelectObject(pOldPen);                // Restore the old pen    

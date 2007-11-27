@@ -2,6 +2,7 @@
 //////////////////////////////////////////////////////////////////////////
 #include "StdAfx.h"
 #include "Shape.h"
+#include "../OurConstants.h"
 
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
@@ -9,9 +10,8 @@
 int Shape::_counter = 0;
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF4033F
-Shape::Shape(float x, float y)
+Shape::Shape(float x, float y) : _id(_counter++)
 {
-    _id = _counter++;
     _x = x;
     _y = y;
     cout<<"[shape] shape created"<<endl;
@@ -73,10 +73,20 @@ bool Shape::operator==(const Shape& rhs) const
     return (_id == rhs._id);
 }
 
+//##ModelId=474C8E6F02BF
 void Shape::Move( CSize& aSize )
 {
     moveToPoint(_x + aSize.cx, _y + aSize.cy);
     CElement::Move(aSize);
+}
+
+//##ModelId=474C966702BF
+void Shape::drawID( CDC* pDC ) const
+{
+    char id[3];
+    itoa(_id, id, 10);
+    pDC->SetTextColor(GREEN);
+    pDC->TextOut(_x, _y, id);    
 }
 //////////////////////////////////////////////////////////////////////////
 ostream& operator<<( ostream& o, const Shape& rhs )

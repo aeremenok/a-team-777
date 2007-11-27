@@ -22,7 +22,7 @@ private:
 
     //идентификатор объекта
     //##ModelId=473EDDF4033C
-    int _id;
+    const int _id;
 protected:
     //абсцисса фигуры. все фигуры по умолчанию по€вл€ютс€ в начале координат
     //##ModelId=473EDDF4033D
@@ -38,6 +38,10 @@ protected:
     //вывести состо€ние фигуры в поток
     //##ModelId=473EDDF4034C
     virtual ostream& speak(ostream& os) const;
+
+    // рисует идентификатор фигуры
+	//##ModelId=474C966702BF
+    void drawID(CDC* pDC) const;
 public:
 	//##ModelId=474C8E6F02BF
 	virtual void Move(CSize& aSize);
