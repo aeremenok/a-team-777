@@ -9,20 +9,20 @@
 #include "Ribble.h"
 //////////////////////////////////////////////////////////////////////////
 //внешний интерфейс итератора
-//##ModelId=4741F10E036B
+//##ModelId=471BCA1D009C
 template<class T>
 class Iterator 
 {
 public:
  //перейти к следующему эл-ту
- //##ModelId=4741F10E037B
+ //##ModelId=471BCA6300EA
  virtual Ribble<T>* next() = 0;
 
  //перейти к первому эл-ту
- //##ModelId=4741F10E037D
+ //##ModelId=471BCAB501A5
  virtual Ribble<T>* first() = 0;
 
-	//##ModelId=4741F10E037F
+	//##ModelId=4721A0BA0290
  virtual bool hasNext() = 0;
 };
 //////////////////////////////////////////////////////////////////////////
