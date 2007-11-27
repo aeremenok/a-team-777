@@ -195,17 +195,14 @@ void CSketcherView::OnMouseMove(UINT nFlags, CPoint point)
    CClientDC aDC(this);
    OnPrepareDC(&aDC);            // Get origin adjusted
 
-   // If we are in move mode, move the selected element and return
    if(m_MoveMode)
-   {
+   { // передвигаем фигуру
       aDC.DPtoLP(&point);        // Convert to logical coordinatess
       MoveElement(aDC, point);   // Move the element
-      return;
    }
-   
-   if((nFlags & MK_LBUTTON) && (this == GetCapture()))
-   {
-      aDC.DPtoLP(&point);        // convert point to Logical
+   else if((nFlags & MK_LBUTTON) && (this == GetCapture()))
+   { // рисуем фигуру
+      aDC.DPtoLP(&point);
       m_SecondPoint = point;     // Save the current cursor position
 
       if(m_pTempElement)
@@ -223,12 +220,12 @@ void CSketcherView::OnMouseMove(UINT nFlags, CPoint point)
       m_pTempElement = CreateElement();  // Create a new element
       m_pTempElement->Draw(&aDC);        // Draw the element
    }
-   else        // We are not drawing an element...
-   {           // ...so do highlighting
+   else
+   { // ничего не двигаем и не рисуем, только подсвечиваем
       CRect aRect;
       CElement* pCurrentSelection = SelectElement(point);
 
-      if(pCurrentSelection!=m_pSelected)
+      if(pCurrentSelection != m_pSelected)
       {
          if(m_pSelected)             // Old elemented selected?
          {                           // Yes, so draw it unselected

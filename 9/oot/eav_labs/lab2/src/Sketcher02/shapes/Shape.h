@@ -39,6 +39,9 @@ protected:
     //##ModelId=473EDDF4034C
     virtual ostream& speak(ostream& os) const;
 public:
+	//##ModelId=474C8E6F02BF
+	virtual void Move(CSize& aSize);
+
     //##ModelId=473EDDF4034F
     virtual ~Shape();
 

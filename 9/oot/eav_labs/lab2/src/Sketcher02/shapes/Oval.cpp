@@ -74,6 +74,7 @@ Oval* Oval::create( CPoint Start, CPoint End, COLORREF aColor )
     oval->m_Pen = 1;
     oval->m_EnclosingRect = CRect(Start, End);
     oval->m_EnclosingRect.NormalizeRect();
+    oval->m_Color = aColor;
     
     return oval;
 }

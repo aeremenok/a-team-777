@@ -194,10 +194,18 @@ void CSketcherDoc::OnUpdateElementTextInOval(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(m_Element==TEXT_IN_OVAL);
 }
 
+// todo подавать хвост
 //##ModelId=4741F10E029F
 void CSketcherDoc::AddElement( CElement* m_pElement )
 {
-    
+    try
+    {
+        _container->addRibble(m_pElement, m_pElement);
+    }
+    catch (GraphException* e)
+    {
+    	AfxMessageBox(e->get__description().c_str());
+    }
 }
 
 //##ModelId=4741F10E02A1
@@ -213,5 +221,12 @@ void CSketcherDoc::SendToBack(CElement* pElement)
 //##ModelId=4741F10E02A3
 void CSketcherDoc::DeleteElement( CElement* m_pSelected )
 {
-    
+    try
+    {
+        _container->removeVertex(m_pSelected);
+    }
+    catch (GraphException* e)
+    {
+    	AfxMessageBox(e->get__description().c_str());
+    }
 }

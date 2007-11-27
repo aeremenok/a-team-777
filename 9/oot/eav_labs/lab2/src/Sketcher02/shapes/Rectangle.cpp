@@ -72,6 +72,7 @@ Rectangle2* Rectangle2::create( CPoint Start, CPoint End, COLORREF aColor )
     rect->m_Pen = 1;
     rect->m_EnclosingRect = CRect(Start, End);
     rect->m_EnclosingRect.NormalizeRect();
+    rect->m_Color = aColor;
 
     return rect;
 }

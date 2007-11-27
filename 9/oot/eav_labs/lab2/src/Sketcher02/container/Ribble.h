@@ -9,12 +9,12 @@
 #include "container/Graph.h"
 //////////////////////////////////////////////////////////////////////////
 //ребро графа
-//##ModelId=471BB47802AF
+//##ModelId=4741F10E0302
 template<class T>
 class Ribble 
 {
 public:
-    //##ModelId=472D97EC0167
+    //##ModelId=4741F10E0304
     virtual ~Ribble()
     {
         // вершины по указателям не удаляем, т.к. возможны ещё
@@ -23,14 +23,14 @@ public:
         cout<<"[ribble] ribble destroyed\n";
     }
 
-    //##ModelId=471E60A600FA
+    //##ModelId=4741F10E0306
     bool operator==(const Ribble<T>& rhs) const
     {
         return rhs.equals(this);
     }
 
     //сравннение по указателю
-	//##ModelId=472DDAF4033C
+	//##ModelId=4741F10E030F
     bool equals(const Ribble<T>* ribble)
     {
         return (*_vertex1 == *(ribble->_vertex1)) && 
@@ -38,7 +38,7 @@ public:
     }
 
     //принадлежит ли вершина ребру
-    //##ModelId=471E5B6D032C
+    //##ModelId=4741F10E0311
     bool contains(const T* vertex) const
     {
         return (_vertex1 == vertex) || (_vertex2 == vertex);
@@ -56,7 +56,7 @@ public:
         return _vertex1;
     };
 
-    //##ModelId=471E4BB5034B
+    //##ModelId=4741F10E0318
     Ribble(T* vertex1, T* vertex2): _vertex1(vertex1), _vertex2(vertex2)
     {
         cout<<"[ribble] ribble created\n";

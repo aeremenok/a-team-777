@@ -18,20 +18,20 @@ protected:
 public:
 	//определен для совместимости с фигурой по указателю
 	//##ModelId=4741F1B1004E
-	virtual bool operator==(const CElement& rhs) const;
+    virtual bool operator==(const CElement& rhs) const;
 
 	//##ModelId=473EDD6D033D
-   virtual ~CElement(){}                      // Virtual destructor
+    virtual ~CElement(){}                      // Virtual destructor
 	//##ModelId=473EDD6D033F
-   virtual void Draw(CDC* pDC, CElement* pElement=0) {}             // Virtual draw operation
+    virtual void Draw(CDC* pDC, CElement* pElement=0) {}             // Virtual draw operation
 
 	//##ModelId=473EDD6D0342
-   CRect GetBoundRect();   // Get the bounding rectangle for an element
+    CRect GetBoundRect();   // Get the bounding rectangle for an element
 	//##ModelId=4741F10F009C
-   virtual void Move(CSize& aSize) {}
+    virtual void Move(CSize& aSize);
 protected:
 	//##ModelId=473EDD6D0343
-   CElement(){}                               // Default constructor
+    CElement(){}                               // Default constructor
 };
 
 // Class defining a line object
@@ -43,18 +43,18 @@ public:
 	virtual void Draw(CDC* pDC, CElement* pElement=0);  // Function to display a line
 	//##ModelId=4741F10F00FB
 	void Move(CSize& aSize);
-   // Constructor for a line object
+    // Constructor for a line object
 	//##ModelId=473EDD6D0350
-   CLine(CPoint Start, CPoint End, COLORREF aColor);
+    CLine(CPoint Start, CPoint End, COLORREF aColor);
 
 protected:
 	//##ModelId=473EDD6D035B
-   CPoint m_StartPoint;          // Start point of line
+    CPoint m_StartPoint;          // Start point of line
 	//##ModelId=473EDD6D035C
-   CPoint m_EndPoint;            // End point of line
+    CPoint m_EndPoint;            // End point of line
 
 	//##ModelId=473EDD6D035D
-   CLine(){}             // Default constructor - should not be used
+    CLine(){}             // Default constructor - should not be used
 };
 
 // Class defining a rectangle object
@@ -66,14 +66,12 @@ public:
 	virtual void Draw(CDC* pDC, CElement* pElement=0);  // Function to display a rectangle
 	//##ModelId=4741F10F010A
 	void Move(CSize& aSize);
-   // Constructor for a rectangle object
+    // Constructor for a rectangle object
 	//##ModelId=473EDD6D036D
-   CRectangle(CPoint Start, CPoint End, COLORREF aColor);
+    CRectangle(CPoint Start, CPoint End, COLORREF aColor);
 
 protected:
 	//##ModelId=473EDD6D0371
-   CRectangle(){}        // Default constructor - should not be used
+    CRectangle(){}        // Default constructor - should not be used
 };
-
-
 #endif
