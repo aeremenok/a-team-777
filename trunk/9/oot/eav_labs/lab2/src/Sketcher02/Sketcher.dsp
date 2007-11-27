@@ -220,6 +220,10 @@ SOURCE=.\Elements.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\container\ExternalGraphIterator.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\container\Graph.h
 # End Source File
 # Begin Source File
