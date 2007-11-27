@@ -41762,7 +41762,7 @@
 				    (object Attribute
 					tool       	"VC++"
 					name       	"AfxBaseClass"
-					value      	"CObject:CObject")
+					value      	"")
 				    (object Attribute
 					tool       	"VC++"
 					name       	"LastAppliedTemplate"
@@ -41843,7 +41843,7 @@
 					    (object Attribute
 						tool       	"VC++"
 						name       	"Inline"
-						value      	TRUE))
+						value      	FALSE))
 					quid       	"4741F10F009C"
 					stereotype 	"virtual"
 					parameters 	(list Parameters
@@ -42910,17 +42910,35 @@
 					    (object Attribute
 						tool       	"VC++"
 						name       	"Inline"
-						value      	TRUE))
-					quid       	"474C8E33031C"
+						value      	FALSE))
+					quid       	"474C8E6F02BF"
 					stereotype 	"virtual"
 					parameters 	(list Parameters
 					    (object Parameter "aSize"
-						quid       	"474C8E33032C"
+						quid       	"474C8E6F02CE"
 						type       	"CSize&"
 						quidu      	"365C7A7A008E"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "drawID"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474C966702BF"
+					documentation 	" рисует идентификатор фигуры"
+					stereotype 	"const"
+					parameters 	(list Parameters
+					    (object Parameter "pDC"
+						quid       	"474C966702CF"
+						type       	"CDC*"
+						quidu      	"365C7A70033F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_counter"
@@ -42932,7 +42950,7 @@
 				    (object ClassAttribute "_id"
 					quid       	"473EDDF4033C"
 					documentation 	"идентификатор объекта"
-					type       	"int")
+					type       	"const int")
 				    (object ClassAttribute "_x"
 					quid       	"473EDDF4033D"
 					documentation 	"абсцисса фигуры. все фигуры по умолчанию по€вл€ютс€ в начале координат"
