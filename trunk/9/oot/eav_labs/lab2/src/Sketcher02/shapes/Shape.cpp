@@ -73,6 +73,11 @@ bool Shape::operator==(const Shape& rhs) const
     return (_id == rhs._id);
 }
 
+void Shape::Move( CSize& aSize )
+{
+    moveToPoint(_x + aSize.cx, _y + aSize.cy);
+    CElement::Move(aSize);
+}
 //////////////////////////////////////////////////////////////////////////
 ostream& operator<<( ostream& o, const Shape& rhs )
 {

@@ -70,6 +70,7 @@ TextInOval* TextInOval::create( CPoint Start, CPoint End, COLORREF aColor )
     textInOval->m_Pen = 1;
     textInOval->m_EnclosingRect = CRect(Start, End);
     textInOval->m_EnclosingRect.NormalizeRect();
+    textInOval->m_Color = aColor;
     
     return textInOval;    
 }

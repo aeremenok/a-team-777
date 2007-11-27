@@ -49,6 +49,8 @@ void CLine::Draw(CDC* pDC, CElement* pElement)
 //##ModelId=4741F10F00FB
 void CLine::Move( CSize& aSize )
 {
+    m_StartPoint += aSize;            // Move the start point
+    m_EndPoint += aSize;              // and the end point
     CElement::Move(aSize);
 }
 
@@ -104,7 +106,7 @@ void CRectangle::Draw(CDC* pDC, CElement* pElement)
 //##ModelId=4741F10F010A
 void CRectangle::Move( CSize& aSize )
 {
-    CElement::Move(aSize);
+    CElement::Move( aSize );
 }
 
 //##ModelId=4741F1B1004E
@@ -116,3 +118,7 @@ bool CElement::operator==(const CElement& rhs) const
         this->m_Pen == rhs.m_Pen;
 }
 
+void CElement::Move( CSize& aSize )
+{
+    m_EnclosingRect += aSize;    
+}

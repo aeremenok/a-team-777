@@ -62,6 +62,7 @@ Text* Text::create( CPoint Start, CPoint End, COLORREF aColor )
     text->m_Pen = 1;
     text->m_EnclosingRect = CRect(Start, End);
     text->m_EnclosingRect.NormalizeRect();
+    text->m_Color = aColor;
 
     return text;
 }
@@ -118,6 +119,7 @@ void Text::Draw( CDC* pDC, CElement* pElement/*=0*/ )
     CBrush* pOldBrush = (CBrush*)pDC->SelectStockObject(NULL_BRUSH); 
     
     // Now draw the text
+    pDC->SetTextColor(m_Color);
     pDC->TextOut(_x, _y, _content.c_str());
     
     pDC->SelectObject(pOldBrush);              // Restore the old brush

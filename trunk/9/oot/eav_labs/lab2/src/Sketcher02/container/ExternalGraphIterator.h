@@ -15,38 +15,38 @@ template<class T> class Iterator;
 template<class T> class Ribble;
 //////////////////////////////////////////////////////////////////////////
 //внешний итератор
-//##ModelId=474088CA0242
+//##ModelId=474C8E0401F4
 template<class T>
 class ExternalGraphIterator : public Iterator<T>
 {
 public:
-    //##ModelId=4740896802EE
+    //##ModelId=474C8E040205
     virtual Ribble<T>* first()
     {
         return _iterator->first();
     }
 
-    //##ModelId=474089F10280
+    //##ModelId=474C8E040207
     virtual Ribble<T>* next()
     {
         return _iterator->next();
     }
 
-    //##ModelId=47408A050204
+    //##ModelId=474C8E040209
     ExternalGraphIterator(const Graph<T>* graph)
     {
         attach(graph);
         cout<<"[ExternalGraphIterator] external iterator created\n";
     }
 
-    //##ModelId=47408A0900AB
+    //##ModelId=474C8E04020B
     virtual bool hasNext()
     {
         return _iterator->hasNext();
     }
 
     //присоединить итератор к графу
-    //##ModelId=47408A3D0251
+    //##ModelId=474C8E04020D
     void attach(const Graph<T>* graph)
     {
         _graph = graph;
@@ -54,11 +54,11 @@ public:
     }
 private:
     //указатель на обходимый граф
-    //##ModelId=47408A9901C5
+    //##ModelId=474C8E04031D
     const Graph<T>* _graph;
 
     //указатель на используемый итератор
-    //##ModelId=47408AFA01C5
+    //##ModelId=474C8E04032D
     Iterator<T>* _iterator;
 };
 //////////////////////////////////////////////////////////////////////////
