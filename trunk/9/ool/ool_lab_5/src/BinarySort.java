@@ -1,8 +1,4 @@
 /**
- * 
- */
-
-/**
  * @author lysenko
  */
 public class BinarySort
