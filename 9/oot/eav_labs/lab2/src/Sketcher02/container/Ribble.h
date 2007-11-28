@@ -14,6 +14,21 @@ template<class T>
 class Ribble 
 {
 public:
+	//##ModelId=474DE161038A
+	void set__vertex1(T* value)
+	{
+		_vertex1 = value;
+		return;
+	}
+
+
+	//##ModelId=474DE16301F5
+	void set__vertex2(T* value)
+	{
+		_vertex2 = value;
+		return;
+	}
+
     //##ModelId=4741F10E0304
     virtual ~Ribble()
     {

@@ -44065,7 +44065,11 @@
 				    (object Attribute
 					tool       	"VC++"
 					name       	"AfxSupportMacro"
-					value      	""))
+					value      	"")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"LastAppliedTemplate"
+					value      	"C:\\Program Files\\Rational\\Rose\\vc\\templates"))
 				quid       	"4741F10E0302"
 				documentation 	
 |////////////////////////////////////////////////////////////////////////
@@ -44173,6 +44177,58 @@
 					    (object Parameter "vertex2"
 						quid       	"4741F10E031A"
 						type       	"T*"))
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "set__vertex1"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|_vertex1 = value;
+|return;
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AccessorSet"
+						value      	"4741F10E031B")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"474DE161038A"
+					parameters 	(list Parameters
+					    (object Parameter "value"
+						quid       	"474DE16103A9"
+						type       	"T*"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "set__vertex2"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|_vertex2 = value;
+|return;
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AccessorSet"
+						value      	"4741F10E031C")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"474DE16301F5"
+					parameters 	(list Parameters
+					    (object Parameter "value"
+						quid       	"474DE1630213"
+						type       	"T*"))
+					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -44458,6 +44514,22 @@
 						type       	"const Graph<T>&"
 						const      	TRUE))
 					result     	"ostream_withassign&"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "addVertex"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"474DE48500EA"
+					documentation 	"добавить ребро"
+					parameters 	(list Parameters
+					    (object Parameter "vertex1"
+						quid       	"474DE48500FA"
+						type       	"T*"))
+					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))

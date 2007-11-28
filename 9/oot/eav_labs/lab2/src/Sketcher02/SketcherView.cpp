@@ -83,22 +83,35 @@ void CSketcherView::OnDraw(CDC* pDC)
     
     CElement* pElement = NULL;
     Iterator<CElement>* iter = pDoc->getGraphIterator();
+
+    CPoint* start = NULL;
+    CPoint* end = NULL;
+    CLine* visibleRibble;
+
     while (iter->hasNext())
     {
         Ribble<CElement>* ribble = iter->next();
 
         pElement = ribble->get__vertex1();
-        // If the element is visible...
         if(pDC->RectVisible(pElement->GetBoundRect()))
         {
-            pElement->Draw(pDC, m_pSelected);  // ...draw it
+            pElement->Draw(pDC, m_pSelected);
+            start = &(pElement->GetBoundRect().CenterPoint());
         }
 
         pElement = ribble->get__vertex2();
-        // If the element is visible...
         if(pDC->RectVisible(pElement->GetBoundRect()))
         {
-            pElement->Draw(pDC, m_pSelected);  // ...draw it
+            pElement->Draw(pDC, m_pSelected);
+            end = &(pElement->GetBoundRect().CenterPoint());
+        }
+
+        if ( start != NULL && end != NULL)
+        {   // рисуем ребро
+            visibleRibble = new CLine(*start, *end, GREEN);
+            visibleRibble->Draw(pDC);
+            start = NULL;
+            end = NULL;
         }
     }
 }
