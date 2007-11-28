@@ -127,6 +127,41 @@ public:
         }
     };
 
+    //добавить ребро
+    //##ModelId=474DE48500EA
+    void addVertex(T* vertex1)
+    {
+        // проверяем, нет ли уже ребра c одной вершиной
+        Iterator<T>* iter = getIterator();
+        bool isPresent = false;
+
+        Ribble<T>* current = NULL;
+        while (iter->hasNext())
+        {
+            current = iter->next();
+            
+            if ( *(current->get__vertex1()) == *(current->get__vertex2()) )
+            {
+                current->set__vertex2(vertex1);
+                isPresent = true;
+            }
+        }
+        
+        // если нет - добавляем
+        if (!isPresent)
+        {
+            if (current!=NULL)
+            {
+                _ribbleList->push_back(new Ribble<T>(current->get__vertex2(), vertex1));
+            } 
+            else
+            {
+                _ribbleList->push_back(new Ribble<T>(vertex1, vertex1));
+            }
+            
+        }
+    };
+
     //удалить ребро
 	//##ModelId=4741F10E03B4
     void removeRibble(T* vertex1, T* vertex2)

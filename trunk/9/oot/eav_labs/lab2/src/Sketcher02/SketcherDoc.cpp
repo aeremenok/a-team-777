@@ -198,14 +198,7 @@ void CSketcherDoc::OnUpdateElementTextInOval(CCmdUI* pCmdUI)
 //##ModelId=4741F10E029F
 void CSketcherDoc::AddElement( CElement* m_pElement )
 {
-    try
-    {
-        _container->addRibble(m_pElement, m_pElement);
-    }
-    catch (GraphException* e)
-    {
-    	AfxMessageBox(e->get__description().c_str());
-    }
+    _container->addVertex(m_pElement);
 }
 
 //##ModelId=4741F10E02A1
