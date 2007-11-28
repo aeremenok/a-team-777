@@ -13,14 +13,10 @@
 //##ModelId=473EDD6D0350
 CLine::CLine(CPoint Start, CPoint End, COLORREF aColor)
 {
-   m_StartPoint = Start;      // Set line start point
-   m_EndPoint = End;          // Set line end point
    m_Color = aColor;          // Set line color
    m_Pen = 1;                 // Set pen width
 
-   // Define the enclosing rectangle
-   m_EnclosingRect = CRect(Start, End);
-   m_EnclosingRect.NormalizeRect();
+   resize(Start, End);
 }
 
 // Draw a CLine object
@@ -73,9 +69,7 @@ CRectangle::CRectangle(CPoint Start, CPoint End, COLORREF aColor)
    m_Color = aColor;          // Set rectangle color
    m_Pen = 1;                 // Set pen width
 
-   // Define the enclosing rectangle 
-   m_EnclosingRect = CRect(Start, End);
-   m_EnclosingRect.NormalizeRect();
+   CElement::resize(Start, End);
 }
 
 // Draw a CRectangle object
@@ -123,3 +117,20 @@ void CElement::Move( CSize& aSize )
 {
     m_EnclosingRect += aSize;    
 }
+
+//##ModelId=474DC10E006D
+void CElement::resize( CPoint Start, CPoint End )
+{
+    m_EnclosingRect = CRect(Start, End);
+    m_EnclosingRect.NormalizeRect();	
+}
+
+//##ModelId=474DC535009C
+void CLine::resize(CPoint Start, CPoint End)
+{
+	m_StartPoint = Start;
+    m_EndPoint = End;
+	
+	CElement::resize(Start, End);
+}
+

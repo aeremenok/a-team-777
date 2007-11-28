@@ -48,21 +48,15 @@ Text* Text::create(std::string content, float x, float y)
 //##ModelId=474055EF0167
 Text* Text::create( CPoint Start, CPoint End, COLORREF aColor )
 {
-    // определяем координаты центра
-    float x, y;
-    x = (End.x + Start.x) / 2;
-    y = (End.y + Start.y) / 2;
-
     // получаем последний введенный пользователем текст
     CString cs = *(TextRequest::Text());
     std::string str((LPCSTR)cs);
-    Text* text = create(str, x, y);
+    Text* text = create(str, 0, 0);
 
     // задаем параметры отрисовки
     text->m_Pen = 1;
-    text->m_EnclosingRect = CRect(Start, End);
-    text->m_EnclosingRect.NormalizeRect();
     text->m_Color = aColor;
+    text->resize(Start, End);
 
     return text;
 }
@@ -121,6 +115,7 @@ void Text::Draw( CDC* pDC, CElement* pElement/*=0*/ )
     // Now draw the text
     pDC->SetTextColor(m_Color);
     pDC->TextOut(_x, _y, _content.c_str());
+    drawID(pDC);
     
     pDC->SelectObject(pOldBrush);              // Restore the old brush
     pDC->SelectObject(pOldPen);                // Restore the old pen

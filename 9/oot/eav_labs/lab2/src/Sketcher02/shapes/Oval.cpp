@@ -4,6 +4,7 @@
 #include "Oval.h"
 
 #include <ostream.h>
+#include <math.h>
 //////////////////////////////////////////////////////////////////////////
 #define M_PI 3.1415926
 //////////////////////////////////////////////////////////////////////////
@@ -47,35 +48,17 @@ Oval* Oval::create(float rad1, float rad2, float x, float y)
 //##ModelId=474055EF02FD
 Oval* Oval::create( CPoint Start, CPoint End, COLORREF aColor )
 {
-    float x, y, r1, r2;
-    // определяем координаты центра
-    x = (End.x + Start.x) / 2;
-    y = (End.y + Start.y) / 2;
+    float r1, r2;
     // определяем радиусы
-    if ( Start.x > End.x )
-    {
-        r1 = (Start.x - x) / 2;
-    }
-    else
-    {
-        r1 = (End.x - x) / 2;
-    }
-    if ( Start.y > End.y )
-    {
-        r2 = (Start.y - y) / 2;
-    }
-    else
-    {
-        r2 = (End.y - y) / 2;
-    }
+    r1 = fabs(Start.x - End.x) / 2;
+    r2 = fabs(Start.y - End.y) / 2;
     
-    Oval* oval = create(r1, r2, x, y);
+    Oval* oval = create(r1, r2, 0, 0);
     
     oval->m_Pen = 1;
-    oval->m_EnclosingRect = CRect(Start, End);
-    oval->m_EnclosingRect.NormalizeRect();
     oval->m_Color = aColor;
-    
+    oval->resize(Start, End);
+
     return oval;
 }
 

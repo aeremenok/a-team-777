@@ -38,11 +38,15 @@ protected:
     //вывести состояние фигуры в поток
     //##ModelId=473EDDF4034C
     virtual ostream& speak(ostream& os) const;
-
-    // рисует идентификатор фигуры
-	//##ModelId=474C966702BF
-    void drawID(CDC* pDC) const;
 public:
+    // рисует идентификатор фигуры
+    //##ModelId=474C966702BF
+    void drawID(CDC* pDC) const;
+
+	//изменяет размер фигуры
+	//##ModelId=474DCD59038A
+	virtual void resize(CPoint Start, CPoint End);
+
 	//##ModelId=474C8E6F02BF
 	virtual void Move(CSize& aSize);
 

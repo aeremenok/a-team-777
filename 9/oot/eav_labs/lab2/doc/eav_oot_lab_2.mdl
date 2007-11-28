@@ -40494,63 +40494,7 @@
 				client     	@665
 				supplier   	@663
 				line_style 	0)
-			    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CElement" @668
-				ShowCompartmentStereotypes 	TRUE
-				IncludeAttribute 	TRUE
-				IncludeOperation 	TRUE
-				location   	(1296, 848)
-				font       	(object Font
-				    size       	10
-				    face       	"Consolas"
-				    charSet    	204
-				    bold       	FALSE
-				    italics    	FALSE
-				    underline  	FALSE
-				    strike     	FALSE
-				    color      	0
-				    default_color 	FALSE)
-				label      	(object ItemLabel
-				    Parent_View 	@668
-				    location   	(867, 563)
-				    fill_color 	13434879
-				    nlines     	1
-				    max_width  	858
-				    justify    	0
-				    label      	"CElement")
-				icon_style 	"Icon"
-				line_color 	3342489
-				fill_color 	13434879
-				quidu      	"473EDD6D032D"
-				compartment 	(object Compartment
-				    Parent_View 	@668
-				    location   	(867, 659)
-				    font       	(object Font
-					size       	10
-					face       	"Consolas"
-					charSet    	204
-					bold       	FALSE
-					italics    	FALSE
-					underline  	FALSE
-					strike     	FALSE
-					color      	0
-					default_color 	FALSE)
-				    icon_style 	"Icon"
-				    fill_color 	13434879
-				    anchor     	2
-				    nlines     	10
-				    max_width  	737)
-				width      	876
-				height     	592
-				annotation 	8
-				autoResize 	TRUE)
-			    (object InheritView "" @669
-				stereotype 	TRUE
-				line_color 	3342489
-				quidu      	"473EDEA5030D"
-				client     	@660
-				supplier   	@668
-				line_style 	0)
-			    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::CObject" @670
+			    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::CObject" @668
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
@@ -40566,7 +40510,7 @@
 				    color      	0
 				    default_color 	FALSE)
 				label      	(object ItemLabel
-				    Parent_View 	@670
+				    Parent_View 	@668
 				    location   	(854, 41)
 				    fill_color 	13434879
 				    nlines     	1
@@ -40578,7 +40522,7 @@
 				fill_color 	13434879
 				quidu      	"365C7A6F009C"
 				compartment 	(object Compartment
-				    Parent_View 	@670
+				    Parent_View 	@668
 				    location   	(854, 137)
 				    font       	(object Font
 					size       	10
@@ -40599,12 +40543,68 @@
 				height     	356
 				annotation 	8
 				autoResize 	TRUE)
+			    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CElement" @669
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(1296, 848)
+				font       	(object Font
+				    size       	10
+				    face       	"Consolas"
+				    charSet    	204
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	FALSE)
+				label      	(object ItemLabel
+				    Parent_View 	@669
+				    location   	(867, 540)
+				    fill_color 	13434879
+				    nlines     	1
+				    max_width  	858
+				    justify    	0
+				    label      	"CElement")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"473EDD6D032D"
+				compartment 	(object Compartment
+				    Parent_View 	@669
+				    location   	(867, 636)
+				    font       	(object Font
+					size       	10
+					face       	"Consolas"
+					charSet    	204
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	FALSE)
+				    icon_style 	"Icon"
+				    fill_color 	13434879
+				    anchor     	2
+				    nlines     	11
+				    max_width  	729)
+				width      	876
+				height     	638
+				annotation 	8
+				autoResize 	TRUE)
+			    (object InheritView "" @670
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"473EDEA5030D"
+				client     	@660
+				supplier   	@669
+				line_style 	0)
 			    (object InheritView "" @671
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"473EDD6D032E"
-				client     	@668
-				supplier   	@670
+				client     	@669
+				supplier   	@668
 				line_style 	0)))))
 	    (object Class_Category "VC++ Reverse Engineered"
 		quid       	"473EDD6D01B5"
@@ -41786,7 +41786,7 @@
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"473EDD6D033D"
-					documentation 	"Virtual destructor"
+					documentation 	" Virtual destructor"
 					stereotype 	"virtual"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -41798,7 +41798,7 @@
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"473EDD6D033F"
-					documentation 	"Virtual draw operation"
+					documentation 	" Virtual draw operation"
 					stereotype 	"virtual"
 					parameters 	(list Parameters
 					    (object Parameter "pDC"
@@ -41821,7 +41821,7 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"473EDD6D0342"
-					documentation 	"Get the bounding rectangle for an element"
+					documentation 	" Get the bounding rectangle for an element"
 					result     	"CRect"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -41834,7 +41834,7 @@
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"473EDD6D0343"
-					documentation 	"Default constructor"
+					documentation 	" Default constructor"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
 					uid        	0)
@@ -41888,22 +41888,48 @@
 					result     	"bool"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "resize"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text ""))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474DC10E006D"
+					documentation 	"изменяет размер фигуры"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "Start"
+						quid       	"474DC26D00EA"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "End"
+						quid       	"474DC26D0119"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "m_Color"
 					quid       	"473EDD6D032F"
-					documentation 	"Color of an element"
+					documentation 	" Color of an element"
 					type       	"COLORREF"
 					exportControl 	"Protected")
 				    (object ClassAttribute "m_EnclosingRect"
 					quid       	"473EDD6D0330"
-					documentation 	"Rectangle enclosing an element"
+					documentation 	" Rectangle enclosing an element"
 					type       	"CRect"
 					quidu      	"365C7A7A0052"
 					exportControl 	"Protected")
 				    (object ClassAttribute "m_Pen"
 					quid       	"473EDD6D033C"
-					documentation 	"Pen width"
+					documentation 	" Pen width"
 					type       	"int"
 					exportControl 	"Protected"))
 				module     	"Component View::Sketcher"
@@ -41918,6 +41944,14 @@
 				    (object Attribute
 					tool       	"VC++"
 					name       	"AfxSupportMacro"
+					value      	"")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"LastAppliedTemplate"
+					value      	"C:\\Program Files\\Rational\\Rose\\vc\\templates")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AfxBaseClass"
 					value      	""))
 				quid       	"473EDD6D034B"
 				documentation 	" Class defining a line object"
@@ -41934,7 +41968,7 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"473EDD6D034D"
-					documentation 	"Function to display a line"
+					documentation 	" Function to display a line"
 					stereotype 	"virtual"
 					parameters 	(list Parameters
 					    (object Parameter "pDC"
@@ -41980,7 +42014,7 @@
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"473EDD6D035D"
-					documentation 	"Default constructor - should not be used"
+					documentation 	" Default constructor - should not be used"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
 					uid        	0)
@@ -41999,17 +42033,47 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "resize"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|CElement::resize(Start, End);
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474DC535009C"
+					documentation 	"изменяет размер фигуры"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "Start"
+						quid       	"474DC53500BB"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "End"
+						quid       	"474DC53500FA"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "m_StartPoint"
 					quid       	"473EDD6D035B"
-					documentation 	"Start point of line"
+					documentation 	" Start point of line"
 					type       	"CPoint"
 					quidu      	"365C7A7A0020"
 					exportControl 	"Protected")
 				    (object ClassAttribute "m_EndPoint"
 					quid       	"473EDD6D035C"
-					documentation 	"End point of line"
+					documentation 	" End point of line"
 					type       	"CPoint"
 					quidu      	"365C7A7A0020"
 					exportControl 	"Protected"))
@@ -42041,7 +42105,7 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"473EDD6D0360"
-					documentation 	"Function to display a rectangle"
+					documentation 	" Function to display a rectangle"
 					stereotype 	"virtual"
 					parameters 	(list Parameters
 					    (object Parameter "pDC"
@@ -42087,7 +42151,7 @@
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"473EDD6D0371"
-					documentation 	"Default constructor - should not be used"
+					documentation 	" Default constructor - should not be used"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
 					uid        	0)
@@ -42938,7 +43002,37 @@
 						quidu      	"365C7A70033F"))
 					result     	"void"
 					concurrency 	"Sequential"
-					opExportControl 	"Protected"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "resize"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|CElement::resize(Start, End);
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"474DCD59038A"
+					documentation 	"изменяет размер фигуры"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "Start"
+						quid       	"474DCD5903A9"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "End"
+						quid       	"474DCD5903D8"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_counter"
@@ -45061,6 +45155,24 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"473EDD6D032D"
+					compartment 	(object Compartment
+					    Parent_View 	@679
+					    location   	(871, 615)
+					    font       	(object Font
+						size       	12
+						face       	"Consolas"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	FALSE)
+					    icon_style 	"Icon"
+					    fill_color 	16777215
+					    anchor     	2
+					    nlines     	11
+					    max_width  	0)
 					width      	709
 					height     	570
 					annotation 	8
