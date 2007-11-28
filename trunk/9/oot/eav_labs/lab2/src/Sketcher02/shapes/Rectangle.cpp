@@ -4,6 +4,7 @@
 #include "Rectangle.h"
 
 #include <ostream.h>
+#include <math.h>
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF40370
 list<Rectangle2*> Rectangle2::_rectangles;
@@ -45,34 +46,16 @@ Rectangle2* Rectangle2::create(float length, float width, float x, float y)
 //##ModelId=474055EF0280
 Rectangle2* Rectangle2::create( CPoint Start, CPoint End, COLORREF aColor )
 {
-    float x, y, l, w;
-    // определяем координаты центра
-    x = (End.x + Start.x) / 2;
-    y = (End.y + Start.y) / 2;
+    float l, w;
     // определяем длину и ширину
-    if ( Start.x > End.x )
-    {
-        w = Start.x - x;
-    }
-    else
-    {
-        w = End.x - x;
-    }
-    if ( Start.y > End.y )
-    {
-        l = Start.y - y;
-    }
-    else
-    {
-        l = End.y - y;
-    }
+    w = fabs(Start.x - End.x);
+    l = fabs(Start.y - End.y);
 
-    Rectangle2* rect = create(l, w, x, y);
+    Rectangle2* rect = create(l, w, 0, 0);
 
     rect->m_Pen = 1;
-    rect->m_EnclosingRect = CRect(Start, End);
-    rect->m_EnclosingRect.NormalizeRect();
     rect->m_Color = aColor;
+    rect->resize(Start, End);
 
     return rect;
 }

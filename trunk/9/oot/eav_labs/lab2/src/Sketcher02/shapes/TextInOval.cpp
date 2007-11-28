@@ -7,6 +7,7 @@
 #include "../TextRequest.h"
 
 #include <ostream.h>
+#include <math.h>
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF40223
 list<TextInOval*> TextInOval::_textsInOvals;
@@ -40,38 +41,20 @@ TextInOval* TextInOval::create(float rad1, float rad2, std::string content, floa
 //##ModelId=474055EF00AB
 TextInOval* TextInOval::create( CPoint Start, CPoint End, COLORREF aColor )
 {
-    float x, y, r1, r2;
-    // определяем координаты центра
-    x = (End.x + Start.x) / 2;
-    y = (End.y + Start.y) / 2;
+    float r1, r2;
     // определяем радиусы овала
-    if ( Start.x > End.x )
-    {
-        r1 = (Start.x - x) / 2;
-    }
-    else
-    {
-        r1 = (End.x - x) / 2;
-    }
-    if ( Start.y > End.y )
-    {
-        r2 = (Start.y - y) / 2;
-    }
-    else
-    {
-        r2 = (End.y - y) / 2;
-    }
+    r1 = fabs(Start.x - End.x);
+    r2 = fabs(Start.y - End.y);
 
     // получаем последний введенный пользователем текст
     CString cs = *(TextRequest::Text());
     std::string str((LPCSTR)cs);
-    TextInOval* textInOval = create(r1, r2, str, x, y);
+    TextInOval* textInOval = create(r1, r2, str, 0, 0);
     
     textInOval->m_Pen = 1;
-    textInOval->m_EnclosingRect = CRect(Start, End);
-    textInOval->m_EnclosingRect.NormalizeRect();
     textInOval->m_Color = aColor;
-    
+    textInOval->resize(Start, End);
+
     return textInOval;    
 }
 

@@ -86,7 +86,16 @@ void Shape::drawID( CDC* pDC ) const
     char id[3];
     itoa(_id, id, 10);
     pDC->SetTextColor(GREEN);
-    pDC->TextOut(_x, _y, id);    
+    pDC->TextOut(m_EnclosingRect.BottomRight().x, m_EnclosingRect.BottomRight().y, id);
+}
+
+//##ModelId=474DCD59038A
+void Shape::resize(CPoint Start, CPoint End)
+{
+    // определяем координаты центра
+    _x = (End.x + Start.x) / 2;
+    _y = (End.y + Start.y) / 2;
+    CElement::resize(Start, End);
 }
 //////////////////////////////////////////////////////////////////////////
 ostream& operator<<( ostream& o, const Shape& rhs )

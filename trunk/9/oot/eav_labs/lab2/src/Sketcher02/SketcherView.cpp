@@ -78,8 +78,8 @@ BOOL CSketcherView::PreCreateWindow(CREATESTRUCT& cs)
 //##ModelId=473EDD6D0243
 void CSketcherView::OnDraw(CDC* pDC)
 {
-   CSketcherDoc* pDoc = GetDocument();
-   ASSERT_VALID(pDoc);
+    CSketcherDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
     
     CElement* pElement = NULL;
     Iterator<CElement>* iter = pDoc->getGraphIterator();
@@ -206,19 +206,16 @@ void CSketcherView::OnMouseMove(UINT nFlags, CPoint point)
       m_SecondPoint = point;     // Save the current cursor position
 
       if(m_pTempElement)
-      {
+      { // фигура есть
          aDC.SetROP2(R2_NOTXORPEN);      // Set drawing mode
-
-         // Redraw the old element so it disappears from the view
-         m_pTempElement->Draw(&aDC);
-         delete m_pTempElement;        // Delete the old element
-         m_pTempElement = 0;           // Reset the pointer to 0
+         m_pTempElement->Draw(&aDC);  
+         m_pTempElement->resize(m_FirstPoint, m_SecondPoint);
       }
-
-      // Create a temporary element of the type and color that
-      // is recorded in the document object, and draw it
-      m_pTempElement = CreateElement();  // Create a new element
-      m_pTempElement->Draw(&aDC);        // Draw the element
+      else
+      { // фигуры нет
+         m_pTempElement = CreateElement();
+      }
+      m_pTempElement->Draw(&aDC);  
    }
    else
    { // ничего не двигаем и не рисуем, только подсвечиваем
