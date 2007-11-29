@@ -9,22 +9,22 @@ public class BinaryTree
     /**
      * Правое поддерево
      */
-    private BinaryTree  big;
+    private BinaryTree  _rightSubtree;
 
     /**
      * Левое поддерево
      */
-    private BinaryTree  small;
+    private BinaryTree  _leftSubtree;
 
     /**
      * Ключ (совпадает со значением корневого элемента дерева)
      */
-    private final short key;
+    private final short _key;
 
     /**
      * Идентификатор следующего свободного места в массиве-приемнике данных
      */
-    private static int  i = 0;
+    private static int  _receiverIndex = 0;
 
     /**
      * @param k - ключ (значение корневого элемента)
@@ -32,7 +32,7 @@ public class BinaryTree
     public BinaryTree(
         short k )
     {
-        key = k;
+        _key = k;
     }
 
     /**
@@ -47,28 +47,28 @@ public class BinaryTree
         // СРАВНИТЬ КЛЮЧ ДОБАВЛЯЕМОГО ПОДДЕРЕВА (К) С КЛЮЧОМ КОРНЕВОГО УЗЛА (X)
 
         // ЕСЛИ K >= X
-        if ( aTree.key >= key )
+        if ( aTree._key >= _key )
         {
             // РЕКУРСИВНО ДОБАВИТЬ НОВОЕ ДЕРЕВО В ПРАВОЕ ПОДДЕРЕВО
-            if ( big != null )
+            if ( _rightSubtree != null )
             {
-                big.add( aTree );
+                _rightSubtree.add( aTree );
             }
             else
             {
-                big = aTree;
+                _rightSubtree = aTree;
             }
         }
         else
 
         // РЕКУРСИВНО ДОБАВИТЬ НОВОЕ ДЕРЕВО В ЛЕВОЕ ПОДДЕРЕВО
-        if ( small != null )
+        if ( _leftSubtree != null )
         {
-            small.add( aTree );
+            _leftSubtree.add( aTree );
         }
         else
         {
-            small = aTree;
+            _leftSubtree = aTree;
         }
     }
 
@@ -78,26 +78,29 @@ public class BinaryTree
      * @param destArray - массив приемник упорядоченных данных
      */
     public void sort(
-        short[] destArray )
+        Short[] destArray )
     {
+
+        // ОЧИЩАЕМ ИНДЕКС ПРИЕМНИКА ДЛЯ ВОЗМОЖНОСТИ МНОГОКРАТНОЙ СОРТИРОВКИ
+        _receiverIndex = 0;
 
         try
         {
             // РЕКУРСИВНО ОБОЙТИ ЛЕВОЕ ПОДДЕРЕВО
-            if ( small != null )
+            if ( _leftSubtree != null )
             {
-                small.sort( destArray );
+                _leftSubtree.sort( destArray );
             }
 
             // ЗАПИСАТЬ ЗНАЧЕНИЕ КОРНЕВОГО УЗЛА В СООТВЕТСВУЮЩУЮ ПОЗИЦИЮ
             // ПРИЕМНИКА
-            destArray[i] = key;
-            i++;
+            destArray[_receiverIndex] = _key;
+            _receiverIndex++;
 
             // РЕКУРСИВНО ОБОЙТИ ПРАВОЕ ПОДДЕРЕВО
-            if ( big != null )
+            if ( _rightSubtree != null )
             {
-                big.sort( destArray );
+                _rightSubtree.sort( destArray );
             }
 
         }

@@ -11,7 +11,7 @@ public class BinarySort
      * @param array - сортируемый массив
      */
     public BinarySort(
-        short[] array )
+        Short[] array )
     {
         super( array );
     }
@@ -19,7 +19,7 @@ public class BinarySort
     /**
      * Выполнить сотрировку массива на основе бинарного дерева
      */
-    protected void sort()
+    protected void sort(Short[] arrayToSort)
         throws InterruptedException
     {
 

@@ -11,7 +11,7 @@ public class BubbleSort
      * @param array - сортируемый массив
      */
     public BubbleSort(
-        short[] array )
+        Short[] array )
     {
         super( array );
     }
@@ -19,7 +19,7 @@ public class BubbleSort
     /**
      * ¬ыполнить сотрировку массива методом пузырька
      */
-    protected void sort()
+    protected void sort(Short[] arrayToSort)
         throws InterruptedException
     {
 
@@ -33,9 +33,15 @@ public class BubbleSort
          * алгоритма.
          */
         for ( int i = _array.length - 1; i > 0; i-- )
+        {
             for ( int j = 0; j < i; j++ )
+            {
                 if ( _array[j] > _array[j + 1] )
+                {
                     swap( j, j + 1 );
+                }
+            }
+        }
     }
 
     /**

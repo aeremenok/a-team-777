@@ -11,7 +11,7 @@ public class HoareSort
      * @param array - сортируемый массив
      */
     public HoareSort(
-        short[] array )
+        Short[] array )
     {
         super( array );
     }
@@ -19,7 +19,7 @@ public class HoareSort
     /**
      * Выполнить сотрировку массива методом Хоара
      */
-    protected void sort()
+    protected void sort(Short[] arrayToSort)
         throws InterruptedException
     {
 
@@ -76,6 +76,7 @@ public class HoareSort
         int i = p - 1;
         short tmp;
         for ( int j = p; j < r; j++ )
+        {
             if ( _array[j] <= x )
             {
                 i++;
@@ -83,6 +84,7 @@ public class HoareSort
                 _array[i] = _array[j];
                 _array[j] = tmp;
             }
+        }
 
         tmp = _array[r];
         _array[r] = _array[i + 1];
