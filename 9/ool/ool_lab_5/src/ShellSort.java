@@ -11,7 +11,7 @@ public class ShellSort
      * @param array - сортируемый массив
      */
     public ShellSort(
-        short[] array )
+        Short[] array )
     {
         super( array );
     }
@@ -19,7 +19,7 @@ public class ShellSort
     /**
      * Выполнить сотрировку массива методом Шелла
      */
-    protected void sort()
+    protected void sort(Short[] arrayToSort)
         throws InterruptedException
     {
 
@@ -45,10 +45,12 @@ public class ShellSort
         int m = 0;
 
         while ( d[m] < _array.length )
+        {
             ++m;
+        }
 
         while ( --m >= 0 )
-
+        {
             for ( int i = d[m]; i < _array.length; i++ )
             {
                 int j = i;
@@ -60,6 +62,7 @@ public class ShellSort
                 }
                 _array[j] = h;
             }
+        }
     }
 
     /**

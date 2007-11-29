@@ -41,12 +41,12 @@ public class Test
         }
 
         // янгдюрэ люяяхб
-        short[] toSortArray = new short[arrayLength];
+        Short[] toSortArray = new Short[arrayLength];
 
         // хмхжхюкхгхпнбюрэ люяяхб яксвюимшлх вхякюлх
         for ( int i = 0; i < toSortArray.length; i++ )
         {
-            toSortArray[i] = (short) _random.nextInt();
+            toSortArray[i] = new Short( (short) _random.nextInt() );
         }
 
         // бшбеярх хяундмши люяяхб мю щйпюм

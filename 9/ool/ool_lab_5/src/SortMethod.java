@@ -7,22 +7,26 @@ abstract class SortMethod
     implements
         Runnable
 {
+    /**
+     * Количество повторений (для измерения времени)
+     */
+    private static int _LOOP = 1000;
 
     /**
      * Копия сортируемого массива
      */
-    protected short[] _array;
+    protected Short[]  _array;
 
     /**
      * Объект потока
      */
-    Thread            t;
+    Thread             t;
 
     /**
      * @param array - сортируемый массив
      */
     public SortMethod(
-        short[] array )
+        Short[] array )
     {
 
         // СОЗДАТЬ ПОТОК
@@ -34,13 +38,15 @@ abstract class SortMethod
         synchronized ( array )
         {
 
-            _array = new short[array.length];
+            _array = new Short[array.length];
 
             for ( int i = 0; i < array.length; i++ )
+            {
                 _array[i] = array[i];
+            }
         }
 
-        printArray( "initial array" );
+        printArray( _array, "initial array" );
 
         // ЗАПУСТИТЬ ПОТОК
         t.start();
@@ -49,19 +55,23 @@ abstract class SortMethod
     /**
      * Вывести текущее содержимое массива на экран
      * 
-     * @param s - Строка, которая будет напечатана перед массивом
+     * @param array todo
+     * @param message - Строка, которая будет напечатана перед массивом
      */
     private void printArray(
-        String s )
+        Short[] array,
+        String message )
     {
 
         synchronized ( System.out )
         {
 
-            System.out.println( "\n\t" + getMethodName() + " - " + s + ":" );
+            System.out.println( "\n\t" + getMethodName() + " - " + message + ":" );
 
-            for ( int i = 0; i < _array.length; i++ )
-                System.out.print( _array[i] + " " );
+            for ( int i = 0; i < array.length; i++ )
+            {
+                System.out.print( array[i] + " " );
+            }
 
             System.out.println();
         }
@@ -77,8 +87,11 @@ abstract class SortMethod
 
     /**
      * Выполнить сортировку
+     * 
+     * @param arrayToSort todo
      */
-    abstract protected void sort()
+    abstract protected void sort(
+        Short[] arrayToSort )
         throws InterruptedException;
 
     /**
@@ -88,14 +101,31 @@ abstract class SortMethod
     {
         try
         {
+            Short[] tempArray = null;
 
-            long start = System.currentTimeMillis();
+            // ВРЕМЯ НАЧАЛА
+            long startTime = System.currentTimeMillis();
 
-            sort();
+            // ВЫПОЛНЯЕМ В ЦИКЛЕ ДЛЯ УВЕЛИЧЕНИЯ ВРЕМЕНИ
+            for ( int i = 0; i < _LOOP; i++ )
+            {
+                // КОПИРУЕМ МАССИВ
+                tempArray = new Short[_array.length];
 
-            long finish = System.currentTimeMillis();
+                for ( int j = 0; j < _array.length; j++ )
+                {
+                    tempArray[j] = _array[j];
+                }
 
-            printArray( "sorted array (finished in " + (finish - start) + " ms)" );
+                // СОРТИРУЕМ СКОПИРОВАННЫЙ МАССИВ
+                sort( tempArray );
+            }
+
+            // ВРЕМЯ ОКОНЧАНИЯ
+            long finishTime = System.currentTimeMillis();
+
+            // ВЫВОДИМ ОТСОРТИРОВАННЫЙ МАССИВ
+            printArray( tempArray, "sorted array (finished in " + (finishTime - startTime) + " ms)" );
 
         }
         catch ( InterruptedException e )
