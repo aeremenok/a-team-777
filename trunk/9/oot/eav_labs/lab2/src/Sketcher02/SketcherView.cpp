@@ -313,7 +313,6 @@ CElement* CSketcherView::SelectElement(CPoint aPoint)
         aRect = pElement->GetBoundRect();
         if(aRect.PtInRect(aPoint))
             return pElement;
-
         pElement = ribble->get__vertex2();
         aRect = pElement->GetBoundRect();
         if(aRect.PtInRect(aPoint))

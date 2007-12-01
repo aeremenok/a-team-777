@@ -3,6 +3,7 @@
 #include "StdAfx.h"
 #include "Text.h"
 
+#include "..\OurConstants.h"
 #include "..\resource.h"
 #include "..\TextRequest.h"
 
@@ -100,24 +101,29 @@ void Text::Draw( CDC* pDC, CElement* pElement/*=0*/ )
 {
     // Create a pen for this object and
     // initialize it to the object color and line width of 1 pixel
-    CPen aPen; 
-    if(!aPen.CreatePen(PS_SOLID, m_Pen, m_Color))
-    {                                           // Pen creation failed
-        AfxMessageBox("Pen creation failed drawing a text", MB_OK);
-        AfxAbort();
+//    CPen aPen;
+    COLORREF aColor = m_Color;
+    if (this == pElement)
+    {
+        aColor = SELECT_COLOR;
     }
-    
-    // Select the pen
-    CPen* pOldPen = pDC->SelectObject(&aPen);   
-    // Select the brush
-    CBrush* pOldBrush = (CBrush*)pDC->SelectStockObject(NULL_BRUSH); 
+//     if(!aPen.CreatePen(PS_SOLID, m_Pen, m_Color))
+//     {                                           // Pen creation failed
+//         AfxMessageBox("Pen creation failed drawing a text", MB_OK);
+//         AfxAbort();
+//     }
+//     
+//     // Select the pen
+//     CPen* pOldPen = pDC->SelectObject(&aPen);   
+//     // Select the brush
+//     CBrush* pOldBrush = (CBrush*)pDC->SelectStockObject(NULL_BRUSH); 
     
     // Now draw the text
-    pDC->SetTextColor(m_Color);
+    pDC->SetTextColor(aColor);
     pDC->TextOut(_x, _y, _content.c_str());
     drawID(pDC);
     
-    pDC->SelectObject(pOldBrush);              // Restore the old brush
-    pDC->SelectObject(pOldPen);                // Restore the old pen
+//     pDC->SelectObject(pOldBrush);              // Restore the old brush
+//     pDC->SelectObject(pOldPen);                // Restore the old pen
 }
 //////////////////////////////////////////////////////////////////////////

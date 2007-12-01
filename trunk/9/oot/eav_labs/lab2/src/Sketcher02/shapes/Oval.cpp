@@ -3,6 +3,8 @@
 #include "StdAfx.h"
 #include "Oval.h"
 
+#include "..\OurConstants.h"
+
 #include <ostream.h>
 #include <math.h>
 //////////////////////////////////////////////////////////////////////////
@@ -112,8 +114,13 @@ void Oval::Draw( CDC* pDC, CElement* pElement/*=0*/ )
 {
     // Create a pen for this object and
     // initialize it to the object color and line width of 1 pixel
-    CPen aPen; 
-    if(!aPen.CreatePen(PS_SOLID, m_Pen, m_Color))
+    CPen aPen;
+    COLORREF aColor = m_Color;
+    if (this == pElement)
+    {
+        aColor = SELECT_COLOR;
+    }
+    if(!aPen.CreatePen(PS_SOLID, m_Pen, aColor))
     {                                           // Pen creation failed
         AfxMessageBox("Pen creation failed drawing an oval", MB_OK);
         AfxAbort();
