@@ -38,6 +38,10 @@ BEGIN_MESSAGE_MAP(CSketcherView, CScrollView)
 	ON_COMMAND(ID_DELETE, OnDelete)
 	ON_COMMAND(ID_ELEMENT_DRAWRIBBLES, OnElementDrawribbles)
 	ON_UPDATE_COMMAND_UI(ID_ELEMENT_DRAWRIBBLES, OnUpdateElementDrawribbles)
+	ON_COMMAND(ID_NOELEMENT_SCALE, OnNoelementScale)
+	ON_UPDATE_COMMAND_UI(ID_NOELEMENT_SCALE, OnUpdateNoelementScale)
+	ON_COMMAND(ID_ELEMENT_SCALE, OnElementScale)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENT_SCALE, OnUpdateElementScale)
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CView::OnFilePrint)
@@ -487,4 +491,24 @@ void CSketcherView::OnElementDrawribbles()
 void CSketcherView::OnUpdateElementDrawribbles(CCmdUI* pCmdUI) 
 {
 	pCmdUI->SetCheck(isGraphVisible==true);
+}
+
+void CSketcherView::OnNoelementScale() 
+{
+
+}
+
+void CSketcherView::OnUpdateNoelementScale(CCmdUI* pCmdUI) 
+{
+	
+}
+
+void CSketcherView::OnElementScale() 
+{
+	
+}
+
+void CSketcherView::OnUpdateElementScale(CCmdUI* pCmdUI) 
+{
+	
 }

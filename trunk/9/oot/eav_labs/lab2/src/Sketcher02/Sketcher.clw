@@ -16,15 +16,15 @@ Class4=CMainFrame
 
 ResourceCount=8
 Resource1=IDR_MAINFRAME
-Resource2=IDR_SKETCHTYPE (English (U.S.))
+Resource2=IDR_CURSOR_MENU (English (U.S.))
 Resource3=IDR_SKETCHTYPE
 Class5=CAboutDlg
 Class6=CChildFrame
-Resource4=IDD_TEXTREQUEST_DIALOG
+Resource4=IDR_SKETCHTYPE (English (U.S.))
 Resource5=IDD_ABOUTBOX
 Resource6=IDD_ABOUTBOX (English (U.S.))
 Class7=TextRequest
-Resource7=IDR_CURSOR_MENU (English (U.S.))
+Resource7=IDD_TEXTREQUEST_DIALOG
 Resource8=IDR_MAINFRAME (English (U.S.))
 
 [CLS:CSketcherApp]
@@ -48,7 +48,7 @@ Type=0
 HeaderFile=SketcherView.h
 ImplementationFile=SketcherView.cpp
 Filter=C
-LastObject=ID_ELEMENT_DRAWRIBBLES
+LastObject=ID_NOELEMENT_SCALE
 BaseClass=CScrollView
 VirtualFilter=VWC
 
@@ -195,14 +195,15 @@ Command18=ID_ELEMENT_OVAL
 Command19=ID_ELEMENT_TEXT
 Command20=ID_ELEMENT_TEXT_IN_OVAL
 Command21=ID_ELEMENT_DRAWRIBBLES
-Command22=ID_COLOR_BLACK
-Command23=ID_COLOR_RED
-Command24=ID_WINDOW_NEW
-Command25=ID_WINDOW_CASCADE
-Command26=ID_WINDOW_TILE_HORZ
-Command27=ID_WINDOW_ARRANGE
-Command28=ID_APP_ABOUT
-CommandCount=28
+Command22=ID_ELEMENT_SCALE
+Command23=ID_COLOR_BLACK
+Command24=ID_COLOR_RED
+Command25=ID_WINDOW_NEW
+Command26=ID_WINDOW_CASCADE
+Command27=ID_WINDOW_TILE_HORZ
+Command28=ID_WINDOW_ARRANGE
+Command29=ID_APP_ABOUT
+CommandCount=29
 
 [MNU:IDR_MAINFRAME (English (U.S.))]
 Type=1
@@ -282,7 +283,7 @@ LastObject=IDOK
 
 [MNU:IDR_CURSOR_MENU (English (U.S.))]
 Type=1
-Class=?
+Class=CSketcherView
 Command1=ID_MOVE
 Command2=ID_DELETE
 Command3=ID_SENDTOBACK
@@ -290,5 +291,6 @@ Command4=ID_ELEMENT_LINE
 Command5=ID_ELEMENT_RECTANGLE
 Command6=ID_COLOR_BLACK
 Command7=ID_COLOR_RED
-CommandCount=7
+Command8=ID_NOELEMENT_SCALE
+CommandCount=8
 
