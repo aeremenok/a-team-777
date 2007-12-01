@@ -2,30 +2,32 @@
 
 [General Info]
 Version=1
-LastClass=CSketcherView
+LastClass=CScaleDialog
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "Sketcher.h"
 LastPage=0
 
-ClassCount=7
+ClassCount=8
 Class1=CSketcherApp
 Class2=CSketcherDoc
 Class3=CSketcherView
 Class4=CMainFrame
 
-ResourceCount=8
+ResourceCount=9
 Resource1=IDR_MAINFRAME
-Resource2=IDR_CURSOR_MENU (English (U.S.))
+Resource2=IDR_SKETCHTYPE (English (U.S.))
 Resource3=IDR_SKETCHTYPE
 Class5=CAboutDlg
 Class6=CChildFrame
-Resource4=IDR_SKETCHTYPE (English (U.S.))
+Resource4=IDR_CURSOR_MENU (English (U.S.))
 Resource5=IDD_ABOUTBOX
-Resource6=IDD_ABOUTBOX (English (U.S.))
+Resource6=IDD_TEXTREQUEST_DIALOG
 Class7=TextRequest
-Resource7=IDD_TEXTREQUEST_DIALOG
-Resource8=IDR_MAINFRAME (English (U.S.))
+Resource7=IDD_ABOUTBOX (English (U.S.))
+Resource8=IDD_SCALE_DLG
+Class8=CScaleDialog
+Resource9=IDR_MAINFRAME (English (U.S.))
 
 [CLS:CSketcherApp]
 Type=0
@@ -48,7 +50,7 @@ Type=0
 HeaderFile=SketcherView.h
 ImplementationFile=SketcherView.cpp
 Filter=C
-LastObject=ID_NOELEMENT_SCALE
+LastObject=CSketcherView
 BaseClass=CScrollView
 VirtualFilter=VWC
 
@@ -293,4 +295,20 @@ Command6=ID_COLOR_BLACK
 Command7=ID_COLOR_RED
 Command8=ID_NOELEMENT_SCALE
 CommandCount=8
+
+[DLG:IDD_SCALE_DLG]
+Type=1
+Class=CScaleDialog
+ControlCount=4
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
+Control3=IDC_SCALE,edit,1350639744
+Control4=IDC_SPIN_SCALE,msctls_updown32,1342177330
+
+[CLS:CScaleDialog]
+Type=0
+HeaderFile=ScaleDialog.h
+ImplementationFile=ScaleDialog.cpp
+BaseClass=CDialog
+Filter=D
 

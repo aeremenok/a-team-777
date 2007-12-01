@@ -24,6 +24,7 @@ protected:
 	COLORREF m_Color;		// Current drawing color
 	//##ModelId=473EDD6D02CE
 	WORD m_Element;			// Current element type
+	CSize m_DocSize;        // Document size
 
 	//##ModelId=4741F10E0293
     Graph<CElement>* _container;
@@ -43,6 +44,8 @@ public:
     void SendToBack(CElement* pElement);
 	//##ModelId=4741F10E02A3
     void DeleteElement(CElement* m_pSelected);
+    CSize GetDocSize()                        // Retrieve the document size
+	  { return m_DocSize; }
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherDoc)

@@ -140,6 +140,10 @@ SOURCE=.\exceptions\RibbleNotFoundException.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ScaleDialog.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\shapes\Shape.cpp
 
 !IF  "$(CFG)" == "Sketcher - Win32 Release"
@@ -265,6 +269,10 @@ SOURCE=.\exceptions\RibbleExistsException.h
 # Begin Source File
 
 SOURCE=.\exceptions\RibbleNotFoundException.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ScaleDialog.h
 # End Source File
 # Begin Source File
 

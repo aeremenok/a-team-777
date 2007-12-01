@@ -33,7 +33,8 @@ protected:
     CPoint m_CursorPos;        // Cursor position
 	//##ModelId=4741F10E0204
     CPoint m_FirstPos;         // Original position in a move
-
+    bool isGraphVisible;
+    int m_Scale;
 
 // Operations
 public:
@@ -50,16 +51,15 @@ protected:
     void drawRibble( CPoint* start, CPoint* end, CDC* pDC );
 	//##ModelId=47511BBE02FF
     void drawRibble( CElement* start, CElement* end, CDC* pDC );
-	//##ModelId=47511BBE030E
-    bool isGraphVisible;
+    void ResetScrollSizes();
+    void requestScale();
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherView)
 	public:
 	//##ModelId=473EDD6D0243
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
-    
-
+    virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
 	//##ModelId=473EDD6D0246
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	//##ModelId=4741F10E0223
