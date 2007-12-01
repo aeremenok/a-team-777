@@ -91,26 +91,20 @@ protected:
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CSketcherView)
-	//##ModelId=473EDD6D0283
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	//##ModelId=473EDD6D0291
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	//##ModelId=473EDD6D029F
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	//##ModelId=4741F10E0234
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-	//##ModelId=4741F10E0244
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
-	//##ModelId=4741F10E0251
 	afx_msg void OnMove();
-	//##ModelId=4741F10E0253
 	afx_msg void OnSendtoback();
-	//##ModelId=4741F10E0255
 	afx_msg void OnDelete();
-	//##ModelId=47511BBE037A
 	afx_msg void OnElementDrawribbles();
-	//##ModelId=47511BBE037C
 	afx_msg void OnUpdateElementDrawribbles(CCmdUI* pCmdUI);
+	afx_msg void OnNoelementScale();
+	afx_msg void OnUpdateNoelementScale(CCmdUI* pCmdUI);
+	afx_msg void OnElementScale();
+	afx_msg void OnUpdateElementScale(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
