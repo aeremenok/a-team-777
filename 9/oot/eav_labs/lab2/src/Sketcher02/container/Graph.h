@@ -202,11 +202,28 @@ public:
         while (iter->hasNext())
         {
             Ribble<T>* current = iter->next();
-            if (current->contains(vertex))
+
+            // запоминаем вершину, ставшую висячей
+            T* hangVertex = NULL;
+            if (*current->get__vertex1() == *vertex)
             {
+                hangVertex = current->get__vertex2();
+            } 
+            else if (*current->get__vertex2() == *vertex)
+            {
+                hangVertex = current->get__vertex1();
+            }
+            
+            if (hangVertex != NULL)
+            {
+                if (!(*current->get__vertex1() == *current->get__vertex2()))
+                { // это не та же самая вершина, что удаляем
+                    addVertex(hangVertex);
+                }
                 _ribbleList->remove(current);
                 current->~Ribble();
                 isPresent = true;
+
                 cout<<"\t[graph] ribble containig vertex removed\n";
             }
         }
