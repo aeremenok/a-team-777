@@ -48,6 +48,7 @@ CSketcherDoc::CSketcherDoc()
    m_Element = LINE;   // Set initial element type
    m_Color = BLACK;    // Set initial drawing color
    _container = new Graph<CElement>();
+   m_DocSize = CSize(3000,3000);  // Set initial document size 30x30 inches
 }
 
 //##ModelId=473EDD6D02D6

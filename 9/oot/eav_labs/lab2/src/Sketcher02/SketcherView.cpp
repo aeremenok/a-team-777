@@ -3,6 +3,9 @@
 #include "stdafx.h"
 #include "Sketcher.h"
 
+
+#include "ChildFrm.h"
+#include "ScaleDialog.h"
 #include "Elements.h"
 
 #include "shapes/Rectangle.h"
@@ -63,6 +66,8 @@ CSketcherView::CSketcherView()
     m_CursorPos = CPoint(0,0);          // Initialize as zero
     m_FirstPos = CPoint(0,0);           // Initialize as zero
     isGraphVisible = false;
+    m_Scale = 1;                          // Set scale to 1:1
+    SetScrollSizes(MM_TEXT, CSize(0,0));  // Set arbitrary scrollers
 }
 
 //##ModelId=473EDD6D0273
@@ -418,13 +423,8 @@ void CSketcherView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 //##ModelId=4741F10E0223
 void CSketcherView::OnInitialUpdate() 
 {
+   ResetScrollSizes();
    CScrollView::OnInitialUpdate();
-	
-   // Define document size as 30x30ins in MM_LOENGLISH
-   CSize DocSize(3000,3000);
-
-   // Set mapping mode and document size.
-   SetScrollSizes(MM_LOENGLISH, DocSize);
 }
 
 //##ModelId=4741F10E0251
@@ -443,7 +443,8 @@ void CSketcherView::OnMove()
 //##ModelId=4741F10E0253
 void CSketcherView::OnSendtoback() 
 {
-   GetDocument()->SendToBack(m_pSelected);  // Move element in list	
+   GetDocument()->SendToBack(m_pSelected);  // Move element in list
+   Invalidate();
 }
 
 //##ModelId=4741F10E0255
@@ -495,20 +496,67 @@ void CSketcherView::OnUpdateElementDrawribbles(CCmdUI* pCmdUI)
 
 void CSketcherView::OnNoelementScale() 
 {
-
+    requestScale();
 }
 
-void CSketcherView::OnUpdateNoelementScale(CCmdUI* pCmdUI) 
-{
-	
-}
+void CSketcherView::OnUpdateNoelementScale(CCmdUI* pCmdUI){}
 
 void CSketcherView::OnElementScale() 
 {
-	
+	requestScale();
 }
 
-void CSketcherView::OnUpdateElementScale(CCmdUI* pCmdUI) 
+void CSketcherView::OnUpdateElementScale(CCmdUI* pCmdUI){}
+
+void CSketcherView::ResetScrollSizes()
 {
-	
+    CClientDC aDC(this);
+    OnPrepareDC(&aDC);                            // Set up the device context
+    CSize DocSize = GetDocument()->GetDocSize();  // Get the document size
+    aDC.LPtoDP(&DocSize);                         // Get the size in pixels
+    SetScrollSizes(MM_TEXT, DocSize);             // Set up the scrollbars
+}
+
+void CSketcherView::requestScale()
+{
+    CScaleDialog aDlg;            // Create a dialog object
+    aDlg.m_Scale = m_Scale;       // Pass the view scale to the dialog
+    if(aDlg.DoModal() == IDOK)
+    {
+        m_Scale = aDlg.m_Scale;    // Get the new scale
+
+        // Get the frame window for this view
+        CChildFrame* viewFrame = (CChildFrame*)GetParentFrame();
+
+        // Build the message string
+        CString StatusMsg("View Scale:");
+        StatusMsg += (char)('0' + m_Scale);
+
+        // Write the string to the status bar
+        viewFrame->m_StatusBar.GetStatusBarCtrl().SetText(StatusMsg, 0, 0);
+        ResetScrollSizes();        // Adjust scrolling to the new scale
+        InvalidateRect(0);         // Invalidate the whole window
+    }
+}
+
+void CSketcherView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
+{
+    CScrollView::OnPrepareDC(pDC, pInfo);
+    CSketcherDoc* pDoc = GetDocument();
+    pDC->SetMapMode(MM_ANISOTROPIC);           // Set the map mode
+    CSize DocSize = pDoc->GetDocSize();        // Get the document size
+
+    // y extent must be negative because we want MM_LOENGLISH
+    DocSize.cy = -DocSize.cy;                  // Change sign of y
+    pDC->SetWindowExt(DocSize);                // Now set the window extent
+
+    // Get the number of pixels per inch in x and y
+    int xLogPixels = pDC->GetDeviceCaps(LOGPIXELSX);
+    int yLogPixels = pDC->GetDeviceCaps(LOGPIXELSY);
+
+    // Calculate the viewport extent in x and y
+    long xExtent = (long)DocSize.cx*m_Scale*xLogPixels/100L;
+    long yExtent = (long)DocSize.cy*m_Scale*yLogPixels/100L;
+
+    pDC->SetViewportExt((int)xExtent, (int)-yExtent); // Set viewport extent
 }
