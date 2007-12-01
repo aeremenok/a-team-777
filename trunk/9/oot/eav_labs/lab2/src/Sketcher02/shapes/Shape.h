@@ -12,7 +12,7 @@ class ostream;
 //////////////////////////////////////////////////////////////////////////
 //обобщенна€ фигура
 //##ModelId=473EDDF4032C
-class Shape
+class AFX_NOVTABLE Shape
 : public CElement
 {
 private:
@@ -22,7 +22,7 @@ private:
 
     //идентификатор объекта
     //##ModelId=473EDDF4033C
-    const int _id;
+    int _id;
 protected:
     //абсцисса фигуры. все фигуры по умолчанию по€вл€ютс€ в начале координат
     //##ModelId=473EDDF4033D
@@ -39,6 +39,12 @@ protected:
     //##ModelId=473EDDF4034C
     virtual ostream& speak(ostream& os) const;
 public:
+	//##ModelId=4751AC740213
+	Shape();
+
+	//##ModelId=475168D10271
+	virtual void Serialize(CArchive& ar);
+
     // рисует идентификатор фигуры
     //##ModelId=474C966702BF
     void drawID(CDC* pDC) const;

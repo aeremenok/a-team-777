@@ -34,6 +34,12 @@ private:
     //##ModelId=473EDDF4038A
     Rectangle2(float l, float w, float x, float y);
 public:
+	//##ModelId=4751AC870261
+	Rectangle2();
+
+	//##ModelId=4751692C0119
+	virtual void Serialize(CArchive& ar);
+
 	//Virtual draw operation
 	//##ModelId=473EF26702EE
     virtual void Draw(CDC* pDC, CElement* pElement=0);

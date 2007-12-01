@@ -14,15 +14,7 @@ template<class T>
 class Ribble 
 {
 public:
-	//##ModelId=474DE161038A
-	void set__vertex1(T* value)
-	{
-		_vertex1 = value;
-		return;
-	}
-
-
-	//##ModelId=474DE16301F5
+	//##ModelId=4751BEE202EA
 	void set__vertex2(T* value)
 	{
 		_vertex2 = value;

@@ -38,6 +38,12 @@ protected:
     //##ModelId=473EDDF403D8
     virtual ostream& speak(ostream& os) const;
 public:
+	//##ModelId=4751AC7A02BF
+	Oval();
+
+	//##ModelId=475168E301A5
+	virtual void Serialize(CArchive& ar);
+
 	//Virtual draw operation
 	//##ModelId=473EF25A00EA
     virtual void Draw(CDC* pDC, CElement* pElement=0);

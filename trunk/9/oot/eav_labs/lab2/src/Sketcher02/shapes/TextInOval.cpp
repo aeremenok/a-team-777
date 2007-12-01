@@ -3,6 +3,7 @@
 #include "StdAfx.h"
 #include "TextInOval.h"
 
+#include "../OurConstants.h"
 #include "../resource.h"
 #include "../TextRequest.h"
 
@@ -96,4 +97,32 @@ void TextInOval::Draw( CDC* pDC, CElement* pElement/*=0*/ )
     Oval::Draw(pDC, pElement);
     Text::Draw(pDC, pElement);
 }
+
+//##ModelId=4751693802BF
+void TextInOval::Serialize(CArchive& ar)
+{
+    Shape::Serialize(ar);
+    
+    if (ar.IsStoring())
+    {  // storing code
+        CString cs = _content.c_str();
+        ar << cs
+           << _rad1
+           << _rad2;
+    }
+    else
+    { // loading code
+        CString cs;
+        ar >> cs
+           >> _rad1
+           >> _rad2;
+        _content = cs;
+    }
+}
 //////////////////////////////////////////////////////////////////////////
+//##ModelId=4751AC8C030D
+TextInOval::TextInOval()
+{
+	// ToDo: Add your specialized code here and/or call the base class
+}
+

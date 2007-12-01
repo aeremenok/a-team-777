@@ -7,8 +7,9 @@
 #include <math.h>
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
+IMPLEMENT_SERIAL(CElement, CObject, VERSION_NUMBER)
+//////////////////////////////////////////////////////////////////////////
 // Add definitions for member functions here
-
 // CLine class constructor
 //##ModelId=473EDD6D0350
 CLine::CLine(CPoint Start, CPoint End, COLORREF aColor)
@@ -133,4 +134,22 @@ void CLine::resize(CPoint Start, CPoint End)
 	
 	CElement::resize(Start, End);
 }
+
+//##ModelId=475168BF033C
+void CElement::Serialize(CArchive& ar)
+{
+	if (ar.IsStoring())
+	{  // storing code
+        ar << m_Color
+           << m_EnclosingRect
+           << m_Pen;
+	}
+	else
+	{ // loading code
+        ar >> m_Color
+           >> m_EnclosingRect
+           >> m_Pen;
+	}
+}
+
 

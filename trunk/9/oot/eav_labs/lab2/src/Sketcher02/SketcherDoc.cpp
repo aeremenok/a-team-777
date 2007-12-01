@@ -72,20 +72,49 @@ BOOL CSketcherDoc::OnNewDocument()
 
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherDoc serialization
-
 //##ModelId=473EDD6D02D3
 void CSketcherDoc::Serialize(CArchive& ar)
 {
-	if (ar.IsStoring())
-	{
-		// TODO: add storing code here
-	}
-	else
-	{
-		// TODO: add loading code here
-	}
+   serializeContainer(ar);
+   if (ar.IsStoring())
+   {
+      ar << m_Color                // Store the current color
+         << m_Element              // the current element type,
+         << m_DocSize;             // and the current document size
+   }
+   else
+   {
+      ar >> m_Color                // Retrieve the current color
+         >> m_Element              // the current element type,
+         >> m_DocSize;             // and the current document size
+   }
 }
 
+//##ModelId=4751AAD80232
+void CSketcherDoc::serializeContainer( CArchive& ar )
+{
+    if (ar.IsStoring())
+    {
+        Iterator<CElement>* iter = getGraphIterator();
+        while (iter->hasNext())
+        {
+            Ribble<CElement>* current = iter->next();
+            
+            if (current->get__vertex1() != NULL)
+            {
+                current->get__vertex1()->Serialize(ar);
+            }
+            if (current->get__vertex2() != NULL)
+            {
+                current->get__vertex2()->Serialize(ar);
+            }
+        }
+    } 
+    else
+    {
+        
+    }
+}
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherDoc diagnostics
 
@@ -223,3 +252,4 @@ void CSketcherDoc::DeleteElement( CElement* m_pSelected )
     	AfxMessageBox(e->get__description().c_str());
     }
 }
+

@@ -16,16 +16,16 @@ Class4=CMainFrame
 
 ResourceCount=9
 Resource1=IDR_MAINFRAME
-Resource2=IDR_CURSOR_MENU (English (U.S.))
+Resource2=IDR_SKETCHTYPE (English (U.S.))
 Resource3=IDR_SKETCHTYPE
 Class5=CAboutDlg
 Class6=CChildFrame
-Resource4=IDR_SKETCHTYPE (English (U.S.))
+Resource4=IDR_CURSOR_MENU (English (U.S.))
 Resource5=IDD_ABOUTBOX
-Resource6=IDD_TEXTREQUEST_DIALOG
+Resource6=IDD_SCALE_DLG
 Class7=TextRequest
-Resource7=IDD_ABOUTBOX (English (U.S.))
-Resource8=IDD_SCALE_DLG
+Resource7=IDD_TEXTREQUEST_DIALOG
+Resource8=IDD_ABOUTBOX (English (U.S.))
 Class8=CScaleDialog
 Resource9=IDR_MAINFRAME (English (U.S.))
 

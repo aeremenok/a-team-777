@@ -99,31 +99,41 @@ float Text::Area() const
 //##ModelId=473EF26003D8
 void Text::Draw( CDC* pDC, CElement* pElement/*=0*/ )
 {
-    // Create a pen for this object and
-    // initialize it to the object color and line width of 1 pixel
-//    CPen aPen;
     COLORREF aColor = m_Color;
     if (this == pElement)
     {
         aColor = SELECT_COLOR;
     }
-//     if(!aPen.CreatePen(PS_SOLID, m_Pen, m_Color))
-//     {                                           // Pen creation failed
-//         AfxMessageBox("Pen creation failed drawing a text", MB_OK);
-//         AfxAbort();
-//     }
-//     
-//     // Select the pen
-//     CPen* pOldPen = pDC->SelectObject(&aPen);   
-//     // Select the brush
-//     CBrush* pOldBrush = (CBrush*)pDC->SelectStockObject(NULL_BRUSH); 
     
     // Now draw the text
     pDC->SetTextColor(aColor);
     pDC->TextOut(_x, _y, _content.c_str());
     drawID(pDC);
+}
+
+//##ModelId=475168EB032C
+void Text::Serialize(CArchive& ar)
+{
+    Shape::Serialize(ar);
     
-//     pDC->SelectObject(pOldBrush);              // Restore the old brush
-//     pDC->SelectObject(pOldPen);                // Restore the old pen
+    if (ar.IsStoring())
+    {  // storing code
+        ar << _content.c_str();
+    }
+    else
+    { // loading code
+        CString cs;
+        ar >> cs;
+        _content = cs;
+    }
 }
 //////////////////////////////////////////////////////////////////////////
+
+
+
+//##ModelId=4751AC8201D4
+Text::Text()
+{
+	// ToDo: Add your specialized code here and/or call the base class
+}
+

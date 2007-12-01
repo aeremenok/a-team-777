@@ -494,20 +494,25 @@ void CSketcherView::OnUpdateElementDrawribbles(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(isGraphVisible==true);
 }
 
+//##ModelId=475168590203
 void CSketcherView::OnNoelementScale() 
 {
     requestScale();
 }
 
+//##ModelId=475168590213
 void CSketcherView::OnUpdateNoelementScale(CCmdUI* pCmdUI){}
 
+//##ModelId=475168590216
 void CSketcherView::OnElementScale() 
 {
 	requestScale();
 }
 
+//##ModelId=475168590218
 void CSketcherView::OnUpdateElementScale(CCmdUI* pCmdUI){}
 
+//##ModelId=4751685901F4
 void CSketcherView::ResetScrollSizes()
 {
     CClientDC aDC(this);
@@ -517,6 +522,7 @@ void CSketcherView::ResetScrollSizes()
     SetScrollSizes(MM_TEXT, DocSize);             // Set up the scrollbars
 }
 
+//##ModelId=4751685901F5
 void CSketcherView::requestScale()
 {
     CScaleDialog aDlg;            // Create a dialog object
@@ -539,6 +545,7 @@ void CSketcherView::requestScale()
     }
 }
 
+//##ModelId=4751685901F6
 void CSketcherView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 {
     CScrollView::OnPrepareDC(pDC, pInfo);

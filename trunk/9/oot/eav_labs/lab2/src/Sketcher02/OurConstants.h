@@ -19,4 +19,6 @@
    const COLORREF GREEN = RGB(0, 255, 0);
    ///////////////////////////////////
 
+   // Program version number for use in serialization
+   const UINT VERSION_NUMBER = 1;
 #endif
