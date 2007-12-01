@@ -40587,7 +40587,7 @@
 				    fill_color 	13434879
 				    anchor     	2
 				    nlines     	11
-				    max_width  	729)
+				    max_width  	737)
 				width      	876
 				height     	638
 				annotation 	8
@@ -41071,6 +41071,91 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "drawRibble"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47511BBE02EE"
+					parameters 	(list Parameters
+					    (object Parameter "start"
+						quid       	"47511BBE02EF"
+						type       	"CPoint*"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "end"
+						quid       	"47511BBE02FD"
+						type       	"CPoint*"
+						quidu      	"365C7A7A0020")
+					    (object Parameter "pDC"
+						quid       	"47511BBE02FE"
+						type       	"CDC*"
+						quidu      	"365C7A70033F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "drawRibble"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47511BBE02FF"
+					parameters 	(list Parameters
+					    (object Parameter "start"
+						quid       	"47511BBE0300"
+						type       	"CElement*"
+						quidu      	"473EDD6D032D")
+					    (object Parameter "end"
+						quid       	"47511BBE0301"
+						type       	"CElement*"
+						quidu      	"473EDD6D032D")
+					    (object Parameter "pDC"
+						quid       	"47511BBE030D"
+						type       	"CDC*"
+						quidu      	"365C7A70033F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnElementDrawribbles"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_COMMAND(ID_ELEMENT_DRAWRIBBLES, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47511BBE037A"
+					stereotype 	"afx_msg"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnUpdateElementDrawribbles"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_UPDATE_COMMAND_UI(ID_ELEMENT_DRAWRIBBLES, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47511BBE037C"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "pCmdUI"
+						quid       	"47511BBE038A"
+						type       	"CCmdUI*"
+						quidu      	"365C7A7A028F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "m_FirstPoint"
@@ -41101,6 +41186,10 @@
 					documentation 	"Original position in a move"
 					type       	"CPoint"
 					quidu      	"365C7A7A0020"
+					exportControl 	"Protected")
+				    (object ClassAttribute "isGraphVisible"
+					quid       	"47511BBE030E"
+					type       	"bool"
 					exportControl 	"Protected"))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
@@ -41519,10 +41608,11 @@
 						quid       	"4741F10E02A0"
 						type       	"CElement*"
 						quidu      	"473EDD6D032D"))
-					result     	"void"
+					result     	"CElement*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
-					uid        	0)
+					uid        	0
+					quidu      	"473EDD6D032D")
 				    (object Operation "SendToBack"
 					attributes 	(list Attribute_Set
 					    (object Attribute
@@ -44524,12 +44614,12 @@
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"474DE48500EA"
-					documentation 	"добавить ребро"
+					documentation 	"добавить вершину в граф, на выходе - вершина, к которой присоединена новая"
 					parameters 	(list Parameters
 					    (object Parameter "vertex1"
 						quid       	"474DE48500FA"
 						type       	"T*"))
-					result     	"void"
+					result     	"T*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -45227,24 +45317,6 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"473EDD6D032D"
-					compartment 	(object Compartment
-					    Parent_View 	@679
-					    location   	(871, 615)
-					    font       	(object Font
-						size       	12
-						face       	"Consolas"
-						charSet    	204
-						bold       	FALSE
-						italics    	FALSE
-						underline  	FALSE
-						strike     	FALSE
-						color      	0
-						default_color 	FALSE)
-					    icon_style 	"Icon"
-					    fill_color 	16777215
-					    anchor     	2
-					    nlines     	11
-					    max_width  	0)
 					width      	709
 					height     	570
 					annotation 	8

@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=TextRequest
+LastClass=CSketcherView
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "Sketcher.h"
@@ -48,8 +48,8 @@ Type=0
 HeaderFile=SketcherView.h
 ImplementationFile=SketcherView.cpp
 Filter=C
-LastObject=CSketcherView
-BaseClass=CView
+LastObject=ID_ELEMENT_DRAWRIBBLES
+BaseClass=CScrollView
 VirtualFilter=VWC
 
 [CLS:CMainFrame]
@@ -194,14 +194,15 @@ Command17=ID_ELEMENT_RECTANGLE
 Command18=ID_ELEMENT_OVAL
 Command19=ID_ELEMENT_TEXT
 Command20=ID_ELEMENT_TEXT_IN_OVAL
-Command21=ID_COLOR_BLACK
-Command22=ID_COLOR_RED
-Command23=ID_WINDOW_NEW
-Command24=ID_WINDOW_CASCADE
-Command25=ID_WINDOW_TILE_HORZ
-Command26=ID_WINDOW_ARRANGE
-Command27=ID_APP_ABOUT
-CommandCount=27
+Command21=ID_ELEMENT_DRAWRIBBLES
+Command22=ID_COLOR_BLACK
+Command23=ID_COLOR_RED
+Command24=ID_WINDOW_NEW
+Command25=ID_WINDOW_CASCADE
+Command26=ID_WINDOW_TILE_HORZ
+Command27=ID_WINDOW_ARRANGE
+Command28=ID_APP_ABOUT
+CommandCount=28
 
 [MNU:IDR_MAINFRAME (English (U.S.))]
 Type=1

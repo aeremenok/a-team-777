@@ -38,7 +38,7 @@ public:
 	//##ModelId=4741F10E0297
     Iterator<CElement>* getGraphIterator(){ return _container->getIterator(); }
 	//##ModelId=4741F10E029F
-    void AddElement(CElement* m_pElement);
+    CElement* AddElement(CElement* m_pElement);
 	//##ModelId=4741F10E02A1
     void SendToBack(CElement* pElement);
 	//##ModelId=4741F10E02A3
