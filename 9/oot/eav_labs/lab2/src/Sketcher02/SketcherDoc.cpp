@@ -206,7 +206,7 @@ void CSketcherDoc::SendToBack(CElement* pElement)
     if(pElement)
     {
         _container->removeVertex(pElement);
-        _container->addRibble(pElement, pElement);
+        _container->addVertex(pElement);
     }    
 }
 
