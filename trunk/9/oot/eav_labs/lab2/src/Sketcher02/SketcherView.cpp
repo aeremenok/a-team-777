@@ -36,6 +36,8 @@ BEGIN_MESSAGE_MAP(CSketcherView, CScrollView)
 	ON_COMMAND(ID_MOVE, OnMove)
 	ON_COMMAND(ID_SENDTOBACK, OnSendtoback)
 	ON_COMMAND(ID_DELETE, OnDelete)
+	ON_COMMAND(ID_ELEMENT_DRAWRIBBLES, OnElementDrawribbles)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENT_DRAWRIBBLES, OnUpdateElementDrawribbles)
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CView::OnFilePrint)
@@ -56,6 +58,7 @@ CSketcherView::CSketcherView()
     m_MoveMode = FALSE;                 // Set move mode off
     m_CursorPos = CPoint(0,0);          // Initialize as zero
     m_FirstPos = CPoint(0,0);           // Initialize as zero
+    isGraphVisible = false;
 }
 
 //##ModelId=473EDD6D0273
@@ -86,7 +89,6 @@ void CSketcherView::OnDraw(CDC* pDC)
 
     CPoint* start = NULL;
     CPoint* end = NULL;
-    CLine* visibleRibble;
 
     while (iter->hasNext())
     {
@@ -106,13 +108,7 @@ void CSketcherView::OnDraw(CDC* pDC)
             end = &(pElement->GetBoundRect().CenterPoint());
         }
 
-        if ( start != NULL && end != NULL)
-        {   // рисуем ребро
-            visibleRibble = new CLine(*start, *end, GREEN);
-            visibleRibble->Draw(pDC);
-            start = NULL;
-            end = NULL;
-        }
+        drawRibble(start, end, pDC);
     }
 }
 
@@ -195,7 +191,12 @@ void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point)
    // If there is an element, add it to the document
    if(m_pTempElement)
    {  
-      GetDocument()->AddElement(m_pTempElement);
+      CClientDC aDC(this);
+      OnPrepareDC(&aDC);
+
+      CElement* firstElement = GetDocument()->AddElement(m_pTempElement);
+      drawRibble(firstElement, m_pTempElement, &aDC);
+
       GetDocument()->UpdateAllViews(0,0,m_pTempElement);  // Tell all the views
       m_pTempElement = 0;        // Reset the element pointer
    }
@@ -452,4 +453,39 @@ void CSketcherView::OnDelete()
       pDoc->UpdateAllViews(0);             // Redraw all the views
       m_pSelected = 0;                     // Reset selected element ptr
    }	
+}
+
+//##ModelId=47511BBE02EE
+void CSketcherView::drawRibble( CPoint* start, CPoint* end, CDC* pDC )
+{
+    if ( isGraphVisible && start != NULL && end != NULL)
+    {   // рисуем ребро
+        CLine* visibleRibble = new CLine(*start, *end, GREEN);
+        visibleRibble->Draw(pDC);
+        start = NULL;
+        end = NULL;
+    }
+}
+
+//##ModelId=47511BBE02FF
+void CSketcherView::drawRibble( CElement* start, CElement* end, CDC* pDC )
+{
+    drawRibble(
+        &(start->GetBoundRect().CenterPoint()),
+        &(end->GetBoundRect().CenterPoint()),
+        pDC
+        );
+}
+
+//##ModelId=47511BBE037A
+void CSketcherView::OnElementDrawribbles() 
+{
+	isGraphVisible = !isGraphVisible;
+    Invalidate();
+}
+
+//##ModelId=47511BBE037C
+void CSketcherView::OnUpdateElementDrawribbles(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(isGraphVisible==true);
 }

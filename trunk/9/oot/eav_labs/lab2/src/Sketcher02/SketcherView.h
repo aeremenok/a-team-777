@@ -46,12 +46,20 @@ protected:
 	//##ModelId=4741F10E0215
     void MoveElement(CClientDC& aDC, CPoint& point);  // Move an element
 
+	//##ModelId=47511BBE02EE
+    void drawRibble( CPoint* start, CPoint* end, CDC* pDC );
+	//##ModelId=47511BBE02FF
+    void drawRibble( CElement* start, CElement* end, CDC* pDC );
+	//##ModelId=47511BBE030E
+    bool isGraphVisible;
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherView)
 	public:
 	//##ModelId=473EDD6D0243
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+    
+
 	//##ModelId=473EDD6D0246
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	//##ModelId=4741F10E0223
@@ -99,6 +107,10 @@ protected:
 	afx_msg void OnSendtoback();
 	//##ModelId=4741F10E0255
 	afx_msg void OnDelete();
+	//##ModelId=47511BBE037A
+	afx_msg void OnElementDrawribbles();
+	//##ModelId=47511BBE037C
+	afx_msg void OnUpdateElementDrawribbles(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

@@ -194,11 +194,10 @@ void CSketcherDoc::OnUpdateElementTextInOval(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(m_Element==TEXT_IN_OVAL);
 }
 
-// todo подавать хвост
 //##ModelId=4741F10E029F
-void CSketcherDoc::AddElement( CElement* m_pElement )
+CElement* CSketcherDoc::AddElement( CElement* m_pElement )
 {
-    _container->addVertex(m_pElement);
+    return _container->addVertex(m_pElement);
 }
 
 //##ModelId=4741F10E02A1

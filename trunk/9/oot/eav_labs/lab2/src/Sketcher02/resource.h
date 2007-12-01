@@ -15,6 +15,7 @@
 #define ID_ELEMENT_OVAL                 32790
 #define ID_ELEMENT_TEXT                 32791
 #define ID_ELEMENT_TEXT_IN_OVAL         32792
+#define ID_ELEMENT_DRAWRIBBLES          32793
 #define ID_MOVE                         32794
 #define ID_DELETE                       32795
 #define ID_SENDTOBACK                   32796
@@ -25,7 +26,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        130
-#define _APS_NEXT_COMMAND_VALUE         32793
+#define _APS_NEXT_COMMAND_VALUE         32794
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           103
 #endif

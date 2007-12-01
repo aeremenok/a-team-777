@@ -127,13 +127,12 @@ public:
         }
     };
 
-    //добавить ребро
+    //добавить вершину в граф, на выходе - вершина, к которой присоединена новая
     //##ModelId=474DE48500EA
-    void addVertex(T* vertex1)
+    T* addVertex(T* vertex1)
     {
-        // проверяем, нет ли уже ребра c одной вершиной
+        // проверяем, нет ли ребра c одной и той же вершиной
         Iterator<T>* iter = getIterator();
-        bool isPresent = false;
 
         Ribble<T>* current = NULL;
         while (iter->hasNext())
@@ -141,24 +140,21 @@ public:
             current = iter->next();
             
             if ( *(current->get__vertex1()) == *(current->get__vertex2()) )
-            {
+            { // заменяем одну вершину и выходим
                 current->set__vertex2(vertex1);
-                isPresent = true;
+                return current->get__vertex1();
             }
         }
         
-        // если нет - добавляем
-        if (!isPresent)
-        {
-            if (current!=NULL)
-            {
-                _ribbleList->push_back(new Ribble<T>(current->get__vertex2(), vertex1));
-            } 
-            else
-            {
-                _ribbleList->push_back(new Ribble<T>(vertex1, vertex1));
-            }
-            
+        if (current!=NULL)
+        { // такого ребра нет - присоединяем к вершине последнего ребра
+            _ribbleList->push_back(new Ribble<T>(current->get__vertex2(), vertex1));
+            return current->get__vertex2();
+        } 
+        else
+        { // ребер еще вообще нет
+            _ribbleList->push_back(new Ribble<T>(vertex1, vertex1));
+            return vertex1;
         }
     };
 
