@@ -97,9 +97,36 @@ void Shape::resize(CPoint Start, CPoint End)
     _y = (End.y + Start.y) / 2;
     CElement::resize(Start, End);
 }
+
+//##ModelId=475168D10271
+void Shape::Serialize(CArchive& ar)
+{
+    CElement::Serialize(ar);
+    
+    if (ar.IsStoring())
+    {  // storing code
+        ar //<< _id
+           << _x
+           << _y;
+    }
+    else
+    { // loading code
+        ar //>> _id
+           >> _x
+           >> _y;
+    }
+}
 //////////////////////////////////////////////////////////////////////////
 ostream& operator<<( ostream& o, const Shape& rhs )
 {
     return rhs.speak(o);
 }
 //////////////////////////////////////////////////////////////////////////
+
+
+//##ModelId=4751AC740213
+Shape::Shape()
+{
+	// ToDo: Add your specialized code here and/or call the base class
+}
+

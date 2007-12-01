@@ -33,7 +33,9 @@ protected:
     CPoint m_CursorPos;        // Cursor position
 	//##ModelId=4741F10E0204
     CPoint m_FirstPos;         // Original position in a move
+	//##ModelId=47511BBE030E
     bool isGraphVisible;
+	//##ModelId=4751685901A5
     int m_Scale;
 
 // Operations
@@ -51,7 +53,9 @@ protected:
     void drawRibble( CPoint* start, CPoint* end, CDC* pDC );
 	//##ModelId=47511BBE02FF
     void drawRibble( CElement* start, CElement* end, CDC* pDC );
+	//##ModelId=4751685901F4
     void ResetScrollSizes();
+	//##ModelId=4751685901F5
     void requestScale();
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -59,6 +63,7 @@ protected:
 	public:
 	//##ModelId=473EDD6D0243
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+	//##ModelId=4751685901F6
     virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
 	//##ModelId=473EDD6D0246
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -91,19 +96,33 @@ protected:
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CSketcherView)
+	//##ModelId=473EDD6D0283
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	//##ModelId=473EDD6D0291
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	//##ModelId=473EDD6D029F
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	//##ModelId=4741F10E0234
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	//##ModelId=4741F10E0244
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
+	//##ModelId=4741F10E0251
 	afx_msg void OnMove();
+	//##ModelId=4741F10E0253
 	afx_msg void OnSendtoback();
+	//##ModelId=4741F10E0255
 	afx_msg void OnDelete();
+	//##ModelId=47511BBE037A
 	afx_msg void OnElementDrawribbles();
+	//##ModelId=47511BBE037C
 	afx_msg void OnUpdateElementDrawribbles(CCmdUI* pCmdUI);
+	//##ModelId=475168590203
 	afx_msg void OnNoelementScale();
+	//##ModelId=475168590213
 	afx_msg void OnUpdateNoelementScale(CCmdUI* pCmdUI);
+	//##ModelId=475168590216
 	afx_msg void OnElementScale();
+	//##ModelId=475168590218
 	afx_msg void OnUpdateElementScale(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()

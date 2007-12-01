@@ -66,14 +66,14 @@
 	gridY      	16
 	defaultFont 	(object Font
 	    size       	10
-	    face       	"Arial"
+	    face       	"Consolas"
 	    charSet    	204
 	    bold       	FALSE
 	    italics    	FALSE
 	    underline  	FALSE
 	    strike     	FALSE
-	    color      	8143653
-	    default_color 	TRUE)
+	    color      	0
+	    default_color 	FALSE)
 	showMessageNum 	1
 	showClassOfObject 	TRUE
 	notation   	"Unified")
@@ -120,7 +120,11 @@
 				    (object Attribute
 					tool       	"VC++"
 					name       	"AfxClassType"
-					value      	"CObject"))
+					value      	"CObject")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"LastAppliedTemplate"
+					value      	"C:\\Program Files\\Rational\\Rose\\vc\\templates"))
 				quid       	"365C7A6F009C"
 				documentation 	"CObject is the principal base class for the Microsoft Foundation Class Library. It serves as the root not only for library classes such as CFile and CObList, but also for the classes that you write. CObject provides basic services, including serialization support, run-time class information, object diagnostic output, and compatibility with collection classes."
 				operations 	(list Operations
@@ -40560,7 +40564,7 @@
 				    default_color 	FALSE)
 				label      	(object ItemLabel
 				    Parent_View 	@669
-				    location   	(867, 540)
+				    location   	(867, 517)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	858
@@ -40572,7 +40576,7 @@
 				quidu      	"473EDD6D032D"
 				compartment 	(object Compartment
 				    Parent_View 	@669
-				    location   	(867, 636)
+				    location   	(867, 613)
 				    font       	(object Font
 					size       	10
 					face       	"Consolas"
@@ -40586,10 +40590,10 @@
 				    icon_style 	"Icon"
 				    fill_color 	13434879
 				    anchor     	2
-				    nlines     	11
+				    nlines     	12
 				    max_width  	737)
 				width      	876
-				height     	638
+				height     	684
 				annotation 	8
 				autoResize 	TRUE)
 			    (object InheritView "" @670
@@ -41156,6 +41160,128 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "ResetScrollSizes"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751685901F4"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "requestScale"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751685901F5"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnPrepareDC"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxVirtual"
+						value      	"True")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751685901F6"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "pDC"
+						quid       	"4751685901F8"
+						type       	"CDC*"
+						quidu      	"365C7A70033F")
+					    (object Parameter "pInfo"
+						quid       	"4751685901F9"
+						type       	"CPrintInfo*"
+						quidu      	"365C7A7A0232"
+						initv      	"NULL"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "OnNoelementScale"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_COMMAND(ID_NOELEMENT_SCALE, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475168590203"
+					stereotype 	"afx_msg"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnUpdateNoelementScale"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_UPDATE_COMMAND_UI(ID_NOELEMENT_SCALE, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475168590213"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "pCmdUI"
+						quid       	"475168590215"
+						type       	"CCmdUI*"
+						quidu      	"365C7A7A028F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnElementScale"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_COMMAND(ID_ELEMENT_SCALE, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475168590216"
+					stereotype 	"afx_msg"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnUpdateElementScale"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_UPDATE_COMMAND_UI(ID_ELEMENT_SCALE, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475168590218"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "pCmdUI"
+						quid       	"475168590222"
+						type       	"CCmdUI*"
+						quidu      	"365C7A7A028F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "m_FirstPoint"
@@ -41190,6 +41316,10 @@
 				    (object ClassAttribute "isGraphVisible"
 					quid       	"47511BBE030E"
 					type       	"bool"
+					exportControl 	"Protected")
+				    (object ClassAttribute "m_Scale"
+					quid       	"4751685901A5"
+					type       	"int"
 					exportControl 	"Protected"))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
@@ -41644,6 +41774,35 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "GetDocSize"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"475168590261"
+					documentation 	"Retrieve the document size"
+					result     	"CSize"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0
+					quidu      	"365C7A7A008E")
+				    (object Operation "serializeContainer"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751AAD80232"
+					parameters 	(list Parameters
+					    (object Parameter "ar"
+						quid       	"4751AAD80242"
+						type       	"CArchive&"
+						quidu      	"365C7A79032D"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "m_Color"
@@ -41655,6 +41814,12 @@
 					quid       	"473EDD6D02CE"
 					documentation 	"Current element type"
 					type       	"WORD"
+					exportControl 	"Protected")
+				    (object ClassAttribute "m_DocSize"
+					quid       	"475168590251"
+					documentation 	"Document size"
+					type       	"CSize"
+					quidu      	"365C7A7A008E"
 					exportControl 	"Protected"))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
@@ -41848,7 +42013,7 @@
 				    (object Attribute
 					tool       	"VC++"
 					name       	"AfxSupportMacro"
-					value      	"")
+					value      	"Serial")
 				    (object Attribute
 					tool       	"VC++"
 					name       	"AfxBaseClass"
@@ -41860,6 +42025,10 @@
 				    (object Attribute
 					tool       	"VC++"
 					name       	"Generate"
+					value      	TRUE)
+				    (object Attribute
+					tool       	"VC++"
+					name       	"GenerateMessageMap"
 					value      	TRUE))
 				quid       	"473EDD6D032D"
 				documentation 	" Generic element class"
@@ -42001,6 +42170,39 @@
 						quid       	"474DC26D0119"
 						type       	"CPoint"
 						quidu      	"365C7A7A0020"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Serialize"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|if (ar.IsStoring())
+|{  // storing code
+|}
+|else
+|{ // loading code
+|}
+|
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxVirtual"
+						value      	"True")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475168BF033C"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "ar"
+						quid       	"475168BF036B"
+						type       	"CArchive&"
+						quidu      	"365C7A79032D"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -42354,6 +42556,26 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "OnCreate"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_WM_CREATE()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751685903D8"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "lpCreateStruct"
+						quid       	"4751685903DA"
+						type       	"LPCREATESTRUCT"))
+					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
 					uid        	0))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
@@ -42601,7 +42823,58 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0
-					quidu      	"473EDDF401E4"))
+					quidu      	"473EDDF401E4")
+				    (object Operation "Serialize"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|if (ar.IsStoring())
+|{  // storing code
+|}
+|else
+|{ // loading code
+|}
+|
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751693802BF"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "ar"
+						quid       	"4751693802CE"
+						type       	"CArchive&"
+						quidu      	"365C7A79032D"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "TextInOval"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"$NAME()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"TextInOval"))
+					quid       	"4751AC8C030D"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
 				language   	"VC++")
@@ -42823,7 +43096,58 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0
-					quidu      	"473EDDF40261"))
+					quidu      	"473EDDF40261")
+				    (object Operation "Serialize"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|if (ar.IsStoring())
+|{  // storing code
+|}
+|else
+|{ // loading code
+|}
+|
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475168EB032C"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "ar"
+						quid       	"475168EB033C"
+						type       	"CArchive&"
+						quidu      	"365C7A79032D"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Text"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"$NAME()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"Text"))
+					quid       	"4751AC8201D4"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
 				language   	"VC++")
@@ -42866,6 +43190,10 @@
 				    (object Attribute
 					tool       	"VC++"
 					name       	"Generate"
+					value      	TRUE)
+				    (object Attribute
+					tool       	"VC++"
+					name       	"GenerateMessageMap"
 					value      	TRUE))
 				quid       	"473EDDF4032C"
 				documentation 	
@@ -43123,6 +43451,57 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Serialize"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|if (ar.IsStoring())
+|{  // storing code
+|}
+|else
+|{ // loading code
+|}
+|
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475168D10271"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "ar"
+						quid       	"475168D10290"
+						type       	"CArchive&"
+						quidu      	"365C7A79032D"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Shape"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"$NAME()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"Shape"))
+					quid       	"4751AC740213"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_counter"
@@ -43134,7 +43513,7 @@
 				    (object ClassAttribute "_id"
 					quid       	"473EDDF4033C"
 					documentation 	"идентификатор объекта"
-					type       	"const int")
+					type       	"int")
 				    (object ClassAttribute "_x"
 					quid       	"473EDDF4033D"
 					documentation 	"абсцисса фигуры. все фигуры по умолчанию по€вл€ютс€ в начале координат"
@@ -43386,7 +43765,58 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0
-					quidu      	"473EDDF4036B"))
+					quidu      	"473EDDF4036B")
+				    (object Operation "Serialize"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|if (ar.IsStoring())
+|{  // storing code
+|}
+|else
+|{ // loading code
+|}
+|
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751692C0119"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "ar"
+						quid       	"4751692C0128"
+						type       	"CArchive&"
+						quidu      	"365C7A79032D"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Rectangle2"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"$NAME()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"Rectangle2"))
+					quid       	"4751AC870261"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_length"
 					quid       	"473EDDF4037C"
@@ -43658,7 +44088,58 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0
-					quidu      	"473EDDF403B9"))
+					quidu      	"473EDDF403B9")
+				    (object Operation "Serialize"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|if (ar.IsStoring())
+|{  // storing code
+|}
+|else
+|{ // loading code
+|}
+|
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475168E301A5"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "ar"
+						quid       	"475168E301B5"
+						type       	"CArchive&"
+						quidu      	"365C7A79032D"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Oval"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "// ToDo: Add your specialized code here and/or call the base class"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassMethod"
+						value      	"$NAME()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"VC++"
+						name       	"ClassName"
+						value      	"Oval"))
+					quid       	"4751AC7A02BF"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_rad1"
 					quid       	"473EDDF403CD"
@@ -44270,32 +44751,6 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "set__vertex1"
-					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"DefaultBody"
-						value      	(value Text 
-|_vertex1 = value;
-|return;
-						))
-					    (object Attribute
-						tool       	"VC++"
-						name       	"AccessorSet"
-						value      	"4741F10E031B")
-					    (object Attribute
-						tool       	"VC++"
-						name       	"Inline"
-						value      	TRUE))
-					quid       	"474DE161038A"
-					parameters 	(list Parameters
-					    (object Parameter "value"
-						quid       	"474DE16103A9"
-						type       	"T*"))
-					result     	"void"
-					concurrency 	"Sequential"
-					opExportControl 	"Public"
-					uid        	0)
 				    (object Operation "set__vertex2"
 					attributes 	(list Attribute_Set
 					    (object Attribute
@@ -44313,10 +44768,10 @@
 						tool       	"VC++"
 						name       	"Inline"
 						value      	TRUE))
-					quid       	"474DE16301F5"
+					quid       	"4751BEE202EA"
 					parameters 	(list Parameters
 					    (object Parameter "value"
-						quid       	"474DE1630213"
+						quid       	"4751BEE202F9"
 						type       	"T*"))
 					result     	"void"
 					concurrency 	"Sequential"
@@ -44860,6 +45315,90 @@
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
 				language   	"VC++")
+			    (object Class "CScaleDialog"
+				attributes 	(list Attribute_Set
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AppliedPattern"
+					value      	"none")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AfxSupportMacro"
+					value      	"")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AfxBaseClass"
+					value      	"CDialog"))
+				quid       	"47516859029F"
+				documentation 	
+|///////////////////////////////////////////////////////////////////////////
+| CScaleDialog dialog
+				
+				superclasses 	(list inheritance_relationship_list
+				    (object Inheritance_Relationship
+					quid       	"4751685902A0"
+					supplier   	"Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Dialog Boxes::CDialog"
+					quidu      	"365C7A7500B1"))
+				operations 	(list Operations
+				    (object Operation "CScaleDialog"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751685902A1"
+					documentation 	"standard constructor"
+					parameters 	(list Parameters
+					    (object Parameter "pParent"
+						quid       	"4751685902A2"
+						type       	"CWnd*"
+						quidu      	"365C7A74001A"
+						initv      	"NULL"))
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "DoDataExchange"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxVirtual"
+						value      	"True")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751685902B0"
+					documentation 	"DDX/DDV support"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "pDX"
+						quid       	"4751685902B2"
+						type       	"CDataExchange*"
+						quidu      	"365C7A7A035F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnInitDialog"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751685902B3"
+					stereotype 	"virtual"
+					result     	"BOOL"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0))
+				class_attributes 	(list class_attribute_list
+				    (object ClassAttribute "m_Scale"
+					quid       	"4751685902AF"
+					type       	"int"
+					exportControl 	"Public"))
+				module     	"Component View::Sketcher"
+				quidu      	"473EDD55031C"
+				language   	"VC++")
 			    (object Association "$UNNAMED$0"
 				quid       	"473EDD6D0232"
 				roles      	(list role_list
@@ -45109,7 +45648,22 @@
 				    (object Role "$UNNAMED$31"
 					quid       	"474C8E04032F"
 					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::ExternalGraphIterator"
-					quidu      	"474C8E0401F4"))))
+					quidu      	"474C8E0401F4")))
+			    (object Association "$UNNAMED$32"
+				quid       	"4751685903C8"
+				roles      	(list role_list
+				    (object Role "m_StatusBar"
+					quid       	"4751685903C9"
+					documentation 	"Status bar object"
+					label      	"m_StatusBar"
+					supplier   	"Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Control Bars::CStatusBar"
+					quidu      	"365C7A74038A"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$33"
+					quid       	"4751685903CB"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::CChildFrame"
+					quidu      	"473EDD6D0372"
+					is_aggregate 	TRUE))))
 			logical_presentations 	(list unit_reference_list
 			    (object ClassDiagram "Sketcher Model Update Overview"
 				quid       	"473EDD6D038F"
@@ -46474,6 +47028,42 @@
 					quidu      	"474C8E040215"
 					client     	@734
 					supplier   	@727
+					line_style 	0)
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CScaleDialog" @738
+					ShowCompartmentStereotypes 	TRUE
+					location   	(3424, 480)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	8143653
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@738
+					    location   	(3259, 430)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	330
+					    justify    	0
+					    label      	"CScaleDialog")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"47516859029F"
+					width      	348
+					height     	124
+					annotation 	8
+					autoResize 	TRUE)
+				    (object InheritView "" @739
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"4751685902A0"
+					client     	@738
+					supplier   	@697
 					line_style 	0))))))
 		logical_presentations 	(list unit_reference_list)))
 	logical_presentations 	(list unit_reference_list
@@ -46486,7 +47076,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object CategoryView "Logical View::MFC 6.0" @738
+		    (object CategoryView "Logical View::MFC 6.0" @740
 			location   	(464, 432)
 			font       	(object Font
 			    size       	10
@@ -46499,7 +47089,7 @@
 			    color      	8143653
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@738
+			    Parent_View 	@740
 			    location   	(320, 348)
 			    fill_color 	13434879
 			    nlines     	2
@@ -46512,7 +47102,7 @@
 			quidu      	"365C7A6F006A"
 			width      	300
 			height     	180)
-		    (object NoteView @739
+		    (object NoteView @741
 			location   	(1552, 432)
 			font       	(object Font
 			    size       	10
@@ -46525,7 +47115,7 @@
 			    color      	8143653
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@739
+			    Parent_View 	@741
 			    location   	(1030, 273)
 			    fill_color 	13434879
 			    nlines     	6
@@ -46535,11 +47125,11 @@
 			fill_color 	8585215
 			width      	1069
 			height     	331)
-		    (object AttachView "" @740
+		    (object AttachView "" @742
 			stereotype 	TRUE
 			line_color 	3342489
-			client     	@738
-			supplier   	@739
+			client     	@740
+			supplier   	@741
 			line_style 	0)))))
     root_subsystem 	(object SubSystem "Component View"
 	quid       	"365C7A6603BD"

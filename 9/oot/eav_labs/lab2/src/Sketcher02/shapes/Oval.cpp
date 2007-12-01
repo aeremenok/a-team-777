@@ -138,5 +138,27 @@ void Oval::Draw( CDC* pDC, CElement* pElement/*=0*/ )
     pDC->SelectObject(pOldBrush);              // Restore the old brush
     pDC->SelectObject(pOldPen);                // Restore the old pen           
 }
+
+//##ModelId=475168E301A5
+void Oval::Serialize(CArchive& ar)
+{
+    Shape::Serialize(ar);
+   
+    if (ar.IsStoring())
+    {  // storing code
+        ar << _rad1
+            << _rad2;
+    }
+    else
+    { // loading code
+        ar >> _rad1
+            >> _rad2;
+    }
+}
 //////////////////////////////////////////////////////////////////////////
+//##ModelId=4751AC7A02BF
+Oval::Oval()
+{
+	// ToDo: Add your specialized code here and/or call the base class
+}
 

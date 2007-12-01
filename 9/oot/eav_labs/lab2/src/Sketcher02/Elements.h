@@ -7,6 +7,7 @@ class ostream;
 //##ModelId=473EDD6D032D
 class CElement: public CObject
 {
+	DECLARE_SERIAL(CElement)
 protected:
     // Color of an element
 	//##ModelId=473EDD6D032F
@@ -46,6 +47,12 @@ protected:
     // Default constructor
 	//##ModelId=473EDD6D0343
     CElement(){}                               
+	//{{AFX_VIRTUAL(CElement)
+	public:
+	//##ModelId=475168BF033C
+	virtual void Serialize(CArchive& ar);
+	//}}AFX_VIRTUAL
+
 };
 
 // Class defining a line object

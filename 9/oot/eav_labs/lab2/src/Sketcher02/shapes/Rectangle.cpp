@@ -136,5 +136,30 @@ void Rectangle2::Draw( CDC* pDC, CElement* pElement/*=0*/ )
     pDC->SelectObject(pOldBrush);              // Restore the old brush
     pDC->SelectObject(pOldPen);                // Restore the old pen    
 }
+
+//##ModelId=4751692C0119
+void Rectangle2::Serialize(CArchive& ar)
+{
+    Shape::Serialize(ar);
+
+    if (ar.IsStoring())
+    {  // storing code
+        ar << _length
+           << _width;
+    }
+    else
+    { // loading code
+        ar >> _length
+           >> _width;
+    }
+}
 //////////////////////////////////////////////////////////////////////////
+
+
+
+//##ModelId=4751AC870261
+Rectangle2::Rectangle2()
+{
+	// ToDo: Add your specialized code here and/or call the base class
+}
 

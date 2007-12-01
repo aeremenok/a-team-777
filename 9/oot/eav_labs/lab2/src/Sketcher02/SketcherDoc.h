@@ -24,6 +24,7 @@ protected:
 	COLORREF m_Color;		// Current drawing color
 	//##ModelId=473EDD6D02CE
 	WORD m_Element;			// Current element type
+	//##ModelId=475168590251
 	CSize m_DocSize;        // Document size
 
 	//##ModelId=4741F10E0293
@@ -44,6 +45,9 @@ public:
     void SendToBack(CElement* pElement);
 	//##ModelId=4741F10E02A3
     void DeleteElement(CElement* m_pSelected);
+	//##ModelId=4751AAD80232
+    void serializeContainer(CArchive& ar);
+	//##ModelId=475168590261
     CSize GetDocSize()                        // Retrieve the document size
 	  { return m_DocSize; }
 // Overrides

@@ -27,6 +27,12 @@ private:
     //##ModelId=473EDDF40223
     static list<TextInOval*> _textsInOvals;
 public:
+	//##ModelId=4751AC8C030D
+	TextInOval();
+
+	//##ModelId=4751693802BF
+	virtual void Serialize(CArchive& ar);
+
     //выдает указатель на уже существующий текст в овале, если он имеет заданные 
     //параметры
     //если такого не существует - создает новый
