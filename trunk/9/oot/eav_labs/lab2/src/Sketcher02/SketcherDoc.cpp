@@ -135,7 +135,10 @@ void CSketcherDoc::serializeContainer( CArchive& ar )
         ar >> count;
         while (count--)
         {
-            _container->addVertex(readShape(ar, shapes));
+            _container->addRibble(
+                readShape(ar, shapes),
+                readShape(ar, shapes)
+                );
         }
     }
 }
