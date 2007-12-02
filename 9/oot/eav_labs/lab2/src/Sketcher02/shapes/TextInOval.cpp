@@ -7,8 +7,10 @@
 #include "../resource.h"
 #include "../TextRequest.h"
 
-#include <ostream.h>
 #include <math.h>
+//////////////////////////////////////////////////////////////////////////
+#include <iostream>
+using namespace std;
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF40223
 list<TextInOval*> TextInOval::_textsInOvals;
@@ -67,14 +69,14 @@ TextInOval::~TextInOval()
 }
 
 //##ModelId=473EDDF40254
-ostream& TextInOval::speak(ostream& os) const
+std::ostream& TextInOval::speak(std::ostream& os) const
 {
     return 
         Shape::speak(os)
         <<"[text_in_oval] oval chords: ("
-        <<_rad1<<", "<<_rad2<<")"<<endl
+        <<getRad1()<<", "<<getRad2()<<")"<<"\n"
         <<"[text_in_oval] text content: "
-        <<_content.c_str()<<endl
+        <<get__content().c_str()<<"\n"
         ;
 }
 
@@ -119,10 +121,18 @@ void TextInOval::Serialize(CArchive& ar)
         _content = cs;
     }
 }
+
+//##ModelId=4751CD2D01C5
+int TextInOval::getType() const
+{
+    return TEXT_IN_OVAL;
+}
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=4751AC8C030D
 TextInOval::TextInOval()
 {
 	// ToDo: Add your specialized code here and/or call the base class
 }
+
+
 

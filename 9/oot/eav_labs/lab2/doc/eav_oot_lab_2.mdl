@@ -41795,6 +41795,7 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"4751AAD80232"
+					documentation 	" сериализует элементы контейнера"
 					parameters 	(list Parameters
 					    (object Parameter "ar"
 						quid       	"4751AAD80242"
@@ -41802,8 +41803,29 @@
 						quidu      	"365C7A79032D"))
 					result     	"void"
 					concurrency 	"Sequential"
-					opExportControl 	"Public"
-					uid        	0))
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "readShape"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47527CD90213"
+					documentation 	" восстанавливает из файла фигуру и ее положение в контейнере"
+					parameters 	(list Parameters
+					    (object Parameter "ar"
+						quid       	"47527CD90214"
+						type       	"CArchive&"
+						quidu      	"365C7A79032D")
+					    (object Parameter "shapes"
+						quid       	"47527CD90215"
+						type       	"map<int,Shape*>&"))
+					result     	"Shape*"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0
+					quidu      	"473EDDF4032C"))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "m_Color"
 					quid       	"473EDD6D02C2"
@@ -42717,19 +42739,24 @@
 					parameters 	(list Parameters
 					    (object Parameter "rad1"
 						quid       	"473EDDF40234"
-						type       	"float")
+						type       	"float"
+						initv      	"NULL")
 					    (object Parameter "rad2"
 						quid       	"473EDDF40235"
-						type       	"float")
+						type       	"float"
+						initv      	"NULL")
 					    (object Parameter "content"
 						quid       	"473EDDF40242"
-						type       	"std::string")
+						type       	"std::string"
+						initv      	"NULL")
 					    (object Parameter "x"
 						quid       	"473EDDF40243"
-						type       	"float")
+						type       	"float"
+						initv      	"NULL")
 					    (object Parameter "y"
 						quid       	"473EDDF40244"
-						type       	"float"))
+						type       	"float"
+						initv      	"NULL"))
 					result     	"TextInOval*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -42771,7 +42798,7 @@
 					parameters 	(list Parameters
 					    (object Parameter "os"
 						quid       	"473EDDF40256"
-						type       	"ostream&"))
+						type       	"std::ostream&"))
 					result     	"ostream&"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
@@ -42874,6 +42901,27 @@
 					quid       	"4751AC8C030D"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getType"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|return Shape::getType();
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751CD2D01C5"
+					documentation 	"идентификатор типа объекта"
+					stereotype 	"virtual, const"
+					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
@@ -42958,7 +43006,7 @@
 					parameters 	(list Parameters
 					    (object Parameter "os"
 						quid       	"473EDDF402AF"
-						type       	"ostream&"))
+						type       	"std::ostream&"))
 					result     	"ostream&"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
@@ -43005,13 +43053,16 @@
 					parameters 	(list Parameters
 					    (object Parameter "content"
 						quid       	"473EDDF402C1"
-						type       	"std::string")
+						type       	"std::string"
+						initv      	"NULL")
 					    (object Parameter "x"
 						quid       	"473EDDF402C2"
-						type       	"float")
+						type       	"float"
+						initv      	"NULL")
 					    (object Parameter "y"
 						quid       	"473EDDF402CE"
-						type       	"float"))
+						type       	"float"
+						initv      	"NULL"))
 					result     	"Text*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -43147,6 +43198,27 @@
 					quid       	"4751AC8201D4"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getType"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|return Shape::getType();
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751CD1D00EA"
+					documentation 	"идентификатор типа объекта"
+					stereotype 	"virtual, const"
+					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
@@ -43235,7 +43307,7 @@
 					parameters 	(list Parameters
 					    (object Parameter "os"
 						quid       	"473EDDF4034E"
-						type       	"ostream&"))
+						type       	"std::ostream&"))
 					result     	"ostream&"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
@@ -43370,7 +43442,7 @@
 					parameters 	(list Parameters
 					    (object Parameter "o"
 						quid       	"473EDDF40365"
-						type       	"ostream&")
+						type       	"std::ostream&")
 					    (object Parameter "rhs"
 						quid       	"473EDDF40366"
 						type       	"const Shape&"
@@ -43502,6 +43574,43 @@
 					quid       	"4751AC740213"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "get__id"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text "return _id;"))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AccessorGet"
+						value      	"473EDDF4033C")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751CC290399"
+					stereotype 	"const"
+					result     	"const int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getType"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text ""))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751CCCE029F"
+					documentation 	"идентификатор типа объекта"
+					stereotype 	"const, abstract"
+					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_counter"
@@ -43595,16 +43704,20 @@
 					parameters 	(list Parameters
 					    (object Parameter "length"
 						quid       	"473EDDF40391"
-						type       	"float")
+						type       	"float"
+						initv      	"NULL")
 					    (object Parameter "width"
 						quid       	"473EDDF40392"
-						type       	"float")
+						type       	"float"
+						initv      	"NULL")
 					    (object Parameter "x"
 						quid       	"473EDDF40399"
-						type       	"float")
+						type       	"float"
+						initv      	"NULL")
 					    (object Parameter "y"
 						quid       	"473EDDF4039A"
-						type       	"float"))
+						type       	"float"
+						initv      	"NULL"))
 					result     	"Rectangle2*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -43704,7 +43817,7 @@
 					parameters 	(list Parameters
 					    (object Parameter "os"
 						quid       	"473EDDF403AE"
-						type       	"ostream&"))
+						type       	"std::ostream&"))
 					result     	"ostream&"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
@@ -43816,6 +43929,27 @@
 					quid       	"4751AC870261"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getType"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|return Shape::getType();
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751CD2403C8"
+					documentation 	"идентификатор типа объекта"
+					stereotype 	"virtual, const"
+					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_length"
@@ -43916,7 +44050,7 @@
 					parameters 	(list Parameters
 					    (object Parameter "os"
 						quid       	"473EDDF403DA"
-						type       	"ostream&"))
+						type       	"std::ostream&"))
 					result     	"ostream&"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
@@ -43936,16 +44070,20 @@
 					parameters 	(list Parameters
 					    (object Parameter "rad1"
 						quid       	"473EDDF403DD"
-						type       	"float")
+						type       	"float"
+						initv      	"NULL")
 					    (object Parameter "rad2"
 						quid       	"473EDDF403DE"
-						type       	"float")
+						type       	"float"
+						initv      	"NULL")
 					    (object Parameter "x"
 						quid       	"473EDDF403DF"
-						type       	"float")
+						type       	"float"
+						initv      	"NULL")
 					    (object Parameter "y"
 						quid       	"473EDDF50000"
-						type       	"float"))
+						type       	"float"
+						initv      	"NULL"))
 					result     	"Oval*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -44137,6 +44275,27 @@
 						name       	"ClassName"
 						value      	"Oval"))
 					quid       	"4751AC7A02BF"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getType"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|return Shape::getType();
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4751CD0F0196"
+					documentation 	"идентификатор типа объекта"
+					stereotype 	"virtual, const"
+					result     	"int"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -44776,6 +44935,32 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "set__vertex1"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|_vertex1 = value;
+|return;
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AccessorSet"
+						value      	"4741F10E031B")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"4751C556028C"
+					parameters 	(list Parameters
+					    (object Parameter "value"
+						quid       	"4751C556029B"
+						type       	"T*"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_vertex1"
@@ -45071,10 +45256,22 @@
 					quid       	"474DE48500EA"
 					documentation 	"добавить вершину в граф, на выходе - вершина, к которой присоединена новая"
 					parameters 	(list Parameters
-					    (object Parameter "vertex1"
+					    (object Parameter "vertex"
 						quid       	"474DE48500FA"
 						type       	"T*"))
 					result     	"T*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getRibbleCount"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"47527CD9036B"
+					documentation 	" количество ребер в графе"
+					result     	"int"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))

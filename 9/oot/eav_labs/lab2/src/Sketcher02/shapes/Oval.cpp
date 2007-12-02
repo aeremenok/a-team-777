@@ -5,8 +5,10 @@
 
 #include "..\OurConstants.h"
 
-#include <ostream.h>
 #include <math.h>
+//////////////////////////////////////////////////////////////////////////
+#include <iostream>
+using namespace std;
 //////////////////////////////////////////////////////////////////////////
 #define M_PI 3.1415926
 //////////////////////////////////////////////////////////////////////////
@@ -96,11 +98,11 @@ void Oval::setRad2(float value)
 }
 
 //##ModelId=473EDDF403D8
-ostream& Oval::speak(ostream& os) const
+std::ostream& Oval::speak(std::ostream& os) const
 {
     return Shape::speak(os)
         <<"[oval] oval chords: ("
-        <<_rad1<<", "<<_rad2<<")"<<endl;
+        <<getRad1()<<", "<<getRad2()<<")\n";
 }
 
 //##ModelId=473EDDF5000F
@@ -155,10 +157,15 @@ void Oval::Serialize(CArchive& ar)
             >> _rad2;
     }
 }
+
+//##ModelId=4751CD0F0196
+int Oval::getType() const
+{
+    return OVAL;
+}
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=4751AC7A02BF
 Oval::Oval()
 {
 	// ToDo: Add your specialized code here and/or call the base class
 }
-

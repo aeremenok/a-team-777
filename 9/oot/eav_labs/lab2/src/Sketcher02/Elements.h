@@ -1,7 +1,7 @@
 #ifndef Elements_h
 #define Elements_h
 
-class ostream;
+#include <ostream>
 
 // Generic element class
 //##ModelId=473EDD6D032D

@@ -6,7 +6,10 @@
 #define AFX_SKETCHERDOC_H__623441AB_57EA_11D0_9257_00201834E2A3__INCLUDED_
 //////////////////////////////////////////////////////////////////////////
 #include "container/Graph.h"
+#include "shapes/Shape.h"
 #include "Elements.h"
+
+#include <map>
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDD6D02BF
 class CSketcherDoc : public CDocument
@@ -45,11 +48,17 @@ public:
     void SendToBack(CElement* pElement);
 	//##ModelId=4741F10E02A3
     void DeleteElement(CElement* m_pSelected);
-	//##ModelId=4751AAD80232
-    void serializeContainer(CArchive& ar);
+
 	//##ModelId=475168590261
     CSize GetDocSize()                        // Retrieve the document size
 	  { return m_DocSize; }
+protected:
+    // сериализует элементы контейнера
+    //##ModelId=4751AAD80232
+    void serializeContainer(CArchive& ar);
+    // восстанавливает из файла фигуру и ее положение в контейнере
+	//##ModelId=47527CD90213
+    Shape* readShape(CArchive &ar, map<int, Shape*> &shapes);
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherDoc)

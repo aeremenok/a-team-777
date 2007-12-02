@@ -6,7 +6,7 @@
 #ifndef _INC_GRAPH_46F8FA7D014A_INCLUDED
 #define _INC_GRAPH_46F8FA7D014A_INCLUDED
 //////////////////////////////////////////////////////////////////////////
-#include <ostream.h>
+#include <ostream>
 #include <string>
 #include <list>
 
@@ -19,9 +19,9 @@
 #include "exceptions/RibbleNotFoundException.h"
 #include "exceptions/VertexNotFoundException.h"
 //////////////////////////////////////////////////////////////////////////
-using namespace std;
+//using namespace std;
 
-class ostream;
+//class ostream;
 template<class T> class Ribble;
 template<class T> class Iterator;
 //////////////////////////////////////////////////////////////////////////
@@ -80,6 +80,13 @@ private:
         }
     };
 public:
+    // количество ребер в графе
+	//##ModelId=47527CD9036B
+    int getRibbleCount()
+    {
+        return _ribbleList->size(); 
+    }
+
     //очистить граф. очистка объектов по указателям не производится, 
     // т.к. для этого нужно знать тип удаляемого объекта. 
     // это пользователь должен сделать сам
@@ -101,6 +108,11 @@ public:
     //##ModelId=4741F10E03B1
     void addRibble(T* vertex1, T* vertex2)
     {
+        if (vertex1 == NULL || vertex2 == NULL)
+        {
+            throw new GraphException("Nillable vertices are not allowed!");
+        }
+
         cout<<"\n[graph] adding ribble, checking if it already exists\n";
        
         // проверяем, нет ли уже такого ребра
@@ -129,8 +141,12 @@ public:
 
     //добавить вершину в граф, на выходе - вершина, к которой присоединена новая
     //##ModelId=474DE48500EA
-    T* addVertex(T* vertex1)
+    T* addVertex(T* vertex)
     {
+        if (vertex == NULL)
+        {
+            throw new GraphException("Nillable vertices are not allowed!");
+        }
         // проверяем, нет ли ребра c одной и той же вершиной
         Iterator<T>* iter = getIterator();
 
@@ -140,21 +156,21 @@ public:
             current = iter->next();
             
             if ( *(current->get__vertex1()) == *(current->get__vertex2()) )
-            { // заменяем одну вершину и выходим
-                current->set__vertex2(vertex1);
+            { // вершины одинаковы - заменяем одну вершину и выходим
+                current->set__vertex2(vertex);
                 return current->get__vertex1();
             }
         }
         
         if (current!=NULL)
         { // такого ребра нет - присоединяем к вершине последнего ребра
-            _ribbleList->push_back(new Ribble<T>(current->get__vertex2(), vertex1));
+            _ribbleList->push_back(new Ribble<T>(current->get__vertex2(), vertex));
             return current->get__vertex2();
         } 
         else
         { // ребер еще вообще нет
-            _ribbleList->push_back(new Ribble<T>(vertex1, vertex1));
-            return vertex1;
+            _ribbleList->push_back(new Ribble<T>(vertex, vertex));
+            return vertex;
         }
     };
 
@@ -257,7 +273,7 @@ public:
 };
 //////////////////////////////////////////////////////////////////////////
 template <class T>
-ostream_withassign& operator<<( ostream_withassign& o, const Graph<T>& rhs )
+std::ostream& operator<<( std::ostream& o, const Graph<T>& rhs )
 {
     Iterator<T>* iter = new ExternalGraphIterator<T>(&rhs);
     int i = 0;

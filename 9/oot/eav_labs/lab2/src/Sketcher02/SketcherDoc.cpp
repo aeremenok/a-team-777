@@ -2,11 +2,18 @@
 //////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include "Sketcher.h"
-
 #include "resource.h"
+#include "SketcherDoc.h"
+
 #include "TextRequest.h"
 
-#include "SketcherDoc.h"
+#include "shapes/Shape.h"
+#include "shapes/Rectangle.h"
+#include "shapes/Oval.h"
+#include "shapes/Text.h"
+#include "shapes/TextInOval.h"
+
+#include <map>
 //////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -75,19 +82,19 @@ BOOL CSketcherDoc::OnNewDocument()
 //##ModelId=473EDD6D02D3
 void CSketcherDoc::Serialize(CArchive& ar)
 {
-   serializeContainer(ar);
-   if (ar.IsStoring())
-   {
+    if (ar.IsStoring())
+    {
       ar << m_Color                // Store the current color
          << m_Element              // the current element type,
          << m_DocSize;             // and the current document size
-   }
-   else
-   {
+    }
+    else
+    {
       ar >> m_Color                // Retrieve the current color
          >> m_Element              // the current element type,
          >> m_DocSize;             // and the current document size
-   }
+    }
+    serializeContainer(ar);
 }
 
 //##ModelId=4751AAD80232
@@ -95,25 +102,78 @@ void CSketcherDoc::serializeContainer( CArchive& ar )
 {
     if (ar.IsStoring())
     {
+        ar << _container->getRibbleCount();
+
         Iterator<CElement>* iter = getGraphIterator();
         while (iter->hasNext())
         {
             Ribble<CElement>* current = iter->next();
-            
-            if (current->get__vertex1() != NULL)
-            {
-                current->get__vertex1()->Serialize(ar);
-            }
-            if (current->get__vertex2() != NULL)
-            {
-                current->get__vertex2()->Serialize(ar);
-            }
+            // на NULL не проверяем, т.к. при нулевых вершинах
+            //  восстановление графа чрезвычайно сложно. 
+            //  считаем такую ситуацию недопустимой!
+            Shape* 
+            vertex = (Shape*)current->get__vertex1(); 
+
+            ar << vertex->get__id();
+            ar << vertex->getType();
+            vertex->Serialize(ar);
+
+            vertex = (Shape*)current->get__vertex2();
+
+            ar << vertex->get__id();
+            ar << vertex->getType();
+            vertex->Serialize(ar);
         }
     } 
     else
     {
-        
+        _container->clear();
+        int count;
+        using namespace std;
+        map<int, Shape*> shapes;
+        // получаем количество ребер
+        ar >> count;
+        while (count--)
+        {
+            _container->addVertex(readShape(ar, shapes));
+        }
     }
+}
+
+//##ModelId=47527CD90213
+Shape* CSketcherDoc::readShape( CArchive &ar, map<int, Shape*> &shapes )
+{
+    int id;
+    ar >> id;
+    // проверяем, нет ли уже такой фигуры в контейнере
+    Shape* toAdd = shapes[id];
+
+    if (toAdd == NULL)
+    { // фигуры нет, создаем новую
+        int shapeType;
+        ar >> shapeType;
+        switch(shapeType)
+        {
+            case RECTANGLE:
+                toAdd = Rectangle2::create();
+                break;
+            case OVAL:
+                toAdd = Oval::create();
+                break;
+            case TEXT:
+                toAdd = Text::create();
+                break;
+            case TEXT_IN_OVAL:
+                toAdd = TextInOval::create();
+                break;
+            default:
+                AfxMessageBox("Cannot read shape type, bad source file!");
+                return NULL;
+                break;
+        }
+    }
+    toAdd->Serialize(ar);
+    return toAdd;
 }
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherDoc diagnostics
@@ -252,4 +312,5 @@ void CSketcherDoc::DeleteElement( CElement* m_pSelected )
     	AfxMessageBox(e->get__description().c_str());
     }
 }
+
 

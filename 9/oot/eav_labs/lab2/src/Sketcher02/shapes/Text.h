@@ -33,8 +33,12 @@ protected:
 
     //вывести состояние прямоугольника в поток
     //##ModelId=473EDDF402A4
-    virtual ostream& speak(ostream& os) const;
+    virtual std::ostream& speak(std::ostream& os) const;
 public:
+	//идентификатор типа объекта
+	//##ModelId=4751CD1D00EA
+	virtual int getType() const;
+
 	//##ModelId=4751AC8201D4
 	Text();
 
@@ -54,7 +58,7 @@ public:
     //выдает указатель на уже существующий текст, если он имеет заданные параметры
     //если такого не существует - создает новый
     //##ModelId=473EDDF402BF
-    static Text* create(std::string content, float x, float y);
+    static Text* create(std::string content = NULL, float x = NULL, float y = NULL);
 
 	//##ModelId=474055EF0167
     static Text* create(CPoint Start, CPoint End, COLORREF aColor);

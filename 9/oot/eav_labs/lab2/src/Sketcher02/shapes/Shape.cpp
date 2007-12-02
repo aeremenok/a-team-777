@@ -57,11 +57,11 @@ Shape::~Shape()
 }
 
 //##ModelId=473EDDF4034C
-ostream& Shape::speak(ostream& os) const
+std::ostream& Shape::speak(std::ostream& os) const
 {
-    return os<<"[shape] id="<<_id<<", shape center coordinates: ("
-             <<_x<<", "<<_y<<"), "
-             <<"area = "<<Area()<<endl;
+    return os<<"[shape] id="<<get__id()<<", shape center coordinates: ("
+             <<get__x()<<", "<<get__y()<<"), "
+             <<"area = "<<Area()<<"\n";
 }
 
 //##ModelId=473EDDF4035B
@@ -70,7 +70,7 @@ bool Shape::operator==(const Shape& rhs) const
     // учитывая проверку при создании объектов,
     //  достаточно сравнить идентификаторы
     //  на CElement не обращаем внимания - мы уже все проверили
-    return (_id == rhs._id);
+    return (get__id() == rhs.get__id());
 }
 
 //##ModelId=474C8E6F02BF
@@ -93,8 +93,9 @@ void Shape::drawID( CDC* pDC ) const
 void Shape::resize(CPoint Start, CPoint End)
 {
     // определяем координаты центра
-    _x = (End.x + Start.x) / 2;
-    _y = (End.y + Start.y) / 2;
+    set__x( (End.x + Start.x) / 2 );
+    set__y( (End.y + Start.y) / 2 );
+
     CElement::resize(Start, End);
 }
 
@@ -106,27 +107,37 @@ void Shape::Serialize(CArchive& ar)
     if (ar.IsStoring())
     {  // storing code
         ar //<< _id
-           << _x
-           << _y;
+           << get__x()
+           << get__y();
     }
     else
     { // loading code
+        float x, y;
         ar //>> _id
-           >> _x
-           >> _y;
+           >> x
+           >> y;
+        set__x(x);
+        set__y(y);
     }
 }
+
+//##ModelId=4751CC290399
+const int Shape::get__id() const
+{
+    return _id;
+}
 //////////////////////////////////////////////////////////////////////////
-ostream& operator<<( ostream& o, const Shape& rhs )
+std::ostream& operator<<( std::ostream& o, const Shape& rhs )
 {
     return rhs.speak(o);
 }
 //////////////////////////////////////////////////////////////////////////
-
-
 //##ModelId=4751AC740213
 Shape::Shape()
 {
 	// ToDo: Add your specialized code here and/or call the base class
 }
+
+
+
 

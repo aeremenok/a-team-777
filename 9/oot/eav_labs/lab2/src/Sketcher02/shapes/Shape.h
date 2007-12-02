@@ -12,7 +12,7 @@ class ostream;
 //////////////////////////////////////////////////////////////////////////
 //обобщенная фигура
 //##ModelId=473EDDF4032C
-class AFX_NOVTABLE Shape
+class Shape
 : public CElement
 {
 private:
@@ -37,8 +37,15 @@ protected:
     
     //вывести состояние фигуры в поток
     //##ModelId=473EDDF4034C
-    virtual ostream& speak(ostream& os) const;
+    virtual std::ostream& speak(std::ostream& os) const;
 public:
+	//идентификатор типа объекта
+	//##ModelId=4751CCCE029F
+	virtual int getType() const = 0;
+
+	//##ModelId=4751CC290399
+	const int get__id() const;
+
 	//##ModelId=4751AC740213
 	Shape();
 
@@ -77,7 +84,7 @@ public:
 
     //оператор вывода в поток
     //##ModelId=473EDDF40363
-	friend ostream& operator<<(ostream& o, const Shape& rhs);
+    friend std::ostream& operator<<(std::ostream& o, const Shape& rhs);
 
     //##ModelId=473EDDF4035B
     virtual bool operator==(const Shape& rhs) const;
