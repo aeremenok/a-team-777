@@ -194,21 +194,28 @@ void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point)
 //##ModelId=473EDD6D0291
 void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point) 
 {
-   if(this == GetCapture())
-      ReleaseCapture();        // Stop capturing mouse messages
+    if(this == GetCapture())
+        ReleaseCapture();        // Stop capturing mouse messages
 
-   // If there is an element, add it to the document
-   if(m_pTempElement)
-   {  
-      CClientDC aDC(this);
-      OnPrepareDC(&aDC);
+    // If there is an element, add it to the document
+    if(m_pTempElement)
+    {  
+        CClientDC aDC(this);
+        OnPrepareDC(&aDC);
 
-      CElement* firstElement = GetDocument()->AddElement(m_pTempElement);
-      drawRibble(firstElement, m_pTempElement, &aDC);
+        try
+        {
+            CElement* firstElement = GetDocument()->AddElement(m_pTempElement);
+            drawRibble(firstElement, m_pTempElement, &aDC);
+        }
+        catch (GraphException* e)
+        {
+            AfxMessageBox(e->getException().c_str());
+        }
 
-      GetDocument()->UpdateAllViews(0,0,m_pTempElement);  // Tell all the views
-      m_pTempElement = 0;        // Reset the element pointer
-   }
+        GetDocument()->UpdateAllViews(0,0,m_pTempElement);  // Tell all the views
+        m_pTempElement = 0;        // Reset the element pointer
+    }
 }
 
 //##ModelId=473EDD6D029F

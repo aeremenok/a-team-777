@@ -118,7 +118,7 @@ void TextInOval::Serialize(CArchive& ar)
         ar >> cs
            >> _rad1
            >> _rad2;
-        _content = cs;
+        _content = (LPCSTR)cs;
     }
 }
 

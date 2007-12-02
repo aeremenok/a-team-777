@@ -118,13 +118,14 @@ void Text::Serialize(CArchive& ar)
     
     if (ar.IsStoring())
     {  // storing code
-        ar << _content.c_str();
+        CString cs = _content.c_str();
+        ar << cs;
     }
     else
     { // loading code
-        CString cs;
+        CString cs = "";
         ar >> cs;
-        _content = cs;
+        _content = (LPCSTR)cs;
     }
 }
 

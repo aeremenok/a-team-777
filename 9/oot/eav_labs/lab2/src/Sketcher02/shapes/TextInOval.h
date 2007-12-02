@@ -43,7 +43,7 @@ public:
     //##ModelId=473EDDF40232
     static TextInOval* create(
         float rad1 = NULL, float rad2 = NULL, 
-        std::string content = NULL, 
+        std::string content = "", 
         float x = NULL, float y = NULL
         );
 
