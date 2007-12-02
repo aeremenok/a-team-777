@@ -55,6 +55,7 @@ CSketcherDoc::CSketcherDoc()
    m_Element = LINE;   // Set initial element type
    m_Color = BLACK;    // Set initial drawing color
    _container = new Graph<CElement>();
+   _iter = _container->getIterator();
    m_DocSize = CSize(3000,3000);  // Set initial document size 30x30 inches
 }
 
@@ -304,7 +305,9 @@ void CSketcherDoc::OnUpdateElementTextInOval(CCmdUI* pCmdUI)
 //##ModelId=4741F10E029F
 CElement* CSketcherDoc::AddElement( CElement* m_pElement )
 {
-    return _container->addVertex(m_pElement);
+    CElement* result = _container->addVertex(m_pElement);
+    _iter = _container->getIterator();
+    return result;
 }
 
 //##ModelId=4741F10E02A1

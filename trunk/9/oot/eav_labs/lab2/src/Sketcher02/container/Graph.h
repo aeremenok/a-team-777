@@ -19,9 +19,6 @@
 #include "exceptions/RibbleNotFoundException.h"
 #include "exceptions/VertexNotFoundException.h"
 //////////////////////////////////////////////////////////////////////////
-//using namespace std;
-
-//class ostream;
 template<class T> class Ribble;
 template<class T> class Iterator;
 //////////////////////////////////////////////////////////////////////////
@@ -56,6 +53,14 @@ private:
             return *_iter;
         }
 
+        //перейти к последнему эл-ту
+        //##ModelId=475326640280
+        virtual Ribble<T>* last()
+        {
+            _iter = _innerList->end();
+            return *_iter;
+        }
+
         //перейти к следующему эл-ту
         //##ModelId=4741F10F0079
         virtual Ribble<T>* next()
@@ -65,7 +70,22 @@ private:
             return res;
         }
 
-		//##ModelId=4741F10F007E
+        //перейти к предыдущему эл-ту
+		//##ModelId=475326640282
+        virtual Ribble<T>* previous()
+        {
+            Ribble<T>* res = *_iter;
+            _iter--;
+            return res;
+        }
+
+        //##ModelId=4741F10F007E
+        virtual bool hasPrevious()
+        {
+            return _iter != _innerList->begin();
+        }
+
+		//##ModelId=475326640284
         virtual bool hasNext()
         {
             return _iter != _innerList->end();
@@ -269,7 +289,7 @@ public:
     };
 
     //##ModelId=4741F10E03C0
-    friend ostream_withassign& operator<<(ostream_withassign& o, const Graph<T>& rhs);
+    friend std::ostream& operator<<(std::ostream& o, const Graph<T>& rhs);
 };
 //////////////////////////////////////////////////////////////////////////
 template <class T>

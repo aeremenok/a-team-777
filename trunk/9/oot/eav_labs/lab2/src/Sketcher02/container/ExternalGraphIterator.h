@@ -26,10 +26,22 @@ public:
         return _iterator->first();
     }
 
+	//##ModelId=47532664029F
+    virtual Ribble<T>* last()
+    {
+        return _iterator->last();
+    }
+
     //##ModelId=474C8E040207
     virtual Ribble<T>* next()
     {
         return _iterator->next();
+    }
+
+	//##ModelId=4753266402A1
+    virtual Ribble<T>* previous()
+    {
+        return _iterator->previous();
     }
 
     //##ModelId=474C8E040209
@@ -43,6 +55,12 @@ public:
     virtual bool hasNext()
     {
         return _iterator->hasNext();
+    }
+
+	//##ModelId=4753266402A3
+    virtual bool hasPrevious()
+    {
+        return _iterator->hasPrevious();
     }
 
     //присоединить итератор к графу

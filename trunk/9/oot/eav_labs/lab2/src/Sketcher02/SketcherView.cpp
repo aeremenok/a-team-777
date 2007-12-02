@@ -45,6 +45,8 @@ BEGIN_MESSAGE_MAP(CSketcherView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_NOELEMENT_SCALE, OnUpdateNoelementScale)
 	ON_COMMAND(ID_ELEMENT_SCALE, OnElementScale)
 	ON_UPDATE_COMMAND_UI(ID_ELEMENT_SCALE, OnUpdateElementScale)
+	ON_WM_KEYDOWN()
+	ON_WM_KEYUP()
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CView::OnFilePrint)
@@ -249,43 +251,24 @@ void CSketcherView::OnMouseMove(UINT nFlags, CPoint point)
    }
    else
    { // ничего не двигаем и не рисуем, только подсвечиваем
-      CRect aRect;
-      CElement* pCurrentSelection = SelectElement(point);
-
-      if(pCurrentSelection != m_pSelected)
-      {
-         if(m_pSelected)             // Old elemented selected?
-         {                           // Yes, so draw it unselected
-            aRect = m_pSelected->GetBoundRect(); // Get bounding rectangle
-            aDC.LPtoDP(aRect);                   // Conv to device coords
-            aRect.NormalizeRect();               // Normalize
-            InvalidateRect(aRect, FALSE);        // Invalidate area
-         }
-         m_pSelected = pCurrentSelection;        // Save elem under cursor
-         if(m_pSelected)                         // Is there one?
-         {                                       // Yes, so get it redrawn
-            aRect = m_pSelected->GetBoundRect(); // Get bounding rectangle
-            aDC.LPtoDP(aRect);                   // Conv to device coords
-            aRect.NormalizeRect();               // Normalize
-            InvalidateRect(aRect, FALSE);        // Invalidate area
-         }
-      }
+        CElement* pCurrentSelection = SelectElement(point);
+        highlightShape(pCurrentSelection, aDC);
    }
 }
 
 //##ModelId=473EDD6D0242
 CElement* CSketcherView::CreateElement()
 {
-	// Get a pointer to the document for this view
-	CSketcherDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);                  // Verify the pointer is good
-
-	// Now select the element using the type stored in the document
-	switch(pDoc->GetElementType())
-	{
-		case RECTANGLE:
-            return Rectangle2::create(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
-      
+    // Get a pointer to the document for this view
+    CSketcherDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);                  // Verify the pointer is good
+    
+    // Now select the element using the type stored in the document
+    switch(pDoc->GetElementType())
+    {
+    case RECTANGLE:
+        return Rectangle2::create(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
+        
         case TEXT:
             return Text::create(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
 
@@ -573,4 +556,82 @@ void CSketcherView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
     long yExtent = (long)DocSize.cy*m_Scale*yLogPixels/100L;
 
     pDC->SetViewportExt((int)xExtent, (int)-yExtent); // Set viewport extent
+}
+
+//##ModelId=47532663035B
+void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
+{
+    CClientDC aDC(this);
+    OnPrepareDC(&aDC);
+    
+    Iterator<CElement>* iter = GetDocument()->getStaticIterator();
+//     char cs[10];
+//     sprintf(cs, "%d", i);
+//     MessageBox(cs);
+
+    Ribble<CElement>* ribble = NULL;
+    switch(nChar)
+    {
+        case 38:
+            // up
+            break;
+        case 40:
+            // down
+            break;
+        case 37:
+            if (iter->hasPrevious())
+            {
+                ribble = iter->previous();
+            }
+            else
+            {
+                ribble = iter->last();
+            }
+            // left
+            break;
+        case 39:
+            if (iter->hasNext())
+            {
+                ribble = iter->next();
+            }
+            else
+            {
+                ribble = iter->first();
+            }
+            // right
+        default:
+            break;
+    }
+    highlightShape(ribble->get__vertex1(), aDC);
+	CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+//##ModelId=47532663036B
+void CSketcherView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
+{
+	CScrollView::OnKeyUp(nChar, nRepCnt, nFlags);
+}
+
+//##ModelId=47532663033C
+void CSketcherView::highlightShape( CElement* pCurrentSelection, CClientDC &aDC )
+{
+    CRect aRect;
+    if(pCurrentSelection != m_pSelected)
+    {
+        if(m_pSelected)             // Old elemented selected?
+        {                           // Yes, so draw it unselected
+            aRect = m_pSelected->GetBoundRect(); // Get bounding rectangle
+            aDC.LPtoDP(aRect);                   // Conv to device coords
+            aRect.NormalizeRect();               // Normalize
+            InvalidateRect(aRect, FALSE);        // Invalidate area
+        }
+        m_pSelected = pCurrentSelection;        // Save elem under cursor
+        if(m_pSelected)                         // Is there one?
+        {                                       // Yes, so get it redrawn
+            aRect = m_pSelected->GetBoundRect(); // Get bounding rectangle
+            aDC.LPtoDP(aRect);                   // Conv to device coords
+            aRect.NormalizeRect();               // Normalize
+            InvalidateRect(aRect, FALSE);        // Invalidate area
+        }
+    }
 }
