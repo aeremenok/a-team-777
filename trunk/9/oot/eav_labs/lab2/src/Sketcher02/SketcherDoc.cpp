@@ -135,10 +135,21 @@ void CSketcherDoc::serializeContainer( CArchive& ar )
         ar >> count;
         while (count--)
         {
-            _container->addRibble(
-                readShape(ar, shapes),
-                readShape(ar, shapes)
+            try
+            {
+                _container->addRibble(
+                    readShape(ar, shapes),
+                    readShape(ar, shapes)
                 );
+            }
+            catch (CException* e1) 
+            {
+                e1->ReportError();
+            }
+            catch (GraphException* e)
+            {
+            	AfxMessageBox(e->getException().c_str());
+            }
         }
     }
 }
@@ -148,13 +159,15 @@ Shape* CSketcherDoc::readShape( CArchive &ar, map<int, Shape*> &shapes )
 {
     int id;
     ar >> id;
+
+    int shapeType;
+    ar >> shapeType;
+
     // проверяем, нет ли уже такой фигуры в контейнере
     Shape* toAdd = shapes[id];
 
     if (toAdd == NULL)
     { // фигуры нет, создаем новую
-        int shapeType;
-        ar >> shapeType;
         switch(shapeType)
         {
             case RECTANGLE:
@@ -174,6 +187,7 @@ Shape* CSketcherDoc::readShape( CArchive &ar, map<int, Shape*> &shapes )
                 return NULL;
                 break;
         }
+        shapes[toAdd->get__id()] = toAdd;
     }
     toAdd->Serialize(ar);
     return toAdd;
@@ -312,7 +326,7 @@ void CSketcherDoc::DeleteElement( CElement* m_pSelected )
     }
     catch (GraphException* e)
     {
-    	AfxMessageBox(e->get__description().c_str());
+    	AfxMessageBox(e->getException().c_str());
     }
 }
 

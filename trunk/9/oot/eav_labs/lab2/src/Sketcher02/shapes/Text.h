@@ -58,7 +58,7 @@ public:
     //выдает указатель на уже существующий текст, если он имеет заданные параметры
     //если такого не существует - создает новый
     //##ModelId=473EDDF402BF
-    static Text* create(std::string content = NULL, float x = NULL, float y = NULL);
+    static Text* create(std::string content = "", float x = NULL, float y = NULL);
 
 	//##ModelId=474055EF0167
     static Text* create(CPoint Start, CPoint End, COLORREF aColor);
