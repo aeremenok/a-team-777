@@ -27,6 +27,10 @@ private:
     //##ModelId=473EDDF40223
     static list<TextInOval*> _textsInOvals;
 public:
+	//идентификатор типа объекта
+	//##ModelId=4751CD2D01C5
+	virtual int getType() const;
+
 	//##ModelId=4751AC8C030D
 	TextInOval();
 
@@ -37,7 +41,11 @@ public:
     //параметры
     //если такого не существует - создает новый
     //##ModelId=473EDDF40232
-    static TextInOval* create(float rad1, float rad2, std::string content, float x, float y);
+    static TextInOval* create(
+        float rad1 = NULL, float rad2 = NULL, 
+        std::string content = NULL, 
+        float x = NULL, float y = NULL
+        );
 
 	//##ModelId=474055EF00AB
     static TextInOval* create(CPoint Start, CPoint End, COLORREF aColor);
@@ -55,7 +63,7 @@ public:
 protected:
     //вывести состояние текста в овале в поток
     //##ModelId=473EDDF40254
-    virtual ostream& speak(ostream& os) const;
+    virtual std::ostream& speak(std::ostream& os) const;
 };
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_TEXTINOVAL_46F50C7B01D4_INCLUDED */

@@ -34,6 +34,10 @@ private:
     //##ModelId=473EDDF4038A
     Rectangle2(float l, float w, float x, float y);
 public:
+	//идентификатор типа объекта
+	//##ModelId=4751CD2403C8
+	virtual int getType() const;
+
 	//##ModelId=4751AC870261
 	Rectangle2();
 
@@ -48,7 +52,7 @@ public:
     //параметры
     //если такого не существует - создает новый
     //##ModelId=473EDDF4038F
-    static Rectangle2* create(float length, float width, float x, float y);
+    static Rectangle2* create(float length = NULL, float width = NULL, float x = NULL, float y = NULL);
 
     // создает прямоугольник по точкам углов
 	//##ModelId=474055EF0280
@@ -79,7 +83,7 @@ public:
 protected:
     //вывести состояние прямоугольника в поток
     //##ModelId=473EDDF403AC
-    virtual ostream& speak(ostream& os) const;
+    virtual std::ostream& speak(std::ostream& os) const;
 };
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_RECTANGLE_46F50C350000_INCLUDED */

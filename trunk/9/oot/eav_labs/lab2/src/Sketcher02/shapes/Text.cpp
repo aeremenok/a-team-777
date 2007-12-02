@@ -7,9 +7,9 @@
 #include "..\resource.h"
 #include "..\TextRequest.h"
 
-#include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
-class ostream;
+#include <iostream>
+using namespace std;
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF40281
 list<Text*> Text::_texts;
@@ -70,11 +70,11 @@ Text::~Text()
 }
 
 //##ModelId=473EDDF402A4
-ostream& Text::speak(ostream& os) const
+std::ostream& Text::speak(std::ostream& os) const
 {
     return Shape::speak(os)
         <<"[text] text content: "
-        <<_content.c_str()<<endl;
+        <<_content.c_str()<<"\n";
 }
 
 //##ModelId=473EDDF402B0
@@ -127,13 +127,15 @@ void Text::Serialize(CArchive& ar)
         _content = cs;
     }
 }
+
+//##ModelId=4751CD1D00EA
+int Text::getType() const
+{
+    return TEXT;
+}
 //////////////////////////////////////////////////////////////////////////
-
-
-
 //##ModelId=4751AC8201D4
 Text::Text()
 {
 	// ToDo: Add your specialized code here and/or call the base class
 }
-

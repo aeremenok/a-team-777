@@ -5,8 +5,10 @@
 
 #include "..\OurConstants.h"
 
-#include <ostream.h>
 #include <math.h>
+//////////////////////////////////////////////////////////////////////////
+#include <iostream>
+using namespace std;
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF40370
 list<Rectangle2*> Rectangle2::_rectangles;
@@ -94,11 +96,11 @@ void Rectangle2::set__width(float value)
 }
 
 //##ModelId=473EDDF403AC
-ostream& Rectangle2::speak(ostream& os) const
+std::ostream& Rectangle2::speak(std::ostream& os) const
 {
     return Shape::speak(os)
         <<"[rectangle] rectangle size: ("
-        <<_length<<", "<<_width<<")"<<endl;
+        <<_length<<", "<<_width<<")\n";
 }
 
 //##ModelId=473EDDF403AA
@@ -153,13 +155,15 @@ void Rectangle2::Serialize(CArchive& ar)
            >> _width;
     }
 }
+
+//##ModelId=4751CD2403C8
+int Rectangle2::getType() const
+{
+    return RECTANGLE;
+}
 //////////////////////////////////////////////////////////////////////////
-
-
-
 //##ModelId=4751AC870261
 Rectangle2::Rectangle2()
 {
 	// ToDo: Add your specialized code here and/or call the base class
 }
-

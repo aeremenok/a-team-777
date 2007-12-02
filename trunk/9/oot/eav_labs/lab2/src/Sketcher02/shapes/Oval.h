@@ -36,8 +36,12 @@ protected:
 
     //вывести состояние овала в поток
     //##ModelId=473EDDF403D8
-    virtual ostream& speak(ostream& os) const;
+    virtual std::ostream& speak(std::ostream& os) const;
 public:
+	//идентификатор типа объекта
+	//##ModelId=4751CD0F0196
+	virtual int getType() const;
+
 	//##ModelId=4751AC7A02BF
 	Oval();
 
@@ -51,7 +55,7 @@ public:
     //выдает указатель на уже существующий овал, если он имеет заданные параметры
     //если такого не существует - создает новый
     //##ModelId=473EDDF403DB
-    static Oval* create(float rad1, float rad2, float x, float y);
+    static Oval* create(float rad1 = NULL, float rad2 = NULL, float x = NULL, float y = NULL);
 
 	//##ModelId=474055EF02FD
     static Oval* create(CPoint Start, CPoint End, COLORREF aColor);

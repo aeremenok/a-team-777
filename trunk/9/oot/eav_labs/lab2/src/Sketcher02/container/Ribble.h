@@ -14,12 +14,35 @@ template<class T>
 class Ribble 
 {
 public:
+	//##ModelId=4751C556028C
+	void set__vertex1(T* value)
+	{
+        // проверка нужна, чтобы избежать неожиданностей 
+        //  при сериализации
+        if ( value != NULL && _vertex1 != NULL )
+        {
+            _vertex1 = value;
+        } 
+        else
+        {
+            throw new GraphException("Nillable vertices are not allowed!");
+        }
+	}
+
 	//##ModelId=4751BEE202EA
 	void set__vertex2(T* value)
 	{
-		_vertex2 = value;
-		return;
-	}
+        // проверка нужна, чтобы избежать неожиданностей 
+        //  при сериализации
+        if ( value != NULL && _vertex2 != NULL )
+        {
+            _vertex2 = value;
+        } 
+        else
+        {
+            throw new GraphException("Nillable vertices are not allowed!");
+        }
+    }
 
     //##ModelId=4741F10E0304
     virtual ~Ribble()
@@ -54,20 +77,38 @@ public:
     //##ModelId=4741F10E0314
     T* get__vertex2() const
     {
-        return _vertex2;
-    };
+        if (_vertex2 != NULL)
+        {
+            return _vertex2;
+        } 
+        else
+        {
+            throw new GraphException("Nillable vertices are not allowed!");
+        }
+    }
 
     //##ModelId=4741F10E0316
     T* get__vertex1() const
     {
-        return _vertex1;
-    };
+        if (_vertex1 != NULL)
+        {
+            return _vertex1;
+        } 
+        else
+        {
+            throw new GraphException("Nillable vertices are not allowed!");
+        }
+    }
 
     //##ModelId=4741F10E0318
     Ribble(T* vertex1, T* vertex2): _vertex1(vertex1), _vertex2(vertex2)
     {
+        if (_vertex1 == NULL || _vertex2 == NULL)
+        {
+            throw new GraphException("Nillable vertices are not allowed!");
+        }
         cout<<"[ribble] ribble created\n";
-    };
+    }
 
 private:
     //##ModelId=4741F10E031B
