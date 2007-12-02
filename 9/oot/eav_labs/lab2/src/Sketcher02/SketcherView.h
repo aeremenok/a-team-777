@@ -42,21 +42,28 @@ protected:
 public:
 
 protected:
+    // Create a new element on the heap
 	//##ModelId=473EDD6D0242
-    CElement* CreateElement(); // Create a new element on the heap
+    CElement* CreateElement();
+    // Select an element
 	//##ModelId=4741F10E0213
-    CElement* SelectElement(CPoint aPoint);           // Select an element
+    CElement* SelectElement(CPoint aPoint);
+    // Move an element
 	//##ModelId=4741F10E0215
-    void MoveElement(CClientDC& aDC, CPoint& point);  // Move an element
-
+    void MoveElement(CClientDC& aDC, CPoint& point);
 	//##ModelId=47511BBE02EE
     void drawRibble( CPoint* start, CPoint* end, CDC* pDC );
 	//##ModelId=47511BBE02FF
     void drawRibble( CElement* start, CElement* end, CDC* pDC );
 	//##ModelId=4751685901F4
     void ResetScrollSizes();
+    // вызывает диалог задания масштаба
 	//##ModelId=4751685901F5
     void requestScale();
+    // подсвечивает заданную фигуру
+	//##ModelId=47532663033C
+    void highlightShape( CElement* pCurrentSelection, CClientDC &aDC );
+
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherView)
@@ -124,6 +131,10 @@ protected:
 	afx_msg void OnElementScale();
 	//##ModelId=475168590218
 	afx_msg void OnUpdateElementScale(CCmdUI* pCmdUI);
+	//##ModelId=47532663035B
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	//##ModelId=47532663036B
+	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

@@ -23,35 +23,44 @@ protected: // create from serialization only
 public:
 
 protected:
+    // Current drawing color
 	//##ModelId=473EDD6D02C2
-	COLORREF m_Color;		// Current drawing color
+	COLORREF m_Color;
+    // Current element type
 	//##ModelId=473EDD6D02CE
-	WORD m_Element;			// Current element type
+	WORD m_Element;
+    // Document size
 	//##ModelId=475168590251
-	CSize m_DocSize;        // Document size
-
+	CSize m_DocSize;
+    // граф фигур документа
 	//##ModelId=4741F10E0293
     Graph<CElement>* _container;
+    // итератор дл€ обхода графа, сохран€ющий позицию
+	//##ModelId=475326640139
+    Iterator<CElement>* _iter;
+    
 // Operations
 public:
 	//##ModelId=473EDD6D02CF
 	WORD GetElementType(){return m_Element;}
 	//##ModelId=473EDD6D02D0
 	COLORREF GetElementColor(){return m_Color;}
+    // Retrieve the document size
+    //##ModelId=475168590261
+    CSize GetDocSize(){ return m_DocSize; }
 
-    // делегаты
-	//##ModelId=4741F10E0297
-    Iterator<CElement>* getGraphIterator(){ return _container->getIterator(); }
-	//##ModelId=4741F10E029F
+    //##ModelId=4741F10E029F
     CElement* AddElement(CElement* m_pElement);
-	//##ModelId=4741F10E02A1
+    //##ModelId=4741F10E02A1
     void SendToBack(CElement* pElement);
-	//##ModelId=4741F10E02A3
+    //##ModelId=4741F10E02A3
     void DeleteElement(CElement* m_pSelected);
 
-	//##ModelId=475168590261
-    CSize GetDocSize()                        // Retrieve the document size
-	  { return m_DocSize; }
+	//##ModelId=4741F10E0297
+    Iterator<CElement>* getGraphIterator(){ return _container->getIterator(); }
+	//##ModelId=475326640148
+    Iterator<CElement>* getStaticIterator() const { return _iter; }
+
 protected:
     // сериализует элементы контейнера
     //##ModelId=4751AAD80232

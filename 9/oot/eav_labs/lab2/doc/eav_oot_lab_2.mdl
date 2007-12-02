@@ -40667,7 +40667,7 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"473EDD6D0242"
-					documentation 	"Create a new element on the heap"
+					documentation 	" Create a new element on the heap"
 					result     	"CElement*"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
@@ -40904,7 +40904,7 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"4741F10E0213"
-					documentation 	"Select an element"
+					documentation 	" Select an element"
 					parameters 	(list Parameters
 					    (object Parameter "aPoint"
 						quid       	"4741F10E0214"
@@ -40922,7 +40922,7 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"4741F10E0215"
-					documentation 	"Move an element"
+					documentation 	" Move an element"
 					parameters 	(list Parameters
 					    (object Parameter "aDC"
 						quid       	"4741F10E0216"
@@ -41179,6 +41179,7 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"4751685901F5"
+					documentation 	" вызывает диалог задани€ масштаба"
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
@@ -41279,6 +41280,79 @@
 						quid       	"475168590222"
 						type       	"CCmdUI*"
 						quidu      	"365C7A7A028F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "highlightShape"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47532663033C"
+					documentation 	" подсвечивает заданную фигуру"
+					parameters 	(list Parameters
+					    (object Parameter "pCurrentSelection"
+						quid       	"47532663033D"
+						type       	"CElement*"
+						quidu      	"473EDD6D032D")
+					    (object Parameter "aDC"
+						quid       	"47532663034B"
+						type       	"CClientDC&"
+						quidu      	"365C7A7003B8"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnKeyDown"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_WM_KEYDOWN()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47532663035B"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "nChar"
+						quid       	"47532663035D"
+						type       	"UINT")
+					    (object Parameter "nRepCnt"
+						quid       	"47532663035E"
+						type       	"UINT")
+					    (object Parameter "nFlags"
+						quid       	"47532663035F"
+						type       	"UINT"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnKeyUp"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_WM_KEYUP()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47532663036B"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "nChar"
+						quid       	"47532663036D"
+						type       	"UINT")
+					    (object Parameter "nRepCnt"
+						quid       	"47532663036E"
+						type       	"UINT")
+					    (object Parameter "nFlags"
+						quid       	"47532663036F"
+						type       	"UINT"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
@@ -41721,7 +41795,6 @@
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"4741F10E0297"
-					documentation 	" делегаты"
 					result     	"Iterator<CElement>*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -41782,7 +41855,7 @@
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"475168590261"
-					documentation 	"Retrieve the document size"
+					documentation 	" Retrieve the document size"
 					result     	"CSize"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -41825,21 +41898,34 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
 					uid        	0
-					quidu      	"473EDDF4032C"))
+					quidu      	"473EDDF4032C")
+				    (object Operation "getStaticIterator"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"475326640148"
+					stereotype 	"const"
+					result     	"Iterator<CElement>*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0
+					quidu      	"4753266303B9"))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "m_Color"
 					quid       	"473EDD6D02C2"
-					documentation 	"Current drawing color"
+					documentation 	" Current drawing color"
 					type       	"COLORREF"
 					exportControl 	"Protected")
 				    (object ClassAttribute "m_Element"
 					quid       	"473EDD6D02CE"
-					documentation 	"Current element type"
+					documentation 	" Current element type"
 					type       	"WORD"
 					exportControl 	"Protected")
 				    (object ClassAttribute "m_DocSize"
 					quid       	"475168590251"
-					documentation 	"Document size"
+					documentation 	" Document size"
 					type       	"CSize"
 					quidu      	"365C7A7A008E"
 					exportControl 	"Protected"))
@@ -42748,7 +42834,9 @@
 					    (object Parameter "content"
 						quid       	"473EDDF40242"
 						type       	"std::string"
-						initv      	"NULL")
+						initv      	
+|""
+						)
 					    (object Parameter "x"
 						quid       	"473EDDF40243"
 						type       	"float"
@@ -43054,7 +43142,9 @@
 					    (object Parameter "content"
 						quid       	"473EDDF402C1"
 						type       	"std::string"
-						initv      	"NULL")
+						initv      	
+|""
+						)
 					    (object Parameter "x"
 						quid       	"473EDDF402C2"
 						type       	"float"
@@ -45025,6 +45115,46 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"4741F10E037F"
+					documentation 	"есть ли еще эл-ты дл€ обхода"
+					stereotype 	"abstract"
+					result     	"bool"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "previous"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475326640232"
+					documentation 	"перейти к предыдущему эл-ту"
+					stereotype 	"abstract"
+					result     	"Ribble<T>*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "last"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475326640234"
+					documentation 	"перейти к последнему эл-ту"
+					stereotype 	"abstract"
+					result     	"Ribble<T>*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "hasPrevious"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475326640236"
+					documentation 	"есть ли еще эл-ты дл€ обратного обхода"
 					stereotype 	"abstract"
 					result     	"bool"
 					concurrency 	"Sequential"
@@ -45238,12 +45368,12 @@
 					parameters 	(list Parameters
 					    (object Parameter "o"
 						quid       	"4741F10E03C2"
-						type       	"ostream_withassign&")
+						type       	"std::ostream&")
 					    (object Parameter "rhs"
 						quid       	"4741F10E03C3"
 						type       	"const Graph<T>&"
 						const      	TRUE))
-					result     	"ostream_withassign&"
+					result     	"std::ostream&"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
@@ -45328,7 +45458,7 @@
 						concurrency 	"Sequential"
 						opExportControl 	"Public"
 						uid        	0)
-					    (object Operation "hasNext"
+					    (object Operation "hasPrevious"
 						attributes 	(list Attribute_Set
 						    (object Attribute
 							tool       	"VC++"
@@ -45351,6 +45481,44 @@
 						    (object Parameter "innerList"
 							quid       	"4741F10F0081"
 							type       	"list<Ribble<T>*>*"))
+						concurrency 	"Sequential"
+						opExportControl 	"Public"
+						uid        	0)
+					    (object Operation "last"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"Inline"
+							value      	TRUE))
+						quid       	"475326640280"
+						documentation 	"перейти к последнему эл-ту"
+						stereotype 	"virtual"
+						result     	"Ribble<T>*"
+						concurrency 	"Sequential"
+						opExportControl 	"Public"
+						uid        	0)
+					    (object Operation "previous"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"Inline"
+							value      	TRUE))
+						quid       	"475326640282"
+						documentation 	"перейти к предыдущему эл-ту"
+						stereotype 	"virtual"
+						result     	"Ribble<T>*"
+						concurrency 	"Sequential"
+						opExportControl 	"Public"
+						uid        	0)
+					    (object Operation "hasNext"
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"VC++"
+							name       	"Inline"
+							value      	TRUE))
+						quid       	"475326640284"
+						stereotype 	"virtual"
+						result     	"bool"
 						concurrency 	"Sequential"
 						opExportControl 	"Public"
 						uid        	0))
@@ -45485,6 +45653,42 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "last"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"47532664029F"
+					stereotype 	"virtual"
+					result     	"Ribble<T>*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "previous"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"4753266402A1"
+					stereotype 	"virtual"
+					result     	"Ribble<T>*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "hasPrevious"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"4753266402A3"
+					stereotype 	"virtual"
+					result     	"bool"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
@@ -45593,6 +45797,25 @@
 					quid       	"4751685902AF"
 					type       	"int"
 					exportControl 	"Public"))
+				module     	"Component View::Sketcher"
+				quidu      	"473EDD55031C"
+				language   	"VC++")
+			    (object Instantiated_Class "Iterator<CElement>"
+				attributes 	(list Attribute_Set
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AppliedPattern"
+					value      	"none")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"Generate"
+					value      	FALSE))
+				quid       	"4753266303B9"
+				used_nodes 	(list uses_relationship_list
+				    (object Uses_Relationship
+					quid       	"4753266303C8"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::Iterator"
+					quidu      	"4741F10E036B"))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
 				language   	"VC++")
@@ -45743,6 +45966,7 @@
 				roles      	(list role_list
 				    (object Role "_container"
 					quid       	"4741F10E0293"
+					documentation 	" граф фигур документа"
 					label      	"_container"
 					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::Graph<CElement>"
 					quidu      	"4741F10E0290"
@@ -45860,7 +46084,22 @@
 					quid       	"4751685903CB"
 					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::CChildFrame"
 					quidu      	"473EDD6D0372"
-					is_aggregate 	TRUE))))
+					is_aggregate 	TRUE)))
+			    (object Association "$UNNAMED$34"
+				quid       	"475326640138"
+				roles      	(list role_list
+				    (object Role "_iter"
+					quid       	"475326640139"
+					documentation 	" итератор дл€ обхода графа, сохран€ющий позицию"
+					label      	"_iter"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::Iterator<CElement>"
+					quidu      	"4753266303B9"
+					exportControl 	"Protected"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$35"
+					quid       	"47532664013B"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::CSketcherDoc"
+					quidu      	"473EDD6D02BF"))))
 			logical_presentations 	(list unit_reference_list
 			    (object ClassDiagram "Sketcher Model Update Overview"
 				quid       	"473EDD6D038F"
@@ -46851,43 +47090,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherDoc" @719
-					ShowCompartmentStereotypes 	TRUE
-					location   	(720, 1024)
-					font       	(object Font
-					    size       	10
-					    face       	"Arial"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	8143653
-					    default_color 	TRUE)
-					label      	(object ItemLabel
-					    Parent_View 	@719
-					    location   	(549, 974)
-					    fill_color 	13434879
-					    nlines     	1
-					    max_width  	342
-					    justify    	0
-					    label      	"CSketcherDoc")
-					icon_style 	"Icon"
-					line_color 	3342489
-					fill_color 	13434879
-					quidu      	"473EDD6D02BF"
-					width      	360
-					height     	124
-					annotation 	8
-					autoResize 	TRUE)
-				    (object InheritView "" @720
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"473EDD6D02C0"
-					client     	@719
-					supplier   	@683
-					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::RibbleNotFoundException" @721
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::RibbleNotFoundException" @719
 					ShowCompartmentStereotypes 	TRUE
 					location   	(3328, 208)
 					font       	(object Font
@@ -46901,7 +47104,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@721
+					    Parent_View 	@719
 					    location   	(3036, 158)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46916,14 +47119,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @722
+				    (object InheritView "" @720
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4741F10E02DF"
-					client     	@721
+					client     	@719
 					supplier   	@715
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::RibbleExistsException" @723
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::RibbleExistsException" @721
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2784, 848)
 					font       	(object Font
@@ -46937,7 +47140,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@723
+					    Parent_View 	@721
 					    location   	(2520, 798)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46952,14 +47155,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @724
+				    (object InheritView "" @722
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4741F10E02F3"
-					client     	@723
+					client     	@721
 					supplier   	@715
 					line_style 	0)
-				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Ribble" @725
+				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Ribble" @723
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2160, 1968)
 					font       	(object Font
@@ -46973,7 +47176,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@725
+					    Parent_View 	@723
 					    location   	(2064, 1939)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46988,7 +47191,7 @@
 					height     	158
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Iterator" @726
+				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Iterator" @724
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1712, 2416)
 					font       	(object Font
@@ -47002,7 +47205,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@726
+					    Parent_View 	@724
 					    location   	(1616, 2387)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47017,7 +47220,7 @@
 					height     	158
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph" @727
+				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph" @725
 					ShowCompartmentStereotypes 	TRUE
 					location   	(816, 2864)
 					font       	(object Font
@@ -47031,7 +47234,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@727
+					    Parent_View 	@725
 					    location   	(720, 2835)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47046,14 +47249,14 @@
 					height     	158
 					annotation 	8
 					autoResize 	TRUE)
-				    (object UsesView "" @728
+				    (object UsesView "" @726
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4741F10E0291"
 					client     	@718
-					supplier   	@727
+					supplier   	@725
 					line_style 	0)
-				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::list<Ribble<T>*>" @729
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::list<Ribble<T>*>" @727
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1264, 2640)
 					font       	(object Font
@@ -47067,7 +47270,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@729
+					    Parent_View 	@727
 					    location   	(1061, 2590)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47082,7 +47285,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph::GraphIterator" @730
+				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph::GraphIterator" @728
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2256, 2784)
 					font       	(object Font
@@ -47096,7 +47299,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@730
+					    Parent_View 	@728
 					    location   	(2096, 2755)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47111,7 +47314,7 @@
 					height     	158
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Iterator<T>" @731
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Iterator<T>" @729
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1808, 2736)
 					font       	(object Font
@@ -47125,7 +47328,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@731
+					    Parent_View 	@729
 					    location   	(1668, 2686)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47140,21 +47343,21 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object UsesView "" @732
+				    (object UsesView "" @730
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4741F10E03CA"
-					client     	@731
-					supplier   	@726
+					client     	@729
+					supplier   	@724
 					line_style 	0)
-				    (object InheritView "" @733
+				    (object InheritView "" @731
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4741F10F005D"
-					client     	@730
-					supplier   	@731
+					client     	@728
+					supplier   	@729
 					line_style 	0)
-				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph<T>" @734
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph<T>" @732
 					ShowCompartmentStereotypes 	TRUE
 					location   	(896, 3184)
 					font       	(object Font
@@ -47168,7 +47371,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@734
+					    Parent_View 	@732
 					    location   	(763, 3134)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47183,7 +47386,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::ExternalGraphIterator" @735
+				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::ExternalGraphIterator" @733
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1888, 3136)
 					font       	(object Font
@@ -47197,7 +47400,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@735
+					    Parent_View 	@733
 					    location   	(1640, 3107)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47212,21 +47415,21 @@
 					height     	158
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @736
+				    (object InheritView "" @734
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"474C8E040203"
-					client     	@735
-					supplier   	@731
+					client     	@733
+					supplier   	@729
 					line_style 	0)
-				    (object UsesView "" @737
+				    (object UsesView "" @735
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"474C8E040215"
-					client     	@734
-					supplier   	@727
+					client     	@732
+					supplier   	@725
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CScaleDialog" @738
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CScaleDialog" @736
 					ShowCompartmentStereotypes 	TRUE
 					location   	(3424, 480)
 					font       	(object Font
@@ -47240,7 +47443,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@738
+					    Parent_View 	@736
 					    location   	(3259, 430)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47255,12 +47458,84 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @739
+				    (object InheritView "" @737
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4751685902A0"
-					client     	@738
+					client     	@736
 					supplier   	@697
+					line_style 	0)
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Iterator<CElement>" @738
+					ShowCompartmentStereotypes 	TRUE
+					location   	(2160, 2464)
+					font       	(object Font
+					    size       	10
+					    face       	"Consolas"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	FALSE)
+					label      	(object ItemLabel
+					    Parent_View 	@738
+					    location   	(1909, 2415)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	502
+					    justify    	0
+					    label      	"Iterator<CElement>")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"4753266303B9"
+					width      	520
+					height     	120
+					annotation 	8
+					autoResize 	TRUE)
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherDoc" @739
+					ShowCompartmentStereotypes 	TRUE
+					location   	(720, 1024)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	8143653
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@739
+					    location   	(549, 974)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	342
+					    justify    	0
+					    label      	"CSketcherDoc")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"473EDD6D02BF"
+					width      	360
+					height     	124
+					annotation 	8
+					autoResize 	TRUE)
+				    (object InheritView "" @740
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"473EDD6D02C0"
+					client     	@739
+					supplier   	@683
+					line_style 	0)
+				    (object UsesView "" @741
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"4753266303C8"
+					client     	@738
+					supplier   	@724
 					line_style 	0))))))
 		logical_presentations 	(list unit_reference_list)))
 	logical_presentations 	(list unit_reference_list
@@ -47273,7 +47548,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object CategoryView "Logical View::MFC 6.0" @740
+		    (object CategoryView "Logical View::MFC 6.0" @742
 			location   	(464, 432)
 			font       	(object Font
 			    size       	10
@@ -47286,7 +47561,7 @@
 			    color      	8143653
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@740
+			    Parent_View 	@742
 			    location   	(320, 348)
 			    fill_color 	13434879
 			    nlines     	2
@@ -47299,7 +47574,7 @@
 			quidu      	"365C7A6F006A"
 			width      	300
 			height     	180)
-		    (object NoteView @741
+		    (object NoteView @743
 			location   	(1552, 432)
 			font       	(object Font
 			    size       	10
@@ -47312,7 +47587,7 @@
 			    color      	8143653
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@741
+			    Parent_View 	@743
 			    location   	(1030, 273)
 			    fill_color 	13434879
 			    nlines     	6
@@ -47322,11 +47597,11 @@
 			fill_color 	8585215
 			width      	1069
 			height     	331)
-		    (object AttachView "" @742
+		    (object AttachView "" @744
 			stereotype 	TRUE
 			line_color 	3342489
-			client     	@740
-			supplier   	@741
+			client     	@742
+			supplier   	@743
 			line_style 	0)))))
     root_subsystem 	(object SubSystem "Component View"
 	quid       	"365C7A6603BD"
