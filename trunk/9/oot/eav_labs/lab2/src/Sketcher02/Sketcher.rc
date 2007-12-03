@@ -225,11 +225,6 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
-    POPUP "&View"
-    BEGIN
-        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
-        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
-    END
     POPUP "&Help"
     BEGIN
         MENUITEM "&About Sketcher...",          ID_APP_ABOUT
@@ -253,11 +248,6 @@ BEGIN
         MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
-    END
-    POPUP "&View"
-    BEGIN
-        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
-        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
     END
     POPUP "E&lement"
     BEGIN
