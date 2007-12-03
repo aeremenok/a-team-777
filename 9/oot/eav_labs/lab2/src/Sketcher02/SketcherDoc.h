@@ -38,7 +38,8 @@ protected:
     // итератор дл€ обхода графа, сохран€ющий позицию
 	//##ModelId=475326640139
     Iterator<CElement>* _iter;
-    
+    // позици€ выбранной вершины в графе
+    int _vertexPosition;
 // Operations
 public:
 	//##ModelId=473EDD6D02CF
@@ -58,9 +59,11 @@ public:
 
 	//##ModelId=4741F10E0297
     Iterator<CElement>* getGraphIterator(){ return _container->getIterator(); }
-	//##ModelId=475326640148
     Iterator<CElement>* getStaticIterator() const { return _iter; }
-
+    // итератор над итератором %)
+    int nextVertexPosition();
+    int previousVertexPosition();
+    CElement* getElementAt(const int position){ return _container->getVertexAt(position); }
 protected:
     // сериализует элементы контейнера
     //##ModelId=4751AAD80232
