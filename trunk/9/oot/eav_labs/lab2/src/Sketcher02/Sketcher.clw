@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CSketcherView
+LastClass=CMainFrame
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "Sketcher.h"
@@ -20,11 +20,11 @@ Resource2=IDD_SCALE_DLG
 Resource3=IDR_SKETCHTYPE
 Class5=CAboutDlg
 Class6=CChildFrame
-Resource4=IDR_CURSOR_MENU (English (U.S.))
+Resource4=IDR_SKETCHTYPE (English (U.S.))
 Resource5=IDD_ABOUTBOX
-Resource6=IDR_SKETCHTYPE (English (U.S.))
+Resource6=IDD_TEXTREQUEST_DIALOG
 Class7=TextRequest
-Resource7=IDD_TEXTREQUEST_DIALOG
+Resource7=IDR_CURSOR_MENU (English (U.S.))
 Resource8=IDD_ABOUTBOX (English (U.S.))
 Class8=CScaleDialog
 Resource9=IDR_MAINFRAME (English (U.S.))
@@ -50,7 +50,7 @@ Type=0
 HeaderFile=SketcherView.h
 ImplementationFile=SketcherView.cpp
 Filter=C
-LastObject=CSketcherView
+LastObject=ID_WINDOW_TILE_HORZ
 BaseClass=CScrollView
 VirtualFilter=VWC
 
@@ -61,7 +61,7 @@ ImplementationFile=MainFrm.cpp
 Filter=T
 BaseClass=CMDIFrameWnd
 VirtualFilter=fWC
-LastObject=ID_ELEMENT_RECTANGLE
+LastObject=CMainFrame
 
 
 [CLS:CChildFrame]
@@ -186,30 +186,26 @@ Command7=ID_FILE_PRINT_PREVIEW
 Command8=ID_FILE_PRINT_SETUP
 Command9=ID_FILE_MRU_FILE1
 Command10=ID_APP_EXIT
-Command11=ID_EDIT_UNDO
-Command12=ID_EDIT_CUT
-Command13=ID_EDIT_COPY
-Command14=ID_EDIT_PASTE
-Command15=ID_VIEW_TOOLBAR
-Command16=ID_VIEW_STATUS_BAR
-Command17=ID_ELEMENT_RECTANGLE
-Command18=ID_ELEMENT_OVAL
-Command19=ID_ELEMENT_TEXT
-Command20=ID_ELEMENT_TEXT_IN_OVAL
-Command21=ID_ELEMENT_DRAWRIBBLES
-Command22=ID_ELEMENT_SCALE
-Command23=ID_COLOR_BLACK
-Command24=ID_COLOR_RED
-Command25=ID_WINDOW_NEW
-Command26=ID_WINDOW_CASCADE
-Command27=ID_WINDOW_TILE_HORZ
-Command28=ID_WINDOW_ARRANGE
-Command29=ID_APP_ABOUT
-CommandCount=29
+Command11=ID_VIEW_TOOLBAR
+Command12=ID_VIEW_STATUS_BAR
+Command13=ID_ELEMENT_RECTANGLE
+Command14=ID_ELEMENT_OVAL
+Command15=ID_ELEMENT_TEXT
+Command16=ID_ELEMENT_TEXT_IN_OVAL
+Command17=ID_ELEMENT_DRAWRIBBLES
+Command18=ID_ELEMENT_SCALE
+Command19=ID_COLOR_BLACK
+Command20=ID_COLOR_RED
+Command21=ID_WINDOW_NEW
+Command22=ID_WINDOW_CASCADE
+Command23=ID_WINDOW_TILE_HORZ
+Command24=ID_WINDOW_ARRANGE
+Command25=ID_APP_ABOUT
+CommandCount=25
 
 [MNU:IDR_MAINFRAME (English (U.S.))]
 Type=1
-Class=?
+Class=CMainFrame
 Command1=ID_FILE_NEW
 Command2=ID_FILE_OPEN
 Command3=ID_FILE_PRINT_SETUP
@@ -281,7 +277,7 @@ ImplementationFile=TextRequest.cpp
 BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
-LastObject=IDOK
+LastObject=ID_VIEW_STATUS_BAR
 
 [MNU:IDR_CURSOR_MENU (English (U.S.))]
 Type=1

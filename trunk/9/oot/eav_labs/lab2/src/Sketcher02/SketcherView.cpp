@@ -109,14 +109,14 @@ void CSketcherView::OnDraw(CDC* pDC)
         pElement = ribble->get__vertex1();
         if(pDC->RectVisible(pElement->GetBoundRect()))
         {
-            pElement->Draw(pDC, m_pSelected);
+            pElement->Draw(pDC, m_pSelected, isGraphVisible);
             start = &(pElement->GetBoundRect().CenterPoint());
         }
 
         pElement = ribble->get__vertex2();
         if(pDC->RectVisible(pElement->GetBoundRect()))
         {
-            pElement->Draw(pDC, m_pSelected);
+            pElement->Draw(pDC, m_pSelected, isGraphVisible);
             end = &(pElement->GetBoundRect().CenterPoint());
         }
 
@@ -333,9 +333,9 @@ void CSketcherView::MoveElement(CClientDC& aDC, CPoint& point)
    if(m_pSelected)
    {
       aDC.SetROP2(R2_NOTXORPEN);
-      m_pSelected->Draw(&aDC,m_pSelected); // Draw the element to erase it
-      m_pSelected->Move(Distance);         // Now move the element
-      m_pSelected->Draw(&aDC,m_pSelected); // Draw the moved element
+      m_pSelected->Draw(&aDC,m_pSelected,isGraphVisible); // Draw the element to erase it
+      m_pSelected->Move(Distance);                        // Now move the element
+      m_pSelected->Draw(&aDC,m_pSelected,isGraphVisible); // Draw the moved element
    }
 }
 

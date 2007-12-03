@@ -35,6 +35,10 @@ protected:
     //##ModelId=473EDDF402A4
     virtual std::ostream& speak(std::ostream& os) const;
 public:
+	// Virtual draw operation
+	//##ModelId=4754603600FA
+	virtual void Draw(CDC* pDC, CElement* pElement = 0, bool isIdVisible = true);
+
 	//идентификатор типа объекта
 	//##ModelId=4751CD1D00EA
 	virtual int getType() const;
@@ -44,10 +48,6 @@ public:
 
 	//##ModelId=475168EB032C
 	virtual void Serialize(CArchive& ar);
-
-	//Virtual draw operation
-	//##ModelId=473EF26003D8
-    virtual void Draw(CDC* pDC, CElement* pElement=0);
 
     //##ModelId=473EDDF402B0
     const std::string& get__content() const;
@@ -70,5 +70,8 @@ public:
     //##ModelId=473EDDF402D1
     virtual float Area() const;
 };
+
+//##ModelId=4754603600FA
+
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_TEXT_46F50C7401C5_INCLUDED */

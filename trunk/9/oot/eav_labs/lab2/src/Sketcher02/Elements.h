@@ -35,7 +35,7 @@ public:
 
     // Virtual draw operation
 	//##ModelId=473EDD6D033F
-    virtual void Draw(CDC* pDC, CElement* pElement=0) {}             
+    virtual void Draw(CDC* pDC, CElement* pElement=0, bool isIdVisible = true) {}             
 
     // Get the bounding rectangle for an element
 	//##ModelId=473EDD6D0342

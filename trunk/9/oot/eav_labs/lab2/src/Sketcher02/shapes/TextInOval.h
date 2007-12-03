@@ -12,6 +12,8 @@
 //////////////////////////////////////////////////////////////////////////
 class ostream;
 using std::list;
+class CElement;
+
 //////////////////////////////////////////////////////////////////////////
 //текст в овале
 //##ModelId=473EDDF401E4
@@ -27,6 +29,10 @@ private:
     //##ModelId=473EDDF40223
     static list<TextInOval*> _textsInOvals;
 public:
+	// Virtual draw operation
+	//##ModelId=4754604A0000
+	virtual void Draw(CDC* pDC, CElement* pElement = 0, bool isIdVisible = true);
+
 	//идентификатор типа объекта
 	//##ModelId=4751CD2D01C5
 	virtual int getType() const;
@@ -56,14 +62,13 @@ public:
     //вычисляет площадь фигуры
     //##ModelId=473EDDF40252
     virtual float Area() const;
-
-    //Virtual draw operation
-    //##ModelId=473EF4F500DA
-    virtual void Draw(CDC* pDC, CElement* pElement=0);
 protected:
     //вывести состояние текста в овале в поток
     //##ModelId=473EDDF40254
     virtual std::ostream& speak(std::ostream& os) const;
 };
+
+//##ModelId=4754604A0000
+
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_TEXTINOVAL_46F50C7B01D4_INCLUDED */

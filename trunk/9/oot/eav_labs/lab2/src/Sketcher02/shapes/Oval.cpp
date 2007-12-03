@@ -111,8 +111,8 @@ float Oval::Area() const
     return M_PI * _rad1 * _rad2;
 }
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EF25A00EA
-void Oval::Draw( CDC* pDC, CElement* pElement/*=0*/ )
+//##ModelId=4754601601A5
+void Oval::Draw( CDC* pDC, CElement* pElement, bool isIdVisible )
 {
     // Create a pen for this object and
     // initialize it to the object color and line width of 1 pixel
@@ -135,10 +135,10 @@ void Oval::Draw( CDC* pDC, CElement* pElement/*=0*/ )
     
     // Now draw the rectangle
     pDC->Ellipse(m_EnclosingRect);
-    drawID(pDC);
+    drawID(pDC, isIdVisible);
     
     pDC->SelectObject(pOldBrush);              // Restore the old brush
-    pDC->SelectObject(pOldPen);                // Restore the old pen           
+    pDC->SelectObject(pOldPen);                // Restore the old pen
 }
 
 //##ModelId=475168E301A5
