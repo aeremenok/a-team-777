@@ -81,12 +81,15 @@ void Shape::Move( CSize& aSize )
 }
 
 //##ModelId=474C966702BF
-void Shape::drawID( CDC* pDC ) const
+void Shape::drawID( CDC* pDC, bool isIdVisible ) const
 {
-    char id[3];
-    itoa(_id, id, 10);
-    pDC->SetTextColor(GREEN);
-    pDC->TextOut(m_EnclosingRect.BottomRight().x, m_EnclosingRect.BottomRight().y, id);
+    if (isIdVisible)
+    {
+        char id[3];
+        itoa(_id, id, 10);
+        pDC->SetTextColor(GREEN);
+        pDC->TextOut(m_EnclosingRect.BottomRight().x, m_EnclosingRect.BottomRight().y, id);
+    }
 }
 
 //##ModelId=474DCD59038A

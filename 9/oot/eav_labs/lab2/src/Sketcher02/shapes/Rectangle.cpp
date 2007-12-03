@@ -109,8 +109,8 @@ float Rectangle2::Area() const
     return _length * _width;
 }
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EF26702EE
-void Rectangle2::Draw( CDC* pDC, CElement* pElement/*=0*/ )
+//##ModelId=4754603F0290
+void Rectangle2::Draw( CDC* pDC, CElement* pElement, bool isIdVisible )
 {
     // Create a pen for this object and
     // initialize it to the object color and line width of 1 pixel
@@ -133,7 +133,7 @@ void Rectangle2::Draw( CDC* pDC, CElement* pElement/*=0*/ )
     
     // Now draw the rectangle
     pDC->Rectangle(m_EnclosingRect);
-    drawID(pDC);
+    drawID(pDC, isIdVisible);
     
     pDC->SelectObject(pOldBrush);              // Restore the old brush
     pDC->SelectObject(pOldPen);                // Restore the old pen    

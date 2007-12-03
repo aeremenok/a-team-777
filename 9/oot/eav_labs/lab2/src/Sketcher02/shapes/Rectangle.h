@@ -34,6 +34,10 @@ private:
     //##ModelId=473EDDF4038A
     Rectangle2(float l, float w, float x, float y);
 public:
+	// Virtual draw operation
+	//##ModelId=4754603F0290
+	virtual void Draw(CDC* pDC, CElement* pElement = 0, bool isIdVisible = true);
+
 	//идентификатор типа объекта
 	//##ModelId=4751CD2403C8
 	virtual int getType() const;
@@ -43,10 +47,6 @@ public:
 
 	//##ModelId=4751692C0119
 	virtual void Serialize(CArchive& ar);
-
-	//Virtual draw operation
-	//##ModelId=473EF26702EE
-    virtual void Draw(CDC* pDC, CElement* pElement=0);
 
     //выдает указатель на уже существующий прямоугольник, если он имеет заданные 
     //параметры
@@ -85,5 +85,8 @@ protected:
     //##ModelId=473EDDF403AC
     virtual std::ostream& speak(std::ostream& os) const;
 };
+
+//##ModelId=4754603F0290
+
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_RECTANGLE_46F50C350000_INCLUDED */

@@ -40591,7 +40591,7 @@
 				    fill_color 	13434879
 				    anchor     	2
 				    nlines     	12
-				    max_width  	737)
+				    max_width  	728)
 				width      	876
 				height     	684
 				annotation 	8
@@ -42180,7 +42180,11 @@
 						quid       	"4741F10F008C"
 						type       	"CElement*"
 						quidu      	"473EDD6D032D"
-						initv      	"0"))
+						initv      	"0")
+					    (object Parameter "isIdVisible"
+						quid       	"47545FA90271"
+						type       	"bool"
+						initv      	"true"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -42895,29 +42899,6 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
 					uid        	0)
-				    (object Operation "Draw"
-					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"Inline"
-						value      	FALSE))
-					quid       	"473EF4F500DA"
-					documentation 	"Virtual draw operation"
-					stereotype 	"virtual"
-					parameters 	(list Parameters
-					    (object Parameter "pDC"
-						quid       	"473EF4F500FA"
-						type       	"CDC*"
-						quidu      	"365C7A70033F")
-					    (object Parameter "pElement"
-						quid       	"474C8E0303C8"
-						type       	"CElement*"
-						quidu      	"473EDD6D032D"
-						initv      	"0"))
-					result     	"void"
-					concurrency 	"Sequential"
-					opExportControl 	"Public"
-					uid        	0)
 				    (object Operation "create"
 					attributes 	(list Attribute_Set
 					    (object Attribute
@@ -43012,6 +42993,41 @@
 					documentation 	"идентификатор типа объекта"
 					stereotype 	"virtual, const"
 					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Draw"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|Shape::Draw(pDC, pElement, isIdVisible);
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4754604A0000"
+					documentation 	" Virtual draw operation"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "pDC"
+						quid       	"4754604A000F"
+						type       	"CDC*"
+						quidu      	"365C7A70033F")
+					    (object Parameter "pElement"
+						quid       	"4754604A003E"
+						type       	"CElement*"
+						quidu      	"473EDD6D032D"
+						initv      	"0")
+					    (object Parameter "isIdVisible"
+						quid       	"4754604A005D"
+						type       	"bool"
+						initv      	"true"))
+					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -43186,37 +43202,6 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "Draw"
-					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"DefaultBody"
-						value      	(value Text 
-|// ToDo: Add your specialized code here or after the call to base class
-|
-|Shape::Draw(pDC);
-						))
-					    (object Attribute
-						tool       	"VC++"
-						name       	"Inline"
-						value      	FALSE))
-					quid       	"473EF26003D8"
-					documentation 	"Virtual draw operation"
-					stereotype 	"virtual"
-					parameters 	(list Parameters
-					    (object Parameter "pDC"
-						quid       	"473EF2610000"
-						type       	"CDC*"
-						quidu      	"365C7A70033F")
-					    (object Parameter "pElement"
-						quid       	"474C8E04002E"
-						type       	"CElement*"
-						quidu      	"473EDD6D032D"
-						initv      	"0"))
-					result     	"void"
-					concurrency 	"Sequential"
-					opExportControl 	"Public"
-					uid        	0)
 				    (object Operation "create"
 					attributes 	(list Attribute_Set
 					    (object Attribute
@@ -43311,6 +43296,41 @@
 					documentation 	"идентификатор типа объекта"
 					stereotype 	"virtual, const"
 					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Draw"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|Shape::Draw(pDC, pElement, isIdVisible);
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4754603600FA"
+					documentation 	" Virtual draw operation"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "pDC"
+						quid       	"475460360119"
+						type       	"CDC*"
+						quidu      	"365C7A70033F")
+					    (object Parameter "pElement"
+						quid       	"475460360148"
+						type       	"CElement*"
+						quidu      	"473EDD6D032D"
+						initv      	"0")
+					    (object Parameter "isIdVisible"
+						quid       	"475460360167"
+						type       	"bool"
+						initv      	"true"))
+					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -43583,7 +43603,11 @@
 					    (object Parameter "pDC"
 						quid       	"474C966702CF"
 						type       	"CDC*"
-						quidu      	"365C7A70033F"))
+						quidu      	"365C7A70033F")
+					    (object Parameter "isIdVisible"
+						quid       	"47545FFA00CB"
+						type       	"bool"
+						initv      	"true"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -43917,37 +43941,6 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
 					uid        	0)
-				    (object Operation "Draw"
-					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"DefaultBody"
-						value      	(value Text 
-|// ToDo: Add your specialized code here or after the call to base class
-|
-|Shape::Draw(pDC);
-						))
-					    (object Attribute
-						tool       	"VC++"
-						name       	"Inline"
-						value      	FALSE))
-					quid       	"473EF26702EE"
-					documentation 	"Virtual draw operation"
-					stereotype 	"virtual"
-					parameters 	(list Parameters
-					    (object Parameter "pDC"
-						quid       	"473EF26702FD"
-						type       	"CDC*"
-						quidu      	"365C7A70033F")
-					    (object Parameter "pElement"
-						quid       	"474C8E040157"
-						type       	"CElement*"
-						quidu      	"473EDD6D032D"
-						initv      	"0"))
-					result     	"void"
-					concurrency 	"Sequential"
-					opExportControl 	"Public"
-					uid        	0)
 				    (object Operation "create"
 					attributes 	(list Attribute_Set
 					    (object Attribute
@@ -44043,6 +44036,41 @@
 					documentation 	"идентификатор типа объекта"
 					stereotype 	"virtual, const"
 					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Draw"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|Shape::Draw(pDC, pElement, isIdVisible);
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4754603F0290"
+					documentation 	" Virtual draw operation"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "pDC"
+						quid       	"4754603F029F"
+						type       	"CDC*"
+						quidu      	"365C7A70033F")
+					    (object Parameter "pElement"
+						quid       	"4754603F02CE"
+						type       	"CElement*"
+						quidu      	"473EDD6D032D"
+						initv      	"0")
+					    (object Parameter "isIdVisible"
+						quid       	"4754603F02EE"
+						type       	"bool"
+						initv      	"true"))
+					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -44266,37 +44294,6 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "Draw"
-					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"DefaultBody"
-						value      	(value Text 
-|// ToDo: Add your specialized code here or after the call to base class
-|
-|Shape::Draw(pDC);
-						))
-					    (object Attribute
-						tool       	"VC++"
-						name       	"Inline"
-						value      	FALSE))
-					quid       	"473EF25A00EA"
-					documentation 	"Virtual draw operation"
-					stereotype 	"virtual"
-					parameters 	(list Parameters
-					    (object Parameter "pDC"
-						quid       	"473EF25A0109"
-						type       	"CDC*"
-						quidu      	"365C7A70033F")
-					    (object Parameter "pElement"
-						quid       	"474C8E040186"
-						type       	"CElement*"
-						quidu      	"473EDD6D032D"
-						initv      	"0"))
-					result     	"void"
-					concurrency 	"Sequential"
-					opExportControl 	"Public"
-					uid        	0)
 				    (object Operation "create"
 					attributes 	(list Attribute_Set
 					    (object Attribute
@@ -44391,6 +44388,41 @@
 					documentation 	"идентификатор типа объекта"
 					stereotype 	"virtual, const"
 					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Draw"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"DefaultBody"
+						value      	(value Text 
+|// ToDo: Add your specialized code here or after the call to base class
+|
+|Shape::Draw(pDC, pElement, isIdVisible);
+						))
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"4754601601A5"
+					documentation 	" Virtual draw operation"
+					stereotype 	"virtual"
+					parameters 	(list Parameters
+					    (object Parameter "pDC"
+						quid       	"4754601601B5"
+						type       	"CDC*"
+						quidu      	"365C7A70033F")
+					    (object Parameter "pElement"
+						quid       	"4754601601D4"
+						type       	"CElement*"
+						quidu      	"473EDD6D032D"
+						initv      	"0")
+					    (object Parameter "isIdVisible"
+						quid       	"4754601601F4"
+						type       	"bool"
+						initv      	"true"))
+					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -46361,6 +46393,24 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"473EDD6D032D"
+					compartment 	(object Compartment
+					    Parent_View 	@679
+					    location   	(871, 615)
+					    font       	(object Font
+						size       	12
+						face       	"Consolas"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	FALSE)
+					    icon_style 	"Icon"
+					    fill_color 	16777215
+					    anchor     	2
+					    nlines     	12
+					    max_width  	0)
 					width      	709
 					height     	570
 					annotation 	8

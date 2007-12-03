@@ -93,11 +93,11 @@ float TextInOval::Area() const
     return Oval::Area();
 }
 
-//##ModelId=473EF4F500DA
-void TextInOval::Draw( CDC* pDC, CElement* pElement/*=0*/ )
+//##ModelId=4754604A0000
+void TextInOval::Draw( CDC* pDC, CElement* pElement, bool isIdVisible )
 {
-    Oval::Draw(pDC, pElement);
-    Text::Draw(pDC, pElement);
+    Oval::Draw(pDC, pElement, isIdVisible);
+    Text::Draw(pDC, pElement, isIdVisible);
 }
 
 //##ModelId=4751693802BF

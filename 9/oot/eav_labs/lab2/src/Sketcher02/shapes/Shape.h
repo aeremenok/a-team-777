@@ -54,7 +54,7 @@ public:
 
     //рисует идентификатор фигуры
     //##ModelId=474C966702BF
-    void drawID(CDC* pDC) const;
+    void drawID(CDC* pDC, bool isIdVisible = true) const;
 
 	//изменяет размер фигуры
 	//##ModelId=474DCD59038A

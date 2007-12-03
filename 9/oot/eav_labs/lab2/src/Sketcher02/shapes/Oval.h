@@ -38,6 +38,10 @@ protected:
     //##ModelId=473EDDF403D8
     virtual std::ostream& speak(std::ostream& os) const;
 public:
+	// Virtual draw operation
+	//##ModelId=4754601601A5
+	virtual void Draw(CDC* pDC, CElement* pElement = 0, bool isIdVisible = true);
+
 	//идентификатор типа объекта
 	//##ModelId=4751CD0F0196
 	virtual int getType() const;
@@ -47,10 +51,6 @@ public:
 
 	//##ModelId=475168E301A5
 	virtual void Serialize(CArchive& ar);
-
-	//Virtual draw operation
-	//##ModelId=473EF25A00EA
-    virtual void Draw(CDC* pDC, CElement* pElement=0);
 
     //выдает указатель на уже существующий овал, если он имеет заданные параметры
     //если такого не существует - создает новый
@@ -83,6 +83,9 @@ public:
     //##ModelId=473EDDF5000F
     virtual float Area() const;
 };
+
+//##ModelId=4754601601A5
+
 
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_OVAL_46F50C54004E_INCLUDED */

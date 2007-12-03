@@ -96,8 +96,8 @@ float Text::Area() const
     return -1;
 }
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EF26003D8
-void Text::Draw( CDC* pDC, CElement* pElement/*=0*/ )
+//##ModelId=4754603600FA
+void Text::Draw( CDC* pDC, CElement* pElement, bool isIdVisible )
 {
     COLORREF aColor = m_Color;
     if (this == pElement)
@@ -108,7 +108,7 @@ void Text::Draw( CDC* pDC, CElement* pElement/*=0*/ )
     // Now draw the text
     pDC->SetTextColor(aColor);
     pDC->TextOut(_x, _y, _content.c_str());
-    drawID(pDC);
+    drawID(pDC, isIdVisible);
 }
 
 //##ModelId=475168EB032C
