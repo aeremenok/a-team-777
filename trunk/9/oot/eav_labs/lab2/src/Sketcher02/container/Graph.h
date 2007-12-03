@@ -31,6 +31,9 @@ private:
     //##ModelId=4741F10E03AC
     list< Ribble<T> *>* _ribbleList;
 
+    // количество вершин в графе
+    int _vertexCount;
+
     //внутрениий итератор
     //##ModelId=4741F10E03C8
     template<class T>
@@ -49,16 +52,35 @@ private:
         //##ModelId=4741F10F0077
         virtual Ribble<T>* first()
         {
-            _iter = _innerList->begin();
-            return *_iter;
+            if (_innerList->size() == 0)
+            {
+                return NULL;
+            } 
+            else
+            {
+                _iter = _innerList->begin();
+                return *_iter;
+            }
         }
 
         //перейти к последнему эл-ту
         //##ModelId=475326640280
         virtual Ribble<T>* last()
         {
-            _iter = _innerList->end();
-            return *_iter;
+            if (_innerList->size() == 0)
+            {
+                return NULL;
+            } 
+            else
+            {
+                first();
+                Ribble<T>* res = NULL;
+                while (hasNext())
+                {
+                    res = next();
+                }
+                return res;
+            }
         }
 
         //перейти к следующему эл-ту
@@ -74,21 +96,25 @@ private:
 		//##ModelId=475326640282
         virtual Ribble<T>* previous()
         {
-            Ribble<T>* res = *_iter;
             _iter--;
+            Ribble<T>* res = *_iter;
             return res;
         }
 
         //##ModelId=4741F10F007E
         virtual bool hasPrevious()
         {
-            return _iter != _innerList->begin();
+            return 
+                _innerList->size() > 0 &&
+                _iter != _innerList->begin();
         }
 
 		//##ModelId=475326640284
         virtual bool hasNext()
         {
-            return _iter != _innerList->end();
+            return 
+                _innerList->size() > 0 &&
+                _iter != _innerList->end();
         }
 
         //##ModelId=4741F10F0080
@@ -102,14 +128,61 @@ private:
 public:
     // количество ребер в графе
 	//##ModelId=47527CD9036B
-    int getRibbleCount()
+    int getRibbleCount() const
     {
         return _ribbleList->size(); 
     }
 
-    //очистить граф. очистка объектов по указателям не производится, 
-    // т.к. для этого нужно знать тип удаляемого объекта. 
-    // это пользователь должен сделать сам
+    // количество вершин в графе
+    int getVertexCount() const
+    {
+        return _vertexCount; 
+    }
+
+    // получить вершину по номеру ее позиции в графе
+    T* getVertexAt(const int position) const
+    {
+        if (position > this->getVertexCount() || position < 0)
+        { // вершина за пределами контейнера
+            throw new GraphException("Vertex index out of bounds!");
+        }
+
+        Iterator<T>* iter = getIterator();
+        if (position == 0)
+        {
+            return iter->first()->get__vertex1();
+        }
+        else if (position == 1)
+        {
+            return iter->first()->get__vertex2();
+        }
+        else
+        {
+            int counter = 0;
+            while (iter->hasNext())
+            {
+                // переходим к следующему ребру
+                Ribble<T>* current = iter->next();
+                counter++;
+                if ( counter == position )
+                {   // это запрошенная вершина
+                    return current->get__vertex1();
+                }
+                else
+                {
+                    // переходим к следующей вершине
+                    counter++;
+                    if ( counter == position )
+                    { // это запрошенная вершина
+                        return current->get__vertex2();
+                    }
+                }
+            }
+        }
+        return NULL;
+    }
+
+    //очистить граф. очистка объектов по указателям не производится
     //##ModelId=4741F10E03B0
     void clear()
     {
@@ -121,6 +194,7 @@ public:
             delete current;
         }
         _ribbleList->clear();
+        _vertexCount = 0;
         cout<<"[graph] graph cleared\n";
     }
 
@@ -155,6 +229,7 @@ public:
         if (!isPresent)
         {
             _ribbleList->push_back(ribble);
+            _vertexCount += 2;
             cout<<"[graph] ribble added successfully\n";
         }
     };
@@ -178,6 +253,7 @@ public:
             if ( *(current->get__vertex1()) == *(current->get__vertex2()) )
             { // вершины одинаковы - заменяем одну вершину и выходим
                 current->set__vertex2(vertex);
+                _vertexCount++;
                 return current->get__vertex1();
             }
         }
@@ -185,11 +261,13 @@ public:
         if (current!=NULL)
         { // такого ребра нет - присоединяем к вершине последнего ребра
             _ribbleList->push_back(new Ribble<T>(current->get__vertex2(), vertex));
+            _vertexCount++;
             return current->get__vertex2();
         } 
         else
         { // ребер еще вообще нет
             _ribbleList->push_back(new Ribble<T>(vertex, vertex));
+            _vertexCount++;
             return vertex;
         }
     };
@@ -213,6 +291,7 @@ public:
             { // если есть - удаляем
                 isPresent = true;
                 _ribbleList->remove(current);
+                _vertexCount -= 2;
                 current->~Ribble();
                 cout<<"[graph] ribble removed successfully\n";
             }
@@ -270,6 +349,7 @@ public:
         }
         else
         {
+            _vertexCount--;
             cout<<"[graph] vertex removed successfully\n";
         }
     };
@@ -285,6 +365,7 @@ public:
     Graph() 
     {
         _ribbleList = new list< Ribble<T>* >;
+        _vertexCount = 0;
         cout<<"[graph] graph created\n";
     };
 

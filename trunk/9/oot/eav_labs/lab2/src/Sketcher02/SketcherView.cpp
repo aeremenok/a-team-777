@@ -62,8 +62,8 @@ CSketcherView::CSketcherView()
 {
     m_FirstPoint = CPoint(0,0);         // Set 1st recorded point to 0,0
     m_SecondPoint = CPoint(0,0);        // Set 2nd recorded point to 0,0
-    m_pTempElement = 0;                 // Set temporary element pointer to 0
-    m_pSelected = 0;                    // No element selected initially
+    m_pTempElement = NULL;              // Set temporary element pointer to 0
+    m_pSelected = NULL;                 // No element selected initially
     m_MoveMode = FALSE;                 // Set move mode off
     m_CursorPos = CPoint(0,0);          // Initialize as zero
     m_FirstPos = CPoint(0,0);           // Initialize as zero
@@ -119,7 +119,7 @@ void CSketcherView::OnDraw(CDC* pDC)
             end = &(pElement->GetBoundRect().CenterPoint());
         }
 
-        drawRibble(start, end, pDC);
+        drawRibble(ribble, pDC, GREEN);
     }
 }
 
@@ -347,7 +347,7 @@ void CSketcherView::OnRButtonDown(UINT nFlags, CPoint point)
       OnPrepareDC(&aDC);                  // Get origin adjusted
       MoveElement(aDC, m_FirstPos);       // Move element to orig position
       m_MoveMode = FALSE;                 // Kill move mode
-      m_pSelected = 0;                    // De-select element
+      m_pSelected = NULL;                    // De-select element
       GetDocument()->UpdateAllViews(0);   // Redraw all the views
       return;                             // We are done
    }
@@ -387,7 +387,6 @@ void CSketcherView::OnRButtonUp(UINT nFlags, CPoint point)
       // Display the context pop-up
       aMenu.GetSubMenu(1)->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
    }
-   
 }
 
 //##ModelId=4741F10E0225
@@ -445,30 +444,39 @@ void CSketcherView::OnDelete()
       CSketcherDoc* pDoc = GetDocument();  // Get the document pointer
       pDoc->DeleteElement(m_pSelected);    // Delete the element
       pDoc->UpdateAllViews(0);             // Redraw all the views
-      m_pSelected = 0;                     // Reset selected element ptr
+      m_pSelected = NULL;                  // Reset selected element ptr
    }	
 }
 
 //##ModelId=47511BBE02EE
-void CSketcherView::drawRibble( CPoint* start, CPoint* end, CDC* pDC )
+// void CSketcherView::drawRibble( CPoint* start, CPoint* end, CDC* pDC )
+// {
+//     if ( isGraphVisible && start != NULL && end != NULL)
+//     {   // граф отображается - рисуем
+//         CLine* visibleRibble = new CLine(*start, *end, GREEN);
+//         visibleRibble->Draw(pDC);
+//         start = NULL;
+//         end = NULL;
+//     }
+// }
+
+void CSketcherView::drawRibble( Ribble<CElement>* ribble, CDC* pDC, COLORREF aColor )
 {
-    if ( isGraphVisible && start != NULL && end != NULL)
-    {   // рисуем ребро
-        CLine* visibleRibble = new CLine(*start, *end, GREEN);
+    if ( isGraphVisible && ribble != NULL )
+    {   // граф отображается - рисуем
+        CPoint start = ribble->get__vertex1()->GetBoundRect().CenterPoint();
+        CPoint end = ribble->get__vertex2()->GetBoundRect().CenterPoint();
+
+        CLine* visibleRibble = new CLine(start, end, aColor);
         visibleRibble->Draw(pDC);
-        start = NULL;
-        end = NULL;
     }
 }
 
 //##ModelId=47511BBE02FF
 void CSketcherView::drawRibble( CElement* start, CElement* end, CDC* pDC )
 {
-    drawRibble(
-        &(start->GetBoundRect().CenterPoint()),
-        &(end->GetBoundRect().CenterPoint()),
-        pDC
-        );
+    Ribble<CElement>* temp = new Ribble<CElement>(start, end);
+    drawRibble(temp, pDC, GREEN );
 }
 
 //##ModelId=47511BBE037A
@@ -565,9 +573,13 @@ void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
     OnPrepareDC(&aDC);
     
     Iterator<CElement>* iter = GetDocument()->getStaticIterator();
-//     char cs[10];
-//     sprintf(cs, "%d", i);
-//     MessageBox(cs);
+    //iter->last();
+//     int i = 0;
+//     while (iter->hasPrevious())
+//     {
+//         iter->previous();
+//         i++;
+//     }
 
     Ribble<CElement>* ribble = NULL;
     switch(nChar)
@@ -602,7 +614,11 @@ void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
         default:
             break;
     }
-    highlightShape(ribble->get__vertex1(), aDC);
+//    char cs[10];
+//    sprintf(cs, "%d", i);
+//    MessageBox(cs);
+//    aDC.TextOut(0,0, cs);
+    drawRibble(ribble, &aDC, SELECT_COLOR);
 	CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
@@ -625,7 +641,9 @@ void CSketcherView::highlightShape( CElement* pCurrentSelection, CClientDC &aDC 
             aRect.NormalizeRect();               // Normalize
             InvalidateRect(aRect, FALSE);        // Invalidate area
         }
+
         m_pSelected = pCurrentSelection;        // Save elem under cursor
+
         if(m_pSelected)                         // Is there one?
         {                                       // Yes, so get it redrawn
             aRect = m_pSelected->GetBoundRect(); // Get bounding rectangle

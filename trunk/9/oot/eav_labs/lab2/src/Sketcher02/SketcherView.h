@@ -1,10 +1,10 @@
 // SketcherView.h : interface of the CSketcherView class
-//
 /////////////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_SKETCHERVIEW_H__623441AD_57EA_11D0_9257_00201834E2A3__INCLUDED_)
 #define AFX_SKETCHERVIEW_H__623441AD_57EA_11D0_9257_00201834E2A3__INCLUDED_
-
+//////////////////////////////////////////////////////////////////////////
+#include "container/Ribble.h"
+//////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDD6D01B9
 class CSketcherView : public CScrollView
 {
@@ -52,9 +52,10 @@ protected:
 	//##ModelId=4741F10E0215
     void MoveElement(CClientDC& aDC, CPoint& point);
 	//##ModelId=47511BBE02EE
-    void drawRibble( CPoint* start, CPoint* end, CDC* pDC );
-	//##ModelId=47511BBE02FF
+    void drawRibble( Ribble<CElement>* ribble, CDC* pDC, COLORREF aColor );
+    //void drawRibble( CPoint* start, CPoint* end, CDC* pDC );
     void drawRibble( CElement* start, CElement* end, CDC* pDC );
+    
 	//##ModelId=4751685901F4
     void ResetScrollSizes();
     // вызывает диалог задания масштаба

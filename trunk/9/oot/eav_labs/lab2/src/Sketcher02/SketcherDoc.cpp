@@ -56,6 +56,7 @@ CSketcherDoc::CSketcherDoc()
    m_Color = BLACK;    // Set initial drawing color
    _container = new Graph<CElement>();
    _iter = _container->getIterator();
+   _vertexPosition = -1;
    m_DocSize = CSize(3000,3000);  // Set initial document size 30x30 inches
 }
 
@@ -306,7 +307,7 @@ void CSketcherDoc::OnUpdateElementTextInOval(CCmdUI* pCmdUI)
 CElement* CSketcherDoc::AddElement( CElement* m_pElement )
 {
     CElement* result = _container->addVertex(m_pElement);
-    _iter = _container->getIterator();
+    _iter->first();
     return result;
 }
 
@@ -333,4 +334,22 @@ void CSketcherDoc::DeleteElement( CElement* m_pSelected )
     }
 }
 
+int CSketcherDoc::nextVertexPosition()
+{
+    _vertexPosition++;
+    if (_vertexPosition >= _container->getVertexCount())
+    {
+        _vertexPosition = 0;
+    }
+    return _vertexPosition;
+}
 
+int CSketcherDoc::previousVertexPosition()
+{
+    _vertexPosition--;
+    if (_vertexPosition < 0)
+    {
+        _vertexPosition = _container->getVertexCount() - 1;
+    }
+    return _vertexPosition;
+}
