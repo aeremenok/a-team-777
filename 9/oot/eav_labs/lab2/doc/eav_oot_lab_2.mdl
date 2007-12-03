@@ -40633,6 +40633,7 @@
 					name       	"AfxBaseClass"
 					value      	"CScrollView"))
 				quid       	"473EDD6D01B9"
+				documentation 	"////////////////////////////////////////////////////////////////////////"
 				superclasses 	(list inheritance_relationship_list
 				    (object Inheritance_Relationship
 					quid       	"4741F10E01B5"
@@ -41084,18 +41085,17 @@
 						value      	FALSE))
 					quid       	"47511BBE02EE"
 					parameters 	(list Parameters
-					    (object Parameter "start"
+					    (object Parameter "ribble"
 						quid       	"47511BBE02EF"
-						type       	"CPoint*"
-						quidu      	"365C7A7A0020")
-					    (object Parameter "end"
-						quid       	"47511BBE02FD"
-						type       	"CPoint*"
-						quidu      	"365C7A7A0020")
+						type       	"Ribble<CElement>*"
+						quidu      	"47545D9C006D")
 					    (object Parameter "pDC"
-						quid       	"47511BBE02FE"
+						quid       	"47511BBE02FD"
 						type       	"CDC*"
-						quidu      	"365C7A70033F"))
+						quidu      	"365C7A70033F")
+					    (object Parameter "aColor"
+						quid       	"47511BBE02FE"
+						type       	"COLORREF"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
@@ -41107,6 +41107,7 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"47511BBE02FF"
+					documentation 	"void drawRibble( CPoint* start, CPoint* end, CDC* pDC );"
 					parameters 	(list Parameters
 					    (object Parameter "start"
 						quid       	"47511BBE0300"
@@ -41788,13 +41789,15 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
 					uid        	0)
-				    (object Operation "getGraphIterator"
+				    (object Operation "getNewIterator"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"4741F10E0297"
+					documentation 	" получить новый итератор, указавющий на начало контейнера"
+					stereotype 	"const"
 					result     	"Iterator<CElement>*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -41906,6 +41909,7 @@
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"475326640148"
+					documentation 	" получить итератор, сохран€ющий позицию"
 					stereotype 	"const"
 					result     	"Iterator<CElement>*"
 					concurrency 	"Sequential"
@@ -43573,7 +43577,7 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"474C966702BF"
-					documentation 	" рисует идентификатор фигуры"
+					documentation 	"рисует идентификатор фигуры"
 					stereotype 	"const"
 					parameters 	(list Parameters
 					    (object Parameter "pDC"
@@ -43680,6 +43684,7 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"4751CC290399"
+					documentation 	"идентификатор фигуры используетс€ при сериализации документа"
 					stereotype 	"const"
 					result     	"const int"
 					concurrency 	"Sequential"
@@ -45271,11 +45276,7 @@
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"4741F10E03B0"
-					documentation 	
-|очистить граф. очистка объектов по указател€м не производитс€, 
-| т.к. дл€ этого нужно знать тип удал€емого объекта. 
-| это пользователь должен сделать сам
-					
+					documentation 	"очистить граф. очистка объектов по указател€м не производитс€"
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -45401,7 +45402,26 @@
 						value      	TRUE))
 					quid       	"47527CD9036B"
 					documentation 	" количество ребер в графе"
+					stereotype 	"const"
 					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getVertexAt"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"47545D9C02C0"
+					documentation 	" получить вершину по номеру ее позиции в графе"
+					stereotype 	"const"
+					parameters 	(list Parameters
+					    (object Parameter "position"
+						quid       	"47545D9C02C2"
+						type       	"const int"
+						const      	TRUE))
+					result     	"T*"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -45819,6 +45839,25 @@
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
 				language   	"VC++")
+			    (object Instantiated_Class "Ribble<CElement>"
+				attributes 	(list Attribute_Set
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AppliedPattern"
+					value      	"none")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"Generate"
+					value      	FALSE))
+				quid       	"47545D9C006D"
+				used_nodes 	(list uses_relationship_list
+				    (object Uses_Relationship
+					quid       	"47545D9C006E"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::Ribble"
+					quidu      	"4741F10E0302"))
+				module     	"Component View::Sketcher"
+				quidu      	"473EDD55031C"
+				language   	"VC++")
 			    (object Association "$UNNAMED$0"
 				quid       	"473EDD6D0232"
 				roles      	(list role_list
@@ -46099,7 +46138,22 @@
 				    (object Role "$UNNAMED$35"
 					quid       	"47532664013B"
 					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::CSketcherDoc"
-					quidu      	"473EDD6D02BF"))))
+					quidu      	"473EDD6D02BF")))
+			    (object Association "$UNNAMED$36"
+				quid       	"47545D9C0109"
+				roles      	(list role_list
+				    (object Role "_ribble"
+					quid       	"47545D9C010A"
+					documentation 	" ребро дл€ подсветки"
+					label      	"_ribble"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::Ribble<CElement>"
+					quidu      	"47545D9C006D"
+					exportControl 	"Protected"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$37"
+					quid       	"47545D9C010C"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::CSketcherView"
+					quidu      	"473EDD6D01B9"))))
 			logical_presentations 	(list unit_reference_list
 			    (object ClassDiagram "Sketcher Model Update Overview"
 				quid       	"473EDD6D038F"
@@ -46325,36 +46379,7 @@
 					client     	@674
 					supplier   	@679
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherView" @682
-					ShowCompartmentStereotypes 	TRUE
-					location   	(368, 656)
-					font       	(object Font
-					    size       	10
-					    face       	"Arial"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	8143653
-					    default_color 	TRUE)
-					label      	(object ItemLabel
-					    Parent_View 	@682
-					    location   	(187, 606)
-					    fill_color 	13434879
-					    nlines     	1
-					    max_width  	362
-					    justify    	0
-					    label      	"CSketcherView")
-					icon_style 	"Icon"
-					line_color 	3342489
-					fill_color 	13434879
-					quidu      	"473EDD6D01B9"
-					width      	380
-					height     	124
-					annotation 	8
-					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::CDocument" @683
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::CDocument" @682
 					ShowCompartmentStereotypes 	TRUE
 					location   	(720, 384)
 					font       	(object Font
@@ -46368,7 +46393,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@683
+					    Parent_View 	@682
 					    location   	(574, 334)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46383,7 +46408,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::CWinApp" @684
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::CWinApp" @683
 					ShowCompartmentStereotypes 	TRUE
 					location   	(272, 928)
 					font       	(object Font
@@ -46397,7 +46422,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@684
+					    Parent_View 	@683
 					    location   	(144, 878)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46412,7 +46437,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherApp" @685
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherApp" @684
 					ShowCompartmentStereotypes 	TRUE
 					location   	(368, 1200)
 					font       	(object Font
@@ -46426,7 +46451,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@685
+					    Parent_View 	@684
 					    location   	(187, 1150)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46441,14 +46466,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @686
+				    (object InheritView "" @685
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"473EDD6D02FE"
-					client     	@685
-					supplier   	@684
+					client     	@684
+					supplier   	@683
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Frame Windows::CMDIFrameWnd" @687
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Frame Windows::CMDIFrameWnd" @686
 					ShowCompartmentStereotypes 	TRUE
 					location   	(272, 1568)
 					font       	(object Font
@@ -46462,7 +46487,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@687
+					    Parent_View 	@686
 					    location   	(69, 1518)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46477,7 +46502,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CMainFrame" @688
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CMainFrame" @687
 					ShowCompartmentStereotypes 	TRUE
 					location   	(368, 1920)
 					font       	(object Font
@@ -46491,7 +46516,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@688
+					    Parent_View 	@687
 					    location   	(209, 1870)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46506,14 +46531,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @689
+				    (object InheritView "" @688
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"473EDD6D030E"
-					client     	@688
-					supplier   	@687
+					client     	@687
+					supplier   	@686
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CLine" @690
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CLine" @689
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1888, 848)
 					font       	(object Font
@@ -46527,7 +46552,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@690
+					    Parent_View 	@689
 					    location   	(1792, 798)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46542,14 +46567,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @691
+				    (object InheritView "" @690
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"473EDD6D034C"
-					client     	@690
+					client     	@689
 					supplier   	@679
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CRectangle" @692
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CRectangle" @691
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1888, 576)
 					font       	(object Font
@@ -46563,7 +46588,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@692
+					    Parent_View 	@691
 					    location   	(1738, 526)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46578,14 +46603,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @693
+				    (object InheritView "" @692
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"473EDD6D035F"
-					client     	@692
+					client     	@691
 					supplier   	@679
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Frame Windows::CMDIChildWnd" @694
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Frame Windows::CMDIChildWnd" @693
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1888, 1200)
 					font       	(object Font
@@ -46599,7 +46624,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@694
+					    Parent_View 	@693
 					    location   	(1709, 1150)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46614,7 +46639,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CChildFrame" @695
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CChildFrame" @694
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2160, 1568)
 					font       	(object Font
@@ -46628,7 +46653,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@695
+					    Parent_View 	@694
 					    location   	(2000, 1518)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46643,14 +46668,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @696
+				    (object InheritView "" @695
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"473EDD6D0373"
-					client     	@695
-					supplier   	@694
+					client     	@694
+					supplier   	@693
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Dialog Boxes::CDialog" @697
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Dialog Boxes::CDialog" @696
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2336, 128)
 					font       	(object Font
@@ -46664,7 +46689,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@697
+					    Parent_View 	@696
 					    location   	(2234, 78)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46679,7 +46704,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CAboutDlg" @698
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CAboutDlg" @697
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2336, 480)
 					font       	(object Font
@@ -46693,7 +46718,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@698
+					    Parent_View 	@697
 					    location   	(2206, 430)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46708,14 +46733,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @699
+				    (object InheritView "" @698
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"473EDD6D038A"
-					client     	@698
-					supplier   	@697
+					client     	@697
+					supplier   	@696
 					line_style 	0)
-				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::list<TextInOval*>" @700
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::list<TextInOval*>" @699
 					ShowCompartmentStereotypes 	TRUE
 					location   	(272, 2288)
 					font       	(object Font
@@ -46729,7 +46754,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@700
+					    Parent_View 	@699
 					    location   	(66, 2238)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46744,7 +46769,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::TextInOval" @701
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::TextInOval" @700
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1056, 2000)
 					font       	(object Font
@@ -46758,7 +46783,7 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@701
+					    Parent_View 	@700
 					    location   	(868, 1940)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46773,14 +46798,14 @@
 					height     	148
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @702
+				    (object InheritView "" @701
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"473EDDF401E5"
-					client     	@701
+					client     	@700
 					supplier   	@676
 					line_style 	0)
-				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::list<Text*>" @703
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::list<Text*>" @702
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2336, 848)
 					font       	(object Font
@@ -46794,7 +46819,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@703
+					    Parent_View 	@702
 					    location   	(2197, 798)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46809,7 +46834,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Text" @704
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Text" @703
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1232, 1648)
 					font       	(object Font
@@ -46823,7 +46848,7 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@704
+					    Parent_View 	@703
 					    location   	(1136, 1588)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46838,21 +46863,21 @@
 					height     	148
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @705
+				    (object InheritView "" @704
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"473EDDF401E6"
-					client     	@701
-					supplier   	@704
+					client     	@700
+					supplier   	@703
 					line_style 	0)
-				    (object InheritView "" @706
+				    (object InheritView "" @705
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"473EDDF40271"
-					client     	@704
+					client     	@703
 					supplier   	@674
 					line_style 	0)
-				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::list<Rectangle*>" @707
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::list<Rectangle*>" @706
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1536, 2016)
 					font       	(object Font
@@ -46866,7 +46891,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@707
+					    Parent_View 	@706
 					    location   	(1333, 1966)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46881,7 +46906,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Rectangle2" @708
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::Rectangle2" @707
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1664, 1648)
 					font       	(object Font
@@ -46895,7 +46920,7 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@708
+					    Parent_View 	@707
 					    location   	(1479, 1588)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46910,14 +46935,14 @@
 					height     	148
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @709
+				    (object InheritView "" @708
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"473EDDF4036C"
-					client     	@708
+					client     	@707
 					supplier   	@674
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::TextRequest" @710
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::TextRequest" @709
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2432, 1200)
 					font       	(object Font
@@ -46931,7 +46956,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@710
+					    Parent_View 	@709
 					    location   	(2275, 1150)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46946,14 +46971,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @711
+				    (object InheritView "" @710
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"474055EE03C9"
-					client     	@710
-					supplier   	@697
+					client     	@709
+					supplier   	@696
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Views::CScrollView" @712
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Views::CScrollView" @711
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1264, 2368)
 					font       	(object Font
@@ -46967,7 +46992,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@712
+					    Parent_View 	@711
 					    location   	(1113, 2318)
 					    fill_color 	13434879
 					    nlines     	1
@@ -46982,21 +47007,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @713
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"4741F10E01B5"
-					client     	@682
-					supplier   	@712
-					line_style 	0)
-				    (object InheritView "" @714
+				    (object InheritView "" @712
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD667029C"
-					client     	@712
+					client     	@711
 					supplier   	@678
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::GraphException" @715
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::GraphException" @713
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2784, 128)
 					font       	(object Font
@@ -47010,7 +47028,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@715
+					    Parent_View 	@713
 					    location   	(2596, 78)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47025,7 +47043,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::VertexNotFoundException" @716
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::VertexNotFoundException" @714
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2784, 480)
 					font       	(object Font
@@ -47039,7 +47057,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@716
+					    Parent_View 	@714
 					    location   	(2485, 430)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47054,14 +47072,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @717
+				    (object InheritView "" @715
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4741F10E00CB"
-					client     	@716
-					supplier   	@715
+					client     	@714
+					supplier   	@713
 					line_style 	0)
-				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph<CElement>" @718
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph<CElement>" @716
 					ShowCompartmentStereotypes 	TRUE
 					location   	(272, 2640)
 					font       	(object Font
@@ -47075,7 +47093,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@718
+					    Parent_View 	@716
 					    location   	(55, 2590)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47090,7 +47108,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::RibbleNotFoundException" @719
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::RibbleNotFoundException" @717
 					ShowCompartmentStereotypes 	TRUE
 					location   	(3328, 208)
 					font       	(object Font
@@ -47104,7 +47122,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@719
+					    Parent_View 	@717
 					    location   	(3036, 158)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47119,14 +47137,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @720
+				    (object InheritView "" @718
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4741F10E02DF"
-					client     	@719
-					supplier   	@715
+					client     	@717
+					supplier   	@713
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::RibbleExistsException" @721
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::RibbleExistsException" @719
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2784, 848)
 					font       	(object Font
@@ -47140,7 +47158,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@721
+					    Parent_View 	@719
 					    location   	(2520, 798)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47155,14 +47173,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @722
+				    (object InheritView "" @720
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4741F10E02F3"
-					client     	@721
-					supplier   	@715
+					client     	@719
+					supplier   	@713
 					line_style 	0)
-				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Ribble" @723
+				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Ribble" @721
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2160, 1968)
 					font       	(object Font
@@ -47176,7 +47194,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@723
+					    Parent_View 	@721
 					    location   	(2064, 1939)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47191,7 +47209,7 @@
 					height     	158
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Iterator" @724
+				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Iterator" @722
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1712, 2416)
 					font       	(object Font
@@ -47205,7 +47223,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@724
+					    Parent_View 	@722
 					    location   	(1616, 2387)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47220,7 +47238,7 @@
 					height     	158
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph" @725
+				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph" @723
 					ShowCompartmentStereotypes 	TRUE
 					location   	(816, 2864)
 					font       	(object Font
@@ -47234,7 +47252,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@725
+					    Parent_View 	@723
 					    location   	(720, 2835)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47249,14 +47267,14 @@
 					height     	158
 					annotation 	8
 					autoResize 	TRUE)
-				    (object UsesView "" @726
+				    (object UsesView "" @724
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4741F10E0291"
-					client     	@718
-					supplier   	@725
+					client     	@716
+					supplier   	@723
 					line_style 	0)
-				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::list<Ribble<T>*>" @727
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::list<Ribble<T>*>" @725
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1264, 2640)
 					font       	(object Font
@@ -47270,7 +47288,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@727
+					    Parent_View 	@725
 					    location   	(1061, 2590)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47285,7 +47303,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph::GraphIterator" @728
+				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph::GraphIterator" @726
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2256, 2784)
 					font       	(object Font
@@ -47299,7 +47317,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@728
+					    Parent_View 	@726
 					    location   	(2096, 2755)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47314,7 +47332,7 @@
 					height     	158
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Iterator<T>" @729
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Iterator<T>" @727
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1808, 2736)
 					font       	(object Font
@@ -47328,7 +47346,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@729
+					    Parent_View 	@727
 					    location   	(1668, 2686)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47343,21 +47361,21 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object UsesView "" @730
+				    (object UsesView "" @728
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4741F10E03CA"
-					client     	@729
-					supplier   	@724
+					client     	@727
+					supplier   	@722
 					line_style 	0)
-				    (object InheritView "" @731
+				    (object InheritView "" @729
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4741F10F005D"
-					client     	@728
-					supplier   	@729
+					client     	@726
+					supplier   	@727
 					line_style 	0)
-				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph<T>" @732
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Graph<T>" @730
 					ShowCompartmentStereotypes 	TRUE
 					location   	(896, 3184)
 					font       	(object Font
@@ -47371,7 +47389,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@732
+					    Parent_View 	@730
 					    location   	(763, 3134)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47386,7 +47404,7 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::ExternalGraphIterator" @733
+				    (object ClassView "ParameterizedClass" "Logical View::VC++ Reverse Engineered::Sketcher::ExternalGraphIterator" @731
 					ShowCompartmentStereotypes 	TRUE
 					location   	(1888, 3136)
 					font       	(object Font
@@ -47400,7 +47418,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@733
+					    Parent_View 	@731
 					    location   	(1640, 3107)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47415,21 +47433,21 @@
 					height     	158
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @734
+				    (object InheritView "" @732
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"474C8E040203"
-					client     	@733
-					supplier   	@729
+					client     	@731
+					supplier   	@727
 					line_style 	0)
-				    (object UsesView "" @735
+				    (object UsesView "" @733
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"474C8E040215"
-					client     	@732
-					supplier   	@725
+					client     	@730
+					supplier   	@723
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CScaleDialog" @736
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CScaleDialog" @734
 					ShowCompartmentStereotypes 	TRUE
 					location   	(3424, 480)
 					font       	(object Font
@@ -47443,7 +47461,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@736
+					    Parent_View 	@734
 					    location   	(3259, 430)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47458,14 +47476,14 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @737
+				    (object InheritView "" @735
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4751685902A0"
-					client     	@736
-					supplier   	@697
+					client     	@734
+					supplier   	@696
 					line_style 	0)
-				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Iterator<CElement>" @738
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Iterator<CElement>" @736
 					ShowCompartmentStereotypes 	TRUE
 					location   	(2160, 2464)
 					font       	(object Font
@@ -47479,7 +47497,7 @@
 					    color      	0
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@738
+					    Parent_View 	@736
 					    location   	(1909, 2415)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47494,7 +47512,7 @@
 					height     	120
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherDoc" @739
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherDoc" @737
 					ShowCompartmentStereotypes 	TRUE
 					location   	(720, 1024)
 					font       	(object Font
@@ -47508,7 +47526,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@739
+					    Parent_View 	@737
 					    location   	(549, 974)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47523,19 +47541,91 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @740
+				    (object InheritView "" @738
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"473EDD6D02C0"
-					client     	@739
-					supplier   	@683
+					client     	@737
+					supplier   	@682
 					line_style 	0)
-				    (object UsesView "" @741
+				    (object UsesView "" @739
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4753266303C8"
-					client     	@738
-					supplier   	@724
+					client     	@736
+					supplier   	@722
+					line_style 	0)
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::Ribble<CElement>" @740
+					ShowCompartmentStereotypes 	TRUE
+					location   	(2608, 2016)
+					font       	(object Font
+					    size       	10
+					    face       	"Consolas"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	FALSE)
+					label      	(object ItemLabel
+					    Parent_View 	@740
+					    location   	(2386, 1967)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	444
+					    justify    	0
+					    label      	"Ribble<CElement>")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"47545D9C006D"
+					width      	462
+					height     	120
+					annotation 	8
+					autoResize 	TRUE)
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherView" @741
+					ShowCompartmentStereotypes 	TRUE
+					location   	(368, 656)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	8143653
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@741
+					    location   	(187, 606)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	362
+					    justify    	0
+					    label      	"CSketcherView")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"473EDD6D01B9"
+					width      	380
+					height     	124
+					annotation 	8
+					autoResize 	TRUE)
+				    (object InheritView "" @742
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"4741F10E01B5"
+					client     	@741
+					supplier   	@711
+					line_style 	0)
+				    (object UsesView "" @743
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"47545D9C006E"
+					client     	@740
+					supplier   	@721
 					line_style 	0))))))
 		logical_presentations 	(list unit_reference_list)))
 	logical_presentations 	(list unit_reference_list
@@ -47548,7 +47638,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object CategoryView "Logical View::MFC 6.0" @742
+		    (object CategoryView "Logical View::MFC 6.0" @744
 			location   	(464, 432)
 			font       	(object Font
 			    size       	10
@@ -47561,7 +47651,7 @@
 			    color      	8143653
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@742
+			    Parent_View 	@744
 			    location   	(320, 348)
 			    fill_color 	13434879
 			    nlines     	2
@@ -47574,7 +47664,7 @@
 			quidu      	"365C7A6F006A"
 			width      	300
 			height     	180)
-		    (object NoteView @743
+		    (object NoteView @745
 			location   	(1552, 432)
 			font       	(object Font
 			    size       	10
@@ -47587,7 +47677,7 @@
 			    color      	8143653
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@743
+			    Parent_View 	@745
 			    location   	(1030, 273)
 			    fill_color 	13434879
 			    nlines     	6
@@ -47597,11 +47687,11 @@
 			fill_color 	8585215
 			width      	1069
 			height     	331)
-		    (object AttachView "" @744
+		    (object AttachView "" @746
 			stereotype 	TRUE
 			line_color 	3342489
-			client     	@742
-			supplier   	@743
+			client     	@744
+			supplier   	@745
 			line_style 	0)))))
     root_subsystem 	(object SubSystem "Component View"
 	quid       	"365C7A6603BD"

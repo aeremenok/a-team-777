@@ -8,7 +8,6 @@
 //////////////////////////////////////////////////////////////////////////
 class ostream;
 #include "..\Elements.h"
-
 //////////////////////////////////////////////////////////////////////////
 //обобщенная фигура
 //##ModelId=473EDDF4032C
@@ -43,6 +42,7 @@ public:
 	//##ModelId=4751CCCE029F
 	virtual int getType() const = 0;
 
+    //идентификатор фигуры используется при сериализации документа
 	//##ModelId=4751CC290399
 	const int get__id() const;
 
@@ -52,7 +52,7 @@ public:
 	//##ModelId=475168D10271
 	virtual void Serialize(CArchive& ar);
 
-    // рисует идентификатор фигуры
+    //рисует идентификатор фигуры
     //##ModelId=474C966702BF
     void drawID(CDC* pDC) const;
 

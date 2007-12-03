@@ -31,9 +31,6 @@ private:
     //##ModelId=4741F10E03AC
     list< Ribble<T> *>* _ribbleList;
 
-    // количество вершин в графе
-    int _vertexCount;
-
     //внутрениий итератор
     //##ModelId=4741F10E03C8
     template<class T>
@@ -133,13 +130,8 @@ public:
         return _ribbleList->size(); 
     }
 
-    // количество вершин в графе
-    int getVertexCount() const
-    {
-        return _vertexCount; 
-    }
-
     // получить вершину по номеру ее позиции в графе
+	//##ModelId=47545D9C02C0
     T* getVertexAt(const int position) const
     {
         if (position > this->getVertexCount() || position < 0)
@@ -194,7 +186,6 @@ public:
             delete current;
         }
         _ribbleList->clear();
-        _vertexCount = 0;
         cout<<"[graph] graph cleared\n";
     }
 
@@ -229,7 +220,6 @@ public:
         if (!isPresent)
         {
             _ribbleList->push_back(ribble);
-            _vertexCount += 2;
             cout<<"[graph] ribble added successfully\n";
         }
     };
@@ -253,7 +243,6 @@ public:
             if ( *(current->get__vertex1()) == *(current->get__vertex2()) )
             { // вершины одинаковы - заменяем одну вершину и выходим
                 current->set__vertex2(vertex);
-                _vertexCount++;
                 return current->get__vertex1();
             }
         }
@@ -261,13 +250,11 @@ public:
         if (current!=NULL)
         { // такого ребра нет - присоединяем к вершине последнего ребра
             _ribbleList->push_back(new Ribble<T>(current->get__vertex2(), vertex));
-            _vertexCount++;
             return current->get__vertex2();
         } 
         else
         { // ребер еще вообще нет
             _ribbleList->push_back(new Ribble<T>(vertex, vertex));
-            _vertexCount++;
             return vertex;
         }
     };
@@ -291,7 +278,6 @@ public:
             { // если есть - удаляем
                 isPresent = true;
                 _ribbleList->remove(current);
-                _vertexCount -= 2;
                 current->~Ribble();
                 cout<<"[graph] ribble removed successfully\n";
             }
@@ -349,7 +335,6 @@ public:
         }
         else
         {
-            _vertexCount--;
             cout<<"[graph] vertex removed successfully\n";
         }
     };
@@ -365,7 +350,6 @@ public:
     Graph() 
     {
         _ribbleList = new list< Ribble<T>* >;
-        _vertexCount = 0;
         cout<<"[graph] graph created\n";
     };
 
