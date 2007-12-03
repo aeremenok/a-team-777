@@ -52,11 +52,10 @@ END_MESSAGE_MAP()
 CSketcherDoc::CSketcherDoc()
 {
 	// TODO: add one-time construction code here
-   m_Element = LINE;   // Set initial element type
+   m_Element = RECTANGLE;   // Set initial element type
    m_Color = BLACK;    // Set initial drawing color
    _container = new Graph<CElement>();
    _iter = _container->getIterator();
-   _vertexPosition = -1;
    m_DocSize = CSize(3000,3000);  // Set initial document size 30x30 inches
 }
 
@@ -106,7 +105,7 @@ void CSketcherDoc::serializeContainer( CArchive& ar )
     {
         ar << _container->getRibbleCount();
 
-        Iterator<CElement>* iter = getGraphIterator();
+        Iterator<CElement>* iter = getNewIterator();
         while (iter->hasNext())
         {
             Ribble<CElement>* current = iter->next();
@@ -153,6 +152,7 @@ void CSketcherDoc::serializeContainer( CArchive& ar )
             	AfxMessageBox(e->getException().c_str());
             }
         }
+        _iter->first();
     }
 }
 
@@ -189,6 +189,8 @@ Shape* CSketcherDoc::readShape( CArchive &ar, map<int, Shape*> &shapes )
                 return NULL;
                 break;
         }
+        // запоминаем созданную фигуру по идентификатору,
+        //  чтобы, если потребуется, создать еще ребра с ней
         shapes[toAdd->get__id()] = toAdd;
     }
     toAdd->Serialize(ar);
@@ -318,6 +320,7 @@ void CSketcherDoc::SendToBack(CElement* pElement)
     {
         _container->removeVertex(pElement);
         _container->addVertex(pElement);
+        _iter->first();
     }    
 }
 
@@ -327,29 +330,10 @@ void CSketcherDoc::DeleteElement( CElement* m_pSelected )
     try
     {
         _container->removeVertex(m_pSelected);
+        _iter->first();
     }
     catch (GraphException* e)
     {
     	AfxMessageBox(e->getException().c_str());
     }
-}
-
-int CSketcherDoc::nextVertexPosition()
-{
-    _vertexPosition++;
-    if (_vertexPosition >= _container->getVertexCount())
-    {
-        _vertexPosition = 0;
-    }
-    return _vertexPosition;
-}
-
-int CSketcherDoc::previousVertexPosition()
-{
-    _vertexPosition--;
-    if (_vertexPosition < 0)
-    {
-        _vertexPosition = _container->getVertexCount() - 1;
-    }
-    return _vertexPosition;
 }

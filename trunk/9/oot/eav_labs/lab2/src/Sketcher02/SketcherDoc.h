@@ -38,8 +38,6 @@ protected:
     // итератор для обхода графа, сохраняющий позицию
 	//##ModelId=475326640139
     Iterator<CElement>* _iter;
-    // позиция выбранной вершины в графе
-    int _vertexPosition;
 // Operations
 public:
 	//##ModelId=473EDD6D02CF
@@ -57,13 +55,12 @@ public:
     //##ModelId=4741F10E02A3
     void DeleteElement(CElement* m_pSelected);
 
+    // получить новый итератор, указавющий на начало контейнера
 	//##ModelId=4741F10E0297
-    Iterator<CElement>* getGraphIterator(){ return _container->getIterator(); }
+    Iterator<CElement>* getNewIterator() const { return _container->getIterator(); }
+    // получить итератор, сохраняющий позицию
+	//##ModelId=475326640148
     Iterator<CElement>* getStaticIterator() const { return _iter; }
-    // итератор над итератором %)
-    int nextVertexPosition();
-    int previousVertexPosition();
-    CElement* getElementAt(const int position){ return _container->getVertexAt(position); }
 protected:
     // сериализует элементы контейнера
     //##ModelId=4751AAD80232
@@ -71,6 +68,7 @@ protected:
     // восстанавливает из файла фигуру и ее положение в контейнере
 	//##ModelId=47527CD90213
     Shape* readShape(CArchive &ar, map<int, Shape*> &shapes);
+
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherDoc)

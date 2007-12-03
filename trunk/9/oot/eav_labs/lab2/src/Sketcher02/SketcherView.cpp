@@ -67,7 +67,8 @@ CSketcherView::CSketcherView()
     m_MoveMode = FALSE;                 // Set move mode off
     m_CursorPos = CPoint(0,0);          // Initialize as zero
     m_FirstPos = CPoint(0,0);           // Initialize as zero
-    isGraphVisible = false;
+    isGraphVisible = true;
+    _ribble = NULL;
     m_Scale = 1;                          // Set scale to 1:1
     SetScrollSizes(MM_TEXT, CSize(0,0));  // Set arbitrary scrollers
 }
@@ -96,7 +97,7 @@ void CSketcherView::OnDraw(CDC* pDC)
     ASSERT_VALID(pDoc);
     
     CElement* pElement = NULL;
-    Iterator<CElement>* iter = pDoc->getGraphIterator();
+    Iterator<CElement>* iter = pDoc->getNewIterator();
 
     CPoint* start = NULL;
     CPoint* end = NULL;
@@ -279,8 +280,8 @@ CElement* CSketcherView::CreateElement()
             return TextInOval::create(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
 
         //////////////////////////////////////////////////////////////////////////
-		case LINE:                  
-			return new CLine(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
+// 		case LINE:                  
+// 			return new CLine(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
 
 		default:
 			//	Something's gone wrong
@@ -303,7 +304,7 @@ CElement* CSketcherView::SelectElement(CPoint aPoint)
     CElement* pElement = NULL;             // Store an element pointer
     CRect aRect(0,0,0,0);                  // Store a rectangle
 
-    Iterator<CElement>* iter = pDoc->getGraphIterator();
+    Iterator<CElement>* iter = pDoc->getNewIterator();
     while (iter->hasNext())
     {
         Ribble<CElement>* ribble = iter->next();
@@ -312,6 +313,7 @@ CElement* CSketcherView::SelectElement(CPoint aPoint)
         aRect = pElement->GetBoundRect();
         if(aRect.PtInRect(aPoint))
             return pElement;
+
         pElement = ribble->get__vertex2();
         aRect = pElement->GetBoundRect();
         if(aRect.PtInRect(aPoint))
@@ -352,7 +354,6 @@ void CSketcherView::OnRButtonDown(UINT nFlags, CPoint point)
       return;                             // We are done
    }
 }
-
 
 //##ModelId=4741F10E0244
 void CSketcherView::OnRButtonUp(UINT nFlags, CPoint point) 
@@ -412,21 +413,20 @@ void CSketcherView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 //##ModelId=4741F10E0223
 void CSketcherView::OnInitialUpdate() 
 {
-   ResetScrollSizes();
-   CScrollView::OnInitialUpdate();
+    ResetScrollSizes();
+    CScrollView::OnInitialUpdate();
 }
 
 //##ModelId=4741F10E0251
 void CSketcherView::OnMove() 
 {
-   CClientDC aDC(this);
-   OnPrepareDC(&aDC);              // Set up the device context
-   GetCursorPos(&m_CursorPos);     // Get cursor position in screen coords
-   ScreenToClient(&m_CursorPos);   // Convert to client coords
-   aDC.DPtoLP(&m_CursorPos);       // Convert to logical
-   m_FirstPos = m_CursorPos;       // Remember first position
-   m_MoveMode = TRUE;              // Start move mode
-	
+    CClientDC aDC(this);
+    OnPrepareDC(&aDC);              // Set up the device context
+    GetCursorPos(&m_CursorPos);     // Get cursor position in screen coords
+    ScreenToClient(&m_CursorPos);   // Convert to client coords
+    aDC.DPtoLP(&m_CursorPos);       // Convert to logical
+    m_FirstPos = m_CursorPos;       // Remember first position
+    m_MoveMode = TRUE;              // Start move mode
 }
 
 //##ModelId=4741F10E0253
@@ -449,17 +449,6 @@ void CSketcherView::OnDelete()
 }
 
 //##ModelId=47511BBE02EE
-// void CSketcherView::drawRibble( CPoint* start, CPoint* end, CDC* pDC )
-// {
-//     if ( isGraphVisible && start != NULL && end != NULL)
-//     {   // граф отображается - рисуем
-//         CLine* visibleRibble = new CLine(*start, *end, GREEN);
-//         visibleRibble->Draw(pDC);
-//         start = NULL;
-//         end = NULL;
-//     }
-// }
-
 void CSketcherView::drawRibble( Ribble<CElement>* ribble, CDC* pDC, COLORREF aColor )
 {
     if ( isGraphVisible && ribble != NULL )
@@ -573,52 +562,48 @@ void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
     OnPrepareDC(&aDC);
     
     Iterator<CElement>* iter = GetDocument()->getStaticIterator();
-    //iter->last();
-//     int i = 0;
-//     while (iter->hasPrevious())
-//     {
-//         iter->previous();
-//         i++;
-//     }
-
-    Ribble<CElement>* ribble = NULL;
     switch(nChar)
     {
-        case 38:
-            // up
+        case 38: // up
             break;
-        case 40:
-            // down
+        case 40: // down
             break;
-        case 37:
+        case 37: // left
+            // убираем подсветку с текущего ребра
+            drawRibble(_ribble, &aDC, GREEN);
+            // перемещаемся к следующему
             if (iter->hasPrevious())
             {
-                ribble = iter->previous();
+                _ribble = iter->previous();
             }
             else
             {
-                ribble = iter->last();
+                _ribble = iter->last();
             }
-            // left
             break;
-        case 39:
+        case 39: // right
+            // убираем подсветку с текущего ребра
+            drawRibble(_ribble, &aDC, GREEN);
+            // перемещаемся к следующему
             if (iter->hasNext())
             {
-                ribble = iter->next();
+                _ribble = iter->next();
             }
             else
             {
-                ribble = iter->first();
+                _ribble = iter->first();
             }
-            // right
+            break;
         default:
             break;
     }
-//    char cs[10];
-//    sprintf(cs, "%d", i);
-//    MessageBox(cs);
-//    aDC.TextOut(0,0, cs);
-    drawRibble(ribble, &aDC, SELECT_COLOR);
+    // подсвечиваем новое ребро
+    drawRibble(_ribble, &aDC, SELECT_COLOR);
+
+    //    char cs[10];
+    //    sprintf(cs, "%d", i);
+    //    aDC.TextOut(0,0, cs);
+
 	CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 

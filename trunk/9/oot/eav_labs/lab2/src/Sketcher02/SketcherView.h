@@ -37,7 +37,9 @@ protected:
     bool isGraphVisible;
 	//##ModelId=4751685901A5
     int m_Scale;
-
+    // ребро для подсветки
+	//##ModelId=47545D9C010A
+    Ribble<CElement>* _ribble;
 // Operations
 public:
 
@@ -54,6 +56,7 @@ protected:
 	//##ModelId=47511BBE02EE
     void drawRibble( Ribble<CElement>* ribble, CDC* pDC, COLORREF aColor );
     //void drawRibble( CPoint* start, CPoint* end, CDC* pDC );
+	//##ModelId=47511BBE02FF
     void drawRibble( CElement* start, CElement* end, CDC* pDC );
     
 	//##ModelId=4751685901F4
