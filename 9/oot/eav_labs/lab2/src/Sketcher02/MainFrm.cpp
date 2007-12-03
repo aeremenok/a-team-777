@@ -52,12 +52,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CMDIFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	
-	if (!m_wndToolBar.Create(this) ||
-		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
-	{
-		TRACE0("Failed to create toolbar\n");
-		return -1;      // fail to create
-	}
+// 	if (!m_wndToolBar.Create(this) ||
+// 		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
+// 	{
+// 		TRACE0("Failed to create toolbar\n");
+// 		return -1;      // fail to create
+// 	}
 
 	if (!m_wndStatusBar.Create(this) ||
 		!m_wndStatusBar.SetIndicators(indicators,
@@ -68,14 +68,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	// TODO: Remove this if you don't want tool tips or a resizeable toolbar
-	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() |
-		CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+// 	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() |
+// 		CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
 
 	// TODO: Delete these three lines if you don't want the toolbar to
 	//  be dockable
-	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
-	EnableDocking(CBRS_ALIGN_ANY);
-	DockControlBar(&m_wndToolBar);
+// 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
+// 	EnableDocking(CBRS_ALIGN_ANY);
+// 	DockControlBar(&m_wndToolBar);
 
 	return 0;
 }
