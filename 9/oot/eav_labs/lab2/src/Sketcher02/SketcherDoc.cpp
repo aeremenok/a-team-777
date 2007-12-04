@@ -189,11 +189,15 @@ Shape* CSketcherDoc::readShape( CArchive &ar, map<int, Shape*> &shapes )
                 return NULL;
                 break;
         }
+        toAdd->Serialize(ar);
         // запоминаем созданную фигуру по идентификатору,
         //  чтобы, если потребуется, создать еще ребра с ней
-        shapes[toAdd->get__id()] = toAdd;
+        shapes[id] = toAdd;
     }
-    toAdd->Serialize(ar);
+    else
+    {
+        toAdd->Serialize(ar);
+    }
     return toAdd;
 }
 /////////////////////////////////////////////////////////////////////////////

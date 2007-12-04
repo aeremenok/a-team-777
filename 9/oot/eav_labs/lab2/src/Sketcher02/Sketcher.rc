@@ -288,9 +288,6 @@ BEGIN
     END
     POPUP "no element"
     BEGIN
-        MENUITEM "&Line",                       ID_ELEMENT_LINE
-        MENUITEM "&Rectangle",                  ID_ELEMENT_RECTANGLE
-        MENUITEM SEPARATOR
         MENUITEM "Blac&k",                      ID_COLOR_BLACK
         MENUITEM "&Red",                        ID_COLOR_RED
         MENUITEM SEPARATOR
