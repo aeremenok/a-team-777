@@ -20,47 +20,45 @@ void newton(double &x)
     double dx, x1;
     double fx;
     double dfx;
-    SAMPLE;//23
-    do {
-        SAMPLE;//25
+    int flag = 1;
+    SAMPLE;//24
+    while (flag) {
+        SAMPLE;//26
         x1 = x;
         func( x, fx, dfx );
-        SAMPLE;//28
+        SAMPLE;//29
         if ( abs(dfx) < tol )
         {
-            SAMPLE;//31
+            SAMPLE;//32
             if ( dfx >= 0 )
             {
-                SAMPLE;//34
+                SAMPLE;//35
                 dfx = tol;
-                SAMPLE;//36
+                SAMPLE;//37
             }
             else
             {
-                SAMPLE;//40
+                SAMPLE;//41
                 dfx = -tol;
-                SAMPLE;//42
+                SAMPLE;//43
             }
         }
-        SAMPLE;//45
+        SAMPLE;//46
         dx = fx / dfx;
         x = x1 - dx;
-        cout << "x=" << x1 << ",fx=" << fx << ",dfx=" << dfx << "\n";
-        SAMPLE;//49
-    } while (!(abs(dx) <= abs(tol * x) ));
-    SAMPLE;//51
+        flag = !(abs(dx) <= abs(tol * x) );
+        SAMPLE;//50
+    }
+    SAMPLE;//52
 } // newton
 
 int main()
 {
-    SAMPLE;//56
+    SAMPLE;//57
     double x;
-    x = 50;
-    SAMPLE;//59
+    x = 100;
+    SAMPLE;//60
     newton(x);
-    cout << "\n";
-    cout << "The solution is " << x;
-    cout << "\n";
-    SAMPLE;//64
+    SAMPLE;//62
     return 0;
 }
