@@ -1,79 +1,87 @@
-// nps.cpp : Defines the entry point for the console application.
-//
 
 #include "stdafx.h"
-
-/*
-int main(int argc, char* argv[])
-{
-	printf("Hello World!\n");
-	return 0;
-}
-*/
 
 #include <windows.h>
 #include <stdio.h>
 
-#define BUFSIZE 1024
-#define PIPE_TIMEOUT 5000
+#define BUFSIZE			1024	// пюглеп астепю дкъ яннаыемхъ
+#define PIPE_TIMEOUT	5000	// бпелъ нфхдюмхъ
 
 int main()
 {
-    BOOL fConnected;
-    LPTSTR lpszPipename = "\\\\.\\pipe\\SamplePipe";
-    CHAR chRequest[BUFSIZE];
-    DWORD cbBytesRead;
-    BOOL fSuccess;
-    HANDLE hPipe;
+	BOOL fConnected;
+	LPTSTR lpszPipename = "\\\\.\\pipe\\SsvPipe";	// хлъ йюмюкю
+	CHAR chRequest[BUFSIZE];
+	DWORD cbBytesRead;
+	BOOL fSuccess;
+	HANDLE hPipe;
 
-    hPipe = CreateNamedPipe ( lpszPipename,
-        PIPE_ACCESS_DUPLEX, // read/write access
-        PIPE_TYPE_MESSAGE | // message type pipe
-        PIPE_READMODE_MESSAGE | // message-read mode
-        PIPE_WAIT, // blocking mode
-        PIPE_UNLIMITED_INSTANCES, // max. instances
-        BUFSIZE, // output buffer size
-        BUFSIZE, // input buffer size
-        PIPE_TIMEOUT, // client time-out
-        NULL); // no security attribute
+	// янгдю╗л йюмюк
+	hPipe = CreateNamedPipe ( 
+		lpszPipename,				// хлъ йюмюкю
+		PIPE_ACCESS_DUPLEX,			// днярсо мю времхе/гюохяэ
+		PIPE_TYPE_MESSAGE |			// пефхл йюмюкю: яннаыемхъ
+			PIPE_READMODE_MESSAGE |	//		пефхл времхъ яннаыемхи
+			PIPE_WAIT,				//		пефхл акнйхпнбйх: нфхдюмхе
+		PIPE_UNLIMITED_INSTANCES,	// люйяхлюкэмне йнкхвеярбн щйгелокъпнб
+		BUFSIZE,					// пюглеп бшундмнцн астепю
+		BUFSIZE,					// пюглеп бундмнцн астепю
+		PIPE_TIMEOUT,				// бпелъ нфхдюмхъ
+		NULL);						// аегноюямнярэ: аег аегноюямнярх
 
-    if (hPipe == INVALID_HANDLE_VALUE)
-    return true;
-
-    for (;;)
+	// янгдюмхе йюмюкю ме сдюкняэ ?
+	if (hPipe == INVALID_HANDLE_VALUE)
     {
-        // Trying connectnamedpipe in sample for CreateNamedPipe
-        // Wait for the client to connect; if it succeeds,
-        // the function returns a nonzero value. If the function returns
-        // zero, GetLastError returns ERROR_PIPE_CONNECTED.
-
-        fConnected = ConnectNamedPipe(hPipe, NULL) ?
-        TRUE : (GetLastError() == ERROR_PIPE_CONNECTED);
-
-        if (fConnected)
-        {
-            fSuccess = ReadFile (hPipe, // handle to pipe
-            chRequest, // buffer to receive data
-            BUFSIZE, // size of buffer
-            &cbBytesRead, // number of bytes read
-            NULL); // not overlapped I/O
-
-            chRequest[cbBytesRead] = '\0';
-            printf("Data Received: %s\n",chRequest);
-
-            if (! fSuccess || cbBytesRead == 0)
-            break;
-
-            FlushFileBuffers(hPipe);
-            DisconnectNamedPipe(hPipe);
-        }
-        else
-
-        // The client could not connect in the CreateNamedPipe sample, so close the pipe.
-        CloseHandle(hPipe);
+        // бшунд я ньхайни
+        printf("ERROR: Named Pipe Server: Failed to create pipe!\n");
+		return 1;
     }
 
-    CloseHandle(hPipe);
+	// аеяйнмевмши жхйк
+	for (;;)
+	{
+		// фд╗л ондйкчвемхъ йкхемрю
+		fConnected = ConnectNamedPipe(hPipe, NULL) ? TRUE : (GetLastError() == ERROR_PIPE_CONNECTED);
 
-    return 1;
+		// ондйкчвемхе опнхгнькн ?
+		if (fConnected)
+		{
+			// вхрюел яннаыемхе йкхемрю
+			fSuccess = ReadFile (
+                hPipe,		    // сйюгюрекэ мю йюмюк
+				chRequest,		// бундмни астеп яннаыемхи
+				BUFSIZE,		// пюглеп астепю
+				&cbBytesRead,	// йнкхвеярбн аюир, йнрнпше сдюкняэ явхрюрэ
+				NULL);			// ме янблеы╗ммши ббнд/бшбнд
+
+			// оевюрюел онксвеммне яннаыемхе
+			chRequest[cbBytesRead] = '\0';
+            printf("INFO:  Named Pipe Server: Data Received: %s\n", chRequest);
+
+			// вхрюрэ мевецн ?
+			if ( !fSuccess || cbBytesRead == 0)
+			{
+				// бшунд хг жхйкю
+				break;
+			}
+
+			// нвхыюел астепнб йюмюкю
+			FlushFileBuffers(hPipe);
+
+			// нрйкчвюеляъ нр йюмюкю
+			DisconnectNamedPipe(hPipe);
+		}
+		else
+		{
+			// йкхемр ме ондйкчвхкяъ - гюйпшбюел йюмюк
+			CloseHandle(hPipe);
+		}
+	}
+
+	// гюйпшбюел йюмюк
+	CloseHandle(hPipe);
+
+	// яепбеп гюбепьхк пюанрс, врн мерхохвмн =)
+	// бшунд я ньхайни
+	return 1;
 }
