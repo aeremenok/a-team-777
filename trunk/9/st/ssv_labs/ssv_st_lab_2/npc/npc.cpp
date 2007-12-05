@@ -1,47 +1,80 @@
+/*
+    пеюкхгюжхъ йкхемрю хлемнбюммшу йюмюкнб
+*/
+////////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 
 #include <windows.h>
 #include <stdio.h>
 
-int main()
+////////////////////////////////////////////////////////////////////////////////
+
+// бшбнд мю щйпюм хмтнплюжхх н оюпюлерпюу гюосяйю опнцпюллш
+void PrintUsage()
+{
+    printf("Program usage:\n");
+    printf("\tnpc pipe_name message\nExample:");
+    printf("\n\tnpc ssvpipe \"!!!hello pipes!!!\"");
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+// рнвйю бундю
+int main( int argc, char** argv )
 {
     HANDLE hFile;
     BOOL flg;
     DWORD dwWrite;
-    char szPipeUpdate[200];
+    char szPipeNamePrefix[] = "\\\\.\\pipe\\";
+    char szPipeName[256];
+    char szMessage[200];
+
+    // меопюбхкэмне йнкхвеярбн оюпюлерпнб ?
+    if(argc != 3)
+    {
+        PrintUsage();
+        return 1;
+    }
+
+    // янярюбкъел хлъ йюмюкю
+    strcpy(szPipeName, szPipeNamePrefix);
+    strcat(szPipeName, argv[1] );
+
+    //printf("Connecting to pipe \'%s\'...", szPipeName);
 
 	// янгдю╗л тюик
     hFile = CreateFile(
-        "\\\\.\\pipe\\SsvPipe", // хлъ йюмюкю
-        GENERIC_WRITE,          // рхо днярсою: гюохяэ
-        0,                      // пюгдекемхе днярсою: мер
-        NULL,                   // аегноюямнярэ: мер
-        OPEN_EXISTING,          // нрйпшбюрэ ясыеярбсчыхи тюик
-        0,                      // ткюцх х юрпхасрш: мер
-        NULL);                  // ьюакнм: мер
+        szPipeName,     // хлъ йюмюкю
+        GENERIC_WRITE,  // рхо днярсою: гюохяэ
+        0,              // пюгдекемхе днярсою: мер
+        NULL,           // аегноюямнярэ: мер
+        OPEN_EXISTING,  // нрйпшбюрэ ясыеярбсчыхи тюик
+        0,              // ткюцх х юрпхасрш: мер
+        NULL);          // ьюакнм: мер
 
 	// йнохпсел ярпнйс дкъ оепедювх
-    strcpy(szPipeUpdate, "!!!Hello, Pipes!!!");
+    //strcpy(szMessage, "!!!Hello, Pipes!!!");
+    strcpy(szMessage, argv[2]);
 
 	// йюмюк ме ясыеярбсер ?
     if(hFile == INVALID_HANDLE_VALUE)
     {
-		printf("ERROR: Named Pipe Client: No such pipe exists!\n" );
+        printf("ERROR: Pipe \'%s\' doesn't exist!\n", szPipeName );
     }
     else
     {
 		// гюохяэ ярпнйх б йюмюк
-        flg = WriteFile(hFile, szPipeUpdate, strlen(szPipeUpdate), &dwWrite, NULL);
+        flg = WriteFile(hFile, szMessage, strlen(szMessage), &dwWrite, NULL);
         
 		// гюохяэ ме сдюкюяэ ?
         if (FALSE == flg)
         {
-			printf("ERROR: Named Pipe Client: Cannot write to pipe!\n");
+            printf("ERROR: Cannot write to pipe \'%s\'!\n", szPipeName);
         }
         else
         {
-			printf("INFO:  Named Pipe Client: Successfull write into pipe!\n");
+            printf("Successfull write \'%s\' into pipe \'%s\'!\n", szMessage, szPipeName);
         }
         
 		// гюйпшбюел йюмюк
@@ -51,3 +84,5 @@ int main()
 	// гюбепьюел пюанрс
 	return 0;
 }
+
+////////////////////////////////////////////////////////////////////////////////

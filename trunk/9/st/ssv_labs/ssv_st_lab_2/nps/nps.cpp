@@ -1,13 +1,21 @@
+/*
+    пеюкхгюжхъ яепбепю хлемнбюммшу йюмюкнб
+*/
+////////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 
 #include <windows.h>
 #include <stdio.h>
 
+////////////////////////////////////////////////////////////////////////////////
+
 #define BUFSIZE			1024	// пюглеп астепю дкъ яннаыемхъ
 #define PIPE_TIMEOUT	5000	// бпелъ нфхдюмхъ
 
-int main()
+////////////////////////////////////////////////////////////////////////////////
+
+int main(int argc, char** argv)
 {
 	BOOL fConnected;
 	LPTSTR lpszPipename = "\\\\.\\pipe\\SsvPipe";	// хлъ йюмюкю
@@ -33,7 +41,7 @@ int main()
 	if (hPipe == INVALID_HANDLE_VALUE)
     {
         // бшунд я ньхайни
-        printf("ERROR: Named Pipe Server: Failed to create pipe!\n");
+        printf("ERROR: Failed to create pipe!\n");
 		return 1;
     }
 
@@ -56,7 +64,7 @@ int main()
 
 			// оевюрюел онксвеммне яннаыемхе
 			chRequest[cbBytesRead] = '\0';
-            printf("INFO:  Named Pipe Server: Data Received: %s\n", chRequest);
+            printf("Data Received: %s\n", chRequest);
 
 			// вхрюрэ мевецн ?
 			if ( !fSuccess || cbBytesRead == 0)
@@ -65,7 +73,7 @@ int main()
 				break;
 			}
 
-			// нвхыюел астепнб йюмюкю
+			// нвхыюел астепю йюмюкю
 			FlushFileBuffers(hPipe);
 
 			// нрйкчвюеляъ нр йюмюкю
@@ -85,3 +93,5 @@ int main()
 	// бшунд я ньхайни
 	return 1;
 }
+
+////////////////////////////////////////////////////////////////////////////////
