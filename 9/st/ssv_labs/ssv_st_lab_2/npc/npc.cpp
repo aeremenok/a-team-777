@@ -14,8 +14,8 @@
 void PrintUsage()
 {
     printf("Program usage:\n");
-    printf("\tnpc pipe_name message\nExample:");
-    printf("\n\tnpc ssv \"!!!hello pipes!!!\"");
+    printf("\tnpc pipe_name\nExample:");
+    printf("\n\tnpc ssv\"");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,10 +28,9 @@ int main( int argc, char** argv )
     DWORD dwWrite;
     char szPipeNamePrefix[] = "\\\\.\\pipe\\";
     char szPipeName[256];
-    char szMessage[200];
 
     // меопюбхкэмне йнкхвеярбн оюпюлерпнб ?
-    if(argc != 3)
+    if(argc != 2)
     {
         PrintUsage();
         return 1;
@@ -52,7 +51,7 @@ int main( int argc, char** argv )
         NULL);          // ьюакнм: мер
 
 	// йнохпсел ярпнйс дкъ оепедювх
-    strcpy(szMessage, argv[2]);
+    //strcpy(szMessage, argv[2]);
 
 	// йюмюк ме ясыеярбсер ?
     if(hFile == INVALID_HANDLE_VALUE)
@@ -61,20 +60,34 @@ int main( int argc, char** argv )
     }
     else
     {
-		// гюохяэ ярпнйх б йюмюк
-        flg = WriteFile(hFile, szMessage, strlen(szMessage), &dwWrite, NULL);
-        
-		// гюохяэ ме сдюкюяэ ?
-        if (FALSE == flg)
+        printf("Connected to pipe \'%s\'...\n", szPipeName );
+        printf("Type a message and press ENTER to send it or press Ctrl-C to quit.\n", szPipeName );
+
+        // аеяйнмевмши жхйк
+        for(;;)
         {
-            printf("ERROR: Cannot write to pipe \'%s\'!\n", szPipeName);
+            char szMessage[200];    // рейяр яннаыемхъ
+
+            printf(">");
+
+            // вхрюел я йнмянкх яннаыемхе дкъ оепедювх 
+            scanf("%s", szMessage);
+
+		    // гюохяэ ярпнйх б йюмюк
+            flg = WriteFile(hFile, szMessage, strlen(szMessage), &dwWrite, NULL);
+            
+		    // гюохяэ ме сдюкюяэ ?
+            if (FALSE == flg)
+            {
+                printf("ERROR: Cannot write to pipe \'%s\'!\n", szPipeName);
+            }
+            else
+            {
+                printf("\nSuccessfull write \'%s\' into pipe \'%s\'!\n\n", szMessage, szPipeName);
+            }
         }
-        else
-        {
-            printf("\nSuccessfull write \'%s\' into pipe \'%s\'!\n", szMessage, szPipeName);
-        }
-        
-		// гюйпшбюел йюмюк
+
+	    // гюйпшбюел йюмюк
         CloseHandle(hFile);
     }
 
