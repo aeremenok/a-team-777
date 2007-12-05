@@ -15,18 +15,40 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// бшбнд мю щйпюм хмтнплюжхх н оюпюлерпюу гюосяйю опнцпюллш
+void PrintUsage()
+{
+    printf("Program usage:\n");
+    printf("\tnps pipe_name\nExample:");
+    printf("\n\tnps ssv");
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 int main(int argc, char** argv)
 {
 	BOOL fConnected;
-	LPTSTR lpszPipename = "\\\\.\\pipe\\SsvPipe";	// хлъ йюмюкю
 	CHAR chRequest[BUFSIZE];
 	DWORD cbBytesRead;
 	BOOL fSuccess;
 	HANDLE hPipe;
+    char szPipeNamePrefix[] = "\\\\.\\pipe\\";
+    char szPipeName[256];
+
+    // меопюбхкэмне йнкхвеярбн оюпюлерпнб ?
+    if(argc != 2)
+    {
+        PrintUsage();
+        return 1;
+    }
+
+    // янярюбкъел хлъ йюмюкю
+    strcpy(szPipeName, szPipeNamePrefix);
+    strcat(szPipeName, argv[1] );
 
 	// янгдю╗л йюмюк
 	hPipe = CreateNamedPipe ( 
-		lpszPipename,				// хлъ йюмюкю
+        szPipeName,				    // хлъ йюмюкю
 		PIPE_ACCESS_DUPLEX,			// днярсо мю времхе/гюохяэ
 		PIPE_TYPE_MESSAGE |			// пефхл йюмюкю: яннаыемхъ
 			PIPE_READMODE_MESSAGE |	//		пефхл времхъ яннаыемхи
@@ -41,9 +63,11 @@ int main(int argc, char** argv)
 	if (hPipe == INVALID_HANDLE_VALUE)
     {
         // бшунд я ньхайни
-        printf("ERROR: Failed to create pipe!\n");
+        printf("ERROR: Failed to create pipe \'%s\'!\n", szPipeName);
 		return 1;
     }
+
+    printf("\nNamed Pipe server started successfully with pipe \'%s\'\n\n", szPipeName);
 
 	// аеяйнмевмши жхйк
 	for (;;)
