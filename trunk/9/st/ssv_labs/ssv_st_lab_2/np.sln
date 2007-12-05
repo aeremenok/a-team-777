@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "npc", "npc\npc.vcproj", "{DB303506-8851-462B-AB4A-6CDC2AE6A9A4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nps", "nps\nps.vcproj", "{98C99352-F492-4D20-A865-F68297B83EE0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB303506-8851-462B-AB4A-6CDC2AE6A9A4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DB303506-8851-462B-AB4A-6CDC2AE6A9A4}.Debug|Win32.Build.0 = Debug|Win32
+		{DB303506-8851-462B-AB4A-6CDC2AE6A9A4}.Release|Win32.ActiveCfg = Release|Win32
+		{DB303506-8851-462B-AB4A-6CDC2AE6A9A4}.Release|Win32.Build.0 = Release|Win32
+		{98C99352-F492-4D20-A865-F68297B83EE0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{98C99352-F492-4D20-A865-F68297B83EE0}.Debug|Win32.Build.0 = Debug|Win32
+		{98C99352-F492-4D20-A865-F68297B83EE0}.Release|Win32.ActiveCfg = Release|Win32
+		{98C99352-F492-4D20-A865-F68297B83EE0}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
