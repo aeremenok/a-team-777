@@ -15,7 +15,7 @@ void PrintUsage()
 {
     printf("Program usage:\n");
     printf("\tnpc pipe_name message\nExample:");
-    printf("\n\tnpc ssvpipe \"!!!hello pipes!!!\"");
+    printf("\n\tnpc ssv \"!!!hello pipes!!!\"");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,8 +41,6 @@ int main( int argc, char** argv )
     strcpy(szPipeName, szPipeNamePrefix);
     strcat(szPipeName, argv[1] );
 
-    //printf("Connecting to pipe \'%s\'...", szPipeName);
-
 	// —Œ«ƒ¿®Ã ‘¿…À
     hFile = CreateFile(
         szPipeName,     // »Ãﬂ  ¿Õ¿À¿
@@ -54,7 +52,6 @@ int main( int argc, char** argv )
         NULL);          // ÿ¿¡ÀŒÕ: Õ≈“
 
 	//  Œœ»–”≈Ã —“–Œ ” ƒÀﬂ œ≈–≈ƒ¿◊»
-    //strcpy(szMessage, "!!!Hello, Pipes!!!");
     strcpy(szMessage, argv[2]);
 
 	//  ¿Õ¿À Õ≈ —”Ÿ≈—“¬”≈“ ?
@@ -74,7 +71,7 @@ int main( int argc, char** argv )
         }
         else
         {
-            printf("Successfull write \'%s\' into pipe \'%s\'!\n", szMessage, szPipeName);
+            printf("\nSuccessfull write \'%s\' into pipe \'%s\'!\n", szMessage, szPipeName);
         }
         
 		// «¿ –€¬¿≈Ã  ¿Õ¿À
