@@ -1,17 +1,22 @@
-/*
-    пеюкхгюжхъ яепбепю хлемнбюммшу йюмюкнб
-*/
+
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 
-#include <windows.h>
-#include <stdio.h>
+////////////////////////////////////////////////////////////////////////////////
+
+#include <windows.h> 
+#include <stdio.h> 
+#include <tchar.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define BUFSIZE			1024	// пюглеп астепю дкъ яннаыемхъ
-#define PIPE_TIMEOUT	5000	// бпелъ нфхдюмхъ
+#define BUFSIZE 4096
+
+////////////////////////////////////////////////////////////////////////////////
+
+DWORD WINAPI InstanceThread( LPVOID ); 
+VOID GetAnswerToRequest( LPSTR, LPSTR, LPDWORD ); 
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -20,102 +25,153 @@ void PrintUsage()
 {
     printf("Program usage:\n");
     printf("\tnps pipe_name\nExample:");
-    printf("\n\tnps ssv");
+    printf("\n\tnps test");
+    ExitProcess(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int main(int argc, char** argv)
-{
-	BOOL fConnected;
-	CHAR chRequest[BUFSIZE];
-	DWORD cbBytesRead;
-	BOOL fSuccess;
-	HANDLE hPipe;
-    char szPipeNamePrefix[] = "\\\\.\\pipe\\";
-    char szPipeName[256];
+int main( int argc, char** argv ) 
+{ 
+    BOOL fConnected; 
+    DWORD dwThreadId; 
+    HANDLE hPipe, hThread; 
+    char pipeName[200] = "\\\\.\\pipe\\"; 
 
-    // меопюбхкэмне йнкхвеярбн оюпюлерпнб ?
-    if(argc != 2)
+    // пюгахпюел оюпюлерпш йнлюмдмни ярпнйх
+    if ( argc != 2 )
     {
         PrintUsage();
-        return 1;
     }
 
-    // янярюбкъел хлъ йюмюкю
-    strcpy(szPipeName, szPipeNamePrefix);
-    strcat(szPipeName, argv[1] );
+    strcat( pipeName, argv[1] );
 
-	// янгдю╗л йюмюк
-	hPipe = CreateNamedPipe ( 
-        szPipeName,				    // хлъ йюмюкю
-		PIPE_ACCESS_DUPLEX,			// днярсо мю времхе/гюохяэ
-		PIPE_TYPE_MESSAGE |			// пефхл йюмюкю: яннаыемхъ
-			PIPE_READMODE_MESSAGE |	//		пефхл времхъ яннаыемхи
-			PIPE_WAIT,				//		пефхл акнйхпнбйх: нфхдюмхе
-		PIPE_UNLIMITED_INSTANCES,	// люйяхлюкэмне йнкхвеярбн щйгелокъпнб
-		BUFSIZE,					// пюглеп бшундмнцн астепю
-		BUFSIZE,					// пюглеп бундмнцн астепю
-		PIPE_TIMEOUT,				// бпелъ нфхдюмхъ
-		NULL);						// аегноюямнярэ: аег аегноюямнярх
+    // б жхйке янгдю╗ряъ йюмюк х нфхдюеряъ ондйкчвемхе йкхемрю.
+    // опх ондйкчвемхх йкхемрю янгдю╗ряъ онрнй дкъ наыемхъ я мхл,
+    // х жхйк онбрнпъеряъ.
 
-	// янгдюмхе йюмюкю ме сдюкняэ ?
-	if (hPipe == INVALID_HANDLE_VALUE)
-    {
-        // бшунд я ньхайни
-        printf("ERROR: Failed to create pipe \'%s\'!\n", szPipeName);
-		return 1;
-    }
+    for (;;) 
+    { 
+        // янгдю╗л йюмюк
+        hPipe = CreateNamedPipe( 
+            pipeName,             // хлъ йюмюкю
+            PIPE_ACCESS_DUPLEX,       // днярсо мю времхе х гюохяэ
+            PIPE_TYPE_MESSAGE |       // йюмюк дкъ яннаыемхи
+                PIPE_READMODE_MESSAGE |   // пефхл времхъ яннаыемхи
+                PIPE_WAIT,                // пефхл акнйхпнбйх
+            PIPE_UNLIMITED_INSTANCES, // люйяхлюкэмне йнкхвеярбн щйгелокъпнб
+            BUFSIZE,                  // пюглеп бшундмнцн астепю
+            BUFSIZE,                  // пюглеп бундмнцн астепю
+            NMPWAIT_USE_DEFAULT_WAIT, // гюдепфйю йкхемрю
+            NULL );                    // аегноюямнярэ
 
-    printf("\nNamed Pipe server started successfully with pipe \'%s\'\n\n", szPipeName);
+        // янгдюрэ йюмюк ме сдюкняэ - бшундхл
+        if ( hPipe == INVALID_HANDLE_VALUE ) 
+        {
+            printf( "CreatePipe failed..." ); 
+            return 0;
+        }
 
-	// аеяйнмевмши жхйк
-	for (;;)
-	{
-		// фд╗л ондйкчвемхъ йкхемрю
-		fConnected = ConnectNamedPipe(hPipe, NULL) ? TRUE : (GetLastError() == ERROR_PIPE_CONNECTED);
+        // нфхдюел ондйкчвемхъ йкхемрю. опх сяоеуе тсмйжхъ бнгбпюыюер 
+        // мемскебне гмювемхе. еякх тсмйжхъ бепмскю мнкэ, GetLastError
+        // бепм╗р ERROR_PIPE_CONNECTED.
 
-		// ондйкчвемхе опнхгнькн ?
-		if (fConnected)
-		{
-			// вхрюел яннаыемхе йкхемрю
-			fSuccess = ReadFile (
-                hPipe,		    // сйюгюрекэ мю йюмюк
-				chRequest,		// бундмни астеп яннаыемхи
-				BUFSIZE,		// пюглеп астепю
-				&cbBytesRead,	// йнкхвеярбн аюир, йнрнпше сдюкняэ явхрюрэ
-				NULL);			// ме янблеы╗ммши ббнд/бшбнд
+        fConnected = ConnectNamedPipe( hPipe, NULL ) ? TRUE : ( GetLastError() == ERROR_PIPE_CONNECTED ); 
 
-			// оевюрюел онксвеммне яннаыемхе
-			chRequest[cbBytesRead] = '\0';
-            printf("Data Received: %s\n", chRequest);
+        if ( fConnected ) 
+        { 
+            // янгдю╗л онрнй дкъ дюммнцн йкхемрю
+            hThread = CreateThread( 
+                NULL,              // аегноюямнярэ
+                0,                 // пюглеп ярейю он слнквюмхч
+                InstanceThread,    // тсмйжхъ онрнйю
+                (LPVOID) hPipe,    // оюпюлерп онрнйю
+                0,                 // ме яоюрэ =)
+                &dwThreadId );     // хдемрхтхйюрнп онрнйю
 
-			// вхрюрэ мевецн ?
-			if ( !fSuccess || cbBytesRead == 0)
-			{
-				// бшунд хг жхйкю
-				break;
-			}
+            if ( hThread == NULL ) 
+            {
+                printf( "CreateThread failed..." ); 
+                return 0;
+            }
+            else 
+            {
+                CloseHandle( hThread ); 
+            }
+        } 
+        else 
+        {
+            // йкхемр ме опхь╗к - гюйпшбюел йюмюк
+            CloseHandle( hPipe ); 
+        }
+    } 
 
-			// нвхыюел астепю йюмюкю
-			FlushFileBuffers(hPipe);
+    return 1; 
+} 
 
-			// нрйкчвюеляъ нр йюмюкю
-			DisconnectNamedPipe(hPipe);
-		}
-		else
-		{
-			// йкхемр ме ондйкчвхкяъ - гюйпшбюел йюмюк
-			CloseHandle(hPipe);
-		}
-	}
+////////////////////////////////////////////////////////////////////////////////
 
-	// гюйпшбюел йюмюк
-	CloseHandle(hPipe);
+DWORD WINAPI InstanceThread(LPVOID lpvParam) 
+{ 
+    char chRequest[BUFSIZE]; 
+    char chReply[BUFSIZE]; 
+    DWORD cbBytesRead, cbReplyBytes, cbWritten; 
+    BOOL fSuccess; 
+    HANDLE hPipe; 
 
-	// яепбеп гюбепьхк пюанрс, врн мерхохвмн =)
-	// бшунд я ньхайни
-	return 1;
+    // оюпюлерп онрнйю - сйюгюрекэ мю йюмюк
+    hPipe = (HANDLE) lpvParam; 
+
+    while ( TRUE ) 
+    { 
+        // вхрюел гюопня йкхемрю хг йюмюкю
+        fSuccess = ReadFile( 
+            hPipe,        // йюмюк
+            chRequest,    // астеп
+            BUFSIZE * sizeof( char ), // пюглеп астепю
+            &cbBytesRead, // вхякн аюир
+            NULL);        // аег оепейпшрхъ
+
+        if ( !fSuccess || cbBytesRead == 0 ) 
+        {
+            break; 
+        }
+
+        // онксвюел нрбер дкъ гюопняю
+        GetAnswerToRequest( chRequest, chReply, &cbReplyBytes ); 
+
+        // охьел нрбер б астеп 
+        fSuccess = WriteFile( 
+            hPipe,        
+            chReply,      
+            cbReplyBytes, 
+            &cbWritten,   
+            NULL );       
+
+        if ( !fSuccess || cbReplyBytes != cbWritten )
+        {
+            break; 
+        }
+    } 
+
+    // декюел яапня йюмюкю, врнаш онгбнкхрэ йкхемрс опнвхрюрэ ецн яндепфхлне 
+    // оепед нрйкчвемхел. оняке нрянедхмъеляъ х гюйпшбюел йюмюк.
+
+    FlushFileBuffers( hPipe ); 
+    DisconnectNamedPipe( hPipe ); 
+    CloseHandle( hPipe ); 
+
+    return 1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+VOID GetAnswerToRequest( LPSTR chRequest, LPSTR chReply, LPDWORD pchBytes )
+{
+    printf( "Client named \'%s\' connected...\n", chRequest ) ;
+    sprintf( chReply, "Welcome to the server, %s!", chRequest );
+
+    *pchBytes = ( lstrlen( chReply ) + 1 ) * sizeof( char );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
