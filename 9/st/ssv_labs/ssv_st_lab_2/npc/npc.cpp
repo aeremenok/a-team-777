@@ -1,12 +1,19 @@
-/*
-    пеюкхгюжхъ йкхемрю хлемнбюммшу йюмюкнб
-*/
+
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 
-#include <windows.h>
+////////////////////////////////////////////////////////////////////////////////
+
+#include <windows.h> 
 #include <stdio.h>
+#include <conio.h>
+#include <tchar.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define BUFSIZE     512 // пюглеп астепю
+#define MAXSIZE     15  // люйяхлюкэмши пюглеп хлемх
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -15,84 +22,129 @@ void PrintUsage()
 {
     printf("Program usage:\n");
     printf("\tnpc pipe_name\nExample:");
-    printf("\n\tnpc ssv\"");
+    printf("\n\tnpc test");
+    ExitProcess(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 // рнвйю бундю
-int main( int argc, char** argv )
-{
-    HANDLE hFile;
-    BOOL flg;
-    DWORD dwWrite;
-    char szPipeNamePrefix[] = "\\\\.\\pipe\\";
-    char szPipeName[256];
+int main( int argc, char** argv ) 
+{ 
+    HANDLE hPipe; 
+    char chBuf[BUFSIZE]; 
+    BOOL fSuccess; 
+    DWORD cbRead, cbWritten, dwMode; 
+    char pipeName[200] = "\\\\.\\pipe\\"; 
 
-    // меопюбхкэмне йнкхвеярбн оюпюлерпнб ?
-    if(argc != 2)
+    char name[MAXSIZE];  // хлъ дкъ оняшкйх мю яепбеп
+
+    // пюгахпюел оюпюлерпш йнлюмдмни ярпнйх
+    if ( argc != 2 )
     {
         PrintUsage();
-        return 1;
     }
+    
+    strcat( pipeName, argv[1] );
 
-    // янярюбкъел хлъ йюмюкю
-    strcpy(szPipeName, szPipeNamePrefix);
-    strcat(szPipeName, argv[1] );
+    // ошрюеляъ нрйпшрэ йюмюк, фд╗л опх менаундхлнярх
 
-	// янгдю╗л тюик
-    hFile = CreateFile(
-        szPipeName,     // хлъ йюмюкю
-        GENERIC_WRITE,  // рхо днярсою: гюохяэ
-        0,              // пюгдекемхе днярсою: мер
-        NULL,           // аегноюямнярэ: мер
-        OPEN_EXISTING,  // нрйпшбюрэ ясыеярбсчыхи тюик
-        0,              // ткюцх х юрпхасрш: мер
-        NULL);          // ьюакнм: мер
+    while ( TRUE ) 
+    { 
+        hPipe = CreateFile( 
+            pipeName,   // хлъ йюмюкю
+            GENERIC_READ |  // днярсо мю времхе х гюохяэ
+                GENERIC_WRITE, 
+            0,              // аег пюгдекемхъ
+            NULL,           // аег юрпхасрнб аегноюямнярх
+            OPEN_EXISTING,  // нрйпшбюрэ ясыеярбсчыхи йюмюк 
+            0,              // юрпхасрш он слнквюмхч
+            NULL);          // ме хяонкэгнбюрэ ьюакнм
 
-	// йнохпсел ярпнйс дкъ оепедювх
-    //strcpy(szMessage, argv[2]);
+        // еякх янгдюрэ йюмюк сдюкняэ - асдел опнднкфюрэ, хмюве асдел йпсрхрэяъ б жхйке дюкэье
 
-	// йюмюк ме ясыеярбсер ?
-    if(hFile == INVALID_HANDLE_VALUE)
-    {
-        printf("ERROR: Pipe \'%s\' doesn't exist!\n", szPipeName );
-    }
-    else
-    {
-        printf("Connected to pipe \'%s\'...\n", szPipeName );
-        printf("Type a message and press ENTER to send it or press Ctrl-C to quit.\n", szPipeName );
-
-        // аеяйнмевмши жхйк
-        for(;;)
+        if ( hPipe != INVALID_HANDLE_VALUE ) 
         {
-            char szMessage[200];    // рейяр яннаыемхъ
-
-            printf(">");
-
-            // вхрюел я йнмянкх яннаыемхе дкъ оепедювх 
-            scanf("%s", szMessage);
-
-		    // гюохяэ ярпнйх б йюмюк
-            flg = WriteFile(hFile, szMessage, strlen(szMessage), &dwWrite, NULL);
-            
-		    // гюохяэ ме сдюкюяэ ?
-            if (FALSE == flg)
-            {
-                printf("ERROR: Cannot write to pipe \'%s\'!\n", szPipeName);
-            }
-            else
-            {
-                printf("\nSuccessfull write \'%s\' into pipe \'%s\'!\n\n", szMessage, szPipeName);
-            }
+            break; 
         }
 
-	    // гюйпшбюел йюмюк
-        CloseHandle(hFile);
+        // еякх опнхгнькю ньхайю, х щрн ме ньхайю гюмърнярх - бшундхл
+
+        if ( GetLastError() != ERROR_PIPE_BUSY ) 
+        {
+            printf( "Could not open pipe..." ); 
+            return 0;
+        }
+
+        // йюмюк гюмър, онднфд╗л 10 яейсмд х онопнасел еы╗
+
+        if ( !WaitNamedPipe( pipeName, 10000 ) ) 
+        { 
+            printf( "Could not open pipe..." ); 
+            return 0;
+        } 
+    } 
+
+    // ондйкчвемхе й йюмюкс опнхгбедемн, сярюмюбкхбюел пефхл времхъ
+
+    dwMode = PIPE_READMODE_MESSAGE; 
+    fSuccess = SetNamedPipeHandleState( 
+        hPipe,    // йюмюк
+        &dwMode,  // пефхл днярсою
+        NULL,     // мер кхлхрю аюир
+        NULL );   // мер кхлхрю бпелемх
+    
+    // еякх ме сдюкняэ ялемхрэ пефхл йюмюкю - бшундхл
+
+    if ( !fSuccess ) 
+    {
+        printf( "SetNamedPipeHandleState failed" ); 
+        return 0;
     }
 
-	// гюбепьюел пюанрс
-	return 0;
+    // оняшкюел яепбепс хлъ
+    printf( "Enter Client name: " );
+    scanf( "%s", name );
+
+    fSuccess = WriteFile( 
+        hPipe,                  // йюмюк
+        name,					// яннаыемхе
+        ( strlen( name ) + 1 ) * sizeof( char ), // дкхмю яннаыемхъ
+        &cbWritten,             // йнкхвеярбн аюир
+        NULL );                 // аег мюкнфемхъ
+    if ( !fSuccess ) 
+    {
+        printf( "WriteFile failed" ); 
+        return 0;
+    }
+
+    do 
+    { 
+        // вхрюел хг йюмюкю нрбер яепбепю
+
+        fSuccess = ReadFile( 
+            hPipe,    // йюмюк
+            chBuf,    // яннаыемхе
+            BUFSIZE * sizeof( char ),  // пюглеп яннаыемхъ
+            &cbRead,  // йнкхвеярбн аюир
+            NULL );    // аег мюкнфемхъ
+
+        if ( !fSuccess && GetLastError() != ERROR_MORE_DATA ) 
+        {
+            break; 
+        }
+
+        printf( "Server answered \'%s\'\n", chBuf ); 
+    } 
+    while ( !fSuccess );  // онбрнпъел онйю ERROR_MORE_DATA 
+
+    // фд╗л мюфюрхъ йкюбхьх
+    getch();
+
+    // гюйпшбюел йюмюк
+    CloseHandle(hPipe); 
+
+    return 0; 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
