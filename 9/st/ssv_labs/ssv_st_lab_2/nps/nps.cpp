@@ -46,12 +46,15 @@ int main( int argc, char** argv )
 
     strcat( pipeName, argv[1] );
 
+    printf( "server started\n" );
+
     // б жхйке янгдю╗ряъ йюмюк х нфхдюеряъ ондйкчвемхе йкхемрю.
     // опх ондйкчвемхх йкхемрю янгдю╗ряъ онрнй дкъ наыемхъ я мхл,
     // х жхйк онбрнпъеряъ.
 
     for (;;) 
     { 
+        printf( "CreateNamedPipe... " );
         // янгдю╗л йюмюк
         hPipe = CreateNamedPipe( 
             pipeName,             // хлъ йюмюкю
@@ -63,12 +66,13 @@ int main( int argc, char** argv )
             BUFSIZE,                  // пюглеп бшундмнцн астепю
             BUFSIZE,                  // пюглеп бундмнцн астепю
             NMPWAIT_USE_DEFAULT_WAIT, // гюдепфйю йкхемрю
-            NULL );                    // аегноюямнярэ
+            NULL );                   // аегноюямнярэ
+        printf( "Done.\n" );
 
         // янгдюрэ йюмюк ме сдюкняэ - бшундхл
         if ( hPipe == INVALID_HANDLE_VALUE ) 
         {
-            printf( "CreatePipe failed..." ); 
+            printf( "CreatePipe failed...\n" ); 
             return 0;
         }
 
@@ -76,7 +80,9 @@ int main( int argc, char** argv )
         // мемскебне гмювемхе. еякх тсмйжхъ бепмскю мнкэ, GetLastError
         // бепм╗р ERROR_PIPE_CONNECTED.
 
+        printf( "Waiting for connection..." );
         fConnected = ConnectNamedPipe( hPipe, NULL ) ? TRUE : ( GetLastError() == ERROR_PIPE_CONNECTED ); 
+        printf( " Done.\n" );
 
         if ( fConnected ) 
         { 
@@ -91,7 +97,7 @@ int main( int argc, char** argv )
 
             if ( hThread == NULL ) 
             {
-                printf( "CreateThread failed..." ); 
+                printf( "CreateThread failed...\n" ); 
                 return 0;
             }
             else 
@@ -168,8 +174,8 @@ DWORD WINAPI InstanceThread(LPVOID lpvParam)
 
 VOID GetAnswerToRequest( LPSTR chRequest, LPSTR chReply, LPDWORD pchBytes )
 {
-    printf( "Client named \'%s\' connected...\n", chRequest ) ;
-    sprintf( chReply, "Welcome to the server, %s!", chRequest );
+    printf( "Client message \'%s\' received...\n", chRequest ) ;
+    sprintf( chReply, "Message \'%s\' received successfully!", chRequest );
 
     *pchBytes = ( lstrlen( chReply ) + 1 ) * sizeof( char );
 }
