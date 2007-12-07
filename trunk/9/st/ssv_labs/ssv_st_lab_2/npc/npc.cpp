@@ -72,7 +72,7 @@ int main( int argc, char** argv )
 
         if ( GetLastError() != ERROR_PIPE_BUSY ) 
         {
-            printf( "Could not open pipe..." ); 
+            printf( "Could not open pipe...\n" ); 
             return 0;
         }
 
@@ -80,7 +80,7 @@ int main( int argc, char** argv )
 
         if ( !WaitNamedPipe( pipeName, 10000 ) ) 
         { 
-            printf( "Could not open pipe..." ); 
+            printf( "Could not open pipe...\n" ); 
             return 0;
         } 
     } 
@@ -98,48 +98,57 @@ int main( int argc, char** argv )
 
     if ( !fSuccess ) 
     {
-        printf( "SetNamedPipeHandleState failed" ); 
+        printf( "SetNamedPipeHandleState failed\n" ); 
         return 0;
     }
 
-    // оняшкюел яепбепс хлъ
-    printf( "Enter Client name: " );
-    scanf( "%s", name );
+    printf( "Type in a command to send. Type \'quit\' to stop client.\n" );
 
-    fSuccess = WriteFile( 
-        hPipe,                  // йюмюк
-        name,					// яннаыемхе
-        ( strlen( name ) + 1 ) * sizeof( char ), // дкхмю яннаыемхъ
-        &cbWritten,             // йнкхвеярбн аюир
-        NULL );                 // аег мюкнфемхъ
-    if ( !fSuccess ) 
+    // аеяйнмевмши жхйк
+    for(;;)
     {
-        printf( "WriteFile failed" ); 
-        return 0;
-    }
+        // оняшкюел яепбепс хлъ
+        printf( ">" );
+        scanf( "%s", name );
 
-    do 
-    { 
-        // вхрюел хг йюмюкю нрбер яепбепю
-
-        fSuccess = ReadFile( 
-            hPipe,    // йюмюк
-            chBuf,    // яннаыемхе
-            BUFSIZE * sizeof( char ),  // пюглеп яннаыемхъ
-            &cbRead,  // йнкхвеярбн аюир
-            NULL );    // аег мюкнфемхъ
-
-        if ( !fSuccess && GetLastError() != ERROR_MORE_DATA ) 
+        // йкхемрс сфе йюферяъ убюрхр, нм унвер бширх =)
+        if ( !strcmp(name, "quit" ) )
         {
-            break; 
+            break;
         }
 
-        printf( "Server answered \'%s\'\n", chBuf ); 
-    } 
-    while ( !fSuccess );  // онбрнпъел онйю ERROR_MORE_DATA 
+        fSuccess = WriteFile( 
+            hPipe,                  // йюмюк
+            name,					// яннаыемхе
+            ( strlen( name ) + 1 ) * sizeof( char ), // дкхмю яннаыемхъ
+            &cbWritten,             // йнкхвеярбн аюир
+            NULL );                 // аег мюкнфемхъ
+        if ( !fSuccess ) 
+        {
+            printf( "WriteFile failed.\n" ); 
+            return 0;
+        }
 
-    // фд╗л мюфюрхъ йкюбхьх
-    getch();
+        do 
+        { 
+            // вхрюел хг йюмюкю нрбер яепбепю
+
+            fSuccess = ReadFile( 
+                hPipe,    // йюмюк
+                chBuf,    // яннаыемхе
+                BUFSIZE * sizeof( char ),  // пюглеп яннаыемхъ
+                &cbRead,  // йнкхвеярбн аюир
+                NULL );    // аег мюкнфемхъ
+
+            if ( !fSuccess && GetLastError() != ERROR_MORE_DATA ) 
+            {
+                break; 
+            }
+
+            printf( "Server answered \'%s\'\n", chBuf ); 
+        } 
+        while ( !fSuccess );  // онбрнпъел онйю ERROR_MORE_DATA 
+    }
 
     // гюйпшбюел йюмюк
     CloseHandle(hPipe); 
