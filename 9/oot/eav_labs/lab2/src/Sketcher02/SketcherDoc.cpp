@@ -316,7 +316,14 @@ CElement* CSketcherDoc::AddElement( CElement* m_pElement )
 {
     if (GetElementType()!=RIBBLE)
     {
-        _container->addRibble(m_pElement, m_pElement);
+        try
+        {
+            _container->addRibble(m_pElement, m_pElement);
+        }
+        catch (GraphException* e)
+        {
+            AfxMessageBox(e->getException().c_str());
+        }
     }
     // todo убрать
     return NULL;
@@ -362,5 +369,25 @@ void CSketcherDoc::OnUpdateElementRibble(CCmdUI* pCmdUI)
 //##ModelId=475A8BA1032C
 void CSketcherDoc::linkElements( CElement* element1, CElement* element2 )
 {
-    _container->linkVertices(element1, element2);
+    try
+    {
+        _container->linkVertices(element1, element2);
+    }
+    catch (GraphException* e)
+    {
+        AfxMessageBox(e->getException().c_str());
+    }
+}
+
+//##ModelId=475AD65302CE
+ExternalGraphIterator<CElement>* CSketcherDoc::getNearestRibbles( CElement* selected )
+{
+    try
+    {
+        return _container->getNearestRibbles(selected); 
+    }
+    catch (GraphException* e)
+    {
+        AfxMessageBox(e->getException().c_str());
+    }
 }

@@ -37,9 +37,15 @@ protected:
     bool isGraphVisible;
 	//##ModelId=4751685901A5
     int m_Scale;
+    //итератор по инцидентным ребрам текущей вершины m_pSelected
+	//##ModelId=475AD6530233
+    ExternalGraphIterator<CElement>* _lastNearestRibbles; 
     // ребро дл€ подсветки
 	//##ModelId=47545D9C010A
     Ribble<CElement>* _ribble;
+	//##ModelId=475AD6530238
+    CElement* _firstVertex;
+
 // Operations
 public:
 
@@ -59,6 +65,11 @@ protected:
 	//##ModelId=47511BBE02FF
     void drawRibble( CElement* start, CElement* end, CDC* pDC );
     
+	//##ModelId=475AD6530242
+    ExternalGraphIterator<CElement>* refreshNearestRibbles(CClientDC* aDC);
+	//##ModelId=475AD6530244
+    void changeRibble(bool isNext, CClientDC* aDC);
+
 	//##ModelId=4751685901F4
     void ResetScrollSizes();
     // вызывает диалог задани€ масштаба
@@ -67,7 +78,8 @@ protected:
     // подсвечивает заданную фигуру
 	//##ModelId=47532663033C
     void highlightShape( CElement* pCurrentSelection, CClientDC &aDC );
-
+	//##ModelId=475AD6530253
+    bool canProceed( CClientDC* aDC );
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherView)

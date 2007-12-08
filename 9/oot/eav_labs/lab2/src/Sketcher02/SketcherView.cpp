@@ -69,6 +69,8 @@ CSketcherView::CSketcherView()
     m_FirstPos = CPoint(0,0);           // Initialize as zero
     isGraphVisible = true;
     _ribble = NULL;
+    _lastNearestRibbles = NULL;
+    _firstVertex = NULL;
     m_Scale = 1;                          // Set scale to 1:1
     SetScrollSizes(MM_TEXT, CSize(0,0));  // Set arbitrary scrollers
 }
@@ -201,13 +203,14 @@ void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point)
                 m_FirstPoint = *exactCenter;
                 // запоминаем ее
                 m_pSelected = currentSelection;
+                SetCapture();                       // Capture subsequent mouse messages
             }
         }
         else
         {
             m_FirstPoint = point;               // Record the cursor position
+            SetCapture();                       // Capture subsequent mouse messages
         }
-        SetCapture();                       // Capture subsequent mouse messages
     }
 }
 
@@ -228,26 +231,12 @@ void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point)
             CElement* secondVertex = SelectElement(point);
             if (secondVertex!=NULL)
             {   // найдена конечная вершина
-                try
-                {
-                    GetDocument()->linkElements(m_pSelected, secondVertex);
-                }
-                catch (GraphException* e)
-                {
-                    AfxMessageBox(e->getException().c_str());
-                }
+                GetDocument()->linkElements(m_pSelected, secondVertex);
             }
         } 
         else
         {   // добавляем новый элемент
-            try
-            {
-                GetDocument()->AddElement(m_pTempElement);
-            }
-            catch (GraphException* e)
-            {
-                AfxMessageBox(e->getException().c_str());
-            }
+            GetDocument()->AddElement(m_pTempElement);
         }
 
         GetDocument()->UpdateAllViews(0,0,m_pTempElement);  // Tell all the views
@@ -599,46 +588,99 @@ void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
     switch(nChar)
     {
         case 38: // up
+                 // бегаем по ребрам вперед
+            changeRibble(true, &aDC);
             break;
         case 40: // down
+                 // бегаем по ребрам назад
+            changeRibble(false, &aDC);
             break;
         case 37: // left
-            // убираем подсветку с текущего ребра
-            drawRibble(_ribble, &aDC, GREEN);
-            // перемещаемся к следующему
-            if (iter->hasPrevious())
-            {
-                _ribble = iter->previous();
-            }
-            else
-            {
-                _ribble = iter->last();
-            }
             break;
         case 39: // right
-            // убираем подсветку с текущего ребра
-            drawRibble(_ribble, &aDC, GREEN);
-            // перемещаемся к следующему
-            if (iter->hasNext())
-            {
-                _ribble = iter->next();
-            }
-            else
-            {
-                _ribble = iter->first();
+                 // перемещаемся на новую вершину
+            if (canProceed(&aDC))
+            { // переходим по ребру
+                _firstVertex = _ribble->getAnotherVertex(_firstVertex);
+
+                // подсвечиваем переход
+                highlightShape(_firstVertex, aDC);
+                drawRibble(_ribble, &aDC, GREEN);
+
+                // уничтожаем список инцидентных ребер, т.к. перешли на новую вершину
+                _lastNearestRibbles = NULL;
+                _ribble = NULL;
             }
             break;
         default:
             break;
     }
+    
+    if (m_pSelected != NULL)
+    {
+        char cs[10];
+        sprintf(cs, "%d", ((Shape*)m_pSelected)->get__id());
+        aDC.TextOut(0,0, cs);
+    }
+    CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+//##ModelId=475AD6530244
+void CSketcherView::changeRibble( bool isNext, CClientDC* aDC )
+{
+    ExternalGraphIterator<CElement>* lastNearestRibbles = refreshNearestRibbles(aDC);
+    // убираем подсветку с текущего ребра
+    drawRibble(_ribble, aDC, GREEN);
+    // двигаемся
+    if (isNext)
+    {
+        if (lastNearestRibbles->hasNext())
+        {
+            _ribble = lastNearestRibbles->next();
+        } 
+        else
+        {
+            _ribble = lastNearestRibbles->first();
+        }
+    }
+    else
+    {
+        if (lastNearestRibbles->hasPrevious())
+        {
+            _ribble = lastNearestRibbles->previous();
+        } 
+        else
+        {
+            _ribble = lastNearestRibbles->last();
+        }
+    }
     // подсвечиваем новое ребро
-    drawRibble(_ribble, &aDC, SELECT_COLOR);
+    drawRibble(_ribble, aDC, SELECT_COLOR);    
+}
 
-    //    char cs[10];
-    //    sprintf(cs, "%d", i);
-    //    aDC.TextOut(0,0, cs);
+//##ModelId=475AD6530253
+bool CSketcherView::canProceed( CClientDC* aDC )
+{
+    if (_ribble == NULL)
+    { // ребра нет - нужно подготовить
+        //выбираем ребро для перемещения
+        ExternalGraphIterator<CElement>* lastNearestRibbles = refreshNearestRibbles(aDC);
 
-	CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
+        if (lastNearestRibbles->getGraphRibbleCount() == 0)
+        {   // начали обход из петли - перейти никуда не можем
+            AfxMessageBox("Тупик!");
+            return false;
+        } 
+        else if (lastNearestRibbles->getGraphRibbleCount() == 1)
+        {   // ребро всего одно - по нему и переходим
+            _ribble = lastNearestRibbles->next();
+            drawRibble(_ribble, aDC, SELECT_COLOR);
+            return true;
+        }
+    }
+    changeRibble(true, aDC);
+    changeRibble(false, aDC);
+    return true;
 }
 
 //##ModelId=47532663036B
@@ -671,4 +713,23 @@ void CSketcherView::highlightShape( CElement* pCurrentSelection, CClientDC &aDC 
             InvalidateRect(aRect, FALSE);        // Invalidate area
         }
     }
+}
+
+//##ModelId=475AD6530242
+ExternalGraphIterator<CElement>* CSketcherView::refreshNearestRibbles( CClientDC* aDC )
+{
+    if (_lastNearestRibbles == NULL)
+    {
+        // готовим вершину для начала обхода
+        if (_firstVertex == NULL)
+        { // ничего не выбрано - начинаем обход с первой вершины
+            Iterator<CElement>* iter = GetDocument()->getNewIterator();
+            Ribble<CElement>* firstRibble = iter->first();
+            _firstVertex = firstRibble->get__vertex1();
+            // вершина подготовлена - можно выбирать инцидентные ей ребра
+        }
+        highlightShape(_firstVertex, *aDC);
+        _lastNearestRibbles = GetDocument()->getNearestRibbles(_firstVertex);
+    }
+    return _lastNearestRibbles;
 }

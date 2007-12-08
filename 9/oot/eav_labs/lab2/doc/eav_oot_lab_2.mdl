@@ -41357,6 +41357,58 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "refreshNearestRibbles"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475AD6530242"
+					parameters 	(list Parameters
+					    (object Parameter "aDC"
+						quid       	"475AD6530243"
+						type       	"CClientDC*"
+						quidu      	"365C7A7003B8"))
+					result     	"ExternalGraphIterator<CElement>*"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0
+					quidu      	"475AD6530186")
+				    (object Operation "changeRibble"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475AD6530244"
+					parameters 	(list Parameters
+					    (object Parameter "isNext"
+						quid       	"475AD6530251"
+						type       	"bool")
+					    (object Parameter "aDC"
+						quid       	"475AD6530252"
+						type       	"CClientDC*"
+						quidu      	"365C7A7003B8"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "canProceed"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475AD6530253"
+					parameters 	(list Parameters
+					    (object Parameter "aDC"
+						quid       	"475AD6530261"
+						type       	"CClientDC*"
+						quidu      	"365C7A7003B8"))
+					result     	"bool"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "m_FirstPoint"
@@ -41972,7 +42024,25 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
-					uid        	0))
+					uid        	0)
+				    (object Operation "getNearestRibbles"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475AD65302CE"
+					documentation 	" получить список ребер, инцидентных выбранной вершине"
+					parameters 	(list Parameters
+					    (object Parameter "selected"
+						quid       	"475AD65302CF"
+						type       	"CElement*"
+						quidu      	"473EDD6D032D"))
+					result     	"ExternalGraphIterator<CElement>*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0
+					quidu      	"475AD6530186"))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "m_Color"
 					quid       	"473EDD6D02C2"
@@ -45173,6 +45243,22 @@
 					result     	"bool"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getAnotherVertex"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"475AD653035B"
+					documentation 	"получить вершину, отличную от заданной"
+					parameters 	(list Parameters
+					    (object Parameter "vertex"
+						quid       	"475AD653035C"
+						type       	"T*"))
+					result     	"T*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_vertex1"
@@ -45405,7 +45491,7 @@
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"4741F10E03B1"
-					documentation 	"добавить ребро"
+					documentation 	"добавить ребро по двум вершинам"
 					parameters 	(list Parameters
 					    (object Parameter "vertex1"
 						quid       	"4741F10E03B2"
@@ -45554,6 +45640,38 @@
 					parameters 	(list Parameters
 					    (object Parameter "ribble"
 						quid       	"475A821C0169"
+						type       	"Ribble<T>*"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getNearestRibbles"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"475AD654002E"
+					documentation 	"итератор по списку инцидентных ребер"
+					parameters 	(list Parameters
+					    (object Parameter "vertex"
+						quid       	"475AD654002F"
+						type       	"T*"))
+					result     	"ExternalGraphIterator<T>*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "addRibble"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"475AD654003E"
+					documentation 	"добавить готовое ребро"
+					parameters 	(list Parameters
+					    (object Parameter "ribble"
+						quid       	"475AD654003F"
 						type       	"Ribble<T>*"))
 					result     	"void"
 					concurrency 	"Sequential"
@@ -45843,6 +45961,18 @@
 					result     	"bool"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getGraphRibbleCount"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"475AD654006D"
+					documentation 	" количество ребер в графе, по которому бегаем"
+					result     	"int"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
@@ -45989,6 +46119,25 @@
 					quid       	"47545D9C006E"
 					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::Ribble"
 					quidu      	"4741F10E0302"))
+				module     	"Component View::Sketcher"
+				quidu      	"473EDD55031C"
+				language   	"VC++")
+			    (object Instantiated_Class "ExternalGraphIterator<CElement>"
+				attributes 	(list Attribute_Set
+				    (object Attribute
+					tool       	"VC++"
+					name       	"AppliedPattern"
+					value      	"none")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"Generate"
+					value      	FALSE))
+				quid       	"475AD6530186"
+				used_nodes 	(list uses_relationship_list
+				    (object Uses_Relationship
+					quid       	"475AD6530187"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::ExternalGraphIterator"
+					quidu      	"474C8E0401F4"))
 				module     	"Component View::Sketcher"
 				quidu      	"473EDD55031C"
 				language   	"VC++")
@@ -46286,6 +46435,35 @@
 					is_navigable 	TRUE)
 				    (object Role "$UNNAMED$37"
 					quid       	"47545D9C010C"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::CSketcherView"
+					quidu      	"473EDD6D01B9")))
+			    (object Association "$UNNAMED$38"
+				quid       	"475AD6530232"
+				roles      	(list role_list
+				    (object Role "_lastNearestRibbles"
+					quid       	"475AD6530233"
+					documentation 	"итератор по инцидентным ребрам текущей вершины m_pSelected"
+					label      	"_lastNearestRibbles"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::ExternalGraphIterator<CElement>"
+					quidu      	"475AD6530186"
+					exportControl 	"Protected"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$39"
+					quid       	"475AD6530235"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::CSketcherView"
+					quidu      	"473EDD6D01B9")))
+			    (object Association "$UNNAMED$40"
+				quid       	"475AD6530237"
+				roles      	(list role_list
+				    (object Role "_firstVertex"
+					quid       	"475AD6530238"
+					label      	"_firstVertex"
+					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::CElement"
+					quidu      	"473EDD6D032D"
+					exportControl 	"Protected"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$41"
+					quid       	"475AD653023A"
 					supplier   	"Logical View::VC++ Reverse Engineered::Sketcher::CSketcherView"
 					quidu      	"473EDD6D01B9"))))
 			logical_presentations 	(list unit_reference_list
@@ -47718,7 +47896,43 @@
 					height     	120
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherView" @741
+				    (object UsesView "" @741
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"47545D9C006E"
+					client     	@740
+					supplier   	@721
+					line_style 	0)
+				    (object ClassView "InstantiatedClass" "Logical View::VC++ Reverse Engineered::Sketcher::ExternalGraphIterator<CElement>" @742
+					ShowCompartmentStereotypes 	TRUE
+					location   	(1888, 3456)
+					font       	(object Font
+					    size       	10
+					    face       	"Consolas"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	FALSE)
+					label      	(object ItemLabel
+					    Parent_View 	@742
+					    location   	(1470, 3407)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	836
+					    justify    	0
+					    label      	"ExternalGraphIterator<CElement>")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"475AD6530186"
+					width      	854
+					height     	120
+					annotation 	8
+					autoResize 	TRUE)
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherView" @743
 					ShowCompartmentStereotypes 	TRUE
 					location   	(368, 656)
 					font       	(object Font
@@ -47732,7 +47946,7 @@
 					    color      	8143653
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@741
+					    Parent_View 	@743
 					    location   	(187, 606)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47747,19 +47961,19 @@
 					height     	124
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @742
+				    (object InheritView "" @744
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4741F10E01B5"
-					client     	@741
+					client     	@743
 					supplier   	@711
 					line_style 	0)
-				    (object UsesView "" @743
+				    (object UsesView "" @745
 					stereotype 	TRUE
 					line_color 	3342489
-					quidu      	"47545D9C006E"
-					client     	@740
-					supplier   	@721
+					quidu      	"475AD6530187"
+					client     	@742
+					supplier   	@731
 					line_style 	0))))))
 		logical_presentations 	(list unit_reference_list)))
 	logical_presentations 	(list unit_reference_list
@@ -47772,7 +47986,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object CategoryView "Logical View::MFC 6.0" @744
+		    (object CategoryView "Logical View::MFC 6.0" @746
 			location   	(464, 432)
 			font       	(object Font
 			    size       	10
@@ -47785,7 +47999,7 @@
 			    color      	8143653
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@744
+			    Parent_View 	@746
 			    location   	(320, 348)
 			    fill_color 	13434879
 			    nlines     	2
@@ -47798,7 +48012,7 @@
 			quidu      	"365C7A6F006A"
 			width      	300
 			height     	180)
-		    (object NoteView @745
+		    (object NoteView @747
 			location   	(1552, 432)
 			font       	(object Font
 			    size       	10
@@ -47811,7 +48025,7 @@
 			    color      	8143653
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@745
+			    Parent_View 	@747
 			    location   	(1030, 273)
 			    fill_color 	13434879
 			    nlines     	6
@@ -47821,11 +48035,11 @@
 			fill_color 	8585215
 			width      	1069
 			height     	331)
-		    (object AttachView "" @746
+		    (object AttachView "" @748
 			stereotype 	TRUE
 			line_color 	3342489
-			client     	@744
-			supplier   	@745
+			client     	@746
+			supplier   	@747
 			line_style 	0)))))
     root_subsystem 	(object SubSystem "Component View"
 	quid       	"365C7A6603BD"

@@ -130,10 +130,38 @@ public:
         return _ribbleList->size(); 
     }
 
+    //итератор по списку инцидентных ребер
+	//##ModelId=475AD654002E
+    ExternalGraphIterator<T>* getNearestRibbles(T* vertex)
+    {
+        if (vertex == NULL)
+        {
+            throw new GraphException("Nillable vertices are not allowed!");
+        }
+
+        Graph<T>* res = new Graph<T>();
+        Iterator<T>* iter = getIterator();
+        while (iter->hasNext())
+        {
+            Ribble<T>* current = iter->next();
+            if (!current->isLoop() && current->contains(vertex))
+            {
+                res->addRibble(current);
+            }
+        }
+
+        return new ExternalGraphIterator<T>(res);
+    }
+
     // связать две вершины графа ребром
 	//##ModelId=475A821C0157
     void linkVertices(T* vertex1, T* vertex2)
     {
+        if (vertex1 == NULL || vertex2 == NULL)
+        {
+            throw new GraphException("Nillable vertices are not allowed!");
+        }
+
         Iterator<T>* iter = getIterator();
         // удостоверяемся, что такие вершины есть
         bool v1Present = false;
@@ -192,7 +220,7 @@ public:
         cout<<"[graph] graph cleared\n";
     }
 
-    //добавить ребро
+    //добавить ребро по двум вершинам
     //##ModelId=4741F10E03B1
     void addRibble(T* vertex1, T* vertex2)
     {
@@ -200,25 +228,31 @@ public:
         {
             throw new GraphException("Nillable vertices are not allowed!");
         }
-
         cout<<"\n[graph] adding ribble, checking if it already exists\n";
-       
+
+        Ribble<T>* ribble = new Ribble<T>(vertex1, vertex2);
+        addRibble(ribble);
+    };
+
+    //добавить готовое ребро
+	//##ModelId=475AD654003E
+    void addRibble(Ribble<T>* ribble)
+    {
         // проверяем, нет ли уже такого ребра
         Iterator<T>* iter = getIterator();
         bool isPresent = false;
-        Ribble<T>* ribble = new Ribble<T>(vertex1, vertex2);
 
         while (iter->hasNext() && !isPresent)
         {
             Ribble<T>* current = iter->next();
-
+            
             if ( current->equals(ribble) )
             {
                 isPresent = true;
                 throw new RibbleExistsException("cannot add: ribble already exists in graph");
             }
         }
-
+        
         // если нет - добавляем
         if (!isPresent)
         {

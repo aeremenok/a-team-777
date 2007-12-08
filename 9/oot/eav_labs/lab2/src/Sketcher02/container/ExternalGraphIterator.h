@@ -70,6 +70,13 @@ public:
         _graph = graph;
         _iterator = _graph->getIterator();
     }
+
+    // количество ребер в графе, по которому бегаем
+	//##ModelId=475AD654006D
+    int getGraphRibbleCount()
+    {
+        return _graph->getRibbleCount();
+    }
 private:
     //указатель на обходимый граф
     //##ModelId=474C8E04031D
