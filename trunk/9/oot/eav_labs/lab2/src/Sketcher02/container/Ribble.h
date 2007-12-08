@@ -107,6 +107,27 @@ public:
         }
     }
 
+    //получить вершину, отличную от заданной
+	//##ModelId=475AD653035B
+    T* getAnotherVertex(T* vertex)
+    {
+        if (isLoop())
+        {
+            return NULL;
+        } 
+        else
+        {
+            if (*_vertex1 == *vertex )
+            {
+                return _vertex2;
+            }
+            else
+            {
+                return _vertex1;
+            }
+        }
+    }
+
     //##ModelId=4741F10E0318
     Ribble(T* vertex1, T* vertex2): _vertex1(vertex1), _vertex2(vertex2)
     {

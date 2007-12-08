@@ -61,6 +61,9 @@ public:
     // получить итератор, сохраняющий позицию
 	//##ModelId=475326640148
     Iterator<CElement>* getStaticIterator() const { return _iter; }
+    // получить список ребер, инцидентных выбранной вершине
+	//##ModelId=475AD65302CE
+    ExternalGraphIterator<CElement>* getNearestRibbles(CElement* selected);
 
 	//##ModelId=475A8BA1032C
     void linkElements(CElement* element1, CElement* element2);
