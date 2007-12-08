@@ -176,22 +176,39 @@ CSketcherDoc* CSketcherView::GetDocument() // non-debug version is inline
 //##ModelId=473EDD6D0283
 void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
-   CClientDC aDC(this);                // Create a device context
-   OnPrepareDC(&aDC);                  // Get origin adjusted
-   aDC.DPtoLP(&point);                 // convert point to Logical
+    CClientDC aDC(this);                // Create a device context
+    OnPrepareDC(&aDC);                  // Get origin adjusted
+    if (!m_MoveMode && GetDocument()->GetElementType()!=RIBBLE)
+    {
+        aDC.DPtoLP(&point);                 // convert point to Logical
+    }
 
-   if(m_MoveMode)
-   {
-      // In moving mode, so drop the element
-      m_MoveMode = FALSE;                 // Kill move mode
-      m_pSelected = 0;                    // De-select the element
-      GetDocument()->UpdateAllViews(0);   // Redraw all the views
-   }
-   else
-   {
-      m_FirstPoint = point;               // Record the cursor position
-      SetCapture();                       // Capture subsequent mouse messages
-   }
+    if(m_MoveMode)
+    {
+        // In moving mode, so drop the element
+        m_MoveMode = FALSE;                 // Kill move mode
+        m_pSelected = 0;                    // De-select the element
+        GetDocument()->UpdateAllViews(0);   // Redraw all the views
+    }
+    else
+    {
+        if (GetDocument()->GetElementType()==RIBBLE)
+        {   // добавляем ребро
+            CElement* currentSelection = SelectElement(point);
+            if (currentSelection != NULL)
+            {   // найдена начальная вершина
+                CPoint* exactCenter = &(currentSelection->GetBoundRect().CenterPoint());
+                m_FirstPoint = *exactCenter;
+                // запоминаем ее
+                m_pSelected = currentSelection;
+            }
+        }
+        else
+        {
+            m_FirstPoint = point;               // Record the cursor position
+        }
+        SetCapture();                       // Capture subsequent mouse messages
+    }
 }
 
 //##ModelId=473EDD6D0291
@@ -202,18 +219,35 @@ void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point)
 
     // If there is an element, add it to the document
     if(m_pTempElement)
-    {  
+    {
         CClientDC aDC(this);
         OnPrepareDC(&aDC);
 
-        try
-        {
-            CElement* firstElement = GetDocument()->AddElement(m_pTempElement);
-            drawRibble(firstElement, m_pTempElement, &aDC);
-        }
-        catch (GraphException* e)
-        {
-            AfxMessageBox(e->getException().c_str());
+        if (GetDocument()->GetElementType()==RIBBLE)
+        {   // соединяем ребрами
+            CElement* secondVertex = SelectElement(point);
+            if (secondVertex!=NULL)
+            {   // найдена конечная вершина
+                try
+                {
+                    GetDocument()->linkElements(m_pSelected, secondVertex);
+                }
+                catch (GraphException* e)
+                {
+                    AfxMessageBox(e->getException().c_str());
+                }
+            }
+        } 
+        else
+        {   // добавляем новый элемент
+            try
+            {
+                GetDocument()->AddElement(m_pTempElement);
+            }
+            catch (GraphException* e)
+            {
+                AfxMessageBox(e->getException().c_str());
+            }
         }
 
         GetDocument()->UpdateAllViews(0,0,m_pTempElement);  // Tell all the views
@@ -224,37 +258,37 @@ void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point)
 //##ModelId=473EDD6D029F
 void CSketcherView::OnMouseMove(UINT nFlags, CPoint point) 
 {
-   // Define a Device Context object for the view
-   CClientDC aDC(this);
-   OnPrepareDC(&aDC);            // Get origin adjusted
+    // Define a Device Context object for the view
+    CClientDC aDC(this);
+    OnPrepareDC(&aDC);            // Get origin adjusted
 
-   if(m_MoveMode)
-   { // передвигаем фигуру
-      aDC.DPtoLP(&point);        // Convert to logical coordinatess
-      MoveElement(aDC, point);   // Move the element
-   }
-   else if((nFlags & MK_LBUTTON) && (this == GetCapture()))
-   { // рисуем фигуру
-      aDC.DPtoLP(&point);
-      m_SecondPoint = point;     // Save the current cursor position
+    if(m_MoveMode)
+    { // передвигаем фигуру
+        aDC.DPtoLP(&point);        // Convert to logical coordinatess
+        MoveElement(aDC, point);   // Move the element
+    }
+    else if((nFlags & MK_LBUTTON) && (this == GetCapture()))
+    { // рисуем фигуру
+        aDC.DPtoLP(&point);
+        m_SecondPoint = point;     // Save the current cursor position
 
-      if(m_pTempElement)
-      { // фигура есть
-         aDC.SetROP2(R2_NOTXORPEN);      // Set drawing mode
-         m_pTempElement->Draw(&aDC);  
-         m_pTempElement->resize(m_FirstPoint, m_SecondPoint);
-      }
-      else
-      { // фигуры нет
-         m_pTempElement = CreateElement();
-      }
-      m_pTempElement->Draw(&aDC);  
-   }
-   else
-   { // ничего не двигаем и не рисуем, только подсвечиваем
+        if(m_pTempElement)
+        { // фигура есть
+            aDC.SetROP2(R2_NOTXORPEN);      // Set drawing mode
+            m_pTempElement->Draw(&aDC);  
+            m_pTempElement->resize(m_FirstPoint, m_SecondPoint);
+        }
+        else
+        { // фигуры нет
+            m_pTempElement = CreateElement();
+        }
+        m_pTempElement->Draw(&aDC);  
+    }
+    else
+    { // ничего не двигаем и не рисуем, только подсвечиваем
         CElement* pCurrentSelection = SelectElement(point);
         highlightShape(pCurrentSelection, aDC);
-   }
+    }
 }
 
 //##ModelId=473EDD6D0242
@@ -267,8 +301,8 @@ CElement* CSketcherView::CreateElement()
     // Now select the element using the type stored in the document
     switch(pDoc->GetElementType())
     {
-    case RECTANGLE:
-        return Rectangle2::create(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
+        case RECTANGLE:
+            return Rectangle2::create(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
         
         case TEXT:
             return Text::create(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
@@ -280,8 +314,8 @@ CElement* CSketcherView::CreateElement()
             return TextInOval::create(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
 
         //////////////////////////////////////////////////////////////////////////
-// 		case LINE:                  
-// 			return new CLine(m_FirstPoint, m_SecondPoint, pDoc->GetElementColor());
+		case RIBBLE:                  
+			return new CLine(m_FirstPoint, m_SecondPoint, GREEN);
 
 		default:
 			//	Something's gone wrong
@@ -381,7 +415,7 @@ void CSketcherView::OnRButtonUp(UINT nFlags, CPoint point)
       // Check element menu items
       WORD ElementType = GetDocument()->GetElementType();
       aMenu.CheckMenuItem(ID_ELEMENT_LINE,
-                (LINE==ElementType?MF_CHECKED:MF_UNCHECKED)|MF_BYCOMMAND);
+                (RIBBLE==ElementType?MF_CHECKED:MF_UNCHECKED)|MF_BYCOMMAND);
       aMenu.CheckMenuItem(ID_ELEMENT_RECTANGLE,
            (RECTANGLE==ElementType?MF_CHECKED:MF_UNCHECKED)|MF_BYCOMMAND);
 

@@ -24,6 +24,7 @@
 #define ID_SENDTOBACK                   32796
 #define ID_NOELEMENT_SCALE              32797
 #define ID_ELEMENT_SCALE                32798
+#define ID_ELEMENT_RIBBLE               32799
 
 // Next default values for new objects
 // 
@@ -31,7 +32,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        130
-#define _APS_NEXT_COMMAND_VALUE         32799
+#define _APS_NEXT_COMMAND_VALUE         32800
 #define _APS_NEXT_CONTROL_VALUE         1004
 #define _APS_NEXT_SYMED_VALUE           104
 #endif

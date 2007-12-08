@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CMainFrame
+LastClass=CSketcherDoc
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "Sketcher.h"
@@ -16,16 +16,16 @@ Class4=CMainFrame
 
 ResourceCount=9
 Resource1=IDR_MAINFRAME
-Resource2=IDD_TEXTREQUEST_DIALOG
+Resource2=IDR_CURSOR_MENU (English (U.S.))
 Resource3=IDR_SKETCHTYPE
 Class5=CAboutDlg
 Class6=CChildFrame
-Resource4=IDR_SKETCHTYPE (English (U.S.))
+Resource4=IDD_ABOUTBOX (English (U.S.))
 Resource5=IDD_ABOUTBOX
-Resource6=IDD_ABOUTBOX (English (U.S.))
+Resource6=IDD_SCALE_DLG
 Class7=TextRequest
-Resource7=IDR_CURSOR_MENU (English (U.S.))
-Resource8=IDD_SCALE_DLG
+Resource7=IDR_SKETCHTYPE (English (U.S.))
+Resource8=IDD_TEXTREQUEST_DIALOG
 Class8=CScaleDialog
 Resource9=IDR_MAINFRAME (English (U.S.))
 
@@ -41,7 +41,7 @@ Type=0
 HeaderFile=SketcherDoc.h
 ImplementationFile=SketcherDoc.cpp
 Filter=N
-LastObject=CSketcherDoc
+LastObject=ID_ELEMENT_RIBBLE
 BaseClass=CDocument
 VirtualFilter=DC
 
@@ -50,7 +50,7 @@ Type=0
 HeaderFile=SketcherView.h
 ImplementationFile=SketcherView.cpp
 Filter=C
-LastObject=ID_WINDOW_TILE_HORZ
+LastObject=ID_ELEMENT_RIBBLE
 BaseClass=CScrollView
 VirtualFilter=VWC
 
@@ -190,16 +190,17 @@ Command11=ID_ELEMENT_RECTANGLE
 Command12=ID_ELEMENT_OVAL
 Command13=ID_ELEMENT_TEXT
 Command14=ID_ELEMENT_TEXT_IN_OVAL
-Command15=ID_ELEMENT_DRAWRIBBLES
-Command16=ID_ELEMENT_SCALE
-Command17=ID_COLOR_BLACK
-Command18=ID_COLOR_RED
-Command19=ID_WINDOW_NEW
-Command20=ID_WINDOW_CASCADE
-Command21=ID_WINDOW_TILE_HORZ
-Command22=ID_WINDOW_ARRANGE
-Command23=ID_APP_ABOUT
-CommandCount=23
+Command15=ID_ELEMENT_RIBBLE
+Command16=ID_ELEMENT_DRAWRIBBLES
+Command17=ID_ELEMENT_SCALE
+Command18=ID_COLOR_BLACK
+Command19=ID_COLOR_RED
+Command20=ID_WINDOW_NEW
+Command21=ID_WINDOW_CASCADE
+Command22=ID_WINDOW_TILE_HORZ
+Command23=ID_WINDOW_ARRANGE
+Command24=ID_APP_ABOUT
+CommandCount=24
 
 [MNU:IDR_MAINFRAME (English (U.S.))]
 Type=1

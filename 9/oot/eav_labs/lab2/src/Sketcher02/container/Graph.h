@@ -130,48 +130,51 @@ public:
         return _ribbleList->size(); 
     }
 
-    // получить вершину по номеру ее позиции в графе
-	//##ModelId=47545D9C02C0
-    T* getVertexAt(const int position) const
+    // связать две вершины графа ребром
+	//##ModelId=475A821C0157
+    void linkVertices(T* vertex1, T* vertex2)
     {
-        if (position > this->getVertexCount() || position < 0)
-        { // вершина за пределами контейнера
-            throw new GraphException("Vertex index out of bounds!");
-        }
-
         Iterator<T>* iter = getIterator();
-        if (position == 0)
+        // удостоверяемся, что такие вершины есть
+        bool v1Present = false;
+        bool v2Present = false;
+        Ribble<T>* firstRibble = NULL;
+        Ribble<T>* secondRibble = NULL;
+        while ( iter->hasNext() && !(v1Present && v2Present) )
         {
-            return iter->first()->get__vertex1();
-        }
-        else if (position == 1)
-        {
-            return iter->first()->get__vertex2();
-        }
-        else
-        {
-            int counter = 0;
-            while (iter->hasNext())
+            Ribble<T>* current = iter->next();
+            if (!v1Present && current->contains(vertex1))
             {
-                // переходим к следующему ребру
-                Ribble<T>* current = iter->next();
-                counter++;
-                if ( counter == position )
-                {   // это запрошенная вершина
-                    return current->get__vertex1();
-                }
-                else
-                {
-                    // переходим к следующей вершине
-                    counter++;
-                    if ( counter == position )
-                    { // это запрошенная вершина
-                        return current->get__vertex2();
-                    }
-                }
+                v1Present = true;
+                // запоминаем ребро
+                firstRibble = current;
+            }
+            if (!v2Present && current->contains(vertex2))
+            {
+                v2Present = true;
+                // запоминаем ребро
+                secondRibble = current;
             }
         }
-        return NULL;
+
+        if ( !v1Present || !v2Present)
+        {
+            throw new VertexNotFoundException("no vertex to link");
+        }
+        else if (v1Present && v2Present)
+        { // вершины найдены
+            // дуги не храним, избавляемся от них
+            if (firstRibble->isLoop())
+            {
+                removeRibble(firstRibble);
+            }
+            if (secondRibble->isLoop())
+            {
+                removeRibble(secondRibble);
+            }
+            // добавляем ребро
+            addRibble(vertex1, vertex2);
+        }
     }
 
     //очистить граф. очистка объектов по указателям не производится
@@ -259,17 +262,14 @@ public:
         }
     };
 
-    //удалить ребро
-	//##ModelId=4741F10E03B4
-    void removeRibble(T* vertex1, T* vertex2)
+    // удалить ребро
+	//##ModelId=475A821C0168
+    void removeRibble(Ribble<T>* ribble)
     {
-        cout<<"\n[graph] removing ribble\n";
-
         // проверяем, есть ли такое ребро
         // проверка не обязательна, но нужна, чтобы продемонстрировать экспешен =)
         Iterator<T> *iter = getIterator();
         bool isPresent = false;
-        Ribble<T>* ribble = new Ribble<T>(vertex1, vertex2);
 
         while (iter->hasNext() && !isPresent)
         {
@@ -289,13 +289,19 @@ public:
         }
     }
 
+    //удалить ребро по его вершинам
+	//##ModelId=4741F10E03B4
+    void removeRibble(T* vertex1, T* vertex2)
+    {
+        cout<<"\n[graph] removing ribble\n";
+        Ribble<T>* ribble = new Ribble<T>(vertex1, vertex2);
+        removeRibble(ribble);
+    }
+
     // удалить вершину
     //##ModelId=4741F10E03BB
     void removeVertex(T* vertex)
     {
-//         cout<<"\n[graph] removoing all ribbles, containing\n===vertex===\n"
-//             <<*vertex<<endl;
-
         // проверяем, есть ли такая вершина
         Iterator<T>* iter = getIterator();
         bool isPresent = false;

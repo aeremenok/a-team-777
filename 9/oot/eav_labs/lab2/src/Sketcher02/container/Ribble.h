@@ -67,6 +67,13 @@ public:
                (*_vertex2 == *(ribble->_vertex2));
     }
 
+    // является ли ребро петлей
+	//##ModelId=475A821C00AB
+    bool isLoop()
+    {
+        return *_vertex1 == *_vertex2;
+    }
+
     //принадлежит ли вершина ребру
     //##ModelId=4741F10E0311
     bool contains(const T* vertex) const

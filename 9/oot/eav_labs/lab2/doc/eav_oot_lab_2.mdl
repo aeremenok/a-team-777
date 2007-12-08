@@ -40591,7 +40591,7 @@
 				    fill_color 	13434879
 				    anchor     	2
 				    nlines     	12
-				    max_width  	728)
+				    max_width  	737)
 				width      	876
 				height     	684
 				annotation 	8
@@ -41915,7 +41915,64 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0
-					quidu      	"4753266303B9"))
+					quidu      	"4753266303B9")
+				    (object Operation "OnElementRibble"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_COMMAND(ID_ELEMENT_RIBBLE, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475A821C002E"
+					stereotype 	"afx_msg"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnUpdateElementRibble"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_UPDATE_COMMAND_UI(ID_ELEMENT_RIBBLE, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475A821C003F"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "pCmdUI"
+						quid       	"475A821C0041"
+						type       	"CCmdUI*"
+						quidu      	"365C7A7A028F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "linkElements"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"475A8BA1032C"
+					parameters 	(list Parameters
+					    (object Parameter "element1"
+						quid       	"475A8BA1033C"
+						type       	"CElement*"
+						quidu      	"473EDD6D032D")
+					    (object Parameter "element2"
+						quid       	"475A8BA1033D"
+						type       	"CElement*"
+						quidu      	"473EDD6D032D"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "m_Color"
 					quid       	"473EDD6D02C2"
@@ -42360,7 +42417,11 @@
 				    (object Attribute
 					tool       	"VC++"
 					name       	"AfxBaseClass"
-					value      	""))
+					value      	"")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"Generate"
+					value      	TRUE))
 				quid       	"473EDD6D034B"
 				documentation 	" Class defining a line object"
 				superclasses 	(list inheritance_relationship_list
@@ -42387,7 +42448,11 @@
 						quid       	"4741F10F00FA"
 						type       	"CElement*"
 						quidu      	"473EDD6D032D"
-						initv      	"0"))
+						initv      	"0")
+					    (object Parameter "isIdVisible"
+						quid       	"475A821C01C5"
+						type       	"bool"
+						initv      	"true"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -42497,7 +42562,15 @@
 				    (object Attribute
 					tool       	"VC++"
 					name       	"AfxSupportMacro"
-					value      	""))
+					value      	"")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"LastAppliedTemplate"
+					value      	"C:\\Program Files\\Rational\\Rose\\vc\\templates")
+				    (object Attribute
+					tool       	"VC++"
+					name       	"Generate"
+					value      	TRUE))
 				quid       	"473EDD6D035E"
 				documentation 	" Class defining a rectangle object"
 				superclasses 	(list inheritance_relationship_list
@@ -45088,6 +45161,18 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "isLoop"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"475A821C00AB"
+					documentation 	" является ли ребро петлей"
+					result     	"bool"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "_vertex1"
@@ -45339,7 +45424,7 @@
 						name       	"Inline"
 						value      	TRUE))
 					quid       	"4741F10E03B4"
-					documentation 	"удалить ребро"
+					documentation 	"удалить ребро по его вершинам"
 					parameters 	(list Parameters
 					    (object Parameter "vertex1"
 						quid       	"4741F10E03B9"
@@ -45439,21 +45524,38 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "getVertexAt"
+				    (object Operation "linkVertices"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
 						name       	"Inline"
 						value      	TRUE))
-					quid       	"47545D9C02C0"
-					documentation 	" получить вершину по номеру ее позиции в графе"
-					stereotype 	"const"
+					quid       	"475A821C0157"
+					documentation 	" связать две вершины графа ребром"
 					parameters 	(list Parameters
-					    (object Parameter "position"
-						quid       	"47545D9C02C2"
-						type       	"const int"
-						const      	TRUE))
-					result     	"T*"
+					    (object Parameter "vertex1"
+						quid       	"475A821C0158"
+						type       	"T*")
+					    (object Parameter "vertex2"
+						quid       	"475A821C0167"
+						type       	"T*"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "removeRibble"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"475A821C0168"
+					documentation 	" удалить ребро"
+					parameters 	(list Parameters
+					    (object Parameter "ribble"
+						quid       	"475A821C0169"
+						type       	"Ribble<T>*"))
+					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -46393,24 +46495,6 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"473EDD6D032D"
-					compartment 	(object Compartment
-					    Parent_View 	@679
-					    location   	(871, 615)
-					    font       	(object Font
-						size       	12
-						face       	"Consolas"
-						charSet    	204
-						bold       	FALSE
-						italics    	FALSE
-						underline  	FALSE
-						strike     	FALSE
-						color      	0
-						default_color 	FALSE)
-					    icon_style 	"Icon"
-					    fill_color 	16777215
-					    anchor     	2
-					    nlines     	12
-					    max_width  	0)
 					width      	709
 					height     	570
 					annotation 	8

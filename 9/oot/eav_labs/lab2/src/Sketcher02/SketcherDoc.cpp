@@ -42,6 +42,8 @@ BEGIN_MESSAGE_MAP(CSketcherDoc, CDocument)
 	ON_COMMAND(ID_ELEMENT_TEXT, OnElementText)
 	ON_COMMAND(ID_ELEMENT_TEXT_IN_OVAL, OnElementTextInOval)
 	ON_UPDATE_COMMAND_UI(ID_ELEMENT_TEXT_IN_OVAL, OnUpdateElementTextInOval)
+	ON_COMMAND(ID_ELEMENT_RIBBLE, OnElementRibble)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENT_RIBBLE, OnUpdateElementRibble)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -235,7 +237,7 @@ void CSketcherDoc::OnColorRed()
 //##ModelId=473EDD6D02E6
 void CSketcherDoc::OnElementLine() 
 {
-   m_Element = LINE;       // Set element type as a line	
+   m_Element = RIBBLE;       // Set element type as a line	
 }
 
 //##ModelId=473EDD6D02E8
@@ -262,7 +264,7 @@ void CSketcherDoc::OnUpdateColorRed(CCmdUI* pCmdUI)
 void CSketcherDoc::OnUpdateElementLine(CCmdUI* pCmdUI) 
 {
    // Set Checked if the current element is a line
-   pCmdUI->SetCheck(m_Element==LINE);
+   pCmdUI->SetCheck(m_Element==RIBBLE);
 }
 
 //##ModelId=473EDD6D02F6
@@ -300,7 +302,7 @@ void CSketcherDoc::OnElementText()
 void CSketcherDoc::OnElementTextInOval() 
 {
     TextRequest::getTextToShow();
-	m_Element = TEXT_IN_OVAL;	
+	m_Element = TEXT_IN_OVAL;
 }
 
 //##ModelId=474055EF0227
@@ -312,9 +314,12 @@ void CSketcherDoc::OnUpdateElementTextInOval(CCmdUI* pCmdUI)
 //##ModelId=4741F10E029F
 CElement* CSketcherDoc::AddElement( CElement* m_pElement )
 {
-    CElement* result = _container->addVertex(m_pElement);
-    _iter->first();
-    return result;
+    if (GetElementType()!=RIBBLE)
+    {
+        _container->addRibble(m_pElement, m_pElement);
+    }
+    // todo убрать
+    return NULL;
 }
 
 //##ModelId=4741F10E02A1
@@ -340,4 +345,22 @@ void CSketcherDoc::DeleteElement( CElement* m_pSelected )
     {
     	AfxMessageBox(e->getException().c_str());
     }
+}
+
+//##ModelId=475A821C002E
+void CSketcherDoc::OnElementRibble() 
+{
+    m_Element = RIBBLE;
+}
+
+//##ModelId=475A821C003F
+void CSketcherDoc::OnUpdateElementRibble(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(m_Element == RIBBLE);
+}
+
+//##ModelId=475A8BA1032C
+void CSketcherDoc::linkElements( CElement* element1, CElement* element2 )
+{
+    _container->linkVertices(element1, element2);
 }

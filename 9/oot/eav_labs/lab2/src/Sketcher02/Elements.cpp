@@ -21,7 +21,7 @@ CLine::CLine(CPoint Start, CPoint End, COLORREF aColor)
 
 // Draw a CLine object
 //##ModelId=473EDD6D034D
-void CLine::Draw(CDC* pDC, CElement* pElement)
+void CLine::Draw(CDC* pDC, CElement* pElement, bool isIdVisible)
 {
    // Create a pen for this object and
    // initialize it to the object color and line width of 1 pixel
