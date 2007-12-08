@@ -35,7 +35,7 @@ public:
 
     // Virtual draw operation
 	//##ModelId=473EDD6D033F
-    virtual void Draw(CDC* pDC, CElement* pElement=0, bool isIdVisible = true) {}             
+    virtual void Draw(CDC* pDC, CElement* pElement=0, bool isIdVisible = true){};
 
     // Get the bounding rectangle for an element
 	//##ModelId=473EDD6D0342
@@ -66,7 +66,7 @@ public:
 
     // Function to display a line
 	//##ModelId=473EDD6D034D
-	virtual void Draw(CDC* pDC, CElement* pElement=0);  
+	virtual void Draw(CDC* pDC, CElement* pElement=0, bool isIdVisible = true);
 
 	//##ModelId=4741F10F00FB
 	void Move(CSize& aSize);

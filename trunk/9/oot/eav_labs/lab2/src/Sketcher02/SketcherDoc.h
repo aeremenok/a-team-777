@@ -61,6 +61,9 @@ public:
     // получить итератор, сохраняющий позицию
 	//##ModelId=475326640148
     Iterator<CElement>* getStaticIterator() const { return _iter; }
+
+	//##ModelId=475A8BA1032C
+    void linkElements(CElement* element1, CElement* element2);
 protected:
     // сериализует элементы контейнера
     //##ModelId=4751AAD80232
@@ -123,6 +126,10 @@ protected:
 	afx_msg void OnElementTextInOval();
 	//##ModelId=474055EF0227
 	afx_msg void OnUpdateElementTextInOval(CCmdUI* pCmdUI);
+	//##ModelId=475A821C002E
+	afx_msg void OnElementRibble();
+	//##ModelId=475A821C003F
+	afx_msg void OnUpdateElementRibble(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

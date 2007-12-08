@@ -256,7 +256,9 @@ BEGIN
         MENUITEM "Te&xt",                       ID_ELEMENT_TEXT
         MENUITEM "Text &In Oval",               ID_ELEMENT_TEXT_IN_OVAL
         MENUITEM SEPARATOR
-        MENUITEM "Draw Ribbles",                ID_ELEMENT_DRAWRIBBLES
+        MENUITEM "Ribble",                      ID_ELEMENT_RIBBLE
+        MENUITEM SEPARATOR
+        MENUITEM "Draw Graph",                  ID_ELEMENT_DRAWRIBBLES
         MENUITEM "Scale",                       ID_ELEMENT_SCALE
     END
     POPUP "&Color"
