@@ -11,21 +11,26 @@ import ru.spb.client.gui.trees.nodes.ServerNode;
  * 
  * @author eav
  */
-public class ServerTree extends ConnectableTree {
+public class ServerTree
+    extends ConnectableTree
+{
 
-    static ServerTree instance;
+    static ServerTree         instance;
 
     /**
      * 
      */
     private static final long serialVersionUID = -5455623554324837581L;
 
-    public ServerTree(DefaultMutableTreeNode root, Server connectable) {
-	super(root);
-	DefaultMutableTreeNode server1 = new ServerNode("Main Server", new Server());
-	root.add(server1);
+    public ServerTree(
+        DefaultMutableTreeNode root,
+        Server connectable )
+    {
+        super( root );
+        DefaultMutableTreeNode server1 = new ServerNode( "Main Server", new Server() );
+        root.add( server1 );
 
-	addMouseListener(new ConnectingAdapter(this));
+        addMouseListener( new ConnectingAdapter( this ) );
     }
 
     /**
@@ -33,8 +38,10 @@ public class ServerTree extends ConnectableTree {
      * 
      * @param servers список серверов
      */
-    void setServerList(Server[] servers) {
-	// todo
+    void setServerList(
+        Server[] servers )
+    {
+        // todo
     }
 
     /**
@@ -42,15 +49,20 @@ public class ServerTree extends ConnectableTree {
      * 
      * @param server новый сервер
      */
-    void addServer(Server server) {
+    void addServer(
+        Server server )
+    {
 
     }
 
-    public static ServerTree getInstance(Server connectable) {
-	if (instance == null) {
-	    DefaultMutableTreeNode root = new DefaultMutableTreeNode("Servers");
-	    instance = new ServerTree(root, connectable);
-	}
-	return instance;
+    public static ServerTree getInstance(
+        Server connectable )
+    {
+        if ( instance == null )
+        {
+            DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Servers" );
+            instance = new ServerTree( root, connectable );
+        }
+        return instance;
     }
 }

@@ -1,11 +1,16 @@
 package ru.spb.client.entities;
 
+import ru.spb.client.gui.LogPanel;
+
 /**
  * содержит данные о сервере
  * 
  * @author eav
  */
-public class Server implements IConnectable {
+public class Server
+    implements
+        IConnectable
+{
 
     /**
      * подключены ли
@@ -15,28 +20,32 @@ public class Server implements IConnectable {
     /**
      * подключиться к этому серверу
      */
-    public void connect() {
-	isConnected = true;
-	System.out.println("connected");
+    public void connect()
+    {
+        isConnected = true;
+        LogPanel.getInstance().info( "connected" );
 
-	getChannels();
+        getChannels();
     }
 
-    public Channel[] getChannels() {
-	System.out.println("getting cnannel list");
-	return new Channel[] { new Channel("channel1"), new Channel("channel2") };
+    public Channel[] getChannels()
+    {
+        LogPanel.getInstance().info( "getting cnannel list" );
+        return new Channel[] { new Channel( "channel1" ), new Channel( "channel2" ) };
     }
 
     /**
      * отключиться от этого сервера
      */
-    public void disconnect() {
-	isConnected = false;
-	System.out.println("disconnected");
+    public void disconnect()
+    {
+        isConnected = false;
+        LogPanel.getInstance().info( "disconnected" );
     }
 
-    public boolean isConnected() {
-	return isConnected;
+    public boolean isConnected()
+    {
+        return isConnected;
     }
 
 }
