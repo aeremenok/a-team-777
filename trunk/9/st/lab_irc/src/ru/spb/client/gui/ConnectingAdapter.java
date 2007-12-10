@@ -11,21 +11,29 @@ import ru.spb.client.gui.trees.ChannelTree;
 import ru.spb.client.gui.trees.ConnectableTree;
 import ru.spb.client.gui.trees.nodes.ServerNode;
 
-public class ConnectingAdapter implements MouseListener {
+public class ConnectingAdapter
+    implements
+        MouseListener
+{
 
     ConnectableTree tree;
 
-    public ConnectingAdapter(ConnectableTree tree) {
-	this.tree = tree;
+    public ConnectingAdapter(
+        ConnectableTree tree )
+    {
+        this.tree = tree;
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-	if (e.getClickCount() == 2) {
-	    TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
-	    Object selected = selPath.getLastPathComponent();
-	    connectTo(selected);
-	}
+    public void mouseClicked(
+        MouseEvent e )
+    {
+        if ( e.getClickCount() == 2 )
+        {
+            TreePath selPath = tree.getPathForLocation( e.getX(), e.getY() );
+            Object selected = selPath.getLastPathComponent();
+            connectTo( selected );
+        }
     }
 
     /**
@@ -33,46 +41,54 @@ public class ConnectingAdapter implements MouseListener {
      * 
      * @param selected выбранный объект
      */
-    private void connectTo(Object selected) {
-	if (selected instanceof IConnectable) {
-	    IConnectable connectable = (IConnectable) selected;
-	    if (connectable.isConnected()) {
-		System.out.println("already connected, disconnecting");
-		connectable.disconnect();
-	    } else {
-		System.out.println("already disconnected, connecting");
-		connectable.connect();
-		// получаем список каналов
-		// todo сделать нормальную связь!
-		if (connectable instanceof ServerNode) {
-		    Server server = ((ServerNode) connectable).getServer();
-		    ChannelTree.getInstance().addChannels(server.getChannels());
-		}
-	    }
-	}
+    private void connectTo(
+        Object selected )
+    {
+        if ( selected instanceof IConnectable )
+        {
+            IConnectable connectable = (IConnectable) selected;
+            if ( connectable.isConnected() )
+            {
+                LogPanel.getInstance().info( "already connected, disconnecting" );
+                connectable.disconnect();
+            }
+            else
+            {
+                LogPanel.getInstance().info( "already disconnected, connecting" );
+                connectable.connect();
+                // получаем список каналов
+                // todo сделать нормальную связь!
+                if ( connectable instanceof ServerNode )
+                {
+                    Server server = ((ServerNode) connectable).getServer();
+                    ChannelTree.getInstance().addChannels( server.getChannels() );
+                }
+            }
+        }
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-	// TODO Auto-generated method stub
-
+    public void mouseEntered(
+        MouseEvent e )
+    {
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
-	// TODO Auto-generated method stub
-
+    public void mouseExited(
+        MouseEvent e )
+    {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
+    public void mousePressed(
+        MouseEvent e )
+    {
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-	// TODO Auto-generated method stub
-
+    public void mouseReleased(
+        MouseEvent e )
+    {
     }
 
 }
