@@ -276,7 +276,7 @@ void CSketcherView::OnMouseMove(UINT nFlags, CPoint point)
     else
     { // ничего не двигаем и не рисуем, только подсвечиваем
         CElement* pCurrentSelection = SelectElement(point);
-        highlightShape(pCurrentSelection, aDC);
+        markHighlighted(pCurrentSelection, aDC);
     }
 }
 
@@ -604,7 +604,7 @@ void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
                 _firstVertex = _ribble->getAnotherVertex(_firstVertex);
 
                 // подсвечиваем переход
-                highlightShape(_firstVertex, aDC);
+                markHighlighted(_firstVertex, aDC);
                 drawRibble(_ribble, &aDC, GREEN);
 
                 // уничтожаем список инцидентных ребер, т.к. перешли на новую вершину
@@ -616,12 +616,13 @@ void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
             break;
     }
     
-    if (m_pSelected != NULL)
-    {
-        char cs[10];
-        sprintf(cs, "%d", ((Shape*)m_pSelected)->get__id());
-        aDC.TextOut(0,0, cs);
-    }
+//     // дебажный вывод
+//     if (m_pSelected != NULL)
+//     {
+//         char cs[10];
+//         sprintf(cs, "%d", ((Shape*)m_pSelected)->get__id());
+//         aDC.TextOut(0,0, cs);
+//     }
     CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
@@ -677,9 +678,11 @@ bool CSketcherView::canProceed( CClientDC* aDC )
             drawRibble(_ribble, aDC, SELECT_COLOR);
             return true;
         }
+        else
+        {   // ребер много - нужно дождаться выбора
+            return false;
+        }
     }
-    changeRibble(true, aDC);
-    changeRibble(false, aDC);
     return true;
 }
 
@@ -690,7 +693,7 @@ void CSketcherView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 }
 
 //##ModelId=47532663033C
-void CSketcherView::highlightShape( CElement* pCurrentSelection, CClientDC &aDC )
+void CSketcherView::markHighlighted( CElement* pCurrentSelection, CClientDC &aDC )
 {
     CRect aRect;
     if(pCurrentSelection != m_pSelected)
@@ -728,7 +731,7 @@ ExternalGraphIterator<CElement>* CSketcherView::refreshNearestRibbles( CClientDC
             _firstVertex = firstRibble->get__vertex1();
             // вершина подготовлена - можно выбирать инцидентные ей ребра
         }
-        highlightShape(_firstVertex, *aDC);
+        markHighlighted(_firstVertex, *aDC);
         _lastNearestRibbles = GetDocument()->getNearestRibbles(_firstVertex);
     }
     return _lastNearestRibbles;

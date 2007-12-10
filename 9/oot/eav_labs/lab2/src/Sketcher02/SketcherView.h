@@ -77,7 +77,7 @@ protected:
     void requestScale();
     // подсвечивает заданную фигуру
 	//##ModelId=47532663033C
-    void highlightShape( CElement* pCurrentSelection, CClientDC &aDC );
+    void markHighlighted( CElement* pCurrentSelection, CClientDC &aDC );
 	//##ModelId=475AD6530253
     bool canProceed( CClientDC* aDC );
 // Overrides
