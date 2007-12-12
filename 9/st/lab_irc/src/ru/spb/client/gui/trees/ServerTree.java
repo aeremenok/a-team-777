@@ -12,7 +12,7 @@ import ru.spb.client.gui.trees.nodes.ServerNode;
  * @author eav
  */
 public class ServerTree
-    extends ConnectableTree
+    extends IRCTree
 {
 
     static ServerTree         instance;
@@ -27,8 +27,9 @@ public class ServerTree
         Server connectable )
     {
         super( root );
-        DefaultMutableTreeNode server1 = new ServerNode( "Main Server", new Server() );
-        root.add( server1 );
+        Server s = new Server( "Main Server" );
+        DefaultMutableTreeNode serverNode = new ServerNode( s );
+        _root.add( serverNode );
 
         addMouseListener( new ConnectingAdapter( this ) );
     }
@@ -38,10 +39,16 @@ public class ServerTree
      * 
      * @param servers список серверов
      */
-    void setServerList(
+    void addServers(
         Server[] servers )
     {
-        // todo
+        clear();
+        for ( Server server : servers )
+        {
+            ServerNode node = new ServerNode( server );
+            _root.add( node );
+        }
+        this.expandRow( getRowCount() - 1 );
     }
 
     /**
@@ -52,7 +59,8 @@ public class ServerTree
     void addServer(
         Server server )
     {
-
+        ServerNode serverNode = new ServerNode( server );
+        _root.add( serverNode );
     }
 
     public static ServerTree getInstance(

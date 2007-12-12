@@ -2,39 +2,61 @@ package ru.spb.client.gui.trees.nodes;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import ru.spb.client.entities.Channel;
+import ru.spb.client.entities.IChattable;
 import ru.spb.client.entities.IConnectable;
 
-public class ChannelNode extends DefaultMutableTreeNode implements IConnectable {
+public class ChannelNode
+    extends DefaultMutableTreeNode
+    implements
+        IConnectable,
+        IChattable
+{
 
     /**
      * 
      */
     private static final long serialVersionUID = -6096950684657632514L;
 
-    private IConnectable channel;
+    private Channel           channel;
 
-    public ChannelNode(String name, IConnectable channel) {
-	super(name);
-	if (channel == null) {
-	    throw new NullPointerException("channel must exist in node");
-	}
-	this.channel = channel;
+    public ChannelNode(
+        Channel channel )
+    {
+        super( channel.getName() );
+        this.channel = channel;
     }
 
-    public IConnectable getChannel() {
-	return channel;
+    public IConnectable getChannel()
+    {
+        return channel;
     }
 
-    public void connect() {
-	channel.connect();
+    public void connect()
+    {
+        channel.connect();
     }
 
-    public void disconnect() {
-	channel.disconnect();
+    public void disconnect()
+    {
+        channel.disconnect();
     }
 
-    public boolean isConnected() {
-	return channel.isConnected();
+    public boolean isConnected()
+    {
+        return channel.isConnected();
     }
 
+    @Override
+    public void startChat(
+        IChattable chattable )
+    {
+        channel.startChat( chattable );
+    }
+
+    @Override
+    public boolean isChattingWithMe()
+    {
+        return channel.isChattingWithMe();
+    }
 }

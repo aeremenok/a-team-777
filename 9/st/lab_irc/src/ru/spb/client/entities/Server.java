@@ -1,6 +1,6 @@
 package ru.spb.client.entities;
 
-import ru.spb.client.gui.LogPanel;
+import ru.spb.client.gui.ServiceLogPanel;
 
 /**
  * содержит данные о сервере
@@ -11,6 +11,13 @@ public class Server
     implements
         IConnectable
 {
+    private String name;
+
+    public Server(
+        String name )
+    {
+        this.name = name;
+    }
 
     /**
      * подключены ли
@@ -23,14 +30,14 @@ public class Server
     public void connect()
     {
         isConnected = true;
-        LogPanel.getInstance().info( "connected" );
+        ServiceLogPanel.getInstance().info( "connected" );
 
         getChannels();
     }
 
     public Channel[] getChannels()
     {
-        LogPanel.getInstance().info( "getting cnannel list" );
+        ServiceLogPanel.getInstance().info( "getting cnannel list" );
         return new Channel[] { new Channel( "channel1" ), new Channel( "channel2" ) };
     }
 
@@ -40,12 +47,17 @@ public class Server
     public void disconnect()
     {
         isConnected = false;
-        LogPanel.getInstance().info( "disconnected" );
+        ServiceLogPanel.getInstance().info( "disconnected" );
     }
 
     public boolean isConnected()
     {
         return isConnected;
+    }
+
+    public String getName()
+    {
+        return name;
     }
 
 }

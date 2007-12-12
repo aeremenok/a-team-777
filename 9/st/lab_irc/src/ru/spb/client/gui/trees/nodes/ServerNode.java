@@ -18,14 +18,9 @@ public class ServerNode
     private Server            server;
 
     public ServerNode(
-        String name,
         Server server )
     {
-        super( name );
-        if ( server == null )
-        {
-            throw new NullPointerException( "server must exist in node" );
-        }
+        super( server.getName() );
         this.server = server;
     }
 
