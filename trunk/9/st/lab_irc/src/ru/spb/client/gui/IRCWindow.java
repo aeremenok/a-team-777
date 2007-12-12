@@ -22,12 +22,12 @@ public class IRCWindow
         {
             JSplitPane pane = new JSplitPane();
 
-            pane.setLeftComponent( ServerTree.getInstance( new Server() ) );
+            pane.setLeftComponent( ServerTree.getInstance( new Server( "Main Server" ) ) );
             pane.setRightComponent( IRCTabbedPanel.getInstance() );
 
             panel.setTopComponent( pane );
         }
-        panel.setBottomComponent( LogPanel.getInstance() );
+        panel.setBottomComponent( ServiceLogPanel.getInstance() );
 
         frame.getContentPane().add( panel );
 

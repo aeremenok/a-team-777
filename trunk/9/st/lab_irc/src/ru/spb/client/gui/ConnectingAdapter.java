@@ -8,7 +8,7 @@ import javax.swing.tree.TreePath;
 import ru.spb.client.entities.IConnectable;
 import ru.spb.client.entities.Server;
 import ru.spb.client.gui.trees.ChannelTree;
-import ru.spb.client.gui.trees.ConnectableTree;
+import ru.spb.client.gui.trees.IRCTree;
 import ru.spb.client.gui.trees.nodes.ServerNode;
 
 public class ConnectingAdapter
@@ -16,10 +16,10 @@ public class ConnectingAdapter
         MouseListener
 {
 
-    ConnectableTree tree;
+    IRCTree tree;
 
     public ConnectingAdapter(
-        ConnectableTree tree )
+        IRCTree tree )
     {
         this.tree = tree;
     }
@@ -49,12 +49,12 @@ public class ConnectingAdapter
             IConnectable connectable = (IConnectable) selected;
             if ( connectable.isConnected() )
             {
-                LogPanel.getInstance().info( "already connected, disconnecting" );
+                ServiceLogPanel.getInstance().info( "already connected, disconnecting" );
                 connectable.disconnect();
             }
             else
             {
-                LogPanel.getInstance().info( "already disconnected, connecting" );
+                ServiceLogPanel.getInstance().info( "already disconnected, connecting" );
                 connectable.connect();
                 // получаем список каналов
                 // todo сделать нормальную связь!

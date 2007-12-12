@@ -1,6 +1,12 @@
 package ru.spb.client.entities;
 
-public interface IConnectable {
+/**
+ * все, к чему можно подключиться
+ * 
+ * @author eav
+ */
+public interface IConnectable
+{
 
     public abstract boolean isConnected();
 

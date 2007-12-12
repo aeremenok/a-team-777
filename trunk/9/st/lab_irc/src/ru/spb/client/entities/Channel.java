@@ -1,6 +1,7 @@
 package ru.spb.client.entities;
 
-import ru.spb.client.gui.LogPanel;
+import ru.spb.client.gui.IRCTabbedPanel;
+import ru.spb.client.gui.ServiceLogPanel;
 
 /**
  * содержит данные о канале
@@ -9,11 +10,13 @@ import ru.spb.client.gui.LogPanel;
  */
 public class Channel
     implements
-        IConnectable
+        IConnectable,
+        IChattable
 {
 
     private boolean isConnected;
     private String  name;
+    private boolean isChattingWithMe = false;
 
     public Channel(
         String name )
@@ -39,7 +42,7 @@ public class Channel
     public void disconnect()
     {
         isConnected = true;
-        LogPanel.getInstance().info( "connected" );
+        ServiceLogPanel.getInstance().info( "connected" );
     }
 
     /*
@@ -50,7 +53,7 @@ public class Channel
     public void connect()
     {
         isConnected = true;
-        LogPanel.getInstance().info( "connected" );
+        ServiceLogPanel.getInstance().info( "connected" );
     }
 
     public String getName()
@@ -58,4 +61,27 @@ public class Channel
         return name;
     }
 
+    @Override
+    public void startChat(
+        IChattable chattable )
+    {
+        if ( User.getCurrentUser().equals( chattable ) )
+        {
+            isChattingWithMe = true;
+        }
+        ServiceLogPanel.getInstance().info( "starting chat on channel =" + name + "=" );
+        IRCTabbedPanel.getInstance().addChat( this );
+    }
+
+    @Override
+    public boolean isChattingWithMe()
+    {
+        return isChattingWithMe;
+    }
+
+    public User[] getUsers()
+    {
+        // todo заглушка
+        return new User[] { new User( "user1" ), new User( "user2" ) };
+    }
 }
