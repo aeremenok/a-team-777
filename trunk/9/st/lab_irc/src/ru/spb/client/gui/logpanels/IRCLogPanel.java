@@ -1,4 +1,4 @@
-package ru.spb.client.gui;
+package ru.spb.client.gui.logpanels;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import ru.spb.client.gui.ReadOnlyTable;
 
 public abstract class IRCLogPanel
     extends JScrollPane

@@ -1,4 +1,4 @@
-package ru.spb.client.gui;
+package ru.spb.client.gui.logpanels;
 
 import java.util.Date;
 

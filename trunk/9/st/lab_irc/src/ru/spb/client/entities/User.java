@@ -1,6 +1,6 @@
 package ru.spb.client.entities;
 
-import ru.spb.client.gui.ServiceLogPanel;
+import ru.spb.client.gui.logpanels.ServiceLogPanel;
 
 /**
  * содержит данные о пользователе

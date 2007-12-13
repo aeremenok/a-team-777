@@ -1,8 +1,10 @@
 package ru.spb.client.gui.trees;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import ru.spb.client.entities.Channel;
 import ru.spb.client.entities.User;
@@ -39,14 +41,18 @@ public class UserTree
     /**
      * добавить пользователя в дерево
      * 
-     * @param user
+     * @param user пользователь
      */
     public void addUser(
         User user )
     {
-        UserNode userNode = new UserNode( user );
-        _root.add( userNode );
-        expandRow( getRowCount() - 1 );
+        if ( user != null )
+        {
+            UserNode userNode = new UserNode( user );
+            DefaultTreeModel model = (DefaultTreeModel) getModel();
+            model.insertNodeInto( userNode, _root, _root.getChildCount() );
+            expandRow( getRowCount() - 1 );
+        }
     }
 
     /**
@@ -55,7 +61,7 @@ public class UserTree
      * @param users пользователи
      */
     public void addUsers(
-        User[] users )
+        ArrayList<User> users )
     {
         for ( User user : users )
         {
@@ -68,7 +74,7 @@ public class UserTree
     /**
      * удалить пользователя из дерева
      * 
-     * @param user
+     * @param user пользователь
      */
     public void removeUser(
         User user )

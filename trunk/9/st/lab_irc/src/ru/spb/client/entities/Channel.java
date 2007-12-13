@@ -3,7 +3,7 @@ package ru.spb.client.entities;
 import java.util.ArrayList;
 
 import ru.spb.client.gui.IRCTabbedPanel;
-import ru.spb.client.gui.ServiceLogPanel;
+import ru.spb.client.gui.logpanels.ServiceLogPanel;
 
 /**
  * содержит данные о канале
@@ -19,7 +19,7 @@ public class Channel
     /**
      * подключены ли к этому каналу
      */
-    private boolean         isConnected;
+    private boolean         _isConnected;
     /**
      * имя канала
      */
@@ -39,21 +39,18 @@ public class Channel
         _name = name;
         _owner = user;
         register( _owner );
-
-        // todo заглушка
-        register( new User( "user1" ) );
     }
 
     public boolean isConnected()
     {
-        return isConnected;
+        return _isConnected;
     }
 
     public void disconnect()
     {
         ServiceLogPanel.getInstance().info( this, "disconnecting" );
         // todo послать команду
-        isConnected = false;
+        _isConnected = false;
         ServiceLogPanel.getInstance().info( this, "disconnected" );
     }
 
@@ -66,7 +63,7 @@ public class Channel
         }
 
         // todo послать команду
-        isConnected = true;
+        _isConnected = true;
         ServiceLogPanel.getInstance().info( this, "connected" );
     }
 
@@ -83,10 +80,9 @@ public class Channel
         IRCTabbedPanel.getInstance().addChat( this );
     }
 
-    public User[] getUsers()
+    public ArrayList<User> getUsers()
     {
-        User[] regusers = new User[_registeredUsers.size()];
-        return _registeredUsers.toArray( regusers );
+        return _registeredUsers;
     }
 
     @Override
@@ -104,7 +100,7 @@ public class Channel
         /**
          * здесь - другая реализация, нежели в {@link User}
          */
-        if ( isConnected )
+        if ( _isConnected )
         {
             startChat( chattable );
         }

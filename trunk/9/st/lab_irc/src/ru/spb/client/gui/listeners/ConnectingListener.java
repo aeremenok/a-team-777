@@ -6,8 +6,9 @@ import java.awt.event.MouseListener;
 import javax.swing.tree.TreePath;
 
 import ru.spb.client.entities.IConnectable;
-import ru.spb.client.gui.IRCWindow;
+import ru.spb.client.gui.dialogs.ChannelParamsRequest;
 import ru.spb.client.gui.dialogs.ServerParamsRequest;
+import ru.spb.client.gui.trees.ChannelTree;
 import ru.spb.client.gui.trees.IRCTree;
 import ru.spb.client.gui.trees.ServerTree;
 
@@ -49,7 +50,12 @@ public class ConnectingListener
                 if ( tree instanceof ServerTree )
                 {
                     ServerTree serverTree = (ServerTree) tree;
-                    serverTree.addServer( ServerParamsRequest.getServer( IRCWindow.getInstance().getMainWindiow() ) );
+                    serverTree.addServer( ServerParamsRequest.getNewServer() );
+                }
+                else if ( tree instanceof ChannelTree )
+                {
+                    ChannelTree channelTree = (ChannelTree) tree;
+                    channelTree.addChannel( ChannelParamsRequest.getNewChannel() );
                 }
             }
         }

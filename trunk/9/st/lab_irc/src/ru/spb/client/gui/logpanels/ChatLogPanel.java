@@ -1,4 +1,4 @@
-package ru.spb.client.gui;
+package ru.spb.client.gui.logpanels;
 
 import java.awt.Component;
 import java.util.Date;
@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import ru.spb.client.entities.User;
+import ru.spb.client.gui.ReadOnlyTable;
 
 /**
  * таблица, куда отображается лог <b>многострочных</b> сообщений

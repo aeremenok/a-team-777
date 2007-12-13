@@ -1,6 +1,5 @@
 package ru.spb.client.gui.dialogs;
 
-import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
 import ru.spb.client.entities.Server;
@@ -16,18 +15,16 @@ public class ServerParamsRequest
     private Server      _server     = null;
     protected JTextArea _serverName = new JTextArea( "name" );
 
-    private ServerParamsRequest(
-        JFrame frame )
+    private ServerParamsRequest()
     {
-        super( frame, "Input server parameters" );
+        super( "Input server parameters" );
         _contentPane.add( _serverName );
         pack();
     }
 
-    public static Server getServer(
-        JFrame frame )
+    public static Server getNewServer()
     {
-        ServerParamsRequest dialog = new ServerParamsRequest( frame );
+        ServerParamsRequest dialog = new ServerParamsRequest();
         showOnCenter( dialog );
 
         return dialog.getServer();

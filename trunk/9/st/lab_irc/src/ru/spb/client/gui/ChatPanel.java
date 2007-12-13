@@ -4,6 +4,7 @@ import javax.swing.JSplitPane;
 
 import ru.spb.client.entities.Channel;
 import ru.spb.client.entities.IChattable;
+import ru.spb.client.gui.logpanels.ChatLogPanel;
 import ru.spb.client.gui.trees.UserTree;
 
 public class ChatPanel

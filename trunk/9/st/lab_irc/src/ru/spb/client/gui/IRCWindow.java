@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 
 import ru.spb.client.entities.Server;
+import ru.spb.client.gui.logpanels.ServiceLogPanel;
 import ru.spb.client.gui.trees.ServerTree;
 
 public class IRCWindow
