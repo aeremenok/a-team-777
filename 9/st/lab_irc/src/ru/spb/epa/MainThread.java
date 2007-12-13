@@ -17,11 +17,20 @@ import java.util.List;
  */
 public class MainThread extends Thread {
 
+    private static MainThread one;
+
+    public static MainThread getThread() throws IOException {
+        if(one == null) one = new MainThread();
+        return one;
+    }
+
+
     private List<Client> clients = new ArrayList();
+    private List<Channel> channels = new ArrayList<Channel>();
     private ServerSocket socket;
     private boolean run = true;
 
-    public MainThread() throws IOException {
+    private MainThread() throws IOException {
         this.socket = new ServerSocket(ServerConfig.port);
         System.out.println("Server listening on port " + ServerConfig.port + ".");
         this.start();
@@ -29,6 +38,10 @@ public class MainThread extends Thread {
 
 
     public void run() {
+
+        createChannel("#TEST1");
+        createChannel("#TEST2");
+
         try {
             this.socket.setSoTimeout(ServerConfig.SERVER_SOCKET_TIMEOUT);
         } catch (SocketException e) {
@@ -55,6 +68,10 @@ public class MainThread extends Thread {
                 ServerLogger.log("[MainThread] got exception listening port:" + e.getMessage() );
             }
         }
+    }
+
+    private void createChannel(String s) {
+        this.channels.add(new Channel(s));
     }
 
 
@@ -117,5 +134,9 @@ public class MainThread extends Thread {
         sb.append("\n=================");
         return out + "\n Connacted clients: " + sb.toString();
         //return super.toString();    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    public static List<Channel> getChannels() {
+        return one.channels;
     }
 }

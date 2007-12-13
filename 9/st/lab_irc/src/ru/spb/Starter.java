@@ -20,7 +20,7 @@ public class Starter {
 
         MainThread m = null;
         try {
-            m = new MainThread();
+            m = MainThread.getThread();
         } catch (IOException e) { e.printStackTrace(); }
 
         try {
