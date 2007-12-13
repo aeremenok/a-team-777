@@ -5,6 +5,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import ru.spb.client.entities.Channel;
 import ru.spb.client.entities.IChattable;
 import ru.spb.client.entities.IConnectable;
+import ru.spb.client.entities.User;
 
 public class ChannelNode
     extends DefaultMutableTreeNode
@@ -69,5 +70,17 @@ public class ChannelNode
     public void toggleConnection()
     {
         channel.toggleConnection();
+    }
+
+    public boolean isRegistered(
+        User user )
+    {
+        return channel.isRegistered( user );
+    }
+
+    public void register(
+        User user )
+    {
+        channel.register( user );
     }
 }

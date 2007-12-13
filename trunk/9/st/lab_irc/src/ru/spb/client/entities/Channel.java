@@ -1,5 +1,7 @@
 package ru.spb.client.entities;
 
+import java.util.ArrayList;
+
 import ru.spb.client.gui.IRCTabbedPanel;
 import ru.spb.client.gui.ServiceLogPanel;
 
@@ -17,74 +19,79 @@ public class Channel
     /**
      * подключены ли к этому каналу
      */
-    private boolean isConnected;
+    private boolean         isConnected;
     /**
      * имя канала
      */
-    private String  name;
+    private String          _name;
+
+    private ArrayList<User> _registeredUsers = new ArrayList<User>();
+
+    /**
+     * хозяин канала
+     */
+    private User            _owner;
 
     public Channel(
-        String name )
+        String name,
+        User user )
     {
-        this.name = name;
+        _name = name;
+        _owner = user;
+        register( _owner );
+
+        // todo заглушка
+        register( new User( "user1" ) );
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see ru.spb.client.entities.IConnectable#isConnected()
-     */
     public boolean isConnected()
     {
         return isConnected;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see ru.spb.client.entities.IConnectable#disconnect()
-     */
     public void disconnect()
     {
+        // todo послать команду
         isConnected = false;
         ServiceLogPanel.getInstance().info( "connected" );
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see ru.spb.client.entities.IConnectable#connect()
-     */
     public void connect()
     {
+        if ( !isRegistered( User.getCurrentUser() ) )
+        {
+            register( User.getCurrentUser() );
+        }
+
+        // todo послать команду
         isConnected = true;
         ServiceLogPanel.getInstance().info( "connected" );
     }
 
     public String getName()
     {
-        return name;
+        return _name;
     }
 
     @Override
     public void startChat(
         IChattable chattable )
     {
-        ServiceLogPanel.getInstance().info( "starting chat on channel =" + name + "=" );
+        ServiceLogPanel.getInstance().info( "starting chat on channel =" + _name + "=" );
         IRCTabbedPanel.getInstance().addChat( this );
     }
 
     public User[] getUsers()
     {
-        // todo заглушка
-        return new User[] { new User( "user1" ), new User( "user2" ) };
+        User[] regusers = new User[_registeredUsers.size()];
+        return _registeredUsers.toArray( regusers );
     }
 
     @Override
     public void quitChat(
         IChattable chattable )
     {
-        ServiceLogPanel.getInstance().info( "exiting from channel =" + name + "=" );
+        ServiceLogPanel.getInstance().info( "exiting from channel =" + _name + "=" );
         IRCTabbedPanel.getInstance().removeChat( this );
     }
 
@@ -119,5 +126,52 @@ public class Channel
         {
             connect();
         }
+    }
+
+    @Override
+    public boolean isRegistered(
+        User user )
+    {
+        // todo послать команду
+        return _registeredUsers.contains( user );
+    }
+
+    @Override
+    public void register(
+        User user )
+    {
+        ServiceLogPanel.getInstance().info( "channel " + _name + ": registering user " + user.getName() );
+        _registeredUsers.add( user );
+        // todo послать команду
+    }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((_name == null) ? 0 : _name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(
+        Object obj )
+    {
+        if ( this == obj )
+            return true;
+        if ( obj == null )
+            return false;
+        if ( getClass() != obj.getClass() )
+            return false;
+        final Channel other = (Channel) obj;
+        if ( _name == null )
+        {
+            if ( other._name != null )
+                return false;
+        }
+        else if ( !_name.equals( other._name ) )
+            return false;
+        return true;
     }
 }

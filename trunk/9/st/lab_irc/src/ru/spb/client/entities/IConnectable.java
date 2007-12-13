@@ -15,4 +15,10 @@ public interface IConnectable
     public abstract void connect();
 
     public void toggleConnection();
+
+    public boolean isRegistered(
+        User user );
+
+    public void register(
+        User user );
 }

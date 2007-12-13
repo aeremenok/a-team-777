@@ -32,8 +32,10 @@ public class ChatLogPanel
             }
         };
         setColumns();
+
         _logTable = new ReadOnlyTable( _logTableModel );
         _logTable.setDefaultRenderer( String.class, new MultiLineCellRenderer() );
+        _logTable.setAutoResizeMode( JTable.AUTO_RESIZE_ALL_COLUMNS );
         add( _logTable );
         setViewportView( _logTable );
     }

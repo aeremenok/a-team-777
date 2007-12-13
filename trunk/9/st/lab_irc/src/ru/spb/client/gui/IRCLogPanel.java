@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public abstract class IRCLogPanel
@@ -63,6 +64,7 @@ public abstract class IRCLogPanel
 
         _logTableModel = new DefaultTableModel();
         _logTable = new ReadOnlyTable( _logTableModel );
+        _logTable.setAutoResizeMode( JTable.AUTO_RESIZE_ALL_COLUMNS );
         add( _logTable );
         setViewportView( _logTable );
     }
