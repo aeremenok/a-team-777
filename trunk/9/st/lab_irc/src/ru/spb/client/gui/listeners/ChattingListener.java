@@ -1,4 +1,4 @@
-package ru.spb.client.gui;
+package ru.spb.client.gui.listeners;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

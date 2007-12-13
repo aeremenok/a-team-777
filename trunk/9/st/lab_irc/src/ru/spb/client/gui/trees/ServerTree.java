@@ -3,7 +3,7 @@ package ru.spb.client.gui.trees;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import ru.spb.client.entities.Server;
-import ru.spb.client.gui.ConnectingAdapter;
+import ru.spb.client.gui.listeners.ConnectingListener;
 import ru.spb.client.gui.trees.nodes.ServerNode;
 
 /**
@@ -31,7 +31,7 @@ public class ServerTree
         DefaultMutableTreeNode serverNode = new ServerNode( s );
         _root.add( serverNode );
 
-        addMouseListener( new ConnectingAdapter( this ) );
+        addMouseListener( new ConnectingListener( this ) );
     }
 
     /**

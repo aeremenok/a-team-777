@@ -1,4 +1,4 @@
-package ru.spb.client.gui;
+package ru.spb.client.gui.trees;
 
 import java.util.Enumeration;
 
@@ -6,7 +6,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import ru.spb.client.entities.Channel;
 import ru.spb.client.entities.User;
-import ru.spb.client.gui.trees.IRCTree;
+import ru.spb.client.gui.listeners.ChattingListener;
+import ru.spb.client.gui.trees.nodes.UserNode;
 
 public class UserTree
     extends IRCTree
