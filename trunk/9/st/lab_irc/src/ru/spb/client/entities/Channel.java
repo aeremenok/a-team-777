@@ -14,9 +14,14 @@ public class Channel
         IChattable
 {
 
+    /**
+     * подключены ли к этому каналу
+     */
     private boolean isConnected;
+    /**
+     * имя канала
+     */
     private String  name;
-    private boolean isChattingWithMe = false;
 
     public Channel(
         String name )
@@ -41,7 +46,7 @@ public class Channel
      */
     public void disconnect()
     {
-        isConnected = true;
+        isConnected = false;
         ServiceLogPanel.getInstance().info( "connected" );
     }
 
@@ -65,23 +70,54 @@ public class Channel
     public void startChat(
         IChattable chattable )
     {
-        if ( User.getCurrentUser().equals( chattable ) )
-        {
-            isChattingWithMe = true;
-        }
         ServiceLogPanel.getInstance().info( "starting chat on channel =" + name + "=" );
         IRCTabbedPanel.getInstance().addChat( this );
-    }
-
-    @Override
-    public boolean isChattingWithMe()
-    {
-        return isChattingWithMe;
     }
 
     public User[] getUsers()
     {
         // todo заглушка
         return new User[] { new User( "user1" ), new User( "user2" ) };
+    }
+
+    @Override
+    public void quitChat(
+        IChattable chattable )
+    {
+        ServiceLogPanel.getInstance().info( "exiting from channel =" + name + "=" );
+        IRCTabbedPanel.getInstance().removeChat( this );
+    }
+
+    @Override
+    public void toggleChat(
+        IChattable chattable )
+    {
+        /**
+         * здесь - другая реализация, нежели в {@link User}
+         */
+        if ( isConnected )
+        {
+            startChat( chattable );
+        }
+        else
+        {
+            quitChat( chattable );
+        }
+    }
+
+    @Override
+    public void toggleConnection()
+    {
+        /**
+         * здесь метод нужен просто для удобства
+         */
+        if ( isConnected() )
+        {
+            disconnect();
+        }
+        else
+        {
+            connect();
+        }
     }
 }

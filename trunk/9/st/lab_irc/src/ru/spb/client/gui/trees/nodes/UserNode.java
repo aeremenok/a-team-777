@@ -24,16 +24,26 @@ public class UserNode
         return user;
     }
 
-    @Override
     public void startChat(
         IChattable chattable )
     {
         user.startChat( chattable );
     }
 
-    @Override
-    public boolean isChattingWithMe()
+    public String getName()
     {
-        return user.isChattingWithMe();
+        return user.getName();
+    }
+
+    public void quitChat(
+        IChattable chattable )
+    {
+        user.quitChat( chattable );
+    }
+
+    public void toggleChat(
+        IChattable chattable )
+    {
+        user.toggleChat( chattable );
     }
 }

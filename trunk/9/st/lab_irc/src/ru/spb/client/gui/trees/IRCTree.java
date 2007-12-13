@@ -3,6 +3,11 @@ package ru.spb.client.gui.trees;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+/**
+ * дерево, хранящее корень
+ * 
+ * @author eav
+ */
 public abstract class IRCTree
     extends JTree
 {

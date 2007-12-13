@@ -5,14 +5,16 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import ru.spb.client.entities.IConnectable;
 import ru.spb.client.entities.Server;
 
+/**
+ * узел-обертка для {@link Server}
+ * 
+ * @author eav
+ */
 public class ServerNode
     extends DefaultMutableTreeNode
     implements
         IConnectable
 {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 8241709727851465205L;
 
     private Server            server;
@@ -42,6 +44,11 @@ public class ServerNode
     public boolean isConnected()
     {
         return server.isConnected();
+    }
+
+    public void toggleConnection()
+    {
+        server.toggleConnection();
     }
 
 }

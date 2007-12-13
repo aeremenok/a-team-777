@@ -1,5 +1,6 @@
 package ru.spb.client.entities;
 
+import ru.spb.client.gui.IRCTabbedPanel;
 import ru.spb.client.gui.ServiceLogPanel;
 
 /**
@@ -31,13 +32,13 @@ public class Server
     {
         isConnected = true;
         ServiceLogPanel.getInstance().info( "connected" );
-
-        getChannels();
+        IRCTabbedPanel.getInstance().addChannelTree( this );
     }
 
     public Channel[] getChannels()
     {
         ServiceLogPanel.getInstance().info( "getting cnannel list" );
+        // todo заглушка
         return new Channel[] { new Channel( "channel1" ), new Channel( "channel2" ) };
     }
 
@@ -48,6 +49,7 @@ public class Server
     {
         isConnected = false;
         ServiceLogPanel.getInstance().info( "disconnected" );
+        IRCTabbedPanel.getInstance().removeChannelTree( this );
     }
 
     public boolean isConnected()
@@ -58,6 +60,19 @@ public class Server
     public String getName()
     {
         return name;
+    }
+
+    @Override
+    public void toggleConnection()
+    {
+        if ( isConnected() )
+        {
+            disconnect();
+        }
+        else
+        {
+            connect();
+        }
     }
 
 }

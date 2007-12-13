@@ -14,14 +14,12 @@ public class User
     /**
      * юзер, который использует программу
      */
-    static User     _currentUser;
+    static User    _currentUser;
 
     /**
      * имя пользователя
      */
-    private String  _name;
-
-    private boolean isChattingWithMe = false;
+    private String _name;
 
     public User(
         String _name )
@@ -39,29 +37,36 @@ public class User
     public void startChat(
         IChattable chattable )
     {
-        // todo заглушка - с юзерами пока не общаемся
-        ServiceLogPanel.getInstance().info( "USER-TO-USER chatting will be implemented later" );
-        if ( chattable.equals( getCurrentUser() ) )
-        {
-            isChattingWithMe = true;
-        }
+        // TODO Auto-generated method stub
     }
 
+    /**
+     * создать профиль пользователя, пользующегося программой
+     * 
+     * @return текущий пользователь
+     */
     public static User getCurrentUser()
     {
         if ( _currentUser == null )
         {
             // todo читать подробный конфиг юзера
             _currentUser = new User( "eav" );
-            // =)
-            _currentUser.isChattingWithMe = true;
         }
         return _currentUser;
     }
 
     @Override
-    public boolean isChattingWithMe()
+    public void quitChat(
+        IChattable chattable )
     {
-        return isChattingWithMe;
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void toggleChat(
+        IChattable chattable )
+    {
+        // TODO Auto-generated method stub
+        ServiceLogPanel.getInstance().info( "USER-TO-USER chatting will be implemented later" );
     }
 }

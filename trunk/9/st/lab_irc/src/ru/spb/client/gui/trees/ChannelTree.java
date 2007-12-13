@@ -3,6 +3,7 @@ package ru.spb.client.gui.trees;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import ru.spb.client.entities.Channel;
+import ru.spb.client.entities.Server;
 import ru.spb.client.gui.listeners.ChattingListener;
 import ru.spb.client.gui.listeners.ConnectingListener;
 import ru.spb.client.gui.trees.nodes.ChannelNode;
@@ -10,12 +11,12 @@ import ru.spb.client.gui.trees.nodes.ChannelNode;
 public class ChannelTree
     extends IRCTree
 {
+    /**
+     * имя сервера с каналами
+     */
+    private String _name;
 
-    public static final String NAME = "ChannelList";
-
-    private static ChannelTree instance;
-
-    public ChannelTree(
+    private ChannelTree(
         DefaultMutableTreeNode root )
     {
         super( root );
@@ -24,10 +25,32 @@ public class ChannelTree
     }
 
     /**
+     * выдает новое дерево каналов для заданного сервера
+     * 
+     * @param server сервер
+     * @return дерево каналов
+     */
+    public static ChannelTree getChannelTreeForServer(
+        Server server )
+    {
+
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Channels" );
+        ChannelTree result = new ChannelTree( root );
+        result._name = server.getName();
+        result.addChannels( server.getChannels() );
+        return result;
+    }
+
+    /**
      * 
      */
     private static final long serialVersionUID = 5408874563647082570L;
 
+    /**
+     * добавляет каналы в дерево
+     * 
+     * @param channels массив каналов
+     */
     public void addChannels(
         Channel[] channels )
     {
@@ -39,14 +62,8 @@ public class ChannelTree
         this.expandRow( getRowCount() - 1 );
     }
 
-    public static ChannelTree getInstance()
+    public String getName()
     {
-        if ( instance == null )
-        {
-            DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Channels" );
-            instance = new ChannelTree( root );
-        }
-        return instance;
+        return _name;
     }
-
 }

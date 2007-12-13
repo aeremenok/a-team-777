@@ -17,10 +17,21 @@ public interface IChattable
         IChattable chattable );
 
     /**
-     * ведет ли пользователь программы разговор с этим
+     * завершить чат
      * 
-     * @return
+     * @param chattable
      */
-    boolean isChattingWithMe();
+    void quitChat(
+        IChattable chattable );
+
+    String getName();
+
+    /**
+     * включить/выключить чат
+     * 
+     * @param chattable
+     */
+    void toggleChat(
+        IChattable chattable );
 
 }
