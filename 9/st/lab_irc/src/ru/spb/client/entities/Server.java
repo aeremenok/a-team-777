@@ -3,7 +3,7 @@ package ru.spb.client.entities;
 import java.util.ArrayList;
 
 import ru.spb.client.gui.IRCTabbedPanel;
-import ru.spb.client.gui.ServiceLogPanel;
+import ru.spb.client.gui.logpanels.ServiceLogPanel;
 
 /**
  * содержит данные о сервере
@@ -29,10 +29,6 @@ public class Server
         String name )
     {
         _name = name;
-
-        // todo заглушка
-        // createChannel( new Channel( "channel1", User.getCurrentUser() ) );
-        // createChannel( new Channel( "channel2", new User( "user1" ) ) );
     }
 
     /**
@@ -62,12 +58,11 @@ public class Server
      * 
      * @return
      */
-    public Channel[] getChannels()
+    public ArrayList<Channel> getChannels()
     {
         ServiceLogPanel.getInstance().info( this, "getting cnannel list" );
         // todo послать команду
-        Channel[] channels = new Channel[_registeredChannels.size()];
-        return _registeredChannels.toArray( channels );
+        return _registeredChannels;
     }
 
     public void createChannel(

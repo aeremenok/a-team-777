@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JTextArea;
 
 import ru.spb.client.entities.User;
+import ru.spb.client.gui.logpanels.ChatLogPanel;
 
 public class MessageArea
     extends JTextArea

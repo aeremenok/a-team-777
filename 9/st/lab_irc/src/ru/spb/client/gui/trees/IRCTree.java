@@ -2,6 +2,7 @@ package ru.spb.client.gui.trees;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  * дерево, хранящее корень
@@ -21,7 +22,7 @@ public abstract class IRCTree
     public IRCTree(
         DefaultMutableTreeNode root )
     {
-        super( root );
+        super( new DefaultTreeModel( root ) );
         _root = root;
     }
 

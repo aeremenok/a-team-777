@@ -1,6 +1,9 @@
 package ru.spb.client.gui.trees;
 
+import java.util.ArrayList;
+
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import ru.spb.client.entities.Channel;
 import ru.spb.client.entities.Server;
@@ -12,14 +15,16 @@ public class ChannelTree
     extends IRCTree
 {
     /**
-     * имя сервера с каналами
+     * сервер, содержащий каналы
      */
-    private String _name;
+    private Server _server;
 
     private ChannelTree(
-        DefaultMutableTreeNode root )
+        DefaultMutableTreeNode root,
+        Server server )
     {
         super( root );
+        _server = server;
         addMouseListener( new ConnectingListener( this ) );
         addMouseListener( new ChattingListener( this ) );
     }
@@ -33,18 +38,31 @@ public class ChannelTree
     public static ChannelTree getChannelTreeForServer(
         Server server )
     {
-
         DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Channels" );
-        ChannelTree result = new ChannelTree( root );
-        result._name = server.getName();
+        ChannelTree result = new ChannelTree( root, server );
         result.addChannels( server.getChannels() );
+
         return result;
     }
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 5408874563647082570L;
+
+    /**
+     * добавить канал
+     * 
+     * @param channel канал
+     */
+    public void addChannel(
+        Channel channel )
+    {
+        if ( channel != null )
+        {
+            ChannelNode channelNode = new ChannelNode( channel );
+            DefaultTreeModel model = (DefaultTreeModel) getModel();
+            model.insertNodeInto( channelNode, _root, _root.getChildCount() );
+            expandRow( getRowCount() - 1 );
+        }
+    }
 
     /**
      * добавляет каналы в дерево
@@ -52,7 +70,7 @@ public class ChannelTree
      * @param channels массив каналов
      */
     public void addChannels(
-        Channel[] channels )
+        ArrayList<Channel> channels )
     {
         for ( Channel channel : channels )
         {
@@ -64,6 +82,6 @@ public class ChannelTree
 
     public String getName()
     {
-        return _name;
+        return _server.getName();
     }
 }

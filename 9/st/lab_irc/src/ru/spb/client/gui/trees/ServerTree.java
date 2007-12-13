@@ -1,6 +1,7 @@
 package ru.spb.client.gui.trees;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import ru.spb.client.entities.Server;
 import ru.spb.client.gui.listeners.ConnectingListener;
@@ -52,7 +53,9 @@ public class ServerTree
         if ( server != null )
         {
             ServerNode serverNode = new ServerNode( server );
-            _root.add( serverNode );
+            DefaultTreeModel model = (DefaultTreeModel) getModel();
+            model.insertNodeInto( serverNode, _root, _root.getChildCount() );
+            expandRow( getRowCount() - 1 );
         }
     }
 

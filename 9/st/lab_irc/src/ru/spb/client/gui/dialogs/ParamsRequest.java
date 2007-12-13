@@ -1,6 +1,5 @@
 package ru.spb.client.gui.dialogs;
 
-import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -17,6 +16,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import ru.spb.client.gui.IRCWindow;
+
 /**
  * простейший диалог задания параметров
  * 
@@ -31,10 +32,9 @@ public abstract class ParamsRequest
     private JButton  _buttonCancel = new JButton( "Cancel" );
 
     public ParamsRequest(
-        Frame owner,
         String title )
     {
-        super( owner, true );
+        super( IRCWindow.getInstance().getMainWindiow(), true );
         setTitle( title );
 
         setContentPane( _contentPane );
@@ -114,5 +114,4 @@ public abstract class ParamsRequest
         win.setLocation( x, y );
         win.setVisible( true );
     }
-
 }
