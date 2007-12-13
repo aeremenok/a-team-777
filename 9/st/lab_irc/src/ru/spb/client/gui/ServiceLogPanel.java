@@ -2,6 +2,10 @@ package ru.spb.client.gui;
 
 import java.util.Date;
 
+import ru.spb.client.entities.Channel;
+import ru.spb.client.entities.Server;
+import ru.spb.client.entities.User;
+
 /**
  * @author eav
  */
@@ -22,6 +26,7 @@ public class ServiceLogPanel
     protected void setColumns()
     {
         _logTableModel.addColumn( "Date" );
+        _logTableModel.addColumn( "Who" );
         _logTableModel.addColumn( "Message" );
     }
 
@@ -34,7 +39,42 @@ public class ServiceLogPanel
         String message )
     {
         Date current = new Date();
-        Object[] rowData = new Object[] { current, message };
+        Object[] rowData = new Object[] { current, "---", message };
+        _logTableModel.addRow( rowData );
+    }
+
+    /**
+     * авторизованное сообщение в лог
+     * 
+     * @param sender сущность, от которой пришло
+     * @param message служебное сообщение
+     */
+    public void info(
+        Object sender,
+        String message )
+    {
+        Date current = new Date();
+
+        // todo возможно обобщить
+        String who = "---";
+        if ( sender instanceof Server )
+        {
+            who = "server " + ((Server) sender).getName();
+        }
+        else if ( sender instanceof User )
+        {
+            who = "user " + ((User) sender).getName();
+        }
+        else if ( sender instanceof Channel )
+        {
+            who = "channel " + ((Channel) sender).getName();
+        }
+        else if ( sender instanceof String )
+        {
+            who = (String) sender;
+        }
+
+        Object[] rowData = new Object[] { current, who, message };
         _logTableModel.addRow( rowData );
     }
 

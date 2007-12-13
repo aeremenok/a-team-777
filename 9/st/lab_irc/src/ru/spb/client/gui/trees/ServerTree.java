@@ -49,8 +49,11 @@ public class ServerTree
     public void addServer(
         Server server )
     {
-        ServerNode serverNode = new ServerNode( server );
-        _root.add( serverNode );
+        if ( server != null )
+        {
+            ServerNode serverNode = new ServerNode( server );
+            _root.add( serverNode );
+        }
     }
 
     public static ServerTree getInstance()

@@ -51,13 +51,15 @@ public class Channel
 
     public void disconnect()
     {
+        ServiceLogPanel.getInstance().info( this, "disconnecting" );
         // todo послать команду
         isConnected = false;
-        ServiceLogPanel.getInstance().info( "connected" );
+        ServiceLogPanel.getInstance().info( this, "disconnected" );
     }
 
     public void connect()
     {
+        ServiceLogPanel.getInstance().info( this, "connecting" );
         if ( !isRegistered( User.getCurrentUser() ) )
         {
             register( User.getCurrentUser() );
@@ -65,7 +67,7 @@ public class Channel
 
         // todo послать команду
         isConnected = true;
-        ServiceLogPanel.getInstance().info( "connected" );
+        ServiceLogPanel.getInstance().info( this, "connected" );
     }
 
     public String getName()
@@ -77,7 +79,7 @@ public class Channel
     public void startChat(
         IChattable chattable )
     {
-        ServiceLogPanel.getInstance().info( "starting chat on channel =" + _name + "=" );
+        ServiceLogPanel.getInstance().info( this, "=starting chat=" );
         IRCTabbedPanel.getInstance().addChat( this );
     }
 
@@ -91,7 +93,7 @@ public class Channel
     public void quitChat(
         IChattable chattable )
     {
-        ServiceLogPanel.getInstance().info( "exiting from channel =" + _name + "=" );
+        ServiceLogPanel.getInstance().info( this, "=exiting=" );
         IRCTabbedPanel.getInstance().removeChat( this );
     }
 
@@ -140,7 +142,7 @@ public class Channel
     public void register(
         User user )
     {
-        ServiceLogPanel.getInstance().info( "channel " + _name + ": registering user " + user.getName() );
+        ServiceLogPanel.getInstance().info( this, "registering user " + user.getName() );
         _registeredUsers.add( user );
         // todo послать команду
     }

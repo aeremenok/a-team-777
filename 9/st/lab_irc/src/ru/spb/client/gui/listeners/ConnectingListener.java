@@ -6,8 +6,10 @@ import java.awt.event.MouseListener;
 import javax.swing.tree.TreePath;
 
 import ru.spb.client.entities.IConnectable;
-import ru.spb.client.gui.ServiceLogPanel;
+import ru.spb.client.gui.IRCWindow;
+import ru.spb.client.gui.dialogs.ServerParamsRequest;
 import ru.spb.client.gui.trees.IRCTree;
+import ru.spb.client.gui.trees.ServerTree;
 
 public class ConnectingListener
     implements
@@ -26,34 +28,29 @@ public class ConnectingListener
     public void mouseClicked(
         MouseEvent e )
     {
-        if ( e.getClickCount() == 2 )
-        {
-            TreePath selPath = tree.getPathForLocation( e.getX(), e.getY() );
-            Object selected = selPath.getLastPathComponent();
-            connectTo( selected );
-        }
-    }
+        if ( e.getButton() == MouseEvent.BUTTON1 )
+        { // левая кнопка
+            if ( e.getClickCount() == 2 )
+            {
+                TreePath selPath = tree.getPathForLocation( e.getX(), e.getY() );
+                Object selected = selPath.getLastPathComponent();
 
-    /**
-     * если объект - сервер или канал, налаживает подключение
-     * 
-     * @param selected выбранный объект
-     */
-    private void connectTo(
-        Object selected )
-    {
-        if ( selected instanceof IConnectable )
-        {
-            IConnectable connectable = (IConnectable) selected;
-            if ( connectable.isConnected() )
-            {
-                ServiceLogPanel.getInstance().info( "already connected, disconnecting" );
-                connectable.disconnect();
+                if ( selected instanceof IConnectable )
+                {
+                    IConnectable connectable = (IConnectable) selected;
+                    connectable.toggleConnection();
+                }
             }
-            else
+        }
+        else
+        { // другая кнопка
+            if ( e.getClickCount() == 2 )
             {
-                ServiceLogPanel.getInstance().info( "already disconnected, connecting" );
-                connectable.connect();
+                if ( tree instanceof ServerTree )
+                {
+                    ServerTree serverTree = (ServerTree) tree;
+                    serverTree.addServer( ServerParamsRequest.getServer( IRCWindow.getInstance().getMainWindiow() ) );
+                }
             }
         }
     }
@@ -81,5 +78,4 @@ public class ConnectingListener
         MouseEvent e )
     {
     }
-
 }

@@ -29,4 +29,10 @@ public abstract class IRCTree
     {
         _root.removeAllChildren();
     }
+
+    public boolean isRoot(
+        DefaultMutableTreeNode selected )
+    {
+        return _root.equals( selected );
+    }
 }
