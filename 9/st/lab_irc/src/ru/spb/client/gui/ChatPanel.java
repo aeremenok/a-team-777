@@ -3,6 +3,7 @@ package ru.spb.client.gui;
 import javax.swing.JSplitPane;
 
 import ru.spb.client.entities.Channel;
+import ru.spb.client.gui.trees.UserTree;
 
 public class ChatPanel
     extends JSplitPane

@@ -3,8 +3,8 @@ package ru.spb.client.gui.trees;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import ru.spb.client.entities.Channel;
-import ru.spb.client.gui.ChattingListener;
-import ru.spb.client.gui.ConnectingAdapter;
+import ru.spb.client.gui.listeners.ChattingListener;
+import ru.spb.client.gui.listeners.ConnectingListener;
 import ru.spb.client.gui.trees.nodes.ChannelNode;
 
 public class ChannelTree
@@ -19,7 +19,7 @@ public class ChannelTree
         DefaultMutableTreeNode root )
     {
         super( root );
-        addMouseListener( new ConnectingAdapter( this ) );
+        addMouseListener( new ConnectingListener( this ) );
         addMouseListener( new ChattingListener( this ) );
     }
 

@@ -1,4 +1,4 @@
-package ru.spb.client.gui;
+package ru.spb.client.gui.listeners;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -7,18 +7,19 @@ import javax.swing.tree.TreePath;
 
 import ru.spb.client.entities.IConnectable;
 import ru.spb.client.entities.Server;
+import ru.spb.client.gui.ServiceLogPanel;
 import ru.spb.client.gui.trees.ChannelTree;
 import ru.spb.client.gui.trees.IRCTree;
 import ru.spb.client.gui.trees.nodes.ServerNode;
 
-public class ConnectingAdapter
+public class ConnectingListener
     implements
         MouseListener
 {
 
     IRCTree tree;
 
-    public ConnectingAdapter(
+    public ConnectingListener(
         IRCTree tree )
     {
         this.tree = tree;

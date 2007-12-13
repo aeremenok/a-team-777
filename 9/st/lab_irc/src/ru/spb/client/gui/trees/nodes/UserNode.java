@@ -1,4 +1,4 @@
-package ru.spb.client.gui;
+package ru.spb.client.gui.trees.nodes;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
