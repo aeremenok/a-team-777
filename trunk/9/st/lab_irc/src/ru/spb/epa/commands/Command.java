@@ -25,14 +25,14 @@ public class Command {
         l.put("NICK" , new NICK());
         l.put("USER" , new USER());
         l.put("QUIT" , new QUIT());
-        //l.put("LIST", new )
+        l.put("LIST", new LIST());
 
     }
 
     public static Command getCommand(String s) throws IRCServerException {
 
         int cLen = s.indexOf(" ");
-        if(cLen < 0 || cLen> s.length()) throw new UnParseableCommandException();
+        if(cLen < 0 || cLen> s.length()) cLen = s.length();
         String commandStr = s.substring(0,cLen);
         Command c = l.get(commandStr);
         if(c==null) throw new CommandExecutionExcetion("No such command");
@@ -73,6 +73,23 @@ public class Command {
             System.out.print(t.token + "-" + t.pos + "; ") ;
         }
         System.out.println("!");
+    }
+
+     protected void parseStrings(String  mess, String delimeter){
+         List<Tok> out = new ArrayList<Tok>();
+
+        StringTokenizer tok = new StringTokenizer(mess);
+        int position = 0;
+
+        while(tok.hasMoreTokens()){
+            Tok t = new Tok(tok.nextToken(),position);
+            out.add(t);
+            position += t.token.length()+1;
+        }
+
+//        for(Tok t:out){
+//            System.out.print(t.token + "-" + t.pos + "; ") ;
+//        }
     }
 
 
