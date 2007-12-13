@@ -49,8 +49,7 @@ public class ChattingListener
         if ( selected instanceof IChattable )
         {
             IChattable chattable = (IChattable) selected;
-            if ( !chattable.isChattingWithMe() )
-                chattable.startChat( User.getCurrentUser() );
+            chattable.toggleChat( User.getCurrentUser() );
         }
     }
 

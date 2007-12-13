@@ -14,23 +14,14 @@ import ru.spb.client.gui.trees.nodes.ServerNode;
 public class ServerTree
     extends IRCTree
 {
+    static ServerTree         _instance;
 
-    static ServerTree         instance;
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5455623554324837581L;
 
-    public ServerTree(
-        DefaultMutableTreeNode root,
-        Server connectable )
+    private ServerTree(
+        DefaultMutableTreeNode root )
     {
         super( root );
-        Server s = new Server( "Main Server" );
-        DefaultMutableTreeNode serverNode = new ServerNode( s );
-        _root.add( serverNode );
-
         addMouseListener( new ConnectingListener( this ) );
     }
 
@@ -39,16 +30,15 @@ public class ServerTree
      * 
      * @param servers список серверов
      */
-    void addServers(
+    public void addServers(
         Server[] servers )
     {
-        clear();
         for ( Server server : servers )
         {
             ServerNode node = new ServerNode( server );
             _root.add( node );
         }
-        this.expandRow( getRowCount() - 1 );
+        expandRow( getRowCount() - 1 );
     }
 
     /**
@@ -56,21 +46,20 @@ public class ServerTree
      * 
      * @param server новый сервер
      */
-    void addServer(
+    public void addServer(
         Server server )
     {
         ServerNode serverNode = new ServerNode( server );
         _root.add( serverNode );
     }
 
-    public static ServerTree getInstance(
-        Server connectable )
+    public static ServerTree getInstance()
     {
-        if ( instance == null )
+        if ( _instance == null )
         {
             DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Servers" );
-            instance = new ServerTree( root, connectable );
+            _instance = new ServerTree( root );
         }
-        return instance;
+        return _instance;
     }
 }

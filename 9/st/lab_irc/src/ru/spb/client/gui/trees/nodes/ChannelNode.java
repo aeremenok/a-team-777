@@ -12,10 +12,6 @@ public class ChannelNode
         IConnectable,
         IChattable
 {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6096950684657632514L;
 
     private Channel           channel;
@@ -47,16 +43,31 @@ public class ChannelNode
         return channel.isConnected();
     }
 
-    @Override
     public void startChat(
         IChattable chattable )
     {
         channel.startChat( chattable );
     }
 
-    @Override
-    public boolean isChattingWithMe()
+    public String getName()
     {
-        return channel.isChattingWithMe();
+        return channel.getName();
+    }
+
+    public void quitChat(
+        IChattable chattable )
+    {
+        channel.quitChat( chattable );
+    }
+
+    public void toggleChat(
+        IChattable chattable )
+    {
+        channel.toggleChat( chattable );
+    }
+
+    public void toggleConnection()
+    {
+        channel.toggleConnection();
     }
 }

@@ -6,11 +6,8 @@ import java.awt.event.MouseListener;
 import javax.swing.tree.TreePath;
 
 import ru.spb.client.entities.IConnectable;
-import ru.spb.client.entities.Server;
 import ru.spb.client.gui.ServiceLogPanel;
-import ru.spb.client.gui.trees.ChannelTree;
 import ru.spb.client.gui.trees.IRCTree;
-import ru.spb.client.gui.trees.nodes.ServerNode;
 
 public class ConnectingListener
     implements
@@ -57,13 +54,6 @@ public class ConnectingListener
             {
                 ServiceLogPanel.getInstance().info( "already disconnected, connecting" );
                 connectable.connect();
-                // получаем список каналов
-                // todo сделать нормальную связь!
-                if ( connectable instanceof ServerNode )
-                {
-                    Server server = ((ServerNode) connectable).getServer();
-                    ChannelTree.getInstance().addChannels( server.getChannels() );
-                }
             }
         }
     }
