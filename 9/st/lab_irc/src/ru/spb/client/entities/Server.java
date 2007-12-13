@@ -15,6 +15,9 @@ public class Server
         IConnectable
 {
     private String             _name;
+    private String             _host               = "localhost";
+    private int                _port               = 6667;
+    private SocketConnector    _connector;
 
     /**
      * пользователи, зарегистрировавшиеся на сервере
@@ -29,6 +32,7 @@ public class Server
         String name )
     {
         _name = name;
+        _connector = new SocketConnector( this );
     }
 
     /**
@@ -47,7 +51,7 @@ public class Server
             register( User.getCurrentUser() );
         }
 
-        // todo послать команду
+        _connector.connect();
         _isConnected = true;
         ServiceLogPanel.getInstance().info( this, "connected" );
         IRCTabbedPanel.getInstance().addChannelTree( this );
@@ -61,7 +65,7 @@ public class Server
     public ArrayList<Channel> getChannels()
     {
         ServiceLogPanel.getInstance().info( this, "getting cnannel list" );
-        // todo послать команду
+        _registeredChannels = _connector.getChannels();
         return _registeredChannels;
     }
 
@@ -69,7 +73,7 @@ public class Server
         Channel channel )
     {
         ServiceLogPanel.getInstance().info( this, "registering channel" );
-        // todo послать команду
+        _connector.createChannel();
         _registeredChannels.add( channel );
     }
 
@@ -79,7 +83,7 @@ public class Server
     public void disconnect()
     {
         ServiceLogPanel.getInstance().info( this, "disconnecting" );
-        // todo послать команду
+        _connector.disconnect();
         _isConnected = false;
         ServiceLogPanel.getInstance().info( this, "disconnected" );
         IRCTabbedPanel.getInstance().removeChannelTree( this );
@@ -111,7 +115,7 @@ public class Server
     public boolean isRegistered(
         User user )
     {
-        // todo послать команду
+        _registeredUsers = _connector.getRegisteredUsers();
         return _registeredUsers.contains( user );
     }
 
@@ -121,6 +125,16 @@ public class Server
     {
         ServiceLogPanel.getInstance().info( this, "registering user " + user.getName() );
         _registeredUsers.add( user );
-        // todo послать команду
+        _connector.register( user );
+    }
+
+    public String getHost()
+    {
+        return _host;
+    }
+
+    public int getPort()
+    {
+        return _port;
     }
 }

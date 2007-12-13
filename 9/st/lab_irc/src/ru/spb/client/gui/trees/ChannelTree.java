@@ -61,6 +61,7 @@ public class ChannelTree
             DefaultTreeModel model = (DefaultTreeModel) getModel();
             model.insertNodeInto( channelNode, _root, _root.getChildCount() );
             expandRow( getRowCount() - 1 );
+            _server.createChannel( channel );
         }
     }
 
