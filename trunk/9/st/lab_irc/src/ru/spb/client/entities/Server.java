@@ -28,11 +28,11 @@ public class Server
     public Server(
         String name )
     {
-        this._name = name;
+        _name = name;
 
         // todo заглушка
-        createChannel( new Channel( "channel1", User.getCurrentUser() ) );
-        createChannel( new Channel( "channel2", new User( "user1" ) ) );
+        // createChannel( new Channel( "channel1", User.getCurrentUser() ) );
+        // createChannel( new Channel( "channel2", new User( "user1" ) ) );
     }
 
     /**
@@ -45,6 +45,7 @@ public class Server
      */
     public void connect()
     {
+        ServiceLogPanel.getInstance().info( this, "connecting" );
         if ( !isRegistered( User.getCurrentUser() ) )
         {
             register( User.getCurrentUser() );
@@ -52,7 +53,7 @@ public class Server
 
         // todo послать команду
         _isConnected = true;
-        ServiceLogPanel.getInstance().info( "connected" );
+        ServiceLogPanel.getInstance().info( this, "connected" );
         IRCTabbedPanel.getInstance().addChannelTree( this );
     }
 
@@ -63,7 +64,7 @@ public class Server
      */
     public Channel[] getChannels()
     {
-        ServiceLogPanel.getInstance().info( "getting cnannel list" );
+        ServiceLogPanel.getInstance().info( this, "getting cnannel list" );
         // todo послать команду
         Channel[] channels = new Channel[_registeredChannels.size()];
         return _registeredChannels.toArray( channels );
@@ -72,7 +73,7 @@ public class Server
     public void createChannel(
         Channel channel )
     {
-        ServiceLogPanel.getInstance().info( "server " + _name + ": registering channel" );
+        ServiceLogPanel.getInstance().info( this, "registering channel" );
         // todo послать команду
         _registeredChannels.add( channel );
     }
@@ -82,9 +83,10 @@ public class Server
      */
     public void disconnect()
     {
+        ServiceLogPanel.getInstance().info( this, "disconnecting" );
         // todo послать команду
         _isConnected = false;
-        ServiceLogPanel.getInstance().info( "disconnected" );
+        ServiceLogPanel.getInstance().info( this, "disconnected" );
         IRCTabbedPanel.getInstance().removeChannelTree( this );
     }
 
@@ -122,7 +124,7 @@ public class Server
     public void register(
         User user )
     {
-        ServiceLogPanel.getInstance().info( "server " + _name + ": registering user " + user.getName() );
+        ServiceLogPanel.getInstance().info( this, "registering user " + user.getName() );
         _registeredUsers.add( user );
         // todo послать команду
     }

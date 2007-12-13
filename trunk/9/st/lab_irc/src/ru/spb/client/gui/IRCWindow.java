@@ -12,11 +12,13 @@ public class IRCWindow
 {
 
     private static IRCWindow instance;
+    private JFrame           mainWindiow;
 
     @Override
     public void run()
     {
         JFrame frame = new JFrame( "IRC Client (c) eav 3351" );
+        mainWindiow = frame;
 
         JSplitPane panel = new JSplitPane( JSplitPane.VERTICAL_SPLIT );
         {
@@ -49,6 +51,11 @@ public class IRCWindow
             instance = new IRCWindow();
         }
         return instance;
+    }
+
+    public JFrame getMainWindiow()
+    {
+        return mainWindiow;
     }
 
 }
