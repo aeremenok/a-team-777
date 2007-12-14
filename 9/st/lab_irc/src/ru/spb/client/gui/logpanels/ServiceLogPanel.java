@@ -33,7 +33,7 @@ public class ServiceLogPanel
     /**
      * вывести служебное сообщение
      * 
-     * @param message служебное сообщение
+     * @param _message служебное сообщение
      */
     public void info(
         String message )
@@ -47,7 +47,7 @@ public class ServiceLogPanel
      * авторизованное сообщение в лог
      * 
      * @param sender сущность, от которой пришло
-     * @param message служебное сообщение
+     * @param _message служебное сообщение
      */
     public void info(
         Object sender,
@@ -81,13 +81,12 @@ public class ServiceLogPanel
     /**
      * вывести служебное сообщение об ошибке
      * 
-     * @param message сообщение об ошибке
+     * @param _message сообщение об ошибке
      */
     public void error(
         String message )
     {
-        // todo подсветить красным
-        info( message );
+        info( "ERROR", message );
     }
 
     public static ServiceLogPanel getInstance()

@@ -16,9 +16,6 @@ public interface IConnectable
 
     public void toggleConnection();
 
-    public boolean isRegistered(
-        User user );
-
     public void register(
         User user );
 }

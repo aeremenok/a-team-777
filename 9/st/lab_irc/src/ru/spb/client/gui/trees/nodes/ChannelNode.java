@@ -72,12 +72,6 @@ public class ChannelNode
         channel.toggleConnection();
     }
 
-    public boolean isRegistered(
-        User user )
-    {
-        return channel.isRegistered( user );
-    }
-
     public void register(
         User user )
     {
