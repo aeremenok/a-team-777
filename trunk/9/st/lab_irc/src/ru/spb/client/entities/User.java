@@ -21,11 +21,19 @@ public class User
      */
     private String _name;
 
+    private String _emailLogin;
+
+    private String _hostAlias;
+
+    private String _fullName;
+
+    private String _passWord;
+
     public User(
-        String _name )
+        String name )
     {
         super();
-        this._name = _name;
+        _name = name;
     }
 
     public String getName()
@@ -37,7 +45,10 @@ public class User
     public void startChat(
         IChattable chattable )
     {
-        // TODO Auto-generated method stub
+        if ( !_currentUser.equals( _currentUser ) )
+        { // сами с собой не разговариваем
+            // todo заглушка
+        }
     }
 
     /**
@@ -51,6 +62,10 @@ public class User
         {
             // todo читать подробный конфиг юзера
             _currentUser = new User( "eav" );
+            _currentUser._emailLogin = "eav1986@gmail.com";
+            _currentUser._hostAlias = "yeremenok";
+            _currentUser._fullName = "eav";
+            _currentUser._passWord = "777";
         }
         return _currentUser;
     }
@@ -68,5 +83,25 @@ public class User
     {
         // TODO Auto-generated method stub
         ServiceLogPanel.getInstance().info( "USER-TO-USER chatting will be implemented later" );
+    }
+
+    public String getEmailLogin()
+    {
+        return _emailLogin;
+    }
+
+    public String getHostAlias()
+    {
+        return _hostAlias;
+    }
+
+    public String getFullName()
+    {
+        return _fullName;
+    }
+
+    public String getPassWord()
+    {
+        return _passWord;
     }
 }

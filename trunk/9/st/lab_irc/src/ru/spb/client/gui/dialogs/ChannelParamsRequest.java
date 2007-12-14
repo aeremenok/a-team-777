@@ -14,12 +14,13 @@ public class ChannelParamsRequest
     extends ParamsRequest
 {
     private Channel     _channel     = null;
-    protected JTextArea _channelName = new JTextArea( "name" );
+    protected JTextArea _name = new JTextArea( "name" );
+    protected JTextArea _topic       = new JTextArea( "topic" );
 
     public ChannelParamsRequest()
     {
         super( "Input channel paramenters" );
-        _contentPane.add( _channelName );
+        _contentPane.add( _name );
         pack();
     }
 
@@ -34,7 +35,7 @@ public class ChannelParamsRequest
     @Override
     protected void readParams()
     {
-        _channel = new Channel( _channelName.getText(), User.getCurrentUser() );
+        _channel = new Channel( _name.getText(), _topic.getText(), User.getCurrentUser() );
     }
 
     public Channel getChannel()

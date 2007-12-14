@@ -24,6 +24,7 @@ public class Channel
      * имя канала
      */
     private String          _name;
+    private String          _topic;
 
     private ArrayList<User> _registeredUsers = new ArrayList<User>();
 
@@ -34,9 +35,11 @@ public class Channel
 
     public Channel(
         String name,
+        String topic,
         User user )
     {
         _name = name;
+        _topic = topic;
         _owner = user;
         register( _owner );
     }
@@ -57,11 +60,7 @@ public class Channel
     public void connect()
     {
         ServiceLogPanel.getInstance().info( this, "connecting" );
-        if ( !isRegistered( User.getCurrentUser() ) )
-        {
-            register( User.getCurrentUser() );
-        }
-
+        register( User.getCurrentUser() );
         // todo послать команду
         _isConnected = true;
         ServiceLogPanel.getInstance().info( this, "connected" );
@@ -127,20 +126,14 @@ public class Channel
     }
 
     @Override
-    public boolean isRegistered(
-        User user )
-    {
-        // todo послать команду
-        return _registeredUsers.contains( user );
-    }
-
-    @Override
     public void register(
         User user )
     {
-        ServiceLogPanel.getInstance().info( this, "registering user " + user.getName() );
-        _registeredUsers.add( user );
-        // todo послать команду
+        if ( user != null )
+        {
+            ServiceLogPanel.getInstance().info( this, "registering user " + user.getName() );
+            _registeredUsers.add( user );
+        }
     }
 
     @Override
@@ -171,5 +164,10 @@ public class Channel
         else if ( !_name.equals( other._name ) )
             return false;
         return true;
+    }
+
+    public String getTopic()
+    {
+        return _topic;
     }
 }

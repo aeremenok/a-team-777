@@ -17,8 +17,6 @@ public class Server
     private String             _name;
     private String             _host               = "localhost";
     private int                _port               = 6667;
-    private SocketConnector    _connector;
-
     /**
      * пользователи, зарегистрировавшиеся на сервере
      */
@@ -32,7 +30,6 @@ public class Server
         String name )
     {
         _name = name;
-        _connector = new SocketConnector( this );
     }
 
     /**
@@ -46,15 +43,12 @@ public class Server
     public void connect()
     {
         ServiceLogPanel.getInstance().info( this, "connecting" );
-        if ( !isRegistered( User.getCurrentUser() ) )
-        {
-            register( User.getCurrentUser() );
-        }
 
-        _connector.connect();
+        IRCSocketWrapper.connect( this, User.getCurrentUser() );
         _isConnected = true;
-        ServiceLogPanel.getInstance().info( this, "connected" );
         IRCTabbedPanel.getInstance().addChannelTree( this );
+
+        ServiceLogPanel.getInstance().info( this, "connected" );
     }
 
     /**
@@ -65,15 +59,22 @@ public class Server
     public ArrayList<Channel> getChannels()
     {
         ServiceLogPanel.getInstance().info( this, "getting cnannel list" );
-        _registeredChannels = _connector.getChannels();
+
+        _registeredChannels = IRCSocketWrapper.getChannels();
         return _registeredChannels;
     }
 
+    /**
+     * создать новый канал на текущем сервере
+     * 
+     * @param channel новый канал
+     */
     public void createChannel(
         Channel channel )
     {
         ServiceLogPanel.getInstance().info( this, "registering channel" );
-        _connector.createChannel();
+
+        IRCSocketWrapper.createChannel( channel );
         _registeredChannels.add( channel );
     }
 
@@ -83,10 +84,12 @@ public class Server
     public void disconnect()
     {
         ServiceLogPanel.getInstance().info( this, "disconnecting" );
-        _connector.disconnect();
+
+        IRCSocketWrapper.disconnect( this );
         _isConnected = false;
-        ServiceLogPanel.getInstance().info( this, "disconnected" );
         IRCTabbedPanel.getInstance().removeChannelTree( this );
+
+        ServiceLogPanel.getInstance().info( this, "disconnected" );
     }
 
     public boolean isConnected()
@@ -102,21 +105,9 @@ public class Server
     public void toggleConnection()
     {
         if ( isConnected() )
-        {
             disconnect();
-        }
         else
-        {
             connect();
-        }
-    }
-
-    @Override
-    public boolean isRegistered(
-        User user )
-    {
-        _registeredUsers = _connector.getRegisteredUsers();
-        return _registeredUsers.contains( user );
     }
 
     @Override
@@ -124,8 +115,16 @@ public class Server
         User user )
     {
         ServiceLogPanel.getInstance().info( this, "registering user " + user.getName() );
-        _registeredUsers.add( user );
-        _connector.register( user );
+        try
+        {
+            IRCSocketWrapper.register( user );
+            _registeredUsers.add( user );
+        }
+        catch ( Throwable e )
+        {
+            ServiceLogPanel.getInstance().error( e.getMessage() );
+            e.printStackTrace();
+        }
     }
 
     public String getHost()

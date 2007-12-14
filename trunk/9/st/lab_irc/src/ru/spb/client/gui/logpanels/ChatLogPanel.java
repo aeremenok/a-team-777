@@ -53,7 +53,7 @@ public class ChatLogPanel
      * отобразить сообщение от пользователя
      * 
      * @param user пользователь
-     * @param message его сообщение
+     * @param _message его сообщение
      */
     public void logMessage(
         User user,

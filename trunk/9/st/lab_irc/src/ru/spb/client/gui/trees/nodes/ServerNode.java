@@ -32,12 +32,6 @@ public class ServerNode
         return server;
     }
 
-    public boolean isRegistered(
-        User user )
-    {
-        return server.isRegistered( user );
-    }
-
     public void register(
         User user )
     {

@@ -26,9 +26,8 @@ public class IRCWindow
             JSplitPane pane = new JSplitPane();
 
             ServerTree tree = ServerTree.getInstance();
-            Server[] servers =
-                               new Server[] { new Server( "Main Server" ), new Server( "server1" ),
-                                               new Server( "server2" ) };
+            // todo заглушка
+            Server[] servers = new Server[] { new Server( "epa" ), new Server( "server1" ), new Server( "server2" ) };
             tree.addServers( servers );
             pane.setLeftComponent( tree );
 

@@ -45,38 +45,46 @@ import ru.spb.epa.exceptions.CommandExecutionExcetion;
 
 
  */
-public class USER extends Command{
+public class USER
+    extends Command
+{
 
-     public void execute(Client c)throws CommandExecutionExcetion
+    public void execute(
+        Client c )
+        throws CommandExecutionExcetion
     {
-        String userName = this.parameters.get(1).token;
-        String hostName = this.parameters.get(2).token;
-        String ipAdress = this.parameters.get(3).token;
-        String fullname = this.parameters.get(4).token;
+        String userName = this.parameters.get( 1 ).token;
+        String hostName = this.parameters.get( 2 ).token;
+        String ipAdress = this.parameters.get( 3 ).token;
+        String fullname = this.parameters.get( 4 ).token;
 
-        c.setHostname(hostName);
-        c.setUsername(userName);
-        c.setFullname(fullname);
-        c.setIpAdress(ipAdress);
+        c.setHostname( hostName );
+        c.setUsername( userName );
+        c.setFullname( fullname );
+        c.setIpAdress( ipAdress );
 
-        c.sendToClient(IRCConstants.RPL_WELLCOME + " " + ServerConfig.WELLCOME_message);
+        c.sendToClient( IRCConstants.RPL_WELLCOME + " " + ServerConfig.WELLCOME_message );
     }
-    
-    //================================================================================================================
-    // COMMON
-    //================================================================================================================
 
-     protected USER() {
+    // ================================================================================================================
+    // COMMON
+    // ================================================================================================================
+
+    protected USER()
+    {
         super();
     }
 
-    protected USER(String message){
-        super(message);
+    protected USER(
+        String message )
+    {
+        super( message );
     }
 
-    protected Command getInstance(String message){
-        return new USER(message);
+    protected Command getInstance(
+        String message )
+    {
+        return new USER( message );
     }
-
 
 }

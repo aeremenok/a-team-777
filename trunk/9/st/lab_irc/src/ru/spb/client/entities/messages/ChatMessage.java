@@ -1,4 +1,5 @@
-package ru.spb.client.entities;
+package ru.spb.client.entities.messages;
+
 
 /**
  * сообщение, отображаемое в чате
