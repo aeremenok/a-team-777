@@ -1,4 +1,4 @@
-package ru.spb.client.entities;
+package ru.spb.messages.exceptions;
 
 public class ErrorReplyReceivedException
     extends Exception

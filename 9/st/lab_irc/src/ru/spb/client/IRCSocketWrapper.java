@@ -1,4 +1,4 @@
-package ru.spb.client.entities;
+package ru.spb.client;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -8,15 +8,19 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import ru.spb.client.entities.messages.ListMessage;
-import ru.spb.client.entities.messages.NickMessage;
-import ru.spb.client.entities.messages.NumericReply;
-import ru.spb.client.entities.messages.PassMessage;
-import ru.spb.client.entities.messages.ServiceMessage;
-import ru.spb.client.entities.messages.UserMessage;
+import ru.spb.client.entities.Channel;
+import ru.spb.client.entities.Server;
+import ru.spb.client.entities.User;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
-import ru.spb.messages.constants.Errors;
-import ru.spb.messages.constants.Replies;
+import ru.spb.messages.Errors;
+import ru.spb.messages.ListMessage;
+import ru.spb.messages.NickMessage;
+import ru.spb.messages.NumericReply;
+import ru.spb.messages.PassMessage;
+import ru.spb.messages.Replies;
+import ru.spb.messages.ServiceMessage;
+import ru.spb.messages.UserMessage;
+import ru.spb.messages.exceptions.ErrorReplyReceivedException;
 
 /**
  * класс, осуществляющий сокетное соединение. в любой момент соединение возможно

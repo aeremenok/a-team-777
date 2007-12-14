@@ -2,6 +2,7 @@ package ru.spb.client.entities;
 
 import java.util.ArrayList;
 
+import ru.spb.client.IRCSocketWrapper;
 import ru.spb.client.gui.IRCTabbedPanel;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
 

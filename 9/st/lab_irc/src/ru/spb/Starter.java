@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * User: Павел
+ * User: пїЅпїЅпїЅпїЅпїЅ
  * Date: 08.12.2007
  * Time: 21:17:57
  *

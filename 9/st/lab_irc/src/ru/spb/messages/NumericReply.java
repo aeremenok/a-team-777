@@ -1,10 +1,8 @@
-package ru.spb.client.entities.messages;
+package ru.spb.messages;
 
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import ru.spb.messages.constants.Errors;
-import ru.spb.messages.constants.Replies;
 
 public class NumericReply
     extends ServiceMessage
