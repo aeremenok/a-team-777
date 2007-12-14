@@ -17,7 +17,7 @@ public class User
     static User    _currentUser;
 
     /**
-     * имя пользователя
+     * имя пользователя (nickname)
      */
     private String _name;
 

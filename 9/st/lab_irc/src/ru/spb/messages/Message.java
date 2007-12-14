@@ -3,6 +3,9 @@ package ru.spb.messages;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import ru.spb.messages.constants.Errors;
+import ru.spb.messages.constants.Replies;
+
 
 /**
  * содержит данные сообщения

@@ -30,7 +30,7 @@ public class UserTree
     public static UserTree getTreeForChannel(
         Channel channel )
     {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Users of " + channel.getName() );
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Chatting about " + channel.getTopic() );
         UserTree result = new UserTree( root );
 
         result.addUsers( channel.getUsers() );

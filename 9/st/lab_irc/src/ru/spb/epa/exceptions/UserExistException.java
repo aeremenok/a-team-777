@@ -1,11 +1,11 @@
 package ru.spb.epa.exceptions;
 
 /**
- * User: Павел
+ * User: пїЅпїЅпїЅпїЅпїЅ
  * Date: 09.12.2007
  * Time: 19:35:40
  */
-public class UserExistException extends CommandExecutionExcetion{
+public class UserExistException extends CommandExecutionException{
     public UserExistException() {
         this.message = "User already exist";
     }

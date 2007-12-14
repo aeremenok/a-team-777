@@ -2,11 +2,11 @@ package ru.spb.epa.commands;
 
 import ru.spb.epa.Client;
 import ru.spb.epa.IRCConstants;
-import ru.spb.epa.exceptions.CommandExecutionExcetion;
+import ru.spb.epa.exceptions.CommandExecutionException;
 import ru.spb.epa.exceptions.UserExistException;
 
 /**
- * User: Павел
+ * User: пїЅпїЅпїЅпїЅпїЅ
  * Date: 09.12.2007
  * Time: 18:39:16
  *
@@ -35,7 +35,7 @@ import ru.spb.epa.exceptions.UserExistException;
  */
 public class NICK extends Command {
 
-    public void execute(Client c)throws CommandExecutionExcetion
+    public void execute(Client c)throws CommandExecutionException
     {
         String nick = this.parameters.get(1).token;
 

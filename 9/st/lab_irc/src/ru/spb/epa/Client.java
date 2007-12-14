@@ -2,7 +2,7 @@ package ru.spb.epa;
 
 import ru.spb.epa.commands.Command;
 import ru.spb.epa.exceptions.IRCServerException;
-import ru.spb.epa.exceptions.CommandExecutionExcetion;
+import ru.spb.epa.exceptions.CommandExecutionException;
 
 import java.io.*;
 import java.net.Socket;
@@ -10,7 +10,7 @@ import java.net.SocketTimeoutException;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Павел
+ * User: пїЅпїЅпїЅпїЅпїЅ
  * Date: 09.12.2007
  * Time: 0:12:40
  *
@@ -192,7 +192,7 @@ public class Client extends Thread{
         this.myServer.broadcastMessage(m);
     }
 
-    public void changeNick(String newName) throws CommandExecutionExcetion {
+    public void changeNick(String newName) throws CommandExecutionException {
         this.myServer.changeNick(this,newName);
     }
 

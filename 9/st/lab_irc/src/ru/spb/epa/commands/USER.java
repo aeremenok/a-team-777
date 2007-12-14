@@ -3,10 +3,10 @@ package ru.spb.epa.commands;
 import ru.spb.epa.Client;
 import ru.spb.epa.IRCConstants;
 import ru.spb.epa.ServerConfig;
-import ru.spb.epa.exceptions.CommandExecutionExcetion;
+import ru.spb.epa.exceptions.CommandExecutionException;
 
 /**
- * User: Павел
+ * User: пїЅпїЅпїЅпїЅпїЅ
  * Date: 09.12.2007
  * Time: 20:00:10
  *
@@ -51,7 +51,7 @@ public class USER
 
     public void execute(
         Client c )
-        throws CommandExecutionExcetion
+        throws CommandExecutionException
     {
         String userName = this.parameters.get( 1 ).token;
         String hostName = this.parameters.get( 2 ).token;

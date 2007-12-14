@@ -6,7 +6,7 @@ import ru.spb.epa.Channel;
 import ru.spb.epa.Client;
 import ru.spb.epa.IRCConstants;
 import ru.spb.epa.MainThread;
-import ru.spb.epa.exceptions.CommandExecutionExcetion;
+import ru.spb.epa.exceptions.CommandExecutionException;
 
 /**
  * User: ����� Date: 13.12.2007 Time: 23:33:45 Command: LIST Parameters: [
@@ -27,7 +27,7 @@ public class LIST
 
     public void execute(
         Client c )
-        throws CommandExecutionExcetion
+        throws CommandExecutionException
     {
 
         if ( this.parameters.size() > 1 )
