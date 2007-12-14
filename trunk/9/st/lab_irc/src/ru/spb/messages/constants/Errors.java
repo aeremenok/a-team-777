@@ -55,4 +55,5 @@ public interface Errors
     public static final int ERR_UNAVAILRESOURCE  = 437;
     public static final int ERR_RESTRICTED       = 484;
     public static final int ERR_TOOMANYMATCHES   = 402;
+    public static final int ERR_BADCHANMASK      = 476;
 }

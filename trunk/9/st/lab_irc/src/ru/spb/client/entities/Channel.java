@@ -2,6 +2,7 @@ package ru.spb.client.entities;
 
 import java.util.ArrayList;
 
+import ru.spb.client.IRCSocketWrapper;
 import ru.spb.client.gui.IRCTabbedPanel;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
 
@@ -76,11 +77,13 @@ public class Channel
         IChattable chattable )
     {
         ServiceLogPanel.getInstance().info( this, "=starting chat=" );
+        IRCSocketWrapper.join( this );
         IRCTabbedPanel.getInstance().addChat( this );
     }
 
     public ArrayList<User> getUsers()
     {
+        _registeredUsers = IRCSocketWrapper.getRegisteredUsers( this );
         return _registeredUsers;
     }
 
@@ -169,5 +172,11 @@ public class Channel
     public String getTopic()
     {
         return _topic;
+    }
+
+    public void setTopic(
+        String topic )
+    {
+        _topic = topic;
     }
 }
