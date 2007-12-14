@@ -1,10 +1,10 @@
-package ru.spb.client.entities.messages;
+package ru.spb.messages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-import ru.spb.client.entities.ErrorReplyReceivedException;
+import ru.spb.messages.exceptions.ErrorReplyReceivedException;
 
 /**
  * служебное сообщение

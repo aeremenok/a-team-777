@@ -1,4 +1,4 @@
-package ru.spb.client.entities.messages;
+package ru.spb.messages;
 
 import ru.spb.client.entities.User;
 

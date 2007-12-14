@@ -1,30 +1,48 @@
 package ru.spb.messages;
 
-import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+
 
 /**
- * сериализуемое сообщение одной строкой
+ * содержит данные сообщения
  * 
  * @author eav
- * 
  */
-public class Message implements Serializable {
+public abstract class Message
+    implements
+        Replies,
+        Errors
+{
+    protected static ArrayList _possibleErrors = new ArrayList();
+    /**
+     * содержимое сообщения
+     */
+    protected String           _message        = "";
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1493421981516237090L;
-	private String _message;
+    /**
+     * @return сообщение в виде, удобном для просмотра
+     */
+    public String getMessageString()
+    {
+        return _message;
+    }
 
-	public String getMesage() {
-		return _message;
-	}
+    /**
+     * @return сообщение в виде, удобном для посылки в сокет
+     */
+    public byte[] getMessageBytes()
+    {
+        try
+        {
+            return _message.getBytes( "ascii" );
+        }
+        catch ( UnsupportedEncodingException e )
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	public void setMesage(String message) {
-		this._message = message;
-	}
-
-	public String concat(String str) {
-		return _message.concat(str);
-	}
 }
