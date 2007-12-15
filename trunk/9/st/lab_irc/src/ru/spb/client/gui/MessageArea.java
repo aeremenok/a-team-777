@@ -5,20 +5,22 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JTextArea;
 
+import ru.spb.client.entities.IChattable;
 import ru.spb.client.entities.User;
-import ru.spb.client.gui.logpanels.ChatLogPanel;
+import ru.spb.messages.PrivateMessage;
 
 public class MessageArea
     extends JTextArea
 {
-
-    private ChatLogPanel _chatLogPanel;
+    private IChattable _chattable;
 
     public MessageArea(
-        ChatLogPanel chatLogPanel )
+        IChattable chattable )
     {
         super();
-        _chatLogPanel = chatLogPanel;
+
+        _chattable = chattable;
+
         this.addKeyListener( new KeyListener()
         {
             @Override
@@ -27,10 +29,9 @@ public class MessageArea
             {
                 if ( e.isControlDown() && (e.getKeyChar() == '\n' || e.getKeyChar() == '\r') )
                 {
-                    _chatLogPanel.logMessage( User.getCurrentUser(), MessageArea.this.getText() );
+                    String message = MessageArea.this.getText();
+                    _chattable.say( new PrivateMessage( User.getCurrentUser(), _chattable, message ) );
                     MessageArea.this.setText( "" );
-                    MessageArea.this.setSelectionStart( 0 );
-                    MessageArea.this.setSelectionEnd( 0 );
                 }
             }
 

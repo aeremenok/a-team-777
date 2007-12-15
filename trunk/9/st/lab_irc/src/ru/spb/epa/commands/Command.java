@@ -32,6 +32,7 @@ public class Command
         l.put( "LIST", new LIST() );
         l.put( "JOIN", new JOIN() );
         l.put( "NAMES", new NAMES() );
+        l.put( "PRIVMSG", new PRIVMSG() );
     }
 
     public static Command getCommand(

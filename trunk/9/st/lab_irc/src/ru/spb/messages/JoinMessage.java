@@ -11,18 +11,6 @@ public class JoinMessage
     public JoinMessage(
         Channel channel )
     {
-        if ( channel != null )
-        {
-            _message = "JOIN " + channel.getName();
-        }
-        else
-        {
-            _message = "JOIN 0";
-        }
-    }
-
-    static
-    {
         _possibleErrors.add( ERR_NEEDMOREPARAMS );
         _possibleErrors.add( ERR_INVITEONLYCHAN );
         _possibleErrors.add( ERR_CHANNELISFULL );
@@ -33,5 +21,16 @@ public class JoinMessage
         _possibleErrors.add( ERR_TOOMANYCHANNELS );
         _possibleErrors.add( ERR_UNAVAILRESOURCE );
         _possibleErrors.add( ERR_TOOMANYTARGETS );
+
+        _possibleReplies.add( RPL_TOPIC );
+
+        if ( channel != null )
+        {
+            _message = "JOIN " + channel.getName();
+        }
+        else
+        {
+            _message = "JOIN 0";
+        }
     }
 }

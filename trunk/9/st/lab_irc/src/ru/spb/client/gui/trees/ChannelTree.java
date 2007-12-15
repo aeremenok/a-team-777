@@ -40,7 +40,7 @@ public class ChannelTree
     {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Channels" );
         ChannelTree result = new ChannelTree( root, server );
-        result.addChannels( server.getChannels() );
+        server.retrieveChannels( result );
 
         return result;
     }
@@ -84,5 +84,10 @@ public class ChannelTree
     public String getName()
     {
         return _server.getName();
+    }
+
+    public Server getServer()
+    {
+        return _server;
     }
 }

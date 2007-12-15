@@ -6,6 +6,8 @@ import ru.spb.client.entities.Channel;
 import ru.spb.client.entities.IChattable;
 import ru.spb.client.entities.IConnectable;
 import ru.spb.client.entities.User;
+import ru.spb.client.gui.logpanels.MessageListener;
+import ru.spb.messages.PrivateMessage;
 
 public class ChannelNode
     extends DefaultMutableTreeNode
@@ -76,5 +78,17 @@ public class ChannelNode
         User user )
     {
         channel.register( user );
+    }
+
+    public void say(
+        PrivateMessage message )
+    {
+        channel.say( message );
+    }
+
+    public void addMessageListener(
+        MessageListener messageListener )
+    {
+        channel.addMessageListener( messageListener );
     }
 }

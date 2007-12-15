@@ -11,12 +11,11 @@ public class PassMessage
     public PassMessage(
         User user )
     {
-        _message = "PASS " + user.getPassWord();
-    }
-
-    static
-    {
         _possibleErrors.add( ERR_NEEDMOREPARAMS );
         _possibleErrors.add( ERR_ALREADYREGISTRED );
+
+        _possibleReplies.add( RPL_WELCOME );
+
+        _message = "PASS " + user.getPassWord();
     }
 }

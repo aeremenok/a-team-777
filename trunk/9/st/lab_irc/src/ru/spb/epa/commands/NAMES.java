@@ -45,16 +45,7 @@ public class NAMES
         String channelName = parameters.get( 1 ).token;
 
         List<Channel> channelList = MainThread.getChannels();
-        Channel selectedChannel = null;
-        for ( Channel channel : channelList )
-        {
-            if ( channelName.equalsIgnoreCase( channel.getName() ) )
-            {
-                selectedChannel = channel;
-                break;
-            }
-        }
-
+        Channel selectedChannel = MainThread.getChannelByName( channelName );
         if ( selectedChannel != null )
         { // канал найден - выдаем пользователей
             String reply = RPL_NAMREPLY + " " + selectedChannel.getName() + ":";

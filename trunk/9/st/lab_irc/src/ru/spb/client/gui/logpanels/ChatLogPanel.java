@@ -11,8 +11,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import ru.spb.client.entities.User;
+import ru.spb.client.entities.IChattable;
 import ru.spb.client.gui.ReadOnlyTable;
+import ru.spb.messages.PrivateMessage;
 
 /**
  * таблица, куда отображается лог <b>многострочных</b> сообщений
@@ -22,8 +23,25 @@ import ru.spb.client.gui.ReadOnlyTable;
 public class ChatLogPanel
     extends IRCLogPanel
 {
-    public ChatLogPanel()
+    /**
+     * c кем чат todo можно не хранить
+     */
+    private IChattable _chattable;
+
+    public ChatLogPanel(
+        IChattable chattable )
     {
+        _chattable = chattable;
+        _chattable.addMessageListener( new MessageListener()
+        {
+            @Override
+            public void onMessage(
+                PrivateMessage message )
+            {
+                logMessage( message.getFrom(), message.getMessageString() );
+            }
+        } );
+
         _logTableModel = new DefaultTableModel()
         {
             public Class getColumnClass(
@@ -52,16 +70,17 @@ public class ChatLogPanel
     /**
      * отобразить сообщение от пользователя
      * 
-     * @param user пользователь
+     * @param chattable отправитель(м.б. служебное канала)
      * @param _message его сообщение
      */
     public void logMessage(
-        User user,
+        IChattable chattable,
         String message )
     {
         Date current = new Date();
-        String name = user.getName();
+        String name = chattable.getName();
         Object[] rowData = new Object[] { name, current, message };
+
         // добавляем сообщение в конец
         _logTableModel.addRow( rowData );
         // задаем высоту строки
@@ -126,4 +145,10 @@ public class ChatLogPanel
             return this;
         }
     }
+
+    public IChattable getChattable()
+    {
+        return _chattable;
+    }
+
 }

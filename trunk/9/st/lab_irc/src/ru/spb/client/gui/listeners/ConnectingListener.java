@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.tree.TreePath;
 
+import ru.spb.client.entities.Channel;
 import ru.spb.client.entities.IConnectable;
 import ru.spb.client.gui.dialogs.ChannelParamsRequest;
 import ru.spb.client.gui.dialogs.ServerParamsRequest;
@@ -55,7 +56,9 @@ public class ConnectingListener
                 else if ( tree instanceof ChannelTree )
                 {
                     ChannelTree channelTree = (ChannelTree) tree;
-                    channelTree.addChannel( ChannelParamsRequest.getNewChannel() );
+                    Channel channel = ChannelParamsRequest.getNewChannel();
+                    channel.setHost( channelTree.getServer() );
+                    channelTree.addChannel( channel );
                 }
             }
         }
