@@ -61,9 +61,17 @@ public class ChannelTree
             DefaultTreeModel model = (DefaultTreeModel) getModel();
             model.insertNodeInto( channelNode, _root, _root.getChildCount() );
             expandRow( getRowCount() - 1 );
-            _server.createChannel( channel );
+
+            _channels.add( channel );
+
+            if ( channel.getHost() == null )
+            { // канал заказан пользователем - регистрируем на сервере
+                _server.createChannel( channel );
+            }
         }
     }
+
+    ArrayList<Channel> _channels = new ArrayList<Channel>();
 
     /**
      * добавляет каналы в дерево
@@ -77,8 +85,9 @@ public class ChannelTree
         {
             ChannelNode channelNode = new ChannelNode( channel );
             _root.add( channelNode );
+            _channels.add( channel );
         }
-        this.expandRow( getRowCount() - 1 );
+        expandRow( getRowCount() - 1 );
     }
 
     public String getName()
@@ -89,5 +98,15 @@ public class ChannelTree
     public Server getServer()
     {
         return _server;
+    }
+
+    /**
+     * переводит узлы дерева в удобный контейнер
+     * 
+     * @return список каналов
+     */
+    public ArrayList<Channel> getChannels()
+    {
+        return _channels;
     }
 }

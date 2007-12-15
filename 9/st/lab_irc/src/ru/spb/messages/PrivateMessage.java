@@ -1,6 +1,5 @@
 package ru.spb.messages;
 
-
 public class PrivateMessage
     extends ServiceMessage
 {
@@ -8,6 +7,7 @@ public class PrivateMessage
     private String _to;
     private String _content;
 
+    // todo определиться с форматом?
     public PrivateMessage(
         String from,
         String to,
@@ -26,7 +26,8 @@ public class PrivateMessage
         _from = from;
         _to = to;
         _content = message;
-        _message = "PRIVMSG " + from + " " + to + " " + message;
+
+        _message = "PRIVMSG " + to + " " + message;
     }
 
     public String getFrom()

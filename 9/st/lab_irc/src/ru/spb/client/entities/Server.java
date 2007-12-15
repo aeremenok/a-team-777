@@ -1,11 +1,10 @@
 package ru.spb.client.entities;
 
-import java.util.ArrayList;
-
 import ru.spb.client.connection.IRCSocketWrapper;
 import ru.spb.client.gui.IRCTabbedPanel;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
 import ru.spb.client.gui.trees.ChannelTree;
+import ru.spb.client.gui.trees.UserTree;
 
 /**
  * содержит данные о сервере
@@ -16,14 +15,10 @@ public class Server
     implements
         IConnectable
 {
-    private String             _name;
+    private String _name;
     // todo в конфиг
-    private String             _host               = "localhost";
-    private int                _port               = 6667;
-    /**
-     * каналы, зарегистрированные пользователями на сервере
-     */
-    private ArrayList<Channel> _registeredChannels = new ArrayList<Channel>();
+    private String _host = "localhost";
+    private int    _port = 6667;
 
     public Server(
         String name )
@@ -35,6 +30,7 @@ public class Server
      * обертка, удерживающая сокет за этим сервером
      */
     private IRCSocketWrapper socketWrapper;
+    private ChannelTree      _channelContainer;
 
     /**
      * подключиться к этому серверу
@@ -43,9 +39,9 @@ public class Server
     {
         ServiceLogPanel.getInstance().info( this, "connecting" );
 
-        socketWrapper = new IRCSocketWrapper( this, User.getCurrentUser() );
+        socketWrapper = new IRCSocketWrapper( this );
 
-        IRCTabbedPanel.getInstance().addChannelTree( this );
+        _channelContainer = IRCTabbedPanel.getInstance().addChannelTree( this );
 
         ServiceLogPanel.getInstance().info( this, "connected" );
     }
@@ -59,7 +55,7 @@ public class Server
         ChannelTree treeToUpdate )
     {
         ServiceLogPanel.getInstance().info( this, "retreiving cnannel list" );
-        socketWrapper.getChannels( treeToUpdate );
+        socketWrapper.retriveChannels( treeToUpdate );
     }
 
     /**
@@ -73,8 +69,7 @@ public class Server
         ServiceLogPanel.getInstance().info( this, "registering channel" );
 
         socketWrapper.createChannel( channel );
-
-        _registeredChannels.add( channel );
+        channel.setHost( this );
     }
 
     /**
@@ -114,22 +109,6 @@ public class Server
             disconnect();
         else
             connect();
-    }
-
-    @Override
-    public void register(
-        User user )
-    {
-        ServiceLogPanel.getInstance().info( this, "registering user " + user.getName() );
-        try
-        {
-            socketWrapper.register( user );
-        }
-        catch ( Throwable e )
-        {
-            ServiceLogPanel.getInstance().error( e.getMessage() );
-            e.printStackTrace();
-        }
     }
 
     public String getHost()
@@ -175,10 +154,10 @@ public class Server
         return true;
     }
 
-    public ArrayList<User> getRegisteredUsers(
-        Channel channel )
+    public void getRegisteredUsers(
+        UserTree userTree )
     {
-        return socketWrapper.getRegisteredUsers( channel );
+        socketWrapper.retrieveUsers( userTree );
     }
 
     public void join(
@@ -197,7 +176,7 @@ public class Server
     public Channel getChannelByName(
         String to )
     {
-        for ( Channel channel : _registeredChannels )
+        for ( Channel channel : _channelContainer.getChannels() )
         {
             if ( channel.getName().equalsIgnoreCase( to ) )
             {
@@ -205,16 +184,5 @@ public class Server
             }
         }
         return null;
-    }
-
-    public void addChannel(
-        Channel channel )
-    {
-        _registeredChannels.add( channel );
-    }
-
-    public ArrayList<Channel> getChannels()
-    {
-        return _registeredChannels;
     }
 }

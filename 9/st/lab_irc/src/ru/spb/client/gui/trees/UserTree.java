@@ -14,6 +14,8 @@ import ru.spb.client.gui.trees.nodes.UserNode;
 public class UserTree
     extends IRCTree
 {
+    private Channel _channel;
+
     private UserTree(
         DefaultMutableTreeNode root )
     {
@@ -33,9 +35,15 @@ public class UserTree
         DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Chatting about " + channel.getTopic() );
         UserTree result = new UserTree( root );
 
-        result.addUsers( channel.getUsers() );
+        channel.retrieveUsers( result );
 
         return result;
+    }
+
+    public void setChannel(
+        Channel channel )
+    {
+        _channel = channel;
     }
 
     /**
@@ -88,5 +96,10 @@ public class UserTree
                 _root.remove( node );
             }
         }
+    }
+
+    public Channel getChannel()
+    {
+        return _channel;
     }
 }
