@@ -1,17 +1,16 @@
 package ru.spb.messages;
 
-import ru.spb.client.entities.IChattable;
 
 public class PrivateMessage
     extends ServiceMessage
 {
-    private IChattable _from;
-    private IChattable _to;
-    private String     _content;
+    private String _from;
+    private String _to;
+    private String _content;
 
     public PrivateMessage(
-        IChattable from,
-        IChattable to,
+        String from,
+        String to,
         String message )
     {
         _possibleErrors.add( ERR_NORECIPIENT );
@@ -27,15 +26,15 @@ public class PrivateMessage
         _from = from;
         _to = to;
         _content = message;
-        _message = "PRIVMSG " + from.getName() + " " + to.getName() + " " + message;
+        _message = "PRIVMSG " + from + " " + to + " " + message;
     }
 
-    public IChattable getFrom()
+    public String getFrom()
     {
         return _from;
     }
 
-    public IChattable getTo()
+    public String getTo()
     {
         return _to;
     }

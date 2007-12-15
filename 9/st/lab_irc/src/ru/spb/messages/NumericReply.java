@@ -3,15 +3,20 @@ package ru.spb.messages;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import ru.spb.client.IRCStringTokenizer;
 import ru.spb.messages.constants.Errors;
 import ru.spb.messages.constants.Replies;
 
 public class NumericReply
     extends ServiceMessage
 {
+    /**
+     * зарезервированные ключи свойств
+     */
     public static final String TOPIC        = "topic";
     public static final String CHANNEL      = "channel";
     public static final String NICKNAMES    = "nicks";
+
     /**
      * числовой тип сообщения {@link Replies}, {@link Errors}
      */
@@ -35,34 +40,17 @@ public class NumericReply
         this._description = description;
 
         // в особых случаях разбираем сообщения
-        if ( _type == RPL_LIST )
+        if ( // "<channel> <# visible> :<topic>"
+        _type == RPL_LIST ||
+        // "<channel> :<topic>"
+                        _type == RPL_TOPIC )
         {
-            // "<channel> <# visible> :<topic>"
-            StringTokenizer stringTokenizer = new StringTokenizer( _description, " :" );
+            IRCStringTokenizer stringTokenizer = new IRCStringTokenizer( _description, " :" );
 
             _properties.put( CHANNEL, stringTokenizer.nextToken() );
 
-            String topic = stringTokenizer.nextToken();
-            while ( stringTokenizer.hasMoreTokens() )
-            {
-                topic += " " + stringTokenizer.nextToken();
-            }
+            String topic = stringTokenizer.getRest();
             _properties.put( TOPIC, topic );
-        }
-        // todo объединить с RPL_LIST
-        else if ( _type == RPL_TOPIC )
-        {
-            // "<channel> :<topic>"
-            StringTokenizer stringTokenizer = new StringTokenizer( _description, " :" );
-            _properties.put( CHANNEL, stringTokenizer.nextToken() );
-
-            String topic = stringTokenizer.nextToken();
-            while ( stringTokenizer.hasMoreTokens() )
-            {
-                topic += " " + stringTokenizer.nextToken();
-            }
-            _properties.put( TOPIC, topic );
-
         }
         else if ( _type == RPL_NAMREPLY )
         {
