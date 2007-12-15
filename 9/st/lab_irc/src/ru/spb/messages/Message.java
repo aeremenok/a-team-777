@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import ru.spb.messages.constants.Errors;
 import ru.spb.messages.constants.Replies;
 
-
 /**
  * содержит данные сообщения
  * 
@@ -17,11 +16,12 @@ public abstract class Message
         Replies,
         Errors
 {
-    protected static ArrayList _possibleErrors = new ArrayList();
+    protected ArrayList _possibleErrors  = new ArrayList();
+    protected ArrayList _possibleReplies = new ArrayList();
     /**
      * содержимое сообщения
      */
-    protected String           _message        = "";
+    protected String    _message         = "";
 
     /**
      * @return сообщение в виде, удобном для просмотра
@@ -42,7 +42,6 @@ public abstract class Message
         }
         catch ( UnsupportedEncodingException e )
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;

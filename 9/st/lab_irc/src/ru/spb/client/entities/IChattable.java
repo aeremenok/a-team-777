@@ -1,5 +1,8 @@
 package ru.spb.client.entities;
 
+import ru.spb.client.gui.logpanels.MessageListener;
+import ru.spb.messages.PrivateMessage;
+
 /**
  * все, с чем можно чатиться
  * 
@@ -33,5 +36,21 @@ public interface IChattable
      */
     void toggleChat(
         IChattable chattable );
+
+    /**
+     * сказать в чат
+     * 
+     * @param message сообщение
+     */
+    void say(
+        PrivateMessage message );
+
+    /**
+     * подвесить обрабочик сообщений
+     * 
+     * @param messageListener
+     */
+    void addMessageListener(
+        MessageListener messageListener );
 
 }

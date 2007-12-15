@@ -26,7 +26,7 @@ public class NumericReply
      */
     private Properties         _properties  = new Properties();
 
-    NumericReply(
+    public NumericReply(
         int type,
         String description )
     {

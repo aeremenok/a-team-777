@@ -1,6 +1,8 @@
 package ru.spb.client.entities;
 
+import ru.spb.client.gui.logpanels.MessageListener;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
+import ru.spb.messages.PrivateMessage;
 
 /**
  * содержит данные о пользователе
@@ -41,16 +43,6 @@ public class User
         return _name;
     }
 
-    @Override
-    public void startChat(
-        IChattable chattable )
-    {
-        if ( !_currentUser.equals( _currentUser ) )
-        { // сами с собой не разговариваем
-            // todo заглушка
-        }
-    }
-
     /**
      * создать профиль пользователя, пользующегося программой
      * 
@@ -61,28 +53,13 @@ public class User
         if ( _currentUser == null )
         {
             // todo читать подробный конфиг юзера
-            _currentUser = new User( "eav" );
+            _currentUser = new User( "eav" + System.currentTimeMillis() );
             _currentUser._emailLogin = "eav1986@gmail.com";
             _currentUser._hostAlias = "yeremenok";
             _currentUser._fullName = "eav";
             _currentUser._passWord = "777";
         }
         return _currentUser;
-    }
-
-    @Override
-    public void quitChat(
-        IChattable chattable )
-    {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void toggleChat(
-        IChattable chattable )
-    {
-        // TODO Auto-generated method stub
-        ServiceLogPanel.getInstance().info( "USER-TO-USER chatting will be implemented later" );
     }
 
     public String getEmailLogin()
@@ -103,5 +80,44 @@ public class User
     public String getPassWord()
     {
         return _passWord;
+    }
+
+    @Override
+    public void startChat(
+        IChattable chattable )
+    {
+        if ( !_currentUser.equals( _currentUser ) )
+        { // сами с собой не разговариваем
+            // todo заглушка
+        }
+    }
+
+    @Override
+    public void quitChat(
+        IChattable chattable )
+    {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void toggleChat(
+        IChattable chattable )
+    {
+        // TODO Auto-generated method stub
+        ServiceLogPanel.getInstance().info( "USER-TO-USER chatting will be implemented later" );
+    }
+
+    @Override
+    public void say(
+        PrivateMessage message )
+    {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void addMessageListener(
+        MessageListener messageListener )
+    {
+        // TODO Auto-generated method stub
     }
 }

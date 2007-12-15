@@ -10,6 +10,7 @@ import ru.spb.client.gui.trees.UserTree;
 public class ChatPanel
     extends JSplitPane
 {
+    // todo можно это не хранить
     /**
      * дерево пользователей
      */
@@ -26,11 +27,6 @@ public class ChatPanel
     private MessageArea  messageArea;
 
     /**
-     * заголовок панели
-     */
-    private String       _title;
-
-    /**
      * с кем разговор
      */
     private IChattable   _chattable;
@@ -40,34 +36,28 @@ public class ChatPanel
     {
         super( JSplitPane.VERTICAL_SPLIT );
         _chattable = chattable;
-        _title = chattable.getName();
         {
             JSplitPane pane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT );
 
-            if ( chattable instanceof Channel )
+            if ( _chattable instanceof Channel )
             { // в канале есть список юзеров
-                Channel channel = (Channel) chattable;
+                Channel channel = (Channel) _chattable;
                 userTree = UserTree.getTreeForChannel( channel );
                 pane.setRightComponent( userTree );
             }
 
-            chatLogPanel = new ChatLogPanel();
+            chatLogPanel = new ChatLogPanel( _chattable );
             pane.setLeftComponent( chatLogPanel );
 
             setTopComponent( pane );
         }
 
-        messageArea = new MessageArea( chatLogPanel );
+        messageArea = new MessageArea( _chattable );
         setBottomComponent( messageArea );
     }
 
     public String getTitle()
     {
-        return _title;
-    }
-
-    public IChattable getСhattable()
-    {
-        return _chattable;
+        return _chattable.getName();
     }
 }

@@ -8,13 +8,12 @@ public class NamesMessage
     public NamesMessage(
         Channel channel )
     {
-        _message = "NAMES " + channel.getName();
-    }
-
-    static
-    {
         _possibleErrors.add( ERR_TOOMANYMATCHES );
         _possibleErrors.add( ERR_NOSUCHSERVER );
-    }
 
+        _possibleReplies.add( RPL_NAMREPLY );
+        _possibleReplies.add( RPL_ENDOFNAMES );
+
+        _message = "NAMES " + channel.getName();
+    }
 }

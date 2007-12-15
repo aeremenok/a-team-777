@@ -1,10 +1,6 @@
 package ru.spb.messages;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.StringTokenizer;
-
-import ru.spb.messages.exceptions.ErrorReplyReceivedException;
+import java.util.ArrayList;
 
 /**
  * служебное сообщение
@@ -19,37 +15,30 @@ public abstract class ServiceMessage
     }
 
     /**
-     * пытается получить ответ на заданное сообщение
-     * 
-     * @param reader откуда приходит ответ
-     * @param serviceMessage отправленное сообщение
-     * @return полученный ответ
-     * @throws IOException
-     * @throws ErrorReplyReceivedException
+     * @param numericReply ответ
+     * @return может ли сообщение вызвать заданный ответ
      */
-    public NumericReply getNumericReply(
-        BufferedReader reader )
-        throws IOException,
-            ErrorReplyReceivedException
+    public boolean mayCause(
+        NumericReply numericReply )
     {
-        // читаем сообщение от сервера
-        String message = reader.readLine();
+        return hasError( numericReply ) || _possibleReplies.contains( numericReply.getType() );
+    }
 
-        // разбираем его
-        StringTokenizer stringTokenizer = new StringTokenizer( message, " " );
-        int type = Integer.parseInt( stringTokenizer.nextToken() );
-        String description = stringTokenizer.nextToken();
-        while ( stringTokenizer.hasMoreTokens() )
-        {
-            description += " " + stringTokenizer.nextToken();
-        }
-        NumericReply numericReply = new NumericReply( type, description );
+    /**
+     * @param numericReply ответ
+     * @return ошибка ли этот ответ
+     */
+    public boolean hasError(
+        NumericReply numericReply )
+    {
+        return _possibleErrors.contains( numericReply.getType() );
+    }
 
-        // проверяем, не ошибка ли это
-        if ( _possibleErrors.contains( numericReply.getType() ) )
-        {
-            throw new ErrorReplyReceivedException( "receieved error " + numericReply.getType() );
-        }
-        return numericReply;
+    private ArrayList<ReplyListener> listeners = new ArrayList<ReplyListener>();
+
+    public void addReplyListener(
+        ReplyListener replyListener )
+    {
+        listeners.add( replyListener );
     }
 }

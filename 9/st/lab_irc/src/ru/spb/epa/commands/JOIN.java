@@ -1,7 +1,5 @@
 package ru.spb.epa.commands;
 
-import java.util.List;
-
 import ru.spb.epa.Channel;
 import ru.spb.epa.Client;
 import ru.spb.epa.MainThread;
@@ -55,21 +53,11 @@ public class JOIN
         // c.setFullname( fullname );
         // c.setIpAdress( ipAdress );
 
-        // todo можно обобщить
-        // ищем канал, который запросили
         String channelName = parameters.get( 1 ).token;
-        List<Channel> channeList = MainThread.getChannels();
         if ( !channelName.equals( "0" ) )
         {
-            Channel selectedChannel = null;
-            for ( Channel channel : channeList )
-            {
-                if ( channel.getName().equalsIgnoreCase( channelName ) )
-                {
-                    selectedChannel = channel;
-                    break;
-                }
-            }
+            // ищем канал, который запросили
+            Channel selectedChannel = MainThread.getChannelByName( channelName );
             if ( selectedChannel != null )
             { // канал найден - выдаем тему
                 selectedChannel.addUser( c );
@@ -83,7 +71,7 @@ public class JOIN
         else
         { // 0 - отключаемся отовсюду
             // todo о чем еще нужно уведомить?
-            for ( Channel channel : channeList )
+            for ( Channel channel : MainThread.getChannels() )
             {
                 channel.removeUser( c );
             }

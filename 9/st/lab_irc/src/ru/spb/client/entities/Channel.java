@@ -2,9 +2,10 @@ package ru.spb.client.entities;
 
 import java.util.ArrayList;
 
-import ru.spb.client.IRCSocketWrapper;
 import ru.spb.client.gui.IRCTabbedPanel;
+import ru.spb.client.gui.logpanels.MessageListener;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
+import ru.spb.messages.PrivateMessage;
 
 /**
  * содержит данные о канале
@@ -33,6 +34,10 @@ public class Channel
      * хозяин канала
      */
     private User            _owner;
+    /**
+     * местонахождение канала
+     */
+    private Server          host;
 
     public Channel(
         String name,
@@ -53,7 +58,6 @@ public class Channel
     public void disconnect()
     {
         ServiceLogPanel.getInstance().info( this, "disconnecting" );
-        // todo послать команду
         _isConnected = false;
         ServiceLogPanel.getInstance().info( this, "disconnected" );
     }
@@ -62,7 +66,6 @@ public class Channel
     {
         ServiceLogPanel.getInstance().info( this, "connecting" );
         register( User.getCurrentUser() );
-        // todo послать команду
         _isConnected = true;
         ServiceLogPanel.getInstance().info( this, "connected" );
     }
@@ -77,13 +80,13 @@ public class Channel
         IChattable chattable )
     {
         ServiceLogPanel.getInstance().info( this, "=starting chat=" );
-        IRCSocketWrapper.join( this );
+        host.join( this );
         IRCTabbedPanel.getInstance().addChat( this );
     }
 
     public ArrayList<User> getUsers()
     {
-        _registeredUsers = IRCSocketWrapper.getRegisteredUsers( this );
+        _registeredUsers = host.getRegisteredUsers( this );
         return _registeredUsers;
     }
 
@@ -92,6 +95,7 @@ public class Channel
         IChattable chattable )
     {
         ServiceLogPanel.getInstance().info( this, "=exiting=" );
+        // todo что послать?
         IRCTabbedPanel.getInstance().removeChat( this );
     }
 
@@ -178,5 +182,48 @@ public class Channel
         String topic )
     {
         _topic = topic;
+    }
+
+    @Override
+    public void say(
+        PrivateMessage message )
+    {
+        for ( MessageListener listener : listeners )
+        {
+            listener.onMessage( message );
+        }
+    }
+
+    public Server getHost()
+    {
+        return host;
+    }
+
+    public void setHost(
+        Server host )
+    {
+        this.host = host;
+    }
+
+    private ArrayList<MessageListener> listeners = new ArrayList<MessageListener>();
+
+    @Override
+    public void addMessageListener(
+        MessageListener messageListener )
+    {
+        listeners.add( messageListener );
+    }
+
+    public User getUserByName(
+        String from )
+    {
+        for ( User user : _registeredUsers )
+        {
+            if ( user.getName().equalsIgnoreCase( from ) )
+            {
+                return user;
+            }
+        }
+        return null;
     }
 }

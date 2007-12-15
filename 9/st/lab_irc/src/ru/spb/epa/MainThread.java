@@ -188,4 +188,17 @@ public class MainThread
     {
         return one.channels;
     }
+
+    public static Channel getChannelByName(
+        String channelName )
+    {
+        for ( Channel channel : getChannels() )
+        {
+            if ( channel.getName().equalsIgnoreCase( channelName ) )
+            {
+                return channel;
+            }
+        }
+        return null;
+    }
 }

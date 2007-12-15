@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 public class ReadOnlyTable
     extends JTable
 {
+    private static final long serialVersionUID = -7774893625618427543L;
 
     public ReadOnlyTable(
         String[][] sTableContent,

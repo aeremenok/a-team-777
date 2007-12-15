@@ -11,15 +11,14 @@ import ru.spb.client.entities.User;
 public class UserMessage
     extends ServiceMessage
 {
-    static
-    {
-        _possibleErrors.add( ERR_NEEDMOREPARAMS );
-        _possibleErrors.add( ERR_ALREADYREGISTRED );
-    }
-
     public UserMessage(
         User user )
     {
+        _possibleErrors.add( ERR_NEEDMOREPARAMS );
+        _possibleErrors.add( ERR_ALREADYREGISTRED );
+
+        _possibleReplies.add( RPL_WELCOME );
+
         _message = "USER " + user.getEmailLogin() + " <ignored> " + user.getHostAlias() + " :" + user.getFullName();
     }
 
