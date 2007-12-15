@@ -12,14 +12,10 @@ import ru.spb.messages.PrivateMessage;
 public class MessageArea
     extends JTextArea
 {
-    private IChattable _chattable;
-
     public MessageArea(
-        IChattable chattable )
+        final IChattable chattable )
     {
         super();
-
-        _chattable = chattable;
 
         this.addKeyListener( new KeyListener()
         {
@@ -30,7 +26,7 @@ public class MessageArea
                 if ( e.isControlDown() && (e.getKeyChar() == '\n' || e.getKeyChar() == '\r') )
                 {
                     String message = MessageArea.this.getText();
-                    _chattable.say( new PrivateMessage( User.getCurrentUser(), _chattable, message ) );
+                    chattable.say( new PrivateMessage( User.getCurrentUser().getName(), chattable.getName(), message ) );
                     MessageArea.this.setText( "" );
                 }
             }

@@ -23,22 +23,16 @@ import ru.spb.messages.PrivateMessage;
 public class ChatLogPanel
     extends IRCLogPanel
 {
-    /**
-     * c кем чат todo можно не хранить
-     */
-    private IChattable _chattable;
-
     public ChatLogPanel(
         IChattable chattable )
     {
-        _chattable = chattable;
-        _chattable.addMessageListener( new MessageListener()
+        chattable.addMessageListener( new MessageListener()
         {
             @Override
             public void onMessage(
                 PrivateMessage message )
             {
-                logMessage( message.getFrom(), message.getMessageString() );
+                logMessage( message.getFrom(), message.getContent() );
             }
         } );
 
@@ -74,12 +68,11 @@ public class ChatLogPanel
      * @param _message его сообщение
      */
     public void logMessage(
-        IChattable chattable,
+        String author,
         String message )
     {
         Date current = new Date();
-        String name = chattable.getName();
-        Object[] rowData = new Object[] { name, current, message };
+        Object[] rowData = new Object[] { author, current, message };
 
         // добавляем сообщение в конец
         _logTableModel.addRow( rowData );
@@ -145,10 +138,4 @@ public class ChatLogPanel
             return this;
         }
     }
-
-    public IChattable getChattable()
-    {
-        return _chattable;
-    }
-
 }
