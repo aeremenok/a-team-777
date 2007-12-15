@@ -5,7 +5,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import ru.spb.client.entities.Channel;
 import ru.spb.client.entities.IChattable;
 import ru.spb.client.entities.IConnectable;
-import ru.spb.client.entities.User;
 import ru.spb.client.gui.logpanels.MessageListener;
 import ru.spb.messages.PrivateMessage;
 
@@ -26,7 +25,7 @@ public class ChannelNode
         this.channel = channel;
     }
 
-    public IConnectable getChannel()
+    public Channel getChannel()
     {
         return channel;
     }
@@ -72,12 +71,6 @@ public class ChannelNode
     public void toggleConnection()
     {
         channel.toggleConnection();
-    }
-
-    public void register(
-        User user )
-    {
-        channel.register( user );
     }
 
     public void say(

@@ -4,7 +4,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import ru.spb.client.entities.IConnectable;
 import ru.spb.client.entities.Server;
-import ru.spb.client.entities.User;
 
 /**
  * узел-обертка для {@link Server}
@@ -30,12 +29,6 @@ public class ServerNode
     public Server getServer()
     {
         return server;
-    }
-
-    public void register(
-        User user )
-    {
-        server.register( user );
     }
 
     public void connect()

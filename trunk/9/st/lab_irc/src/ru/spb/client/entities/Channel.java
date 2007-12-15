@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ru.spb.client.gui.IRCTabbedPanel;
 import ru.spb.client.gui.logpanels.MessageListener;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
+import ru.spb.client.gui.trees.UserTree;
 import ru.spb.messages.PrivateMessage;
 
 /**
@@ -21,23 +22,22 @@ public class Channel
     /**
      * подключены ли к этому каналу
      */
-    private boolean         _isConnected;
+    private boolean  _isConnected;
     /**
      * имя канала
      */
-    private String          _name;
-    private String          _topic;
-
-    private ArrayList<User> _registeredUsers = new ArrayList<User>();
+    private String   _name;
+    private String   _topic;
 
     /**
      * хозяин канала
      */
-    private User            _owner;
+    private User     _owner;
     /**
      * местонахождение канала
      */
-    private Server          host;
+    private Server   _host;
+    private UserTree _userTree;
 
     public Channel(
         String name,
@@ -47,7 +47,6 @@ public class Channel
         _name = name;
         _topic = topic;
         _owner = user;
-        register( _owner );
     }
 
     public boolean isConnected()
@@ -65,7 +64,6 @@ public class Channel
     public void connect()
     {
         ServiceLogPanel.getInstance().info( this, "connecting" );
-        register( User.getCurrentUser() );
         _isConnected = true;
         ServiceLogPanel.getInstance().info( this, "connected" );
     }
@@ -80,14 +78,16 @@ public class Channel
         IChattable chattable )
     {
         ServiceLogPanel.getInstance().info( this, "=starting chat=" );
-        host.join( this );
+        _host.join( this );
         IRCTabbedPanel.getInstance().addChat( this );
     }
 
-    public ArrayList<User> getUsers()
+    public void retrieveUsers(
+        UserTree userTree )
     {
-        _registeredUsers = host.getRegisteredUsers( this );
-        return _registeredUsers;
+        _userTree = userTree;
+        _userTree.setChannel( this );
+        _host.getRegisteredUsers( _userTree );
     }
 
     @Override
@@ -129,17 +129,6 @@ public class Channel
         else
         {
             connect();
-        }
-    }
-
-    @Override
-    public void register(
-        User user )
-    {
-        if ( user != null )
-        {
-            ServiceLogPanel.getInstance().info( this, "registering user " + user.getName() );
-            _registeredUsers.add( user );
         }
     }
 
@@ -196,13 +185,13 @@ public class Channel
 
     public Server getHost()
     {
-        return host;
+        return _host;
     }
 
     public void setHost(
         Server host )
     {
-        this.host = host;
+        _host = host;
     }
 
     private ArrayList<MessageListener> listeners = new ArrayList<MessageListener>();
@@ -212,18 +201,5 @@ public class Channel
         MessageListener messageListener )
     {
         listeners.add( messageListener );
-    }
-
-    public User getUserByName(
-        String from )
-    {
-        for ( User user : _registeredUsers )
-        {
-            if ( user.getName().equalsIgnoreCase( from ) )
-            {
-                return user;
-            }
-        }
-        return null;
     }
 }

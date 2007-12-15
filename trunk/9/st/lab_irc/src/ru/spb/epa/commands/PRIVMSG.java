@@ -41,13 +41,13 @@ public class PRIVMSG
         throws CommandExecutionException
     {
         String channelName = parameters.get( 1 ).token;
-        String message = parameters.get( 2 ).token;
+        String content = parameters.get( 2 ).token;
         Channel channel = MainThread.getChannelByName( channelName );
         if ( channel != null )
         {
             for ( Client client : channel.getUsers() )
             {
-                String fullMessage = "PRIVMSG " + channelName + " " + c.getNickname() + " " + message;
+                String fullMessage = "PRIVMSG " + c.getNickname() + " " + channelName + " " + content;
                 client.sendToClient( fullMessage );
             }
         }

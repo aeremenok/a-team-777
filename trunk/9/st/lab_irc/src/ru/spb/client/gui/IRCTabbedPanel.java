@@ -37,11 +37,12 @@ public class IRCTabbedPanel
      * 
      * @param server сервер
      */
-    public void addChannelTree(
+    public ChannelTree addChannelTree(
         Server server )
     {
         ChannelTree channelTree = ChannelTree.getChannelTreeForServer( server );
         addTab( channelTree.getName(), channelTree );
+        return channelTree;
     }
 
     /**
