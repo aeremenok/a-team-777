@@ -7,12 +7,14 @@ public class IRCStringTokenizer
 {
 
     private String _delim;
+    private String string;
 
     public IRCStringTokenizer(
         String str,
         String delim )
     {
         super( str, delim );
+        string = str;
         _delim = delim;
     }
 
@@ -29,6 +31,11 @@ public class IRCStringTokenizer
             res.append( nextToken() ).append( " " );
         }
         return res.toString();
+    }
+
+    public String getString()
+    {
+        return string;
     }
 
 }

@@ -1,15 +1,15 @@
 package ru.spb.messages;
 
-import ru.spb.client.entities.Channel;
-
 public class JoinMessage
     extends ServiceMessage
 {
+    private String _channelName;
+
     /**
-     * @param channel если null - выход из всех каналов
+     * @param channelName если null - выход из всех каналов
      */
     public JoinMessage(
-        Channel channel )
+        String channelName )
     {
         _possibleErrors.add( ERR_NEEDMOREPARAMS );
         _possibleErrors.add( ERR_INVITEONLYCHAN );
@@ -24,13 +24,19 @@ public class JoinMessage
 
         _possibleReplies.add( RPL_TOPIC );
 
-        if ( channel != null )
+        if ( channelName != null )
         {
-            _message = "JOIN " + channel.getName();
+            _message = "JOIN " + channelName;
+            _channelName = channelName;
         }
         else
         {
             _message = "JOIN 0";
         }
+    }
+
+    public String getChannelName()
+    {
+        return _channelName;
     }
 }

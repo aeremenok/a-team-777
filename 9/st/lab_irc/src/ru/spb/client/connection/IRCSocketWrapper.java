@@ -252,7 +252,7 @@ public class IRCSocketWrapper
         final Channel channel )
     {
         // отправляем запрос
-        JoinMessage joinMessage = new JoinMessage( channel );
+        JoinMessage joinMessage = new JoinMessage( channel.getName() );
         sendCommand( joinMessage, new ReplyListener()
         {
             @Override

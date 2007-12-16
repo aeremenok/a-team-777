@@ -33,6 +33,7 @@ public class Command
         l.put( "JOIN", new JOIN() );
         l.put( "NAMES", new NAMES() );
         l.put( "PRIVMSG", new PRIVMSG() );
+        l.put( "WALLOPS", new WALLOPS() );
     }
 
     public static Command getCommand(
