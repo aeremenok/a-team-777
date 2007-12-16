@@ -3,6 +3,7 @@ package ru.spb.client.entities;
 import java.util.ArrayList;
 
 import ru.spb.client.gui.IRCTabbedPanel;
+import ru.spb.client.gui.logpanels.ChatLogPanel;
 import ru.spb.client.gui.logpanels.MessageListener;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
 import ru.spb.client.gui.trees.UserTree;
@@ -22,7 +23,7 @@ public class Channel
     /**
      * подключены ли к этому каналу
      */
-    private boolean  _isConnected;
+    private boolean  _isConnected = false;
     /**
      * имя канала
      */
@@ -87,7 +88,22 @@ public class Channel
     {
         _userTree = userTree;
         _userTree.setChannel( this );
-        _host.getRegisteredUsers( _userTree );
+        _host.getRegisteredUsers( this );
+    }
+
+    public void addUser(
+        User user )
+    {
+        _userTree.addUser( user );
+        user.addMessageListener( new MessageListener()
+        {
+            @Override
+            public void onMessage(
+                PrivateMessage message )
+            {
+                _chatLogPanel.logMessage( message.getFrom(), message.getContent() );
+            }
+        } );
     }
 
     @Override
@@ -195,11 +211,41 @@ public class Channel
     }
 
     private ArrayList<MessageListener> listeners = new ArrayList<MessageListener>();
+    private ChatLogPanel               _chatLogPanel;
 
     @Override
     public void addMessageListener(
         MessageListener messageListener )
     {
         listeners.add( messageListener );
+    }
+
+    public User getUserByName(
+        String from )
+    {
+        for ( User user : _userTree.getUsers() )
+        {
+            if ( user.getName().equalsIgnoreCase( from ) )
+            {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void setChatLogPanel(
+        ChatLogPanel chatLogPanel )
+    {
+        _chatLogPanel = chatLogPanel;
+        addMessageListener( new MessageListener()
+        {
+            @Override
+            public void onMessage(
+                PrivateMessage message )
+            {
+                _chatLogPanel.logMessage( message.getFrom(), message.getContent() );
+            }
+        } );
     }
 }

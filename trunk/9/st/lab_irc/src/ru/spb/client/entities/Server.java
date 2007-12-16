@@ -4,7 +4,6 @@ import ru.spb.client.connection.IRCSocketWrapper;
 import ru.spb.client.gui.IRCTabbedPanel;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
 import ru.spb.client.gui.trees.ChannelTree;
-import ru.spb.client.gui.trees.UserTree;
 
 /**
  * содержит данные о сервере
@@ -155,9 +154,9 @@ public class Server
     }
 
     public void getRegisteredUsers(
-        UserTree userTree )
+        Channel channel )
     {
-        socketWrapper.retrieveUsers( userTree );
+        socketWrapper.retrieveUsers( channel );
     }
 
     public void join(
