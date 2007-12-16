@@ -9,6 +9,7 @@ import ru.spb.client.gui.logpanels.ServiceLogPanel;
 import ru.spb.messages.NumericReply;
 import ru.spb.messages.PrivateMessage;
 import ru.spb.messages.ServiceMessage;
+import ru.spb.messages.WallopsMessage;
 
 /**
  * прослушивает входящие сообщения
@@ -68,6 +69,13 @@ public class MessageReceiver
                         Channel channel = _host.getChannelByName( privateMessage.getTo() );
                         User user = channel.getUserByName( privateMessage.getFrom() );
                         user.say( privateMessage );
+                    }
+                    else if ( serviceMessage instanceof WallopsMessage )
+                    { // в канале произошли изменения
+
+                        WallopsMessage wallopsMessage = (WallopsMessage) serviceMessage;
+                        Channel channel = _host.getChannelByName( wallopsMessage.getChannelName() );
+                        channel.fireWallops( wallopsMessage );
                     }
                     else
                     { // передаем для разбора

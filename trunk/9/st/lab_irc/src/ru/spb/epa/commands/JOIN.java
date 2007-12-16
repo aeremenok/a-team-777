@@ -38,6 +38,8 @@ public class JOIN
     extends Command
 {
 
+    private String _message;
+
     public void execute(
         Client c )
         throws CommandExecutionException
@@ -62,6 +64,10 @@ public class JOIN
             { // канал найден - выдаем тему
                 selectedChannel.addUser( c );
                 c.sendToClient( RPL_TOPIC + " " + selectedChannel.getName() + " :" + selectedChannel.getTopic() );
+                // оповещаем остальных о появлении клиента
+                // todo как правильно?
+                WALLOPS wallops = new WALLOPS( _message );
+                wallops.execute( c );
             }
             else
             { // канал не найден - выдаем ошибку
@@ -90,6 +96,7 @@ public class JOIN
         String message )
     {
         super( message );
+        _message = message;
     }
 
     protected Command getInstance(

@@ -1,8 +1,8 @@
 package ru.spb.messages;
 
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
+import ru.spb.client.IRCStringTokenizer;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
 import ru.spb.messages.constants.Errors;
 import ru.spb.messages.constants.Replies;
@@ -104,13 +104,17 @@ public abstract class ServiceMessage
     {
         if ( message != null )
         {
-            StringTokenizer stringTokenizer = new StringTokenizer( message );
+            IRCStringTokenizer stringTokenizer = new IRCStringTokenizer( message, " " );
             try
             {
                 String type = stringTokenizer.nextToken();
                 if ( type.equalsIgnoreCase( "PRIVMSG" ) )
                 {
                     return parsePrivateMessage( stringTokenizer );
+                }
+                else if ( type.equalsIgnoreCase( "WALLOPS" ) )
+                {
+                    return parseWallopsMessage( stringTokenizer );
                 }
                 return parseNumericReply( stringTokenizer, type );
             }
@@ -123,6 +127,20 @@ public abstract class ServiceMessage
         return null;
     }
 
+    private static ServiceMessage parseWallopsMessage(
+        IRCStringTokenizer stringTokenizer )
+    {
+        if ( stringTokenizer.nextToken().equalsIgnoreCase( "JOIN" ) )
+        {
+            String[] tokens = stringTokenizer.getString().split( " " );
+            String channelName = tokens[2];
+            String author = tokens[4];
+            return new WallopsMessage( new JoinMessage( channelName ), author, channelName );
+        }
+        // todo реализовать остальные команды
+        return null;
+    }
+
     /**
      * восстанавливает личное сообщение
      * 
@@ -132,17 +150,13 @@ public abstract class ServiceMessage
      *             проверок не делаем, а ловим эксепшен %)
      */
     public static PrivateMessage parsePrivateMessage(
-        StringTokenizer stringTokenizer )
+        IRCStringTokenizer stringTokenizer )
         throws Throwable
     {
         String from = stringTokenizer.nextToken();
         String to = stringTokenizer.nextToken();
 
-        String content = stringTokenizer.nextToken();
-        while ( stringTokenizer.hasMoreTokens() )
-        {
-            content += stringTokenizer.nextToken() + " ";
-        }
+        String content = stringTokenizer.getRest();
 
         return new PrivateMessage( from, to, content );
     }
@@ -153,18 +167,16 @@ public abstract class ServiceMessage
      * @param stringTokenizer источник
      * @param type тип
      * @return ответ сервера
+     * @throws Throwable здесь может быть ошибка на каждом этапе, поэтому
+     *             проверок не делаем, а ловим эксепшен %)
      */
     public static NumericReply parseNumericReply(
-        StringTokenizer stringTokenizer,
+        IRCStringTokenizer stringTokenizer,
         String type )
         throws Throwable
     {
         int numericType = Integer.parseInt( type );
-        String description = stringTokenizer.nextToken();
-        while ( stringTokenizer.hasMoreTokens() )
-        {
-            description += " " + stringTokenizer.nextToken();
-        }
+        String description = stringTokenizer.getRest();
 
         return new NumericReply( numericType, description );
     }

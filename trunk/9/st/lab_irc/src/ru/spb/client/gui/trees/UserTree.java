@@ -9,7 +9,11 @@ import javax.swing.tree.DefaultTreeModel;
 import ru.spb.client.entities.Channel;
 import ru.spb.client.entities.User;
 import ru.spb.client.gui.listeners.ChattingListener;
+import ru.spb.client.gui.listeners.WallopsListener;
+import ru.spb.client.gui.logpanels.ServiceLogPanel;
 import ru.spb.client.gui.trees.nodes.UserNode;
+import ru.spb.messages.JoinMessage;
+import ru.spb.messages.WallopsMessage;
 
 /**
  * отображаемое дерево и контейнер пользователей
@@ -42,15 +46,34 @@ public class UserTree
         DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Chatting about " + channel.getTopic() );
         UserTree result = new UserTree( root );
 
+        result.setChannel( channel );
         channel.retrieveUsers( result );
 
         return result;
     }
 
-    public void setChannel(
+    private void setChannel(
         Channel channel )
     {
         _channel = channel;
+        // обработчик изменений состава участников канала
+        _channel.addWallopsListener( new WallopsListener()
+        {
+            @Override
+            public void onWallops(
+                WallopsMessage wallopsMessage )
+            {
+                if ( wallopsMessage.getServiceMessage() instanceof JoinMessage )
+                {
+                    JoinMessage joinMessage = (JoinMessage) wallopsMessage.getServiceMessage();
+                    ServiceLogPanel.getInstance().info(
+                                                        _channel,
+                                                        wallopsMessage.getAuthor() + " has joined " +
+                                                                        wallopsMessage.getChannelName() );
+                    _channel.addUser( new User( wallopsMessage.getAuthor() ) );
+                }
+            }
+        } );
     }
 
     /**

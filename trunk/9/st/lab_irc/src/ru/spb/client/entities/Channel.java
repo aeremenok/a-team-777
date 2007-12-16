@@ -3,11 +3,13 @@ package ru.spb.client.entities;
 import java.util.ArrayList;
 
 import ru.spb.client.gui.IRCTabbedPanel;
+import ru.spb.client.gui.listeners.WallopsListener;
 import ru.spb.client.gui.logpanels.ChatLogPanel;
 import ru.spb.client.gui.logpanels.MessageListener;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
 import ru.spb.client.gui.trees.UserTree;
 import ru.spb.messages.PrivateMessage;
+import ru.spb.messages.WallopsMessage;
 
 /**
  * содержит данные о канале
@@ -87,7 +89,6 @@ public class Channel
         UserTree userTree )
     {
         _userTree = userTree;
-        _userTree.setChannel( this );
         _host.getRegisteredUsers( this );
     }
 
@@ -193,7 +194,7 @@ public class Channel
     public void say(
         PrivateMessage message )
     {
-        for ( MessageListener listener : listeners )
+        for ( MessageListener listener : _messageListeners )
         {
             listener.onMessage( message );
         }
@@ -210,14 +211,15 @@ public class Channel
         _host = host;
     }
 
-    private ArrayList<MessageListener> listeners = new ArrayList<MessageListener>();
+    private ArrayList<MessageListener> _messageListeners = new ArrayList<MessageListener>();
     private ChatLogPanel               _chatLogPanel;
+    private ArrayList<WallopsListener> _wallopsListeners = new ArrayList<WallopsListener>();
 
     @Override
     public void addMessageListener(
         MessageListener messageListener )
     {
-        listeners.add( messageListener );
+        _messageListeners.add( messageListener );
     }
 
     public User getUserByName(
@@ -247,5 +249,30 @@ public class Channel
                 _chatLogPanel.logMessage( message.getFrom(), message.getContent() );
             }
         } );
+    }
+
+    /**
+     * оповещает об изменениях в канале
+     * 
+     * @param wallopsMessage сообщение об изменениях
+     */
+    public void fireWallops(
+        WallopsMessage wallopsMessage )
+    {
+        for ( WallopsListener listener : _wallopsListeners )
+        {
+            listener.onWallops( wallopsMessage );
+        }
+    }
+
+    /**
+     * подвесить обработчик изменений в канале
+     * 
+     * @param wallopsListener обработчик
+     */
+    public void addWallopsListener(
+        WallopsListener wallopsListener )
+    {
+        _wallopsListeners.add( wallopsListener );
     }
 }
