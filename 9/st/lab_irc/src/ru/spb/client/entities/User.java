@@ -1,5 +1,8 @@
 package ru.spb.client.entities;
 
+import java.util.ArrayList;
+
+import ru.spb.client.gui.logpanels.ChatLogPanel;
 import ru.spb.client.gui.logpanels.MessageListener;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
 import ru.spb.messages.PrivateMessage;
@@ -111,13 +114,36 @@ public class User
     public void say(
         PrivateMessage message )
     {
-        // TODO Auto-generated method stub
+        for ( MessageListener listener : _listeners )
+        {
+            listener.onMessage( message );
+        }
     }
+
+    private ArrayList<MessageListener> _listeners = new ArrayList<MessageListener>();
+
+    private ChatLogPanel               _chatLogPanel;
 
     @Override
     public void addMessageListener(
         MessageListener messageListener )
     {
-        // TODO Auto-generated method stub
+        _listeners.add( messageListener );
+    }
+
+    @Override
+    public void setChatLogPanel(
+        ChatLogPanel chatLogPanel )
+    {
+        _chatLogPanel = chatLogPanel;
+        addMessageListener( new MessageListener()
+        {
+            @Override
+            public void onMessage(
+                PrivateMessage message )
+            {
+                _chatLogPanel.logMessage( message.getFrom(), message.getContent() );
+            }
+        } );
     }
 }

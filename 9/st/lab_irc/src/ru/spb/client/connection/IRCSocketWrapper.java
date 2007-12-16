@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import ru.spb.client.entities.Channel;
@@ -36,7 +35,6 @@ import ru.spb.messages.constants.Replies;
  * @author eav
  */
 public class IRCSocketWrapper
-    extends Thread
     implements
         Replies,
         Errors
@@ -46,8 +44,9 @@ public class IRCSocketWrapper
      */
     private Server          _host   = null;
 
-    private User            _currentUser;
-
+    /**
+     * получатель сообщений
+     */
     private MessageReceiver _receiver;
 
     /**
@@ -55,9 +54,16 @@ public class IRCSocketWrapper
      */
     private static Socket   _socket = null;
 
-    @Override
-    public void run()
+    /**
+     * занимает сокет для заданного сервера от имени заданного пользователя
+     * 
+     * @param server сервер
+     */
+    public IRCSocketWrapper(
+        Server server )
     {
+        _host = server;
+
         try
         {
             _socket = new Socket( _host.getHost(), _host.getPort() );
@@ -69,10 +75,9 @@ public class IRCSocketWrapper
                                                                                                     _socket
                                                                                                            .getInputStream() ) ) );
             // создаем слушателя
-            _receiver = new MessageReceiver( reader, _host, this );
-            _receiver.start();
+            _receiver = new MessageReceiver( reader, _host );
 
-            register( _currentUser );
+            enter( User.getCurrentUser() );
         }
         catch ( Throwable e )
         {
@@ -82,30 +87,18 @@ public class IRCSocketWrapper
     }
 
     /**
-     * занимает сокет для заданного сервера от имени заданного пользователя
+     * получить список пользователей с сервера по каналу, указанному в дереве и
+     * заполнить это дерево
      * 
-     * @param server сервер
-     * @param user пользователь
+     * @param channel дерево
      */
-    public IRCSocketWrapper(
-        Server server,
-        User user )
-    {
-        _host = server;
-        _currentUser = user;
-        run();
-    }
-
-    public ArrayList<User> getRegisteredUsers(
-        Channel channel )
+    public void retrieveUsers(
+        final Channel channel )
     {
         // отправляем запрос
         NamesMessage namesMessage = new NamesMessage( channel );
-        sendCommand( namesMessage );
 
-        final ArrayList<User> result = new ArrayList<User>();
-
-        _receiver.getReply( namesMessage, new ReplyListener()
+        sendCommand( namesMessage, new ReplyListener()
         {
             @Override
             public void onFailure(
@@ -124,13 +117,11 @@ public class IRCSocketWrapper
                     while ( stringTokenizer.hasMoreTokens() )
                     {
                         User user = new User( stringTokenizer.nextToken() );
-                        result.add( user );
+                        channel.addUser( user );
                     }
                 }
-
             }
         } );
-        return result;
     }
 
     /**
@@ -139,14 +130,13 @@ public class IRCSocketWrapper
      * @param result
      * @return список каналов
      */
-    public void getChannels(
-        final ChannelTree result )
+    public void retriveChannels(
+        final ChannelTree channelTree )
     {
         // отправляем запрос
         ListMessage listMessage = new ListMessage( _host );
-        sendCommand( listMessage );
 
-        _receiver.getReply( listMessage, new ReplyListener()
+        sendCommand( listMessage, new ReplyListener()
         {
             @Override
             public void onFailure(
@@ -167,9 +157,8 @@ public class IRCSocketWrapper
                                                    // о хозяине канала ничего
                                                    // не известно
                                                    null );
-                    // todo убрать лишнее
                     channel.setHost( _host );
-                    result.addChannel( channel );
+                    channelTree.addChannel( channel );
                 }
             }
         } );
@@ -180,7 +169,7 @@ public class IRCSocketWrapper
      * 
      * @param user кого представляем
      */
-    public void register(
+    public void enter(
         User user )
     {
         PassMessage pass = new PassMessage( user );
@@ -190,9 +179,7 @@ public class IRCSocketWrapper
         sendCommand( nick );
 
         UserMessage userMessage = new UserMessage( user );
-        sendCommand( userMessage );
-
-        _receiver.getReply( userMessage, new ReplyListener()
+        sendCommand( userMessage, new ReplyListener()
         {
             @Override
             public void onFailure(
@@ -210,7 +197,23 @@ public class IRCSocketWrapper
     }
 
     /**
-     * отправить команду на сервер
+     * отправить команду на сервер, указав обработчик ответа
+     * 
+     * @param serviceMessage команда
+     * @param replyListener обработчик
+     */
+    private void sendCommand(
+        ServiceMessage serviceMessage,
+        ReplyListener replyListener )
+    {
+        sendCommand( serviceMessage );
+
+        serviceMessage.addReplyListener( replyListener );
+        _receiver.reply( serviceMessage );
+    }
+
+    /**
+     * отправить команду на сервер, не ожидая ответа
      * 
      * @param serviceMessage служебное сообщение
      */
@@ -250,9 +253,7 @@ public class IRCSocketWrapper
     {
         // отправляем запрос
         JoinMessage joinMessage = new JoinMessage( channel );
-        sendCommand( joinMessage );
-
-        _receiver.getReply( joinMessage, new ReplyListener()
+        sendCommand( joinMessage, new ReplyListener()
         {
             @Override
             public void onFailure(
@@ -272,7 +273,7 @@ public class IRCSocketWrapper
                     public void onMessage(
                         PrivateMessage message )
                     {
-                        privmsg( channel, message.getMessageString() );
+                        privmsg( channel, message.getContent() );
                     }
                 } );
             }
@@ -290,7 +291,8 @@ public class IRCSocketWrapper
         Channel channel,
         String message )
     {
-        PrivateMessage privateMessage = new PrivateMessage( User.getCurrentUser(), channel, message );
+        PrivateMessage privateMessage =
+                                        new PrivateMessage( User.getCurrentUser().getName(), channel.getName(), message );
         sendCommand( privateMessage );
     }
 

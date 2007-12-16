@@ -5,6 +5,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import ru.spb.client.entities.Channel;
 import ru.spb.client.entities.IChattable;
 import ru.spb.client.entities.IConnectable;
+import ru.spb.client.gui.logpanels.ChatLogPanel;
 import ru.spb.client.gui.logpanels.MessageListener;
 import ru.spb.messages.PrivateMessage;
 
@@ -83,5 +84,11 @@ public class ChannelNode
         MessageListener messageListener )
     {
         channel.addMessageListener( messageListener );
+    }
+
+    public void setChatLogPanel(
+        ChatLogPanel chatLogPanel )
+    {
+        channel.setChatLogPanel( chatLogPanel );
     }
 }

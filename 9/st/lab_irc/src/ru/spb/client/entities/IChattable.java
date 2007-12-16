@@ -1,5 +1,6 @@
 package ru.spb.client.entities;
 
+import ru.spb.client.gui.logpanels.ChatLogPanel;
 import ru.spb.client.gui.logpanels.MessageListener;
 import ru.spb.messages.PrivateMessage;
 
@@ -52,5 +53,8 @@ public interface IChattable
      */
     void addMessageListener(
         MessageListener messageListener );
+
+    void setChatLogPanel(
+        ChatLogPanel chatLogPanel );
 
 }

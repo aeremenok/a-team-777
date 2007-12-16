@@ -13,7 +13,6 @@ import javax.swing.table.TableCellRenderer;
 
 import ru.spb.client.entities.IChattable;
 import ru.spb.client.gui.ReadOnlyTable;
-import ru.spb.messages.PrivateMessage;
 
 /**
  * таблица, куда отображается лог <b>многострочных</b> сообщений
@@ -26,15 +25,7 @@ public class ChatLogPanel
     public ChatLogPanel(
         IChattable chattable )
     {
-        chattable.addMessageListener( new MessageListener()
-        {
-            @Override
-            public void onMessage(
-                PrivateMessage message )
-            {
-                logMessage( message.getFrom(), message.getContent() );
-            }
-        } );
+        chattable.setChatLogPanel( this );
 
         _logTableModel = new DefaultTableModel()
         {

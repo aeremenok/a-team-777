@@ -11,10 +11,17 @@ import ru.spb.client.entities.User;
 import ru.spb.client.gui.listeners.ChattingListener;
 import ru.spb.client.gui.trees.nodes.UserNode;
 
+/**
+ * отображаемое дерево и контейнер пользователей
+ * 
+ * @author eav
+ */
 public class UserTree
     extends IRCTree
 {
-    private Channel _channel;
+    private Channel         _channel;
+    // todo убрать
+    private ArrayList<User> _users = new ArrayList<User>();
 
     private UserTree(
         DefaultMutableTreeNode root )
@@ -59,6 +66,7 @@ public class UserTree
             UserNode userNode = new UserNode( user );
             DefaultTreeModel model = (DefaultTreeModel) getModel();
             model.insertNodeInto( userNode, _root, _root.getChildCount() );
+            _users.add( user );
             expandRow( getRowCount() - 1 );
         }
     }
@@ -75,6 +83,7 @@ public class UserTree
         {
             UserNode userNode = new UserNode( user );
             _root.add( userNode );
+            _users.add( user );
         }
         expandRow( getRowCount() - 1 );
     }
@@ -94,6 +103,7 @@ public class UserTree
             if ( node.getUser().equals( user ) )
             {
                 _root.remove( node );
+                _users.remove( user );
             }
         }
     }
@@ -101,5 +111,10 @@ public class UserTree
     public Channel getChannel()
     {
         return _channel;
+    }
+
+    public ArrayList<User> getUsers()
+    {
+        return _users;
     }
 }

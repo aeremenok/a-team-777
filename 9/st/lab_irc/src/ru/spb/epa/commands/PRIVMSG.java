@@ -45,10 +45,13 @@ public class PRIVMSG
         Channel channel = MainThread.getChannelByName( channelName );
         if ( channel != null )
         {
+            String fullMessage = "PRIVMSG " + c.getNickname() + " " + channelName + " " + content;
             for ( Client client : channel.getUsers() )
             {
-                String fullMessage = "PRIVMSG " + c.getNickname() + " " + channelName + " " + content;
-                client.sendToClient( fullMessage );
+                if ( !client.equals( c ) )
+                {
+                    client.sendToClient( fullMessage );
+                }
             }
         }
     }
@@ -59,5 +62,4 @@ public class PRIVMSG
     {
         return new PRIVMSG( s );
     }
-
 }
