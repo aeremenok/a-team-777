@@ -54,11 +54,13 @@ void newton(double &x)
 
 int main()
 {
-    for(int i=0; i<100; ++i) {SAMPLE;//57
+    for(int i=0; i<100; ++i) {
+    SAMPLE;//58
     double x;
     x = 100;
-    SAMPLE;//60
+    SAMPLE;//61
     newton(x);
-    SAMPLE;}//62
+    SAMPLE;//63
+    }
     return 0;
 }
