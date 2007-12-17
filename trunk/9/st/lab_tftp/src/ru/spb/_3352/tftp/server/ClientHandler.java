@@ -23,19 +23,34 @@ import ru.spb._3352.tftp.common.TFTPUtils;
 public class ClientHandler
 {
     /**
-     * пюглеп тюикю он слнквюмхч
+     * пюглеп акнйю он слнквюмхч - 2048 йа
      */
-    public final static int DEFAULT_TSIZE = 2048 * 1024;
+    public final static int DEFAULT_BLKSIZE = 2048;
+
+    /**
+     * пюглеп тюикю он слнквюмхч - 5 яейсмд
+     */
+    public final static int DEFAULT_TIMEOUT = 5;
+
+    /**
+     * пюглеп тюикю он слнквюмхч - 200 ла
+     */
+    public final static int DEFAULT_TSIZE   = 100 * 2048 * 1024;
 
     /**
      * онксвемн ондрбепфдемхе
      */
-    private boolean         ackReceived   = true;
+    private boolean         ackReceived     = true;
+
+    /**
+     * рейсыхи пюглеп акнйю
+     */
+    private int             blksize         = DEFAULT_BLKSIZE;
 
     /**
      * ткюц, сйюгшбючыхи мю оепеонкмемхе йюмюкю онбрнпмн дняшкюелшлх оюйерюлх
      */
-    private boolean         stuffedLink   = false;
+    private boolean         stuffedLink     = false;
 
     /**
      * ртро-янйер
@@ -45,12 +60,12 @@ public class ClientHandler
     /**
      * рюилюср ябъгх я йкхемрнл
      */
-    private int             timeout       = 5;
+    private int             timeout         = DEFAULT_TIMEOUT;
 
     /**
      * рейсыхи пюглеп тюикю
      */
-    private int             tsize         = DEFAULT_TSIZE;
+    private int             tsize           = DEFAULT_TSIZE;
 
     /**
      * йнмярпсйрнп
@@ -124,6 +139,16 @@ public class ClientHandler
     public synchronized boolean getAckReceived()
     {
         return ackReceived;
+    }
+
+    /**
+     * бнгбпюыюер пюглеп акнйю
+     * 
+     * @return пюглеп акнйю
+     */
+    public int getBlockSize()
+    {
+        return blksize;
     }
 
     /**
@@ -586,6 +611,17 @@ public class ClientHandler
         boolean ackReceived )
     {
         this.ackReceived = ackReceived;
+    }
+
+    /**
+     * сярюмюбкхбюер пюглеп акнйю
+     * 
+     * @param tsize пюглеп акнйю
+     */
+    public void setBlockSize(
+        int blksize )
+    {
+        this.blksize = blksize;
     }
 
     /**

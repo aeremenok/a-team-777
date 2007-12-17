@@ -23,30 +23,46 @@ import ru.spb._3352.tftp.common.WRQ;
  */
 public class TFTPRequestHandler
 {
+
     /**
      * йнмрейяр
      */
-    Context       ctx;
+    Context                   ctx;
+
+    /**
+     * пюглеп акнйю он слнквюмхч - 2048 йа
+     */
+    int                       DEF_BLKSIZE = 2048;
+
+    /**
+     * рюилюср он слнквюмхч - 5 яейсмд
+     */
+    int                       DEF_TIMEOUT = 5;
+
+    /**
+     * пюглеп тюикю он слнквюмхч - 200 ла
+     */
+    int                       DEF_TSIZE   = 100 * 2048 * 1024;
 
     /**
      * яксьюрекэ янашрхи
      */
-    private EventListener     listener = null;
+    private EventListener     listener    = null;
 
     /**
      * ртро-йкхемр
      */
-    ClientHandler tftpClient;
+    ClientHandler             tftpClient;
 
     /**
      * рейсыхи онрнй
      */
-    Thread        thisThread;
+    Thread                    thisThread;
 
     /**
      * яяшкйю мю тюикнбсч яхярелс дкъ дюкэмеиьецн хяонкэгнбюмхъ
      */
-    private VirtualFileSystem vfs      = null;
+    private VirtualFileSystem vfs         = null;
 
     /**
      * йнмярпсйрнп
@@ -108,11 +124,11 @@ public class TFTPRequestHandler
         // янедхмъел ртро-йкхемр я йкхемрнл
         tftpClient.connect( clientAddress, clientPort );
 
-        // онксвюел рюилюср, хмюве сярюмюбкхбюел б 5 яейсмд
+        // онксвюел рюилюср
         int timeout = frq.getTimeout();
         if ( timeout <= 0 )
         {
-            timeout = 5;
+            timeout = DEF_TIMEOUT;
         }
         tftpClient.setTimeout( timeout );
 
@@ -120,9 +136,17 @@ public class TFTPRequestHandler
         int tsize = frq.getTransferSize();
         if ( tsize < 0 )
         {
-            tsize = 2048 * 1024;
+            tsize = DEF_TSIZE;
         }
         tftpClient.setTransferSize( tsize );
+
+        // онксвюел рюилюср
+        int blkSize = frq.getBlockSize();
+        if ( blkSize <= 0 )
+        {
+            blkSize = DEF_BLKSIZE;
+        }
+        tftpClient.setBlockSize( timeout );
 
         thisThread = Thread.currentThread();
 
