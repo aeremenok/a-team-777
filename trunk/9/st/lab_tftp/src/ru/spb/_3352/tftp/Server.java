@@ -14,17 +14,6 @@ public class Server
         EventListener
 {
     /**
-     * бшбндхр мю щйпюм хмтнплюжхч он оюпюлерпюл йнлюмдмни ярпнйх
-     */
-    public static void printUsage()
-    {
-        System.out.println( "Program usage:" );
-        System.out.println( "\tserver PORT POOL_SIZE HOME_DIR\n" );
-        System.out.println( "Example:" );
-        System.out.println( "\tserver 69 5 d:\\temp\\\n" );
-    }
-
-    /**
      * рнвйю бундю
      * 
      * @param args юпцслемрш йнлюмдмни ярпнйх
@@ -77,6 +66,17 @@ public class Server
             System.out.println( "Exception occured: " + e );
             e.printStackTrace();
         }
+    }
+
+    /**
+     * бшбндхр мю щйпюм хмтнплюжхч он оюпюлерпюл йнлюмдмни ярпнйх
+     */
+    public static void printUsage()
+    {
+        System.out.println( "Program usage:" );
+        System.out.println( "\tserver PORT POOL_SIZE HOME_DIR\n" );
+        System.out.println( "Example:" );
+        System.out.println( "\tserver 69 5 d:\\temp\\\n" );
     }
 
     /**

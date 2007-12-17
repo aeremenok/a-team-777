@@ -5,15 +5,12 @@ import java.net.SocketException;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Stack;
 
 import javax.management.Attribute;
 import javax.management.AttributeList;
 import javax.management.AttributeNotFoundException;
 import javax.management.DynamicMBean;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
 import javax.management.InvalidAttributeValueException;
 import javax.management.JMException;
 import javax.management.MBeanAttributeInfo;
@@ -22,11 +19,7 @@ import javax.management.MBeanException;
 import javax.management.MBeanInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanParameterInfo;
-import javax.management.MBeanRegistrationException;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
 import javax.management.MalformedObjectNameException;
-import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
@@ -85,23 +78,10 @@ public class TFTPPool
             try
             {
                 ObjectName name = new ObjectName( on );
-
-                if ( agent != null )
-                {
-                    agent.unregisterMBean( name );
-                }
             }
             catch ( MalformedObjectNameException e )
             {
                 System.out.println( on + " is not a valid ObjectName!\n" + e.getMessage() );
-            }
-            catch ( InstanceNotFoundException e )
-            {
-                System.out.println( "An instance of " + on + " could not be found in agent!\n" + e.getMessage() );
-            }
-            catch ( MBeanRegistrationException e )
-            {
-                System.out.println( on + " could not be unregistered in agent!\n" + e.getMessage() );
             }
 
             interrupt();
@@ -352,7 +332,6 @@ public class TFTPPool
         }
     }
 
-    private MBeanServer       agent    = null;
     private Hashtable         connections;
     private Stack             idleWorkers;
     private EventListener     listener = null;
@@ -370,11 +349,6 @@ public class TFTPPool
         this.listener = listener;
         this.size = size;
         this.connections = connections;
-        List srvrList = MBeanServerFactory.findMBeanServer( null );
-        if ( srvrList.iterator().hasNext() )
-        {
-            agent = (MBeanServer) srvrList.iterator().next();
-        }
 
         idleWorkers = new Stack();
         TFTPRHThread wt;
@@ -390,44 +364,8 @@ public class TFTPPool
                 wt = new TFTPRHThread( birthDate, new TFTPRequestHandler( vfs, listener ) );
                 wt.start();
                 idleWorkers.push( wt );
-                // register with management agent
-                if ( agent != null )
-                {
-                    ObjectName name = new ObjectName( "ROS:" + wt.getName() );
-                    /*               
-                                   Descriptor d = new DescriptorSupport();
-                                   d.setField(wt.RESOURCE_REFERENCE, wt);
-                                   d.setField(wt.RESOURCE_TYPE, "file:///home/marco/tftpthread.xml");
-                                   d.setField(wt.SAX_PARSER, "org.apache.crimson.parser.XMLReaderImpl");
-                                   XMBean xmb = new XMBean(d, wt.DESCRIPTOR);
-                    */
-                    agent.registerMBean( wt, name );
-                }
             }
-            catch ( MalformedObjectNameException e )
-            {
-                System.out.println( birthDate + " is not a valid ObjectName!\n" + e.getMessage() );
-            }
-            catch ( InstanceAlreadyExistsException e )
-            {
-                System.out.println( "An instance of " + birthDate + " already exists in agent!\n" + e );
-            }
-            catch ( MBeanRegistrationException e )
-            {
-                System.out.println( birthDate + " could not be registered in agent!\n" + e.getMessage() );
-            }
-            catch ( NotCompliantMBeanException e )
-            {
-                System.out
-                          .println( birthDate
-                                    + " does not comply to the Java Management Extensions Intrumentation and Agent Specification, v1.1!"
-                                    + e.getMessage() );
-            }
-            /*         catch (MBeanException e)
-                     {
-                        tftpLog.warn("could not register worker thread as XMBean with JMX agent");
-                        e.printStackTrace();
-                     } */
+
             catch ( SocketException e )
             {
                 System.out.println( "Could not create TFTPRequestHandler nr: " + i + " for TFTPPool" );
@@ -489,31 +427,7 @@ public class TFTPPool
                     System.out.println( "WARNING: Overload on tftpPool! ReHash!" );
                     wt = new TFTPRHThread( birthDate, new TFTPRequestHandler( vfs, listener ) );
                     wt.start();
-                    // Register new thread with management Agent
-                    if ( agent != null )
-                    {
-                        ObjectName name = new ObjectName( "ROS:" + wt.getName() );
-                        agent.registerMBean( wt, name );
-                    }
-                }
-                catch ( MalformedObjectNameException e )
-                {
-                    System.out.println( birthDate + " is not a valid ObjectName!\n" + e.getMessage() );
-                }
-                catch ( InstanceAlreadyExistsException e )
-                {
-                    System.out.println( "An instance of " + birthDate + " already exists in agent!\n" + e.getMessage() );
-                }
-                catch ( MBeanRegistrationException e )
-                {
-                    System.out.println( birthDate + " could not be registered in agent!\n" + e.getMessage() );
-                }
-                catch ( NotCompliantMBeanException e )
-                {
-                    System.out
-                              .println( birthDate
-                                        + " does not comply to the Java Management Extensions Intrumentation and Agent Specification, v1.1!\n"
-                                        + e.getMessage() );
+
                 }
                 catch ( SocketException e )
                 {
