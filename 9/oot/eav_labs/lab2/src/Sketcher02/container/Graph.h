@@ -393,6 +393,12 @@ public:
         cout<<"[graph] graph created\n";
     };
 
+	//##ModelId=4766916E0394
+    ~Graph()
+    {
+        delete _ribbleList;
+    }
+
     //##ModelId=4741F10E03C0
     friend std::ostream& operator<<(std::ostream& o, const Graph<T>& rhs);
 };

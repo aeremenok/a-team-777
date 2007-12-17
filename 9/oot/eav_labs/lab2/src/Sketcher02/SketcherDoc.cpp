@@ -375,7 +375,9 @@ void CSketcherDoc::linkElements( CElement* element1, CElement* element2 )
     }
     catch (GraphException* e)
     {
+        try{
         AfxMessageBox(e->getException().c_str());
+        } catch (...){}
     }
 }
 
