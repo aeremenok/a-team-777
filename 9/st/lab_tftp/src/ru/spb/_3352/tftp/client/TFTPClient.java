@@ -112,7 +112,7 @@ public class TFTPClient
             OACK oack = (OACK) surprisePacket;
             tsize = oack.getTransferSize();
             timeout = oack.getTimeout();
-            // blksize = oack.getBlockSize();
+            blksize = oack.getBlockSize();
 
             ACK ack = new ACK( 0 );
             ack.setPort( surprisePacket.getPort() );
@@ -499,7 +499,7 @@ public class TFTPClient
             OACK oack = (OACK) receive;
             tsize = oack.getTransferSize();
             timeout = oack.getTimeout();
-            // blksize = oack.getBlockSize();
+            blksize = oack.getBlockSize();
         }
 
         // нопедекъел онпр, йнрнпши яепбеп бшапюк дкъ янедхмемхъ
