@@ -224,6 +224,7 @@ public class IRCSocketWrapper
         {
             PrintWriter writer = new PrintWriter( _socket.getOutputStream(), true );
             writer.println( serviceMessage.getMessageString() );
+            ServiceLogPanel.getInstance().info( "sent command", serviceMessage.getMessageString() );
         }
         catch ( IOException e )
         {

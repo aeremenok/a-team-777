@@ -3,9 +3,17 @@ package ru.spb.messages;
 public class WallopsMessage
     extends ServiceMessage
 {
-
+    /**
+     * сообщение, о котором уведомляют
+     */
     private ServiceMessage _serviceMessage;
+    /**
+     * имя автора сообщения
+     */
     private String         _author;
+    /**
+     * имя канала, в который послано
+     */
     private String         _channelName;
 
     public WallopsMessage(

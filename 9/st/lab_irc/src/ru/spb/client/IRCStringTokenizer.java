@@ -1,21 +1,32 @@
 package ru.spb.client;
 
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+/**
+ * расширенный stringTokenizer
+ * 
+ * @author eav
+ */
 public class IRCStringTokenizer
     extends StringTokenizer
 {
-
-    private String _delim;
-    private String string;
+    private String    _delim;
+    private String    _string;
+    ArrayList<String> _tokens = new ArrayList<String>();
 
     public IRCStringTokenizer(
         String str,
         String delim )
     {
         super( str, delim );
-        string = str;
+        _string = str;
         _delim = delim;
+        StringTokenizer tokenizer = new StringTokenizer( str, delim );
+        while ( tokenizer.hasMoreTokens() )
+        {
+            _tokens.add( tokenizer.nextToken() );
+        }
     }
 
     /**
@@ -35,7 +46,29 @@ public class IRCStringTokenizer
 
     public String getString()
     {
-        return string;
+        return _string;
+    }
+
+    public ArrayList<String> getTokens()
+    {
+        return _tokens;
+    }
+
+    public String get(
+        int index )
+    {
+        return _tokens.get( index );
+    }
+
+    public int indexOf(
+        Object o )
+    {
+        return _tokens.indexOf( o );
+    }
+
+    public int size()
+    {
+        return _tokens.size();
     }
 
 }

@@ -95,7 +95,6 @@ public abstract class ServiceMessage
     /**
      * восстанавливает сообщение
      * 
-     * @param messageReceiver TODO
      * @param message источник
      * @return сообщение
      */
@@ -130,12 +129,17 @@ public abstract class ServiceMessage
     private static ServiceMessage parseWallopsMessage(
         IRCStringTokenizer stringTokenizer )
     {
-        if ( stringTokenizer.nextToken().equalsIgnoreCase( "JOIN" ) )
+        String messageType = stringTokenizer.nextToken();
+        if ( messageType.equalsIgnoreCase( "JOIN" ) )
         {
             String[] tokens = stringTokenizer.getString().split( " " );
             String channelName = tokens[2];
             String author = tokens[4];
             return new WallopsMessage( new JoinMessage( channelName ), author, channelName );
+        }
+        else if ( messageType.equalsIgnoreCase( "PART" ) )
+        {
+
         }
         // todo реализовать остальные команды
         return null;

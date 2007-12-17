@@ -27,7 +27,7 @@ public class IRCWindow
 
             ServerTree tree = ServerTree.getInstance();
             // todo заглушка
-            Server[] servers = new Server[] { new Server( "epa" ), new Server( "server1" ), new Server( "server2" ) };
+            Server[] servers = new Server[] { new Server( "epa" ) };
             tree.addServers( servers );
             pane.setLeftComponent( tree );
 
