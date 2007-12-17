@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="D:/temp/server.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/irc/server.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" mainClassHandleIdentifier="=irc/src&lt;ru.spb{Starter.java[Starter" manifestLocation="/irc/src/server" manifestVersion="1.0" reuseManifest="false" saveManifest="true" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.epa"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.epa.exceptions"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.epa.commands"/>
+        <file path="/irc/server.jardesc"/>
+    </selectedElements>
+</jardesc>

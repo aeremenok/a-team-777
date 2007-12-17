@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="D:/temp/client.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/irc/client.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" mainClassHandleIdentifier="=irc/src&lt;ru.spb.client{IRCStarter.java[IRCStarter" manifestLocation="/irc/src/server" manifestVersion="1.0" reuseManifest="false" saveManifest="true" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui.dialogs"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui.logpanels"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.entities"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.messages"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui.trees.nodes"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.messages.exceptions"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.connection"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui.listeners"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui.trees"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.messages.constants"/>
+    </selectedElements>
+</jardesc>

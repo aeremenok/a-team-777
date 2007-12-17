@@ -57,6 +57,8 @@ public class MessageReceiver
             {
                 String message = _reader.readLine();
 
+                ServiceLogPanel.getInstance().info( "received command", message );
+
                 ServiceMessage serviceMessage = ServiceMessage.parse( message );
                 if ( serviceMessage != null )
                 { // ошибки не было
@@ -86,8 +88,8 @@ public class MessageReceiver
             }
             catch ( Throwable e )
             {
-                ServiceLogPanel.getInstance().error( e.getMessage() );
-                e.printStackTrace();
+                // ServiceLogPanel.getInstance().error( e.getMessage() );
+                // e.printStackTrace();
                 _run = false;
                 return;
             }
