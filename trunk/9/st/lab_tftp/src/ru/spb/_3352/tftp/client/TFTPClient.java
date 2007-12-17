@@ -35,9 +35,9 @@ public class TFTPClient
     public static final String DEFAULT_HOSTNAME = "localhost";
 
     /**
-     * люйяхлюкэмши пюглеп оюйерю
+     * люйяхлюкэмши пюглеп дюммшу б оюйере
      */
-    private static final int   MAX_PACKAGE_SIZE = 2048;
+    private static final int   MAX_PACKAGE_SIZE = 8192;
 
     /**
      * хлъ унярю
@@ -53,6 +53,11 @@ public class TFTPClient
      * днонкмхрекэмше ножхх - пюглеп оюйерю
      */
     private int                tsize;
+
+    /**
+     * днонкмхрекэмше ножхх - пюглеп акнйю
+     */
+    private int                blksize;
 
     /**
      * йнмярпсйрнп
@@ -72,6 +77,7 @@ public class TFTPClient
      * @param fileName хлъ тюикю
      * @param optionTimeout рюилюср
      * @param optionTransferSize пюглеп оепедювх
+     * @param optionBlockSize пюглеп акнйю
      * @return оюйер
      * @throws InstantiationException
      * @throws UnknownHostException
@@ -79,7 +85,8 @@ public class TFTPClient
     public RRQ initializeDownload(
         String fileName,
         int optionTimeout,
-        int optionTransferSize )
+        int optionTransferSize,
+        int optionBlockSize )
         throws InstantiationException,
             UnknownHostException
     {
@@ -97,6 +104,11 @@ public class TFTPClient
             rrq.setTransferSize( optionTransferSize );
         }
 
+        if ( optionBlockSize != 0 )
+        {
+            rrq.setBlockSize( optionBlockSize );
+        }
+
         rrq.setMode( FRQ.OCTET_MODE );
         rrq.setAddress( InetAddress.getByName( this.getHostName() ) );
         rrq.setPort( DEFAULT_PORT );
@@ -110,6 +122,7 @@ public class TFTPClient
      * @param fileName хлъ тюикю
      * @param optionTimeout рюилюср
      * @param optionTransferSize пюглеп оепедювх
+     * @param optionBlockSize пюглеп акнйю
      * @return оюйер
      * @throws InstantiationException
      * @throws UnknownHostException
@@ -117,7 +130,8 @@ public class TFTPClient
     public WRQ initializeUpload(
         String fileName,
         int optionTimeout,
-        int optionTransferSize )
+        int optionTransferSize,
+        int optionBlockSize )
         throws InstantiationException,
             UnknownHostException
     {
@@ -133,6 +147,11 @@ public class TFTPClient
         if ( optionTransferSize != 0 )
         {
             wrq.setTransferSize( optionTransferSize );
+        }
+
+        if ( optionBlockSize != 0 )
+        {
+            wrq.setBlockSize( optionBlockSize );
         }
 
         wrq.setMode( FRQ.OCTET_MODE );
@@ -160,12 +179,12 @@ public class TFTPClient
             IOException
     {
         // янгдю╗л ртро-янйер
-        TFTPSocket tftpSock = new TFTPSocket( 5 );
+        TFTPSocket tftpSock = new TFTPSocket( timeout );
 
         int sequenceNumber = 1;
 
-        byte[] dummyByteArray = new byte[1];
         // гюцксьйю
+        byte[] dummyByteArray = new byte[1];
 
         DATA receive = new DATA( sequenceNumber, dummyByteArray );
         ACK surprisePacket = this.sendRequest( tftpSock, rrq, receive );
@@ -183,6 +202,7 @@ public class TFTPClient
             OACK oack = (OACK) surprisePacket;
             tsize = oack.getTransferSize();
             timeout = oack.getTimeout();
+            blksize = oack.getBlockSize();
 
             ACK ack = new ACK( 0 );
             ack.setPort( surprisePacket.getPort() );
@@ -245,19 +265,11 @@ public class TFTPClient
     }
 
     /**
-     * Method that is responsible for the mechanism by which files are sent to
-     * the client from the server. Upload - Sending from the client to the
-     * server..... 1. send a WRQ to the server. 2. receive an ACK with 0 for
-     * block number from the server --- 3. need to check that it isnt an ERROR
-     * code and is definitely an ACK! *** this is done in the sendRequest()
-     * method 4. read the first package from the file and transfer to server 5.
-     * receive an ACK from the server with the block number that has been sent.
-     * 6. check the block number, if this does not correspond with the block
-     * sent, then resend.
+     * лернд дкъ гюкхбйх тюикнб мю яепбеп я йкхемрю
      * 
-     * @param wrq The Write Request object
-     * @param is
-     * @return boolean
+     * @param wrq гюопня мю гюохяэ
+     * @param is бундмни онрнй
+     * @return boolean сдювмн?
      * @throws SocketException
      * @throws InstantiationException
      * @throws IOException
@@ -270,47 +282,45 @@ public class TFTPClient
             IOException
     {
         System.out.println( "[M] : upload: " + wrq.getFileName() );
-        // create a TFTP Socket
-        TFTPSocket tftpSock = new TFTPSocket( 5 );
+
+        TFTPSocket tftpSock = new TFTPSocket( timeout );
 
         int sequenceNumber = 0;
 
         ACK receive = new ACK( 0 );
         receive = this.sendRequest( tftpSock, wrq, receive );
 
-        // the server should send an ACK (where block number=0, need to
-        // check...)
+        // яепбеп днкфем онякюрэ оюйер ондрбепфдемхъ я мнлепнл акнйю 0
         if ( receive == null )
         {
-            // nothing returned from server...should throw an exception at this
-            // point.
+            // яепбеп лнквхр
             System.out.println( "Nothing returned from the server after the initial send." );
             return false;
         }
+
         if ( receive.getBlockNr() != 0 )
         {
-            // nothing returned from server...should throw an exception at this
-            // point.
+            // ме рнр мнлеп акнйю
             System.out.println( "The server has sent an ACK with wrong block number." );
             return false;
         }
 
         if ( receive instanceof OACK )
         {
-            // we received some extra's
+            // б ондрбепфдемхх я яепбепю еярэ днонкмхрекэмше ножхх!!!
             OACK oack = (OACK) receive;
             tsize = oack.getTransferSize();
             timeout = oack.getTimeout();
+            blksize = oack.getBlockSize();
         }
 
-        // need to find the port and address the server has chosen to
-        // communicate on and connect to it.
+        // нопедекъел онпр, йнрнпши яепбеп бшапюк дкъ янедхмемхъ
         int serverPort = receive.getPort();
         System.out.println( "The server has chosen the following port as the communication port: " + serverPort );
         InetAddress serverAddress = wrq.getAddress();
         tftpSock.connect( serverAddress, serverPort );
 
-        // need to read the file and send to server....
+        // вхрюел тюик х оепеяшкюел
         byte[] sendBytes = new byte[MAX_PACKAGE_SIZE];
         DATA send = new DATA();
         int returnValue = 0;
@@ -319,29 +329,27 @@ public class TFTPClient
         {
             System.out.println( "sending packet number: " + sequenceNumber );
 
-            // need to convert the byte array into correct TFTP format for the
-            // DATA obejct
+            // йнмбепрхпсел люяяхб аюир б йнппейрмши тнплюр оюйерю ртро
             send = new DATA( ++sequenceNumber, sendBytes, 0, returnValue );
             receive = new ACK( sequenceNumber );
 
-            // now send to server, which in turn sends an acknowledgement
+            // оняшкюел мю яепбеп, б нрбер онксвюел ондрбепфдемхе
             receive = TFTPUtils.dataTransfer( tftpSock, send, receive );
-
         }
-        // must remember to close the inputstream!
+
+        // ме гюашбюел гюйпшрэ онрнй дкъ времхъ
         is.close();
 
         return true;
     }
 
     /**
-     * This method is responsible for the initial communication between the
-     * client and the server .
+     * сярюмнбйю янедхмемхъ лефдс йкхемрнл х яепбепнл
      * 
-     * @param tftpSock
-     * @param frq
-     * @param recv
-     * @return
+     * @param tftpSock ртро-янйер
+     * @param frq гюопня
+     * @param recv нрбер
+     * @return нрбер
      */
     public ACK sendRequest(
         TFTPSocket tftpSock,
@@ -352,19 +360,17 @@ public class TFTPClient
         int retransmits = 0;
         int spamcount = 0;
 
-        /**
-         * Boolean flag that is used internally to indicate we might have
-         * stuffed the connection to the client with resent packages. This flag
-         * is cleared when we duplicate the timeout with the next data package
-         * sent which should help to clean up the channel that did get stuffed
-         */
+        // ткюц, сйюгшбючыхи мю анкэьне йнкхвеярбн онбрнпмн днякюммшу яннаыемхи
+        // б йюмюке, сбекхвхбюер гюдепфйс оепед дняшкйни, врнаш ме гюахбюрэ
+        // йюмюк
         boolean stuffedLink = false;
 
-        // send the packet....
+        // оняшкюел оюйер
         try
         {
             tftpSock.write( frq );
-            // if stuffed use duplicate timeout
+
+            // еякх йюмюк гюахр оюйерюлх - фд╗л бдбне днкэье
             if ( stuffedLink )
             {
                 tftpSock.setSocketTimeOut( tftpSock.getSocketTimeOut() * 2 );
@@ -379,15 +385,14 @@ public class TFTPClient
         TFTPPacket tftpP = null;
         boolean receiving = true;
 
-        // wait for successful acknowledgement!
+        // фд╗л ондрбепфдемхъ
         while ( receiving )
         {
             try
             {
                 tftpP = tftpSock.read();
 
-                // set timeout back because we gave enough time to clean up
-                // stuffed channel
+                // нвхыюел ткюц укюлю б йюмюке, р.й. онднфдюкх сфе днярюрнвмн
                 if ( stuffedLink )
                 {
                     tftpSock.setSocketTimeOut( tftpSock.getSocketTimeOut() );
@@ -400,19 +405,19 @@ public class TFTPClient
                 return null;
             }
 
-            // case we did not receive any packet
+            // мхвецн ме онксвхкх б нрбер
             if ( tftpP == null )
             {
                 if ( retransmits++ > 5 )
                 {
-                    // Too many retries, give up.
+                    // якхьйнл лмнцн онбрнпмшу оепеяшкнй
                     TFTPUtils.sendErrPacket( tftpSock, ERROR.ERR_NOT_DEFINED, "Retransmit limit exceeded" );
                     System.out.println( TFTPUtils.getClient( tftpSock ) + " Maximum retransmit count exceeded" );
                     return null;
                 }
                 else
                 {
-                    // resend the packet and wait again!
+                    // оепеяшкюел оюйер еы╗ пюг
                     System.out.println( TFTPUtils.getClient( tftpSock )
                                         + " expected packet before time out, sending ACK/DATA again" );
                     try
@@ -434,34 +439,32 @@ public class TFTPClient
                 }
             }
 
-            // case we received error
+            // онксвхкх ньханвмши оюйер
             if ( tftpP instanceof ERROR )
             {
                 System.out.println( TFTPUtils.getClient( tftpSock ) + " " + ((ERROR) tftpP).getErrorMessage() );
                 return null;
             }
 
-            // case we did recieve option acknowledgement while we expect
-            // data(1)
+            // еякх онксвхкх ондрбепфдемхе опхмърхъ ножхи блеярн дюммшу
             if ( (tftpP instanceof OACK) && (recv instanceof DATA) && (recv.getBlockNr() == 1) )
             {
                 return (ACK) tftpP;
             }
 
-            // case we did recieve option acknowledgement while we expect ack(0)
+            // еякх онксвхкх ондрбепфдемхъ ножхи блеярн ондрбепфдемхъ дюммшу
             if ( (tftpP instanceof OACK) && (recv instanceof ACK) && (recv.getBlockNr() == 0) )
             {
                 return (ACK) tftpP;
             }
 
-            // case we did receive expected
+            // онксвхкх врн унрекх
             if ( (tftpP instanceof ACK) && TFTPUtils.correctAnswer( recv, (ACK) tftpP ) )
             {
                 return (ACK) tftpP;
             }
 
-            // all other is spam and when too many of this crap is give up, and
-            // do not signal
+            // вэх-рн кебше оюйерш, еякх якхьйнл лмнцн - ньхайю
             if ( spamcount++ > 5 )
             {
                 return null;
@@ -470,27 +473,63 @@ public class TFTPClient
         return null;
     }
 
+    /**
+     * бнгбпюыюер ножхч "рюилюср"
+     * 
+     * @return рюилюср
+     */
     public int getOptionTimeout()
     {
         return timeout;
     }
 
+    /**
+     * бнгбпюыюер ножхч "пюглеп акнйю"
+     * 
+     * @return пюглеп акнйю
+     */
+    public int getOptionBlockSize()
+    {
+        return blksize;
+    }
+
+    /**
+     * бнгбпюыюер ножхч "пюглеп тюикю"
+     * 
+     * @return пюглеп тюикю
+     */
     public int getOptionTransferSize()
     {
         return tsize;
     }
 
+    /**
+     * сярюмюбкхбюер хлъ унярю мюгмювемхъ
+     * 
+     * @param hostName мнбне хлъ унярю мюгмювемхъ
+     */
     private void setHostName(
         String hostName )
     {
         this.hostName = hostName;
     }
 
+    /**
+     * бнгбпюыюер хлъ унярю мюгмювемхъ
+     * 
+     * @return хлъ унярю мюгмювемхъ
+     */
     private String getHostName()
     {
         return this.hostName;
     }
 
+    /**
+     * бнгбпюыюер юдпея мюгмювемхъ
+     * 
+     * @return юдпея мюгмювемхъ
+     * @throws UnknownHostException
+     */
     private InetAddress getInetAddress()
         throws UnknownHostException
     {
