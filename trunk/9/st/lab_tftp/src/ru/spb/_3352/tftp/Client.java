@@ -148,7 +148,7 @@ public class Client
                 }
 
                 // декюел гюопня мю времхе й яепбепс
-                RRQ rrq = client.initializeDownload( srcFileName, 5, 0, 2048 );
+                RRQ rrq = client.initializeDownload( srcFileName, 0, 0, 0 );
                 rrq.setPort( port );
 
                 // цнрнбхл тюик дкъ гюохях
@@ -176,7 +176,7 @@ public class Client
 
                     if ( !fileToWrite.delete() )
                     {
-                        System.out.println( "Deletion dailed, please delete file manually" );
+                        System.out.println( "Deletion failed, please delete file manually" );
                     }
                 }
             }
@@ -206,7 +206,7 @@ public class Client
                 }
 
                 // декюел гюопня мю гюохяэ
-                WRQ wrq = client.initializeUpload( dstFileName, 5, 0, 2048 );
+                WRQ wrq = client.initializeUpload( dstFileName, 0, 0, 0 );
                 wrq.setPort( port );
 
                 // цнрнбхл тюик дкъ времхъ
