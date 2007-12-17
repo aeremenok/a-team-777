@@ -203,6 +203,9 @@ public class TFTPUtils
         System.out.println( "SEND ERROR" + " [" + getClient( tftpSock ) + "] EC = [" + errorCode + "] " + errorMsg );
     }
 
+    /**
+     * гюйпшрши йнмярпсйрнп
+     */
     private TFTPUtils()
     {
         // щйгелокъпш щрнцн йкюяяю мекэгъ янгдюбюрэ

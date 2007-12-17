@@ -13,10 +13,7 @@ import ru.spb._3352.tftp.common.RRQ;
 import ru.spb._3352.tftp.common.WRQ;
 
 /**
- * нанкнвйю дкъ гюосяйю йкхемрю гюосяй: Client host server_port
- */
-/**
- * @author ssv
+ * нанкнвйю дкъ гюосяйю йкхемрю
  */
 public class Client
 {
@@ -151,7 +148,7 @@ public class Client
                 }
 
                 // декюел гюопня мю времхе й яепбепс
-                RRQ rrq = client.initializeDownload( srcFileName, 5, 0 );
+                RRQ rrq = client.initializeDownload( srcFileName, 5, 0, 2048 );
                 rrq.setPort( port );
 
                 // цнрнбхл тюик дкъ гюохях
@@ -209,7 +206,7 @@ public class Client
                 }
 
                 // декюел гюопня мю гюохяэ
-                WRQ wrq = client.initializeUpload( dstFileName, 5, 0 );
+                WRQ wrq = client.initializeUpload( dstFileName, 5, 0, 2048 );
                 wrq.setPort( port );
 
                 // цнрнбхл тюик дкъ времхъ
