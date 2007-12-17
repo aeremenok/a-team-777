@@ -35,11 +35,6 @@ public class TFTPClient
     public static final int    DEFAULT_PORT     = 69;
 
     /**
-     * Ã¿ —»Ã¿À‹Õ€… –¿«Ã≈– ƒ¿ÕÕ€’ ¬ œ¿ ≈“≈
-     */
-    private static final int   MAX_PACKAGE_SIZE = 8192;
-
-    /**
      * ƒŒœŒÀÕ»“≈À‹Õ€≈ Œœ÷»» - –¿«Ã≈– ¡ÀŒ ¿
      */
     private int                blksize;
@@ -143,7 +138,7 @@ public class TFTPClient
         tftpSock.connect( serverAddress, serverPort );
 
         ACK ack = null;
-        while ( receive.getData().length >= MAX_PACKAGE_SIZE )
+        while ( receive.getData().length >= getOptionBlockSize() )
         {
             ack = new ACK( sequenceNumber++ );
             receive = new DATA( sequenceNumber, dummyByteArray );
@@ -509,7 +504,7 @@ public class TFTPClient
         tftpSock.connect( serverAddress, serverPort );
 
         // ◊»“¿≈Ã ‘¿…À » œ≈–≈—€À¿≈Ã
-        byte[] sendBytes = new byte[MAX_PACKAGE_SIZE];
+        byte[] sendBytes = new byte[getOptionBlockSize()];
         DATA send = new DATA();
         int returnValue = 0;
 
