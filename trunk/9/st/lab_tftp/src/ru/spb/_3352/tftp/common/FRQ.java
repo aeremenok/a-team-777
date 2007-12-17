@@ -71,11 +71,6 @@ public abstract class FRQ
     TFTPOptions    tftpOptions = null;
 
     /**
-     * люйяхлюкэмши пюглеп оепедюбюелнцн тюикю он слнквюмхч
-     */
-    private int    tsize       = 2048;
-
-    /**
      * йнмярпсйрнп он слнквюмхч
      */
     public FRQ()
@@ -128,8 +123,7 @@ public abstract class FRQ
      * гюопня мю времхе хкх гюохяэ. йнд ноепюжхх (OPCODE) сярюмюбкхбюеряъ б
      * йкюяяе-мюякедмхйе. б яепбепмнл йнде щрнр лернд ме хяонкэгсеряъ, р.й.
      * гюопняш мю времхе х гюохяэ асдср онксвюрэяъ х янгдюбюрэяъ рнкэйн хг
-     * люяяхбнб аюир (UDP-оюйернб). FIXME менаундхлн пеюкхгнбюрэ онддепфйс
-     * днонкмхрекэмшу ножхи йкхемрнл.
+     * люяяхбнб аюир (UDP-оюйернб).
      */
     public byte[] getBytes()
     {
@@ -199,6 +193,21 @@ public abstract class FRQ
             tftpP[IX_OPTION++] = 0;
         }
 
+        // днонкмхрекэмюъ ножхъ пюглепю акнйю
+        if ( hasOptions() && tftpOptions.hasOption( TFTPOptions.BLKSIZE ) )
+        {
+            optionLength = TFTPOptions.BLKSIZE.length();
+            System.arraycopy( TFTPOptions.BLKSIZE.getBytes(), 0, tftpP, IX_OPTION, optionLength );
+            IX_OPTION += optionLength;
+            tftpP[IX_OPTION++] = 0;
+
+            optionValue = "" + tftpOptions.getBlockSize();
+            optionLength = optionValue.length();
+            System.arraycopy( optionValue.getBytes(), 0, tftpP, IX_OPTION, optionLength );
+            IX_OPTION += optionLength;
+            tftpP[IX_OPTION++] = 0;
+        }
+
         return tftpP;
     }
 
@@ -232,6 +241,21 @@ public abstract class FRQ
         if ( hasOptions() )
         {
             return tftpOptions.getTimeout();
+        }
+
+        return -1;
+    }
+
+    /**
+     * бнгбпюыюер пюглеп акнйю
+     * 
+     * @return пюглеп акнйю
+     */
+    public int getBlockSize()
+    {
+        if ( hasOptions() )
+        {
+            return tftpOptions.getBlockSize();
         }
 
         return -1;
@@ -379,5 +403,21 @@ public abstract class FRQ
         }
 
         tftpOptions.setTransferSize( transferSize );
+    }
+
+    /**
+     * сярюмюбкхбюер пюглеп акнйю
+     * 
+     * @param blkSize пюглеп акнйю
+     */
+    public void setBlockSize(
+        int blkSize )
+    {
+        if ( tftpOptions == null )
+        {
+            tftpOptions = new TFTPOptions();
+        }
+
+        tftpOptions.setBlockSize( blkSize );
     }
 }

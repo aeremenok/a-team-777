@@ -1,8 +1,7 @@
 package ru.spb._3352.tftp.common;
 
 /**
- * оюйер ондрбепфдемхъ днонкмхрекэмшу ножхи (OPCODE = 6) FIXME ДНАЮБХРЭ
- * ОНДДЕПФЙС ПЮГЛЕПЮ ОЮЙЕРЮ
+ * оюйер ондрбепфдемхъ днонкмхрекэмшу ножхи (OPCODE = 6)
  */
 public class OACK
     extends ACK
@@ -54,6 +53,21 @@ public class OACK
         this.options = options;
     }
 
+    /**
+     * пюглеп акнйю
+     * 
+     * @return пюглеп акнйю
+     */
+    public int getBlockSize()
+    {
+        if ( options != null )
+        {
+            return options.getBlockSize();
+        }
+
+        return -1;
+    }
+
     /* (non-Javadoc)
      * @see ru.spb._3352.tftp.common.ACK#getBytes()
      */
@@ -99,9 +113,25 @@ public class OACK
             IX_OPTION += length;
             tftpP[IX_OPTION++] = 0;
         }
-        int IX_BLOCKNR = IX_OPTION;
+
+        // пюглеп акнйю
+        int blksize = options.getBlockSize();
+        if ( blksize > 0 )
+        {
+            int length = options.BLKSIZE.length();
+            System.arraycopy( options.BLKSIZE.getBytes(), 0, tftpP, IX_OPTION, length );
+            IX_OPTION += length;
+            tftpP[IX_OPTION++] = 0;
+
+            String blkSizeValue = (String) options.get( options.BLKSIZE );
+            length = blkSizeValue.length();
+            System.arraycopy( blkSizeValue.getBytes(), 0, tftpP, IX_OPTION, length );
+            IX_OPTION += length;
+            tftpP[IX_OPTION++] = 0;
+        }
 
         // мнлеп акнйю
+        int IX_BLOCKNR = IX_OPTION;
         tftpP[IX_BLOCKNR] = (byte) ((blockNr >> 8) & 0xff);
         tftpP[IX_BLOCKNR + 1] = (byte) (blockNr & 0xff);
 
@@ -171,6 +201,21 @@ public class OACK
         }
 
         return -1;
+    }
+
+    /**
+     * япедх ножхи еярэ пюглеп акнйю
+     * 
+     * @return TRUE, еякх еярэ ножхъ "пюглеп акнйю", FALSE хмюве
+     */
+    public boolean hasBlockSize()
+    {
+        if ( options != null )
+        {
+            return options.hasOption( TFTPOptions.BLKSIZE );
+        }
+
+        return false;
     }
 
     /**
