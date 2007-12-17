@@ -43,6 +43,7 @@ protected:
     // ребро для подсветки
 	//##ModelId=47545D9C010A
     Ribble<CElement>* _ribble;
+	// начальная вершина
 	//##ModelId=475AD6530238
     CElement* _firstVertex;
 

@@ -57,7 +57,6 @@ CSketcherDoc::CSketcherDoc()
    m_Element = RECTANGLE;   // Set initial element type
    m_Color = BLACK;    // Set initial drawing color
    _container = new Graph<CElement>();
-   _iter = _container->getIterator();
    m_DocSize = CSize(3000,3000);  // Set initial document size 30x30 inches
 }
 
@@ -154,7 +153,6 @@ void CSketcherDoc::serializeContainer( CArchive& ar )
             	AfxMessageBox(e->getException().c_str());
             }
         }
-        _iter->first();
     }
 }
 
@@ -336,7 +334,6 @@ void CSketcherDoc::SendToBack(CElement* pElement)
     {
         _container->removeVertex(pElement);
         _container->addVertex(pElement);
-        _iter->first();
     }    
 }
 
@@ -346,7 +343,6 @@ void CSketcherDoc::DeleteElement( CElement* m_pSelected )
     try
     {
         _container->removeVertex(m_pSelected);
-        _iter->first();
     }
     catch (GraphException* e)
     {
