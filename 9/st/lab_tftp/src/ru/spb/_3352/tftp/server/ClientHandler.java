@@ -243,6 +243,7 @@ public class ClientHandler
             TFTPOptions options = new TFTPOptions();
             options.setTimeout( getTimeout() );
             options.setTransferSize( getTransferSize() );
+            options.setBlockSize( getBlockSize() );
             send = new OACK( 0, options );
         }
         else
@@ -453,6 +454,7 @@ public class ClientHandler
                 TFTPOptions options = new TFTPOptions();
                 options.setTimeout( getTimeout() );
                 options.setTransferSize( getTransferSize() );
+                options.setBlockSize( getBlockSize() );
                 send = new OACK( 0, options );
             }
             else
