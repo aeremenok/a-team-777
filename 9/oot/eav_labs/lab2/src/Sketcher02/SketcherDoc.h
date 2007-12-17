@@ -35,9 +35,6 @@ protected:
     // граф фигур документа
 	//##ModelId=4741F10E0293
     Graph<CElement>* _container;
-    // итератор для обхода графа, сохраняющий позицию
-	//##ModelId=475326640139
-    Iterator<CElement>* _iter;
 // Operations
 public:
 	//##ModelId=473EDD6D02CF
@@ -58,9 +55,6 @@ public:
     // получить новый итератор, указавющий на начало контейнера
 	//##ModelId=4741F10E0297
     Iterator<CElement>* getNewIterator() const { return _container->getIterator(); }
-    // получить итератор, сохраняющий позицию
-	//##ModelId=475326640148
-    Iterator<CElement>* getStaticIterator() const { return _iter; }
     // получить список ребер, инцидентных выбранной вершине
 	//##ModelId=475AD65302CE
     ExternalGraphIterator<CElement>* getNearestRibbles(CElement* selected);

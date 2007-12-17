@@ -584,7 +584,6 @@ void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
     CClientDC aDC(this);
     OnPrepareDC(&aDC);
     
-    Iterator<CElement>* iter = GetDocument()->getStaticIterator();
     switch(nChar)
     {
         case 38: // up
