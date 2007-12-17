@@ -37,7 +37,7 @@ public class TFTPClient
     /**
      * днонкмхрекэмше ножхх - пюглеп акнйю
      */
-    private int                blksize;
+    private int                blksize          = 2048;
 
     /**
      * хлъ унярю
@@ -47,12 +47,12 @@ public class TFTPClient
     /**
      * днонкмхрекэмше ножхх - бпелъ нфхдюмхъ
      */
-    private int                timeout;
+    private int                timeout          = 5;
 
     /**
      * днонкмхрекэмше ножхх - пюглеп оюйерю
      */
-    private int                tsize;
+    private int                tsize            = 100 * 2048 * 1024;
 
     /**
      * йнмярпсйрнп
