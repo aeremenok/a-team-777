@@ -21,88 +21,6 @@ import ru.spb._3352.tftp.common.WRQ;
 public class Client
 {
     /**
-     * ÄÎÌÀØÍßß ÄÈĞÅÊÒÎĞÈß ÄËß ÊËÈÅÍÒÀ, ÌÎÆÅÒ ÈÇÌÅÍßÒÜÑß ÂÎ ÂĞÅÌß ĞÀÁÎÒÛ
-     */
-    private File _home = null;
-
-    /**
-     * ÂÛÂÎÄÈÒ ÈÍÔÎĞÌÀÖÈŞ ÏÎ ÇÀÏÓÑÊÓ
-     */
-    public static void printUsage()
-    {
-        System.out.println( "Program usage:" );
-        System.out.println( "\tclient SERVER_HOST SERVER_PORT HOME_DIR\n" );
-        System.out.println( "Example:" );
-        System.out.println( "\tclient localhost 69 d:\\temp\\\n" );
-    }
-
-    /**
-     * ÂÛÂÎÄ ÑÏÈÑÊÀ ÄÎÑÒÓÏÍÛÕ ÏÎËÜÇÎÂÀÒÅËŞ ÊÎÌÀÍÄ
-     */
-    public static void printCommands()
-    {
-        System.out.println( "Valid commands are:\n" );
-        System.out.println( "help\tgetting this help" );
-        System.out.println( "home\tchanging home directory" );
-        System.out.println( "get\tdownload file from server" );
-        System.out.println( "put\tupload file to a server" );
-        System.out.println( "exit\tquit program" );
-        System.out.println( "\nUse 'help <command>' to get help on commands syntax.\n" );
-    }
-
-    /**
-     * ÂÛÂÎÄ ÄÅÒÀËÜÍÎÉ ÑÏĞÀÂÊÈ ÏÎ ÑÈÍÒÀÊÑÈÑÓ ÊÎÌÀÍÄÛ
-     * 
-     * @param commandName ÊÎÌÀÍÄÀ
-     */
-    public static void printDetailedCommandInfo(
-        String commandName )
-    {
-        if ( "help".equalsIgnoreCase( commandName ) )
-        {
-            System.out.println( "Command syntax:" );
-            System.out.println( "\thelp\t getting command list" );
-            System.out.println( "\thelp <command>\t getting detailed iformation on <command> syntax" );
-            System.out.println( "\nExample:\n\thelp get\n" );
-        }
-        else if ( "home".equalsIgnoreCase( commandName ) )
-        {
-            System.out.println( "Command syntax:" );
-            System.out.println( "\thome <dir>\n" );
-            System.out.println( "\t\t* <dir> is a new home directory\n" );
-            System.out.println( "\nExample\n\thome d:\\temp\n" );
-        }
-        else if ( "get".equalsIgnoreCase( commandName ) )
-        {
-            System.out.println( "Command syntax:" );
-            System.out.println( "\tget <srcFileName>\n" );
-            System.out.println( "\tget <srcFileName> <dstFileName>\n" );
-            System.out.println( "\t\t* <srcFileName> is name of the file to be downloaded\n" );
-            System.out.println( "\t\t* <dstFileName> if specified is a name for result storing"
-                                + " (may be useful if you want to download few copies of file"
-                                + " without manual renaming)\n" );
-            System.out.println( "\nExample\n\tget openoffice.7z oo1.7z\n" );
-        }
-        else if ( "put".equalsIgnoreCase( commandName ) )
-        {
-            System.out.println( "Command syntax:" );
-            System.out.println( "\tput <srcFileName>\n" );
-            System.out.println( "\tput <srcFileName> <dstFileName>\n" );
-            System.out.println( "\t\t* <srcFileName> is name of the file to be uploaded\n" );
-            System.out.println( "\t\t* <dstFileName> if specified is a name for result storing"
-                                + " (may be useful if you want to upload few copies of file"
-                                + " without manual renaming)\n" );
-            System.out.println( "\nExample\n\tput oo.7z openoffice.7z\n" );
-        }
-        else if ( "exit".equalsIgnoreCase( commandName ) )
-        {
-            System.out.println( "Command syntax:" );
-            System.out.println( "\texit\n" );
-            System.out.println( "\tNo additional parameters are required\n" );
-        }
-    }
-
-    /**
      * ÒÎ×ÊÀ ÂÕÎÄÀ
      * 
      * @param args ÀĞÃÓÌÅÍÒÛ ÊÎÌÀÍÄÍÎÉ ÑÒĞÎÊÈ
@@ -332,6 +250,88 @@ public class Client
 
         System.out.println( "Client application has quit..." );
     }
+
+    /**
+     * ÂÛÂÎÄ ÑÏÈÑÊÀ ÄÎÑÒÓÏÍÛÕ ÏÎËÜÇÎÂÀÒÅËŞ ÊÎÌÀÍÄ
+     */
+    public static void printCommands()
+    {
+        System.out.println( "Valid commands are:\n" );
+        System.out.println( "help\tgetting this help" );
+        System.out.println( "home\tchanging home directory" );
+        System.out.println( "get\tdownload file from server" );
+        System.out.println( "put\tupload file to a server" );
+        System.out.println( "exit\tquit program" );
+        System.out.println( "\nUse 'help <command>' to get help on commands syntax.\n" );
+    }
+
+    /**
+     * ÂÛÂÎÄ ÄÅÒÀËÜÍÎÉ ÑÏĞÀÂÊÈ ÏÎ ÑÈÍÒÀÊÑÈÑÓ ÊÎÌÀÍÄÛ
+     * 
+     * @param commandName ÊÎÌÀÍÄÀ
+     */
+    public static void printDetailedCommandInfo(
+        String commandName )
+    {
+        if ( "help".equalsIgnoreCase( commandName ) )
+        {
+            System.out.println( "Command syntax:" );
+            System.out.println( "\thelp\t getting command list" );
+            System.out.println( "\thelp <command>\t getting detailed iformation on <command> syntax" );
+            System.out.println( "\nExample:\n\thelp get\n" );
+        }
+        else if ( "home".equalsIgnoreCase( commandName ) )
+        {
+            System.out.println( "Command syntax:" );
+            System.out.println( "\thome <dir>\n" );
+            System.out.println( "\t\t* <dir> is a new home directory\n" );
+            System.out.println( "\nExample\n\thome d:\\temp\n" );
+        }
+        else if ( "get".equalsIgnoreCase( commandName ) )
+        {
+            System.out.println( "Command syntax:" );
+            System.out.println( "\tget <srcFileName>\n" );
+            System.out.println( "\tget <srcFileName> <dstFileName>\n" );
+            System.out.println( "\t\t* <srcFileName> is name of the file to be downloaded\n" );
+            System.out.println( "\t\t* <dstFileName> if specified is a name for result storing"
+                                + " (may be useful if you want to download few copies of file"
+                                + " without manual renaming)\n" );
+            System.out.println( "\nExample\n\tget openoffice.7z oo1.7z\n" );
+        }
+        else if ( "put".equalsIgnoreCase( commandName ) )
+        {
+            System.out.println( "Command syntax:" );
+            System.out.println( "\tput <srcFileName>\n" );
+            System.out.println( "\tput <srcFileName> <dstFileName>\n" );
+            System.out.println( "\t\t* <srcFileName> is name of the file to be uploaded\n" );
+            System.out.println( "\t\t* <dstFileName> if specified is a name for result storing"
+                                + " (may be useful if you want to upload few copies of file"
+                                + " without manual renaming)\n" );
+            System.out.println( "\nExample\n\tput oo.7z openoffice.7z\n" );
+        }
+        else if ( "exit".equalsIgnoreCase( commandName ) )
+        {
+            System.out.println( "Command syntax:" );
+            System.out.println( "\texit\n" );
+            System.out.println( "\tNo additional parameters are required\n" );
+        }
+    }
+
+    /**
+     * ÂÛÂÎÄÈÒ ÈÍÔÎĞÌÀÖÈŞ ÏÎ ÇÀÏÓÑÊÓ
+     */
+    public static void printUsage()
+    {
+        System.out.println( "Program usage:" );
+        System.out.println( "\tclient SERVER_HOST SERVER_PORT HOME_DIR\n" );
+        System.out.println( "Example:" );
+        System.out.println( "\tclient localhost 69 d:\\temp\\\n" );
+    }
+
+    /**
+     * ÄÎÌÀØÍßß ÄÈĞÅÊÒÎĞÈß ÄËß ÊËÈÅÍÒÀ, ÌÎÆÅÒ ÈÇÌÅÍßÒÜÑß ÂÎ ÂĞÅÌß ĞÀÁÎÒÛ
+     */
+    private File _home = null;
 
     /**
      * ÂÎÇÂĞÀÙÀÅÒ ÄÎÌÀØÍŞŞ ÄÈĞÅÊÒÎĞÈŞ
