@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CSketcherDoc
+LastClass=CScaleDialog
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "Sketcher.h"
@@ -20,12 +20,12 @@ Resource2=IDR_CURSOR_MENU (English (U.S.))
 Resource3=IDR_SKETCHTYPE
 Class5=CAboutDlg
 Class6=CChildFrame
-Resource4=IDD_ABOUTBOX (English (U.S.))
+Resource4=IDD_TEXTREQUEST_DIALOG
 Resource5=IDD_ABOUTBOX
-Resource6=IDD_SCALE_DLG
+Resource6=IDD_ABOUTBOX (English (U.S.))
 Class7=TextRequest
 Resource7=IDR_SKETCHTYPE (English (U.S.))
-Resource8=IDD_TEXTREQUEST_DIALOG
+Resource8=IDD_SCALE_DLG
 Class8=CScaleDialog
 Resource9=IDR_MAINFRAME (English (U.S.))
 
@@ -50,7 +50,7 @@ Type=0
 HeaderFile=SketcherView.h
 ImplementationFile=SketcherView.cpp
 Filter=C
-LastObject=ID_ELEMENT_RIBBLE
+LastObject=CSketcherView
 BaseClass=CScrollView
 VirtualFilter=VWC
 

@@ -70,7 +70,7 @@ public:
 protected:
     // сериализует элементы контейнера
     //##ModelId=4751AAD80232
-    void serializeContainer(CArchive& ar);
+    void serializeContainer( CArchive& ar );
     // восстанавливает из файла фигуру и ее положение в контейнере
 	//##ModelId=47527CD90213
     Shape* readShape(CArchive &ar, map<int, Shape*> &shapes);
