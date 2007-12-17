@@ -37,7 +37,7 @@ public class TFTPClient
     /**
      * люйяхлюкэмши пюглеп оюйерю
      */
-    private static final int   MAX_PACKAGE_SIZE = 512;
+    private static final int   MAX_PACKAGE_SIZE = 2048;
 
     /**
      * хлъ унярю
@@ -179,7 +179,7 @@ public class TFTPClient
 
         if ( surprisePacket instanceof OACK )
         {
-            // we received some extra's
+            // еярэ днонкмхрекэмше ножхх
             OACK oack = (OACK) surprisePacket;
             tsize = oack.getTransferSize();
             timeout = oack.getTimeout();
@@ -191,22 +191,22 @@ public class TFTPClient
             receive = (DATA) TFTPUtils.dataTransfer( tftpSock, ack, receive );
             if ( receive == null )
             {
-                // nothing returned from server...on acking the oack.
+                // мхвецн ме опхькн я яепбепю оняке ондрбепфдемхъ онксвемхъ дно.
+                // ножхи
                 System.out.println( "Nothing returned from the server after ack on oack." );
                 return false;
             }
         }
         else if ( surprisePacket instanceof DATA )
         {
-            // too bad, now we need to work
+            // хмтнплюжхъ
             receive = (DATA) surprisePacket;
         }
 
-        // write this data to the output stream....
+        // гюохяшбюел б тюик
         os.write( receive.getData() );
 
-        // need to find the port and address the server has chosen to
-        // communicate on and connect to it.
+        // нопедекъел онпр х юдпея, бшапюммше яепбепнл, х ондйкчвюеляъ
         int serverPort = receive.getPort();
         System.out.println( "The server has chosen the following port as the communication port: " + serverPort );
         InetAddress serverAddress = rrq.getAddress();
@@ -223,22 +223,22 @@ public class TFTPClient
 
             if ( receive == null )
             {
-                // nothing returned from server....
+                // яепбеп лнквхр
                 System.out.println( "Nothing returned from the server after the transfer." );
                 return false;
             }
+
             os.write( receive.getData() );
         }
-        // now that the last packet in the file has been sent, the client must
-        // sent an
-        // acknowledgement to confirm it has received the last package...or else
-        // the server
-        // tries to resend..and resend....etc
+
+        // реоепэ онякедмхи оюйер тюикю нрнякюм, йкхемр днкфем онякюрэ
+        // ондрбепфдемхе врнаш сднярнбепхрэяъ, врн нм бя╗ онксвхк. еякх мер -
+        // яепбеп ошрюеряъ днякюрэ онрепъммши оюйер
         System.out.println( "send ack to say that we have received last message." );
         ack = new ACK( sequenceNumber );
         receive = (DATA) TFTPUtils.dataTransfer( tftpSock, ack, null );
 
-        // ensure that the stream is closed.
+        // гюйпшбюел бшундмни онрнй
         os.close();
 
         return true;

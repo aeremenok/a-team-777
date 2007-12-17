@@ -1,7 +1,3 @@
-/**
- * (c) Melexis Telecom and/or Remote Operating Services B.V. Distributable under
- * LGPL license See terms of license at gnu.org
- */
 package ru.spb._3352.tftp.server;
 
 import java.io.FileNotFoundException;
@@ -23,32 +19,42 @@ import ru.spb._3352.tftp.common.VirtualFileSystem;
 import ru.spb._3352.tftp.common.WRQ;
 
 /**
- * class: TFTPRequestHandler package: ru.spb._3352.tftp.server project:
- * tftp4java
+ * напюанрвхй гюопнянб
  */
-/**
- * @author marco
- */
-
-/*
- * This class handles off one TFTP write or read request
- * in future time this could be improved to handle more than one
- * request on same socket.
- * Thus the maximum of 65534 ports could be overcome
- * if capacity on NIC and processor would allow. */
 public class TFTPRequestHandler
 {
     /**
-     * store reference to file system for later use
+     * йнмрейяр
+     */
+    Context       ctx;
+
+    /**
+     * яксьюрекэ янашрхи
+     */
+    private EventListener     listener = null;
+
+    /**
+     * ртро-йкхемр
+     */
+    ClientHandler tftpClient;
+
+    /**
+     * рейсыхи онрнй
+     */
+    Thread        thisThread;
+
+    /**
+     * яяшкйю мю тюикнбсч яхярелс дкъ дюкэмеиьецн хяонкэгнбюмхъ
      */
     private VirtualFileSystem vfs      = null;
 
     /**
-     * event listener on which we can fire events
+     * йнмярпсйрнп
+     * 
+     * @param vfs бхпрсюкэмюъ тюикнбюъ яхярелш
+     * @param listener яксьюрекэ янашрхи
+     * @throws SocketException
      */
-    private EventListener     listener = null;
-
-    /** Creates a new instance of TFTPRequestHandler */
     public TFTPRequestHandler(
         VirtualFileSystem vfs,
         EventListener listener )
@@ -57,8 +63,7 @@ public class TFTPRequestHandler
         this.vfs = vfs;
         this.listener = listener;
         tftpClient = new ClientHandler();
-        // mcpq = new MCPStream();
-        /* would like to replace with dynamic array! */
+
         try
         {
             ctx = new InitialContext();
@@ -71,26 +76,12 @@ public class TFTPRequestHandler
     }
 
     /**
-     * This method is called when a client sends another WRQ or RRQ while this
-     * TFTPRequestHandler is already working on a previous WRQ or RRQ from the
-     * client
+     * рнвйю бундю б онрнй бшонкмемхъ
+     * 
+     * @param frq гюопня
+     * @param clientAddress юдпея йкхемрю
+     * @param clientPort онпр йкхемрю
      */
-    public boolean waitingForNewRequest(
-        FRQ frq )
-    {
-        if ( tftpClient.waitingForNewRequest() )
-        {
-            tftpClient.newRequest();
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    // This run is called as main for TFTPWorkerThread it is passed a packet
-    // received on the TFTPServerSocket
     public void run(
         FRQ frq,
         InetAddress clientAddress,
@@ -101,21 +92,23 @@ public class TFTPRequestHandler
             System.out.println( "TFTPRequestHandler run is called with null packet!" );
             return;
         }
+
         if ( clientAddress == null )
         {
             System.out.println( "TFTPRequestHandler run is called with invalid client address!" );
             return;
         }
+
         if ( clientPort == 0 )
         {
             System.out.println( "TFTPRequestHandler run is called with invalid client port!" );
             return;
         }
 
-        // prepare the tftpClient to send packages to the new client
+        // янедхмъел ртро-йкхемр я йкхемрнл
         tftpClient.connect( clientAddress, clientPort );
 
-        // get timeout otherwise set default to 5 secs
+        // онксвюел рюилюср, хмюве сярюмюбкхбюел б 5 яейсмд
         int timeout = frq.getTimeout();
         if ( timeout <= 0 )
         {
@@ -123,11 +116,11 @@ public class TFTPRequestHandler
         }
         tftpClient.setTimeout( timeout );
 
-        // get tsize otherwise set default to half megabyte
+        // онксвюел пюглеп тюикю
         int tsize = frq.getTransferSize();
         if ( tsize < 0 )
         {
-            tsize = 512 * 1024;
+            tsize = 2048 * 1024;
         }
         tftpClient.setTransferSize( tsize );
 
@@ -143,8 +136,6 @@ public class TFTPRequestHandler
             InputStream is = null;
             try
             {
-                // get an InputStream from VirtualFileSystem and read
-                // within the ClientHandler from this stream
                 is = vfs.getInputStream( file );
             }
             catch ( FileNotFoundException e )
@@ -154,13 +145,9 @@ public class TFTPRequestHandler
                 return;
             }
 
-            // at this point we have valid pizza stream
+            sendOK = tftpClient.sendFileToClient( is, clientAddress, clientPort, frq.hasOptions() );
 
-            // retrieve mcp data sa fileContent from mcpServer
-            sendOK = tftpClient.sendFileToClient( is /*fileContent*/
-            , clientAddress, clientPort, frq.hasOptions() );
-
-            // Generate after download event
+            // цемепхпсел янашрхе он нйнмвюмхх гюйювйх
             if ( listener != null )
             {
                 listener.onAfterDownload( clientAddress, clientPort, rrq.getFileName(), sendOK );
@@ -182,16 +169,12 @@ public class TFTPRequestHandler
             System.out.println( tftpClient.getClient() + " WRQ " + wrq.getFileName() );
             VirtualFile file = new VirtualFileImpl( wrq.getFileName() );
 
-            // retrieve file from client
+            // онксвюел тюик нр йкхемрю
             try
             {
-                // get an OutputStream from VirtualFileSystem and write to it
-                // within the ClientHandler from this stream
                 OutputStream os = vfs.getOutputStream( file );
-                // fileContent =
                 boolean receiveOK = tftpClient.receiveFileFromClient( os, clientAddress, clientPort, frq.hasOptions() );
-                // FDU: receiveFileFromClient has already closed the stream
-                // os.close();
+
                 if ( listener != null )
                 {
                     listener.onAfterUpload( clientAddress, clientPort, wrq.getFileName(), receiveOK );
@@ -205,15 +188,33 @@ public class TFTPRequestHandler
         }
     }
 
+    /**
+     * нярюмнбйю онрнйю
+     */
     public void stop()
     {
-        // disconnect the client from here that no strange packets are sent to
-        // client
+        // нрйкчвюеляъ нр йкхемрю
         tftpClient.disconnect();
     }
 
-    Thread        thisThread;
-    Context       ctx;
-    ClientHandler tftpClient;
-    // MCPStream mcpq;
+    /**
+     * бшгшбюеряъ йнцдю йкхемр оняшкюер дпсцни гюопня мю времхе хкх гюохяэ, б рн
+     * бпелъ йюй щрнр напюанрвхй еы╗ гюмър опедшдсыхл гюопнянл
+     * 
+     * @param frq гюопня
+     * @return напюанрвхй ябнандем?
+     */
+    public boolean waitingForNewRequest(
+        FRQ frq )
+    {
+        if ( tftpClient.waitingForNewRequest() )
+        {
+            tftpClient.newRequest();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

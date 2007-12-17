@@ -1,7 +1,3 @@
-/**
- * (c) Melexis Telecom and/or Remote Operating Services B.V. Distributable under
- * LGPL license See terms of license at gnu.org
- */
 package ru.spb._3352.tftp.server;
 
 import java.net.InetAddress;
@@ -37,16 +33,332 @@ import javax.management.ReflectionException;
 import ru.spb._3352.tftp.common.FRQ;
 import ru.spb._3352.tftp.common.VirtualFileSystem;
 
-/* This class contains a pool of TFTPRequestHandlers.
- * Those handlers work of incoming requests on a TFTP server socket. */
+/**
+ * œ”À Œ¡–¿¡Œ“◊» Œ¬ «¿œ–Œ—Œ¬
+ */
 public class TFTPPool
 {
-    private Stack             idleWorkers;
-    private int               size;
-    private Hashtable         connections;
+    /**
+     * –¿¡Œ“¿≈“ — œŒ“Œ ¿Ã» » Œ¡–¿¡Œ“◊» ¿Ã» «¿œ–Œ—Œ¬
+     */
+    class TFTPRHThread
+        extends Thread
+        implements
+            DynamicMBean
+    {
+        final static String        CLIENTS  = "Clients";
+        final static String        IDENTITY = "Identity";
+        final static String        RUNNING  = "Running";
+        private InetAddress        address;
+        private boolean            die      = false;
+        int                        port;
+        private FRQ                requestPacket;
+        private boolean            running  = false;
+        private TFTPRequestHandler tftpRequestHandler;
+
+        /**
+         *  ŒÕ—“–” “Œ–
+         * 
+         * @param id —“–Œ ¿-»ƒ≈Õ“»‘» ¿“Œ–
+         * @param rh Œ¡–¿¡Œ“◊»  «¿œ–Œ—Œ¬
+         */
+        public TFTPRHThread(
+            String id,
+            TFTPRequestHandler rh )
+        {
+            super( id );
+            tftpRequestHandler = rh;
+            requestPacket = null;
+            address = null;
+            port = 0;
+        }
+
+        /**
+         * œŒ“Œ ”  ŒÕ≈÷
+         */
+        synchronized public void die()
+        {
+            die = true;
+
+            String on = "ROS:" + this.getName();
+
+            try
+            {
+                ObjectName name = new ObjectName( on );
+
+                if ( agent != null )
+                {
+                    agent.unregisterMBean( name );
+                }
+            }
+            catch ( MalformedObjectNameException e )
+            {
+                System.out.println( on + " is not a valid ObjectName!\n" + e.getMessage() );
+            }
+            catch ( InstanceNotFoundException e )
+            {
+                System.out.println( "An instance of " + on + " could not be found in agent!\n" + e.getMessage() );
+            }
+            catch ( MBeanRegistrationException e )
+            {
+                System.out.println( on + " could not be unregistered in agent!\n" + e.getMessage() );
+            }
+
+            interrupt();
+        }
+
+        /* (non-Javadoc)
+         * @see javax.management.DynamicMBean#getAttribute(java.lang.String)
+         */
+        public Object getAttribute(
+            String attribute )
+            throws AttributeNotFoundException
+        {
+            if ( attribute == null || attribute.equals( "" ) )
+            {
+                throw new IllegalArgumentException( "empty attribute name" );
+            }
+
+            if ( attribute.equals( RUNNING ) )
+            {
+                return new Boolean( running );
+            }
+
+            if ( attribute.equals( IDENTITY ) )
+            {
+                return this.getName();
+            }
+
+            if ( attribute.equals( CLIENTS ) )
+            {
+                return getClient();
+            }
+
+            throw new AttributeNotFoundException( "Attribute " + attribute + " not found" );
+        }
+
+        /* (non-Javadoc)
+         * @see javax.management.DynamicMBean#getAttributes(java.lang.String[])
+         */
+        public AttributeList getAttributes(
+            String[] attributes )
+        {
+            if ( attributes == null )
+            {
+                throw new IllegalArgumentException( "null array" );
+            }
+
+            AttributeList list = new AttributeList();
+
+            for ( int i = 0; i < attributes.length; ++i )
+            {
+                try
+                {
+                    list.add( new Attribute( attributes[i], getAttribute( attributes[i] ) ) );
+                }
+                catch ( AttributeNotFoundException notfound )
+                {
+                }
+            }
+
+            return list;
+        }
+
+        /**
+         * ¬Œ«¬–¿Ÿ¿≈“ IP » œŒ–“  À»≈Õ“¿
+         * 
+         * @return IP » œŒ–“  À»≈Õ“¿
+         */
+        public String getClient()
+        {
+            if ( address == null )
+            {
+                return "No client helped yet";
+            }
+            return address.getHostAddress() + ":" + port;
+        }
+
+        public MBeanInfo getMBeanInfo()
+        {
+            MBeanAttributeInfo atrRunning =
+                                            new MBeanAttributeInfo(
+                                                                    RUNNING,
+                                                                    String.class.getName(),
+                                                                    "True indicates the worker is working, false means it is waiting for a new job.",
+                                                                    true, false, true );
+
+            MBeanAttributeInfo identity =
+                                          new MBeanAttributeInfo( IDENTITY, String.class.getName(),
+                                                                  "String with worker id and timestamp of creation.",
+                                                                  true, false, false );
+
+            MBeanAttributeInfo clients =
+                                         new MBeanAttributeInfo(
+                                                                 CLIENTS,
+                                                                 String.class.getName(),
+                                                                 "IP address of client which the worker is talking to.",
+                                                                 true, false, false );
+
+            MBeanConstructorInfo constructor =
+                                               new MBeanConstructorInfo(
+                                                                         "main constructor",
+                                                                         "this constructor takes a TFTPRequesthandlers and is used in the pool as worker",
+                                                                         new MBeanParameterInfo[] {
+                                                                                         new MBeanParameterInfo(
+                                                                                                                 "id",
+                                                                                                                 String.class
+                                                                                                                             .getName(),
+                                                                                                                 "This string identifies the worker" ),
+                                                                                         new MBeanParameterInfo(
+                                                                                                                 "rh",
+                                                                                                                 TFTPRequestHandler.class
+                                                                                                                                         .getName(),
+                                                                                                                 "This is passed the actual class that handles the tftp xRQ" ) } );
+
+            // Constrcutor attribute and operation lists
+            MBeanConstructorInfo[] constructors = new MBeanConstructorInfo[] { constructor };
+            // maybe it could be null in MBeanInfo
+            MBeanOperationInfo[] operations = new MBeanOperationInfo[] {}; // maybe
+            // it
+            // could
+            // be
+            // null
+            // in
+            // MBeanInfo
+            MBeanAttributeInfo[] attributes = new MBeanAttributeInfo[] { atrRunning, identity, clients };
+            return new MBeanInfo( getClass().getName(), this.getName(), attributes, constructors, operations, null );
+        }
+
+        public boolean getRunning()
+        {
+            return running;
+        }
+
+        public TFTPRequestHandler getWorker()
+        {
+            return tftpRequestHandler;
+        }
+
+        public Object invoke(
+            String actionName,
+            Object[] params,
+            String[] signature )
+            throws MBeanException,
+                ReflectionException
+        {
+            if ( actionName == null || actionName.equals( "" ) )
+            {
+                throw new IllegalArgumentException( "no operation" );
+            }
+            throw new UnsupportedOperationException( "unknown operation " + actionName );
+        }
+
+        synchronized public void run()
+        {
+            try
+            {
+                boolean stayAround = true;
+                while ( stayAround )
+                {
+                    if ( die )
+                    {
+                        return;
+                    }
+                    if ( requestPacket == null )
+                    {
+                        try
+                        {
+                            wait();
+                        }
+                        catch ( InterruptedException e )
+                        {
+                            /**
+                             * Wait a little longer for requestPacket to be
+                             * assigned
+                             */
+                            continue;
+                        }
+                    }
+                    running = true;
+                    tftpRequestHandler.run( requestPacket, address, port );
+                    running = false;
+                    /* new InetSocketAddress(requestPacket.getAddress(), requestPacket.getPort()) can be replaced
+                     * by requestPacket.getSocketAddress when jdk1.4 is used. */
+                    /* connections.remove(new InetSocketAddress(requestPacket.getAddress(), requestPacket.getPort())); */
+                    synchronized ( connections )
+                    {
+                        connections.remove( address + ":" + port );
+                    }
+
+                    requestPacket = null;
+                    address = null;
+                    port = 0;
+                    stayAround = push( this );
+                }
+            }
+            finally
+            {
+                // Whatever occured, stop the requestHandler, so no socket leaks
+                tftpRequestHandler.stop();
+            }
+        }
+
+        public void setAttribute(
+            Attribute attribute )
+            throws AttributeNotFoundException,
+                InvalidAttributeValueException
+        {
+            if ( attribute == null )
+            {
+                throw new IllegalArgumentException( "null attribute" );
+            }
+            throw new AttributeNotFoundException( "Attribute " + attribute.getName() + " not found or not writable" );
+        }
+
+        public AttributeList setAttributes(
+            AttributeList list )
+        {
+            if ( list == null )
+            {
+                throw new IllegalArgumentException( "null list" );
+            }
+
+            AttributeList results = new AttributeList();
+            Iterator it = list.iterator();
+            while ( it.hasNext() )
+            {
+                try
+                {
+                    Attribute attr = (Attribute) it.next();
+                    setAttribute( attr );
+                    results.add( attr );
+                }
+                catch ( JMException ignored )
+                {
+                }
+            }
+            return results;
+        }
+
+        synchronized void wake(
+            FRQ frq,
+            InetAddress clientAddress,
+            int clientPort )
+        {
+            requestPacket = frq;
+            address = clientAddress;
+            port = clientPort;
+            notify();
+        }
+    }
+
     private MBeanServer       agent    = null;
-    private VirtualFileSystem vfs      = null;
+    private Hashtable         connections;
+    private Stack             idleWorkers;
     private EventListener     listener = null;
+    private int               size;
+
+    private VirtualFileSystem vfs      = null;
 
     public TFTPPool(
         int size,
@@ -121,33 +433,6 @@ public class TFTPPool
                 System.out.println( "Could not create TFTPRequestHandler nr: " + i + " for TFTPPool" );
             }
         }
-    }
-
-    /* Size will be changed but the actual amount of workers
-     * will only increase over time when needed */
-    public void resize(
-        int newPoolSize )
-    {
-        if ( newPoolSize < size )
-        {
-            for ( int x = 0; x < (size - newPoolSize); x++ )
-            {
-                if ( idleWorkers.isEmpty() )
-                {
-                    break;
-                }
-
-                TFTPRHThread wt = (TFTPRHThread) idleWorkers.pop();
-                if ( wt == null )
-                {
-                    break;
-                }
-                // remaining not idle workers do not return on stack when
-                // finished
-                wt.die();
-            }
-        }
-        size = newPoolSize;
     }
 
     /**
@@ -273,301 +558,30 @@ public class TFTPPool
         return stayAround;
     }
 
-    /* This inner class is defined to do the thread stuff
-     * and delegate work to its TFTPRequestHandler. */
-    // This is were model MBean would fit in but because this
-    // is not only supprted in HEAD we'll have to wait and use
-    // DynamicMBean.
-    class TFTPRHThread
-        extends Thread
-        implements
-            DynamicMBean
-    // implements XMBeanConstants
+    /* Size will be changed but the actual amount of workers
+     * will only increase over time when needed */
+    public void resize(
+        int newPoolSize )
     {
-        private TFTPRequestHandler tftpRequestHandler;
-        private FRQ                requestPacket;
-        private InetAddress        address;
-        int                        port;
-        private boolean            running = false;
-        private boolean            die     = false;
-
-        public TFTPRHThread(
-            String id,
-            TFTPRequestHandler rh )
+        if ( newPoolSize < size )
         {
-            super( id );
-            tftpRequestHandler = rh;
-            requestPacket = null;
-            address = null;
-            port = 0;
-        }
-
-        public boolean getRunning()
-        {
-            return running;
-        }
-
-        public String getClient()
-        {
-            if ( address == null )
+            for ( int x = 0; x < (size - newPoolSize); x++ )
             {
-                return "No client helped yet";
-            }
-            return address.getHostAddress() + ":" + port;
-        }
-
-        public TFTPRequestHandler getWorker()
-        {
-            return tftpRequestHandler;
-        }
-
-        synchronized void wake(
-            FRQ frq,
-            InetAddress clientAddress,
-            int clientPort )
-        {
-            requestPacket = frq;
-            address = clientAddress;
-            port = clientPort;
-            notify();
-        }
-
-        synchronized public void run()
-        {
-            try
-            {
-                boolean stayAround = true;
-                while ( stayAround )
+                if ( idleWorkers.isEmpty() )
                 {
-                    if ( die )
-                    {
-                        return;
-                    }
-                    if ( requestPacket == null )
-                    {
-                        try
-                        {
-                            wait();
-                        }
-                        catch ( InterruptedException e )
-                        {
-                            /**
-                             * Wait a little longer for requestPacket to be
-                             * assigned
-                             */
-                            continue;
-                        }
-                    }
-                    running = true;
-                    tftpRequestHandler.run( requestPacket, address, port );
-                    running = false;
-                    /* new InetSocketAddress(requestPacket.getAddress(), requestPacket.getPort()) can be replaced
-                     * by requestPacket.getSocketAddress when jdk1.4 is used. */
-                    /* connections.remove(new InetSocketAddress(requestPacket.getAddress(), requestPacket.getPort())); */
-                    synchronized ( connections )
-                    {
-                        connections.remove( address + ":" + port );
-                    }
-
-                    requestPacket = null;
-                    address = null;
-                    port = 0;
-                    stayAround = push( this );
+                    break;
                 }
-            }
-            finally
-            {
-                // Whatever occured, stop the requestHandler, so no socket leaks
-                tftpRequestHandler.stop();
-            }
-        }
 
-        synchronized public void die()
-        {
-            die = true;
-            // deregister
-            String on = "ROS:" + this.getName();
-            try
-            {
-                ObjectName name = new ObjectName( on );
-                if ( agent != null )
+                TFTPRHThread wt = (TFTPRHThread) idleWorkers.pop();
+                if ( wt == null )
                 {
-                    agent.unregisterMBean( name );
+                    break;
                 }
+                // remaining not idle workers do not return on stack when
+                // finished
+                wt.die();
             }
-            catch ( MalformedObjectNameException e )
-            {
-                System.out.println( on + " is not a valid ObjectName!\n" + e.getMessage() );
-            }
-            catch ( InstanceNotFoundException e )
-            {
-                System.out.println( "An instance of " + on + " could not be found in agent!\n" + e.getMessage() );
-            }
-            catch ( MBeanRegistrationException e )
-            {
-                System.out.println( on + " could not be unregistered in agent!\n" + e.getMessage() );
-            }
-            // wake up this thread to die
-            interrupt();
         }
-
-        /**
-         * implements DynamicMBean and is registered by the Pool in the JMX
-         * Agent to monitored
-         */
-        // attribute name constants
-        final static String RUNNING  = "Running";
-        final static String IDENTITY = "Identity";
-        final static String CLIENTS  = "Clients";
-
-        // implementing DynamicBean interface
-        public MBeanInfo getMBeanInfo()
-        {
-            // meta data for 'RUNNING' attribute.
-            MBeanAttributeInfo atrRunning =
-                                            new MBeanAttributeInfo(
-                                                                    RUNNING,
-                                                                    String.class.getName(),
-                                                                    "True indicates the worker is working, false means it is waiting for a new job.",
-                                                                    true, false, true );
-
-            // meta data for 'IDENTITY' attribute.
-            MBeanAttributeInfo identity =
-                                          new MBeanAttributeInfo( IDENTITY, String.class.getName(),
-                                                                  "String with worker id and timestamp of creation.",
-                                                                  true, false, false );
-
-            // meta data for 'JNDINAME' attribute
-            MBeanAttributeInfo clients =
-                                         new MBeanAttributeInfo(
-                                                                 CLIENTS,
-                                                                 String.class.getName(),
-                                                                 "IP address of client which the worker is talking to.",
-                                                                 true, false, false );
-
-            MBeanConstructorInfo constructor =
-                                               new MBeanConstructorInfo(
-                                                                         "main constructor",
-                                                                         "this constructor takes a TFTPRequesthandlers and is used in the pool as worker",
-                                                                         new MBeanParameterInfo[] {
-                                                                                         new MBeanParameterInfo(
-                                                                                                                 "id",
-                                                                                                                 String.class
-                                                                                                                             .getName(),
-                                                                                                                 "This string identifies the worker" ),
-                                                                                         new MBeanParameterInfo(
-                                                                                                                 "rh",
-                                                                                                                 TFTPRequestHandler.class
-                                                                                                                                         .getName(),
-                                                                                                                 "This is passed the actual class that handles the tftp xRQ" ) } );
-
-            // Constrcutor attribute and operation lists
-            MBeanConstructorInfo[] constructors = new MBeanConstructorInfo[] { constructor };
-            // maybe it could be null in MBeanInfo
-            MBeanOperationInfo[] operations = new MBeanOperationInfo[] {}; // maybe
-            // it
-            // could
-            // be
-            // null
-            // in
-            // MBeanInfo
-            MBeanAttributeInfo[] attributes = new MBeanAttributeInfo[] { atrRunning, identity, clients };
-            return new MBeanInfo( getClass().getName(), this.getName(), attributes, constructors, operations, null );
-        }
-
-        public Object getAttribute(
-            String attribute )
-            throws AttributeNotFoundException
-        {
-            if ( attribute == null || attribute.equals( "" ) )
-            {
-                throw new IllegalArgumentException( "empty attribute name" );
-            }
-            if ( attribute.equals( RUNNING ) )
-            {
-                return new Boolean( running );
-            }
-            if ( attribute.equals( IDENTITY ) )
-            {
-                return this.getName();
-            }
-            if ( attribute.equals( CLIENTS ) )
-            {
-                return getClient();
-            }
-            throw new AttributeNotFoundException( "Attribute " + attribute + " not found" );
-        }
-
-        public AttributeList getAttributes(
-            String[] attributes )
-        {
-            if ( attributes == null )
-            {
-                throw new IllegalArgumentException( "null array" );
-            }
-            AttributeList list = new AttributeList();
-            for ( int i = 0; i < attributes.length; ++i )
-            {
-                try
-                {
-                    list.add( new Attribute( attributes[i], getAttribute( attributes[i] ) ) );
-                }
-                catch ( AttributeNotFoundException notfound )
-                {
-                }
-            }
-            return list;
-        }
-
-        public void setAttribute(
-            Attribute attribute )
-            throws AttributeNotFoundException,
-                InvalidAttributeValueException
-        {
-            if ( attribute == null )
-            {
-                throw new IllegalArgumentException( "null attribute" );
-            }
-            throw new AttributeNotFoundException( "Attribute " + attribute.getName() + " not found or not writable" );
-        }
-
-        public AttributeList setAttributes(
-            AttributeList list )
-        {
-            if ( list == null )
-            {
-                throw new IllegalArgumentException( "null list" );
-            }
-
-            AttributeList results = new AttributeList();
-            Iterator it = list.iterator();
-            while ( it.hasNext() )
-            {
-                try
-                {
-                    Attribute attr = (Attribute) it.next();
-                    setAttribute( attr );
-                    results.add( attr );
-                }
-                catch ( JMException ignored )
-                {
-                }
-            }
-            return results;
-        }
-
-        public Object invoke(
-            String actionName,
-            Object[] params,
-            String[] signature )
-            throws MBeanException,
-                ReflectionException
-        {
-            if ( actionName == null || actionName.equals( "" ) )
-            {
-                throw new IllegalArgumentException( "no operation" );
-            }
-            throw new UnsupportedOperationException( "unknown operation " + actionName );
-        }
+        size = newPoolSize;
     };
 }

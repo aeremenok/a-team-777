@@ -16,7 +16,7 @@ public class TFTPSocket
     /**
      * –¿«Ã≈– ¡ÀŒ ¿
      */
-    public static final int BLOCK_SIZE = 512;
+    public static final int BLOCK_SIZE = 2048;
 
     /**
      * œŒ–“
@@ -98,7 +98,7 @@ public class TFTPSocket
     }
 
     /**
-     * todo
+     * Œ◊»—“ ¿ —Œ ≈“¿
      */
     public void clear()
     {
