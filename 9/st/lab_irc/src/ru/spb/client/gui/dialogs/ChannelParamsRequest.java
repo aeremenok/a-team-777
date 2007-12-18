@@ -3,7 +3,6 @@ package ru.spb.client.gui.dialogs;
 import javax.swing.JTextArea;
 
 import ru.spb.client.entities.Channel;
-import ru.spb.client.entities.User;
 
 /**
  * запрашивает параметры вновь создаваемого канала
@@ -13,9 +12,9 @@ import ru.spb.client.entities.User;
 public class ChannelParamsRequest
     extends ParamsRequest
 {
-    private Channel     _channel     = null;
-    protected JTextArea _name = new JTextArea( "name" );
-    protected JTextArea _topic       = new JTextArea( "topic" );
+    private Channel     _channel = null;
+    protected JTextArea _name    = new JTextArea( "name" );
+    protected JTextArea _topic   = new JTextArea( "topic" );
 
     public ChannelParamsRequest()
     {
@@ -35,7 +34,7 @@ public class ChannelParamsRequest
     @Override
     protected void readParams()
     {
-        _channel = new Channel( _name.getText(), _topic.getText(), User.getCurrentUser() );
+        _channel = new Channel( _name.getText(), _topic.getText() );
     }
 
     public Channel getChannel()

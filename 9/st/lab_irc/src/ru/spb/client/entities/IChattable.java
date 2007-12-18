@@ -54,6 +54,11 @@ public interface IChattable
     void addMessageListener(
         MessageListener messageListener );
 
+    /**
+     * задать лог, куда будет отображаться чат
+     * 
+     * @param chatLogPanel панель лога чата
+     */
     void setChatLogPanel(
         ChatLogPanel chatLogPanel );
 
