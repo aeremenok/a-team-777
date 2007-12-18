@@ -28,7 +28,7 @@ public class Server
     /**
      * обертка, удерживающая сокет за этим сервером
      */
-    private IRCSocketWrapper socketWrapper;
+    private IRCSocketWrapper _socketWrapper;
     private ChannelTree      _channelContainer;
 
     /**
@@ -38,7 +38,7 @@ public class Server
     {
         ServiceLogPanel.getInstance().info( this, "connecting" );
 
-        socketWrapper = new IRCSocketWrapper( this );
+        _socketWrapper = new IRCSocketWrapper( this );
 
         _channelContainer = IRCTabbedPanel.getInstance().addChannelTree( this );
 
@@ -54,7 +54,8 @@ public class Server
         ChannelTree treeToUpdate )
     {
         ServiceLogPanel.getInstance().info( this, "retreiving cnannel list" );
-        socketWrapper.retriveChannels( treeToUpdate );
+        _channelContainer = treeToUpdate;
+        _socketWrapper.retrieveChannels( this );
     }
 
     /**
@@ -66,8 +67,7 @@ public class Server
         Channel channel )
     {
         ServiceLogPanel.getInstance().info( this, "registering channel" );
-
-        socketWrapper.createChannel( channel );
+        _socketWrapper.createChannel( channel );
         channel.setHost( this );
     }
 
@@ -80,8 +80,8 @@ public class Server
 
         try
         {
-            socketWrapper.finalize();
-            socketWrapper = null;
+            _socketWrapper.finalize();
+            _socketWrapper = null;
             IRCTabbedPanel.getInstance().removeChannelTree( this );
             ServiceLogPanel.getInstance().info( this, "disconnected" );
         }
@@ -94,7 +94,7 @@ public class Server
 
     public boolean isConnected()
     {
-        return socketWrapper != null;
+        return _socketWrapper != null;
     }
 
     public String getName()
@@ -153,35 +153,57 @@ public class Server
         return true;
     }
 
-    public void getRegisteredUsers(
+    /**
+     * получить для канала список пользователей, присоединеннных к каналу
+     * 
+     * @param channel канал
+     */
+    public void retrieveUsers(
         Channel channel )
     {
-        socketWrapper.retrieveUsers( channel );
+        _socketWrapper.retrieveUsers( channel );
     }
 
+    /**
+     * отправить запрос на присоединение к заданному каналу
+     * 
+     * @param channel канал для присоединение
+     */
     public void join(
         Channel channel )
     {
-        socketWrapper.join( channel );
+        _socketWrapper.join( channel );
     }
 
-    public void privmsg(
-        Channel channel,
-        String message )
-    {
-        socketWrapper.privmsg( channel, message );
-    }
-
+    /**
+     * получить канал по его имени
+     * 
+     * @param channelName имя канала
+     * @return канал
+     */
     public Channel getChannelByName(
-        String to )
+        String channelName )
     {
         for ( Channel channel : _channelContainer.getChannels() )
         {
-            if ( channel.getName().equalsIgnoreCase( to ) )
+            if ( channel.getName().equalsIgnoreCase( channelName ) )
             {
                 return channel;
             }
         }
         return null;
+    }
+
+    /**
+     * добавить канал, полученный с сервера
+     * 
+     * @param channel канал, полученный с сервера
+     */
+    public void addChannel(
+        Channel channel )
+    {
+        ServiceLogPanel.getInstance().info( this, "adding channel" );
+        channel.setHost( this );
+        _channelContainer.addChannel( channel );
     }
 }

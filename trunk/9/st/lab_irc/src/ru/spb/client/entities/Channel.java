@@ -18,57 +18,34 @@ import ru.spb.messages.WallopsMessage;
  */
 public class Channel
     implements
-        IConnectable,
         IChattable
 {
 
     /**
      * подключены ли к этому каналу
      */
-    private boolean  _isConnected = false;
+    private boolean  _isChatting = false;
     /**
      * имя канала
      */
     private String   _name;
+    /**
+     * тема канала
+     */
     private String   _topic;
 
-    /**
-     * хозяин канала
-     */
-    private User     _owner;
     /**
      * местонахождение канала
      */
     private Server   _host;
-    private UserTree _userTree;
+    private UserTree _userContainer;
 
     public Channel(
         String name,
-        String topic,
-        User user )
+        String topic )
     {
         _name = name;
         _topic = topic;
-        _owner = user;
-    }
-
-    public boolean isConnected()
-    {
-        return _isConnected;
-    }
-
-    public void disconnect()
-    {
-        ServiceLogPanel.getInstance().info( this, "disconnecting" );
-        _isConnected = false;
-        ServiceLogPanel.getInstance().info( this, "disconnected" );
-    }
-
-    public void connect()
-    {
-        ServiceLogPanel.getInstance().info( this, "connecting" );
-        _isConnected = true;
-        ServiceLogPanel.getInstance().info( this, "connected" );
     }
 
     public String getName()
@@ -80,31 +57,61 @@ public class Channel
     public void startChat(
         IChattable chattable )
     {
+        _isChatting = true;
         ServiceLogPanel.getInstance().info( this, "=starting chat=" );
         _host.join( this );
         IRCTabbedPanel.getInstance().addChat( this );
     }
 
+    /**
+     * получить список пользователей канала
+     * 
+     * @param userTree куда этот список отобразится
+     */
     public void retrieveUsers(
         UserTree userTree )
     {
-        _userTree = userTree;
-        _host.getRegisteredUsers( this );
+        _userContainer = userTree;
+        _host.retrieveUsers( this );
     }
 
+    private LoggingListener _loggingListener = null;
+
+    /**
+     * записывает пришедшее сообщение в лог
+     * 
+     * @author eav
+     */
+    private class LoggingListener
+        implements
+            MessageListener
+    {
+        private ChatLogPanel _chatLogPanel;
+
+        public LoggingListener(
+            ChatLogPanel chatLogPanel )
+        {
+            _chatLogPanel = chatLogPanel;
+        }
+
+        @Override
+        public void onMessage(
+            PrivateMessage message )
+        {
+            _chatLogPanel.logMessage( message.getFrom(), message.getContent() );
+        }
+    }
+
+    /**
+     * добавить пользователя в канал
+     * 
+     * @param user пользователь
+     */
     public void addUser(
         User user )
     {
-        _userTree.addUser( user );
-        user.addMessageListener( new MessageListener()
-        {
-            @Override
-            public void onMessage(
-                PrivateMessage message )
-            {
-                _chatLogPanel.logMessage( message.getFrom(), message.getContent() );
-            }
-        } );
+        _userContainer.addUser( user );
+        user.addMessageListener( _loggingListener );
     }
 
     @Override
@@ -112,7 +119,8 @@ public class Channel
         IChattable chattable )
     {
         ServiceLogPanel.getInstance().info( this, "=exiting=" );
-        // todo что послать?
+        _isChatting = false;
+        // todo послать part
         IRCTabbedPanel.getInstance().removeChat( this );
     }
 
@@ -123,29 +131,13 @@ public class Channel
         /**
          * здесь - другая реализация, нежели в {@link User}
          */
-        if ( _isConnected )
+        if ( !_isChatting )
         {
             startChat( chattable );
         }
         else
         {
             quitChat( chattable );
-        }
-    }
-
-    @Override
-    public void toggleConnection()
-    {
-        /**
-         * здесь метод нужен просто для удобства
-         */
-        if ( isConnected() )
-        {
-            disconnect();
-        }
-        else
-        {
-            connect();
         }
     }
 
@@ -212,7 +204,6 @@ public class Channel
     }
 
     private ArrayList<MessageListener> _messageListeners = new ArrayList<MessageListener>();
-    private ChatLogPanel               _chatLogPanel;
     private ArrayList<WallopsListener> _wallopsListeners = new ArrayList<WallopsListener>();
 
     @Override
@@ -222,12 +213,18 @@ public class Channel
         _messageListeners.add( messageListener );
     }
 
+    /**
+     * получить пользователя с заданным именем
+     * 
+     * @param userName имя пользователя
+     * @return пользователь
+     */
     public User getUserByName(
-        String from )
+        String userName )
     {
-        for ( User user : _userTree.getUsers() )
+        for ( User user : _userContainer.getUsers() )
         {
-            if ( user.getName().equalsIgnoreCase( from ) )
+            if ( user.getName().equalsIgnoreCase( userName ) )
             {
                 return user;
             }
@@ -239,16 +236,8 @@ public class Channel
     public void setChatLogPanel(
         ChatLogPanel chatLogPanel )
     {
-        _chatLogPanel = chatLogPanel;
-        addMessageListener( new MessageListener()
-        {
-            @Override
-            public void onMessage(
-                PrivateMessage message )
-            {
-                _chatLogPanel.logMessage( message.getFrom(), message.getContent() );
-            }
-        } );
+        _loggingListener = new LoggingListener( chatLogPanel );
+        addMessageListener( _loggingListener );
     }
 
     /**

@@ -13,7 +13,6 @@ import ru.spb.client.entities.Server;
 import ru.spb.client.entities.User;
 import ru.spb.client.gui.logpanels.MessageListener;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
-import ru.spb.client.gui.trees.ChannelTree;
 import ru.spb.messages.JoinMessage;
 import ru.spb.messages.ListMessage;
 import ru.spb.messages.NamesMessage;
@@ -127,11 +126,11 @@ public class IRCSocketWrapper
     /**
      * получить с сервера список каналов
      * 
-     * @param result
+     * @param channelTree дерево каналов для о
      * @return список каналов
      */
-    public void retriveChannels(
-        final ChannelTree channelTree )
+    public void retrieveChannels(
+        final Server server )
     {
         // отправляем запрос
         ListMessage listMessage = new ListMessage( _host );
@@ -153,12 +152,9 @@ public class IRCSocketWrapper
 
                     Channel channel =
                                       new Channel( numericReply.getProperty( NumericReply.CHANNEL ),
-                                                   numericReply.getProperty( NumericReply.TOPIC ),
-                                                   // о хозяине канала ничего
-                                                   // не известно
-                                                   null );
+                                                   numericReply.getProperty( NumericReply.TOPIC ) );
                     channel.setHost( _host );
-                    channelTree.addChannel( channel );
+                    server.addChannel( channel );
                 }
             }
         } );
@@ -254,32 +250,48 @@ public class IRCSocketWrapper
     {
         // отправляем запрос
         JoinMessage joinMessage = new JoinMessage( channel.getName() );
-        sendCommand( joinMessage, new ReplyListener()
+        sendCommand( joinMessage, new JoinReplyListener( channel ) );
+    }
+
+    /**
+     * обрабатывает ответ на присоединение к каналу
+     * 
+     * @author eav
+     */
+    private class JoinReplyListener
+        implements
+            ReplyListener
+    {
+        Channel _channel;
+
+        public JoinReplyListener(
+            Channel channel )
         {
-            @Override
-            public void onFailure(
-                NumericReply numericReply )
-            {
-            }
+            _channel = channel;
+        }
 
-            @Override
-            public void onSuccess(
-                NumericReply numericReply )
-            {
-                channel.setTopic( numericReply.getProperty( NumericReply.TOPIC ) );
-                ServiceLogPanel.getInstance().info( channel, "entered on topic " + channel.getTopic() );
+        @Override
+        public void onFailure(
+            NumericReply numericReply )
+        {
+        }
 
-                channel.addMessageListener( new MessageListener()
+        @Override
+        public void onSuccess(
+            NumericReply numericReply )
+        {
+            _channel.setTopic( numericReply.getProperty( NumericReply.TOPIC ) );
+            ServiceLogPanel.getInstance().info( _channel, "entered on topic " + _channel.getTopic() );
+
+            _channel.addMessageListener( new MessageListener()
+            {
+                public void onMessage(
+                    PrivateMessage message )
                 {
-                    public void onMessage(
-                        PrivateMessage message )
-                    {
-                        privmsg( channel, message.getContent() );
-                    }
-                } );
-            }
-        } );
-
+                    privmsg( _channel, message.getContent() );
+                }
+            } );
+        }
     }
 
     /**
