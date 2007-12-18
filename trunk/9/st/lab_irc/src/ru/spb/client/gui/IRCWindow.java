@@ -12,50 +12,52 @@ public class IRCWindow
         Runnable
 {
 
-    private static IRCWindow instance;
-    private JFrame           mainWindiow;
+    private static IRCWindow _instance;
+    private JFrame           _mainWindow;
 
     @Override
     public void run()
     {
-        JFrame frame = new JFrame( "IRC Client (c) eav 3351" );
-        mainWindiow = frame;
+        _mainWindow = new JFrame( "IRC Client (c) eav 3351" );
 
         JSplitPane panel = new JSplitPane( JSplitPane.VERTICAL_SPLIT );
         {
             JSplitPane pane = new JSplitPane();
 
             ServerTree tree = ServerTree.getInstance();
-            // todo заглушка
-            Server[] servers = new Server[] { new Server( "epa" ) };
-            tree.addServers( servers );
+            tree.addServer( new Server( "epa" ) );
             pane.setLeftComponent( tree );
 
             pane.setRightComponent( IRCTabbedPanel.getInstance() );
 
             panel.setTopComponent( pane );
+            pane.setVisible( true );
+            pane.setDividerLocation( 0.3 );
         }
         panel.setBottomComponent( ServiceLogPanel.getInstance() );
+        panel.setVisible( true );
+        panel.setDividerLocation( 0.7 );
 
-        frame.getContentPane().add( panel );
+        _mainWindow.getContentPane().add( panel );
 
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.pack();
-        frame.setVisible( true );
+        _mainWindow.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        _mainWindow.pack();
+        _mainWindow.setVisible( true );
+        _mainWindow.setExtendedState( JFrame.MAXIMIZED_BOTH );
     }
 
     public static IRCWindow getInstance()
     {
-        if ( instance == null )
+        if ( _instance == null )
         {
-            instance = new IRCWindow();
+            _instance = new IRCWindow();
         }
-        return instance;
+        return _instance;
     }
 
     public JFrame getMainWindiow()
     {
-        return mainWindiow;
+        return _mainWindow;
     }
 
 }
