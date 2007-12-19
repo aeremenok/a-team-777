@@ -67,4 +67,8 @@ public class Channel
     {
         users.remove( c );
     }
+
+    public int getNumbersersOnChannel(){
+        return this.users.size();
+    }
 }
