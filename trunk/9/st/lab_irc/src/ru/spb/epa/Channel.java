@@ -36,7 +36,7 @@ public class Channel
         {
             if ( !chater.equals( c ) )
             {
-                chater.sendToClient( mess );
+                chater.sendToClient( mess, true);
             }
         }
     }
@@ -59,7 +59,7 @@ public class Channel
     public void addUser(
         Client client )
     {
-        users.add( client );
+        if(!users.contains(client)) users.add( client );
     }
 
     public void removeUser(

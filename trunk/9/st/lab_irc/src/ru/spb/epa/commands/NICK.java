@@ -42,10 +42,10 @@ public class NICK extends Command {
         try {
             c.changeNick(nick);
         } catch (UserExistException e) {
-            c.sendToClient("" + IRCConstants.ERR_NICKNAMEINUSE);
+            c.sendToClient("" + IRCConstants.ERR_NICKNAMEINUSE, true);
             return;
         }catch (IllegalArgumentException e){
-            c.sendToClient("" + IRCConstants.ERR_NONICKNAMEGIVEN);
+            c.sendToClient("" + IRCConstants.ERR_NONICKNAMEGIVEN, true);
             return;
         }
 

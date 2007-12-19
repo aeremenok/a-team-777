@@ -1,15 +1,12 @@
 package ru.spb.epa.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
-
 import ru.spb.epa.Client;
 import ru.spb.epa.IRCConstants;
+import ru.spb.epa.ServerConfig;
 import ru.spb.epa.exceptions.CommandExecutionException;
 import ru.spb.epa.exceptions.IRCServerException;
+
+import java.util.*;
 
 /**
  * User: ����� Date: 09.12.2007 Time: 14:32:13
@@ -89,12 +86,14 @@ public class Command
             position += t.token.length() + 1;
         }
 
-        System.out.print( "PARSED mess:" );
-        for ( Tok t : this.parameters )
-        {
-            System.out.print( t.token + "-" + t.pos + "; " );
+        if(ServerConfig.IS_PARSE){
+            System.out.print( "PARSED mess:" );
+            for ( Tok t : this.parameters )
+            {
+                System.out.print( t.token + "-" + t.pos + "; " );
+            }
+            System.out.println( "!" );
         }
-        System.out.println( "!" );
     }
 
     protected void parseStrings(

@@ -50,7 +50,7 @@ public class PRIVMSG
             {
                 if ( !c.equals( client ) )
                 {
-                    client.sendToClient( fullMessage );
+                    client.sendToClient( fullMessage, true);
                 }
             }
         }

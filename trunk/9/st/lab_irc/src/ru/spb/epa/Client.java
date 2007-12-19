@@ -74,7 +74,7 @@ public class Client extends Thread{
     }
 
     public String getNickname() {
-        return nickname;
+        return (nickname==null)?"":nickname;
     }
 
     public String getHostname() {
@@ -86,7 +86,7 @@ public class Client extends Thread{
     }
 
     public String getIpAdress() {
-        return ipAdress;
+        return (ipAdress==null)?"":ipAdress;
     }
 
     public String getFullname() {
@@ -181,15 +181,18 @@ public class Client extends Thread{
     * Write directly to the IRC chat server, refer to RFC-1459
     * for valid commands.
     * @param message - what to write
+     * @param srvPrefix - if need server name at start of command
     */
-    public void sendToClient(String message) {
-        ServerLogger.log(this.myID + " sending:" + message);
-        try {outputStream.writeBytes(":" + this.myServer.getName() + " " + message+"\r\n");}catch (Exception e){
+    public void sendToClient(String message, boolean srvPrefix) {
+        String send = ((srvPrefix)?(":" + ServerConfig.SERVER_NAME  + " "):"")
+                        + message+"\r\n";
+        ServerLogger.log(this.myID + " sending:" + send);
+        try {outputStream.writeBytes(send);}catch (Exception e){
             ServerLogger.log(this.myID + " error on sendToClient " + e.getMessage());}
     }
 
-    public void sendBroadcastmessage(String m){
-        this.myServer.broadcastMessage(m);
+    public void sendBroadcastmessage(String m, boolean prefix){
+        this.myServer.broadcastMessage(m, prefix);
     }
 
     public void changeNick(String newName) throws CommandExecutionException {
