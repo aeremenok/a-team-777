@@ -184,7 +184,7 @@ public class Client extends Thread{
     */
     public void sendToClient(String message) {
         ServerLogger.log(this.myID + " sending:" + message);
-        try {outputStream.writeBytes(message+"\r\n");}catch (Exception e){
+        try {outputStream.writeBytes(":" + this.myServer.getName() + " " + message+"\r\n");}catch (Exception e){
             ServerLogger.log(this.myID + " error on sendToClient " + e.getMessage());}
     }
 
