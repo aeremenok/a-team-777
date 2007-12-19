@@ -1,0 +1,5 @@
+<module>
+	<inherits name="com.google.gwt.user.User"/>
+	<entry-point class="ru.spb.hmi.client.Main"/>
+	<servlet path="/DOCService" class="ru.spb.hmi.server.DOCServiceImpl"/>
+</module>
