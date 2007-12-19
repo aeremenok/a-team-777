@@ -1,6 +1,7 @@
 package ru.spb.client.connection;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 
 import ru.spb.client.entities.Channel;
 import ru.spb.client.entities.Server;
@@ -55,36 +56,7 @@ public class MessageReceiver
         {
             try
             {
-                String message = _reader.readLine();
-
-                ServiceLogPanel.getInstance().info( "received command", message );
-
-                ServiceMessage serviceMessage = ServiceMessage.parse( message );
-                if ( serviceMessage != null )
-                { // ошибки не было
-
-                    if ( serviceMessage instanceof PrivateMessage )
-                    { // записываем в лог чата
-
-                        PrivateMessage privateMessage = (PrivateMessage) serviceMessage;
-                        // todo обобщить для пользователей
-                        Channel channel = _host.getChannelByName( privateMessage.getTo() );
-                        User user = channel.getUserByName( privateMessage.getFrom() );
-                        user.say( privateMessage );
-                    }
-                    else if ( serviceMessage instanceof WallopsMessage )
-                    { // в канале произошли изменения
-
-                        WallopsMessage wallopsMessage = (WallopsMessage) serviceMessage;
-                        Channel channel = _host.getChannelByName( wallopsMessage.getChannelName() );
-                        channel.fireWallops( wallopsMessage );
-                    }
-                    else
-                    { // передаем для разбора
-
-                        _currentRequest.receive( (NumericReply) serviceMessage );
-                    }
-                }
+                processMessage();
             }
             catch ( Throwable e )
             {
@@ -92,6 +64,59 @@ public class MessageReceiver
                 // e.printStackTrace();
                 _run = false;
                 return;
+            }
+        }
+    }
+
+    /**
+     * читает из потока сообщение и обрабатывает его
+     * 
+     * @throws IOException
+     */
+    private void processMessage()
+        throws IOException
+    {
+        String message = _reader.readLine();
+
+        ServiceLogPanel.getInstance().info( "received command", message );
+
+        ServiceMessage serviceMessage = ServiceMessage.parse( message );
+        if ( serviceMessage != null )
+        { // ошибки не было
+
+            if ( serviceMessage instanceof PrivateMessage )
+            { // записываем в лог чата
+
+                PrivateMessage privateMessage = (PrivateMessage) serviceMessage;
+                // todo обобщить для пользователей
+                Channel channel = _host.getChannelByName( privateMessage.getTo() );
+                User user = channel.getUserByName( privateMessage.getFrom() );
+                user.say( privateMessage );
+            }
+            else if ( serviceMessage instanceof WallopsMessage )
+            { // в канале произошли изменения
+
+                WallopsMessage wallopsMessage = (WallopsMessage) serviceMessage;
+                if ( wallopsMessage.getСhannelNames() != null )
+                {
+                    for ( String channelName : wallopsMessage.getСhannelNames() )
+                    {
+                        Channel channel = _host.getChannelByName( channelName );
+                        channel.fireWallops( wallopsMessage );
+                    }
+                }
+                else
+                { // рассылаем всем
+                    for ( Channel channel : _host.getChannels() )
+                    {
+                        channel.fireWallops( wallopsMessage );
+                    }
+                }
+            }
+            else
+            { // передаем для разбора
+
+                _currentRequest.receive( (NumericReply) serviceMessage );
             }
         }
     }
