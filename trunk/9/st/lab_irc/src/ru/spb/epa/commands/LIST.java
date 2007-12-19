@@ -38,11 +38,12 @@ public class LIST
         {
             // all
             List<Channel> l = MainThread.getChannels();
+            c.sendToClient( RPL_LISTSTART + "" );
             for ( Channel ch : l )
             {
                 c.sendToClient( RPL_LIST + " " + ch.getName() + " :" + ch.getTopic() );
             }
-            c.sendToClient( RPL_LISTEND + " :End of LIST" );
+            c.sendToClient( RPL_LISTEND +"");// + " :End of LIST" );
         }
     }
 

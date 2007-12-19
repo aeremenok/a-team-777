@@ -201,6 +201,10 @@ public class Client extends Thread{
         this.myServer.disconnectUser(this);
     }
 
+    public void part(String channelname){
+        myServer.part(this,channelname);
+    }
+
     //================================================================================================================
     // Object and thread ooverriden functions
     //================================================================================================================

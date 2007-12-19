@@ -48,7 +48,7 @@ public class PRIVMSG
             String fullMessage = "PRIVMSG " + c.getNickname() + " " + channelName + " " + content;
             for ( Client client : channel.getUsers() )
             {
-                if ( !client.equals( c ) )
+                if ( !c.equals( client ) )
                 {
                     client.sendToClient( fullMessage );
                 }

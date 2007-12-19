@@ -1,5 +1,9 @@
 package ru.spb.epa.commands;
 
+import ru.spb.epa.Client;
+import ru.spb.epa.ServerLogger;
+import ru.spb.epa.exceptions.CommandExecutionException;
+
 /**
  * User: Павел
  * Date: 14.12.2007
@@ -24,5 +28,31 @@ package ru.spb.epa.commands;
 
 
  */
-public class PONG {
+public class PONG extends Command {
+    
+    public void execute(Client c) throws CommandExecutionException {
+        //c.sendToClient(  );
+        ServerLogger.log(" GOT PONG ");
+    }
+
+    // ================================================================================================================
+    // COMMON
+    // ================================================================================================================
+
+    protected PONG()
+    {
+        super();
+    }
+
+    protected PONG(
+        String message )
+    {
+        super( message );
+    }
+
+    protected Command getInstance(
+        String message )
+    {
+        return new PONG( message );
+    }
 }

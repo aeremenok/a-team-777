@@ -1,5 +1,8 @@
 package ru.spb.epa.commands;
 
+import ru.spb.epa.Client;
+import ru.spb.epa.exceptions.CommandExecutionException;
+
 /**
  * User: Павел
  * Date: 13.12.2007
@@ -39,5 +42,29 @@ package ru.spb.epa.commands;
                                    lost".
 
  */
-public class PART {
+public class PART extends Command{
+    public void execute(Client c) throws CommandExecutionException {
+        if(this.parameters.get( 1 ) != null) c.part(this.parameters.get( 1 ).token);
+    }
+
+    // ================================================================================================================
+    // COMMON
+    // ================================================================================================================
+
+    protected PART()
+    {
+        super();
+    }
+
+    protected PART(
+        String message )
+    {
+        super( message );
+    }
+
+    protected Command getInstance(
+        String message )
+    {
+        return new PART( message );
+    }
 }
