@@ -34,6 +34,7 @@ public class Command
         l.put( "NAMES", new NAMES() );
         l.put( "PRIVMSG", new PRIVMSG() );
         l.put( "WALLOPS", new WALLOPS() );
+        l.put( "PART", new PART() );
     }
 
     public static Command getCommand(
