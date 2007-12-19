@@ -1,5 +1,9 @@
 package ru.spb.client.gui.trees;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Enumeration;
+
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -24,6 +28,37 @@ public abstract class IRCTree
     {
         super( new DefaultTreeModel( root ) );
         _root = root;
+        this.addKeyListener( new KeyListener()
+        {
+            String _criterion = "";
+
+            @Override
+            public void keyPressed(
+                KeyEvent e )
+            {
+                if ( e.getKeyChar() == 'f' )
+                {
+                    // todo добавить символ к криетрию отбора
+                    filterNodes( _criterion );
+                }
+            }
+
+            @Override
+            public void keyReleased(
+                KeyEvent e )
+            {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void keyTyped(
+                KeyEvent e )
+            {
+                // TODO Auto-generated method stub
+
+            }
+        } );
     }
 
     public void clear()
@@ -35,5 +70,21 @@ public abstract class IRCTree
         DefaultMutableTreeNode selected )
     {
         return _root.equals( selected );
+    }
+
+    private void filterNodes(
+        String string )
+    {
+        DefaultTreeModel model = (DefaultTreeModel) getModel();
+        Enumeration iter = _root.children();
+        while ( iter.hasMoreElements() )
+        {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) iter.nextElement();
+            String title = (String) node.getUserObject();
+            if ( title.startsWith( string ) )
+            {
+                // todo показать узел
+            }
+        }
     }
 }
