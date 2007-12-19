@@ -1,29 +1,31 @@
 package ru.spb.messages;
 
+import java.util.ArrayList;
+
 public class WallopsMessage
     extends ServiceMessage
 {
     /**
      * сообщение, о котором уведомляют
      */
-    private ServiceMessage _serviceMessage;
+    private ServiceMessage    _serviceMessage;
     /**
      * имя автора сообщения
      */
-    private String         _author;
+    private String            _author;
     /**
-     * имя канала, в который послано
+     * имена каналов, в которые послано
      */
-    private String         _channelName;
+    private ArrayList<String> _channelNames;
 
     public WallopsMessage(
-        JoinMessage joinMessage,
+        ServiceMessage serviceMessage,
         String author,
-        String channelName )
+        ArrayList<String> channelNames )
     {
-        _serviceMessage = joinMessage;
+        _serviceMessage = serviceMessage;
         _author = author;
-        _channelName = channelName;
+        _channelNames = channelNames;
     }
 
     public ServiceMessage getServiceMessage()
@@ -36,9 +38,8 @@ public class WallopsMessage
         return _author;
     }
 
-    public String getChannelName()
+    public ArrayList<String> getСhannelNames()
     {
-        return _channelName;
+        return _channelNames;
     }
-
 }

@@ -17,8 +17,8 @@ public abstract class ServiceMessage
         Replies,
         Errors
 {
-    protected ArrayList              _possibleErrors  = new ArrayList();
-    protected ArrayList              _possibleReplies = new ArrayList();
+    protected ArrayList<Integer>     _possibleErrors  = new ArrayList<Integer>();
+    protected ArrayList<Integer>     _possibleReplies = new ArrayList<Integer>();
     /**
      * содержимое сообщения
      */
@@ -106,7 +106,15 @@ public abstract class ServiceMessage
             IRCStringTokenizer stringTokenizer = new IRCStringTokenizer( message, " " );
             try
             {
-                String type = stringTokenizer.nextToken();
+                String prefix = "";
+                int startPos = 0;
+                if ( stringTokenizer.get( 0 ).startsWith( ":" ) )
+                { // есть префикс
+                    prefix = stringTokenizer.get( 0 );
+                    startPos = 1;
+                }
+                String type = stringTokenizer.get( startPos );
+
                 if ( type.equalsIgnoreCase( "PRIVMSG" ) )
                 {
                     return parsePrivateMessage( stringTokenizer );
@@ -115,7 +123,7 @@ public abstract class ServiceMessage
                 {
                     return parseWallopsMessage( stringTokenizer );
                 }
-                return parseNumericReply( stringTokenizer, type );
+                return parseNumericReply( stringTokenizer, type, startPos );
             }
             catch ( Throwable e )
             {
@@ -129,20 +137,47 @@ public abstract class ServiceMessage
     private static ServiceMessage parseWallopsMessage(
         IRCStringTokenizer stringTokenizer )
     {
-        String messageType = stringTokenizer.nextToken();
+
+        String prefix = "";
+        int startPos = 0;
+        if ( stringTokenizer.get( 0 ).startsWith( ":" ) )
+        { // есть префикс
+            prefix = stringTokenizer.get( 0 );
+            startPos = 1;
+        }
+        String messageType = stringTokenizer.get( startPos );
+
+        ServiceMessage serviceMessage = null;
+        String author = getAuthor( stringTokenizer );
+
+        ArrayList<String> channelNames = new ArrayList<String>();
+        String channelName = null;
+
         if ( messageType.equalsIgnoreCase( "JOIN" ) )
         {
-            String[] tokens = stringTokenizer.getString().split( " " );
-            String channelName = tokens[2];
-            String author = tokens[4];
-            return new WallopsMessage( new JoinMessage( channelName ), author, channelName );
+            channelName = stringTokenizer.get( 2 + startPos );
+            channelNames.add( channelName );
+            serviceMessage = new JoinMessage( channelName );
         }
         else if ( messageType.equalsIgnoreCase( "PART" ) )
         {
-
+            channelName = stringTokenizer.get( 2 + startPos );
+            channelNames.add( channelName );
+            serviceMessage = new PartMessage( channelName );
+        }
+        else if ( messageType.equals( "QUIT" ) )
+        { // обновить все каналы
+            channelNames = null;
         }
         // todo реализовать остальные команды
-        return null;
+        return new WallopsMessage( serviceMessage, author, channelNames );
+    }
+
+    private static String getAuthor(
+        IRCStringTokenizer stringTokenizer )
+    {
+        int authorIndex = stringTokenizer.indexOf( "from" ) + 1;
+        return stringTokenizer.get( authorIndex );
     }
 
     /**
@@ -170,18 +205,20 @@ public abstract class ServiceMessage
      * 
      * @param stringTokenizer источник
      * @param type тип
+     * @param startPos
      * @return ответ сервера
      * @throws Throwable здесь может быть ошибка на каждом этапе, поэтому
      *             проверок не делаем, а ловим эксепшен %)
      */
     public static NumericReply parseNumericReply(
         IRCStringTokenizer stringTokenizer,
-        String type )
+        String type,
+        int startPos )
         throws Throwable
     {
         int numericType = Integer.parseInt( type );
         String description = stringTokenizer.getRest();
 
-        return new NumericReply( numericType, description );
+        return new NumericReply( numericType, description, startPos );
     }
 }
