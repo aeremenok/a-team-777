@@ -71,4 +71,14 @@ public class IRCStringTokenizer
         return _tokens.size();
     }
 
+    public String getRest(
+        int channelPos )
+    {
+        for ( int i = 0; i < channelPos; ++i )
+        {
+            nextToken();
+        }
+        return getRest();
+    }
+
 }

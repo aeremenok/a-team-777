@@ -11,17 +11,19 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
-        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client"/>
         <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui"/>
-        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui.dialogs"/>
         <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui.logpanels"/>
-        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.entities"/>
-        <javaElement handleIdentifier="=irc/src&lt;ru.spb.messages"/>
-        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui.trees.nodes"/>
+        <file path="/irc/client.jardesc"/>
         <javaElement handleIdentifier="=irc/src&lt;ru.spb.messages.exceptions"/>
         <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.connection"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.messages.constants"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui.dialogs"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.messages"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.entities"/>
+        <file path="/irc/src/server"/>
+        <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui.trees.nodes"/>
         <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui.listeners"/>
         <javaElement handleIdentifier="=irc/src&lt;ru.spb.client.gui.trees"/>
-        <javaElement handleIdentifier="=irc/src&lt;ru.spb.messages.constants"/>
     </selectedElements>
 </jardesc>

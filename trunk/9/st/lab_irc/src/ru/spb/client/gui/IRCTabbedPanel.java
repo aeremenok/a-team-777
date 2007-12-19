@@ -1,5 +1,6 @@
 package ru.spb.client.gui;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import ru.spb.client.entities.IChattable;
@@ -41,7 +42,8 @@ public class IRCTabbedPanel
         Server server )
     {
         ChannelTree channelTree = ChannelTree.getChannelTreeForServer( server );
-        addTab( channelTree.getName(), channelTree );
+        JScrollPane scrollPane = new JScrollPane( channelTree );
+        addTab( channelTree.getName(), scrollPane );
         return channelTree;
     }
 
