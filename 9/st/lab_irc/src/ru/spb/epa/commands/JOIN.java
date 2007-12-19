@@ -2,6 +2,7 @@ package ru.spb.epa.commands;
 
 import ru.spb.epa.Channel;
 import ru.spb.epa.Client;
+import ru.spb.epa.IRCConstants;
 import ru.spb.epa.MainThread;
 import ru.spb.epa.exceptions.CommandExecutionException;
 
@@ -83,6 +84,7 @@ RFC 2812          Internet Relay Chat: Client Protocol        April 2000
  */
 public class JOIN
     extends Command
+    implements IRCConstants
 {
 
     private String _message;
@@ -110,15 +112,23 @@ public class JOIN
             if ( selectedChannel != null )
             { // канал найден - выдаем тему
                 selectedChannel.addUser( c );
-                c.sendToClient( RPL_TOPIC + " " + selectedChannel.getName() + " :" + selectedChannel.getTopic() );
-                // оповещаем остальных о появлении клиента
-                // todo как правильно?
-                WALLOPS wallops = new WALLOPS( _message );
-                wallops.execute( c );
+
+                c.sendBroadcastmessage(":" + c.getNickname() + "!~" + c.getFullname() + "@" + c.getIpAdress() + " JOIN :" + selectedChannel.getName(), false);
+
+                c.sendToClient(RPL_TOPIC + " " + c.getNickname() + " " + selectedChannel.getName() + " :" + selectedChannel.getTopic(),true);
+
+
+                String mess = RPL_NAMREPLY + " " + c.getNickname() + " = " + selectedChannel.getName() + " :";
+                for(Client cl: selectedChannel.getUsers()){
+                    mess +=  cl.getNickname() + " ";
+                }
+                c.sendToClient(mess,true);
+
+                c.sendToClient(RPL_ENDOFNAMES + " " + c.getNickname() + " " + selectedChannel.getName() + " :End of /NAMES list.", true);
             }
             else
             { // канал не найден - выдаем ошибку
-                c.sendToClient( ERR_NOSUCHCHANNEL + " " + channelName + " :No such channel" );
+                c.sendToClient( ERR_NOSUCHCHANNEL + " " + channelName + " :No such channel", true);
             }
         }
         else

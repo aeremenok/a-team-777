@@ -43,7 +43,7 @@ public class WALLOPS
             {
                 if ( !client.equals( c ) )
                 {
-                    client.sendToClient( "WALLOPS " + _message + " from " + c.getNickname() );
+                    client.sendToClient( "WALLOPS " + _message + " from " + c.getNickname(), true);
                 }
             }
         }

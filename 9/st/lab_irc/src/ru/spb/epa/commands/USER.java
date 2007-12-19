@@ -58,12 +58,16 @@ public class USER
         String ipAdress = this.parameters.get( 3 ).token;
         String fullname = this.parameters.get( 4 ).token;
 
+        if(fullname.startsWith(":"))fullname = fullname.substring(1);
+        if(ipAdress.startsWith("\""))ipAdress = ipAdress.substring(1);
+        if(ipAdress.endsWith("\""))ipAdress = ipAdress.substring(0,ipAdress.length()-1);
+
         c.setHostname( hostName );
         c.setUsername( userName );
         c.setFullname( fullname );
         c.setIpAdress( ipAdress );
 
-        c.sendToClient( IRCConstants.RPL_WELLCOME + " " + ServerConfig.WELLCOME_message );
+        c.sendToClient( IRCConstants.RPL_WELLCOME + " " + ServerConfig.WELLCOME_message, true);
     }
 
     // ================================================================================================================

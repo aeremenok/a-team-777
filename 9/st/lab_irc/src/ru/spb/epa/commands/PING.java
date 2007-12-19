@@ -44,7 +44,7 @@ import ru.spb.epa.exceptions.CommandExecutionException;
  */
 public class PING extends Command{
     public void execute(Client c) throws CommandExecutionException {
-        c.sendToClient("PONG ");
+        c.sendToClient("PONG ", true);
     }
 
     // ================================================================================================================

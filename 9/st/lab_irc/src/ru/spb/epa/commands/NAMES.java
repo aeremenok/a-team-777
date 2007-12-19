@@ -54,12 +54,12 @@ public class NAMES
             {
                 reply += " " + client.getNickname();
             }
-            c.sendToClient( reply );
-            c.sendToClient( RPL_ENDOFNAMES + " :End of NAMES list" );
+            c.sendToClient( reply, true);
+            c.sendToClient( RPL_ENDOFNAMES + " :End of NAMES list", true);
         }
         else
         { // канал не найден - выдаем ошибку
-            c.sendToClient( ERR_NOSUCHCHANNEL + " " + channelName + " :No such channel" );
+            c.sendToClient( ERR_NOSUCHCHANNEL + " " + channelName + " :No such channel", true);
         }
     }
 

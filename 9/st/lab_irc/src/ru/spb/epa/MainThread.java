@@ -43,7 +43,7 @@ public class MainThread
 
     public void run()
     {
-        createChannel( "#TEST1" );
+        createChannel( "#udaff" );
         createChannel( "#TEST2" );
 
         try
@@ -100,13 +100,13 @@ public class MainThread
     }
 
     public void broadcastMessage(
-        String mess )
+            String mess, boolean prefix)
     {
         System.out.println( "[MainThread] sending boadcast message:" + mess );
 
         for ( Client c : this.clients )
         {
-            c.sendToClient( mess );
+            c.sendToClient( mess, prefix);
         }
     }
 
