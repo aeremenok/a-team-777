@@ -33,7 +33,8 @@ public class NumericReply
 
     public NumericReply(
         int type,
-        String description )
+        String description,
+        int startOffset )
     {
         super();
         this._type = type;
@@ -47,9 +48,19 @@ public class NumericReply
         {
             IRCStringTokenizer stringTokenizer = new IRCStringTokenizer( _description, " :" );
 
-            _properties.put( CHANNEL, stringTokenizer.nextToken() );
+            int channelPos = getChannelPos( stringTokenizer );
+            if ( channelPos == -1 )
+            { // не найдено имя канала
+                channelPos = startOffset + 2;
+            }
+            _properties.put( CHANNEL, stringTokenizer.get( channelPos ) );
 
-            String topic = stringTokenizer.getRest();
+            int topicPos = getTopicPos( channelPos, stringTokenizer );
+            if ( topicPos == -1 )
+            {
+                topicPos = channelPos + 1;
+            }
+            String topic = stringTokenizer.get( topicPos );
             _properties.put( TOPIC, topic );
         }
         else if ( _type == RPL_NAMREPLY )
@@ -68,6 +79,33 @@ public class NumericReply
                 _properties.put( NICKNAMES, null );
             }
         }
+    }
+
+    private int getTopicPos(
+        int channelPos,
+        IRCStringTokenizer stringTokenizer )
+    {
+        for ( int pos = channelPos; pos < stringTokenizer.getTokens().size(); pos++ )
+        {
+            if ( stringTokenizer.get( pos ).startsWith( ":" ) )
+                return pos;
+        }
+        return -1;
+    }
+
+    private int getChannelPos(
+        IRCStringTokenizer stringTokenizer )
+    {
+        int counter = 0;
+        for ( String token : stringTokenizer.getTokens() )
+        {
+            if ( token.startsWith( "#" ) || token.startsWith( "&" ) || token.startsWith( "*" ) )
+            {
+                return counter;
+            }
+            counter++;
+        }
+        return -1;
     }
 
     public int getType()
