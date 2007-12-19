@@ -107,12 +107,7 @@ public abstract class ServiceMessage
             try
             {
                 String prefix = "";
-                int startPos = 0;
-                if ( stringTokenizer.get( 0 ).startsWith( ":" ) )
-                { // есть префикс
-                    prefix = stringTokenizer.get( 0 );
-                    startPos = 1;
-                }
+                int startPos = getStartPos( stringTokenizer );
                 String type = stringTokenizer.get( startPos );
 
                 if ( type.equalsIgnoreCase( "PRIVMSG" ) )
@@ -138,13 +133,7 @@ public abstract class ServiceMessage
         IRCStringTokenizer stringTokenizer )
     {
 
-        String prefix = "";
-        int startPos = 0;
-        if ( stringTokenizer.get( 0 ).startsWith( ":" ) )
-        { // есть префикс
-            prefix = stringTokenizer.get( 0 );
-            startPos = 1;
-        }
+        int startPos = getStartPos( stringTokenizer );
         String messageType = stringTokenizer.get( startPos );
 
         ServiceMessage serviceMessage = null;
@@ -173,6 +162,19 @@ public abstract class ServiceMessage
         return new WallopsMessage( serviceMessage, author, channelNames );
     }
 
+    private static int getStartPos(
+        IRCStringTokenizer stringTokenizer )
+    {
+        String prefix = "";
+        int startPos = 0;
+        if ( stringTokenizer.get( 0 ).startsWith( ":" ) )
+        { // есть префикс
+            prefix = stringTokenizer.get( 0 );
+            startPos = 1;
+        }
+        return startPos;
+    }
+
     private static String getAuthor(
         IRCStringTokenizer stringTokenizer )
     {
@@ -192,10 +194,18 @@ public abstract class ServiceMessage
         IRCStringTokenizer stringTokenizer )
         throws Throwable
     {
-        String from = stringTokenizer.nextToken();
-        String to = stringTokenizer.nextToken();
+        String prefix = "";
+        int startPos = 0;
+        if ( stringTokenizer.get( 0 ).startsWith( ":" ) )
+        { // есть префикс
+            prefix = stringTokenizer.get( 0 );
+            startPos = 1;
+        }
 
-        String content = stringTokenizer.getRest();
+        String from = prefix.substring( 1, prefix.indexOf( "!" ) );
+        String to = stringTokenizer.get( startPos + 1 );
+
+        String content = stringTokenizer.getRest( startPos + 2 ).substring( 1 );
 
         return new PrivateMessage( from, to, content );
     }

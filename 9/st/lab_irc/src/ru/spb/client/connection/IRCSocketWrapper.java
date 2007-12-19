@@ -18,6 +18,7 @@ import ru.spb.messages.ListMessage;
 import ru.spb.messages.NamesMessage;
 import ru.spb.messages.NickMessage;
 import ru.spb.messages.NumericReply;
+import ru.spb.messages.PartMessage;
 import ru.spb.messages.PassMessage;
 import ru.spb.messages.PrivateMessage;
 import ru.spb.messages.QuitMessage;
@@ -97,7 +98,7 @@ public class IRCSocketWrapper
         // отправляем запрос
         NamesMessage namesMessage = new NamesMessage( channel );
 
-        sendCommand( namesMessage, new ReplyListener()
+        waitReply( namesMessage, new ReplyListener()
         {
             @Override
             public void onFailure(
@@ -109,18 +110,40 @@ public class IRCSocketWrapper
             public void onSuccess(
                 NumericReply numericReply )
             {
-                String names = numericReply.getProperty( NumericReply.NICKNAMES );
-                if ( names != null )
-                { // список не пуст - разбираем полученные имена
-                    StringTokenizer stringTokenizer = new StringTokenizer( names, " " );
-                    while ( stringTokenizer.hasMoreTokens() )
-                    {
-                        User user = new User( stringTokenizer.nextToken() );
-                        channel.addUser( user );
-                    }
-                }
+                processNamesReply( channel, numericReply );
             }
+
         } );
+    }
+
+    /**
+     * ждать ответа, не посылая сообщения(если ответ должен прийти сам)
+     * 
+     * @param serviceMessage сообщение, которое подразумевается
+     * @param replyListener обработчик
+     */
+    private void waitReply(
+        ServiceMessage serviceMessage,
+        ReplyListener replyListener )
+    {
+        serviceMessage.addReplyListener( replyListener );
+        _receiver.reply( serviceMessage );
+    }
+
+    void processNamesReply(
+        Channel channel,
+        NumericReply numericReply )
+    {
+        String names = numericReply.getProperty( NumericReply.NICKNAMES );
+        if ( names != null )
+        { // список не пуст - разбираем полученные имена
+            StringTokenizer stringTokenizer = new StringTokenizer( names, " " );
+            while ( stringTokenizer.hasMoreTokens() )
+            {
+                User user = new User( stringTokenizer.nextToken() );
+                channel.addUser( user );
+            }
+        }
     }
 
     /**
@@ -204,8 +227,7 @@ public class IRCSocketWrapper
     {
         sendCommand( serviceMessage );
 
-        serviceMessage.addReplyListener( replyListener );
-        _receiver.reply( serviceMessage );
+        waitReply( serviceMessage, replyListener );
     }
 
     /**
@@ -268,6 +290,14 @@ public class IRCSocketWrapper
             Channel channel )
         {
             _channel = channel;
+            _channel.addMessageListener( new MessageListener()
+            {
+                public void onMessage(
+                    PrivateMessage message )
+                {
+                    privmsg( _channel, message.getContent() );
+                }
+            } );
         }
 
         @Override
@@ -282,15 +312,6 @@ public class IRCSocketWrapper
         {
             _channel.setTopic( numericReply.getProperty( NumericReply.TOPIC ) );
             ServiceLogPanel.getInstance().info( _channel, "entered on topic " + _channel.getTopic() );
-
-            _channel.addMessageListener( new MessageListener()
-            {
-                public void onMessage(
-                    PrivateMessage message )
-                {
-                    privmsg( _channel, message.getContent() );
-                }
-            } );
         }
     }
 
@@ -328,5 +349,17 @@ public class IRCSocketWrapper
             ServiceLogPanel.getInstance().error( e.getMessage() );
         }
         super.finalize();
+    }
+
+    /**
+     * оповестить о выходе из канала
+     * 
+     * @param channel
+     */
+    public void part(
+        Channel channel )
+    {
+        PartMessage partMessage = new PartMessage( channel.getName() );
+        sendCommand( partMessage );
     }
 }

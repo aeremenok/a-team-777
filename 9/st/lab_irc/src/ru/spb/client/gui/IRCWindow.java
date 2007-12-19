@@ -26,7 +26,8 @@ public class IRCWindow
 
             ServerTree tree = ServerTree.getInstance();
             tree.addServer( new Server( "epa" ) );
-            tree.addServer( new Server( "alien", "irc.run.net" ) );
+            tree.addServer( new Server( "alien1", "irc.run.net" ) );
+            tree.addServer( new Server( "alien2", "irc.generalnet.net" ) );
             pane.setLeftComponent( tree );
 
             pane.setRightComponent( IRCTabbedPanel.getInstance() );
