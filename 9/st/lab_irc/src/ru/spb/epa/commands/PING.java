@@ -1,5 +1,8 @@
 package ru.spb.epa.commands;
 
+import ru.spb.epa.Client;
+import ru.spb.epa.exceptions.CommandExecutionException;
+
 /**
  * User: Павел
  * Date: 14.12.2007
@@ -39,5 +42,29 @@ package ru.spb.epa.commands;
 
  
  */
-public class PING {
+public class PING extends Command{
+    public void execute(Client c) throws CommandExecutionException {
+        c.sendToClient("PONG ");
+    }
+
+    // ================================================================================================================
+    // COMMON
+    // ================================================================================================================
+
+    protected PING()
+    {
+        super();
+    }
+
+    protected PING(
+        String message )
+    {
+        super( message );
+    }
+
+    protected Command getInstance(
+        String message )
+    {
+        return new PING( message );
+    }
 }

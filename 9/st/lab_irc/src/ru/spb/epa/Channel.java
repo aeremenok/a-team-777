@@ -18,7 +18,7 @@ public class Channel
         String name )
     {
         this.name = name;
-        this.topic = "Default topic" + name;
+        this.topic = "Default_topic" + name;
     }
 
     public void connect(

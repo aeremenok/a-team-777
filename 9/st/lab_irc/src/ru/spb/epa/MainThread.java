@@ -129,11 +129,11 @@ public class MainThread
     public synchronized void disconnectUser(
         Client c )
     {
-        for ( Channel channel : channels )
+        if(channels != null) for ( Channel channel : channels )
         {
             channel.removeUser( c );
         }
-        this.clients.remove( c );
+        if(clients != null) clients.remove( c );
     }
 
     protected void finalize()
@@ -200,5 +200,14 @@ public class MainThread
             }
         }
         return null;
+    }
+
+    public void part(Client c,String channel) {
+        if(channel == null || "".equals(channel)) return;
+
+        for(Channel ch : this.channels){
+            if(ch.getName().equals(channel)) {ch.removeUser(c);return;}
+        }
+
     }
 }
