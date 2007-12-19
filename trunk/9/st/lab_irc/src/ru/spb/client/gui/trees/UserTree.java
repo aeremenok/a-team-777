@@ -69,7 +69,7 @@ public class UserTree
                     ServiceLogPanel.getInstance().info(
                                                         _channel,
                                                         wallopsMessage.getAuthor() + " has joined " +
-                                                                        wallopsMessage.getChannelName() );
+                                                                        joinMessage.getChannelName() );
                     _channel.addUser( new User( wallopsMessage.getAuthor() ) );
                 }
             }
