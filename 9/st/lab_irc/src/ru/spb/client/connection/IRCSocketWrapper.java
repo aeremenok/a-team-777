@@ -140,7 +140,12 @@ public class IRCSocketWrapper
             StringTokenizer stringTokenizer = new StringTokenizer( names, " " );
             while ( stringTokenizer.hasMoreTokens() )
             {
-                User user = new User( stringTokenizer.nextToken() );
+                String userName = stringTokenizer.nextToken();
+                if ( userName.startsWith( ":" ) )
+                {
+                    userName = userName.substring( 1 );
+                }
+                User user = new User( userName );
                 channel.addUser( user );
             }
         }
