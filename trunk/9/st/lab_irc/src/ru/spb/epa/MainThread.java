@@ -104,9 +104,12 @@ public class MainThread
     {
         System.out.println( "[MainThread] sending boadcast message:" + mess );
 
-        for ( Client c : this.clients )
+        synchronized (clients)
         {
-            c.sendToClient( mess, prefix);
+            for ( Client c : this.clients )
+                {
+                    c.sendToClient( mess, prefix);
+                }
         }
     }
 
