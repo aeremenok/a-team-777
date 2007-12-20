@@ -1,7 +1,6 @@
 package ru.spb.client.gui.trees;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -13,6 +12,7 @@ import ru.spb.client.gui.listeners.WallopsListener;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
 import ru.spb.client.gui.trees.nodes.UserNode;
 import ru.spb.messages.JoinMessage;
+import ru.spb.messages.PartMessage;
 import ru.spb.messages.WallopsMessage;
 
 /**
@@ -72,6 +72,15 @@ public class UserTree
                                                                         joinMessage.getChannelName() );
                     _channel.addUser( new User( wallopsMessage.getAuthor() ) );
                 }
+                else if ( wallopsMessage.getServiceMessage() instanceof PartMessage )
+                {
+                    PartMessage partMessage = (PartMessage) wallopsMessage.getServiceMessage();
+                    ServiceLogPanel.getInstance().info(
+                                                        _channel,
+                                                        wallopsMessage.getAuthor() + " has abandoned " +
+                                                                        partMessage.getChannelName() );
+                    _channel.removeUser( new User( wallopsMessage.getAuthor() ) );
+                }
             }
         } );
     }
@@ -119,16 +128,18 @@ public class UserTree
     public void removeUser(
         User user )
     {
-        Enumeration iter = _root.children();
-        while ( iter.hasMoreElements() )
+        DefaultTreeModel model = (DefaultTreeModel) getModel();
+        for ( int i = 0; i < model.getChildCount( _root ); i++ )
         {
-            UserNode node = (UserNode) iter.nextElement();
-            if ( node.getUser().equals( user ) )
+            UserNode userNode = (UserNode) model.getChild( _root, i );
+            if ( userNode.getUser().equals( user ) )
             {
-                _root.remove( node );
-                _users.remove( user );
+                model.removeNodeFromParent( userNode );
             }
         }
+        _users.remove( user );
+        collapseRow( 0 );
+        expandRow( getRowCount() - 1 );
     }
 
     public Channel getChannel()

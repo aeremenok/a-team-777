@@ -264,4 +264,10 @@ public class Channel
     {
         _wallopsListeners.add( wallopsListener );
     }
+
+    public void removeUser(
+        User user )
+    {
+        _userContainer.removeUser( user );
+    }
 }
