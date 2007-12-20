@@ -87,4 +87,10 @@ public abstract class IRCTree
             }
         }
     }
+
+    public void setTitle(
+        String string )
+    {
+        _root.setUserObject( string );
+    }
 }
