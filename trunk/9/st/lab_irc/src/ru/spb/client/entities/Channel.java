@@ -180,6 +180,7 @@ public class Channel
         String topic )
     {
         _topic = topic;
+        _userContainer.setTitle( topic );
     }
 
     @Override
@@ -224,7 +225,7 @@ public class Channel
     {
         for ( User user : _userContainer.getUsers() )
         {
-            if ( user.getName().equalsIgnoreCase( userName ) )
+            if ( user.getName().contains( userName ) )
             {
                 return user;
             }
