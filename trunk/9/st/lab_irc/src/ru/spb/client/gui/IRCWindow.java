@@ -28,6 +28,7 @@ public class IRCWindow
             tree.addServer( new Server( "epa" ) );
             tree.addServer( new Server( "irc.run.net", "irc.run.net" ) );
             tree.addServer( new Server( "irc.generalnet.net", "irc.generalnet.net" ) );
+            tree.addServer( new Server( "epa_remote", "91.103.153.149" ) );
             pane.setLeftComponent( tree );
 
             pane.setRightComponent( IRCTabbedPanel.getInstance() );

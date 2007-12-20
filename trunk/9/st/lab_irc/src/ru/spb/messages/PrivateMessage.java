@@ -27,7 +27,7 @@ public class PrivateMessage
         _to = to;
         _content = message;
 
-        _message = "PRIVMSG " + to + " " + message;
+        _message = "PRIVMSG " + to + " :" + message;
     }
 
     public String getFrom()
