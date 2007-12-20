@@ -57,7 +57,7 @@ public class PART extends Command{
             {
                 if ( !c.equals( client ) )
                 {
-                    client.sendToClient( fullMessage, true);
+                    client.sendToClient( fullMessage, false);
                 }
             }
         }
