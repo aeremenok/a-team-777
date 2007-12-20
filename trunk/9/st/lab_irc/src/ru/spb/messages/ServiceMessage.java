@@ -3,6 +3,7 @@ package ru.spb.messages;
 import java.util.ArrayList;
 
 import ru.spb.client.IRCStringTokenizer;
+import ru.spb.client.entities.User;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
 import ru.spb.messages.constants.Errors;
 import ru.spb.messages.constants.Replies;
@@ -114,7 +115,8 @@ public abstract class ServiceMessage
                 {
                     return parsePrivateMessage( stringTokenizer );
                 }
-                else if ( type.equalsIgnoreCase( "WALLOPS" ) )
+                else if ( type.equalsIgnoreCase( "WALLOPS" ) || type.equalsIgnoreCase( "JOIN" ) ||
+                          type.equalsIgnoreCase( "PART" ) || type.equalsIgnoreCase( "QUIT" ) )
                 {
                     return parseWallopsMessage( stringTokenizer );
                 }
@@ -132,32 +134,46 @@ public abstract class ServiceMessage
     private static ServiceMessage parseWallopsMessage(
         IRCStringTokenizer stringTokenizer )
     {
-
-        int startPos = getStartPos( stringTokenizer );
-        String messageType = stringTokenizer.get( startPos );
-
         ServiceMessage serviceMessage = null;
-        String author = getAuthor( stringTokenizer );
-
+        String author = null;
         ArrayList<String> channelNames = new ArrayList<String>();
         String channelName = null;
 
-        if ( messageType.equalsIgnoreCase( "JOIN" ) )
+        // todo организовать, сгруппировать функции
+        int startPos = getStartPos( stringTokenizer );
+        String messageType = stringTokenizer.get( startPos );
+
+        if ( messageType.equalsIgnoreCase( "WALLOPS" ) )
         {
-            channelName = stringTokenizer.get( 2 + startPos );
-            channelNames.add( channelName );
-            serviceMessage = new JoinMessage( channelName );
+            author = getAuthor( stringTokenizer );
         }
-        else if ( messageType.equalsIgnoreCase( "PART" ) )
-        {
-            channelName = stringTokenizer.get( 2 + startPos );
-            channelNames.add( channelName );
-            serviceMessage = new PartMessage( channelName );
+        else
+        { // формат уведомлений стандартных серверов
+            author = getAuthorSimple( stringTokenizer ).substring( 1 );
+            if ( author.equalsIgnoreCase( User.getCurrentUser().getName() ) )
+            { // о себе сообщения не рассылаем
+                return null;
+            }
+
+            if ( messageType.equals( "QUIT" ) )
+            { // обновить все каналы
+                channelNames = null;
+            }
+            else
+            {
+                channelName = stringTokenizer.get( stringTokenizer.indexOf( messageType ) + 1 ).substring( 1 );
+                channelNames.add( channelName );
+                if ( messageType.equalsIgnoreCase( "JOIN" ) )
+                {
+                    serviceMessage = new JoinMessage( channelName );
+                }
+                else if ( messageType.equalsIgnoreCase( "PART" ) )
+                {
+                    serviceMessage = new PartMessage( channelName );
+                }
+            }
         }
-        else if ( messageType.equals( "QUIT" ) )
-        { // обновить все каналы
-            channelNames = null;
-        }
+
         // todo реализовать остальные команды
         return new WallopsMessage( serviceMessage, author, channelNames );
     }
@@ -180,6 +196,15 @@ public abstract class ServiceMessage
     {
         int authorIndex = stringTokenizer.indexOf( "from" ) + 1;
         return stringTokenizer.get( authorIndex );
+    }
+
+    private static String getAuthorSimple(
+        IRCStringTokenizer stringTokenizer )
+    {
+        String container = stringTokenizer.get( 0 );
+        int start = container.indexOf( ':' );
+        int end = container.indexOf( '!' );
+        return container.substring( start, end );
     }
 
     /**

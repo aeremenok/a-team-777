@@ -87,7 +87,7 @@ public class NumericReply
         return -1;
     }
 
-    private int getChannelPos(
+    public static int getChannelPos(
         IRCStringTokenizer stringTokenizer )
     {
         int counter = 0;
