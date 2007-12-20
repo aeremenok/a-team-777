@@ -115,7 +115,7 @@ public class JOIN
 
                 c.sendBroadcastmessage(":" + c.getNickname() + "!~" + c.getFullname() + "@" + c.getIpAdress() + " JOIN :" + selectedChannel.getName(), false);
 
-                c.sendToClient(RPL_TOPIC + " " + c.getNickname() + " " + selectedChannel.getName() + " :" + selectedChannel.getTopic(),true);
+                //c.sendToClient(RPL_TOPIC + " " + c.getNickname() + " " + selectedChannel.getName() + " :" + selectedChannel.getTopic(),true);
 
 
                 String mess = RPL_NAMREPLY + " " + c.getNickname() + " = " + selectedChannel.getName() + " :";
