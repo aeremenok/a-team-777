@@ -49,11 +49,10 @@ public class PART extends Command{
         if(this.parameters.get( 1 ) != null) c.part(this.parameters.get( 1 ).token);
 
         String channelName = parameters.get( 1 ).token;
-        String content = parameters.get( 2 ).token;
         Channel channel = MainThread.getChannelByName( channelName );
         if ( channel != null )
         {
-            String fullMessage = "PART " + c.getNickname() + " " + channelName + " " + content;
+            String fullMessage = ":" + c.getNameCombined() + " PART " + channelName ;
             for ( Client client : channel.getUsers() )
             {
                 if ( !c.equals( client ) )

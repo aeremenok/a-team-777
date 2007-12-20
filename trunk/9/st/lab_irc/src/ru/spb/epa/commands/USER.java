@@ -61,6 +61,8 @@ public class USER
         if(fullname.startsWith(":"))fullname = fullname.substring(1);
         if(ipAdress.startsWith("\""))ipAdress = ipAdress.substring(1);
         if(ipAdress.endsWith("\""))ipAdress = ipAdress.substring(0,ipAdress.length()-1);
+        if(hostName.startsWith("\""))hostName = hostName.substring(1);
+        if(hostName.endsWith("\""))hostName = hostName.substring(0,hostName.length()-1);
 
         c.setHostname( hostName );
         c.setUsername( userName );

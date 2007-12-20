@@ -130,7 +130,7 @@ public class Client extends Thread{
      * @return
      */
     public String getNameCombined(){
-        return this.nickname + "!" + this.fullname + "@" + this.hostname;
+        return this.nickname + "!~" + this.fullname + "@" + this.hostname;
     }
     //================================================================================================================
     // Constructors
