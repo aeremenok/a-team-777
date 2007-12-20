@@ -1,5 +1,7 @@
 package ru.spb.client.entities;
 
+import java.util.ArrayList;
+
 import ru.spb.client.connection.IRCSocketWrapper;
 import ru.spb.client.gui.IRCTabbedPanel;
 import ru.spb.client.gui.logpanels.ServiceLogPanel;
@@ -23,6 +25,14 @@ public class Server
         String name )
     {
         _name = name;
+    }
+
+    public Server(
+        String name,
+        String host )
+    {
+        _name = name;
+        _host = host;
     }
 
     /**
@@ -205,5 +215,28 @@ public class Server
         ServiceLogPanel.getInstance().info( this, "adding channel" );
         channel.setHost( this );
         _channelContainer.addChannel( channel );
+    }
+
+    public void quitChat(
+        Channel channel )
+    {
+        _socketWrapper.part( channel );
+    }
+
+    public ArrayList<Channel> getChannels()
+    {
+        return _channelContainer.getChannels();
+    }
+
+    public void setHost(
+        String host )
+    {
+        this._host = host;
+    }
+
+    public void setPort(
+        int port )
+    {
+        this._port = port;
     }
 }

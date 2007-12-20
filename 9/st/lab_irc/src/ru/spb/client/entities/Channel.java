@@ -120,7 +120,7 @@ public class Channel
     {
         ServiceLogPanel.getInstance().info( this, "=exiting=" );
         _isChatting = false;
-        // todo послать part
+        _host.quitChat( this );
         IRCTabbedPanel.getInstance().removeChat( this );
     }
 
