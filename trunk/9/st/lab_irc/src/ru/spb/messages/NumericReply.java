@@ -1,7 +1,6 @@
 package ru.spb.messages;
 
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 import ru.spb.client.IRCStringTokenizer;
 import ru.spb.messages.constants.Errors;
@@ -68,16 +67,11 @@ public class NumericReply
             // RPL_NAMREPLY
             // "( "=" / "*" / "@" ) <channel>
             // :[ "@" / "+" ] <nick> *( " " [ "@" / "+" ] <nick> )
-            StringTokenizer stringTokenizer = new StringTokenizer( _description, ":" );
-            _properties.put( CHANNEL, stringTokenizer.nextToken() );
-            if ( stringTokenizer.hasMoreTokens() )
-            { // список не пуст
-                _properties.put( NICKNAMES, stringTokenizer.nextToken() );
-            }
-            else
-            {
-                _properties.put( NICKNAMES, null );
-            }
+            IRCStringTokenizer stringTokenizer = new IRCStringTokenizer( _description, " " );
+            int channelPos = getChannelPos( stringTokenizer );
+
+            _properties.put( CHANNEL, stringTokenizer.get( channelPos ) );
+            _properties.put( NICKNAMES, stringTokenizer.getRest( channelPos + 1 ) );
         }
     }
 
