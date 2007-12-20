@@ -161,16 +161,17 @@ public abstract class ServiceMessage
             }
             else
             {
-                channelName = stringTokenizer.get( stringTokenizer.indexOf( messageType ) + 1 ).substring( 1 );
-                channelNames.add( channelName );
                 if ( messageType.equalsIgnoreCase( "JOIN" ) )
                 {
+                    channelName = stringTokenizer.get( stringTokenizer.indexOf( messageType ) + 1 ).substring( 1 );
                     serviceMessage = new JoinMessage( channelName );
                 }
                 else if ( messageType.equalsIgnoreCase( "PART" ) )
                 {
+                    channelName = stringTokenizer.get( stringTokenizer.indexOf( messageType ) + 1 );
                     serviceMessage = new PartMessage( channelName );
                 }
+                channelNames.add( channelName );
             }
         }
 
