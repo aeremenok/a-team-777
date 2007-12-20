@@ -11,8 +11,8 @@
 	<node type = "Objects::AMC::Top" name = "s10"></node>
 	<link type = "Objects::AMC::Link" name = "s1-->s2" probability = "1.0" intensity = "0.47" deviation = "0.0" source = "s1" dest = "s2"></link>
 	<link type = "Objects::AMC::Link" name = "s2-->s3" probability = "1.0" intensity = "0.53" deviation = "0.0" source = "s2" dest = "s3"></link>
-	<link type = "Objects::AMC::Link" name = "s3-->s10" probability = "0.9942" intensity = "0.42" deviation = "0.0" source = "s3" dest = "s10"></link>
-	<link type = "Objects::AMC::Link" name = "s3-->s4" probability = "0.0058" intensity = "0.45" deviation = "0.0" source = "s3" dest = "s4"></link>
+	<link type = "Objects::AMC::Link" name = "s3-->s10" probability = "0.0058" intensity = "0.42" deviation = "0.0" source = "s3" dest = "s10"></link>
+	<link type = "Objects::AMC::Link" name = "s3-->s4" probability = "0.9942" intensity = "0.45" deviation = "0.0" source = "s3" dest = "s4"></link>
 	<link type = "Objects::AMC::Link" name = "s4-->s5" probability = "1.0" intensity = "0.58" deviation = "0.0" source = "s4" dest = "s5"></link>
 	<link type = "Objects::AMC::Link" name = "s5-->s6" probability = "0.9942" intensity = "9.66" deviation = "0.0" source = "s5" dest = "s6"></link>
 	<link type = "Objects::AMC::Link" name = "s5-->s9" probability = "0.0058" intensity = "0.49" deviation = "0.0" source = "s5" dest = "s9"></link>
