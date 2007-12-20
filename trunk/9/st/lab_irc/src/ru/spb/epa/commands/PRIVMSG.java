@@ -42,6 +42,10 @@ public class PRIVMSG
     {
         String channelName = parameters.get( 1 ).token;
         String content = parameters.get( 2 ).token;
+        for(int i = 3; i < parameters.size(); i++){
+            content += " " + parameters.get(i).token;
+        }
+
         Channel channel = MainThread.getChannelByName( channelName );
         if ( channel != null )
         {
