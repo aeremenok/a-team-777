@@ -67,7 +67,7 @@ public class USER
         c.setFullname( fullname );
         c.setIpAdress( ipAdress );
 
-        c.sendToClient( IRCConstants.RPL_WELLCOME + " " + ServerConfig.WELLCOME_message, true);
+        c.sendToClient( IRCConstants.RPL_WELLCOME + " " + c.getNickname() + " " + ServerConfig.WELLCOME_message, true);
     }
 
     // ================================================================================================================

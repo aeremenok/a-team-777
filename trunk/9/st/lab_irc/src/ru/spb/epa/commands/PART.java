@@ -1,6 +1,8 @@
 package ru.spb.epa.commands;
 
 import ru.spb.epa.Client;
+import ru.spb.epa.Channel;
+import ru.spb.epa.MainThread;
 import ru.spb.epa.exceptions.CommandExecutionException;
 
 /**
@@ -45,6 +47,21 @@ import ru.spb.epa.exceptions.CommandExecutionException;
 public class PART extends Command{
     public void execute(Client c) throws CommandExecutionException {
         if(this.parameters.get( 1 ) != null) c.part(this.parameters.get( 1 ).token);
+
+        String channelName = parameters.get( 1 ).token;
+        String content = parameters.get( 2 ).token;
+        Channel channel = MainThread.getChannelByName( channelName );
+        if ( channel != null )
+        {
+            String fullMessage = "PART " + c.getNickname() + " " + channelName + " " + content;
+            for ( Client client : channel.getUsers() )
+            {
+                if ( !c.equals( client ) )
+                {
+                    client.sendToClient( fullMessage, true);
+                }
+            }
+        }
     }
 
     // ================================================================================================================

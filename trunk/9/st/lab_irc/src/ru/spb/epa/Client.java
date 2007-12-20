@@ -125,6 +125,13 @@ public class Client extends Thread{
     }
 
 
+    /**
+     * :WiZ!jto@tolsun.oulu.fi
+     * @return
+     */
+    public String getNameCombined(){
+        return this.nickname + "!" + this.fullname + "@" + this.hostname;
+    }
     //================================================================================================================
     // Constructors
     //================================================================================================================
