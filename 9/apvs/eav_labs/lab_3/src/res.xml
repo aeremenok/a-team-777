@@ -1,0 +1,5 @@
+<model type = "Objects::AMC::Model" name = "Equal absorb chain for 'lab_3_amc'">
+	<node type = "Objects::AMC::Top" name = "s1"></node>
+	<node type = "Objects::AMC::Top" name = "s10"></node>
+	<link type = "Objects::AMC::Link" name = "s1-->s10" probability = "1.0" intensity = "1.65657418413889" deviation = "9.71180422612624" source = "s1" dest = "s10"></link>
+</model>
