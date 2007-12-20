@@ -107,10 +107,10 @@ public class MessageReceiver
                 }
                 else
                 { // рассылаем всем
-                    for ( Channel channel : _host.getChannels() )
+                   /* for ( Channel channel : _host.getChannels() )
                     {
                         channel.fireWallops( wallopsMessage );
-                    }
+                    }*/
                 }
             }
             else

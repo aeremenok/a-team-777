@@ -41,7 +41,7 @@ public class LIST
             c.sendToClient( RPL_LISTSTART + "", true);
             for ( Channel ch : l )
             {
-                c.sendToClient( RPL_LIST + " " + c.getName() + " " + ch.getName() + " " + ch.getNumbersersOnChannel() + " :" + ch.getTopic(), true);
+                c.sendToClient( RPL_LIST + " " + c.getFullname() + " " + ch.getName() + " " + ch.getNumbersersOnChannel() + " :" + ch.getTopic(), true);
             }
             c.sendToClient( RPL_LISTEND +"", true);// + " :End of LIST" );
         }
