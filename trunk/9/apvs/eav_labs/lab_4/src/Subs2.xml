@@ -1,4 +1,4 @@
-<model type = "Objects::SPN::Model" name = "lab">
+<model type = "Objects::SPN::Model" name = "Subnet for 's2'">
 	<node type = "Objects::SPN::Place" name = "p1" markerCount = "0"></node>
 	<node type = "Objects::SPN::Place" name = "p2" markerCount = "0"></node>
 	<node type = "Objects::SPN::Place" name = "p3" markerCount = "0"></node>
@@ -7,13 +7,16 @@
 	<node type = "Objects::SPN::Transition" name = "t0" intensity = "0.0"></node>
 	<node type = "Objects::SPN::Transition" name = "t1" intensity = "0.0"></node>
 	<node type = "Objects::SPN::Transition" name = "t2" intensity = "0.0"></node>
-	<node type = "Objects::SPN::SuperTransition" name = "s0" intensity = "0.0" subnet = "D:\temp\1\CSA_new/Subs0.xml"></node>
+	<node type = "Objects::SPN::Transition" name = "t3" intensity = "0.0"></node>
+	<node type = "Objects::SPN::Transition" name = "t4" intensity = "0.0"></node>
 	<link type = "Objects::SPN::Link" name = "p1-->t0" arity = "1" inhib = "false" source = "p1" dest = "t0"></link>
 	<link type = "Objects::SPN::Link" name = "t0-->p2" arity = "1" inhib = "false" source = "t0" dest = "p2"></link>
 	<link type = "Objects::SPN::Link" name = "p2-->t1" arity = "1" inhib = "false" source = "p2" dest = "t1"></link>
 	<link type = "Objects::SPN::Link" name = "t1-->p3" arity = "1" inhib = "false" source = "t1" dest = "p3"></link>
-	<link type = "Objects::SPN::Link" name = "p3-->s0" arity = "1" inhib = "false" source = "p3" dest = "s0"></link>
-	<link type = "Objects::SPN::Link" name = "s0-->p4" arity = "1" inhib = "false" source = "s0" dest = "p4"></link>
-	<link type = "Objects::SPN::Link" name = "p4-->t2" arity = "1" inhib = "false" source = "p4" dest = "t2"></link>
-	<link type = "Objects::SPN::Link" name = "t2-->p5" arity = "1" inhib = "false" source = "t2" dest = "p5"></link>
+	<link type = "Objects::SPN::Link" name = "p3-->t3" arity = "1" inhib = "false" source = "p3" dest = "t3"></link>
+	<link type = "Objects::SPN::Link" name = "t3-->p5" arity = "1" inhib = "false" source = "t3" dest = "p5"></link>
+	<link type = "Objects::SPN::Link" name = "p2-->t2" arity = "1" inhib = "false" source = "p2" dest = "t2"></link>
+	<link type = "Objects::SPN::Link" name = "t2-->p4" arity = "1" inhib = "false" source = "t2" dest = "p4"></link>
+	<link type = "Objects::SPN::Link" name = "p4-->t4" arity = "1" inhib = "false" source = "p4" dest = "t4"></link>
+	<link type = "Objects::SPN::Link" name = "t4-->p5" arity = "1" inhib = "false" source = "t4" dest = "p5"></link>
 </model>
