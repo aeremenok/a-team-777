@@ -5,8 +5,8 @@
 	<node type = "Objects::SPN::Place" name = "p4" markerCount = "0"></node>
 	<node type = "Objects::SPN::Place" name = "p5" markerCount = "0"></node>
 	<node type = "Objects::SPN::Transition" name = "t0" intensity = "0.08"></node>
-	<node type = "Objects::SPN::Transition" name = "t1" intensity = "99.42"></node>
-	<node type = "Objects::SPN::Transition" name = "t2" intensity = "0.58"></node>
+	<node type = "Objects::SPN::Transition" name = "t1" intensity = "96.44"></node>
+	<node type = "Objects::SPN::Transition" name = "t2" intensity = "0.56"></node>
 	<node type = "Objects::SPN::Transition" name = "t3" intensity = "0.07"></node>
 	<node type = "Objects::SPN::Transition" name = "t4" intensity = "0.97"></node>
 	<link type = "Objects::SPN::Link" name = "p1-->t0" arity = "1" inhib = "false" source = "p1" dest = "t0"></link>
