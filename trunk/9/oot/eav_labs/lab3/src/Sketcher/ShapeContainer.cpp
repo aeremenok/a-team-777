@@ -227,4 +227,5 @@ ExternalGraphIterator<CElement>* ShapeContainer::getNearestRibbles( CElement* se
     {
         AfxMessageBox(e->getException().c_str());
     }
+    return NULL;
 }

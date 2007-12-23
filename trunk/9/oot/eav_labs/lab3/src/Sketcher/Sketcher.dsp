@@ -114,6 +114,14 @@ SOURCE=.\MainFrm.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\shapes\Oval.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\Rectangle.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\exceptions\RibbleExistsException.cpp
 # End Source File
 # Begin Source File
@@ -123,6 +131,10 @@ SOURCE=.\exceptions\RibbleNotFoundException.cpp
 # Begin Source File
 
 SOURCE=.\ScaleDialog.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\Shape.cpp
 # End Source File
 # Begin Source File
 
@@ -160,6 +172,14 @@ SOURCE=.\SrvrItem.cpp
 
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\Text.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\TextInOval.cpp
 # End Source File
 # Begin Source File
 
@@ -215,6 +235,14 @@ SOURCE=.\OurConstants.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\shapes\Oval.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\Rectangle.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Resource.h
 # End Source File
 # Begin Source File
@@ -264,6 +292,10 @@ SOURCE=.\SrvrItem.h
 # Begin Source File
 
 SOURCE=.\StdAfx.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\shapes\Text.h
 # End Source File
 # Begin Source File
 

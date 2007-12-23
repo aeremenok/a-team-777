@@ -14,6 +14,7 @@
 
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
+#include <afxtempl.h>       // Collection templates
 #include <afxole.h>         // MFC OLE classes
 #include <afxodlgs.h>       // MFC OLE dialog classes
 #include <afxdisp.h>        // MFC Automation classes
