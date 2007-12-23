@@ -60,7 +60,7 @@ public:
 	//##ModelId=476EA08D00BF
     void linkElements(CElement* element1, CElement* element2);
     //////////////////////////////////////////////////////////////////////////
-    // получить новый итератор, указавющий на начало контейнера
+    // получить новый итератор, указывающий на начало контейнера
 	//##ModelId=476EA08D00C2
     Iterator<CElement>* getNewIterator() const { return _container->getIterator(); }
     // получить список ребер, инцидентных выбранной вершине
