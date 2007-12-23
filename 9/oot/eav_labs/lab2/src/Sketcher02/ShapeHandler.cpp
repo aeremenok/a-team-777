@@ -22,11 +22,8 @@ static char THIS_FILE[]=__FILE__;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-
-ShapeHandler::ShapeHandler(CScrollView* view)
+ShapeHandler::ShapeHandler(CSketcherView* view): _view(view)
 {
-    _view = view;
-
     m_FirstPoint = CPoint(0,0);         // Set 1st recorded point to 0,0
     m_SecondPoint = CPoint(0,0);        // Set 2nd recorded point to 0,0
     m_pTempElement = NULL;              // Set temporary element pointer to 0
@@ -41,7 +38,8 @@ ShapeHandler::ShapeHandler(CScrollView* view)
     _ribble = NULL;
     _lastNearestRibbles = NULL;
     _firstVertex = NULL;
-    m_Scale = 1;                          // Set scale to 1:1
+
+    m_Scale = 1;                        // Set scale to 1:1
 }
 
 ShapeHandler::~ShapeHandler()
@@ -125,6 +123,7 @@ bool ShapeHandler::canProceed()
 void ShapeHandler::markHighlighted(CElement* pCurrentSelection )
 {
     CClientDC aDC(_view);
+    _view->OnPrepareDC(&aDC);
     CRect aRect;
     if(pCurrentSelection != m_pSelected)
     {
@@ -181,12 +180,6 @@ void ShapeHandler::drawRibble( Ribble<CElement>* ribble, COLORREF aColor )
     }
 }
 
-void ShapeHandler::drawRibble( CElement* start, CElement* end )
-{
-    Ribble<CElement>* temp = new Ribble<CElement>(start, end);
-    drawRibble(temp, GREEN );
-}
-
 void ShapeHandler::onDraw( CDC* pDC )
 {
     CSketcherDoc* pDoc = GetDocument();
@@ -215,10 +208,12 @@ void ShapeHandler::onDraw( CDC* pDC )
     }
 }
 
-void ShapeHandler::onLBDown( CClientDC &aDC, CPoint &point )
+void ShapeHandler::onLBDown( CPoint &point )
 {
     if (!m_MoveMode && GetDocument()->getShapeContainer()->GetElementType()!=RIBBLE)
     {
+        CClientDC aDC(_view);
+        _view->OnPrepareDC(&aDC);
         aDC.DPtoLP(&point);                 // convert point to Logical
     }
     
@@ -233,7 +228,7 @@ void ShapeHandler::onLBDown( CClientDC &aDC, CPoint &point )
     {
         if (GetDocument()->getShapeContainer()->GetElementType() == RIBBLE)
         {   // добавляем ребро
-            CElement* currentSelection = SelectElement(point, aDC);
+            CElement* currentSelection = SelectElement(point);
             if (currentSelection != NULL)
             {   // найдена начальная вершина
                 CPoint* exactCenter = &(currentSelection->GetBoundRect().CenterPoint());
@@ -280,8 +275,11 @@ CElement* ShapeHandler::CreateElement()
     }
 }
 
-CElement* ShapeHandler::SelectElement( CPoint aPoint, CClientDC& aDC )
+CElement* ShapeHandler::SelectElement( CPoint aPoint)
 {
+    CClientDC aDC(_view);
+    _view->OnPrepareDC(&aDC);
+
     // Convert parameter aPoint to logical coordinates
     aDC.DPtoLP(&aPoint);
     
@@ -308,8 +306,11 @@ CElement* ShapeHandler::SelectElement( CPoint aPoint, CClientDC& aDC )
     return NULL;                              // No element found
 }
 
-void ShapeHandler::MoveElement( CClientDC& aDC, CPoint& point )
+void ShapeHandler::MoveElement( CPoint& point )
 {
+    CClientDC aDC(_view);
+    _view->OnPrepareDC(&aDC);
+    
     CSize Distance = point - m_CursorPos;   // Get move distance
     m_CursorPos = point;          // Set current point as 1st for next time
     
@@ -323,14 +324,17 @@ void ShapeHandler::MoveElement( CClientDC& aDC, CPoint& point )
     }
 }
 
-void ShapeHandler::onLBUp( CClientDC &aDC, CPoint& point )
+void ShapeHandler::onLBUp( CPoint& point )
 {
+    if(_view == _view->GetCapture())
+        ReleaseCapture();        // Stop capturing mouse messages
+
     // If there is an element, add it to the document
     if(m_pTempElement)
     {
         if (GetDocument()->getShapeContainer()->GetElementType()==RIBBLE)
         {   // соединяем ребрами
-            CElement* secondVertex = SelectElement(point, aDC);
+            CElement* secondVertex = SelectElement(point);
             if (secondVertex!=NULL)
             {   // найдена конечная вершина
                 GetDocument()->getShapeContainer()->linkElements(m_pSelected, secondVertex);
@@ -355,7 +359,7 @@ void ShapeHandler::onMMove( CPoint& point, bool flag )
     if(m_MoveMode)
     { // передвигаем фигуру
         aDC.DPtoLP(&point);        // Convert to logical coordinatess
-        MoveElement(aDC, point);   // Move the element
+        MoveElement(point);   // Move the element
     }
     else if( flag && (_view == _view->GetCapture()))
     { // рисуем фигуру
@@ -376,20 +380,15 @@ void ShapeHandler::onMMove( CPoint& point, bool flag )
     }
     else
     { // ничего не двигаем и не рисуем, только подсвечиваем
-        CElement* pCurrentSelection = SelectElement(point, aDC);
+        CElement* pCurrentSelection = SelectElement(point);
         markHighlighted(pCurrentSelection);
     }
+
 }
 
 CSketcherDoc* ShapeHandler::GetDocument()
 {
-    CDocument* doc = _view->GetDocument();
-    CSketcherDoc *csdoc = dynamic_cast<CSketcherDoc *>(doc);
-    if (csdoc)
-    {
-        return csdoc;
-    }
-    return NULL;
+    return _view->GetDocument();
 }
 
 void ShapeHandler::onMove()
@@ -413,12 +412,11 @@ void ShapeHandler::onRBDown( CPoint &point )
         CClientDC aDC(_view);
         _view->OnPrepareDC(&aDC);                  // Get origin adjusted
 
-        MoveElement(aDC, m_FirstPos);       // Move element to orig position
+        MoveElement(point);       // Move element to orig position
         m_MoveMode = FALSE;                 // Kill move mode
         m_pSelected = NULL;                    // De-select element
 
         GetDocument()->UpdateAllViews(0);   // Redraw all the views
-        return;                             // We are done
     }   
 }
 
