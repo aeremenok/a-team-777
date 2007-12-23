@@ -274,10 +274,6 @@ SOURCE=.\shapes\TextInOval.h
 
 SOURCE=.\TextRequest.h
 # End Source File
-# Begin Source File
-
-SOURCE=.\exceptions\VertexNotFoundException.h
-# End Source File
 # End Group
 # Begin Group "Resource Files"
 
