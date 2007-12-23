@@ -45,9 +45,9 @@ END_MESSAGE_MAP()
 //##ModelId=473EDD6D02C1
 CSketcherDoc::CSketcherDoc()
 {
+    m_DocSize = CSize(3000,3000);  // Set initial document size 30x30 inches
 	// TODO: add one-time construction code here
     _shapeContainer = new ShapeContainer();
-    m_DocSize = CSize(3000,3000);  // Set initial document size 30x30 inches
 }
 
 //##ModelId=473EDD6D02D6

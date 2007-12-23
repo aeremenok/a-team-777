@@ -20,7 +20,6 @@ public:
 
 protected:
     ShapeContainer* _shapeContainer;
-    
     // Document size
 	//##ModelId=475168590251
 	CSize m_DocSize;

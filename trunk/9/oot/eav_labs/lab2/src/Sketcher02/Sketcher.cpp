@@ -107,7 +107,7 @@ BOOL CSketcherApp::InitInstance()
     pMainFrame->CenterWindow();
 
 	pMainFrame->ShowWindow(m_nCmdShow);
-	pMainFrame->UpdateWindow();
+    pMainFrame->UpdateWindow();
 
 	return TRUE;
 }
