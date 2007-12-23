@@ -5,11 +5,13 @@
 #include "Sketcher.h"
 #include "ShapeContainer.h"
 //////////////////////////////////////////////////////////////////////////
-#include "shapes/Shape.h"
-#include "shapes/Rectangle.h"
-#include "shapes/Oval.h"
-#include "shapes/Text.h"
-#include "shapes/TextInOval.h"
+// #include "shapes/Shape.h"
+// #include "shapes/Rectangle.h"
+// #include "shapes/Oval.h"
+// #include "shapes/Text.h"
+// #include "shapes/TextInOval.h"
+
+#include "OurConstants.h"
 
 #include <map>
 //////////////////////////////////////////////////////////////////////////
@@ -40,6 +42,7 @@ ShapeContainer::~ShapeContainer()
 //##ModelId=476EA08D00A1
 void ShapeContainer::serializeContainer( CArchive& ar )
 {
+    /*
     if (ar.IsStoring())
     {
         ar << _container->getRibbleCount();
@@ -92,9 +95,11 @@ void ShapeContainer::serializeContainer( CArchive& ar )
             }
         }
     }
+    */
 }
 
 //##ModelId=476EA08D00A3
+/*
 Shape* ShapeContainer::readShape( CArchive &ar, map<int, Shape*> &shapes )
 {
     int id;
@@ -138,7 +143,7 @@ Shape* ShapeContainer::readShape( CArchive &ar, map<int, Shape*> &shapes )
     }
     return toAdd;
 }
-
+*/
 //##ModelId=476EA08D00CB
 void ShapeContainer::serialize( CArchive& ar )
 {
