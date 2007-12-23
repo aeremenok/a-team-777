@@ -1,0 +1,30 @@
+REGEDIT
+; This .REG file may be used by your SETUP program.
+;   If a SETUP program is not available, the entries below will be
+;   registered in your InitInstance automatically with a call to
+;   CWinApp::RegisterShellFileTypes and COleObjectFactory::UpdateRegistryAll.
+
+HKEY_CLASSES_ROOT\.ols = Sketcher.Document
+HKEY_CLASSES_ROOT\Sketcher.Document\shell\open\command = SKETCHER.EXE %1
+HKEY_CLASSES_ROOT\Sketcher.Document\shell\open\ddeexec = [open("%1")]
+HKEY_CLASSES_ROOT\Sketcher.Document\shell\open\ddeexec\application = SKETCHER
+    ; note: the application is optional
+    ;  (it defaults to the app name in "command")
+
+HKEY_CLASSES_ROOT\Sketcher.Document = Sketch Document
+HKEY_CLASSES_ROOT\Sketcher.Document\protocol\StdFileEditing\server = SKETCHER.EXE
+HKEY_CLASSES_ROOT\Sketcher.Document\protocol\StdFileEditing\verb\0 = &Edit
+HKEY_CLASSES_ROOT\Sketcher.Document\Insertable =
+HKEY_CLASSES_ROOT\Sketcher.Document\CLSID = {4F9D716E-9E7B-4E9D-9A00-316F404C89D2}
+
+HKEY_CLASSES_ROOT\CLSID\{4F9D716E-9E7B-4E9D-9A00-316F404C89D2} = Sketch Document
+HKEY_CLASSES_ROOT\CLSID\{4F9D716E-9E7B-4E9D-9A00-316F404C89D2}\DefaultIcon = SKETCHER.EXE,1
+HKEY_CLASSES_ROOT\CLSID\{4F9D716E-9E7B-4E9D-9A00-316F404C89D2}\LocalServer32 = SKETCHER.EXE
+HKEY_CLASSES_ROOT\CLSID\{4F9D716E-9E7B-4E9D-9A00-316F404C89D2}\ProgId = Sketcher.Document
+HKEY_CLASSES_ROOT\CLSID\{4F9D716E-9E7B-4E9D-9A00-316F404C89D2}\MiscStatus = 32
+HKEY_CLASSES_ROOT\CLSID\{4F9D716E-9E7B-4E9D-9A00-316F404C89D2}\AuxUserType\3 = Sketcher
+HKEY_CLASSES_ROOT\CLSID\{4F9D716E-9E7B-4E9D-9A00-316F404C89D2}\AuxUserType\2 = Sketch
+HKEY_CLASSES_ROOT\CLSID\{4F9D716E-9E7B-4E9D-9A00-316F404C89D2}\Insertable = 
+HKEY_CLASSES_ROOT\CLSID\{4F9D716E-9E7B-4E9D-9A00-316F404C89D2}\verb\1 = &Open,0,2
+HKEY_CLASSES_ROOT\CLSID\{4F9D716E-9E7B-4E9D-9A00-316F404C89D2}\verb\0 = &Edit,0,2
+HKEY_CLASSES_ROOT\CLSID\{4F9D716E-9E7B-4E9D-9A00-316F404C89D2}\InprocHandler32 = ole32.dll

@@ -1,0 +1,42 @@
+// Sketcher.odl : type library source for Sketcher.exe
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (Sketcher.tlb).
+
+[ uuid(0E10CC92-BF06-4B98-9008-BAE87545BD8A), version(1.0) ]
+library Sketcher
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+
+	//  Primary dispatch interface for CSketcherDoc
+	
+	[ uuid(209B83CE-2FA3-4A8C-9C22-869FF0BA2652) ]
+	dispinterface ISketcher
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CSketcherDoc)
+			//}}AFX_ODL_PROP
+			
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CSketcherDoc)
+			//}}AFX_ODL_METHOD
+
+	};
+
+	//  Class information for CSketcherDoc
+	
+	[ uuid(4F9D716E-9E7B-4E9D-9A00-316F404C89D2) ]
+	coclass Document
+	{
+		[default] dispinterface ISketcher;
+	};
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};
