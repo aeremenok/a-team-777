@@ -20,6 +20,7 @@ public:
 	//##ModelId=473EDD6D01D4
 	CSketcherDoc* GetDocument();
 protected:
+	//##ModelId=476EA08C02A0
     ShapeHandler* _handler;
 // Operations
 public:

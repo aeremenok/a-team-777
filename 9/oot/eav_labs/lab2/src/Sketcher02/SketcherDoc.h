@@ -19,6 +19,7 @@ protected: // create from serialization only
 public:
 
 protected:
+	//##ModelId=476EA08C030E
     ShapeContainer* _shapeContainer;
     // Document size
 	//##ModelId=475168590251
@@ -28,6 +29,7 @@ public:
     // Retrieve the document size
     //##ModelId=475168590261
     CSize GetDocSize(){ return m_DocSize; }
+	//##ModelId=476EA08C0312
     ShapeContainer* getShapeContainer() const { return _shapeContainer; }
 protected:
 // Overrides
