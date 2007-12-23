@@ -13,10 +13,13 @@
 
 #include "Elements.h"
 #include "SketcherDoc.h"
+#include "SketcherView.h"
+
+class CSketcherView;
 //////////////////////////////////////////////////////////////////////////
 class ShapeHandler  
 {
-    CScrollView* _view;
+    CSketcherView* _view;
 
     // First point recorded for an element
     CPoint m_FirstPoint;       
@@ -45,8 +48,27 @@ class ShapeHandler
     Ribble<CElement>* _ribble;
     // начальная вершина
     CElement* _firstVertex;
+    //////////////////////////////////////////////////////////////////////////
+    // Create a new element on the heap
+    CElement* CreateElement();
+    // Select an element
+    CElement* SelectElement(CPoint aPoint);
+    // Move an element
+    void MoveElement(CPoint& point);
+    //////////////////////////////////////////////////////////////////////////
+    // отрисовать ребро по указателю на ребро
+    void drawRibble( Ribble<CElement>* ribble, COLORREF aColor );
+    // заданная фигура будет отмечена для подсветки
+    void markHighlighted( CElement* pCurrentSelection);
+    //////////////////////////////////////////////////////////////////////////
+    // можно ли двигаться дальше по графу
+    bool canProceed();
+    // освежить список инцидентных ребер
+    ExternalGraphIterator<CElement>* refreshNearestRibbles();
+    //////////////////////////////////////////////////////////////////////////
+    CSketcherDoc* GetDocument();
 public:
-    ShapeHandler(CScrollView* view);
+    ShapeHandler(CSketcherView* view);
 	virtual ~ShapeHandler();
     //////////////////////////////////////////////////////////////////////////
     int Scale() const { return m_Scale; }
@@ -55,38 +77,19 @@ public:
     bool IsGraphVisible() const { return _isGraphVisible; }
     void IsGraphVisible(bool val) { _isGraphVisible = val; }
 
-    CSketcherDoc* GetDocument();
-
     CElement* Selected() const { return m_pSelected; }
     //////////////////////////////////////////////////////////////////////////
-    // Create a new element on the heap
-    CElement* CreateElement();
-    // Select an element
-    CElement* SelectElement(CPoint aPoint, CClientDC& aDC);
-    // Move an element
-    void MoveElement(CClientDC& aDC, CPoint& point);
     void onMove();
     void onDelete();
-    //////////////////////////////////////////////////////////////////////////
-    // отрисовывает содержимое
     void onDraw( CDC* pDC );
-    void onLBDown( CClientDC &aDC, CPoint &point );
-    void onLBUp( CClientDC &aDC, CPoint& point );
-    void onMMove( CPoint& point, bool flag);
+
+    void onLBDown( CPoint &point );
+    void onLBUp( CPoint& point );
     void onRBDown( CPoint &point );
     void onRBUp( CPoint &point );
+
+    void onMMove( CPoint& point, bool flag);
     //////////////////////////////////////////////////////////////////////////
-    // отрисовать ребро по указателю на ребро
-    void drawRibble( Ribble<CElement>* ribble, COLORREF aColor );
-    // отрисовать "ребро" по 2м точкам
-    void drawRibble( CElement* start, CElement* end);
-    // заданная фигура будет отмечена для подсветки
-    void markHighlighted( CElement* pCurrentSelection);
-    //////////////////////////////////////////////////////////////////////////
-    // можно ли двигаться дальше по графу
-    bool canProceed();
-    // освежить список инцидентных ребер
-    ExternalGraphIterator<CElement>* refreshNearestRibbles();
     // сменить текущее ребро
     void changeRibble(bool isNext);
     // сменить текущую вершину
