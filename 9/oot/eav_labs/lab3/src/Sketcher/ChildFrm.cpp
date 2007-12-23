@@ -19,8 +19,7 @@ IMPLEMENT_DYNCREATE(CChildFrame, CMDIChildWnd)
 
 BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWnd)
 	//{{AFX_MSG_MAP(CChildFrame)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
+	ON_WM_CREATE()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -68,3 +67,28 @@ void CChildFrame::Dump(CDumpContext& dc) const
 
 /////////////////////////////////////////////////////////////////////////////
 // CChildFrame message handlers
+
+//##ModelId=4751685903D8
+int CChildFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) 
+{
+	if (CMDIChildWnd::OnCreate(lpCreateStruct) == -1)
+		return -1;
+	
+   // Create the status bar
+   m_StatusBar.Create(this);
+
+   // Work out the width of the text we want to display
+   CRect textRect;
+   CClientDC aDC(&m_StatusBar);
+   aDC.SelectObject(m_StatusBar.GetFont());
+   aDC.DrawText("View Scale:99", -1, textRect, DT_SINGLELINE|DT_CALCRECT);
+
+   // Setup a part big enough to take the text
+   int width = textRect.Width();
+   m_StatusBar.GetStatusBarCtrl().SetParts(1, &width);
+
+   // Initialize the text for the status bar
+   m_StatusBar.GetStatusBarCtrl().SetText("View Scale:1", 0, 0);
+	
+	return 0;
+}

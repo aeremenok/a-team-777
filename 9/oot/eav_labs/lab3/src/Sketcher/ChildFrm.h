@@ -18,6 +18,8 @@ public:
 
 // Attributes
 public:
+	//##ModelId=4751685903C9
+   CStatusBar m_StatusBar;    // Status bar object
 
 // Operations
 public:
@@ -39,8 +41,8 @@ public:
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CChildFrame)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
+	//##ModelId=4751685903D8
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

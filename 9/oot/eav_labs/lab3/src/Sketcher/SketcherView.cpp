@@ -1,13 +1,15 @@
 // SketcherView.cpp : implementation of the CSketcherView class
-//
-
+//////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include "Sketcher.h"
+
+#include "ChildFrm.h"
+#include "ScaleDialog.h"
 
 #include "SketcherDoc.h"
 #include "CntrItem.h"
 #include "SketcherView.h"
-
+//////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -17,9 +19,9 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherView
 
-IMPLEMENT_DYNCREATE(CSketcherView, CView)
+IMPLEMENT_DYNCREATE(CSketcherView, CScrollView)
 
-BEGIN_MESSAGE_MAP(CSketcherView, CView)
+BEGIN_MESSAGE_MAP(CSketcherView, CScrollView)
 	//{{AFX_MSG_MAP(CSketcherView)
 		// NOTE - the ClassWizard will add and remove mapping macros here.
 		//    DO NOT EDIT what you see in these blocks of generated code!
@@ -29,6 +31,22 @@ BEGIN_MESSAGE_MAP(CSketcherView, CView)
 	ON_COMMAND(ID_OLE_INSERT_NEW, OnInsertObject)
 	ON_COMMAND(ID_CANCEL_EDIT_CNTR, OnCancelEditCntr)
 	ON_COMMAND(ID_CANCEL_EDIT_SRVR, OnCancelEditSrvr)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
+	ON_WM_MOUSEMOVE()
+	ON_WM_RBUTTONDOWN()
+	ON_WM_RBUTTONUP()
+	ON_COMMAND(ID_MOVE, OnMove)
+	ON_COMMAND(ID_SENDTOBACK, OnSendtoback)
+	ON_COMMAND(ID_DELETE, OnDelete)
+	ON_COMMAND(ID_ELEMENT_DRAWRIBBLES, OnElementDrawribbles)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENT_DRAWRIBBLES, OnUpdateElementDrawribbles)
+	ON_COMMAND(ID_NOELEMENT_SCALE, OnNoelementScale)
+	ON_UPDATE_COMMAND_UI(ID_NOELEMENT_SCALE, OnUpdateNoelementScale)
+	ON_COMMAND(ID_ELEMENT_SCALE, OnElementScale)
+	ON_UPDATE_COMMAND_UI(ID_ELEMENT_SCALE, OnUpdateElementScale)
+	ON_WM_KEYDOWN()
+	ON_WM_KEYUP()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -39,11 +57,13 @@ CSketcherView::CSketcherView()
 {
 	m_pSelection = NULL;
 	// TODO: add construction code here
-
+    _handler = new ShapeHandler(this);
+    SetScrollSizes(MM_TEXT, CSize(0,0));  // Set arbitrary scrollers
 }
 
 CSketcherView::~CSketcherView()
 {
+    delete _handler;
 }
 
 BOOL CSketcherView::PreCreateWindow(CREATESTRUCT& cs)
@@ -62,6 +82,7 @@ void CSketcherView::OnDraw(CDC* pDC)
 	CSketcherDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	// TODO: add draw code for native data here
+	_handler->onDraw(pDC);
 }
 
 void CSketcherView::OnInitialUpdate()
@@ -248,3 +269,183 @@ CSketcherDoc* CSketcherView::GetDocument() // non-debug version is inline
 
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherView message handlers
+
+
+void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point) 
+{
+    _handler->onLBDown(point);
+}
+
+//##ModelId=473EDD6D0291
+void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point) 
+{
+    _handler->onLBUp(point);
+}
+
+//##ModelId=473EDD6D029F
+void CSketcherView::OnMouseMove(UINT nFlags, CPoint point) 
+{
+    _handler->onMMove(point, (nFlags & MK_LBUTTON) );
+}
+
+//##ModelId=4741F10E0234
+void CSketcherView::OnRButtonDown(UINT nFlags, CPoint point) 
+{
+    _handler->onRBDown(point);
+}
+
+//##ModelId=4741F10E0244
+void CSketcherView::OnRButtonUp(UINT nFlags, CPoint point) 
+{
+    _handler->onRBUp(point);
+}
+
+//##ModelId=4741F10E0225
+void CSketcherView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
+{
+    // Invalidate the area corresponding to the element pointed to
+    // if there is one, otherwise invalidate the whole client area
+    if(pHint)
+    {
+        CClientDC aDC(this);            // Create a device context
+        OnPrepareDC(&aDC);              // Get origin adjusted
+        
+        // Get the enclosing rectangle and convert to client coordinates
+        CRect aRect=((CElement*)pHint)->GetBoundRect();
+        aDC.LPtoDP(aRect);
+        aRect.NormalizeRect();
+        InvalidateRect(aRect);          // Get the area redrawn
+    }
+    else
+        InvalidateRect(0);
+}
+
+void CSketcherView::OnMove() 
+{
+    _handler->onMove();
+}
+
+
+void CSketcherView::OnSendtoback() 
+{
+   // Move element in list
+   GetDocument()->getShapeContainer()->SendToBack(_handler->Selected());
+   Invalidate();
+}
+
+//##ModelId=4741F10E0255
+void CSketcherView::OnDelete() 
+{
+   _handler->onDelete();
+}
+
+//##ModelId=47511BBE037A
+void CSketcherView::OnElementDrawribbles() 
+{
+	_handler->IsGraphVisible(!_handler->IsGraphVisible());
+    Invalidate();
+}
+
+//##ModelId=47511BBE037C
+void CSketcherView::OnUpdateElementDrawribbles(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(_handler->IsGraphVisible() == true);
+}
+
+//##ModelId=475168590203
+void CSketcherView::OnNoelementScale() 
+{
+    requestScale();
+}
+
+//##ModelId=475168590213
+void CSketcherView::OnUpdateNoelementScale(CCmdUI* pCmdUI){}
+
+//##ModelId=475168590216
+void CSketcherView::OnElementScale() 
+{
+	requestScale();
+}
+
+//##ModelId=475168590218
+void CSketcherView::OnUpdateElementScale(CCmdUI* pCmdUI)
+{
+}
+void CSketcherView::ResetScrollSizes()
+{
+    CClientDC aDC(this);
+    OnPrepareDC(&aDC);                            // Set up the device context
+    CSize DocSize = GetDocument()->GetDocSize();  // Get the document size
+    aDC.LPtoDP(&DocSize);                         // Get the size in pixels
+    SetScrollSizes(MM_TEXT, DocSize);             // Set up the scrollbars
+}
+void CSketcherView::requestScale()
+{
+    CScaleDialog aDlg;            // Create a dialog object
+    aDlg.m_Scale = _handler->Scale();
+    if(aDlg.DoModal() ==  IDOK)
+    {
+        _handler->Scale(aDlg.m_Scale);    // Get the new scale
+
+        // Get the frame window for this view
+        CChildFrame* viewFrame = (CChildFrame*)GetParentFrame();
+
+        // Build the message string
+        CString StatusMsg("View Scale:");
+        StatusMsg += (char)('0' + _handler->Scale());
+
+        // Write the string to the status bar
+        viewFrame->m_StatusBar.GetStatusBarCtrl().SetText(StatusMsg, 0, 0);
+        ResetScrollSizes();        // Adjust scrolling to the new scale
+        InvalidateRect(0);         // Invalidate the whole window
+    }
+}
+void CSketcherView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
+{
+    CScrollView::OnPrepareDC(pDC, pInfo);
+    CSketcherDoc* pDoc = GetDocument();
+    pDC->SetMapMode(MM_ANISOTROPIC);           // Set the map mode
+    CSize DocSize = pDoc->GetDocSize();        // Get the document size
+
+    // y extent must be negative because we want MM_LOENGLISH
+    DocSize.cy = -DocSize.cy;                  // Change sign of y
+    pDC->SetWindowExt(DocSize);                // Now set the window extent
+
+    // Get the number of pixels per inch in x and y
+    int xLogPixels = pDC->GetDeviceCaps(LOGPIXELSX);
+    int yLogPixels = pDC->GetDeviceCaps(LOGPIXELSY);
+
+    // Calculate the viewport extent in x and y
+    long xExtent = (long)DocSize.cx * _handler->Scale() * xLogPixels/100L;
+    long yExtent = (long)DocSize.cy * _handler->Scale() * yLogPixels/100L;
+
+    pDC->SetViewportExt((int)xExtent, (int)-yExtent); // Set viewport extent
+}
+void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
+{
+    switch(nChar)
+    {
+        case 38: // up
+                 // бегаем по ребрам вперед
+            _handler->changeRibble(true);
+            break;
+        case 40: // down
+                 // бегаем по ребрам назад
+            _handler->changeRibble(false);
+            break;
+        case 37: // left
+            break;
+        case 39: // right
+                 // перемещаемся на новую вершину
+            _handler->changeVertex();
+            break;
+        default:
+            break;
+    }
+    CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+void CSketcherView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
+{
+	CScrollView::OnKeyUp(nChar, nRepCnt, nFlags);
+}
+

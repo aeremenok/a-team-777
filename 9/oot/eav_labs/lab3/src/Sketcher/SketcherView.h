@@ -8,10 +8,13 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+//////////////////////////////////////////////////////////////////////////
+#include "ShapeHandler.h"
 
+class ShapeHandler;
 class CSketcherCntrItem;
-
-class CSketcherView : public CView
+//////////////////////////////////////////////////////////////////////////
+class CSketcherView : public CScrollView
 {
 protected: // create from serialization only
 	CSketcherView();
@@ -28,19 +31,27 @@ public:
 
 	// TODO: replace this selection mechanism with one appropriate to your app.
 	CSketcherCntrItem* m_pSelection;
+protected:
 
+    ShapeHandler* _handler;
 // Operations
 public:
-
+    void ResetScrollSizes();
+    // вызывает диалог задания масштаба
+    void requestScale();
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherView)
 	public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+	
+    virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
+	
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	protected:
 	virtual void OnInitialUpdate(); // called first time after construct
 	virtual BOOL IsSelected(const CObject* pDocItem) const;// Container support
+	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	//}}AFX_VIRTUAL
 
 // Implementation
@@ -64,6 +75,38 @@ protected:
 	afx_msg void OnInsertObject();
 	afx_msg void OnCancelEditCntr();
 	afx_msg void OnCancelEditSrvr();
+	//##ModelId=473EDD6D0283
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	//##ModelId=473EDD6D0291
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	//##ModelId=473EDD6D029F
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	//##ModelId=4741F10E0234
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	//##ModelId=4741F10E0244
+	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
+	//##ModelId=4741F10E0251
+	afx_msg void OnMove();
+	//##ModelId=4741F10E0253
+	afx_msg void OnSendtoback();
+	//##ModelId=4741F10E0255
+	afx_msg void OnDelete();
+	//##ModelId=47511BBE037A
+	afx_msg void OnElementDrawribbles();
+	//##ModelId=47511BBE037C
+	afx_msg void OnUpdateElementDrawribbles(CCmdUI* pCmdUI);
+	//##ModelId=475168590203
+	afx_msg void OnNoelementScale();
+	//##ModelId=475168590213
+	afx_msg void OnUpdateNoelementScale(CCmdUI* pCmdUI);
+	//##ModelId=475168590216
+	afx_msg void OnElementScale();
+	//##ModelId=475168590218
+	afx_msg void OnUpdateElementScale(CCmdUI* pCmdUI);
+	//##ModelId=47532663035B
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	//##ModelId=47532663036B
+	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
