@@ -20,12 +20,12 @@ Resource2=IDR_CURSOR_MENU (English (U.S.))
 Resource3=IDR_SKETCHTYPE
 Class5=CAboutDlg
 Class6=CChildFrame
-Resource4=IDD_TEXTREQUEST_DIALOG
+Resource4=IDD_SCALE_DLG
 Resource5=IDD_ABOUTBOX
-Resource6=IDD_ABOUTBOX (English (U.S.))
+Resource6=IDD_TEXTREQUEST_DIALOG
 Class7=TextRequest
 Resource7=IDR_SKETCHTYPE (English (U.S.))
-Resource8=IDD_SCALE_DLG
+Resource8=IDD_ABOUTBOX (English (U.S.))
 Class8=CScaleDialog
 Resource9=IDR_MAINFRAME (English (U.S.))
 

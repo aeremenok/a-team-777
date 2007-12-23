@@ -5,11 +5,7 @@
 #if !defined(AFX_SKETCHERDOC_H__623441AB_57EA_11D0_9257_00201834E2A3__INCLUDED_)
 #define AFX_SKETCHERDOC_H__623441AB_57EA_11D0_9257_00201834E2A3__INCLUDED_
 //////////////////////////////////////////////////////////////////////////
-#include "container/Graph.h"
-#include "shapes/Shape.h"
-#include "Elements.h"
-
-#include <map>
+#include "ShapeContainer.h"
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDD6D02BF
 class CSketcherDoc : public CDocument
@@ -23,52 +19,18 @@ protected: // create from serialization only
 public:
 
 protected:
-    // Current drawing color
-	//##ModelId=473EDD6D02C2
-	COLORREF m_Color;
-    // Current element type
-	//##ModelId=473EDD6D02CE
-	WORD m_Element;
+    ShapeContainer* _shapeContainer;
+    
     // Document size
 	//##ModelId=475168590251
 	CSize m_DocSize;
-    // граф фигур документа
-	//##ModelId=4741F10E0293
-    Graph<CElement>* _container;
 // Operations
 public:
-	//##ModelId=473EDD6D02CF
-	WORD GetElementType(){return m_Element;}
-	//##ModelId=473EDD6D02D0
-	COLORREF GetElementColor(){return m_Color;}
     // Retrieve the document size
     //##ModelId=475168590261
     CSize GetDocSize(){ return m_DocSize; }
-
-    //##ModelId=4741F10E029F
-    CElement* AddElement(CElement* m_pElement);
-    //##ModelId=4741F10E02A1
-    void SendToBack(CElement* pElement);
-    //##ModelId=4741F10E02A3
-    void DeleteElement(CElement* m_pSelected);
-
-    // получить новый итератор, указавющий на начало контейнера
-	//##ModelId=4741F10E0297
-    Iterator<CElement>* getNewIterator() const { return _container->getIterator(); }
-    // получить список ребер, инцидентных выбранной вершине
-	//##ModelId=475AD65302CE
-    ExternalGraphIterator<CElement>* getNearestRibbles(CElement* selected);
-
-	//##ModelId=475A8BA1032C
-    void linkElements(CElement* element1, CElement* element2);
+    ShapeContainer* getShapeContainer() const { return _shapeContainer; }
 protected:
-    // сериализует элементы контейнера
-    //##ModelId=4751AAD80232
-    void serializeContainer( CArchive& ar );
-    // восстанавливает из файла фигуру и ее положение в контейнере
-	//##ModelId=47527CD90213
-    Shape* readShape(CArchive &ar, map<int, Shape*> &shapes);
-
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherDoc)
@@ -78,7 +40,6 @@ protected:
 	//##ModelId=473EDD6D02D3
 	virtual void Serialize(CArchive& ar);
 	//}}AFX_VIRTUAL
-
 // Implementation
 public:
 	//##ModelId=473EDD6D02D6
@@ -89,9 +50,7 @@ public:
 	//##ModelId=473EDD6D02DF
 	virtual void Dump(CDumpContext& dc) const;
 #endif
-
 protected:
-
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CSketcherDoc)
