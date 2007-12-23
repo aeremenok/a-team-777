@@ -3,7 +3,7 @@
 #if !defined(AFX_SKETCHERVIEW_H__623441AD_57EA_11D0_9257_00201834E2A3__INCLUDED_)
 #define AFX_SKETCHERVIEW_H__623441AD_57EA_11D0_9257_00201834E2A3__INCLUDED_
 //////////////////////////////////////////////////////////////////////////
-#include "container/Ribble.h"
+#include "ShapeHandler.h"
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDD6D01B9
 class CSketcherView : public CScrollView
@@ -17,70 +17,16 @@ protected: // create from serialization only
 public:
 	//##ModelId=473EDD6D01D4
 	CSketcherDoc* GetDocument();
-
 protected:
-	//##ModelId=473EDD6D01D5
-    CPoint m_FirstPoint;       // First point recorded for an element
-	//##ModelId=473EDD6D0222
-    CPoint m_SecondPoint;      // Second point recorded for an element
-	//##ModelId=473EDD6D0233
-    CElement* m_pTempElement;  // Pointer to temporary element
-	//##ModelId=4741F10E01B7
-    CElement* m_pSelected;     // Currently selected element
-	//##ModelId=4741F10E01C5
-    BOOL m_MoveMode;           // Move element flag
-	//##ModelId=4741F10E0203
-    CPoint m_CursorPos;        // Cursor position
-	//##ModelId=4741F10E0204
-    CPoint m_FirstPos;         // Original position in a move
-	//##ModelId=47511BBE030E
-    bool isGraphVisible;
-	//##ModelId=4751685901A5
-    int m_Scale;
-    //итератор по инцидентным ребрам текущей вершины m_pSelected
-	//##ModelId=475AD6530233
-    ExternalGraphIterator<CElement>* _lastNearestRibbles; 
-    // ребро для подсветки
-	//##ModelId=47545D9C010A
-    Ribble<CElement>* _ribble;
-	// начальная вершина
-	//##ModelId=475AD6530238
-    CElement* _firstVertex;
-
+    ShapeHandler* _handler;
 // Operations
 public:
-
 protected:
-    // Create a new element on the heap
-	//##ModelId=473EDD6D0242
-    CElement* CreateElement();
-    // Select an element
-	//##ModelId=4741F10E0213
-    CElement* SelectElement(CPoint aPoint);
-    // Move an element
-	//##ModelId=4741F10E0215
-    void MoveElement(CClientDC& aDC, CPoint& point);
-	//##ModelId=47511BBE02EE
-    void drawRibble( Ribble<CElement>* ribble, CDC* pDC, COLORREF aColor );
-    //void drawRibble( CPoint* start, CPoint* end, CDC* pDC );
-	//##ModelId=47511BBE02FF
-    void drawRibble( CElement* start, CElement* end, CDC* pDC );
-    
-	//##ModelId=475AD6530242
-    ExternalGraphIterator<CElement>* refreshNearestRibbles(CClientDC* aDC);
-	//##ModelId=475AD6530244
-    void changeRibble(bool isNext, CClientDC* aDC);
-
 	//##ModelId=4751685901F4
     void ResetScrollSizes();
     // вызывает диалог задания масштаба
 	//##ModelId=4751685901F5
     void requestScale();
-    // подсвечивает заданную фигуру
-	//##ModelId=47532663033C
-    void markHighlighted( CElement* pCurrentSelection, CClientDC &aDC );
-	//##ModelId=475AD6530253
-    bool canProceed( CClientDC* aDC );
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherView)

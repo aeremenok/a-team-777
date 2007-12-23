@@ -157,6 +157,14 @@ SOURCE=.\shapes\Shape.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ShapeContainer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ShapeHandler.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Sketcher.cpp
 # End Source File
 # Begin Source File
@@ -277,6 +285,14 @@ SOURCE=.\ScaleDialog.h
 # Begin Source File
 
 SOURCE=.\shapes\Shape.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ShapeContainer.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ShapeHandler.h
 # End Source File
 # Begin Source File
 
