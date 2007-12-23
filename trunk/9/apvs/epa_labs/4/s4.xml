@@ -1,0 +1,32 @@
+<model type = "Objects::SPN::Model" name = "epa1">
+	<node type = "Objects::SPN::Place" name = "ss11" markerCount = "0"></node>
+	<node type = "Objects::SPN::Transition" name = "t0" intensity = "100.0"></node>
+	<node type = "Objects::SPN::Place" name = "SS22" markerCount = "0"></node>
+	<node type = "Objects::SPN::Place" name = "ss44" markerCount = "0"></node>
+	<node type = "Objects::SPN::Place" name = "ss66" markerCount = "0"></node>
+	<node type = "Objects::SPN::Place" name = "ss88" markerCount = "0"></node>
+	<node type = "Objects::SPN::Place" name = "ss99" markerCount = "0"></node>
+	<node type = "Objects::SPN::Place" name = "ss77" markerCount = "0"></node>
+	<node type = "Objects::SPN::Transition" name = "t2" intensity = "1.19"></node>
+	<node type = "Objects::SPN::Transition" name = "t3" intensity = "100"></node>
+	<node type = "Objects::SPN::Transition" name = "t7" intensity = "1.42"></node>
+	<node type = "Objects::SPN::Transition" name = "t8" intensity = "1.33"></node>
+	<node type = "Objects::SPN::Transition" name = "t9" intensity = "0.04"></node>
+	<node type = "Objects::SPN::Transition" name = "t10" intensity = "100"></node>
+	<link type = "Objects::SPN::Link" name = "ss11-->t0" arity = "1" inhib = "false" source = "ss11" dest = "t0"></link>
+	<link type = "Objects::SPN::Link" name = "t0-->SS22" arity = "1" inhib = "false" source = "t0" dest = "SS22"></link>
+	<link type = "Objects::SPN::Link" name = "t2-->ss44" arity = "1" inhib = "false" source = "t2" dest = "ss44"></link>
+	<link type = "Objects::SPN::Link" name = "ss44-->t3" arity = "1" inhib = "false" source = "ss44" dest = "t3"></link>
+	<link type = "Objects::SPN::Link" name = "t3-->ss88" arity = "1" inhib = "false" source = "t3" dest = "ss88"></link>
+	<link type = "Objects::SPN::Link" name = "ss66-->t7" arity = "1" inhib = "false" source = "ss66" dest = "t7"></link>
+	<link type = "Objects::SPN::Link" name = "ss77-->t8" arity = "1" inhib = "false" source = "ss77" dest = "t8"></link>
+	<link type = "Objects::SPN::Link" name = "t7-->ss88" arity = "1" inhib = "false" source = "t7" dest = "ss88"></link>
+	<link type = "Objects::SPN::Link" name = "t8-->ss88" arity = "1" inhib = "false" source = "t8" dest = "ss88"></link>
+	<link type = "Objects::SPN::Link" name = "ss88-->t9" arity = "1" inhib = "false" source = "ss88" dest = "t9"></link>
+	<link type = "Objects::SPN::Link" name = "t9-->SS22" arity = "1" inhib = "false" source = "t9" dest = "SS22"></link>
+	<link type = "Objects::SPN::Link" name = "SS22-->t10" arity = "1" inhib = "false" source = "SS22" dest = "t10"></link>
+	<link type = "Objects::SPN::Link" name = "t10-->ss99" arity = "1" inhib = "false" source = "t10" dest = "ss99"></link>
+	<link type = "Objects::SPN::Link" name = "SS22-->t2" arity = "1" inhib = "false" source = "SS22" dest = "t2"></link>
+	<link type = "Objects::SPN::Link" name = "t2-->ss66" arity = "1" inhib = "false" source = "t2" dest = "ss66"></link>
+	<link type = "Objects::SPN::Link" name = "t2-->ss77" arity = "1" inhib = "false" source = "t2" dest = "ss77"></link>
+</model>
