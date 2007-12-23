@@ -51,15 +51,7 @@ END_MESSAGE_MAP()
 //##ModelId=473EDD6D01C6
 CSketcherView::CSketcherView()
 {
-    try
-    {
-        _handler = new ShapeHandler(this);
-    }
-    catch (...)
-    {
-    	
-    }
-    
+    _handler = new ShapeHandler(this);
     SetScrollSizes(MM_TEXT, CSize(0,0));  // Set arbitrary scrollers
 }
 

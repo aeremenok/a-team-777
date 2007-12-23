@@ -22,6 +22,7 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+//##ModelId=476EA08D00AC
 ShapeContainer::ShapeContainer()
 {
     m_Element = RECTANGLE;   // Set initial element type
@@ -29,12 +30,14 @@ ShapeContainer::ShapeContainer()
    _container = new Graph<CElement>();
 }
 
+//##ModelId=476EA08D00AD
 ShapeContainer::~ShapeContainer()
 {
     _container->clear();
     _container = NULL;
 }
 
+//##ModelId=476EA08D00A1
 void ShapeContainer::serializeContainer( CArchive& ar )
 {
     if (ar.IsStoring())
@@ -91,6 +94,7 @@ void ShapeContainer::serializeContainer( CArchive& ar )
     }
 }
 
+//##ModelId=476EA08D00A3
 Shape* ShapeContainer::readShape( CArchive &ar, map<int, Shape*> &shapes )
 {
     int id;
@@ -135,6 +139,7 @@ Shape* ShapeContainer::readShape( CArchive &ar, map<int, Shape*> &shapes )
     return toAdd;
 }
 
+//##ModelId=476EA08D00CB
 void ShapeContainer::serialize( CArchive& ar )
 {
     if (ar.IsStoring())
@@ -150,6 +155,7 @@ void ShapeContainer::serialize( CArchive& ar )
     serializeContainer(ar);
 }
 
+//##ModelId=476EA08D00B5
 CElement* ShapeContainer::AddElement( CElement* m_pElement )
 {
     if (GetElementType()!=RIBBLE)
@@ -167,6 +173,7 @@ CElement* ShapeContainer::AddElement( CElement* m_pElement )
     return NULL;
 }
 
+//##ModelId=476EA08D00BB
 void ShapeContainer::SendToBack( CElement* pElement )
 {
     if(pElement)
@@ -176,6 +183,7 @@ void ShapeContainer::SendToBack( CElement* pElement )
     }
 }
 
+//##ModelId=476EA08D00BD
 void ShapeContainer::DeleteElement( CElement* m_pSelected )
 {
     try
@@ -188,6 +196,7 @@ void ShapeContainer::DeleteElement( CElement* m_pSelected )
     }
 }
 
+//##ModelId=476EA08D00BF
 void ShapeContainer::linkElements( CElement* element1, CElement* element2 )
 {
     try
@@ -202,6 +211,7 @@ void ShapeContainer::linkElements( CElement* element1, CElement* element2 )
     }
 }
 
+//##ModelId=476EA08D00C4
 ExternalGraphIterator<CElement>* ShapeContainer::getNearestRibbles( CElement* selected )
 {
     try
