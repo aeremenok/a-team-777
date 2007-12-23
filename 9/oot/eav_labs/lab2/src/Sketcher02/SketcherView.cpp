@@ -51,7 +51,15 @@ END_MESSAGE_MAP()
 //##ModelId=473EDD6D01C6
 CSketcherView::CSketcherView()
 {
-    _handler = new ShapeHandler(this);
+    try
+    {
+        _handler = new ShapeHandler(this);
+    }
+    catch (...)
+    {
+    	
+    }
+    
     SetScrollSizes(MM_TEXT, CSize(0,0));  // Set arbitrary scrollers
 }
 
@@ -131,21 +139,13 @@ CSketcherDoc* CSketcherView::GetDocument() // non-debug version is inline
 //##ModelId=473EDD6D0283
 void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
-    CClientDC aDC(this);                // Create a device context
-    OnPrepareDC(&aDC);                  // Get origin adjusted
-    
-    _handler->onLBDown(aDC, point);
+    _handler->onLBDown(point);
 }
 
 //##ModelId=473EDD6D0291
 void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point) 
 {
-    if(this == GetCapture())
-        ReleaseCapture();        // Stop capturing mouse messages
-
-    CClientDC aDC(this);
-    OnPrepareDC(&aDC);
-    _handler->onLBUp(aDC, point);
+    _handler->onLBUp(point);
 }
 
 //##ModelId=473EDD6D029F
