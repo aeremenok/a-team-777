@@ -195,6 +195,30 @@ void ShapeContainer::DeleteElement( CElement* m_pSelected )
     }
 }
 
+void ShapeContainer::DeleteElement( LPCTSTR id )
+{
+    int ider = atoi(id);
+    Shape* shape = NULL;
+    Iterator<CElement>* iter = getNewIterator();
+    while (iter->hasNext())
+    {
+        Ribble<CElement>* current = iter->next();
+
+        shape = (Shape*)current->get__vertex1();
+        if (shape->get__id() == ider)
+        {
+            break;
+        }
+
+        shape = (Shape*)current->get__vertex2();
+        if (shape->get__id() == ider)
+        {
+            break;
+        }
+    }
+    DeleteElement(shape);
+}
+
 //##ModelId=476EA08D00BF
 void ShapeContainer::linkElements( CElement* element1, CElement* element2 )
 {

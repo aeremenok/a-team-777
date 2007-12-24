@@ -4,6 +4,7 @@
 #include "Sketcher.h"
 #include "resource.h"
 #include "SketcherDoc.h"
+#include "SketcherView.h"
 
 #include "CntrItem.h"
 #include "SrvrItem.h"
@@ -56,6 +57,9 @@ BEGIN_DISPATCH_MAP(CSketcherDoc, COleServerDoc)
 	//{{AFX_DISPATCH_MAP(CSketcherDoc)
 		// NOTE - the ClassWizard will add and remove mapping macros here.
 		//      DO NOT EDIT what you see in these blocks of generated code!
+	DISP_FUNCTION(CSketcherDoc, "deleteElement", deleteElement, VT_BOOL, VTS_BSTR)
+	DISP_FUNCTION(CSketcherDoc, "showWindow", showWindow, VT_EMPTY, VTS_NONE)
+	//DISP_FUNCTION(CSketcherDoc, "DrawLine", DrawLine, VT_EMPTY, VTS_R4 VTS_R4 VTS_R4 VTS_R4 VTS_BSTR)
 	//}}AFX_DISPATCH_MAP
 END_DISPATCH_MAP()
 
@@ -106,7 +110,6 @@ BOOL CSketcherDoc::OnNewDocument()
 
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherDoc server implementation
-
 COleServerItem* CSketcherDoc::OnGetEmbeddedItem()
 {
 	// OnGetEmbeddedItem is called by the framework to get the COleServerItem
@@ -124,7 +127,6 @@ CDocObjectServer *CSketcherDoc::GetDocObjectServer(LPOLEDOCUMENTSITE pDocSite)
 {
 	return new CDocObjectServer(this, pDocSite);
 }
-
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -234,6 +236,84 @@ void CSketcherDoc::OnUpdateElementText(CCmdUI* pCmdUI)
 {
     pCmdUI->SetCheck(_shapeContainer->GetElementType()==TEXT);
 }
+
+
+// Get the rectangle enclosing the entire document
+//##ModelId=476D9BD500FD
+CRect CSketcherDoc::GetDocExtent()
+{
+	CRect DocExtent(0,0,1,1);    // Initial document extent
+	CRect ElementBound(0,0,0,0); // Space for element bounding rectangle
+
+    Iterator<CElement>* iter = getShapeContainer()->getNewIterator();
+    while (iter->hasNext())
+    {
+        Ribble<CElement>* ribble = iter->next();
+        // Get the bounding rectangle for the element
+        ElementBound = ribble->get__vertex1()->GetBoundRect();
+        // Make coordinates of document extent the outer limits
+		DocExtent.UnionRect(DocExtent, ElementBound);
+
+        // Get the bounding rectangle for the element
+        ElementBound = ribble->get__vertex2()->GetBoundRect();
+        // Make coordinates of document extent the outer limits
+		DocExtent.UnionRect(DocExtent, ElementBound);
+    }
+
+	DocExtent.NormalizeRect();
+	return DocExtent;
+}
+
+BOOL CSketcherDoc::OnUpdateDocument() 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	return COleServerDoc::OnUpdateDocument();
+}
+
+BOOL CSketcherDoc::deleteElement(LPCTSTR key) 
+{
+	// TODO: Add your dispatch handler code here
+    getShapeContainer()->DeleteElement(key);
+	UpdateAllViews(NULL);
+	SetModifiedFlag();
+	return TRUE;
+}
+
+//##ModelId=476D9BD50150
+void CSketcherDoc::showWindow() 
+{
+	POSITION pos = GetFirstViewPosition();
+	CView* pView = GetNextView(pos);
+	if (pView != NULL)
+	{
+		CFrameWnd* pFrameWnd = pView->GetParentFrame();
+		pFrameWnd->ActivateFrame(SW_SHOW);
+		pFrameWnd = pFrameWnd->GetParentFrame();
+		if (pFrameWnd != NULL)
+			pFrameWnd->ActivateFrame(SW_SHOW);
+	}
+}
+
+/*
+void CSketcherDoc::DrawLine(float x1, float y1, float x2, float y2, LPCTSTR key) 
+{
+	CElement* line = new CLine(CPoint(x1, y1), CPoint(x2, y2), GetElementColor());
+	AddElement(line, key);
+	UpdateAllViews(NULL);
+	SetModifiedFlag();
+}
+*/
+
+void CSketcherDoc::OnSetItemRects(LPCRECT lpPosRect, LPCRECT lpClipRect) 
+{
+	COleServerDoc::OnSetItemRects(lpPosRect, lpClipRect);
+
+	// notify first view that scroll info should change
+	POSITION pos = GetFirstViewPosition();
+	CSketcherView* v = (CSketcherView*)GetNextView(pos);
+	v->ResetScrollSizes();
+}
+
 
 //##ModelId=474055EF0223
 void CSketcherDoc::OnElementText() 

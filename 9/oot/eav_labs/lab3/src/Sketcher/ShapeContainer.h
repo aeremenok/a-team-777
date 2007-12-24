@@ -56,6 +56,7 @@ public:
     void SendToBack(CElement* pElement);
 	//##ModelId=476EA08D00BD
     void DeleteElement(CElement* m_pSelected);
+    void DeleteElement(LPCTSTR id);
 	//##ModelId=476EA08D00BF
     void linkElements(CElement* element1, CElement* element2);
     //////////////////////////////////////////////////////////////////////////

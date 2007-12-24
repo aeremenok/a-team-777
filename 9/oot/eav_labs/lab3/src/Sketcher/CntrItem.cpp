@@ -23,13 +23,49 @@ CSketcherCntrItem::CSketcherCntrItem(CSketcherDoc* pContainer)
 	: COleDocObjectItem(pContainer)
 {
 	// TODO: add one-time construction code here
-	
+	m_rect.SetRect(10, 10, 300, 300);
 }
 
 CSketcherCntrItem::~CSketcherCntrItem()
 {
 	// TODO: add cleanup code here
 	
+}
+
+void CSketcherCntrItem::InvalidateItem()
+{
+	GetDocument()->UpdateAllViews(NULL, HINT_UPDATE_ITEM, this);
+}
+
+void CSketcherCntrItem::UpdateFromServerExtent()
+{
+	CSize size;
+	if (GetCachedExtent(&size))
+	{
+		// OLE returns the extent in HIMETRIC units -- we need pixels
+		CClientDC dc(NULL);
+		
+		//size.cy = -size.cy;
+		dc.HIMETRICtoDP(&size);
+
+		// Only invalidate if it has actually changed, and also
+		// only if it is not in-place active.  When in-place active, the
+		// container item size should sync with the "window size" of the
+		// object.  Only when not in-place active should the container 
+		// item size should sync with the natural size of the object.
+
+		if ((size != m_rect.Size()) && !IsInPlaceActive())
+		{
+			// invalidate old, update, invalidate new
+			InvalidateItem();
+			m_rect.bottom = m_rect.top + size.cy;
+			m_rect.right = m_rect.left + size.cx;
+			InvalidateItem();
+
+			// mark document as modified
+			GetDocument()->SetModifiedFlag();
+		}
+	}
 }
 
 void CSketcherCntrItem::OnChange(OLE_NOTIFICATION nCode, DWORD dwParam)
@@ -41,11 +77,22 @@ void CSketcherCntrItem::OnChange(OLE_NOTIFICATION nCode, DWORD dwParam)
 	// When an item is being edited (either in-place or fully open)
 	//  it sends OnChange notifications for changes in the state of the
 	//  item or visual appearance of its content.
+	switch (nCode)
+	{
+	case OLE_CHANGED:
+		InvalidateItem();
+		UpdateFromServerExtent();
+		break;
+	case OLE_CHANGED_STATE:
+	case OLE_CHANGED_ASPECT:
+		InvalidateItem();
+		break;
+	}
 
 	// TODO: invalidate the item by calling UpdateAllViews
 	//  (with hints appropriate to your application)
-
-	GetDocument()->UpdateAllViews(NULL);
+	GetDocument()->NotifyChanged();
+	//GetDocument()->UpdateAllViews(NULL);
 		// for now just update ALL views/no hints
 }
 
@@ -65,15 +112,34 @@ BOOL CSketcherCntrItem::OnChangeItemPosition(const CRect& rectPos)
 
 	if (!COleDocObjectItem::OnChangeItemPosition(rectPos))
 		return FALSE;
+	InvalidateItem();
+	m_rect = rectPos;
+	InvalidateItem();
 
-	// TODO: update any cache you may have of the item's rectangle/extent
+	// mark document as dirty
+	GetDocument()->SetModifiedFlag();
 
 	return TRUE;
 }
 
+//##ModelId=476D9BD600A4
+void CSketcherCntrItem::OnGetItemPosition(CRect& rPosition)
+{
+	ASSERT_VALID(this);
+	// return rect relative to client area of view
+	rPosition = m_rect;
+}
 
 void CSketcherCntrItem::OnActivate()
 {
+    // Allow only one inplace activate item per frame
+    CSketcherView* pView = GetActiveView();
+    ASSERT_VALID(pView);
+    COleClientItem* pItem = GetDocument()->GetInPlaceActiveItem(pView);
+    if (pItem != NULL && pItem != this)
+        pItem->Close();
+    
+    CSketcherCntrItem::OnActivate();
 }
 
 void CSketcherCntrItem::OnDeactivateUI(BOOL bUndoable)
@@ -120,7 +186,7 @@ BOOL CSketcherCntrItem::CanActivate()
 		return FALSE;
 
 	// otherwise, rely on default behavior
-	return COleClientItem::CanActivate();
+	return COleDocObjectItem::CanActivate();
 }
 
 /////////////////////////////////////////////////////////////////////////////

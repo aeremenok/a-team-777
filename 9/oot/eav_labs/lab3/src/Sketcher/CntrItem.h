@@ -25,6 +25,7 @@ public:
 
 // Attributes
 public:
+	CRect m_rect;   // position within the document
 	CSketcherDoc* GetDocument()
 		{ return (CSketcherDoc*)COleDocObjectItem::GetDocument(); }
 	CSketcherView* GetActiveView()
@@ -36,10 +37,17 @@ public:
 	virtual void OnChange(OLE_NOTIFICATION wNotification, DWORD dwParam);
 	virtual void OnActivate();
 	protected:
+	//##ModelId=476D9BD600A4
+	virtual void OnGetItemPosition(CRect& rPosition);
+	//##ModelId=476D9BD600AB
 	virtual void OnDeactivateUI(BOOL bUndoable);
 	virtual BOOL OnChangeItemPosition(const CRect& rectPos);
 	virtual BOOL CanActivate();
 	//}}AFX_VIRTUAL
+// Operations
+public:
+	void InvalidateItem();
+	void UpdateFromServerExtent();
 
 // Implementation
 public:
