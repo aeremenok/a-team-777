@@ -118,6 +118,10 @@ SOURCE=.\shapes\Oval.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Oval2.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\shapes\Rectangle.cpp
 # End Source File
 # Begin Source File
@@ -236,6 +240,10 @@ SOURCE=.\OurConstants.h
 # Begin Source File
 
 SOURCE=.\shapes\Oval.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Oval2.h
 # End Source File
 # Begin Source File
 
