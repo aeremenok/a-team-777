@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/petrovich/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="petrovich" targetNamespace="http://www.example.org/petrovich/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/petrovich/">
+      <xsd:element name="doSomething">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="doSomethingResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="punish">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="in" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="punishResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="out" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reward">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="in" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="rewardResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="out" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="doSomethingRequest">
+    <wsdl:part element="tns:doSomething" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="doSomethingResponse">
+    <wsdl:part element="tns:doSomethingResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="punishRequest">
+  	<wsdl:part name="parameters" element="tns:punish"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="punishResponse">
+  	<wsdl:part name="parameters" element="tns:punishResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rewardRequest">
+  	<wsdl:part name="parameters" element="tns:reward"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rewardResponse">
+  	<wsdl:part name="parameters" element="tns:rewardResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="petrovich">
+    <wsdl:operation name="doSomething">
+      <wsdl:input message="tns:doSomethingRequest"/>
+      <wsdl:output message="tns:doSomethingResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="punish">
+    	<wsdl:input message="tns:punishRequest"></wsdl:input>
+    	<wsdl:output message="tns:punishResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reward">
+    	<wsdl:input message="tns:rewardRequest"></wsdl:input>
+    	<wsdl:output message="tns:rewardResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="petrovichSOAP" type="tns:petrovich">
+
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="doSomething">
+
+  		<soap:operation
+  			soapAction="http://www.example.org/petrovich/doSomething" />
+  		<wsdl:input>
+
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="punish">
+  		<soap:operation
+  			soapAction="http://www.example.org/petrovich/punish" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="reward">
+  		<soap:operation
+  			soapAction="http://www.example.org/petrovich/reward" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="petrovich">
+    <wsdl:port binding="tns:petrovichSOAP" name="petrovichSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
