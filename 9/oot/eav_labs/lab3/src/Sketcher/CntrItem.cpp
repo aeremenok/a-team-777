@@ -92,7 +92,7 @@ void CSketcherCntrItem::OnChange(OLE_NOTIFICATION nCode, DWORD dwParam)
 	// TODO: invalidate the item by calling UpdateAllViews
 	//  (with hints appropriate to your application)
 	GetDocument()->NotifyChanged();
-	//GetDocument()->UpdateAllViews(NULL);
+	GetDocument()->UpdateAllViews(NULL);
 		// for now just update ALL views/no hints
 }
 
