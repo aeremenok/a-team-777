@@ -262,7 +262,6 @@ CElement* ShapeHandler::CreateElement()
     // Now select the element using the type stored in the document
     switch(pDoc->getShapeContainer()->GetElementType())
     {
-        /*
         case RECTANGLE:
             return Rectangle2::create(m_FirstPoint, m_SecondPoint, pDoc->getShapeContainer()->GetElementColor());
         case TEXT:
@@ -271,7 +270,6 @@ CElement* ShapeHandler::CreateElement()
             return Oval::create(m_FirstPoint, m_SecondPoint, pDoc->getShapeContainer()->GetElementColor());
         case TEXT_IN_OVAL:
             return TextInOval::create(m_FirstPoint, m_SecondPoint, pDoc->getShapeContainer()->GetElementColor());
-            */
         //////////////////////////////////////////////////////////////////////////
         case RIBBLE:                  
             return new CLine(m_FirstPoint, m_SecondPoint, GREEN);

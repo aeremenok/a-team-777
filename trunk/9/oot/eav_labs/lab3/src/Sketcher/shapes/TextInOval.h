@@ -16,7 +16,7 @@ class TextInOval
 {
 private:
     //##ModelId=473EDDF401E7
-    //TextInOval(float rad1, float rad2, std::string content, float x, float y);
+    TextInOval(float firstRad, float secondRad, std::string content, float x, float y);
 
     //указатели на созданные тексты в овалах
     //##ModelId=473EDDF40223
@@ -40,11 +40,7 @@ public:
     //параметры
     //если такого не существует - создает новый
     //##ModelId=473EDDF40232
-//     static TextInOval* create(
-//         float rad1 = NULL, float rad2 = NULL, 
-//         std::string content = "", 
-//         float x = NULL, float y = NULL
-//         );
+    static TextInOval* create(  float firstRad = NULL, float secondRad = NULL,   std::string content = "",   float x = NULL, float y = NULL  );
 
 	//##ModelId=474055EF00AB
     static TextInOval* create(CPoint Start, CPoint End, COLORREF aColor);

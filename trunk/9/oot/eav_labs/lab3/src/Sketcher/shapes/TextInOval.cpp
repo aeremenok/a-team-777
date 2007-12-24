@@ -11,8 +11,7 @@
 list<TextInOval*> TextInOval::_textsInOvals;
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF40232
-/*
-TextInOval* TextInOval::create(float rad1, float rad2, std::string content, float x, float y)
+TextInOval* TextInOval::create( float firstRad /*= NULL*/, float secondRad /*= NULL*/,   std::string content /*= ""*/,   float x /*= NULL*/, float y /*= NULL  */ )
 {
     // проверяем, нет ли уже такого текста в овале
     using namespace std;
@@ -21,8 +20,8 @@ TextInOval* TextInOval::create(float rad1, float rad2, std::string content, floa
     {
         TextInOval* textInOval = *iter;
         if (
-            textInOval->_rad1 == rad1 &&
-            textInOval->_rad2 == rad2 &&
+            textInOval->_rad1 == firstRad &&
+            textInOval->_rad2 == secondRad &&
             textInOval->_x == x &&
             textInOval->_y == y &&
             textInOval->_content.compare(content) == 0
@@ -32,11 +31,11 @@ TextInOval* TextInOval::create(float rad1, float rad2, std::string content, floa
         }
     }
     // не нашли - создаем новый
-    TextInOval* textInOval = new TextInOval(rad1, rad2, content, x, y);
+    TextInOval* textInOval = new TextInOval(firstRad, secondRad, content, x, y);
     _textsInOvals.push_back(textInOval);
     return textInOval;
 }
-*/
+
 //##ModelId=474055EF00AB
 TextInOval* TextInOval::create( CPoint Start, CPoint End, COLORREF aColor )
 {
@@ -48,7 +47,7 @@ TextInOval* TextInOval::create( CPoint Start, CPoint End, COLORREF aColor )
     // получаем последний введенный пользователем текст
     CString cs = *(TextRequest::Text());
     std::string str((LPCSTR)cs);
-    TextInOval* textInOval = new TextInOval();//create(r1, r2, str, 0, 0);
+    TextInOval* textInOval = create(r1, r2, str, 0, 0);
     
     textInOval->m_Pen = 1;
     textInOval->m_Color = aColor;
@@ -77,11 +76,11 @@ std::ostream& TextInOval::speak(std::ostream& os) const
 }
 
 //##ModelId=473EDDF401E7
-// TextInOval::TextInOval( float rad1, float rad2, std::string content, float x, float y ):
-// Text(content, 0, 0), Oval(rad1, rad2, 0, 0), Shape(x, y)
-// {
-//     cout<<"[text_in_oval] text in oval created"<<endl;
-// }
+TextInOval::TextInOval( float firstRad, float secondRad, std::string content, float x, float y ):
+Text(content, 0, 0), Oval(firstRad, secondRad, 0, 0), Shape(x, y)
+{
+    cout<<"[text_in_oval] text in oval created"<<endl;
+}
 
 //##ModelId=473EDDF40252
 float TextInOval::Area() const
@@ -129,6 +128,3 @@ TextInOval::TextInOval()
 {
 	// ToDo: Add your specialized code here and/or call the base class
 }
-
-
-
