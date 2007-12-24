@@ -25,6 +25,9 @@ library Sketcher
 			// NOTE - ClassWizard will maintain method information here.
 			//    Use extreme caution when editing this section.
 			//{{AFX_ODL_METHOD(CSketcherDoc)
+			[id(1)] boolean deleteElement(BSTR key);
+			[id(2)] void showWindow();
+			[id(3)] void DrawLine(float x1, float y1, float x2, float y2, BSTR text);
 			//}}AFX_ODL_METHOD
 
 	};

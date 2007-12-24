@@ -11,9 +11,12 @@
 //////////////////////////////////////////////////////////////////////////
 #include "ShapeContainer.h"
 //////////////////////////////////////////////////////////////////////////
-
+#define HINT_UPDATE_WINDOW  0
+#define HINT_UPDATE_ITEM    1
+//////////////////////////////////////////////////////////////////////////
 class CSketcherSrvrItem;
-
+//class CSketcherView;
+//////////////////////////////////////////////////////////////////////////
 class CSketcherDoc : public COleServerDoc
 {
 protected: // create from serialization only
@@ -38,7 +41,8 @@ public:
     CSize GetDocSize(){ return m_DocSize; }
 	//##ModelId=476EA08C0312
     ShapeContainer* getShapeContainer() const { return _shapeContainer; }
-protected:
+    CRect GetDocExtent();                     // Get the bounding rectangle for the whole document
+
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherDoc)
@@ -47,6 +51,8 @@ protected:
 	public:
 	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive& ar);
+	virtual BOOL OnUpdateDocument();
+	virtual void OnSetItemRects(LPCRECT lpPosRect, LPCRECT lpClipRect);
 	//}}AFX_VIRTUAL
 
 // Implementation
@@ -102,6 +108,11 @@ protected:
 	//{{AFX_DISPATCH(CSketcherDoc)
 		// NOTE - the ClassWizard will add and remove member functions here.
 		//    DO NOT EDIT what you see in these blocks of generated code !
+	afx_msg BOOL deleteElement(LPCTSTR key);
+	//##ModelId=476D9BD50150
+	afx_msg void showWindow();
+	//##ModelId=476D9BD50158
+	//afx_msg void DrawLine(float x1, float y1, float x2, float y2, LPCTSTR text);
 	//}}AFX_DISPATCH
 	DECLARE_DISPATCH_MAP()
 	DECLARE_INTERFACE_MAP()

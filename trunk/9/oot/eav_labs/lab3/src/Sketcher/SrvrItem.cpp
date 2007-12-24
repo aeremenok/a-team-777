@@ -67,8 +67,15 @@ BOOL CSketcherSrvrItem::OnGetExtent(DVASPECT dwDrawAspect, CSize& rSize)
 	ASSERT_VALID(pDoc);
 
 	// TODO: replace this arbitrary size
+	rSize = pDoc->GetDocSize();
+	CClientDC dc(NULL);
 
-	rSize = CSize(3000, 3000);   // 3000 x 3000 HIMETRIC units
+        // use a mapping mode based on logical units
+	//  (we can't use MM_LOENGLISH because MM_LOENGLISH uses physical inches)
+	dc.SetMapMode(MM_ANISOTROPIC);
+	dc.SetViewportExt(dc.GetDeviceCaps(LOGPIXELSX), dc.GetDeviceCaps(LOGPIXELSY));
+	dc.SetWindowExt(100, 100);
+	dc.LPtoHIMETRIC(&rSize);
 
 	return TRUE;
 }
@@ -80,27 +87,39 @@ BOOL CSketcherSrvrItem::OnDraw(CDC* pDC, CSize& rSize)
 
 	CSketcherDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-
+/*
 	// TODO: set mapping mode and extent
 	//  (The extent is usually the same as the size returned from OnGetExtent)
 	pDC->SetMapMode(MM_ANISOTROPIC);
 	pDC->SetWindowOrg(0,0);
-	pDC->SetWindowExt(3000, 3000);
+	pDC->SetWindowExt(300, 300);
+*/
+//***
+	pDC->SetMapMode(MM_ANISOTROPIC);
+	CSize sizeDoc = pDoc->GetDocSize();
+	//sizeDoc.cy = -sizeDoc.cy;
+	pDC->SetWindowOrg(0,0);
+	pDC->SetWindowExt(sizeDoc);
+//***
 
-	// TODO: add drawing code here.  Optionally, fill in the HIMETRIC extent.
-	//  All drawing takes place in the metafile device context (pDC).
-
-	// TODO: also draw embedded CSketcherCntrItem objects.
-
-	// The following code draws the first item at an arbitrary position.
-
-	// TODO: remove this code when your real drawing code is complete
-
+	// draw the OLE items from the list
 	POSITION pos = pDoc->GetStartPosition();
-	CSketcherCntrItem* pItem = (CSketcherCntrItem*)pDoc->GetNextClientItem(pos);
-	if (pItem != NULL)
-		pItem->Draw(pDC, CRect(10, 10, 1010, 1010));
-	return TRUE;
+	while (pos != NULL)
+	{
+		// draw the item
+		CSketcherCntrItem* pItem = (CSketcherCntrItem*)pDoc->GetNextItem(pos);
+		pItem->Draw(pDC, pItem->m_rect);
+	}
+
+    Iterator<CElement>* iter = pDoc->getShapeContainer()->getNewIterator();
+    while (iter->hasNext())
+    {
+        Ribble<CElement>* ribble = iter->next();
+        ribble->get__vertex1()->Draw(pDC);
+        ribble->get__vertex2()->Draw(pDC);
+    }
+ 
+    return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////////
