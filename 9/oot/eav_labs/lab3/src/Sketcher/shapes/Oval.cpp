@@ -13,17 +13,16 @@
 list<Oval*> Oval::_ovals;
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF403C8
-// Oval::Oval(float rad1, float rad2, float x, float y)
-// : Shape(x, y)
-// {
-//     _rad1 = rad1;
-//     _rad2 = rad2;
-//     cout<<"[oval] oval created"<<endl;
-// }
+Oval::Oval(float firstRad, float secondRad, float x, float y)
+: Shape(x, y)
+{
+    _rad1 = firstRad;
+    _rad2 = secondRad;
+    cout<<"[oval] oval created"<<endl;
+}
 
 //##ModelId=473EDDF403DB
-/*
-Oval* Oval::create(float rad1, float rad2, float x, float y)
+Oval* Oval::create(float firstRad, float secondRad, float x, float y)
 {
     using namespace std;
     // ищем, нет ли уже овала с такими параметрами
@@ -32,8 +31,8 @@ Oval* Oval::create(float rad1, float rad2, float x, float y)
     {
         Oval* oval = *iter;
         if (
-            oval->_rad1 == rad1 &&
-            oval->_rad2 == rad2 &&
+            oval->_rad1 == firstRad &&
+            oval->_rad2 == secondRad &&
             oval->_x == x &&
             oval->_y == y
             )
@@ -42,11 +41,11 @@ Oval* Oval::create(float rad1, float rad2, float x, float y)
         }
     }
     // не нашли - создаем новый
-    Oval* oval = new Oval(rad1, rad2, x, y);
+    Oval* oval = new Oval(firstRad, secondRad, x, y);
     _ovals.push_back(oval);
     return oval;
 }
-*/
+
 //##ModelId=474055EF02FD
 Oval* Oval::create( CPoint Start, CPoint End, COLORREF aColor )
 {
@@ -55,7 +54,7 @@ Oval* Oval::create( CPoint Start, CPoint End, COLORREF aColor )
     r1 = fabs(Start.x - End.x) / 2;
     r2 = fabs(Start.y - End.y) / 2;
     
-    Oval* oval = new Oval();//create(r1, r2, 0, 0);
+    Oval* oval = create(r1, r2, 0, 0);
     
     oval->m_Pen = 1;
     oval->m_Color = aColor;

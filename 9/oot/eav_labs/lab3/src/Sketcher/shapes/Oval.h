@@ -18,7 +18,7 @@ private:
     //##ModelId=473EDDF403BE
     static list<Oval*> _ovals;
 protected:
-    //Oval(float rad1, float rad2, float x, float y);
+    Oval(float firstRad, float secondRad, float x, float y);
 
 	//больший радиус овала
 	//##ModelId=473EDDF403CD
@@ -49,7 +49,7 @@ public:
     //выдает указатель на уже существующий овал, если он имеет заданные параметры
     //если такого не существует - создает новый
     //##ModelId=473EDDF403DB
-    //static Oval* create(float rad1 = NULL, float rad2 = NULL, float x = NULL, float y = NULL);
+    static Oval* create(float firstRad = NULL, float secondRad = NULL, float x = NULL, float y = NULL);
 
 	//##ModelId=474055EF02FD
     static Oval* create(CPoint Start, CPoint End, COLORREF aColor);
@@ -77,9 +77,5 @@ public:
     //##ModelId=473EDDF5000F
     virtual float Area() const;
 };
-
-//##ModelId=4754601601A5
-
-
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_OVAL_46F50C54004E_INCLUDED */
