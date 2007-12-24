@@ -9,7 +9,7 @@
 #endif // _MSC_VER > 1000
 //////////////////////////////////////////////////////////////////////////
 #include "container/Graph.h"
-//#include "shapes/Shape.h"
+#include "shapes/Shape.h"
 #include "Elements.h"
 
 #include <map>
@@ -33,7 +33,7 @@ class ShapeContainer
     void serializeContainer( CArchive& ar );
     // восстанавливает из файла фигуру и ее положение в контейнере
 	//##ModelId=476EA08D00A3
-    //Shape* readShape(CArchive &ar, map<int, Shape*> &shapes);
+    Shape* readShape(CArchive &ar, map<int, Shape*> &shapes);
 public:
 	//##ModelId=476EA08D00AC
 	ShapeContainer();
@@ -56,7 +56,6 @@ public:
     void SendToBack(CElement* pElement);
 	//##ModelId=476EA08D00BD
     void DeleteElement(CElement* m_pSelected);
-
 	//##ModelId=476EA08D00BF
     void linkElements(CElement* element1, CElement* element2);
     //////////////////////////////////////////////////////////////////////////

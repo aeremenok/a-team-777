@@ -1,15 +1,12 @@
 // Copyright (C) 1991 - 1999 Rational Software Corporation
 //////////////////////////////////////////////////////////////////////////
 #include "StdAfx.h"
-#include "Text.h"
 
-#include "..\OurConstants.h"
+#include "Text.h"
 #include "..\resource.h"
 #include "..\TextRequest.h"
 
-//////////////////////////////////////////////////////////////////////////
-#include <iostream>
-using namespace std;
+#include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF40281
 list<Text*> Text::_texts;

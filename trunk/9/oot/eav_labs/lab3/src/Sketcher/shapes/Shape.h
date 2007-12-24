@@ -6,13 +6,17 @@
 #ifndef _INC_SHAPE_46F50BDC00BB_INCLUDED
 #define _INC_SHAPE_46F50BDC00BB_INCLUDED
 //////////////////////////////////////////////////////////////////////////
-class ostream;
-#include "..\Elements.h"
+#include <ostream>
+#include <list>
+
+#include "../Elements.h"
+//////////////////////////////////////////////////////////////////////////
+using std::list;
 //////////////////////////////////////////////////////////////////////////
 //обобщенная фигура
 //##ModelId=473EDDF4032C
 class Shape
-: public virtual CElement
+: public CElement
 {
 private:
     //счетчик объектов

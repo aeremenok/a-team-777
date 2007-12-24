@@ -5,16 +5,10 @@
 #include "Sketcher.h"
 #include "ShapeHandler.h"
 //////////////////////////////////////////////////////////////////////////
-#include "Elements.h"
-
-// #include "shapes/Rectangle.h"
-// #include "shapes/Text.h"
-// #include "shapes/Oval.h"
-// #include "shapes/TextInOval.h"
-
-#include "OurConstants.h"
-
-#include "container/Iterator.h"
+#include "shapes/Rectangle.h"
+#include "shapes/Text.h"
+#include "shapes/Oval.h"
+#include "shapes/TextInOval.h"
 //////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
 #undef THIS_FILE

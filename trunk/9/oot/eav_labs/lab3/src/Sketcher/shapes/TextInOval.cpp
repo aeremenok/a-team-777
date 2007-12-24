@@ -1,16 +1,11 @@
 // Copyright (C) 1991 - 1999 Rational Software Corporation
 //////////////////////////////////////////////////////////////////////////
 #include "StdAfx.h"
+
 #include "TextInOval.h"
 
-#include "../OurConstants.h"
-#include "../resource.h"
-#include "../TextRequest.h"
-
+#include <ostream.h>
 #include <math.h>
-//////////////////////////////////////////////////////////////////////////
-#include <iostream>
-using namespace std;
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF40223
 list<TextInOval*> TextInOval::_textsInOvals;

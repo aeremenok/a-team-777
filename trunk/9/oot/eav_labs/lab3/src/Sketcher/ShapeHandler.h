@@ -9,7 +9,6 @@
 #endif // _MSC_VER > 1000
 //////////////////////////////////////////////////////////////////////////
 #include "container/ExternalGraphIterator.h"
-#include "container/Ribble.h"
 
 #include "Elements.h"
 #include "SketcherDoc.h"

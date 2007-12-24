@@ -5,13 +5,11 @@
 #include "Sketcher.h"
 #include "ShapeContainer.h"
 //////////////////////////////////////////////////////////////////////////
-// #include "shapes/Shape.h"
-// #include "shapes/Rectangle.h"
-// #include "shapes/Oval.h"
-// #include "shapes/Text.h"
-// #include "shapes/TextInOval.h"
-
-#include "OurConstants.h"
+#include "shapes/Shape.h"
+#include "shapes/Rectangle.h"
+#include "shapes/Oval.h"
+#include "shapes/Text.h"
+#include "shapes/TextInOval.h"
 
 #include <map>
 //////////////////////////////////////////////////////////////////////////
@@ -23,7 +21,6 @@ static char THIS_FILE[]=__FILE__;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-
 //##ModelId=476EA08D00AC
 ShapeContainer::ShapeContainer()
 {
@@ -42,7 +39,6 @@ ShapeContainer::~ShapeContainer()
 //##ModelId=476EA08D00A1
 void ShapeContainer::serializeContainer( CArchive& ar )
 {
-    /*
     if (ar.IsStoring())
     {
         ar << _container->getRibbleCount();
@@ -95,11 +91,9 @@ void ShapeContainer::serializeContainer( CArchive& ar )
             }
         }
     }
-    */
 }
 
 //##ModelId=476EA08D00A3
-/*
 Shape* ShapeContainer::readShape( CArchive &ar, map<int, Shape*> &shapes )
 {
     int id;
@@ -118,15 +112,15 @@ Shape* ShapeContainer::readShape( CArchive &ar, map<int, Shape*> &shapes )
         case RECTANGLE:
             toAdd = Rectangle2::create();
             break;
-        case OVAL:
+        /*case OVAL:
             toAdd = Oval::create();
-            break;
+            break;*/
         case TEXT:
             toAdd = Text::create();
             break;
-        case TEXT_IN_OVAL:
+        /*case TEXT_IN_OVAL:
             toAdd = TextInOval::create();
-            break;
+            break;*/
         default:
             AfxMessageBox("Cannot read shape type, bad source file!");
             return NULL;
@@ -143,7 +137,7 @@ Shape* ShapeContainer::readShape( CArchive &ar, map<int, Shape*> &shapes )
     }
     return toAdd;
 }
-*/
+
 //##ModelId=476EA08D00CB
 void ShapeContainer::serialize( CArchive& ar )
 {

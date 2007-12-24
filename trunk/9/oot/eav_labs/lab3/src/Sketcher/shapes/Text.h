@@ -6,13 +6,13 @@
 #ifndef _INC_TEXT_46F50C7401C5_INCLUDED
 #define _INC_TEXT_46F50C7401C5_INCLUDED
 //////////////////////////////////////////////////////////////////////////
-#include <string>
-#include <list>
-
 #include "Shape.h"
-//////////////////////////////////////////////////////////////////////////
-class ostream;
-using std::list;
+
+// диалог
+#include "../resource.h"
+#include "../TextRequest.h"
+
+#include <string>
 //////////////////////////////////////////////////////////////////////////
 //текст
 //##ModelId=473EDDF40261
@@ -70,8 +70,5 @@ public:
     //##ModelId=473EDDF402D1
     virtual float Area() const;
 };
-
-//##ModelId=4754603600FA
-
 //////////////////////////////////////////////////////////////////////////
 #endif /* _INC_TEXT_46F50C7401C5_INCLUDED */

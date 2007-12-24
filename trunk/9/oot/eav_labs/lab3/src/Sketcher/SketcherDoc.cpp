@@ -4,10 +4,9 @@
 #include "Sketcher.h"
 #include "resource.h"
 #include "SketcherDoc.h"
+
 #include "CntrItem.h"
 #include "SrvrItem.h"
-
-#include "OurConstants.h"
 
 #include "TextRequest.h"
 //////////////////////////////////////////////////////////////////////////
