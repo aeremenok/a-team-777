@@ -7,11 +7,6 @@
 #define _INC_OVAL_46F50C54004E_INCLUDED
 //////////////////////////////////////////////////////////////////////////
 #include "Shape.h"
-
-#include <list>
-//////////////////////////////////////////////////////////////////////////
-class ostream;
-using std::list;
 //////////////////////////////////////////////////////////////////////////
 //овал
 //##ModelId=473EDDF403B9
@@ -23,7 +18,7 @@ private:
     //##ModelId=473EDDF403BE
     static list<Oval*> _ovals;
 protected:
-    Oval(float rad1, float rad2, float x, float y);
+    //Oval(float rad1, float rad2, float x, float y);
 
 	//больший радиус овала
 	//##ModelId=473EDDF403CD

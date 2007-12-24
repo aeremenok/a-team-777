@@ -18,8 +18,6 @@ void VertexNotFoundException::printException()
 //##ModelId=4741F10E00DB
 VertexNotFoundException::VertexNotFoundException(string message) : GraphException(message)
 {
-//     string s = this->getName() + " has been thrown\n";
-//     cout<<s.c_str();
 }
 
 //##ModelId=4741F10E00DD

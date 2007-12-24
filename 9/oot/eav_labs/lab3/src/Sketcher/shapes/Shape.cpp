@@ -1,9 +1,9 @@
 // Copyright (C) 1991 - 1999 Rational Software Corporation
 //////////////////////////////////////////////////////////////////////////
 #include "StdAfx.h"
-#include "Shape.h"
-#include "../OurConstants.h"
 
+#include "Shape.h"
+// перекрывает ostream, подключенный в shape.h. нужен для cout
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF4032D

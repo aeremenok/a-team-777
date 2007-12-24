@@ -7,8 +7,6 @@
 #define _INC_EXTERNALGRAPHITERATOR_474088CA0242_INCLUDED
 //////////////////////////////////////////////////////////////////////////
 #include "container/Graph.h"
-#include "container/Iterator.h"
-#include "container/Ribble.h"
 //////////////////////////////////////////////////////////////////////////
 template<class T> class Graph;
 template<class T> class Iterator;
