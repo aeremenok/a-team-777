@@ -83,7 +83,7 @@ CSketcherDoc::CSketcherDoc()
 	// Use OLE compound files
 	EnableCompoundFile();
 	
-    m_DocSize = CSize(3000,3000);  // Set initial document size 30x30 inches
+    m_DocSize = CSize(800,600);  // Set initial document size 30x30 inches
 	// TODO: add one-time construction code here
     _shapeContainer = new ShapeContainer();
 	EnableAutomation();
@@ -119,7 +119,6 @@ COleServerItem* CSketcherDoc::OnGetEmbeddedItem()
 	ASSERT_VALID(pItem);
 	return pItem;
 }
-
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherDoc Active Document server implementation
 

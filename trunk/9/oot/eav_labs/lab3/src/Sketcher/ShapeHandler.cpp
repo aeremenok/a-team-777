@@ -461,9 +461,15 @@ void ShapeHandler::onRBUp( CPoint &point )
         WORD ElementType = GetDocument()->getShapeContainer()->GetElementType();
         aMenu.CheckMenuItem(ID_ELEMENT_LINE,
             (RIBBLE==ElementType?MF_CHECKED:MF_UNCHECKED)|MF_BYCOMMAND);
+
         aMenu.CheckMenuItem(ID_ELEMENT_RECTANGLE,
             (RECTANGLE==ElementType?MF_CHECKED:MF_UNCHECKED)|MF_BYCOMMAND);
-        
+        aMenu.CheckMenuItem(ID_ELEMENT_OVAL,
+            (OVAL==ElementType?MF_CHECKED:MF_UNCHECKED)|MF_BYCOMMAND);
+        aMenu.CheckMenuItem(ID_ELEMENT_TEXT,
+            (TEXT==ElementType?MF_CHECKED:MF_UNCHECKED)|MF_BYCOMMAND);
+        aMenu.CheckMenuItem(ID_ELEMENT_TEXT_IN_OVAL,
+            (TEXT_IN_OVAL==ElementType?MF_CHECKED:MF_UNCHECKED)|MF_BYCOMMAND);        
         // Display the context pop-up
         aMenu.GetSubMenu(1)->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, _view);
     }

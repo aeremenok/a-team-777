@@ -274,10 +274,21 @@ BEGIN
     END
     POPUP "no element"
     BEGIN
-        MENUITEM "Blac&k",                      ID_COLOR_BLACK
-        MENUITEM "&Red",                        ID_COLOR_RED
-        MENUITEM SEPARATOR
         MENUITEM "Scale",                       ID_NOELEMENT_SCALE
+        POPUP "Color"
+        BEGIN
+            MENUITEM "Blac&k",                      ID_COLOR_BLACK
+            MENUITEM "&Red",                        ID_COLOR_RED
+        END
+        POPUP "Shape"
+        BEGIN
+			MENUITEM "&Rectangle",                  ID_ELEMENT_RECTANGLE
+        	MENUITEM "&Oval",                       ID_ELEMENT_OVAL
+        	MENUITEM "Te&xt",                       ID_ELEMENT_TEXT
+        	MENUITEM "Text &In Oval",               ID_ELEMENT_TEXT_IN_OVAL
+        	MENUITEM SEPARATOR
+        	MENUITEM "Ribble",                      ID_ELEMENT_RIBBLE
+        END
     END
 END
 
