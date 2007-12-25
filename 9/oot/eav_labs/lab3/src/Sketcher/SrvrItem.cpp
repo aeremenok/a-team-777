@@ -19,6 +19,7 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CSketcherSrvrItem, CDocObjectServerItem)
 
+//##ModelId=4770E206019E
 CSketcherSrvrItem::CSketcherSrvrItem(CSketcherDoc* pContainerDoc)
 	: CDocObjectServerItem(pContainerDoc, TRUE)
 {
@@ -26,11 +27,13 @@ CSketcherSrvrItem::CSketcherSrvrItem(CSketcherDoc* pContainerDoc)
 	//  (eg, adding additional clipboard formats to the item's data source)
 }
 
+//##ModelId=4770E20601B1
 CSketcherSrvrItem::~CSketcherSrvrItem()
 {
 	// TODO: add cleanup code here
 }
 
+//##ModelId=4770E20601B7
 void CSketcherSrvrItem::Serialize(CArchive& ar)
 {
 	// CSketcherSrvrItem::Serialize will be called by the framework if
@@ -48,6 +51,7 @@ void CSketcherSrvrItem::Serialize(CArchive& ar)
 	}
 }
 
+//##ModelId=4770E20601AD
 BOOL CSketcherSrvrItem::OnGetExtent(DVASPECT dwDrawAspect, CSize& rSize)
 {
 	// Most applications, like this one, only handle drawing the content
@@ -80,6 +84,7 @@ BOOL CSketcherSrvrItem::OnGetExtent(DVASPECT dwDrawAspect, CSize& rSize)
 	return TRUE;
 }
 
+//##ModelId=4770E20601A2
 BOOL CSketcherSrvrItem::OnDraw(CDC* pDC, CSize& rSize)
 {
 	// Remove this if you use rSize
@@ -126,11 +131,13 @@ BOOL CSketcherSrvrItem::OnDraw(CDC* pDC, CSize& rSize)
 // CSketcherSrvrItem diagnostics
 
 #ifdef _DEBUG
+//##ModelId=4770E20601B2
 void CSketcherSrvrItem::AssertValid() const
 {
 	CDocObjectServerItem::AssertValid();
 }
 
+//##ModelId=4770E20601B4
 void CSketcherSrvrItem::Dump(CDumpContext& dc) const
 {
 	CDocObjectServerItem::Dump(dc);

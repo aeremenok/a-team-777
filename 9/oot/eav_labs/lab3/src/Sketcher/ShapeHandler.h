@@ -16,121 +16,121 @@
 
 class CSketcherView;
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=476EA08C037A
+//##ModelId=4770E2070074
 class ShapeHandler  
 {
-	//##ModelId=476EA08C037C
+	//##ModelId=4770E2070084
     CSketcherView* _view;
 
     // First point recorded for an element
-	//##ModelId=476EA08C0380
+	//##ModelId=4770E2070088
     CPoint m_FirstPoint;       
     // Second point recorded for an element
-	//##ModelId=476EA08C03C8
+	//##ModelId=4770E2070089
     CPoint m_SecondPoint;
     // Pointer to temporary element
-	//##ModelId=476EA08C03CA
+	//##ModelId=4770E2070094
     CElement* m_pTempElement;
     // Currently selected element
-	//##ModelId=476EA08C03D9
+	//##ModelId=4770E2070099
     CElement* m_pSelected;
     
     // Move element flag
-	//##ModelId=476EA08C03DD
+	//##ModelId=4770E20700A3
     BOOL m_MoveMode;
     // Cursor position
-	//##ModelId=476EA08C03DE
+	//##ModelId=4770E20700A4
     CPoint m_CursorPos;
     // Original position in a move    
-	//##ModelId=476EA08D0000
+	//##ModelId=4770E20700A5
     CPoint m_FirstPos;
     //////////////////////////////////////////////////////////////////////////
     // отображается ли служебная информация
-	//##ModelId=476EA08D0001
+	//##ModelId=4770E20700B3
     bool _isGraphVisible;
     // масштаб отображения
-	//##ModelId=476EA08D0002
+	//##ModelId=4770E20700B4
     int m_Scale;
     //////////////////////////////////////////////////////////////////////////
     //итератор по инцидентным ребрам текущей вершины m_pSelected
-	//##ModelId=476EA08D0010
+	//##ModelId=4770E20700C5
     ExternalGraphIterator<CElement>* _lastNearestRibbles; 
     // ребро для подсветки
-	//##ModelId=476EA08D0015
+	//##ModelId=4770E20700E3
     Ribble<CElement>* _ribble;
     // начальная вершина
-	//##ModelId=476EA08D0020
+	//##ModelId=4770E20700E8
     CElement* _firstVertex;
     //////////////////////////////////////////////////////////////////////////
     // Create a new element on the heap
-	//##ModelId=476EA08D0024
+	//##ModelId=4770E20700F1
     CElement* CreateElement();
     // Select an element
-	//##ModelId=476EA08D0025
+	//##ModelId=4770E20700F2
     CElement* SelectElement(CPoint aPoint);
     // Move an element
-	//##ModelId=476EA08D002E
+	//##ModelId=4770E20700F4
     void MoveElement(CPoint& point);
     //////////////////////////////////////////////////////////////////////////
     // отрисовать ребро по указателю на ребро
-	//##ModelId=476EA08D0030
+	//##ModelId=4770E2070102
     void drawRibble( Ribble<CElement>* ribble, COLORREF aColor );
     // заданная фигура будет отмечена для подсветки
-	//##ModelId=476EA08D0033
+	//##ModelId=4770E2070110
     void markHighlighted( CElement* pCurrentSelection);
     //////////////////////////////////////////////////////////////////////////
     // можно ли двигаться дальше по графу
-	//##ModelId=476EA08D003F
+	//##ModelId=4770E2070112
     bool canProceed();
     // освежить список инцидентных ребер
-	//##ModelId=476EA08D0040
+	//##ModelId=4770E2070113
     ExternalGraphIterator<CElement>* refreshNearestRibbles();
     //////////////////////////////////////////////////////////////////////////
-	//##ModelId=476EA08D0041
+	//##ModelId=4770E2070120
     CSketcherDoc* GetDocument();
 public:
-	//##ModelId=476EA08D0042
+	//##ModelId=4770E2070121
     ShapeHandler(CSketcherView* view);
-	//##ModelId=476EA08D0044
+	//##ModelId=4770E2070123
 	virtual ~ShapeHandler();
     //////////////////////////////////////////////////////////////////////////
-	//##ModelId=476EA08D004E
+	//##ModelId=4770E2070125
     int Scale() const { return m_Scale; }
-	//##ModelId=476EA08D0050
+	//##ModelId=4770E2070130
     void Scale(int val) { m_Scale = val; }
 
-	//##ModelId=476EA08D0052
+	//##ModelId=4770E2070132
     bool IsGraphVisible() const { return _isGraphVisible; }
-	//##ModelId=476EA08D0054
+	//##ModelId=4770E2070134
     void IsGraphVisible(bool val) { _isGraphVisible = val; }
 
-	//##ModelId=476EA08D0056
+	//##ModelId=4770E2070136
     CElement* Selected() const { return m_pSelected; }
     //////////////////////////////////////////////////////////////////////////
-	//##ModelId=476EA08D0058
+	//##ModelId=4770E2070140
     void onMove();
-	//##ModelId=476EA08D005D
+	//##ModelId=4770E2070141
     void onDelete();
-	//##ModelId=476EA08D005E
+	//##ModelId=4770E2070142
     void onDraw( CDC* pDC );
 
-	//##ModelId=476EA08D0060
+	//##ModelId=4770E207015E
     void onLBDown( CPoint &point );
-	//##ModelId=476EA08D0062
+	//##ModelId=4770E2070160
     void onLBUp( CPoint& point );
-	//##ModelId=476EA08D0064
+	//##ModelId=4770E2070162
     void onRBDown( CPoint &point );
-	//##ModelId=476EA08D006D
+	//##ModelId=4770E207016E
     void onRBUp( CPoint &point );
 
-	//##ModelId=476EA08D006F
+	//##ModelId=4770E2070170
     void onMMove( CPoint& point, bool flag);
     //////////////////////////////////////////////////////////////////////////
     // сменить текущее ребро
-	//##ModelId=476EA08D0072
+	//##ModelId=4770E207017E
     void changeRibble(bool isNext);
     // сменить текущую вершину
-	//##ModelId=476EA08D007D
+	//##ModelId=4770E2070180
     void changeVertex();
 };
 

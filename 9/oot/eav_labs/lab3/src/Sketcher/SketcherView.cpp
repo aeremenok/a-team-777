@@ -53,6 +53,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherView construction/destruction
 
+//##ModelId=4770E206021C
 CSketcherView::CSketcherView()
 {
 	m_pSelection = NULL;
@@ -61,11 +62,13 @@ CSketcherView::CSketcherView()
     SetScrollSizes(MM_TEXT, CSize(0,0));  // Set arbitrary scrollers
 }
 
+//##ModelId=4770E206027A
 CSketcherView::~CSketcherView()
 {
     delete _handler;
 }
 
+//##ModelId=4770E2060259
 BOOL CSketcherView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
@@ -77,6 +80,7 @@ BOOL CSketcherView::PreCreateWindow(CREATESTRUCT& cs)
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherView drawing
 
+//##ModelId=4770E206024B
 void CSketcherView::OnDraw(CDC* pDC)
 {
 	CSketcherDoc* pDoc = GetDocument();
@@ -85,6 +89,7 @@ void CSketcherView::OnDraw(CDC* pDC)
 	_handler->onDraw(pDC);
 }
 
+//##ModelId=4770E206025C
 void CSketcherView::OnInitialUpdate()
 {
 	ResetScrollSizes();               // Set up the scrollbars
@@ -116,6 +121,7 @@ void CSketcherView::OnInitialUpdate()
 	}
 }
 
+//##ModelId=4770E2060288
 void CSketcherView::OnDestroy()
 {
 	// Deactivate the item on destruction; this is important
@@ -133,6 +139,7 @@ void CSketcherView::OnDestroy()
 /////////////////////////////////////////////////////////////////////////////
 // OLE Client support and commands
 
+//##ModelId=4770E206025E
 BOOL CSketcherView::IsSelected(const CObject* pDocItem) const
 {
 	// The implementation below is adequate if your selection consists of
@@ -144,6 +151,7 @@ BOOL CSketcherView::IsSelected(const CObject* pDocItem) const
 	return pDocItem == m_pSelection;
 }
 
+//##ModelId=4770E206029B
 void CSketcherView::OnInsertObject()
 {
 	// Invoke the standard Insert Object dialog box to obtain information
@@ -203,6 +211,7 @@ void CSketcherView::OnInsertObject()
 // The following command handler provides the standard keyboard
 //  user interface to cancel an in-place editing session.  Here,
 //  the container (not the server) causes the deactivation.
+//##ModelId=4770E206029D
 void CSketcherView::OnCancelEditCntr()
 {
 	// Close any in-place active item on this view.
@@ -217,6 +226,7 @@ void CSketcherView::OnCancelEditCntr()
 
 // Special handling of OnSetFocus and OnSize are required for a container
 //  when an object is being edited in-place.
+//##ModelId=4770E206028A
 void CSketcherView::OnSetFocus(CWnd* pOldWnd)
 {
 	COleClientItem* pActiveItem = GetDocument()->GetInPlaceActiveItem(this);
@@ -235,6 +245,7 @@ void CSketcherView::OnSetFocus(CWnd* pOldWnd)
 	CView::OnSetFocus(pOldWnd);
 }
 
+//##ModelId=4770E206028D
 void CSketcherView::OnSize(UINT nType, int cx, int cy)
 {
 	ResetScrollSizes();
@@ -250,12 +261,14 @@ void CSketcherView::OnSize(UINT nType, int cx, int cy)
 // The following command handler provides the standard keyboard
 //  user interface to cancel an in-place editing session.  Here,
 //  the server (not the container) causes the deactivation.
+//##ModelId=4770E20602A8
 void CSketcherView::OnCancelEditSrvr()
 {
 	GetDocument()->OnDeactivateUI(FALSE);
 	GetDocument()->NotifyChanged();
 }
 
+//##ModelId=4770E2060239
 CSketcherCntrItem* CSketcherView::HitTestItems(CPoint point)
 {
 	CSketcherDoc* pDoc = GetDocument();
@@ -270,6 +283,7 @@ CSketcherCntrItem* CSketcherView::HitTestItems(CPoint point)
 	return pItemHit;    // return top item at point
 }
 
+//##ModelId=4770E206023B
 void CSketcherView::SetSelection(CSketcherCntrItem* pItem)
 {
 	// close in-place active item
@@ -291,6 +305,7 @@ void CSketcherView::SetSelection(CSketcherCntrItem* pItem)
 	}
 }
 
+//##ModelId=4770E206023D
 void CSketcherView::SetupTracker(CSketcherCntrItem* pItem, CRectTracker* pTracker)
 {
 	pTracker->m_rect = pItem->m_rect;
@@ -314,16 +329,19 @@ void CSketcherView::SetupTracker(CSketcherCntrItem* pItem, CRectTracker* pTracke
 // CSketcherView diagnostics
 
 #ifdef _DEBUG
+//##ModelId=4770E206027C
 void CSketcherView::AssertValid() const
 {
 	CView::AssertValid();
 }
 
+//##ModelId=4770E206027E
 void CSketcherView::Dump(CDumpContext& dc) const
 {
 	CView::Dump(dc);
 }
 
+//##ModelId=4770E206022A
 CSketcherDoc* CSketcherView::GetDocument() // non-debug version is inline
 {
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CSketcherDoc)));
@@ -335,30 +353,31 @@ CSketcherDoc* CSketcherView::GetDocument() // non-debug version is inline
 // CSketcherView message handlers
 
 
+//##ModelId=4770E20602AA
 void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
     _handler->onLBDown(point);
 }
 
-//##ModelId=473EDD6D0291
+//##ModelId=4770E20602B6
 void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point) 
 {
     _handler->onLBUp(point);
 }
 
-//##ModelId=473EDD6D029F
+//##ModelId=4770E20602BA
 void CSketcherView::OnMouseMove(UINT nFlags, CPoint point) 
 {
     _handler->onMMove(point, (nFlags & MK_LBUTTON) );
 }
 
-//##ModelId=4741F10E0234
+//##ModelId=4770E20602C6
 void CSketcherView::OnRButtonDown(UINT nFlags, CPoint point) 
 {
     _handler->onRBDown(point);
 }
 
-//##ModelId=4741F10E0244
+//##ModelId=4770E20602CA
 void CSketcherView::OnRButtonUp(UINT nFlags, CPoint point) 
 {
     _handler->onRBUp(point);
@@ -371,12 +390,14 @@ void CSketcherView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	GetDocument()->NotifyChanged();
 }
 
+//##ModelId=4770E20602D6
 void CSketcherView::OnMove() 
 {
     _handler->onMove();
 }
 
 
+//##ModelId=4770E20602D8
 void CSketcherView::OnSendtoback() 
 {
    // Move element in list
@@ -384,44 +405,45 @@ void CSketcherView::OnSendtoback()
    Invalidate();
 }
 
-//##ModelId=4741F10E0255
+//##ModelId=4770E20602DA
 void CSketcherView::OnDelete() 
 {
    _handler->onDelete();
 }
 
-//##ModelId=47511BBE037A
+//##ModelId=4770E20602E5
 void CSketcherView::OnElementDrawribbles() 
 {
 	_handler->IsGraphVisible(!_handler->IsGraphVisible());
     Invalidate();
 }
 
-//##ModelId=47511BBE037C
+//##ModelId=4770E20602E7
 void CSketcherView::OnUpdateElementDrawribbles(CCmdUI* pCmdUI) 
 {
 	pCmdUI->SetCheck(_handler->IsGraphVisible() == true);
 }
 
-//##ModelId=475168590203
+//##ModelId=4770E20602EA
 void CSketcherView::OnNoelementScale() 
 {
     requestScale();
 }
 
-//##ModelId=475168590213
+//##ModelId=4770E20602F5
 void CSketcherView::OnUpdateNoelementScale(CCmdUI* pCmdUI){}
 
-//##ModelId=475168590216
+//##ModelId=4770E20602F8
 void CSketcherView::OnElementScale() 
 {
 	requestScale();
 }
 
-//##ModelId=475168590218
+//##ModelId=4770E20602FA
 void CSketcherView::OnUpdateElementScale(CCmdUI* pCmdUI)
 {
 }
+//##ModelId=4770E2060279
 void CSketcherView::ResetScrollSizes()
 {
     CClientDC aDC(this);
@@ -431,6 +453,7 @@ void CSketcherView::ResetScrollSizes()
     SetScrollSizes(MM_TEXT, DocSize);             // Set up the scrollbars
 }
 
+//##ModelId=4770E206024A
 void CSketcherView::requestScale()
 {
     CScaleDialog aDlg;            // Create a dialog object
@@ -452,6 +475,7 @@ void CSketcherView::requestScale()
         InvalidateRect(0);         // Invalidate the whole window
     }
 }
+//##ModelId=4770E206024E
 void CSketcherView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 {
     CScrollView::OnPrepareDC(pDC, pInfo);
@@ -473,6 +497,7 @@ void CSketcherView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 
     pDC->SetViewportExt((int)xExtent, (int)-yExtent); // Set viewport extent
 }
+//##ModelId=4770E2060305
 void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
     switch(nChar)
@@ -496,6 +521,7 @@ void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
     }
     CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
+//##ModelId=4770E206030A
 void CSketcherView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
 	CScrollView::OnKeyUp(nChar, nRepCnt, nFlags);

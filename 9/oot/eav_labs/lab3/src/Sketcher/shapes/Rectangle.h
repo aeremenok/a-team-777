@@ -9,75 +9,75 @@
 #include "Shape.h"
 //////////////////////////////////////////////////////////////////////////
 //прямоугольник
-//##ModelId=473EDDF4036B
+//##ModelId=4770E2070333
 class Rectangle2 
 : public Shape
 {
 private:
     //указатели на созданные прямоугольники
-    //##ModelId=473EDDF40370
+    //##ModelId=4770E2070346
     static list<Rectangle2*> _rectangles;
 
 	//длина
-	//##ModelId=473EDDF4037C
+	//##ModelId=4770E2070353
 	float _length;
 
 	//ширина
-	//##ModelId=473EDDF4037D
+	//##ModelId=4770E2070354
 	float _width;
 
-    //##ModelId=473EDDF4038A
+    //##ModelId=4770E2070362
     Rectangle2(float l, float w, float x, float y);
 public:
 	// Virtual draw operation
-	//##ModelId=4754603F0290
+	//##ModelId=4770E2070372
 	virtual void Draw(CDC* pDC, CElement* pElement = 0, bool isIdVisible = true);
 
 	//идентификатор типа объекта
-	//##ModelId=4751CD2403C8
+	//##ModelId=4770E2070377
 	virtual int getType() const;
 
-	//##ModelId=4751AC870261
+	//##ModelId=4770E2070379
 	Rectangle2();
 
-	//##ModelId=4751692C0119
+	//##ModelId=4770E207037A
 	virtual void Serialize(CArchive& ar);
 
     //выдает указатель на уже существующий прямоугольник, если он имеет заданные 
     //параметры
     //если такого не существует - создает новый
-    //##ModelId=473EDDF4038F
+    //##ModelId=4770E2070383
     static Rectangle2* create(float length = NULL, float width = NULL, float x = NULL, float y = NULL);
 
     // создает прямоугольник по точкам углов
-	//##ModelId=474055EF0280
+	//##ModelId=4770E2070391
     static Rectangle2* create(CPoint Start, CPoint End, COLORREF aColor);
 
-    //##ModelId=473EDDF4039B
+    //##ModelId=4770E2070396
 	virtual ~Rectangle2();
 
 	//получить длину
-	//##ModelId=473EDDF4039D
+	//##ModelId=4770E2070398
 	const float get__length() const;
 
 	//задать длину
-	//##ModelId=473EDDF4039F
+	//##ModelId=4770E20703A1
 	void set__length(float value);
 
 	//получить ширину
-	//##ModelId=473EDDF403A1
+	//##ModelId=4770E20703A3
 	const float get__width() const;
 
 	//задать ширину
-	//##ModelId=473EDDF403A3
+	//##ModelId=4770E20703A5
 	void set__width(float value);
 
     //вычисляет площадь фигуры
-    //##ModelId=473EDDF403AA
+    //##ModelId=4770E20703A7
     virtual float Area() const;
 protected:
     //вывести состояние прямоугольника в поток
-    //##ModelId=473EDDF403AC
+    //##ModelId=4770E20703B0
     virtual std::ostream& speak(std::ostream& os) const;
 };
 

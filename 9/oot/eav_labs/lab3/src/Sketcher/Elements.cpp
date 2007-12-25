@@ -10,7 +10,7 @@ IMPLEMENT_SERIAL(CElement, CObject, VERSION_NUMBER)
 //////////////////////////////////////////////////////////////////////////
 // Add definitions for member functions here
 // CLine class constructor
-//##ModelId=473EDD6D0350
+//##ModelId=4770E2080334
 CLine::CLine(CPoint Start, CPoint End, COLORREF aColor)
 {
    m_Color = aColor;          // Set line color
@@ -20,7 +20,7 @@ CLine::CLine(CPoint Start, CPoint End, COLORREF aColor)
 }
 
 // Draw a CLine object
-//##ModelId=473EDD6D034D
+//##ModelId=4770E2080328
 void CLine::Draw(CDC* pDC, CElement* pElement, bool isIdVisible)
 {
    // Create a pen for this object and
@@ -42,7 +42,7 @@ void CLine::Draw(CDC* pDC, CElement* pElement, bool isIdVisible)
    pDC->SelectObject(pOldPen);                // Restore the old pen
 }
 
-//##ModelId=4741F10F00FB
+//##ModelId=4770E208032D
 void CLine::Move( CSize& aSize )
 {
     m_StartPoint += aSize;            // Move the start point
@@ -51,7 +51,7 @@ void CLine::Move( CSize& aSize )
 }
 
 // Get the bounding rectangle for an element
-//##ModelId=473EDD6D0342
+//##ModelId=4770E20802FE
 CRect CElement::GetBoundRect()
 {
    CRect BoundingRect;              // Object to store bounding rectangle
@@ -63,7 +63,7 @@ CRect CElement::GetBoundRect()
 }
 
 // CRectangle class constructor
-//##ModelId=473EDD6D036D
+//##ModelId=4770E2080363
 CRectangle::CRectangle(CPoint Start, CPoint End, COLORREF aColor)
 {
    m_Color = aColor;          // Set rectangle color
@@ -73,7 +73,7 @@ CRectangle::CRectangle(CPoint Start, CPoint End, COLORREF aColor)
 }
 
 // Draw a CRectangle object
-//##ModelId=473EDD6D0360
+//##ModelId=4770E2080353
 void CRectangle::Draw(CDC* pDC, CElement* pElement)
 {
    // Create a pen for this object and
@@ -97,13 +97,13 @@ void CRectangle::Draw(CDC* pDC, CElement* pElement)
    pDC->SelectObject(pOldPen);                // Restore the old pen
 }
 
-//##ModelId=4741F10F010A
+//##ModelId=4770E2080357
 void CRectangle::Move( CSize& aSize )
 {
     CElement::Move( aSize );
 }
 
-//##ModelId=4741F1B1004E
+//##ModelId=4770E20802EA
 bool CElement::operator==(const CElement& rhs) const
 {
     return 
@@ -112,20 +112,20 @@ bool CElement::operator==(const CElement& rhs) const
         this->m_Pen == rhs.m_Pen;
 }
 
-//##ModelId=4741F10F009C
+//##ModelId=4770E2080304
 void CElement::Move( CSize& aSize )
 {
     m_EnclosingRect += aSize;    
 }
 
-//##ModelId=474DC10E006D
+//##ModelId=4770E20802E6
 void CElement::resize( CPoint Start, CPoint End )
 {
     m_EnclosingRect = CRect(Start, End);
     m_EnclosingRect.NormalizeRect();	
 }
 
-//##ModelId=474DC535009C
+//##ModelId=4770E2080324
 void CLine::resize(CPoint Start, CPoint End)
 {
 	m_StartPoint = Start;
@@ -134,7 +134,7 @@ void CLine::resize(CPoint Start, CPoint End)
 	CElement::resize(Start, End);
 }
 
-//##ModelId=475168BF033C
+//##ModelId=4770E2080308
 void CElement::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())

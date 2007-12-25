@@ -8,25 +8,25 @@
 //////////////////////////////////////////////////////////////////////////
 #include "GraphException.h"
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=4741F10E02DE
+//##ModelId=4770E20702A8
 class RibbleNotFoundException 
 : virtual public GraphException
 {
 public:
  //получить информацию об исключении
- //##ModelId=4741F10E02E0
+ //##ModelId=4770E20702B6
  virtual string getException();
 
  //вывести информацию об исключении в консоль
- //##ModelId=4741F10E02E2
+ //##ModelId=4770E20702B8
  virtual void printException();
 
- //##ModelId=4741F10E02E4
+ //##ModelId=4770E20702BA
  RibbleNotFoundException(string message);
 
- //##ModelId=4741F10E02EE
+ //##ModelId=4770E20702BC
  virtual const string& get__description() const;
-	//##ModelId=4741F10E02F0
+	//##ModelId=4770E20702BE
     virtual const string getName() const;
 };
 //////////////////////////////////////////////////////////////////////////

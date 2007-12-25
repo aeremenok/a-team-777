@@ -33,6 +33,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherApp construction
 
+//##ModelId=4770E2070028
 CSketcherApp::CSketcherApp()
 {
 	// TODO: add construction code here,
@@ -54,6 +55,7 @@ static const CLSID clsid =
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherApp initialization
 
+//##ModelId=4770E2070029
 BOOL CSketcherApp::InitInstance()
 {
 	// Initialize OLE libraries
@@ -153,9 +155,11 @@ BOOL CSketcherApp::InitInstance()
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
+//##ModelId=4770E2090016
 class CAboutDlg : public CDialog
 {
 public:
+	//##ModelId=4770E2090018
 	CAboutDlg();
 
 // Dialog Data
@@ -166,6 +170,7 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CAboutDlg)
 	protected:
+	//##ModelId=4770E2090026
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 
@@ -177,12 +182,14 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
+//##ModelId=4770E2090018
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
 {
 	//{{AFX_DATA_INIT(CAboutDlg)
 	//}}AFX_DATA_INIT
 }
 
+//##ModelId=4770E2090026
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -197,6 +204,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 END_MESSAGE_MAP()
 
 // App command to run the dialog
+//##ModelId=4770E207003B
 void CSketcherApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;

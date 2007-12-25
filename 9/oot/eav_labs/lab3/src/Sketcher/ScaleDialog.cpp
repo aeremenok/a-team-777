@@ -15,7 +15,7 @@ static char THIS_FILE[] = __FILE__;
 // CScaleDialog dialog
 
 
-//##ModelId=4751685902A1
+//##ModelId=4770E2070297
 CScaleDialog::CScaleDialog(CWnd* pParent /*=NULL*/)
 	: CDialog(CScaleDialog::IDD, pParent)
 {
@@ -25,7 +25,7 @@ CScaleDialog::CScaleDialog(CWnd* pParent /*=NULL*/)
 }
 
 
-//##ModelId=4751685902B0
+//##ModelId=4770E207029A
 void CScaleDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -45,7 +45,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CScaleDialog message handlers
 
-//##ModelId=4751685902B3
+//##ModelId=4770E207029D
 BOOL CScaleDialog::OnInitDialog() 
 {
 	CDialog::OnInitDialog();

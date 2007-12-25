@@ -8,10 +8,10 @@
 
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EDDF40281
+//##ModelId=4770E2060132
 list<Text*> Text::_texts;
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EDDF40285
+//##ModelId=4770E2060136
 Text::Text( std::string content, float x, float y )
 : Shape(x, y)
 {
@@ -19,7 +19,7 @@ Text::Text( std::string content, float x, float y )
     cout<<"[text] text created"<<endl;
 }
 
-//##ModelId=473EDDF402BF
+//##ModelId=4770E206016F
 Text* Text::create(std::string content, float x, float y)
 {
     // проверяем, нет ли уже такого текста
@@ -43,7 +43,7 @@ Text* Text::create(std::string content, float x, float y)
     return text;
 }
 
-//##ModelId=474055EF0167
+//##ModelId=4770E2060174
 Text* Text::create( CPoint Start, CPoint End, COLORREF aColor )
 {
     // получаем последний введенный пользователем текст
@@ -59,14 +59,14 @@ Text* Text::create( CPoint Start, CPoint End, COLORREF aColor )
     return text;
 }
 
-//##ModelId=473EDDF402CF
+//##ModelId=4770E2060182
 Text::~Text()
 {
     _texts.remove(this);
 	cout<<"[text] text destroyed"<<endl;
 }
 
-//##ModelId=473EDDF402A4
+//##ModelId=4770E2060147
 std::ostream& Text::speak(std::ostream& os) const
 {
     return Shape::speak(os)
@@ -74,26 +74,26 @@ std::ostream& Text::speak(std::ostream& os) const
         <<_content.c_str()<<"\n";
 }
 
-//##ModelId=473EDDF402B0
+//##ModelId=4770E2060164
 const std::string& Text::get__content() const
 {
     return _content;
 }
 
-//##ModelId=473EDDF402B2
+//##ModelId=4770E2060166
 void Text::set__content(std::string& value)
 {
     _content = value;
     return;
 }
 
-//##ModelId=473EDDF402D1
+//##ModelId=4770E2060184
 float Text::Area() const
 {
     return -1;
 }
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=4754603600FA
+//##ModelId=4770E2060151
 void Text::Draw( CDC* pDC, CElement* pElement, bool isIdVisible )
 {
     COLORREF aColor = m_Color;
@@ -108,7 +108,7 @@ void Text::Draw( CDC* pDC, CElement* pElement, bool isIdVisible )
     drawID(pDC, isIdVisible);
 }
 
-//##ModelId=475168EB032C
+//##ModelId=4770E2060161
 void Text::Serialize(CArchive& ar)
 {
     Shape::Serialize(ar);
@@ -126,13 +126,13 @@ void Text::Serialize(CArchive& ar)
     }
 }
 
-//##ModelId=4751CD1D00EA
+//##ModelId=4770E206015E
 int Text::getType() const
 {
     return TEXT;
 }
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=4751AC8201D4
+//##ModelId=4770E2060160
 Text::Text()
 {
 	// ToDo: Add your specialized code here and/or call the base class

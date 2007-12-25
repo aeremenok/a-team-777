@@ -12,6 +12,7 @@ library Sketcher
 
 	//  Primary dispatch interface for CSketcherDoc
 	
+	//##ModelId=4770E20D0120
 	[ uuid(209B83CE-2FA3-4A8C-9C22-869FF0BA2652) ]
 	dispinterface ISketcher
 	{
@@ -25,8 +26,11 @@ library Sketcher
 			// NOTE - ClassWizard will maintain method information here.
 			//    Use extreme caution when editing this section.
 			//{{AFX_ODL_METHOD(CSketcherDoc)
+		//##ModelId=4770E20D0122
 			[id(1)] boolean deleteElement(BSTR key);
+		//##ModelId=4770E20D0130
 			[id(2)] void showWindow();
+		//##ModelId=4770E20D0131
 			[id(3)] void DrawLine(float x1, float y1, float x2, float y2, BSTR text);
 			//}}AFX_ODL_METHOD
 
@@ -34,9 +38,11 @@ library Sketcher
 
 	//  Class information for CSketcherDoc
 	
+	//##ModelId=4770E20D0114
 	[ uuid(4F9D716E-9E7B-4E9D-9A00-316F404C89D2) ]
 	coclass Document
 	{
+		//##ModelId=4770E20D0116
 		[default] dispinterface ISketcher;
 	};
 

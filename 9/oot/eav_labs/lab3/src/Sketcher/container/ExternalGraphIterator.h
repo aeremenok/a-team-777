@@ -13,56 +13,56 @@ template<class T> class Iterator;
 template<class T> class Ribble;
 //////////////////////////////////////////////////////////////////////////
 //внешний итератор
-//##ModelId=474C8E0401F4
+//##ModelId=4770E2080278
 template<class T>
 class ExternalGraphIterator : public Iterator<T>
 {
 public:
-    //##ModelId=474C8E040205
+    //##ModelId=4770E2080289
     virtual Ribble<T>* first()
     {
         return _iterator->first();
     }
 
-	//##ModelId=47532664029F
+	//##ModelId=4770E208028B
     virtual Ribble<T>* last()
     {
         return _iterator->last();
     }
 
-    //##ModelId=474C8E040207
+    //##ModelId=4770E2080297
     virtual Ribble<T>* next()
     {
         return _iterator->next();
     }
 
-	//##ModelId=4753266402A1
+	//##ModelId=4770E2080299
     virtual Ribble<T>* previous()
     {
         return _iterator->previous();
     }
 
-    //##ModelId=474C8E040209
+    //##ModelId=4770E208029B
     ExternalGraphIterator(const Graph<T>* graph)
     {
         attach(graph);
         cout<<"[ExternalGraphIterator] external iterator created\n";
     }
 
-    //##ModelId=474C8E04020B
+    //##ModelId=4770E208029D
     virtual bool hasNext()
     {
         return _iterator->hasNext();
     }
 
-	//##ModelId=4753266402A3
+	//##ModelId=4770E208029F
     virtual bool hasPrevious()
     {
         return _iterator->hasPrevious();
     }
 
     //присоединить итератор к графу
-    //##ModelId=474C8E04020D
+    //##ModelId=4770E20802A1
     void attach(const Graph<T>* graph)
     {
         _graph = graph;
@@ -70,18 +70,18 @@ public:
     }
 
     // количество ребер в графе, по которому бегаем
-	//##ModelId=475AD654006D
+	//##ModelId=4770E20802A8
     int getGraphRibbleCount()
     {
         return _graph->getRibbleCount();
     }
 private:
     //указатель на обходимый граф
-    //##ModelId=474C8E04031D
+    //##ModelId=4770E20802B8
     const Graph<T>* _graph;
 
     //указатель на используемый итератор
-    //##ModelId=474C8E04032D
+    //##ModelId=4770E20802BD
     Iterator<T>* _iterator;
 };
 //////////////////////////////////////////////////////////////////////////

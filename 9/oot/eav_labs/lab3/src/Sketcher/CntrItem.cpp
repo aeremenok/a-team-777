@@ -19,6 +19,7 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_SERIAL(CSketcherCntrItem, COleDocObjectItem, 0)
 
+//##ModelId=4770E2080383
 CSketcherCntrItem::CSketcherCntrItem(CSketcherDoc* pContainer)
 	: COleDocObjectItem(pContainer)
 {
@@ -26,17 +27,20 @@ CSketcherCntrItem::CSketcherCntrItem(CSketcherDoc* pContainer)
 	m_rect.SetRect(10, 10, 300, 300);
 }
 
+//##ModelId=4770E20803B5
 CSketcherCntrItem::~CSketcherCntrItem()
 {
 	// TODO: add cleanup code here
 	
 }
 
+//##ModelId=4770E20803B3
 void CSketcherCntrItem::InvalidateItem()
 {
 	GetDocument()->UpdateAllViews(NULL, HINT_UPDATE_ITEM, this);
 }
 
+//##ModelId=4770E20803B4
 void CSketcherCntrItem::UpdateFromServerExtent()
 {
 	CSize size;
@@ -68,6 +72,7 @@ void CSketcherCntrItem::UpdateFromServerExtent()
 	}
 }
 
+//##ModelId=4770E2080393
 void CSketcherCntrItem::OnChange(OLE_NOTIFICATION nCode, DWORD dwParam)
 {
 	ASSERT_VALID(this);
@@ -94,6 +99,7 @@ void CSketcherCntrItem::OnChange(OLE_NOTIFICATION nCode, DWORD dwParam)
 	GetDocument()->NotifyChanged();
 }
 
+//##ModelId=4770E20803A6
 BOOL CSketcherCntrItem::OnChangeItemPosition(const CRect& rectPos)
 {
 	ASSERT_VALID(this);
@@ -120,7 +126,7 @@ BOOL CSketcherCntrItem::OnChangeItemPosition(const CRect& rectPos)
 	return TRUE;
 }
 
-//##ModelId=476D9BD600A4
+//##ModelId=4770E2080399
 void CSketcherCntrItem::OnGetItemPosition(CRect& rPosition)
 {
 	ASSERT_VALID(this);
@@ -128,6 +134,7 @@ void CSketcherCntrItem::OnGetItemPosition(CRect& rPosition)
 	rPosition = m_rect;
 }
 
+//##ModelId=4770E2080397
 void CSketcherCntrItem::OnActivate()
 {
     // Allow only one inplace activate item per frame
@@ -140,6 +147,7 @@ void CSketcherCntrItem::OnActivate()
     CSketcherCntrItem::OnActivate();
 }
 
+//##ModelId=4770E20803A3
 void CSketcherCntrItem::OnDeactivateUI(BOOL bUndoable)
 {
 	COleDocObjectItem::OnDeactivateUI(bUndoable);
@@ -151,6 +159,7 @@ void CSketcherCntrItem::OnDeactivateUI(BOOL bUndoable)
         DoVerb(OLEIVERB_HIDE, NULL);
 }
 
+//##ModelId=4770E20803C3
 void CSketcherCntrItem::Serialize(CArchive& ar)
 {
 	ASSERT_VALID(this);
@@ -174,6 +183,7 @@ void CSketcherCntrItem::Serialize(CArchive& ar)
 	}
 }
 
+//##ModelId=4770E20803B1
 BOOL CSketcherCntrItem::CanActivate()
 {
 	// Editing in-place while the server itself is being edited in-place
@@ -193,11 +203,13 @@ BOOL CSketcherCntrItem::CanActivate()
 // CSketcherCntrItem diagnostics
 
 #ifdef _DEBUG
+//##ModelId=4770E20803B6
 void CSketcherCntrItem::AssertValid() const
 {
 	COleDocObjectItem::AssertValid();
 }
 
+//##ModelId=4770E20803C0
 void CSketcherCntrItem::Dump(CDumpContext& dc) const
 {
 	COleDocObjectItem::Dump(dc);

@@ -26,16 +26,19 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CChildFrame construction/destruction
 
+//##ModelId=4770E20803D1
 CChildFrame::CChildFrame()
 {
 	// TODO: add member initialization code here
 	
 }
 
+//##ModelId=4770E20803E2
 CChildFrame::~CChildFrame()
 {
 }
 
+//##ModelId=4770E20803DF
 BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
@@ -53,11 +56,13 @@ BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 // CChildFrame diagnostics
 
 #ifdef _DEBUG
+//##ModelId=4770E20803E4
 void CChildFrame::AssertValid() const
 {
 	CMDIChildWnd::AssertValid();
 }
 
+//##ModelId=4770E20803E6
 void CChildFrame::Dump(CDumpContext& dc) const
 {
 	CMDIChildWnd::Dump(dc);
@@ -68,7 +73,7 @@ void CChildFrame::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 // CChildFrame message handlers
 
-//##ModelId=4751685903D8
+//##ModelId=4770E2090009
 int CChildFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) 
 {
 	if (CMDIChildWnd::OnCreate(lpCreateStruct) == -1)

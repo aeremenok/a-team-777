@@ -24,30 +24,30 @@ template<class T> class Iterator;
 template<class T> class ExternalGraphIterator;
 //////////////////////////////////////////////////////////////////////////
 //граф на базе списка ребер
-//##ModelId=4741F10E0399
+//##ModelId=4770E2080130
 template<class T> class Graph 
 {
 private:
     //список ребер
-    //##ModelId=4741F10E03AC
+    //##ModelId=4770E2080143
     list< Ribble<T> *>* _ribbleList;
 
     //внутрениий итератор
-    //##ModelId=4741F10E03C8
+    //##ModelId=4770E208019D
     template<class T>
         class GraphIterator : public Iterator<T>
     {
     private:
         // локальная копия указателя на список
-		//##ModelId=4741F10F006E
+		//##ModelId=4770E208024B
         list< Ribble <T>* >* _innerList;
 
         // итератор обхода списка рёбер
-		//##ModelId=4741F10F0073
+		//##ModelId=4770E2080259
         list< Ribble <T>* >::iterator _iter;
     public:
         //перейти к первому эл-ту
-        //##ModelId=4741F10F0077
+        //##ModelId=4770E208025D
         virtual Ribble<T>* first()
         {
             if (_innerList->size() == 0)
@@ -62,7 +62,7 @@ private:
         }
 
         //перейти к последнему эл-ту
-        //##ModelId=475326640280
+        //##ModelId=4770E208025F
         virtual Ribble<T>* last()
         {
             if (_innerList->size() == 0)
@@ -82,7 +82,7 @@ private:
         }
 
         //перейти к следующему эл-ту
-        //##ModelId=4741F10F0079
+        //##ModelId=4770E2080268
         virtual Ribble<T>* next()
         {
             Ribble<T>* res = *_iter;
@@ -91,7 +91,7 @@ private:
         }
 
         //перейти к предыдущему эл-ту
-		//##ModelId=475326640282
+		//##ModelId=4770E208026A
         virtual Ribble<T>* previous()
         {
             _iter--;
@@ -99,7 +99,7 @@ private:
             return res;
         }
 
-        //##ModelId=4741F10F007E
+        //##ModelId=4770E208026C
         virtual bool hasPrevious()
         {
             return 
@@ -107,7 +107,7 @@ private:
                 _iter != _innerList->begin();
         }
 
-		//##ModelId=475326640284
+		//##ModelId=4770E208026E
         virtual bool hasNext()
         {
             return 
@@ -115,7 +115,7 @@ private:
                 _iter != _innerList->end();
         }
 
-        //##ModelId=4741F10F0080
+        //##ModelId=4770E2080270
         GraphIterator(list< Ribble<T>* >* innerList)
         {
             _innerList = innerList;
@@ -125,14 +125,14 @@ private:
     };
 public:
     // количество ребер в графе
-	//##ModelId=47527CD9036B
+	//##ModelId=4770E2080151
     int getRibbleCount() const
     {
         return _ribbleList->size(); 
     }
 
     //итератор по списку инцидентных ребер
-	//##ModelId=475AD654002E
+	//##ModelId=4770E2080153
     ExternalGraphIterator<T>* getNearestRibbles(T* vertex)
     {
         if (vertex == NULL)
@@ -155,7 +155,7 @@ public:
     }
 
     // связать две вершины графа ребром
-	//##ModelId=475A821C0157
+	//##ModelId=4770E208015E
     void linkVertices(T* vertex1, T* vertex2)
     {
         if (vertex1 == NULL || vertex2 == NULL)
@@ -207,7 +207,7 @@ public:
     }
 
     //очистить граф. очистка объектов по указателям не производится
-    //##ModelId=4741F10E03B0
+    //##ModelId=4770E2080161
     void clear()
     {
         cout<<"\n[graph] clearing graph\n";
@@ -222,7 +222,7 @@ public:
     }
 
     //добавить ребро по двум вершинам
-    //##ModelId=4741F10E03B1
+    //##ModelId=4770E2080162
     void addRibble(T* vertex1, T* vertex2)
     {
         if (vertex1 == NULL || vertex2 == NULL)
@@ -236,7 +236,7 @@ public:
     };
 
     //добавить готовое ребро
-	//##ModelId=475AD654003E
+	//##ModelId=4770E208016F
     void addRibble(Ribble<T>* ribble)
     {
         // проверяем, нет ли уже такого ребра
@@ -263,7 +263,7 @@ public:
     };
 
     //добавить вершину в граф, на выходе - вершина, к которой присоединена новая
-    //##ModelId=474DE48500EA
+    //##ModelId=4770E2080171
     T* addVertex(T* vertex)
     {
         if (vertex == NULL)
@@ -298,7 +298,7 @@ public:
     };
 
     // удалить ребро
-	//##ModelId=475A821C0168
+	//##ModelId=4770E2080173
     void removeRibble(Ribble<T>* ribble)
     {
         // проверяем, есть ли такое ребро
@@ -325,7 +325,7 @@ public:
     }
 
     //удалить ребро по его вершинам
-	//##ModelId=4741F10E03B4
+	//##ModelId=4770E208017F
     void removeRibble(T* vertex1, T* vertex2)
     {
         cout<<"\n[graph] removing ribble\n";
@@ -334,7 +334,7 @@ public:
     }
 
     // удалить вершину
-    //##ModelId=4741F10E03BB
+    //##ModelId=4770E2080182
     void removeVertex(T* vertex)
     {
         // проверяем, есть ли такая вершина
@@ -381,26 +381,26 @@ public:
     };
 
     // получить итератор для обхода графа
-	//##ModelId=4741F10E03BD
+	//##ModelId=4770E208018D
     GraphIterator<T>* getIterator() const
     {
         return new GraphIterator<T>(_ribbleList);
     }
 
-    //##ModelId=4741F10E03BF
+    //##ModelId=4770E208018F
     Graph() 
     {
         _ribbleList = new list< Ribble<T>* >;
         cout<<"[graph] graph created\n";
     };
 
-	//##ModelId=4766916E0394
+	//##ModelId=4770E2080190
     ~Graph()
     {
         delete _ribbleList;
     }
 
-    //##ModelId=4741F10E03C0
+    //##ModelId=4770E2080191
     friend std::ostream& operator<<(std::ostream& o, const Graph<T>& rhs);
 };
 //////////////////////////////////////////////////////////////////////////

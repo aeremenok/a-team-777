@@ -7,10 +7,10 @@
 #include <ostream.h>
 #include <math.h>
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EDDF40223
+//##ModelId=4770E20600D4
 list<TextInOval*> TextInOval::_textsInOvals;
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EDDF40232
+//##ModelId=4770E20600F1
 TextInOval* TextInOval::create( float firstRad /*= NULL*/, float secondRad /*= NULL*/,   std::string content /*= ""*/,   float x /*= NULL*/, float y /*= NULL  */ )
 {
     // проверяем, нет ли уже такого текста в овале
@@ -36,7 +36,7 @@ TextInOval* TextInOval::create( float firstRad /*= NULL*/, float secondRad /*= N
     return textInOval;
 }
 
-//##ModelId=474055EF00AB
+//##ModelId=4770E20600F8
 TextInOval* TextInOval::create( CPoint Start, CPoint End, COLORREF aColor )
 {
     float r1, r2;
@@ -56,14 +56,14 @@ TextInOval* TextInOval::create( CPoint Start, CPoint End, COLORREF aColor )
     return textInOval;    
 }
 
-//##ModelId=473EDDF40245
+//##ModelId=4770E2060105
 TextInOval::~TextInOval()
 {
     _textsInOvals.remove(this);
 	cout<<"[text in oval] text in oval destroyed"<<endl;
 }
 
-//##ModelId=473EDDF40254
+//##ModelId=4770E2060109
 std::ostream& TextInOval::speak(std::ostream& os) const
 {
     return 
@@ -75,27 +75,27 @@ std::ostream& TextInOval::speak(std::ostream& os) const
         ;
 }
 
-//##ModelId=473EDDF401E7
+//##ModelId=4770E20600B5
 TextInOval::TextInOval( float firstRad, float secondRad, std::string content, float x, float y ):
 Text(content, 0, 0), Oval(firstRad, secondRad, 0, 0), Shape(x, y)
 {
     cout<<"[text_in_oval] text in oval created"<<endl;
 }
 
-//##ModelId=473EDDF40252
+//##ModelId=4770E2060107
 float TextInOval::Area() const
 {
     return Oval::Area();
 }
 
-//##ModelId=4754604A0000
+//##ModelId=4770E20600D8
 void TextInOval::Draw( CDC* pDC, CElement* pElement, bool isIdVisible )
 {
     Oval::Draw(pDC, pElement, isIdVisible);
     Text::Draw(pDC, pElement, isIdVisible);
 }
 
-//##ModelId=4751693802BF
+//##ModelId=4770E20600E6
 void TextInOval::Serialize(CArchive& ar)
 {
     Shape::Serialize(ar);
@@ -117,13 +117,13 @@ void TextInOval::Serialize(CArchive& ar)
     }
 }
 
-//##ModelId=4751CD2D01C5
+//##ModelId=4770E20600E3
 int TextInOval::getType() const
 {
     return TEXT_IN_OVAL;
 }
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=4751AC8C030D
+//##ModelId=4770E20600E5
 TextInOval::TextInOval()
 {
 	// ToDo: Add your specialized code here and/or call the base class

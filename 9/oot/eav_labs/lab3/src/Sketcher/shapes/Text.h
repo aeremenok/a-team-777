@@ -15,59 +15,59 @@
 #include <string>
 //////////////////////////////////////////////////////////////////////////
 //текст
-//##ModelId=473EDDF40261
+//##ModelId=4770E2060120
 class Text 
 : public virtual Shape
 {
 private:
     //указатели на созданные тексты
-    //##ModelId=473EDDF40281
+    //##ModelId=4770E2060132
     static list<Text*> _texts;
 protected:
-    //##ModelId=473EDDF40285
+    //##ModelId=4770E2060136
     Text(std::string content, float x, float y);
 
     //содержимое текста
-    //##ModelId=473EDDF402A0
+    //##ModelId=4770E2060143
     std::string _content;
 
     //вывести состояние прямоугольника в поток
-    //##ModelId=473EDDF402A4
+    //##ModelId=4770E2060147
     virtual std::ostream& speak(std::ostream& os) const;
 public:
 	// Virtual draw operation
-	//##ModelId=4754603600FA
+	//##ModelId=4770E2060151
 	virtual void Draw(CDC* pDC, CElement* pElement = 0, bool isIdVisible = true);
 
 	//идентификатор типа объекта
-	//##ModelId=4751CD1D00EA
+	//##ModelId=4770E206015E
 	virtual int getType() const;
 
-	//##ModelId=4751AC8201D4
+	//##ModelId=4770E2060160
 	Text();
 
-	//##ModelId=475168EB032C
+	//##ModelId=4770E2060161
 	virtual void Serialize(CArchive& ar);
 
-    //##ModelId=473EDDF402B0
+    //##ModelId=4770E2060164
     const std::string& get__content() const;
 
-    //##ModelId=473EDDF402B2
+    //##ModelId=4770E2060166
     void set__content(std::string& value);
 
     //выдает указатель на уже существующий текст, если он имеет заданные параметры
     //если такого не существует - создает новый
-    //##ModelId=473EDDF402BF
+    //##ModelId=4770E206016F
     static Text* create(std::string content = "", float x = NULL, float y = NULL);
 
-	//##ModelId=474055EF0167
+	//##ModelId=4770E2060174
     static Text* create(CPoint Start, CPoint End, COLORREF aColor);
 
-	//##ModelId=473EDDF402CF
+	//##ModelId=4770E2060182
 	virtual ~Text();
 
     //вычисляет площадь фигуры
-    //##ModelId=473EDDF402D1
+    //##ModelId=4770E2060184
     virtual float Area() const;
 };
 //////////////////////////////////////////////////////////////////////////
