@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CAboutDlg
+LastClass=CSketcherView
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "Sketcher.h"
@@ -27,8 +27,8 @@ Resource6=IDR_SKETCHTYPE_SRVR_EMB
 Resource8=IDR_CURSOR_MENU (English (U.S.))
 Resource9=IDR_SKETCHTYPE (English (U.S.))
 Resource10=IDR_MAINFRAME (English (U.S.))
-Resource11=IDR_SKETCHTYPE_SRVR_IP (English (U.S.))
-Resource7=IDD_ABOUTBOX (English (U.S.))
+Resource11=IDD_ABOUTBOX (English (U.S.))
+Resource7=IDR_SKETCHTYPE_SRVR_IP (English (U.S.))
 Resource12=IDD_SCALE_DLG
 Resource13=IDR_SKETCHTYPE_CNTR_IP (English (U.S.))
 Resource14=IDD_TEXTREQUEST_DIALOG
@@ -52,6 +52,9 @@ Type=0
 HeaderFile=SketcherView.h
 ImplementationFile=SketcherView.cpp
 Filter=C
+LastObject=CSketcherView
+BaseClass=CScrollView
+VirtualFilter=VWC
 
 
 [CLS:CMainFrame]
@@ -254,7 +257,7 @@ CommandCount=6
 
 [MNU:IDR_SKETCHTYPE (English (U.S.))]
 Type=1
-Class=?
+Class=CSketcherView
 Command1=ID_FILE_NEW
 Command2=ID_FILE_OPEN
 Command3=ID_FILE_CLOSE
@@ -307,7 +310,7 @@ CommandCount=12
 
 [MNU:IDR_SKETCHTYPE_SRVR_EMB (English (U.S.))]
 Type=1
-Class=?
+Class=CSketcherView
 Command1=ID_FILE_NEW
 Command2=ID_FILE_OPEN
 Command3=ID_FILE_CLOSE

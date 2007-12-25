@@ -23,8 +23,6 @@ IMPLEMENT_DYNCREATE(CSketcherView, CScrollView)
 
 BEGIN_MESSAGE_MAP(CSketcherView, CScrollView)
 	//{{AFX_MSG_MAP(CSketcherView)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
 	ON_WM_DESTROY()
 	ON_WM_SETFOCUS()
 	ON_WM_SIZE()
@@ -32,6 +30,11 @@ BEGIN_MESSAGE_MAP(CSketcherView, CScrollView)
 	ON_COMMAND(ID_CANCEL_EDIT_CNTR, OnCancelEditCntr)
 	ON_COMMAND(ID_CANCEL_EDIT_SRVR, OnCancelEditSrvr)
 	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONDBLCLK()
+	ON_WM_SETCURSOR()
+	ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_COPY, OnUpdateEditCopy)
+	ON_COMMAND(ID_EDIT_PASTE, OnEditPaste)
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
 	ON_WM_RBUTTONDOWN()
@@ -46,7 +49,6 @@ BEGIN_MESSAGE_MAP(CSketcherView, CScrollView)
 	ON_COMMAND(ID_ELEMENT_SCALE, OnElementScale)
 	ON_UPDATE_COMMAND_UI(ID_ELEMENT_SCALE, OnUpdateElementScale)
 	ON_WM_KEYDOWN()
-	ON_WM_KEYUP()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -86,6 +88,21 @@ void CSketcherView::OnDraw(CDC* pDC)
 	CSketcherDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	// TODO: add draw code for native data here
+	// draw the OLE items from the list
+	POSITION pos = pDoc->GetStartPosition();
+	while (pos != NULL)
+	{
+		// draw the item
+		CSketcherCntrItem* pItem = (CSketcherCntrItem*)pDoc->GetNextItem(pos);
+
+		pItem->Draw(pDC, pItem->m_rect);
+
+		// draw the tracker over the item
+		CRectTracker tracker;
+		SetupTracker(pItem, &tracker);
+		tracker.Draw(pDC);
+	}
+	
 	_handler->onDraw(pDC);
 }
 
@@ -135,7 +152,6 @@ void CSketcherView::OnDestroy()
    }
 }
 
-
 /////////////////////////////////////////////////////////////////////////////
 // OLE Client support and commands
 
@@ -157,7 +173,7 @@ void CSketcherView::OnInsertObject()
 	// Invoke the standard Insert Object dialog box to obtain information
 	//  for new CSketcherCntrItem object.
 	COleInsertDialog dlg;
-	if (dlg.DoModal(COleInsertDialog::DocObjectsOnly) != IDOK)
+	if (dlg.DoModal() != IDOK)
 		return;
 
 	BeginWaitCursor();
@@ -283,6 +299,17 @@ CSketcherCntrItem* CSketcherView::HitTestItems(CPoint point)
 	return pItemHit;    // return top item at point
 }
 
+
+void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point) 
+{
+    _handler->onLBDown(point);
+}
+
+void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point) 
+{
+    _handler->onLBUp(point);
+}
+
 //##ModelId=4770E206023B
 void CSketcherView::SetSelection(CSketcherCntrItem* pItem)
 {
@@ -349,21 +376,6 @@ CSketcherDoc* CSketcherView::GetDocument() // non-debug version is inline
 }
 #endif //_DEBUG
 
-/////////////////////////////////////////////////////////////////////////////
-// CSketcherView message handlers
-
-
-//##ModelId=4770E20602AA
-void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point) 
-{
-    _handler->onLBDown(point);
-}
-
-//##ModelId=4770E20602B6
-void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point) 
-{
-    _handler->onLBUp(point);
-}
 
 //##ModelId=4770E20602BA
 void CSketcherView::OnMouseMove(UINT nFlags, CPoint point) 
@@ -521,9 +533,47 @@ void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
     }
     CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
-//##ModelId=4770E206030A
-void CSketcherView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
+
+void CSketcherView::OnUpdateEditCopy(CCmdUI* pCmdUI)
 {
-	CScrollView::OnKeyUp(nChar, nRepCnt, nFlags);
+	pCmdUI->Enable(m_pSelection != NULL);
 }
 
+void CSketcherView::OnEditPaste() 
+{
+	// TODO: Add your command handler code here
+	
+}
+
+void CSketcherView::OnEditCopy()
+{
+    if (m_pSelection != NULL)
+        m_pSelection->CopyToClipboard();
+}
+
+BOOL CSketcherView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
+{
+    if (pWnd == this && m_pSelection != NULL)
+    {
+        // give the tracker for the selection a chance
+        CRectTracker tracker;
+        SetupTracker(m_pSelection, &tracker);
+        if (tracker.SetCursor(this, nHitTest))
+            return TRUE;
+    }
+    
+    return CView::OnSetCursor(pWnd, nHitTest, message);
+}
+
+void CSketcherView::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+    OnLButtonDown(nFlags, point);
+    
+    if (m_pSelection != NULL)
+    {
+        m_pSelection->DoVerb(GetKeyState(VK_CONTROL) < 0 ?
+            OLEIVERB_OPEN : OLEIVERB_PRIMARY, this);
+    }
+    
+    CView::OnLButtonDblClk(nFlags, point);
+}
