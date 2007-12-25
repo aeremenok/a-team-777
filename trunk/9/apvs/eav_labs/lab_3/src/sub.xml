@@ -1,0 +1,24 @@
+<model type = "Objects::AMC::Model" name = "lab_3_amc">
+	<node type = "Objects::AMC::Top" name = "s1"></node>
+	<node type = "Objects::AMC::Top" name = "s2"></node>
+	<node type = "Objects::AMC::Top" name = "s3"></node>
+	<node type = "Objects::AMC::Top" name = "s4"></node>
+	<node type = "Objects::AMC::Top" name = "s5"></node>
+	<node type = "Objects::AMC::Top" name = "s6"></node>
+	<node type = "Objects::AMC::Top" name = "s7"></node>
+	<node type = "Objects::AMC::Top" name = "s8"></node>
+	<node type = "Objects::AMC::Top" name = "s9"></node>
+	<node type = "Objects::AMC::Top" name = "s10"></node>
+	<link type = "Objects::AMC::Link" name = "s1-->s2" probability = "1.0" intensity = "0.0" deviation = "0.0" source = "s1" dest = "s2"></link>
+	<link type = "Objects::AMC::Link" name = "s2-->s3" probability = "1.0" intensity = "0.0" deviation = "0.0" source = "s2" dest = "s3"></link>
+	<link type = "Objects::AMC::Link" name = "s3-->s10" probability = "0.0058" intensity = "0.0" deviation = "0.0" source = "s3" dest = "s10"></link>
+	<link type = "Objects::AMC::Link" name = "s3-->s4" probability = "0.9942" intensity = "0.0" deviation = "0.0" source = "s3" dest = "s4"></link>
+	<link type = "Objects::AMC::Link" name = "s4-->s5" probability = "1.0" intensity = "0.0" deviation = "0.0" source = "s4" dest = "s5"></link>
+	<link type = "Objects::AMC::Link" name = "s5-->s6" probability = "0.9942" intensity = "0.0" deviation = "0.0" source = "s5" dest = "s6"></link>
+	<link type = "Objects::AMC::Link" name = "s5-->s9" probability = "0.0058" intensity = "0.0" deviation = "0.0" source = "s5" dest = "s9"></link>
+	<link type = "Objects::AMC::Link" name = "s6-->s7" probability = "0.9942" intensity = "3.86" deviation = "0.0" source = "s6" dest = "s7"></link>
+	<link type = "Objects::AMC::Link" name = "s7-->s9" probability = "1.0" intensity = "17.18" deviation = "0.0" source = "s7" dest = "s9"></link>
+	<link type = "Objects::AMC::Link" name = "s6-->s8" probability = "0.0058" intensity = "0.67" deviation = "0.0" source = "s6" dest = "s8"></link>
+	<link type = "Objects::AMC::Link" name = "s8-->s9" probability = "1.0" intensity = "1.23" deviation = "0.0" source = "s8" dest = "s9"></link>
+	<link type = "Objects::AMC::Link" name = "s9-->s3" probability = "1.0" intensity = "0.0" deviation = "0.0" source = "s9" dest = "s3"></link>
+</model>
