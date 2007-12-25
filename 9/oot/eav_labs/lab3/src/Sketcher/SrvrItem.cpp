@@ -122,6 +122,12 @@ BOOL CSketcherSrvrItem::OnDraw(CDC* pDC, CSize& rSize)
         Ribble<CElement>* ribble = iter->next();
         ribble->get__vertex1()->Draw(pDC);
         ribble->get__vertex2()->Draw(pDC);
+
+        CPoint start = ribble->get__vertex1()->GetBoundRect().CenterPoint();
+        CPoint end = ribble->get__vertex2()->GetBoundRect().CenterPoint();
+        
+        CLine* visibleRibble = new CLine(start, end, GREEN);
+        visibleRibble->Draw(pDC);        
     }
  
     return TRUE;
