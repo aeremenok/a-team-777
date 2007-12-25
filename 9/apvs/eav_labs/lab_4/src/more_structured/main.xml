@@ -4,10 +4,10 @@
 	<node type = "Objects::SPN::Place" name = "p3" markerCount = "0"></node>
 	<node type = "Objects::SPN::Place" name = "p4" markerCount = "0"></node>
 	<node type = "Objects::SPN::Place" name = "p5" markerCount = "0"></node>
-	<node type = "Objects::SPN::Transition" name = "t0" intensity = "2.13"></node>
-	<node type = "Objects::SPN::Transition" name = "t1" intensity = "1.89"></node>
-	<node type = "Objects::SPN::Transition" name = "t2" intensity = "2.08"></node>
-	<node type = "Objects::SPN::Transition" name = "s0" intensity = "0.0001421"></node>
+	<node type = "Objects::SPN::Transition" name = "t0" intensity = "1.59"></node>
+	<node type = "Objects::SPN::Transition" name = "t1" intensity = "1.67"></node>
+	<node type = "Objects::SPN::Transition" name = "t2" intensity = "1.54"></node>
+	<node type = "Objects::SPN::Transition" name = "s0" intensity = "0.0001083"></node>
 	<link type = "Objects::SPN::Link" name = "p1-->t0" arity = "1" inhib = "false" source = "p1" dest = "t0"></link>
 	<link type = "Objects::SPN::Link" name = "t0-->p2" arity = "1" inhib = "false" source = "t0" dest = "p2"></link>
 	<link type = "Objects::SPN::Link" name = "p2-->t1" arity = "1" inhib = "false" source = "p2" dest = "t1"></link>
