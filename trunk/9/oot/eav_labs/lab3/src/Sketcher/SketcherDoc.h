@@ -17,89 +17,102 @@
 class CSketcherSrvrItem;
 //class CSketcherView;
 //////////////////////////////////////////////////////////////////////////
+//##ModelId=4770E2060352
 class CSketcherDoc : public COleServerDoc
 {
 protected: // create from serialization only
+	//##ModelId=4770E2060354
 	CSketcherDoc();
 	DECLARE_DYNCREATE(CSketcherDoc)
 
 // Attributes
 public:
+	//##ModelId=4770E2060355
 	CSketcherSrvrItem* GetEmbeddedItem()
 		{ return (CSketcherSrvrItem*)COleServerDoc::GetEmbeddedItem(); }
 
 protected:
-	//##ModelId=476EA08C030E
+	//##ModelId=4770E2060363
     ShapeContainer* _shapeContainer;
     // Document size
-	//##ModelId=475168590251
+	//##ModelId=4770E2060367
 	CSize m_DocSize;
 // Operations
 public:
     // Retrieve the document size
-    //##ModelId=475168590261
+    //##ModelId=4770E2060368
     CSize GetDocSize(){ return m_DocSize; }
-	//##ModelId=476EA08C0312
+	//##ModelId=4770E2060372
     ShapeContainer* getShapeContainer() const { return _shapeContainer; }
+	//##ModelId=4770E2060374
     CRect GetDocExtent();                     // Get the bounding rectangle for the whole document
 
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherDoc)
 	public:
+	//##ModelId=4770E2060375
 	virtual BOOL OnNewDocument();
+	//##ModelId=4770E2060377
 	virtual void Serialize(CArchive& ar);
+	//##ModelId=4770E2060381
 	virtual BOOL OnUpdateDocument();
+	//##ModelId=4770E2060383
 	virtual void OnSetItemRects(LPCRECT lpPosRect, LPCRECT lpClipRect);
 	protected:
+	//##ModelId=4770E2060387
 	virtual COleServerItem* OnGetEmbeddedItem();
 	//}}AFX_VIRTUAL
 
 // Implementation
 public:
+	//##ModelId=4770E2060391
 	virtual ~CSketcherDoc();
 #ifdef _DEBUG
+	//##ModelId=4770E2060393
 	virtual void AssertValid() const;
+	//##ModelId=4770E2060395
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
 protected:
+	//##ModelId=4770E2060398
 	virtual CDocObjectServer* GetDocObjectServer(LPOLEDOCUMENTSITE pDocSite);
 
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CSketcherDoc)
-	//##ModelId=473EDD6D02E2
+	//##ModelId=4770E20603A1
 	afx_msg void OnColorBlack();
-	//##ModelId=473EDD6D02E4
+	//##ModelId=4770E20603A3
 	afx_msg void OnColorRed();
-	//##ModelId=473EDD6D02E6
+	//##ModelId=4770E20603A5
 	afx_msg void OnElementLine();
-	//##ModelId=473EDD6D02E8
+	//##ModelId=4770E20603A7
 	afx_msg void OnElementRectangle();
-	//##ModelId=473EDD6D02EA
+	//##ModelId=4770E20603B1
 	afx_msg void OnUpdateColorBlack(CCmdUI* pCmdUI);
-	//##ModelId=473EDD6D02F0
+	//##ModelId=4770E20603B4
 	afx_msg void OnUpdateColorRed(CCmdUI* pCmdUI);
-	//##ModelId=473EDD6D02F3
+	//##ModelId=4770E20603C0
 	afx_msg void OnUpdateElementLine(CCmdUI* pCmdUI);
-	//##ModelId=473EDD6D02F6
+	//##ModelId=4770E20603C3
 	afx_msg void OnUpdateElementRectangle(CCmdUI* pCmdUI);
-	//##ModelId=474055EF0203
+	//##ModelId=4770E20603CF
 	afx_msg void OnElementOval();
-	//##ModelId=474055EF0214
+	//##ModelId=4770E20603D1
 	afx_msg void OnUpdateElementOval(CCmdUI* pCmdUI);
-	//##ModelId=474055EF0217
+	//##ModelId=4770E20603D4
 	afx_msg void OnUpdateElementText(CCmdUI* pCmdUI);
-	//##ModelId=474055EF0223
+	//##ModelId=4770E20603DF
 	afx_msg void OnElementText();
-	//##ModelId=474055EF0225
+	//##ModelId=4770E20603E1
 	afx_msg void OnElementTextInOval();
-	//##ModelId=474055EF0227
+	//##ModelId=4770E20603E3
 	afx_msg void OnUpdateElementTextInOval(CCmdUI* pCmdUI);
-	//##ModelId=475A821C002E
+	//##ModelId=4770E2070007
 	afx_msg void OnElementRibble();
-	//##ModelId=475A821C003F
+	//##ModelId=4770E2070009
 	afx_msg void OnUpdateElementRibble(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
@@ -108,8 +121,9 @@ protected:
 	//{{AFX_DISPATCH(CSketcherDoc)
 		// NOTE - the ClassWizard will add and remove member functions here.
 		//    DO NOT EDIT what you see in these blocks of generated code !
+	//##ModelId=4770E207000C
 	afx_msg BOOL deleteElement(LPCTSTR key);
-	//##ModelId=476D9BD50150
+	//##ModelId=4770E2070017
 	afx_msg void showWindow();
 	//##ModelId=476D9BD50158
 	//afx_msg void DrawLine(float x1, float y1, float x2, float y2, LPCTSTR text);

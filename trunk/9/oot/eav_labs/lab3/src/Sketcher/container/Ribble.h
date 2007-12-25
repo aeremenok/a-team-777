@@ -7,12 +7,12 @@
 #define _INC_RIBBLE_471BB47802AF_INCLUDED
 //////////////////////////////////////////////////////////////////////////
 //ребро графа
-//##ModelId=4741F10E0302
+//##ModelId=4770E20702E5
 template<class T>
 class Ribble 
 {
 public:
-	//##ModelId=4751C556028C
+	//##ModelId=4770E20702F6
 	void set__vertex1(T* value)
 	{
         // проверка нужна, чтобы избежать неожиданностей 
@@ -27,7 +27,7 @@ public:
         }
 	}
 
-	//##ModelId=4751BEE202EA
+	//##ModelId=4770E20702F8
 	void set__vertex2(T* value)
 	{
         // проверка нужна, чтобы избежать неожиданностей 
@@ -42,7 +42,7 @@ public:
         }
     }
 
-    //##ModelId=4741F10E0304
+    //##ModelId=4770E20702FA
     virtual ~Ribble()
     {
         // вершины по указателям не удаляем, т.к. возможны ещё
@@ -51,14 +51,14 @@ public:
         cout<<"[ribble] ribble destroyed\n";
     }
 
-    //##ModelId=4741F10E0306
+    //##ModelId=4770E20702FC
     bool operator==(const Ribble<T>& rhs) const
     {
         return rhs.equals(this);
     }
 
     //сравннение по указателю
-	//##ModelId=4741F10E030F
+	//##ModelId=4770E2070304
     bool equals(const Ribble<T>* ribble)
     {
         return (*_vertex1 == *(ribble->_vertex1)) && 
@@ -66,20 +66,20 @@ public:
     }
 
     // является ли ребро петлей
-	//##ModelId=475A821C00AB
+	//##ModelId=4770E2070306
     bool isLoop()
     {
         return *_vertex1 == *_vertex2;
     }
 
     //принадлежит ли вершина ребру
-    //##ModelId=4741F10E0311
+    //##ModelId=4770E2070307
     bool contains(const T* vertex) const
     {
         return (_vertex1 == vertex) || (_vertex2 == vertex);
     }
 
-    //##ModelId=4741F10E0314
+    //##ModelId=4770E207030A
     T* get__vertex2() const
     {
         if (_vertex2 != NULL)
@@ -92,7 +92,7 @@ public:
         }
     }
 
-    //##ModelId=4741F10E0316
+    //##ModelId=4770E2070314
     T* get__vertex1() const
     {
         if (_vertex1 != NULL)
@@ -106,7 +106,7 @@ public:
     }
 
     //получить вершину, отличную от заданной
-	//##ModelId=475AD653035B
+	//##ModelId=4770E2070316
     T* getAnotherVertex(T* vertex)
     {
         if (isLoop())
@@ -126,7 +126,7 @@ public:
         }
     }
 
-    //##ModelId=4741F10E0318
+    //##ModelId=4770E2070318
     Ribble(T* vertex1, T* vertex2): _vertex1(vertex1), _vertex2(vertex2)
     {
         if (_vertex1 == NULL || _vertex2 == NULL)
@@ -137,10 +137,10 @@ public:
     }
 
 private:
-    //##ModelId=4741F10E031B
+    //##ModelId=4770E207031B
     T* _vertex1;
 
-    //##ModelId=4741F10E031C
+    //##ModelId=4770E2070324
     T* _vertex2;
 };
 

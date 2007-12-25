@@ -78,6 +78,7 @@ END_INTERFACE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherDoc construction/destruction
 
+//##ModelId=4770E2060354
 CSketcherDoc::CSketcherDoc()
 {
 	// Use OLE compound files
@@ -91,12 +92,14 @@ CSketcherDoc::CSketcherDoc()
 	AfxOleLockApp();
 }
 
+//##ModelId=4770E2060391
 CSketcherDoc::~CSketcherDoc()
 {
     delete _shapeContainer;
 	AfxOleUnlockApp();
 }
 
+//##ModelId=4770E2060375
 BOOL CSketcherDoc::OnNewDocument()
 {
 	if (!COleServerDoc::OnNewDocument())
@@ -110,6 +113,7 @@ BOOL CSketcherDoc::OnNewDocument()
 
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherDoc server implementation
+//##ModelId=4770E2060387
 COleServerItem* CSketcherDoc::OnGetEmbeddedItem()
 {
 	// OnGetEmbeddedItem is called by the framework to get the COleServerItem
@@ -122,6 +126,7 @@ COleServerItem* CSketcherDoc::OnGetEmbeddedItem()
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherDoc Active Document server implementation
 
+//##ModelId=4770E2060398
 CDocObjectServer *CSketcherDoc::GetDocObjectServer(LPOLEDOCUMENTSITE pDocSite)
 {
 	return new CDocObjectServer(this, pDocSite);
@@ -131,6 +136,7 @@ CDocObjectServer *CSketcherDoc::GetDocObjectServer(LPOLEDOCUMENTSITE pDocSite)
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherDoc serialization
 
+//##ModelId=4770E2060377
 void CSketcherDoc::Serialize(CArchive& ar)
 {
     if (ar.IsStoring())
@@ -153,11 +159,13 @@ void CSketcherDoc::Serialize(CArchive& ar)
 // CSketcherDoc diagnostics
 
 #ifdef _DEBUG
+//##ModelId=4770E2060393
 void CSketcherDoc::AssertValid() const
 {
 	COleServerDoc::AssertValid();
 }
 
+//##ModelId=4770E2060395
 void CSketcherDoc::Dump(CDumpContext& dc) const
 {
 	COleServerDoc::Dump(dc);
@@ -167,70 +175,70 @@ void CSketcherDoc::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherDoc commands
 
-//##ModelId=473EDD6D02E2
+//##ModelId=4770E20603A1
 void CSketcherDoc::OnColorBlack() 
 {
    _shapeContainer->SetElementColor(BLACK);
 }
 
-//##ModelId=473EDD6D02E4
+//##ModelId=4770E20603A3
 void CSketcherDoc::OnColorRed() 
 {
     _shapeContainer->SetElementColor(RED);
 }
 
-//##ModelId=473EDD6D02E6
+//##ModelId=4770E20603A5
 void CSketcherDoc::OnElementLine() 
 {
    _shapeContainer->SetElementType(RIBBLE);
 }
 
-//##ModelId=473EDD6D02E8
+//##ModelId=4770E20603A7
 void CSketcherDoc::OnElementRectangle() 
 {
    _shapeContainer->SetElementType(RECTANGLE);
 }
 
-//##ModelId=473EDD6D02EA
+//##ModelId=4770E20603B1
 void CSketcherDoc::OnUpdateColorBlack(CCmdUI* pCmdUI) 
 {
    // Set menu item Checked if the current color is black
    pCmdUI->SetCheck(_shapeContainer->GetElementColor()==BLACK);
 }
 
-//##ModelId=473EDD6D02F0
+//##ModelId=4770E20603B4
 void CSketcherDoc::OnUpdateColorRed(CCmdUI* pCmdUI) 
 {
    // Set menu item Checked if the current color is red
    pCmdUI->SetCheck(_shapeContainer->GetElementColor()==RED);
 }
 
-//##ModelId=473EDD6D02F3
+//##ModelId=4770E20603C0
 void CSketcherDoc::OnUpdateElementLine(CCmdUI* pCmdUI) 
 {
    // Set Checked if the current element is a line
    pCmdUI->SetCheck(_shapeContainer->GetElementType()==RIBBLE);
 }
 
-//##ModelId=473EDD6D02F6
+//##ModelId=4770E20603C3
 void CSketcherDoc::OnUpdateElementRectangle(CCmdUI* pCmdUI) 
 {
    pCmdUI->SetCheck(_shapeContainer->GetElementType()==RECTANGLE);
 }
 
-//##ModelId=474055EF0203
+//##ModelId=4770E20603CF
 void CSketcherDoc::OnElementOval() 
 {
 	_shapeContainer->SetElementType(OVAL);
 }
 
-//##ModelId=474055EF0214
+//##ModelId=4770E20603D1
 void CSketcherDoc::OnUpdateElementOval(CCmdUI* pCmdUI) 
 {
     pCmdUI->SetCheck(_shapeContainer->GetElementType()==OVAL);
 }
 
-//##ModelId=474055EF0217
+//##ModelId=4770E20603D4
 void CSketcherDoc::OnUpdateElementText(CCmdUI* pCmdUI) 
 {
     pCmdUI->SetCheck(_shapeContainer->GetElementType()==TEXT);
@@ -263,12 +271,14 @@ CRect CSketcherDoc::GetDocExtent()
 	return DocExtent;
 }
 
+//##ModelId=4770E2060381
 BOOL CSketcherDoc::OnUpdateDocument() 
 {
 	// TODO: Add your specialized code here and/or call the base class
 	return COleServerDoc::OnUpdateDocument();
 }
 
+//##ModelId=4770E207000C
 BOOL CSketcherDoc::deleteElement(LPCTSTR key) 
 {
 	// TODO: Add your dispatch handler code here
@@ -278,7 +288,7 @@ BOOL CSketcherDoc::deleteElement(LPCTSTR key)
 	return TRUE;
 }
 
-//##ModelId=476D9BD50150
+//##ModelId=4770E2070017
 void CSketcherDoc::showWindow() 
 {
 	POSITION pos = GetFirstViewPosition();
@@ -303,6 +313,7 @@ void CSketcherDoc::DrawLine(float x1, float y1, float x2, float y2, LPCTSTR key)
 }
 */
 
+//##ModelId=4770E2060383
 void CSketcherDoc::OnSetItemRects(LPCRECT lpPosRect, LPCRECT lpClipRect) 
 {
 	COleServerDoc::OnSetItemRects(lpPosRect, lpClipRect);
@@ -314,33 +325,33 @@ void CSketcherDoc::OnSetItemRects(LPCRECT lpPosRect, LPCRECT lpClipRect)
 }
 
 
-//##ModelId=474055EF0223
+//##ModelId=4770E20603DF
 void CSketcherDoc::OnElementText() 
 {
     TextRequest::getTextToShow();
     _shapeContainer->SetElementType(TEXT);
 }
 
-//##ModelId=474055EF0225
+//##ModelId=4770E20603E1
 void CSketcherDoc::OnElementTextInOval() 
 {
     TextRequest::getTextToShow();
     _shapeContainer->SetElementType(TEXT_IN_OVAL);
 }
 
-//##ModelId=474055EF0227
+//##ModelId=4770E20603E3
 void CSketcherDoc::OnUpdateElementTextInOval(CCmdUI* pCmdUI) 
 {
 	pCmdUI->SetCheck(_shapeContainer->GetElementType()==TEXT_IN_OVAL);
 }
 
-//##ModelId=475A821C002E
+//##ModelId=4770E2070007
 void CSketcherDoc::OnElementRibble() 
 {
     _shapeContainer->SetElementType(RIBBLE);
 }
 
-//##ModelId=475A821C003F
+//##ModelId=4770E2070009
 void CSketcherDoc::OnUpdateElementRibble(CCmdUI* pCmdUI) 
 {
 	pCmdUI->SetCheck(_shapeContainer->GetElementType()==RIBBLE);

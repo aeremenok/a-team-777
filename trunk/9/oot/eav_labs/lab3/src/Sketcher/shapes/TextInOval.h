@@ -9,51 +9,51 @@
 #include "Text.h"
 //////////////////////////////////////////////////////////////////////////
 //текст в овале
-//##ModelId=473EDDF401E4
+//##ModelId=4770E20600A3
 class TextInOval 
 : public virtual Oval
 , public virtual Text
 {
 private:
-    //##ModelId=473EDDF401E7
+    //##ModelId=4770E20600B5
     TextInOval(float firstRad, float secondRad, std::string content, float x, float y);
 
     //указатели на созданные тексты в овалах
-    //##ModelId=473EDDF40223
+    //##ModelId=4770E20600D4
     static list<TextInOval*> _textsInOvals;
 public:
 	// Virtual draw operation
-	//##ModelId=4754604A0000
+	//##ModelId=4770E20600D8
 	virtual void Draw(CDC* pDC, CElement* pElement = 0, bool isIdVisible = true);
 
 	//идентификатор типа объекта
-	//##ModelId=4751CD2D01C5
+	//##ModelId=4770E20600E3
 	virtual int getType() const;
 
-	//##ModelId=4751AC8C030D
+	//##ModelId=4770E20600E5
 	TextInOval();
 
-	//##ModelId=4751693802BF
+	//##ModelId=4770E20600E6
 	virtual void Serialize(CArchive& ar);
 
     //выдает указатель на уже существующий текст в овале, если он имеет заданные 
     //параметры
     //если такого не существует - создает новый
-    //##ModelId=473EDDF40232
+    //##ModelId=4770E20600F1
     static TextInOval* create(  float firstRad = NULL, float secondRad = NULL,   std::string content = "",   float x = NULL, float y = NULL  );
 
-	//##ModelId=474055EF00AB
+	//##ModelId=4770E20600F8
     static TextInOval* create(CPoint Start, CPoint End, COLORREF aColor);
 
-	//##ModelId=473EDDF40245
+	//##ModelId=4770E2060105
 	virtual ~TextInOval();
     
     //вычисляет площадь фигуры
-    //##ModelId=473EDDF40252
+    //##ModelId=4770E2060107
     virtual float Area() const;
 protected:
     //вывести состояние текста в овале в поток
-    //##ModelId=473EDDF40254
+    //##ModelId=4770E2060109
     virtual std::ostream& speak(std::ostream& os) const;
 };
 

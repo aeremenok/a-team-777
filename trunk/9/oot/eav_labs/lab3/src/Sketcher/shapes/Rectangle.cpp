@@ -7,10 +7,10 @@
 #include <ostream.h>
 #include <math.h>
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EDDF40370
+//##ModelId=4770E2070346
 list<Rectangle2*> Rectangle2::_rectangles;
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EDDF4038A
+//##ModelId=4770E2070362
 Rectangle2::Rectangle2( float l, float w, float x, float y )
 : Shape(x, y)
 {
@@ -19,7 +19,7 @@ Rectangle2::Rectangle2( float l, float w, float x, float y )
     cout<<"[rectangle] rectangle created"<<endl;
 }
 
-//##ModelId=473EDDF4038F
+//##ModelId=4770E2070383
 Rectangle2* Rectangle2::create(float length, float width, float x, float y)
 {
     // ищем, нет ли уже прямоугольника с такими параметрами
@@ -44,7 +44,7 @@ Rectangle2* Rectangle2::create(float length, float width, float x, float y)
     return rectangle;
 }
 
-//##ModelId=474055EF0280
+//##ModelId=4770E2070391
 Rectangle2* Rectangle2::create( CPoint Start, CPoint End, COLORREF aColor )
 {
     float l, w;
@@ -61,38 +61,38 @@ Rectangle2* Rectangle2::create( CPoint Start, CPoint End, COLORREF aColor )
     return rect;
 }
 
-//##ModelId=473EDDF4039B
+//##ModelId=4770E2070396
 Rectangle2::~Rectangle2()
 {
     _rectangles.remove(this);
 	cout<<"[rectangle] rectangle destroyed"<<endl;
 }
 
-//##ModelId=473EDDF4039D
+//##ModelId=4770E2070398
 const float Rectangle2::get__length() const
 {
 	return _length;
 }
 
-//##ModelId=473EDDF4039F
+//##ModelId=4770E20703A1
 void Rectangle2::set__length(float value)
 {
 	_length = value;
 }
 
-//##ModelId=473EDDF403A1
+//##ModelId=4770E20703A3
 const float Rectangle2::get__width() const
 {
 	return _width;
 }
 
-//##ModelId=473EDDF403A3
+//##ModelId=4770E20703A5
 void Rectangle2::set__width(float value)
 {
 	_width = value;
 }
 
-//##ModelId=473EDDF403AC
+//##ModelId=4770E20703B0
 std::ostream& Rectangle2::speak(std::ostream& os) const
 {
     return Shape::speak(os)
@@ -100,13 +100,13 @@ std::ostream& Rectangle2::speak(std::ostream& os) const
         <<_length<<", "<<_width<<")\n";
 }
 
-//##ModelId=473EDDF403AA
+//##ModelId=4770E20703A7
 float Rectangle2::Area() const
 {
     return _length * _width;
 }
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=4754603F0290
+//##ModelId=4770E2070372
 void Rectangle2::Draw( CDC* pDC, CElement* pElement, bool isIdVisible )
 {
     // Create a pen for this object and
@@ -136,7 +136,7 @@ void Rectangle2::Draw( CDC* pDC, CElement* pElement, bool isIdVisible )
     pDC->SelectObject(pOldPen);                // Restore the old pen    
 }
 
-//##ModelId=4751692C0119
+//##ModelId=4770E207037A
 void Rectangle2::Serialize(CArchive& ar)
 {
     Shape::Serialize(ar);
@@ -153,13 +153,13 @@ void Rectangle2::Serialize(CArchive& ar)
     }
 }
 
-//##ModelId=4751CD2403C8
+//##ModelId=4770E2070377
 int Rectangle2::getType() const
 {
     return RECTANGLE;
 }
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=4751AC870261
+//##ModelId=4770E2070379
 Rectangle2::Rectangle2()
 {
 	// ToDo: Add your specialized code here and/or call the base class

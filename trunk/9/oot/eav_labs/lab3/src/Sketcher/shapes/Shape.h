@@ -14,91 +14,91 @@
 using std::list;
 //////////////////////////////////////////////////////////////////////////
 //обобщенна€ фигура
-//##ModelId=473EDDF4032C
+//##ModelId=4770E207021A
 class Shape
 : public CElement
 {
 private:
     //счетчик объектов
-    //##ModelId=473EDDF4032D
+    //##ModelId=4770E207021C
     static int _counter;
 
     //идентификатор объекта
-    //##ModelId=473EDDF4033C
+    //##ModelId=4770E207022A
     int _id;
 protected:
     //абсцисса фигуры. все фигуры по умолчанию по€вл€ютс€ в начале координат
-    //##ModelId=473EDDF4033D
+    //##ModelId=4770E207022B
     float _x;
     
     //ордината фигуры. все фигуры по умолчанию по€вл€ютс€ в начале координат
-    //##ModelId=473EDDF4033E
+    //##ModelId=4770E207022C
 	float _y;
 
-    //##ModelId=473EDDF4033F
+    //##ModelId=4770E2070239
     Shape(float x, float y);
     
     //вывести состо€ние фигуры в поток
-    //##ModelId=473EDDF4034C
+    //##ModelId=4770E207023C
     virtual std::ostream& speak(std::ostream& os) const;
 public:
 	//идентификатор типа объекта
-	//##ModelId=4751CCCE029F
+	//##ModelId=4770E207023F
     virtual int getType() const =0;
 
     //идентификатор фигуры используетс€ при сериализации документа
-	//##ModelId=4751CC290399
+	//##ModelId=4770E2070249
 	const int get__id() const;
 
-	//##ModelId=4751AC740213
+	//##ModelId=4770E207024B
 	Shape();
 
-	//##ModelId=475168D10271
+	//##ModelId=4770E207024C
 	virtual void Serialize(CArchive& ar);
 
     //рисует идентификатор фигуры
-    //##ModelId=474C966702BF
+    //##ModelId=4770E207024F
     void drawID(CDC* pDC, bool isIdVisible = true) const;
 
 	//измен€ет размер фигуры
-	//##ModelId=474DCD59038A
+	//##ModelId=4770E2070258
 	virtual void resize(CPoint Start, CPoint End);
 
-	//##ModelId=474C8E6F02BF
+	//##ModelId=4770E207025C
 	virtual void Move(CSize& aSize);
 
-    //##ModelId=473EDDF4034F
+    //##ModelId=4770E207025F
     virtual ~Shape();
 
     //получить ординату фигуры
-    //##ModelId=473EDDF40351
+    //##ModelId=4770E2070261
     const float get__y() const;
     
     //задать ординату фигуры
-    //##ModelId=473EDDF40353
+    //##ModelId=4770E2070269
     void set__y(float value);
     
     //получить абсциссу фигуры
-    //##ModelId=473EDDF40355
+    //##ModelId=4770E207026B
     const float get__x() const;
     
     //задать абциссу фигуры
-    //##ModelId=473EDDF40357
+    //##ModelId=4770E207026D
 	void set__x(float value);
 
     //оператор вывода в поток
-    //##ModelId=473EDDF40363
+    //##ModelId=4770E207027E
     friend std::ostream& operator<<(std::ostream& o, const Shape& rhs);
 
-    //##ModelId=473EDDF4035B
+    //##ModelId=4770E207026F
     virtual bool operator==(const Shape& rhs) const;
 
 	//перенести фигуру в заданную точку
-	//##ModelId=473EDDF4035E
+	//##ModelId=4770E2070279
 	void moveToPoint(float x_pos, float y_pos);
 
     //вычисл€ет площадь фигуры
-    //##ModelId=473EDDF40361
+    //##ModelId=4770E207027C
     virtual float Area() const = 0;
 };
 //////////////////////////////////////////////////////////////////////////

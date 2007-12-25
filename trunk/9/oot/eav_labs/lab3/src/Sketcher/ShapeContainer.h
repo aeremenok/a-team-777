@@ -15,59 +15,60 @@
 #include <map>
 //////////////////////////////////////////////////////////////////////////
 // обертка контейнера для переносимости
-//##ModelId=476EA08D008C
+//##ModelId=4770E207019D
 class ShapeContainer
 {
     // Current drawing color
-	//##ModelId=476EA08D008D
+	//##ModelId=4770E207019E
     COLORREF m_Color;
     // Current element type
-	//##ModelId=476EA08D008E
+	//##ModelId=4770E207019F
     WORD m_Element;
     // граф фигур документа
-	//##ModelId=476EA08D009D
+	//##ModelId=4770E20701B0
     Graph<CElement>* _container;
     //////////////////////////////////////////////////////////////////////////
     // сериализует элементы контейнера
-	//##ModelId=476EA08D00A1
+	//##ModelId=4770E20701BC
     void serializeContainer( CArchive& ar );
     // восстанавливает из файла фигуру и ее положение в контейнере
-	//##ModelId=476EA08D00A3
+	//##ModelId=4770E20701BE
     Shape* readShape(CArchive &ar, map<int, Shape*> &shapes);
 public:
-	//##ModelId=476EA08D00AC
+	//##ModelId=4770E20701CD
 	ShapeContainer();
-	//##ModelId=476EA08D00AD
+	//##ModelId=4770E20701CE
 	virtual ~ShapeContainer();
     //////////////////////////////////////////////////////////////////////////
-	//##ModelId=476EA08D00AF
+	//##ModelId=4770E20701D0
     WORD GetElementType(){return m_Element;}
-	//##ModelId=476EA08D00B0
+	//##ModelId=4770E20701D1
     void SetElementType(WORD type){m_Element = type;}
 
-	//##ModelId=476EA08D00B2
+	//##ModelId=4770E20701D3
 	COLORREF GetElementColor(){return m_Color;}
-	//##ModelId=476EA08D00B3
+	//##ModelId=4770E20701DB
     void SetElementColor(COLORREF color){m_Color = color;}
     //////////////////////////////////////////////////////////////////////////
-	//##ModelId=476EA08D00B5
+	//##ModelId=4770E20701DD
     CElement* AddElement(CElement* m_pElement);
-	//##ModelId=476EA08D00BB
+	//##ModelId=4770E20701DF
     void SendToBack(CElement* pElement);
-	//##ModelId=476EA08D00BD
+	//##ModelId=4770E20701EB
     void DeleteElement(CElement* m_pSelected);
+	//##ModelId=4770E20701ED
     void DeleteElement(LPCTSTR id);
-	//##ModelId=476EA08D00BF
+	//##ModelId=4770E20701EF
     void linkElements(CElement* element1, CElement* element2);
     //////////////////////////////////////////////////////////////////////////
     // получить новый итератор, указывающий на начало контейнера
-	//##ModelId=476EA08D00C2
+	//##ModelId=4770E20701FB
     Iterator<CElement>* getNewIterator() const { return _container->getIterator(); }
     // получить список ребер, инцидентных выбранной вершине
-	//##ModelId=476EA08D00C4
+	//##ModelId=4770E20701FD
     ExternalGraphIterator<CElement>* getNearestRibbles(CElement* selected);
     //////////////////////////////////////////////////////////////////////////
-	//##ModelId=476EA08D00CB
+	//##ModelId=4770E20701FF
     void serialize(CArchive& ar);
 };
 

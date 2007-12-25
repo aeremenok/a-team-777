@@ -8,26 +8,26 @@
 //////////////////////////////////////////////////////////////////////////
 #include "GraphException.h"
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=4741F10E00BB
+//##ModelId=4770E206000A
 class VertexNotFoundException 
 : virtual public GraphException
 {
 public:
     //получить информацию об исключении
-    //##ModelId=4741F10E00CC
+    //##ModelId=4770E2060016
     virtual string getException();
 
     //вывести информацию об исключении в консоль
-    //##ModelId=4741F10E00CE
+    //##ModelId=4770E2060018
     virtual void printException();
 
-    //##ModelId=4741F10E00DB
+    //##ModelId=4770E206001A
     VertexNotFoundException(string message);
 
-    //##ModelId=4741F10E00DD
+    //##ModelId=4770E206001C
     virtual const string& get__description() const;
 
-	//##ModelId=4741F10E00DF
+	//##ModelId=4770E206001E
     virtual const string getName() const;
 };
 //////////////////////////////////////////////////////////////////////////

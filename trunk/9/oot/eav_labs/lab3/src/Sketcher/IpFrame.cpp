@@ -26,14 +26,17 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CInPlaceFrame construction/destruction
 
+//##ModelId=4770E20800B5
 CInPlaceFrame::CInPlaceFrame()
 {
 }
 
+//##ModelId=4770E20800C4
 CInPlaceFrame::~CInPlaceFrame()
 {
 }
 
+//##ModelId=4770E20800E1
 int CInPlaceFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (COleDocIPFrameWnd::OnCreate(lpCreateStruct) == -1)
@@ -54,6 +57,7 @@ int CInPlaceFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
+//##ModelId=4770E20800B6
 BOOL CInPlaceFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
@@ -66,11 +70,13 @@ BOOL CInPlaceFrame::PreCreateWindow(CREATESTRUCT& cs)
 // CInPlaceFrame diagnostics
 
 #ifdef _DEBUG
+//##ModelId=4770E20800C6
 void CInPlaceFrame::AssertValid() const
 {
 	COleDocIPFrameWnd::AssertValid();
 }
 
+//##ModelId=4770E20800C8
 void CInPlaceFrame::Dump(CDumpContext& dc) const
 {
 	COleDocIPFrameWnd::Dump(dc);

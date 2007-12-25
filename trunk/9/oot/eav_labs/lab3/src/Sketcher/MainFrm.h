@@ -9,10 +9,12 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+//##ModelId=4770E2080058
 class CMainFrame : public CMDIFrameWnd
 {
 	DECLARE_DYNAMIC(CMainFrame)
 public:
+	//##ModelId=4770E2080065
 	CMainFrame();
 
 // Attributes
@@ -24,23 +26,29 @@ public:
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMainFrame)
+	//##ModelId=4770E2080066
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	//}}AFX_VIRTUAL
 
 // Implementation
 public:
+	//##ModelId=4770E2080069
 	virtual ~CMainFrame();
 #ifdef _DEBUG
+	//##ModelId=4770E2080074
 	virtual void AssertValid() const;
+	//##ModelId=4770E2080076
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
 protected:  // control bar embedded members
+	//##ModelId=4770E208007A
 	CStatusBar  m_wndStatusBar;
 
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CMainFrame)
+	//##ModelId=4770E2080084
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 		// NOTE - the ClassWizard will add and remove member functions here.
 		//    DO NOT EDIT what you see in these blocks of generated code!

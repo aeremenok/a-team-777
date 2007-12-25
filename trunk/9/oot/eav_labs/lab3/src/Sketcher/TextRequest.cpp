@@ -13,10 +13,10 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // TextRequest dialog
-//##ModelId=474055EF0011
+//##ModelId=4770E206004C
 CString* TextRequest::m_Text = new CString();
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=474055EE03D8
+//##ModelId=4770E2060037
 TextRequest::TextRequest(CWnd* pParent /*=NULL*/)
 	: CDialog(TextRequest::IDD, pParent)
 {
@@ -28,7 +28,7 @@ TextRequest::TextRequest(CWnd* pParent /*=NULL*/)
 }
 
 
-//##ModelId=474055EF0006
+//##ModelId=4770E2060049
 void TextRequest::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -47,12 +47,12 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // TextRequest message handlers
 
-//##ModelId=474055EF005E
+//##ModelId=4770E2060094
 void TextRequest::OnUpdateEdit1() 
 {
 }
 
-//##ModelId=474055EF006D
+//##ModelId=4770E2060096
 void TextRequest::OnOK() 
 {
     CString* const cs = new CString();
@@ -64,7 +64,7 @@ void TextRequest::OnOK()
 	CDialog::OnOK();
 }
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=474055EF0004
+//##ModelId=4770E2060047
 CString* TextRequest::getTextToShow()
 {
     bool showFlag = TRUE;

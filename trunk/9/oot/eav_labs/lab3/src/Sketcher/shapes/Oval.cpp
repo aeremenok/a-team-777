@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////
 #define M_PI 3.1415926
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EDDF403BE
+//##ModelId=4770E20703D2
 list<Oval*> Oval::_ovals;
 //////////////////////////////////////////////////////////////////////////
 //##ModelId=473EDDF403C8
@@ -21,7 +21,7 @@ Oval::Oval(float firstRad, float secondRad, float x, float y)
     cout<<"[oval] oval created"<<endl;
 }
 
-//##ModelId=473EDDF403DB
+//##ModelId=4770E208002B
 Oval* Oval::create(float firstRad, float secondRad, float x, float y)
 {
     using namespace std;
@@ -46,7 +46,7 @@ Oval* Oval::create(float firstRad, float secondRad, float x, float y)
     return oval;
 }
 
-//##ModelId=474055EF02FD
+//##ModelId=4770E2080038
 Oval* Oval::create( CPoint Start, CPoint End, COLORREF aColor )
 {
     float r1, r2;
@@ -63,38 +63,38 @@ Oval* Oval::create( CPoint Start, CPoint End, COLORREF aColor )
     return oval;
 }
 
-//##ModelId=473EDDF50001
+//##ModelId=4770E208003D
 Oval::~Oval()
 {
     _ovals.remove(this);
 	cout<<"[oval] oval destroyed"<<endl;
 }
 
-//##ModelId=473EDDF50003
+//##ModelId=4770E208003F
 const float Oval::getRad1() const
 {
 	return _rad1;
 }
 
-//##ModelId=473EDDF50005
+//##ModelId=4770E2080046
 void Oval::setRad1(float value)
 {
 	_rad1 = value;
 }
 
-//##ModelId=473EDDF50007
+//##ModelId=4770E2080048
 const float Oval::getRad2() const
 {
 	return _rad2;
 }
 
-//##ModelId=473EDDF50009
+//##ModelId=4770E208004A
 void Oval::setRad2(float value)
 {
 	_rad2 = value;
 }
 
-//##ModelId=473EDDF403D8
+//##ModelId=4770E2080009
 std::ostream& Oval::speak(std::ostream& os) const
 {
     return Shape::speak(os)
@@ -102,13 +102,13 @@ std::ostream& Oval::speak(std::ostream& os) const
         <<getRad1()<<", "<<getRad2()<<")\n";
 }
 
-//##ModelId=473EDDF5000F
+//##ModelId=4770E2080056
 float Oval::Area() const
 {
     return M_PI * _rad1 * _rad2;
 }
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=4754601601A5
+//##ModelId=4770E2080018
 void Oval::Draw( CDC* pDC, CElement* pElement, bool isIdVisible )
 {
     // Create a pen for this object and
@@ -138,7 +138,7 @@ void Oval::Draw( CDC* pDC, CElement* pElement, bool isIdVisible )
     pDC->SelectObject(pOldPen);                // Restore the old pen
 }
 
-//##ModelId=475168E301A5
+//##ModelId=4770E2080028
 void Oval::Serialize(CArchive& ar)
 {
     Shape::Serialize(ar);
@@ -155,13 +155,13 @@ void Oval::Serialize(CArchive& ar)
     }
 }
 
-//##ModelId=4751CD0F0196
+//##ModelId=4770E2080026
 int Oval::getType() const
 {
     return OVAL;
 }
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=4751AC7A02BF
+//##ModelId=4770E2080017
 Oval::Oval()
 {
 	// ToDo: Add your specialized code here and/or call the base class

@@ -10,18 +10,18 @@
 /////////////////////////////////////////////////////////////////////////////
 // CScaleDialog dialog
 
-//##ModelId=47516859029F
+//##ModelId=4770E2070289
 class CScaleDialog : public CDialog
 {
 // Construction
 public:
-	//##ModelId=4751685902A1
+	//##ModelId=4770E2070297
 	CScaleDialog(CWnd* pParent = NULL);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CScaleDialog)
 	enum { IDD = IDD_SCALE_DLG };
-	//##ModelId=4751685902AF
+	//##ModelId=4770E2070299
 	int		m_Scale;
 	//}}AFX_DATA
 
@@ -30,7 +30,7 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CScaleDialog)
 	protected:
-	//##ModelId=4751685902B0
+	//##ModelId=4770E207029A
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 
@@ -39,7 +39,7 @@ protected:
 
 	// Generated message map functions
 	//{{AFX_MSG(CScaleDialog)
-	//##ModelId=4751685902B3
+	//##ModelId=4770E207029D
 	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()

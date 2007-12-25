@@ -36,16 +36,19 @@ static UINT indicators[] =
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame construction/destruction
 
+//##ModelId=4770E2080065
 CMainFrame::CMainFrame()
 {
 	// TODO: add member initialization code here
 	
 }
 
+//##ModelId=4770E2080069
 CMainFrame::~CMainFrame()
 {
 }
 
+//##ModelId=4770E2080084
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CMDIFrameWnd::OnCreate(lpCreateStruct) == -1)
@@ -62,6 +65,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
+//##ModelId=4770E2080066
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
 	if( !CMDIFrameWnd::PreCreateWindow(cs) )
@@ -76,11 +80,13 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 // CMainFrame diagnostics
 
 #ifdef _DEBUG
+//##ModelId=4770E2080074
 void CMainFrame::AssertValid() const
 {
 	CMDIFrameWnd::AssertValid();
 }
 
+//##ModelId=4770E2080076
 void CMainFrame::Dump(CDumpContext& dc) const
 {
 	CMDIFrameWnd::Dump(dc);

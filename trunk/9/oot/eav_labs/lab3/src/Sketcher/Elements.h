@@ -4,108 +4,108 @@
 #include "OurConstants.h"
 //////////////////////////////////////////////////////////////////////////
 // Generic element class
-//##ModelId=473EDD6D032D
+//##ModelId=4770E20802C8
 class CElement: public CObject
 {
 	DECLARE_SERIAL(CElement)
 protected:
     // Color of an element
-	//##ModelId=473EDD6D032F
+	//##ModelId=4770E20802D6
     COLORREF m_Color;                 
 
     // Rectangle enclosing an element
-	//##ModelId=473EDD6D0330
+	//##ModelId=4770E20802D7
     CRect m_EnclosingRect;            
 
     // Pen width
-	//##ModelId=473EDD6D033C
+	//##ModelId=4770E20802E5
     int m_Pen;                         
 public:
 	//изменяет размер фигуры
-	//##ModelId=474DC10E006D
+	//##ModelId=4770E20802E6
     virtual void resize(CPoint Start, CPoint End);
 
 	//определен для совместимости с фигурой по указателю
-	//##ModelId=4741F1B1004E
+	//##ModelId=4770E20802EA
     virtual bool operator==(const CElement& rhs) const;
 
     // Virtual destructor
-	//##ModelId=473EDD6D033D
+	//##ModelId=4770E20802F7
     virtual ~CElement(){}
 
     // Virtual draw operation
-	//##ModelId=473EDD6D033F
+	//##ModelId=4770E20802F9
     virtual void Draw(CDC* pDC, CElement* pElement=0, bool isIdVisible = true){};
 
     // Get the bounding rectangle for an element
-	//##ModelId=473EDD6D0342
+	//##ModelId=4770E20802FE
     CRect GetBoundRect();
 
-	//##ModelId=4741F10F009C
+	//##ModelId=4770E2080304
     virtual void Move(CSize& aSize);
 protected:
     // Default constructor
-	//##ModelId=473EDD6D0343
+	//##ModelId=4770E2080307
     CElement(){}                               
 	//{{AFX_VIRTUAL(CElement)
 	public:
-	//##ModelId=475168BF033C
+	//##ModelId=4770E2080308
 	virtual void Serialize(CArchive& ar);
 	//}}AFX_VIRTUAL
 
 };
 
 // Class defining a line object
-//##ModelId=473EDD6D034B
+//##ModelId=4770E2080314
 class CLine: public CElement
 {
 public:
 	//изменяет размер фигуры
-	//##ModelId=474DC535009C
+	//##ModelId=4770E2080324
 	virtual void resize(CPoint Start, CPoint End);
 
     // Function to display a line
-	//##ModelId=473EDD6D034D
+	//##ModelId=4770E2080328
 	virtual void Draw(CDC* pDC, CElement* pElement=0, bool isIdVisible = true);
 
-	//##ModelId=4741F10F00FB
+	//##ModelId=4770E208032D
 	void Move(CSize& aSize);
 
     // Constructor for a line object
-	//##ModelId=473EDD6D0350
+	//##ModelId=4770E2080334
     CLine(CPoint Start, CPoint End, COLORREF aColor);
 protected:
     // Start point of line
-	//##ModelId=473EDD6D035B
+	//##ModelId=4770E2080338
     CPoint m_StartPoint;          
 
     // End point of line
-	//##ModelId=473EDD6D035C
+	//##ModelId=4770E2080339
     CPoint m_EndPoint;            
 
     // Default constructor - should not be used
-	//##ModelId=473EDD6D035D
+	//##ModelId=4770E2080343
     CLine(){}             
 };
 
 // Class defining a rectangle object
-//##ModelId=473EDD6D035E
+//##ModelId=4770E2080344
 class CRectangle: public CElement
 {
 public:
     // Function to display a rectangle
-	//##ModelId=473EDD6D0360
+	//##ModelId=4770E2080353
 	virtual void Draw(CDC* pDC, CElement* pElement=0);  
 
-	//##ModelId=4741F10F010A
+	//##ModelId=4770E2080357
 	void Move(CSize& aSize);
 
     // Constructor for a rectangle object
-	//##ModelId=473EDD6D036D
+	//##ModelId=4770E2080363
     CRectangle(CPoint Start, CPoint End, COLORREF aColor);
 protected:
     // Default constructor - should not be used
-	//##ModelId=473EDD6D0371
+	//##ModelId=4770E2080367
     CRectangle(){}        
 };
 #endif

@@ -10,15 +10,17 @@
 #endif // _MSC_VER > 1000
 
 
+//##ModelId=4770E20803CF
 class CChildFrame : public CMDIChildWnd
 {
 	DECLARE_DYNCREATE(CChildFrame)
 public:
+	//##ModelId=4770E20803D1
 	CChildFrame();
 
 // Attributes
 public:
-	//##ModelId=4751685903C9
+	//##ModelId=4770E20803D3
    CStatusBar m_StatusBar;    // Status bar object
 
 // Operations
@@ -27,21 +29,25 @@ public:
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CChildFrame)
+	//##ModelId=4770E20803DF
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	//}}AFX_VIRTUAL
 
 // Implementation
 public:
+	//##ModelId=4770E20803E2
 	virtual ~CChildFrame();
 #ifdef _DEBUG
+	//##ModelId=4770E20803E4
 	virtual void AssertValid() const;
+	//##ModelId=4770E20803E6
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CChildFrame)
-	//##ModelId=4751685903D8
+	//##ModelId=4770E2090009
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()

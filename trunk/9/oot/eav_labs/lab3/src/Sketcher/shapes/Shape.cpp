@@ -6,10 +6,10 @@
 // перекрывает ostream, подключенный в shape.h. нужен для cout
 #include <ostream.h>
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EDDF4032D
+//##ModelId=4770E207021C
 int Shape::_counter = 0;
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EDDF4033F
+//##ModelId=4770E2070239
 Shape::Shape(float x, float y) : _id(_counter++)
 {
     _x = x;
@@ -17,46 +17,46 @@ Shape::Shape(float x, float y) : _id(_counter++)
     cout<<"[shape] shape created"<<endl;
 }
 
-//##ModelId=473EDDF4035E
+//##ModelId=4770E2070279
 void Shape::moveToPoint(float x_pos, float y_pos)
 {
     _x = x_pos;
     _y = y_pos;
 }
 
-//##ModelId=473EDDF40351
+//##ModelId=4770E2070261
 const float Shape::get__y() const
 {
 	return _y;
 }
 
-//##ModelId=473EDDF40353
+//##ModelId=4770E2070269
 void Shape::set__y(float value)
 {
 	_y = value;
 	return;
 }
 
-//##ModelId=473EDDF40355
+//##ModelId=4770E207026B
 const float Shape::get__x() const
 {
 	return _x;
 }
 
-//##ModelId=473EDDF40357
+//##ModelId=4770E207026D
 void Shape::set__x(float value)
 {
 	_x = value;
 	return;
 }
 
-//##ModelId=473EDDF4034F
+//##ModelId=4770E207025F
 Shape::~Shape()
 {
     cout<<"[shape] shape destroyed"<<endl;
 }
 
-//##ModelId=473EDDF4034C
+//##ModelId=4770E207023C
 std::ostream& Shape::speak(std::ostream& os) const
 {
     return os<<"[shape] id="<<get__id()<<", shape center coordinates: ("
@@ -64,7 +64,7 @@ std::ostream& Shape::speak(std::ostream& os) const
              <<"area = "<<Area()<<"\n";
 }
 
-//##ModelId=473EDDF4035B
+//##ModelId=4770E207026F
 bool Shape::operator==(const Shape& rhs) const
 {
     // учитывая проверку при создании объектов,
@@ -73,14 +73,14 @@ bool Shape::operator==(const Shape& rhs) const
     return (get__id() == rhs.get__id());
 }
 
-//##ModelId=474C8E6F02BF
+//##ModelId=4770E207025C
 void Shape::Move( CSize& aSize )
 {
     moveToPoint(_x + aSize.cx, _y + aSize.cy);
     CElement::Move(aSize);
 }
 
-//##ModelId=474C966702BF
+//##ModelId=4770E207024F
 void Shape::drawID( CDC* pDC, bool isIdVisible ) const
 {
     if (isIdVisible)
@@ -92,7 +92,7 @@ void Shape::drawID( CDC* pDC, bool isIdVisible ) const
     }
 }
 
-//##ModelId=474DCD59038A
+//##ModelId=4770E2070258
 void Shape::resize(CPoint Start, CPoint End)
 {
     // определяем координаты центра
@@ -102,7 +102,7 @@ void Shape::resize(CPoint Start, CPoint End)
     CElement::resize(Start, End);
 }
 
-//##ModelId=475168D10271
+//##ModelId=4770E207024C
 void Shape::Serialize(CArchive& ar)
 {
     CElement::Serialize(ar);
@@ -124,7 +124,7 @@ void Shape::Serialize(CArchive& ar)
     }
 }
 
-//##ModelId=4751CC290399
+//##ModelId=4770E2070249
 const int Shape::get__id() const
 {
     return _id;
@@ -135,7 +135,7 @@ std::ostream& operator<<( std::ostream& o, const Shape& rhs )
     return rhs.speak(o);
 }
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=4751AC740213
+//##ModelId=4770E207024B
 Shape::Shape()
 {
 	// ToDo: Add your specialized code here and/or call the base class

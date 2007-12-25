@@ -18,7 +18,7 @@ static char THIS_FILE[]=__FILE__;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-//##ModelId=476EA08D0042
+//##ModelId=4770E2070121
 ShapeHandler::ShapeHandler(CSketcherView* view): _view(view)
 {
     m_FirstPoint = CPoint(0,0);         // Set 1st recorded point to 0,0
@@ -39,12 +39,12 @@ ShapeHandler::ShapeHandler(CSketcherView* view): _view(view)
     m_Scale = 1;                        // Set scale to 1:1
 }
 
-//##ModelId=476EA08D0044
+//##ModelId=4770E2070123
 ShapeHandler::~ShapeHandler()
 {
 }
 
-//##ModelId=476EA08D007D
+//##ModelId=4770E2070180
 void ShapeHandler::changeVertex()
 {
     if (canProceed())
@@ -61,7 +61,7 @@ void ShapeHandler::changeVertex()
     }
 }
 
-//##ModelId=476EA08D0072
+//##ModelId=4770E207017E
 void ShapeHandler::changeRibble( bool isNext )
 {
     ExternalGraphIterator<CElement>* lastNearestRibbles = refreshNearestRibbles();
@@ -94,7 +94,7 @@ void ShapeHandler::changeRibble( bool isNext )
     drawRibble(_ribble, SELECT_COLOR);
 }
 
-//##ModelId=476EA08D003F
+//##ModelId=4770E2070112
 bool ShapeHandler::canProceed()
 {
     if (_ribble == NULL)
@@ -121,7 +121,7 @@ bool ShapeHandler::canProceed()
     return true;
 }
 
-//##ModelId=476EA08D0033
+//##ModelId=4770E2070110
 void ShapeHandler::markHighlighted(CElement* pCurrentSelection )
 {
     CClientDC aDC(_view);
@@ -149,7 +149,7 @@ void ShapeHandler::markHighlighted(CElement* pCurrentSelection )
     }
 }
 
-//##ModelId=476EA08D0040
+//##ModelId=4770E2070113
 ExternalGraphIterator<CElement>* ShapeHandler::refreshNearestRibbles()
 {
     if (_lastNearestRibbles == NULL)
@@ -168,7 +168,7 @@ ExternalGraphIterator<CElement>* ShapeHandler::refreshNearestRibbles()
     return _lastNearestRibbles;
 }
 
-//##ModelId=476EA08D0030
+//##ModelId=4770E2070102
 void ShapeHandler::drawRibble( Ribble<CElement>* ribble, COLORREF aColor )
 {
     if ( _isGraphVisible && ribble != NULL )
@@ -184,7 +184,7 @@ void ShapeHandler::drawRibble( Ribble<CElement>* ribble, COLORREF aColor )
     }
 }
 
-//##ModelId=476EA08D005E
+//##ModelId=4770E2070142
 void ShapeHandler::onDraw( CDC* pDC )
 {
     CSketcherDoc* pDoc = GetDocument();
@@ -213,7 +213,7 @@ void ShapeHandler::onDraw( CDC* pDC )
     }
 }
 
-//##ModelId=476EA08D0060
+//##ModelId=4770E207015E
 void ShapeHandler::onLBDown( CPoint &point )
 {
     if (!m_MoveMode && GetDocument()->getShapeContainer()->GetElementType()!=RIBBLE)
@@ -252,7 +252,7 @@ void ShapeHandler::onLBDown( CPoint &point )
     }
 }
 
-//##ModelId=476EA08D0024
+//##ModelId=4770E20700F1
 CElement* ShapeHandler::CreateElement()
 {
     // Get a pointer to the document for this view
@@ -282,7 +282,7 @@ CElement* ShapeHandler::CreateElement()
     }
 }
 
-//##ModelId=476EA08D0025
+//##ModelId=4770E20700F2
 CElement* ShapeHandler::SelectElement( CPoint aPoint)
 {
     CClientDC aDC(_view);
@@ -314,7 +314,7 @@ CElement* ShapeHandler::SelectElement( CPoint aPoint)
     return NULL;                              // No element found
 }
 
-//##ModelId=476EA08D002E
+//##ModelId=4770E20700F4
 void ShapeHandler::MoveElement( CPoint& point )
 {
     CClientDC aDC(_view);
@@ -333,7 +333,7 @@ void ShapeHandler::MoveElement( CPoint& point )
     }
 }
 
-//##ModelId=476EA08D0062
+//##ModelId=4770E2070160
 void ShapeHandler::onLBUp( CPoint& point )
 {
     if(_view == _view->GetCapture())
@@ -360,7 +360,7 @@ void ShapeHandler::onLBUp( CPoint& point )
     }
 }
 
-//##ModelId=476EA08D006F
+//##ModelId=4770E2070170
 void ShapeHandler::onMMove( CPoint& point, bool flag )
 {
     // Define a Device Context object for the view
@@ -397,13 +397,13 @@ void ShapeHandler::onMMove( CPoint& point, bool flag )
 
 }
 
-//##ModelId=476EA08D0041
+//##ModelId=4770E2070120
 CSketcherDoc* ShapeHandler::GetDocument()
 {
     return _view->GetDocument();
 }
 
-//##ModelId=476EA08D0058
+//##ModelId=4770E2070140
 void ShapeHandler::onMove()
 {
     CClientDC aDC(_view);
@@ -417,7 +417,7 @@ void ShapeHandler::onMove()
     m_MoveMode = TRUE;              // Start move mode
 }
 
-//##ModelId=476EA08D0064
+//##ModelId=4770E2070162
 void ShapeHandler::onRBDown( CPoint &point )
 {
     if(m_MoveMode)
@@ -434,7 +434,7 @@ void ShapeHandler::onRBDown( CPoint &point )
     }   
 }
 
-//##ModelId=476EA08D006D
+//##ModelId=4770E207016E
 void ShapeHandler::onRBUp( CPoint &point )
 {
     // Create the cursor menu
@@ -475,7 +475,7 @@ void ShapeHandler::onRBUp( CPoint &point )
     }
 }
 
-//##ModelId=476EA08D005D
+//##ModelId=4770E2070141
 void ShapeHandler::onDelete()
 {
     if(m_pSelected)

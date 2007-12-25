@@ -21,7 +21,7 @@ static char THIS_FILE[]=__FILE__;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-//##ModelId=476EA08D00AC
+//##ModelId=4770E20701CD
 ShapeContainer::ShapeContainer()
 {
     m_Element = RECTANGLE;   // Set initial element type
@@ -29,14 +29,14 @@ ShapeContainer::ShapeContainer()
    _container = new Graph<CElement>();
 }
 
-//##ModelId=476EA08D00AD
+//##ModelId=4770E20701CE
 ShapeContainer::~ShapeContainer()
 {
     _container->clear();
     _container = NULL;
 }
 
-//##ModelId=476EA08D00A1
+//##ModelId=4770E20701BC
 void ShapeContainer::serializeContainer( CArchive& ar )
 {
     if (ar.IsStoring())
@@ -93,7 +93,7 @@ void ShapeContainer::serializeContainer( CArchive& ar )
     }
 }
 
-//##ModelId=476EA08D00A3
+//##ModelId=4770E20701BE
 Shape* ShapeContainer::readShape( CArchive &ar, map<int, Shape*> &shapes )
 {
     int id;
@@ -138,7 +138,7 @@ Shape* ShapeContainer::readShape( CArchive &ar, map<int, Shape*> &shapes )
     return toAdd;
 }
 
-//##ModelId=476EA08D00CB
+//##ModelId=4770E20701FF
 void ShapeContainer::serialize( CArchive& ar )
 {
     if (ar.IsStoring())
@@ -154,7 +154,7 @@ void ShapeContainer::serialize( CArchive& ar )
     serializeContainer(ar);
 }
 
-//##ModelId=476EA08D00B5
+//##ModelId=4770E20701DD
 CElement* ShapeContainer::AddElement( CElement* m_pElement )
 {
     if (GetElementType()!=RIBBLE)
@@ -172,7 +172,7 @@ CElement* ShapeContainer::AddElement( CElement* m_pElement )
     return NULL;
 }
 
-//##ModelId=476EA08D00BB
+//##ModelId=4770E20701DF
 void ShapeContainer::SendToBack( CElement* pElement )
 {
     if(pElement)
@@ -182,7 +182,7 @@ void ShapeContainer::SendToBack( CElement* pElement )
     }
 }
 
-//##ModelId=476EA08D00BD
+//##ModelId=4770E20701EB
 void ShapeContainer::DeleteElement( CElement* m_pSelected )
 {
     try
@@ -195,6 +195,7 @@ void ShapeContainer::DeleteElement( CElement* m_pSelected )
     }
 }
 
+//##ModelId=4770E20701ED
 void ShapeContainer::DeleteElement( LPCTSTR id )
 {
     int ider = atoi(id);
@@ -219,7 +220,7 @@ void ShapeContainer::DeleteElement( LPCTSTR id )
     DeleteElement(shape);
 }
 
-//##ModelId=476EA08D00BF
+//##ModelId=4770E20701EF
 void ShapeContainer::linkElements( CElement* element1, CElement* element2 )
 {
     try
@@ -234,7 +235,7 @@ void ShapeContainer::linkElements( CElement* element1, CElement* element2 )
     }
 }
 
-//##ModelId=476EA08D00C4
+//##ModelId=4770E20701FD
 ExternalGraphIterator<CElement>* ShapeContainer::getNearestRibbles( CElement* selected )
 {
     try
