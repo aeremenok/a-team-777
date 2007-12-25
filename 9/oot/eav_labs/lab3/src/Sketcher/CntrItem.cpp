@@ -17,11 +17,11 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CSketcherCntrItem implementation
 
-IMPLEMENT_SERIAL(CSketcherCntrItem, COleDocObjectItem, 0)
+IMPLEMENT_SERIAL(CSketcherCntrItem, COleClientItem, 0)
 
 //##ModelId=4770E2080383
 CSketcherCntrItem::CSketcherCntrItem(CSketcherDoc* pContainer)
-	: COleDocObjectItem(pContainer)
+	: COleClientItem(pContainer)
 {
 	// TODO: add one-time construction code here
 	m_rect.SetRect(10, 10, 300, 300);
@@ -77,7 +77,7 @@ void CSketcherCntrItem::OnChange(OLE_NOTIFICATION nCode, DWORD dwParam)
 {
 	ASSERT_VALID(this);
 
-	COleDocObjectItem::OnChange(nCode, dwParam);
+	COleClientItem::OnChange(nCode, dwParam);
 
 	// When an item is being edited (either in-place or fully open)
 	//  it sends OnChange notifications for changes in the state of the
@@ -114,7 +114,7 @@ BOOL CSketcherCntrItem::OnChangeItemPosition(const CRect& rectPos)
 	//  COleDocObjectItem::SetItemRects to move the item
 	//  to the new position.
 
-	if (!COleDocObjectItem::OnChangeItemPosition(rectPos))
+	if (!COleClientItem::OnChangeItemPosition(rectPos))
 		return FALSE;
 	InvalidateItem();
 	m_rect = rectPos;
@@ -150,7 +150,7 @@ void CSketcherCntrItem::OnActivate()
 //##ModelId=4770E20803A3
 void CSketcherCntrItem::OnDeactivateUI(BOOL bUndoable)
 {
-	COleDocObjectItem::OnDeactivateUI(bUndoable);
+	COleClientItem::OnDeactivateUI(bUndoable);
 
     // Hide the object if it is not an outside-in object
     DWORD dwMisc = 0;
@@ -168,7 +168,7 @@ void CSketcherCntrItem::Serialize(CArchive& ar)
 	// Since this sets up the m_pDocument pointer returned from
 	//  CSketcherCntrItem::GetDocument, it is a good idea to call
 	//  the base class Serialize first.
-	COleDocObjectItem::Serialize(ar);
+	COleClientItem::Serialize(ar);
 
 	// now store/retrieve data specific to CSketcherCntrItem
 	if (ar.IsStoring())
@@ -196,7 +196,7 @@ BOOL CSketcherCntrItem::CanActivate()
 		return FALSE;
 
 	// otherwise, rely on default behavior
-	return COleDocObjectItem::CanActivate();
+	return COleClientItem::CanActivate();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -206,13 +206,13 @@ BOOL CSketcherCntrItem::CanActivate()
 //##ModelId=4770E20803B6
 void CSketcherCntrItem::AssertValid() const
 {
-	COleDocObjectItem::AssertValid();
+	COleClientItem::AssertValid();
 }
 
 //##ModelId=4770E20803C0
 void CSketcherCntrItem::Dump(CDumpContext& dc) const
 {
-	COleDocObjectItem::Dump(dc);
+	COleClientItem::Dump(dc);
 }
 #endif
 

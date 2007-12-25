@@ -12,7 +12,7 @@ class CSketcherDoc;
 class CSketcherView;
 
 //##ModelId=4770E2080381
-class CSketcherCntrItem : public COleDocObjectItem
+class CSketcherCntrItem : public COleClientItem
 {
 	DECLARE_SERIAL(CSketcherCntrItem)
 
@@ -31,10 +31,10 @@ public:
 	CRect m_rect;   // position within the document
 	//##ModelId=4770E2080391
 	CSketcherDoc* GetDocument()
-		{ return (CSketcherDoc*)COleDocObjectItem::GetDocument(); }
+		{ return (CSketcherDoc*)COleClientItem::GetDocument(); }
 	//##ModelId=4770E2080392
 	CSketcherView* GetActiveView()
-		{ return (CSketcherView*)COleDocObjectItem::GetActiveView(); }
+		{ return (CSketcherView*)COleClientItem::GetActiveView(); }
 
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherCntrItem)
