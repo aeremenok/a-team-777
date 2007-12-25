@@ -46,13 +46,13 @@ public:
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSketcherDoc)
-	protected:
-	virtual COleServerItem* OnGetEmbeddedItem();
 	public:
 	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive& ar);
 	virtual BOOL OnUpdateDocument();
 	virtual void OnSetItemRects(LPCRECT lpPosRect, LPCRECT lpClipRect);
+	protected:
+	virtual COleServerItem* OnGetEmbeddedItem();
 	//}}AFX_VIRTUAL
 
 // Implementation

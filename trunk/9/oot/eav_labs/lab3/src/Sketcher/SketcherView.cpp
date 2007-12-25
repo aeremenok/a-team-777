@@ -87,6 +87,7 @@ void CSketcherView::OnDraw(CDC* pDC)
 
 void CSketcherView::OnInitialUpdate()
 {
+	ResetScrollSizes();               // Set up the scrollbars
 	CView::OnInitialUpdate();
 
 
@@ -166,8 +167,13 @@ void CSketcherView::OnInsertObject()
 		if (!dlg.CreateItem(pItem))
 			AfxThrowMemoryException();  // any exception will do
 		ASSERT_VALID(pItem);
+		pItem->UpdateLink();
+		pItem->UpdateFromServerExtent();
 		
-		pItem->DoVerb(OLEIVERB_SHOW, this);
+		// If item created from class list (not from file) then launch
+		//  the server to edit the item.
+        if (dlg.GetSelectionType() == COleInsertDialog::createNewItem)
+			pItem->DoVerb(OLEIVERB_SHOW, this);
 
 		ASSERT_VALID(pItem);
 
@@ -176,8 +182,8 @@ void CSketcherView::OnInsertObject()
 
 		// TODO: reimplement selection as appropriate for your application
 
-		m_pSelection = pItem;   // set selection to last inserted item
-		pDoc->UpdateAllViews(NULL);
+		SetSelection(pItem);
+		pItem->InvalidateItem();
 	}
 	CATCH(CException, e)
 	{
@@ -191,6 +197,7 @@ void CSketcherView::OnInsertObject()
 	END_CATCH
 
 	EndWaitCursor();
+	GetDocument()->NotifyChanged();
 }
 
 // The following command handler provides the standard keyboard
@@ -205,6 +212,7 @@ void CSketcherView::OnCancelEditCntr()
 		pActiveItem->Close();
 	}
 	ASSERT(GetDocument()->GetInPlaceActiveItem(this) == NULL);
+	GetDocument()->NotifyChanged();
 }
 
 // Special handling of OnSetFocus and OnSize are required for a container
@@ -229,6 +237,7 @@ void CSketcherView::OnSetFocus(CWnd* pOldWnd)
 
 void CSketcherView::OnSize(UINT nType, int cx, int cy)
 {
+	ResetScrollSizes();
 	CView::OnSize(nType, cx, cy);
 	COleClientItem* pActiveItem = GetDocument()->GetInPlaceActiveItem(this);
 	if (pActiveItem != NULL)
@@ -244,6 +253,61 @@ void CSketcherView::OnSize(UINT nType, int cx, int cy)
 void CSketcherView::OnCancelEditSrvr()
 {
 	GetDocument()->OnDeactivateUI(FALSE);
+	GetDocument()->NotifyChanged();
+}
+
+CSketcherCntrItem* CSketcherView::HitTestItems(CPoint point)
+{
+	CSketcherDoc* pDoc = GetDocument();
+	CSketcherCntrItem* pItemHit = NULL;
+	POSITION pos = pDoc->GetStartPosition();
+	while (pos != NULL)
+	{
+		CSketcherCntrItem* pItem = (CSketcherCntrItem*)pDoc->GetNextItem(pos);
+		if (pItem->m_rect.PtInRect(point))
+			pItemHit = pItem;
+	}
+	return pItemHit;    // return top item at point
+}
+
+void CSketcherView::SetSelection(CSketcherCntrItem* pItem)
+{
+	// close in-place active item
+	if (pItem == NULL || m_pSelection != pItem)
+	{
+		COleClientItem* pActiveItem = GetDocument()->GetInPlaceActiveItem(this);
+		if (pActiveItem != NULL && pActiveItem != pItem)
+			pActiveItem->Close();
+	}
+	// update view to new selection
+	if (m_pSelection != pItem)
+	{
+		if (m_pSelection != NULL)
+			OnUpdate(NULL, HINT_UPDATE_ITEM, m_pSelection);
+
+		m_pSelection = pItem;
+		if (m_pSelection != NULL)
+			OnUpdate(NULL, HINT_UPDATE_ITEM, m_pSelection);
+	}
+}
+
+void CSketcherView::SetupTracker(CSketcherCntrItem* pItem, CRectTracker* pTracker)
+{
+	pTracker->m_rect = pItem->m_rect;
+
+	if (pItem == m_pSelection)
+		pTracker->m_nStyle |= CRectTracker::resizeInside;
+
+	if (pItem->GetType() == OT_LINK)
+		pTracker->m_nStyle |= CRectTracker::dottedLine;
+	else
+		pTracker->m_nStyle |= CRectTracker::solidLine;
+
+	if (pItem->GetItemState() == COleClientItem::openState ||
+		pItem->GetItemState() == COleClientItem::activeUIState)
+	{
+		pTracker->m_nStyle |= CRectTracker::hatchInside;
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -303,21 +367,8 @@ void CSketcherView::OnRButtonUp(UINT nFlags, CPoint point)
 //##ModelId=4741F10E0225
 void CSketcherView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
-    // Invalidate the area corresponding to the element pointed to
-    // if there is one, otherwise invalidate the whole client area
-    if(pHint)
-    {
-        CClientDC aDC(this);            // Create a device context
-        OnPrepareDC(&aDC);              // Get origin adjusted
-        
-        // Get the enclosing rectangle and convert to client coordinates
-        CRect aRect=((CElement*)pHint)->GetBoundRect();
-        aDC.LPtoDP(aRect);
-        aRect.NormalizeRect();
-        InvalidateRect(aRect);          // Get the area redrawn
-    }
-    else
-        InvalidateRect(0);
+	Invalidate();
+	GetDocument()->NotifyChanged();
 }
 
 void CSketcherView::OnMove() 
@@ -379,6 +430,7 @@ void CSketcherView::ResetScrollSizes()
     aDC.LPtoDP(&DocSize);                         // Get the size in pixels
     SetScrollSizes(MM_TEXT, DocSize);             // Set up the scrollbars
 }
+
 void CSketcherView::requestScale()
 {
     CScaleDialog aDlg;            // Create a dialog object
