@@ -107,7 +107,11 @@ BOOL CSketcherApp::InitInstance()
 	// create main MDI Frame window
 	CMainFrame* pMainFrame = new CMainFrame;
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME))
+	{
+		// free the memory
+		delete pMainFrame;
 		return FALSE;
+	}
 	m_pMainWnd = pMainFrame;
 
 	// Enable drag/drop open

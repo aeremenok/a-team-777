@@ -36,7 +36,9 @@ protected:
     ShapeHandler* _handler;
 // Operations
 public:
-    void ResetScrollSizes();
+	CSketcherCntrItem* HitTestItems(CPoint point);
+	void SetSelection(CSketcherCntrItem* pItem);
+	void SetupTracker(CSketcherCntrItem* pItem, CRectTracker* pTracker);
     // вызывает диалог задания масштаба
     void requestScale();
 // Overrides
@@ -44,9 +46,7 @@ public:
 	//{{AFX_VIRTUAL(CSketcherView)
 	public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
-	
     virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
-	
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	protected:
 	virtual void OnInitialUpdate(); // called first time after construct
@@ -56,6 +56,7 @@ public:
 
 // Implementation
 public:
+	void ResetScrollSizes();
 	virtual ~CSketcherView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;

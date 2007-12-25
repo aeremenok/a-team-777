@@ -92,8 +92,6 @@ void CSketcherCntrItem::OnChange(OLE_NOTIFICATION nCode, DWORD dwParam)
 	// TODO: invalidate the item by calling UpdateAllViews
 	//  (with hints appropriate to your application)
 	GetDocument()->NotifyChanged();
-	GetDocument()->UpdateAllViews(NULL);
-		// for now just update ALL views/no hints
 }
 
 BOOL CSketcherCntrItem::OnChangeItemPosition(const CRect& rectPos)
@@ -167,10 +165,12 @@ void CSketcherCntrItem::Serialize(CArchive& ar)
 	if (ar.IsStoring())
 	{
 		// TODO: add storing code here
+		ar << m_rect;
 	}
 	else
 	{
 		// TODO: add loading code here
+		ar >> m_rect;
 	}
 }
 
