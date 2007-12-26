@@ -10,7 +10,7 @@
 	<node type = "Objects::SPN::Transition" name = "t2" intensity = "1.51"></node>
 	<node type = "Objects::SPN::Transition" name = "t3" intensity = "258.49"></node>
 	<node type = "Objects::SPN::Transition" name = "t4" intensity = "0.12"></node>
-	<node type = "Objects::SPN::Transition" name = "s2" intensity = "0.0489"></node>
+	<node type = "Objects::SPN::Transition" name = "s2" intensity = "0.0463"></node>
 	<link type = "Objects::SPN::Link" name = "p1-->t0" arity = "1" inhib = "false" source = "p1" dest = "t0"></link>
 	<link type = "Objects::SPN::Link" name = "t0-->p2" arity = "1" inhib = "false" source = "t0" dest = "p2"></link>
 	<link type = "Objects::SPN::Link" name = "p2-->t1" arity = "1" inhib = "false" source = "p2" dest = "t1"></link>
