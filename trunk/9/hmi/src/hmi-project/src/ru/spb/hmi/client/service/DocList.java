@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import ru.spb.hmi.client.DOCService;
 import ru.spb.hmi.client.DOCServiceAsync;
 import ru.spb.hmi.client.Unloadable;
+import ru.spb.hmi.client.popups.WaitingPopup;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -18,27 +19,33 @@ public class DocList
 {
     private DOCServiceAsync _service = DOCService.Util.getInstance();
     Tree                    _tree    = new Tree();
+    private Panel           _mainPanel;
 
-    public DocList()
+    public DocList(
+        Panel panel )
     {
         super();
+        _mainPanel = panel;
         add( _tree );
     }
 
     public void onModuleUnLoad()
     {
-        retrieveDocs();
-        RootPanel.get().add( this );
+        getMainPanel().remove( this );
     }
 
     private void retrieveDocs()
     {
+        System.out.println( "retrieving doc list" );
+
+        WaitingPopup.wait( "retrieving doc list" );
         _service.getDocList( new AsyncCallback()
         {
             public void onFailure(
                 Throwable caught )
             {
                 caught.printStackTrace();
+                WaitingPopup.finish();
             }
 
             public void onSuccess(
@@ -50,13 +57,20 @@ public class DocList
                 {
                     _tree.addItem( (String) res.get( i ) );
                 }
+                WaitingPopup.finish();
             }
         } );
     }
 
     public void onModuleLoad()
     {
-        RootPanel.get().remove( this );
+        retrieveDocs();
+        getMainPanel().add( this );
+    }
+
+    public Panel getMainPanel()
+    {
+        return _mainPanel;
     }
 
 }

@@ -6,7 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface DOCServiceAsync
 {
-    void getContent(
+    void getDocContent(
         String id, AsyncCallback callback );
 
     void getDocList(AsyncCallback callback);
