@@ -15,24 +15,23 @@ static char THIS_FILE[]=__FILE__;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-
 OleDriver::OleDriver()
 {
-
 }
 
 OleDriver::~OleDriver()
 {
-
 }
 
-BOOL OleDriver::deleteElement(LPCTSTR key){
+BOOL OleDriver::deleteElement(LPCTSTR key)
+{
 	const BYTE params[] = VTS_BSTR;
 	InvokeHelper(0x1, DISPATCH_METHOD, VT_EMPTY, NULL, params, key);
 	return true;
 }
 
-void OleDriver::showWindow(){
+void OleDriver::showWindow()
+{
 	InvokeHelper(0x2, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
 }
 
