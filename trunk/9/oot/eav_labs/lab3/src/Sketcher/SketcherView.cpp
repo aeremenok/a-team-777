@@ -201,11 +201,6 @@ void CSketcherView::OnInsertObject()
 
 		ASSERT_VALID(pItem);
 
-		// As an arbitrary user interface design, this sets the selection
-		//  to the last item inserted.
-
-		// TODO: reimplement selection as appropriate for your application
-
 		SetSelection(pItem);
 		pItem->InvalidateItem();
 	}
@@ -301,17 +296,49 @@ CSketcherCntrItem* CSketcherView::HitTestItems(CPoint point)
 
 void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
-    _handler->onLBDown(point);
+	CSketcherCntrItem* pItemHit = HitTestItems(point);
+	SetSelection(pItemHit);
+
+	if (pItemHit != NULL)
+	{
+		CRectTracker tracker;
+		SetupTracker(pItemHit, &tracker);
+
+		UpdateWindow();
+		if (tracker.Track(this, point))
+		{
+			pItemHit->InvalidateItem();
+			pItemHit->m_rect = tracker.m_rect;
+			pItemHit->InvalidateItem();
+			GetDocument()->SetModifiedFlag();
+		}
+	}
+	else
+    	_handler->onLBDown(point);
 }
 
 void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point) 
 {
+	GetDocument()->NotifyChanged();
     _handler->onLBUp(point);
+    GetDocument()->NotifyChanged();
+}
+
+//##ModelId=4770E20602BA
+void CSketcherView::OnMouseMove(UINT nFlags, CPoint point) 
+{
+    _handler->onMMove(point, (nFlags & MK_LBUTTON) );
+}
+
+void CSketcherView::OnRButtonDown(UINT nFlags, CPoint point) 
+{
+    _handler->onRBDown(point);
 }
 
 void CSketcherView::OnRButtonUp(UINT nFlags, CPoint point) 
 {
     _handler->onRBUp(point);
+    
 }
 
 //##ModelId=4770E206023B
@@ -380,20 +407,20 @@ CSketcherDoc* CSketcherView::GetDocument() // non-debug version is inline
 }
 #endif //_DEBUG
 
-
-//##ModelId=4770E20602BA
-void CSketcherView::OnMouseMove(UINT nFlags, CPoint point) 
+void CSketcherView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
-    _handler->onMMove(point, (nFlags & MK_LBUTTON) );
+	OnLButtonDown(nFlags, point);
+
+	if (m_pSelection != NULL)
+	{
+		m_pSelection->DoVerb(GetKeyState(VK_CONTROL) < 0 ?
+			OLEIVERB_OPEN : OLEIVERB_PRIMARY, this);
+	}
+
+	CView::OnLButtonDblClk(nFlags, point);
 }
 
-//##ModelId=4770E20602C6
-void CSketcherView::OnRButtonDown(UINT nFlags, CPoint point) 
-{
-    _handler->onRBDown(point);
-}
 
-//##ModelId=4770E20602CA
 
 
 //##ModelId=4741F10E0225
@@ -544,8 +571,40 @@ void CSketcherView::OnUpdateEditCopy(CCmdUI* pCmdUI)
 
 void CSketcherView::OnEditPaste() 
 {
-	// TODO: Add your command handler code here
-	
+    CSketcherCntrItem* pItem = NULL;
+    
+    TRY
+    {
+        // Create new item connected to this document.
+        CSketcherDoc* pDoc = GetDocument();
+        ASSERT_VALID(pDoc);
+        pItem = new CSketcherCntrItem(pDoc);
+        ASSERT_VALID(pItem);
+        
+        // Initialize the item from clipboard data
+        if (!pItem->CreateFromClipboard())
+            AfxThrowMemoryException();  // any exception will do
+        ASSERT_VALID(pItem);
+        
+        // update the size before displaying
+        pItem->UpdateFromServerExtent();
+        
+        // set selection to newly pasted item
+        SetSelection(pItem);
+        pItem->InvalidateItem();
+    }
+    CATCH(CException, e)
+    {
+        if (pItem != NULL)
+        {
+            ASSERT_VALID(pItem);
+            pItem->Delete();
+        }
+        AfxMessageBox(IDP_FAILED_TO_CREATE);
+    }
+    END_CATCH
+        
+	GetDocument()->NotifyChanged();
 }
 
 void CSketcherView::OnEditCopy()
@@ -566,17 +625,4 @@ BOOL CSketcherView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
     }
     
     return CView::OnSetCursor(pWnd, nHitTest, message);
-}
-
-void CSketcherView::OnLButtonDblClk(UINT nFlags, CPoint point)
-{
-    OnLButtonDown(nFlags, point);
-    
-    if (m_pSelection != NULL)
-    {
-        m_pSelection->DoVerb(GetKeyState(VK_CONTROL) < 0 ?
-            OLEIVERB_OPEN : OLEIVERB_PRIMARY, this);
-    }
-    
-    CView::OnLButtonDblClk(nFlags, point);
 }
