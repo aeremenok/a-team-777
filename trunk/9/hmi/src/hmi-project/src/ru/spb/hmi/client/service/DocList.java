@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import ru.spb.hmi.client.DOCService;
 import ru.spb.hmi.client.DOCServiceAsync;
 import ru.spb.hmi.client.Unloadable;
+import ru.spb.hmi.client.docs.shiporder.ShipOrder;
 import ru.spb.hmi.client.popups.WaitingPopup;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.TreeListener;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class DocList
@@ -57,6 +60,23 @@ public class DocList
                 {
                     _tree.addItem( (String) res.get( i ) );
                 }
+
+                _tree.addTreeListener( new TreeListener()
+                {
+                    public void onTreeItemSelected(
+                        TreeItem item )
+                    {
+                        // выбран элемент - грузим новый
+                        ShipOrder shipOrder = new ShipOrder( item.getText() );
+                        DocList.this.onModuleUnLoad();
+                        shipOrder.onModuleLoad();
+                    }
+
+                    public void onTreeItemStateChanged(
+                        TreeItem item )
+                    {
+                    }
+                } );
                 WaitingPopup.finish();
             }
         } );
