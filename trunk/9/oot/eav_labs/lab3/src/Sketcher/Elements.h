@@ -21,6 +21,9 @@ protected:
 	//##ModelId=4770E20802E5
     int m_Pen;                         
 public:
+    COLORREF Color() const { return m_Color; }
+    void Color(COLORREF val) { m_Color = val; }
+
 	//изменяет размер фигуры
 	//##ModelId=4770E20802E6
     virtual void resize(CPoint Start, CPoint End);
@@ -46,7 +49,7 @@ public:
 protected:
     // Default constructor
 	//##ModelId=4770E2080307
-    CElement(){}                               
+    CElement(){m_Color = BLACK;}
 	//{{AFX_VIRTUAL(CElement)
 	public:
 	//##ModelId=4770E2080308

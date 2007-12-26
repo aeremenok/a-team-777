@@ -23,6 +23,7 @@ IMPLEMENT_DYNAMIC(CSketcherSrvrItem, CDocObjectServerItem)
 CSketcherSrvrItem::CSketcherSrvrItem(CSketcherDoc* pContainerDoc)
 	: CDocObjectServerItem(pContainerDoc, TRUE)
 {
+    isInitialized = false;
 	// TODO: add one-time construction code here
 	//  (eg, adding additional clipboard formats to the item's data source)
 }
@@ -92,20 +93,16 @@ BOOL CSketcherSrvrItem::OnDraw(CDC* pDC, CSize& rSize)
 
 	CSketcherDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-/*
-	// TODO: set mapping mode and extent
-	//  (The extent is usually the same as the size returned from OnGetExtent)
+
 	pDC->SetMapMode(MM_ANISOTROPIC);
-	pDC->SetWindowOrg(0,0);
-	pDC->SetWindowExt(300, 300);
-*/
-//***
-	pDC->SetMapMode(MM_ANISOTROPIC);
-	CSize sizeDoc = pDoc->GetDocSize();
-	//sizeDoc.cy = -sizeDoc.cy;
-	pDC->SetWindowOrg(0,0);
-	pDC->SetWindowExt(sizeDoc);
-//***
+    //if (!isInitialized)
+    {
+        CSize sizeDoc = pDoc->GetDocSize();
+        //sizeDoc.cy = -sizeDoc.cy;
+        pDC->SetWindowOrg(0,0);
+	    pDC->SetWindowExt(sizeDoc);
+        isInitialized = true;
+    }
 
 	// draw the OLE items from the list
 	POSITION pos = pDoc->GetStartPosition();

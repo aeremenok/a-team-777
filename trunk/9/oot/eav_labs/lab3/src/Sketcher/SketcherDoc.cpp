@@ -92,7 +92,7 @@ CSketcherDoc::CSketcherDoc()
 	// Use OLE compound files
 	EnableCompoundFile();
 	
-    m_DocSize = CSize(800,600);  // Set initial document size 30x30 inches
+    m_DocSize = CSize(400,400);  // Set initial document size 30x30 inches
 	// TODO: add one-time construction code here
     _shapeContainer = new ShapeContainer();
 	EnableAutomation();
@@ -282,7 +282,8 @@ CRect CSketcherDoc::GetDocExtent()
 //##ModelId=4770E2060381
 BOOL CSketcherDoc::OnUpdateDocument() 
 {
-	// TODO: Add your specialized code here and/or call the base class
+	NotifyChanged();
+    UpdateAllViews(NULL);
 	return COleServerDoc::OnUpdateDocument();
 }
 
@@ -348,7 +349,9 @@ void CSketcherDoc::OnUpdateElementRibble(CCmdUI* pCmdUI)
 //////////////////////////////////////////////////////////////////////////
 void CSketcherDoc::drawTextInOval(float x, float y, LPCTSTR content, float r1, float r2) 
 {
-    TextInOval* elem = TextInOval::create(r1, r2, content, x, y);
+    CRect* rect = new CRect(CPoint(x-50,y+50),CPoint(x+50,y-50));
+    TextInOval* elem = TextInOval::create(rect->BottomRight(), rect->TopLeft(), BLACK);
+    elem->set__content(string(content));
     getShapeContainer()->AddElement(elem);
     UpdateAllViews(NULL);
 	SetModifiedFlag();
@@ -356,7 +359,9 @@ void CSketcherDoc::drawTextInOval(float x, float y, LPCTSTR content, float r1, f
 
 void CSketcherDoc::drawText(float x, float y, LPCTSTR content) 
 {
-    Text* elem = Text::create(content, x, y);
+    CRect* rect = new CRect(CPoint(x-50,y+50),CPoint(x+50,y-50));
+    Text* elem = Text::create(rect->BottomRight(), rect->TopLeft(), BLACK);
+    elem->set__content(string(content));
     getShapeContainer()->AddElement(elem);
     UpdateAllViews(NULL);
 	SetModifiedFlag();
@@ -364,7 +369,8 @@ void CSketcherDoc::drawText(float x, float y, LPCTSTR content)
 
 void CSketcherDoc::drawRectangle(float x, float y, float height, float width) 
 {
-    Rectangle2* elem = Rectangle2::create(height, width, x, y);
+    CRect* rect = new CRect(CPoint(x-width,y+height),CPoint(x+width,y-height));
+    Rectangle2* elem = Rectangle2::create(rect->BottomRight(), rect->TopLeft(), BLACK);
     getShapeContainer()->AddElement(elem);
     UpdateAllViews(NULL);
 	SetModifiedFlag();
@@ -372,7 +378,8 @@ void CSketcherDoc::drawRectangle(float x, float y, float height, float width)
 
 void CSketcherDoc::drawOval(float x, float y, float r1, float r2) 
 {
-    Oval* elem = Oval::create(r1, r2, x, y);
+    CRect* rect = new CRect(CPoint(x-r1,y+r2),CPoint(x+r1,y-r2));
+    Oval* elem = Oval::create(rect->BottomRight(), rect->TopLeft(), BLACK);
     getShapeContainer()->AddElement(elem);
     UpdateAllViews(NULL);
 	SetModifiedFlag();

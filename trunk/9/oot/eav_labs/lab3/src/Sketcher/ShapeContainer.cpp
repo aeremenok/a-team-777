@@ -112,15 +112,15 @@ Shape* ShapeContainer::readShape( CArchive &ar, map<int, Shape*> &shapes )
         case RECTANGLE:
             toAdd = Rectangle2::create();
             break;
-        /*case OVAL:
+        case OVAL:
             toAdd = Oval::create();
-            break;*/
+            break;
         case TEXT:
             toAdd = Text::create();
             break;
-        /*case TEXT_IN_OVAL:
+        case TEXT_IN_OVAL:
             toAdd = TextInOval::create();
-            break;*/
+            break;
         default:
             AfxMessageBox("Cannot read shape type, bad source file!");
             return NULL;
@@ -165,7 +165,9 @@ CElement* ShapeContainer::AddElement( CElement* m_pElement )
         }
         catch (GraphException* e)
         {
+            try{
             AfxMessageBox(e->getException().c_str());
+            } catch (...){}
         }
     }
     // todo убрать

@@ -319,9 +319,10 @@ void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point) 
 {
-	GetDocument()->NotifyChanged();
+	//GetDocument()->NotifyChanged();
     _handler->onLBUp(point);
-    GetDocument()->NotifyChanged();
+    //GetDocument()->UpdateAllViews(NULL);
+    //GetDocument()->NotifyChanged();
 }
 
 //##ModelId=4770E20602BA
@@ -333,12 +334,13 @@ void CSketcherView::OnMouseMove(UINT nFlags, CPoint point)
 void CSketcherView::OnRButtonDown(UINT nFlags, CPoint point) 
 {
     _handler->onRBDown(point);
+    //GetDocument()->NotifyChanged();
 }
 
 void CSketcherView::OnRButtonUp(UINT nFlags, CPoint point) 
 {
     _handler->onRBUp(point);
-    
+    //GetDocument()->NotifyChanged();
 }
 
 //##ModelId=4770E206023B
@@ -420,9 +422,6 @@ void CSketcherView::OnLButtonDblClk(UINT nFlags, CPoint point)
 	CView::OnLButtonDblClk(nFlags, point);
 }
 
-
-
-
 //##ModelId=4741F10E0225
 void CSketcherView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
@@ -498,7 +497,7 @@ void CSketcherView::requestScale()
 {
     CScaleDialog aDlg;            // Create a dialog object
     aDlg.m_Scale = _handler->Scale();
-    if(aDlg.DoModal() ==  IDOK)
+    if(aDlg.DoModal() == IDOK)
     {
         _handler->Scale(aDlg.m_Scale);    // Get the new scale
 

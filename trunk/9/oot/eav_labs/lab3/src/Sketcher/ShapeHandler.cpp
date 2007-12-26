@@ -229,6 +229,7 @@ void ShapeHandler::onLBDown( CPoint &point )
         m_MoveMode = FALSE;                 // Kill move mode
         m_pSelected = 0;                    // De-select the element
         GetDocument()->UpdateAllViews(0);   // Redraw all the views
+        
     }
     else
     {
@@ -250,6 +251,7 @@ void ShapeHandler::onLBDown( CPoint &point )
             _view->SetCapture();                       // Capture subsequent mouse messages
         }
     }
+    GetDocument()->NotifyChanged();
 }
 
 //##ModelId=4770E20700F1
@@ -358,6 +360,7 @@ void ShapeHandler::onLBUp( CPoint& point )
         GetDocument()->UpdateAllViews(0,0,m_pTempElement);  // Tell all the views
         m_pTempElement = 0;        // Reset the element pointer
     }
+    
 }
 
 //##ModelId=4770E2070170
