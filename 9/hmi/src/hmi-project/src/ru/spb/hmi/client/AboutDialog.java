@@ -48,15 +48,13 @@ public class AboutDialog
             }
         } );
 
-        int x = RootPanel.get().getAbsoluteLeft() - RootPanel.get().getOffsetWidth() / 2;
-        int y = RootPanel.get().getAbsoluteTop() - RootPanel.get().getOffsetHeight() / 2;
-        this.setPopupPosition( x, y );
     }
 
     public void onModuleLoad()
     {
         RootPanel.get().add( instance );
         show();
+        instance.center();
     }
 
     public static AboutDialog getInstance()

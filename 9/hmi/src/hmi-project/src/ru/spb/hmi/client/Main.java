@@ -1,5 +1,7 @@
 package ru.spb.hmi.client;
 
+import ru.spb.hmi.client.service.DocList;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -13,11 +15,10 @@ public class Main
         EntryPoint
 {
 
-    private DOCServiceAsync _service = DOCService.Util.getInstance();
-
     public void onModuleLoad()
     {
         RootPanel rootPanel = RootPanel.get();
+        rootPanel.setSize( "100%", "100%" );
         rootPanel.setTitle( "DocRedactor" );
 
         {
@@ -26,6 +27,16 @@ public class Main
             menuBar.setWidth( "100%" );
 
             final MenuBar menuBar_1 = new MenuBar( true );
+
+            menuBar_1.addItem( "GetList", new Command()
+            {
+                DocList docList = new DocList();
+
+                public void execute()
+                {
+                    docList.onModuleLoad();
+                }
+            } );
 
             {
                 menuBar_1.addItem( "Load", (Command) null );
