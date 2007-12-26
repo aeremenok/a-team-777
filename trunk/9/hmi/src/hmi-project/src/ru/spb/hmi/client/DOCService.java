@@ -1,5 +1,7 @@
 package ru.spb.hmi.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -8,7 +10,10 @@ public interface DOCService
     extends
         RemoteService
 {
-    String getString();
+    String getContent(
+        String id );
+
+    ArrayList getDocList();
 
     /**
      * Utility class for simplifing access to the instance of async service.

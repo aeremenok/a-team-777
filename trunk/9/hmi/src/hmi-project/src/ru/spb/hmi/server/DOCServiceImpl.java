@@ -1,5 +1,7 @@
 package ru.spb.hmi.server;
 
+import java.util.ArrayList;
+
 import ru.spb.hmi.client.DOCService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -9,8 +11,26 @@ public class DOCServiceImpl
     implements
         DOCService
 {
-    public String getString()
+    public String getContent(
+        String id )
     {
-        return "777";
+        if ( id.equalsIgnoreCase( "1" ) )
+        {
+            return "777";
+        }
+        else
+        {
+            return "888";
+        }
+    }
+
+    @Override
+    public ArrayList getDocList()
+    {
+        ArrayList res = new ArrayList();
+        res.add( "111" );
+        res.add( "222" );
+        res.add( "333" );
+        return res;
     }
 }
