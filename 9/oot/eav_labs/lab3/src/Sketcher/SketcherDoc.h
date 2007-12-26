@@ -119,14 +119,14 @@ protected:
 
 	// Generated OLE dispatch map functions
 	//{{AFX_DISPATCH(CSketcherDoc)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//##ModelId=4770E207000C
 	afx_msg BOOL deleteElement(LPCTSTR key);
-	//##ModelId=4770E2070017
 	afx_msg void showWindow();
-	//##ModelId=476D9BD50158
-	//afx_msg void DrawLine(float x1, float y1, float x2, float y2, LPCTSTR text);
+	afx_msg void drawTextInOval(float x, float y, LPCTSTR content, float r1, float r2);
+	afx_msg void drawText(float x, float y, LPCTSTR content);
+	afx_msg void drawRectangle(float x, float y, float height, float width);
+	afx_msg void drawOval(float x, float y, float r1, float r2);
+	afx_msg void addRibble(short id1, short id2);
+	afx_msg void removeRibble(short id1, short id2);
 	//}}AFX_DISPATCH
 	DECLARE_DISPATCH_MAP()
 	DECLARE_INTERFACE_MAP()

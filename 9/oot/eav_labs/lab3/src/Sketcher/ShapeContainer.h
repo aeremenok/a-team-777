@@ -56,10 +56,10 @@ public:
     void SendToBack(CElement* pElement);
 	//##ModelId=4770E20701EB
     void DeleteElement(CElement* m_pSelected);
-	//##ModelId=4770E20701ED
-    void DeleteElement(LPCTSTR id);
+    CElement* getElementById(int id);
 	//##ModelId=4770E20701EF
     void linkElements(CElement* element1, CElement* element2);
+    void removeRibble(CElement* element1, CElement* element2);
     //////////////////////////////////////////////////////////////////////////
     // получить новый итератор, указывающий на начало контейнера
 	//##ModelId=4770E20701FB
