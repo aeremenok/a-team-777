@@ -63,6 +63,7 @@ END_MESSAGE_MAP()
 CLab3drivDlg::CLab3drivDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CLab3drivDlg::IDD, pParent)
 {
+    _type = RECTANGLE;
 	//{{AFX_DATA_INIT(CLab3drivDlg)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
@@ -194,30 +195,48 @@ void CLab3drivDlg::OnButton1()
 
 void CLab3drivDlg::OnButton2() 
 {
+    /*
 	if (!m_initialized)
 		return;
 	short size = m_oleDriver.getHashSize();
 	char c[5];
 	itoa(size, c, 10);
 	m_sizeControl.SetWindowText(c);
+    */
 }
 
 void CLab3drivDlg::OnButton3() 
 {
 	if (!m_initialized)
 		return;
-	CString x1s, y1s, x2s, y2s, key;
-	float x1, y1, x2, y2;
-	m_X.GetWindowText(x1s);
-	m_Width.GetWindowText(x2s);
-	m_Y.GetWindowText(y1s);
-	m_Width.GetWindowText(y2s);
-	m_Text.GetWindowText(key);
-// 	x1 = atof(x1s);
-// 	x2 = atof(x2s);
-// 	y1 = atof(y1s);
-// 	y2 = atof(y2s);
-	m_oleDriver.drawLine(x1, y1, x2, y2, key);
+	CString sX, sY, sHeight, sWidth, text;
+	float x, y, heigth, width;
+	m_X.GetWindowText(sX);
+	m_Width.GetWindowText(sWidth);
+	m_Y.GetWindowText(sY);
+	m_Height.GetWindowText(sHeight);
+	m_Text.GetWindowText(text);
+	x = atof(sX);
+	y = atof(sY);
+	heigth = atof(sHeight);
+	width = atof(sWidth);
+    switch(_type)
+    {
+        case RECTANGLE:
+            m_oleDriver.drawRectangle(x, y, heigth, width);
+    	    break;
+        case OVAL:
+            m_oleDriver.drawOval(x, y, heigth, width);
+    	    break;
+        case TEXT:
+            m_oleDriver.drawText(x, y, text);
+            break;
+        case TEXT_IN_OVAL:
+            m_oleDriver.drawTextInOval(x, y, text, heigth, width);
+            break;
+        default:
+            break;
+    }
 }
 
 void CLab3drivDlg::OnButton4() 

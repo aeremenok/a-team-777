@@ -13,6 +13,8 @@ class CSketcherSrvrItem : public CDocObjectServerItem
 {
 	DECLARE_DYNAMIC(CSketcherSrvrItem)
 
+    bool isInitialized;
+
 // Constructors
 public:
 	//##ModelId=4770E206019E

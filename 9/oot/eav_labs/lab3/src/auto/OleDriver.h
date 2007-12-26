@@ -16,9 +16,13 @@ public:
 	virtual ~OleDriver();
 
 	BOOL deleteElement(LPCTSTR key);
-	void drawLine(float x1, float y1, float x2, float y2, LPCTSTR key);
 	void showWindow();
-	short getHashSize();
+    void drawTextInOval(float x, float y, LPCTSTR content, float r1, float r2);
+    void drawText(float x, float y, LPCTSTR content);
+    void drawRectangle(float x, float y, float height, float width);
+    void drawOval(float x, float y, float r1, float r2);
+    void addRibble(short id1, short id2);
+    void removeRibble(short id1, short id2);
 };
 
 #endif // !defined(AFX_OLEDRIVER_H__E4F4B416_7A31_40B3_B98B_8F8DF901F380__INCLUDED_)

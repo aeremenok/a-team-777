@@ -36,13 +36,38 @@ void OleDriver::showWindow(){
 	InvokeHelper(0x2, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
 }
 
-void OleDriver::drawLine(float x1, float y1, float x2, float y2, LPCTSTR key){
-	const BYTE params[] = VTS_R4 VTS_R4 VTS_R4 VTS_R4 VTS_BSTR;
-	InvokeHelper(0x3, DISPATCH_METHOD, VT_EMPTY, NULL, params, x1, y1, x2, y2, key);
+void OleDriver::drawTextInOval( float x, float y, LPCTSTR content, float r1, float r2 )
+{
+    const BYTE params[] = VTS_R4 VTS_R4 VTS_BSTR VTS_R4 VTS_R4;
+    InvokeHelper(0x3, DISPATCH_METHOD, VT_EMPTY, NULL, params, x, y, content, r1, r2);
 }
 
-short OleDriver::getHashSize(){
-	short ret;
-	InvokeHelper(0x4, DISPATCH_METHOD, VT_I2, (void*)&ret, NULL);
-	return ret;
+void OleDriver::drawText( float x, float y, LPCTSTR content )
+{
+    const BYTE params[] = VTS_R4 VTS_R4 VTS_BSTR;
+    InvokeHelper(0x4, DISPATCH_METHOD, VT_EMPTY, NULL, params, x, y, content);    
+}
+
+void OleDriver::drawRectangle( float x, float y, float height, float width )
+{
+    const BYTE params[] = VTS_R4 VTS_R4 VTS_R4 VTS_R4;
+    InvokeHelper(0x5, DISPATCH_METHOD, VT_EMPTY, NULL, params, x, y, height, width);    
+}
+
+void OleDriver::drawOval( float x, float y, float r1, float r2 )
+{
+    const BYTE params[] = VTS_R4 VTS_R4 VTS_R4 VTS_R4;
+    InvokeHelper(0x6, DISPATCH_METHOD, VT_EMPTY, NULL, params, x, y, r1, r2);
+}
+
+void OleDriver::addRibble( short id1, short id2 )
+{
+    const BYTE params[] = VTS_I2 VTS_I2;
+    InvokeHelper(0x7, DISPATCH_METHOD, VT_EMPTY, NULL, params, id1, id2);
+}
+
+void OleDriver::removeRibble( short id1, short id2 )
+{
+    const BYTE params[] = VTS_I2 VTS_I2;
+    InvokeHelper(0x8, DISPATCH_METHOD, VT_EMPTY, NULL, params, id1, id2);    
 }
