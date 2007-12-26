@@ -18,6 +18,7 @@ class CLab3drivDlg : public CDialog
 private:
 	OleDriver m_oleDriver;
 	int m_initialized;
+    int _type;
 // Construction
 public:
 	CLab3drivDlg(CWnd* pParent = NULL);	// standard constructor
@@ -25,13 +26,14 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CLab3drivDlg)
 	enum { IDD = IDD_LAB3DRIV_DIALOG };
-	CEdit	m_Key;
-	CEdit	m_Y2;
-	CEdit	m_X2;
-	CEdit	m_Y1;
-	CEdit	m_X1;
+	CEdit	m_Text;
+	CEdit	m_Width;
+	CEdit	m_Height;
+	CEdit	m_Y;
+	CEdit	m_X;
 	CEdit	m_sizeControl;
 	CEdit	m_EditControl;
+    CComboBox _typeSelect;
 	//}}AFX_DATA
 
 	// ClassWizard generated virtual function overrides
@@ -54,6 +56,7 @@ protected:
 	afx_msg void OnButton2();
 	afx_msg void OnButton3();
 	afx_msg void OnButton4();
+	afx_msg void OnSelendokComboType();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

@@ -61,7 +61,7 @@ Class=CLab3drivDlg
 [DLG:IDD_LAB3DRIV_DIALOG (English (U.S.))]
 Type=1
 Class=CLab3drivDlg
-ControlCount=20
+ControlCount=22
 Control1=IDC_EDIT2,edit,1350631552
 Control2=IDC_BUTTON1,button,1342242816
 Control3=IDC_STATIC,static,1342308352
@@ -82,6 +82,8 @@ Control17=IDC_BUTTON3,button,1342242816
 Control18=IDC_STATIC,static,1342308352
 Control19=IDC_EDIT7,edit,1350631552
 Control20=IDC_BUTTON4,button,1342242816
+Control21=IDC_COMBO_TYPE,combobox,1344340290
+Control22=IDC_STATIC,button,1342177287
 
 [DLG:IDD_ABOUTBOX (English (U.S.))]
 Type=1

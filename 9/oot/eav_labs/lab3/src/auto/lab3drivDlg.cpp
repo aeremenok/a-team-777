@@ -10,7 +10,8 @@
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
+//////////////////////////////////////////////////////////////////////////
+enum {RECTANGLE, OVAL, TEXT, TEXT_IN_OVAL};
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
@@ -73,13 +74,14 @@ void CLab3drivDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CLab3drivDlg)
-	DDX_Control(pDX, IDC_EDIT7, m_Key);
-	DDX_Control(pDX, IDC_EDIT5, m_Y2);
-	DDX_Control(pDX, IDC_EDIT3, m_X2);
-	DDX_Control(pDX, IDC_EDIT4, m_Y1);
-	DDX_Control(pDX, IDC_EDIT1, m_X1);
+	DDX_Control(pDX, IDC_EDIT7, m_Text);
+	DDX_Control(pDX, IDC_EDIT5, m_Width);
+	DDX_Control(pDX, IDC_EDIT3, m_Height);
+	DDX_Control(pDX, IDC_EDIT4, m_Y);
+	DDX_Control(pDX, IDC_EDIT1, m_X);
 	DDX_Control(pDX, IDC_EDIT6, m_sizeControl);
 	DDX_Control(pDX, IDC_EDIT2, m_EditControl);
+    DDX_Control(pDX, IDC_COMBO_TYPE, _typeSelect);
 	//}}AFX_DATA_MAP
 }
 
@@ -92,6 +94,7 @@ BEGIN_MESSAGE_MAP(CLab3drivDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON2, OnButton2)
 	ON_BN_CLICKED(IDC_BUTTON3, OnButton3)
 	ON_BN_CLICKED(IDC_BUTTON4, OnButton4)
+	ON_CBN_SELENDOK(IDC_COMBO_TYPE, OnSelendokComboType)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -205,15 +208,15 @@ void CLab3drivDlg::OnButton3()
 		return;
 	CString x1s, y1s, x2s, y2s, key;
 	float x1, y1, x2, y2;
-	m_X1.GetWindowText(x1s);
-	m_X2.GetWindowText(x2s);
-	m_Y1.GetWindowText(y1s);
-	m_Y2.GetWindowText(y2s);
-	m_Key.GetWindowText(key);
-	x1 = atof(x1s);
-	x2 = atof(x2s);
-	y1 = atof(y1s);
-	y2 = atof(y2s);
+	m_X.GetWindowText(x1s);
+	m_Width.GetWindowText(x2s);
+	m_Y.GetWindowText(y1s);
+	m_Width.GetWindowText(y2s);
+	m_Text.GetWindowText(key);
+// 	x1 = atof(x1s);
+// 	x2 = atof(x2s);
+// 	y1 = atof(y1s);
+// 	y2 = atof(y2s);
 	m_oleDriver.drawLine(x1, y1, x2, y2, key);
 }
 
@@ -221,11 +224,53 @@ void CLab3drivDlg::OnButton4()
 {
 	// TODO: Add your control notification handler code here
 
-	if (!m_oleDriver.CreateDispatch(_T("OLEApp.Document")))
+	if (!m_oleDriver.CreateDispatch(_T("Sketcher.Document")))
 	{
 		AfxMessageBox("Cannot create OLEApp.Document");
 		return;  // fail
 	}
 	m_oleDriver.showWindow();
 	m_initialized = true;
+}
+
+void CLab3drivDlg::OnSelendokComboType() 
+{
+	_type = _typeSelect.GetCurSel();
+    switch(_type)
+    {
+    case RECTANGLE:
+        m_X.SetReadOnly(false);
+        m_Y.SetReadOnly(false);
+        m_Width.SetReadOnly(false);
+        m_Height.SetReadOnly(false);
+
+        m_Text.SetReadOnly(true);
+    	break;
+    case OVAL:
+        m_X.SetReadOnly(false);
+        m_Y.SetReadOnly(false);
+        m_Width.SetReadOnly(false);
+        m_Height.SetReadOnly(false);
+
+        m_Text.SetReadOnly(true);
+    	break;
+    case TEXT:
+        m_X.SetReadOnly(false);
+        m_Y.SetReadOnly(false);
+        m_Width.SetReadOnly(true);
+        m_Height.SetReadOnly(true);
+
+        m_Text.SetReadOnly(false);
+        break;
+    case TEXT_IN_OVAL:
+        m_X.SetReadOnly(false);
+        m_Y.SetReadOnly(false);
+        m_Width.SetReadOnly(false);
+        m_Height.SetReadOnly(false);
+
+        m_Text.SetReadOnly(false);
+        break;
+    default:
+        break;
+    }
 }
