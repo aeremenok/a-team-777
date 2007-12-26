@@ -119,13 +119,21 @@ protected:
 
 	// Generated OLE dispatch map functions
 	//{{AFX_DISPATCH(CSketcherDoc)
+	//##ModelId=4770E207000C
 	afx_msg BOOL deleteElement(LPCTSTR key);
+	//##ModelId=4770E2070017
 	afx_msg void showWindow();
+	//##ModelId=47728BFF030D
 	afx_msg void drawTextInOval(float x, float y, LPCTSTR content, float r1, float r2);
+	//##ModelId=47728BFF0399
 	afx_msg void drawText(float x, float y, LPCTSTR content);
+	//##ModelId=47728C000000
 	afx_msg void drawRectangle(float x, float y, float height, float width);
+	//##ModelId=47728C00006D
 	afx_msg void drawOval(float x, float y, float r1, float r2);
+	//##ModelId=47728C0000CB
 	afx_msg void addRibble(short id1, short id2);
+	//##ModelId=47728C000119
 	afx_msg void removeRibble(short id1, short id2);
 	//}}AFX_DISPATCH
 	DECLARE_DISPATCH_MAP()

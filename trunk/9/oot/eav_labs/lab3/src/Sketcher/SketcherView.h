@@ -87,32 +87,59 @@ protected:
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CSketcherView)
+	//##ModelId=4770E2060288
 	afx_msg void OnDestroy();
+	//##ModelId=4770E206028A
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
+	//##ModelId=4770E206028D
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	//##ModelId=4770E206029B
 	afx_msg void OnInsertObject();
+	//##ModelId=4770E206029D
 	afx_msg void OnCancelEditCntr();
+	//##ModelId=4770E20602A8
 	afx_msg void OnCancelEditSrvr();
+	//##ModelId=4770E20602AA
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	//##ModelId=47728BFF01A5
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+	//##ModelId=47728BFF01E4
 	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+	//##ModelId=47728BFF0242
 	afx_msg void OnEditCopy();
+	//##ModelId=47728BFF0252
 	afx_msg void OnUpdateEditCopy(CCmdUI* pCmdUI);
+	//##ModelId=47728BFF0271
 	afx_msg void OnEditPaste();
+	//##ModelId=4770E20602B6
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	//##ModelId=4770E20602BA
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	//##ModelId=4770E20602C6
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	//##ModelId=4770E20602CA
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
+	//##ModelId=4770E20602D6
 	afx_msg void OnMove();
+	//##ModelId=4770E20602D8
 	afx_msg void OnSendtoback();
+	//##ModelId=4770E20602DA
 	afx_msg void OnDelete();
+	//##ModelId=4770E20602E5
 	afx_msg void OnElementDrawribbles();
+	//##ModelId=4770E20602E7
 	afx_msg void OnUpdateElementDrawribbles(CCmdUI* pCmdUI);
+	//##ModelId=4770E20602EA
 	afx_msg void OnNoelementScale();
+	//##ModelId=4770E20602F5
 	afx_msg void OnUpdateNoelementScale(CCmdUI* pCmdUI);
+	//##ModelId=4770E20602F8
 	afx_msg void OnElementScale();
+	//##ModelId=4770E20602FA
 	afx_msg void OnUpdateElementScale(CCmdUI* pCmdUI);
+	//##ModelId=4770E2060305
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	//##ModelId=47728BFF0290
 	afx_msg void OnDeleteByKey();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()

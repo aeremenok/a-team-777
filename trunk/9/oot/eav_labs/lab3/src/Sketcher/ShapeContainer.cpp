@@ -226,6 +226,7 @@ ExternalGraphIterator<CElement>* ShapeContainer::getNearestRibbles( CElement* se
     return NULL;
 }
 
+//##ModelId=47728C0001F4
 CElement* ShapeContainer::getElementById( int id )
 {
     Shape* shape = NULL;
@@ -249,6 +250,7 @@ CElement* ShapeContainer::getElementById( int id )
     return NULL;
 }
 
+//##ModelId=47728C000213
 void ShapeContainer::removeRibble( CElement* element1, CElement* element2 )
 {
     try
