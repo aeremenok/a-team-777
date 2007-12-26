@@ -41223,6 +41223,10 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
 					uid        	0))
+				class_attributes 	(list class_attribute_list
+				    (object ClassAttribute "isInitialized"
+					quid       	"47728BFF00BB"
+					type       	"bool"))
 				module     	"Component View::Sketcher"
 				quidu      	"4770E1F6012F"
 				language   	"VC++")
@@ -41528,10 +41532,6 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"4770E2060288"
-					documentation 	
-| NOTE - the ClassWizard will add and remove member functions here.
-|    DO NOT EDIT what you see in these blocks of generated code !
-					
 					stereotype 	"afx_msg"
 					result     	"void"
 					concurrency 	"Sequential"
@@ -41937,28 +41937,118 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
 					uid        	0)
-				    (object Operation "OnKeyUp"
+				    (object Operation "OnLButtonDblClk"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"VC++"
 						name       	"AfxMsg"
-						value      	"ON_WM_KEYUP()")
+						value      	"ON_WM_LBUTTONDBLCLK()")
 					    (object Attribute
 						tool       	"VC++"
 						name       	"Inline"
 						value      	FALSE))
-					quid       	"4770E206030A"
+					quid       	"47728BFF01A5"
 					stereotype 	"afx_msg"
 					parameters 	(list Parameters
-					    (object Parameter "nChar"
-						quid       	"4770E2060315"
-						type       	"UINT")
-					    (object Parameter "nRepCnt"
-						quid       	"4770E2060316"
-						type       	"UINT")
 					    (object Parameter "nFlags"
-						quid       	"4770E2060317"
+						quid       	"47728BFF01B6"
+						type       	"UINT")
+					    (object Parameter "point"
+						quid       	"47728BFF01C5"
+						type       	"CPoint"
+						quidu      	"365C7A7A0020"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnSetCursor"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_WM_SETCURSOR()")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728BFF01E4"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "pWnd"
+						quid       	"47728BFF01F5"
+						type       	"CWnd*"
+						quidu      	"365C7A74001A")
+					    (object Parameter "nHitTest"
+						quid       	"47728BFF0213"
+						type       	"UINT")
+					    (object Parameter "message"
+						quid       	"47728BFF0232"
 						type       	"UINT"))
+					result     	"BOOL"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnEditCopy"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_COMMAND(ID_EDIT_COPY, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728BFF0242"
+					stereotype 	"afx_msg"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnUpdateEditCopy"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_UPDATE_COMMAND_UI(ID_EDIT_COPY, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728BFF0252"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "pCmdUI"
+						quid       	"47728BFF0262"
+						type       	"CCmdUI*"
+						quidu      	"365C7A7A028F"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnEditPaste"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"AfxMsg"
+						value      	"ON_COMMAND(ID_EDIT_PASTE, $NAME)")
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728BFF0271"
+					stereotype 	"afx_msg"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "OnDeleteByKey"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728BFF0290"
+					stereotype 	"afx_msg"
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
@@ -42504,10 +42594,6 @@
 						name       	"Inline"
 						value      	FALSE))
 					quid       	"4770E207000C"
-					documentation 	
-| NOTE - the ClassWizard will add and remove member functions here.
-|    DO NOT EDIT what you see in these blocks of generated code !
-					
 					stereotype 	"afx_msg"
 					parameters 	(list Parameters
 					    (object Parameter "key"
@@ -42525,6 +42611,144 @@
 						value      	FALSE))
 					quid       	"4770E2070017"
 					stereotype 	"afx_msg"
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "drawTextInOval"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728BFF030D"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "x"
+						quid       	"47728BFF031D"
+						type       	"float")
+					    (object Parameter "y"
+						quid       	"47728BFF033C"
+						type       	"float")
+					    (object Parameter "content"
+						quid       	"47728BFF034B"
+						type       	"LPCTSTR")
+					    (object Parameter "r1"
+						quid       	"47728BFF036B"
+						type       	"float")
+					    (object Parameter "r2"
+						quid       	"47728BFF037A"
+						type       	"float"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "drawText"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728BFF0399"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "x"
+						quid       	"47728BFF039B"
+						type       	"float")
+					    (object Parameter "y"
+						quid       	"47728BFF03B9"
+						type       	"float")
+					    (object Parameter "content"
+						quid       	"47728BFF03C8"
+						type       	"LPCTSTR"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "drawRectangle"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728C000000"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "x"
+						quid       	"47728C00000F"
+						type       	"float")
+					    (object Parameter "y"
+						quid       	"47728C00002E"
+						type       	"float")
+					    (object Parameter "height"
+						quid       	"47728C00003E"
+						type       	"float")
+					    (object Parameter "width"
+						quid       	"47728C00005D"
+						type       	"float"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "drawOval"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728C00006D"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "x"
+						quid       	"47728C00007E"
+						type       	"float")
+					    (object Parameter "y"
+						quid       	"47728C00008C"
+						type       	"float")
+					    (object Parameter "r1"
+						quid       	"47728C0000AB"
+						type       	"float")
+					    (object Parameter "r2"
+						quid       	"47728C0000BB"
+						type       	"float"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "addRibble"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728C0000CB"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "id1"
+						quid       	"47728C0000DB"
+						type       	"LPCTSTR")
+					    (object Parameter "id2"
+						quid       	"47728C0000FA"
+						type       	"LPCTSTR"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Protected"
+					uid        	0)
+				    (object Operation "removeRibble"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728C000119"
+					stereotype 	"afx_msg"
+					parameters 	(list Parameters
+					    (object Parameter "id1"
+						quid       	"47728C000129"
+						type       	"LPCTSTR")
+					    (object Parameter "id2"
+						quid       	"47728C000138"
+						type       	"LPCTSTR"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Protected"
@@ -43251,21 +43475,6 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "DeleteElement"
-					attributes 	(list Attribute_Set
-					    (object Attribute
-						tool       	"VC++"
-						name       	"Inline"
-						value      	FALSE))
-					quid       	"4770E20701ED"
-					parameters 	(list Parameters
-					    (object Parameter "id"
-						quid       	"4770E20701EE"
-						type       	"LPCTSTR"))
-					result     	"void"
-					concurrency 	"Sequential"
-					opExportControl 	"Public"
-					uid        	0)
 				    (object Operation "linkElements"
 					attributes 	(list Attribute_Set
 					    (object Attribute
@@ -43330,6 +43539,42 @@
 						quid       	"4770E2070200"
 						type       	"CArchive&"
 						quidu      	"365C7A79032D"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "getElementById"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728C0001F4"
+					parameters 	(list Parameters
+					    (object Parameter "id"
+						quid       	"47728C0001F5"
+						type       	"int"))
+					result     	"CElement*"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0
+					quidu      	"4770E20802C8")
+				    (object Operation "removeRibble"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	FALSE))
+					quid       	"47728C000213"
+					parameters 	(list Parameters
+					    (object Parameter "element1"
+						quid       	"47728C000222"
+						type       	"CElement*"
+						quidu      	"4770E20802C8")
+					    (object Parameter "element2"
+						quid       	"47728C000232"
+						type       	"CElement*"
+						quidu      	"4770E20802C8"))
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
@@ -45871,6 +46116,33 @@
 					result     	"void"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Color"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"47728C0003D8"
+					stereotype 	"const"
+					result     	"COLORREF"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "Color"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"VC++"
+						name       	"Inline"
+						value      	TRUE))
+					quid       	"47728C0003DA"
+					parameters 	(list Parameters
+					    (object Parameter "val"
+						quid       	"47728C0003DB"
+						type       	"COLORREF"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "m_Color"
@@ -46132,9 +46404,9 @@
 				quid       	"4770E2080381"
 				superclasses 	(list inheritance_relationship_list
 				    (object Inheritance_Relationship
-					quid       	"4770E2080382"
-					supplier   	"Logical View::MFC 6.0::CObject Classes::Application Architecture::COleDocObjectItem"
-					quidu      	"365C7A7303CD"))
+					quid       	"47728C01002E"
+					supplier   	"Logical View::MFC 6.0::CObject Classes::Application Architecture::COleClientItem"
+					quidu      	"365C7A73023C"))
 				operations 	(list Operations
 				    (object Operation "CSketcherCntrItem"
 					attributes 	(list Attribute_Set
@@ -46967,7 +47239,7 @@
 				items      	(list diagram_item_list
 				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::CDocObjectServerItem" @658
 					ShowCompartmentStereotypes 	TRUE
-					location   	(2928, 1184)
+					location   	(2208, 1184)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -46980,7 +47252,7 @@
 					    default_color 	TRUE)
 					label      	(object ItemLabel
 					    Parent_View 	@658
-					    location   	(2663, 1110)
+					    location   	(1943, 1110)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	530
@@ -46996,7 +47268,7 @@
 					autoResize 	TRUE)
 				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherSrvrItem" @659
 					ShowCompartmentStereotypes 	TRUE
-					location   	(2928, 1504)
+					location   	(2208, 1504)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -47009,7 +47281,7 @@
 					    default_color 	TRUE)
 					label      	(object ItemLabel
 					    Parent_View 	@659
-					    location   	(2704, 1453)
+					    location   	(1984, 1453)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	448
@@ -47032,7 +47304,7 @@
 					line_style 	0)
 				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Views::CScrollView" @661
 					ShowCompartmentStereotypes 	TRUE
-					location   	(3520, 1184)
+					location   	(2816, 1184)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -47045,7 +47317,7 @@
 					    default_color 	TRUE)
 					label      	(object ItemLabel
 					    Parent_View 	@661
-					    location   	(3369, 1110)
+					    location   	(2665, 1110)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	302
@@ -47061,7 +47333,7 @@
 					autoResize 	TRUE)
 				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleServerDoc" @662
 					ShowCompartmentStereotypes 	TRUE
-					location   	(7008, 1504)
+					location   	(6112, 1504)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -47074,7 +47346,7 @@
 					    default_color 	TRUE)
 					label      	(object ItemLabel
 					    Parent_View 	@662
-					    location   	(6744, 1430)
+					    location   	(5848, 1430)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	528
@@ -47119,7 +47391,7 @@
 					autoResize 	TRUE)
 				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Frame Windows::CMDIFrameWnd" @664
 					ShowCompartmentStereotypes 	TRUE
-					location   	(4720, 1184)
+					location   	(4016, 1184)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -47132,7 +47404,7 @@
 					    default_color 	TRUE)
 					label      	(object ItemLabel
 					    Parent_View 	@664
-					    location   	(4517, 1110)
+					    location   	(3813, 1110)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	406
@@ -47148,7 +47420,7 @@
 					autoResize 	TRUE)
 				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Frame Windows::COleDocIPFrameWnd" @665
 					ShowCompartmentStereotypes 	TRUE
-					location   	(5328, 1504)
+					location   	(4608, 1504)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -47161,7 +47433,7 @@
 					    default_color 	TRUE)
 					label      	(object ItemLabel
 					    Parent_View 	@665
-					    location   	(5068, 1430)
+					    location   	(4348, 1430)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	520
@@ -47177,7 +47449,7 @@
 					autoResize 	TRUE)
 				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleDocObjectItem" @666
 					ShowCompartmentStereotypes 	TRUE
-					location   	(2176, 1184)
+					location   	(1456, 1184)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -47190,7 +47462,7 @@
 					    default_color 	TRUE)
 					label      	(object ItemLabel
 					    Parent_View 	@666
-					    location   	(1912, 1110)
+					    location   	(1192, 1110)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	528
@@ -47206,7 +47478,7 @@
 					autoResize 	TRUE)
 				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherCntrItem" @667
 					ShowCompartmentStereotypes 	TRUE
-					location   	(2176, 1504)
+					location   	(1904, 2128)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -47219,7 +47491,7 @@
 					    default_color 	TRUE)
 					label      	(object ItemLabel
 					    Parent_View 	@667
-					    location   	(1950, 1453)
+					    location   	(1678, 2077)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	452
@@ -47233,16 +47505,9 @@
 					height     	126
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @668
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"4770E2080382"
-					client     	@667
-					supplier   	@666
-					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Frame Windows::CMDIChildWnd" @669
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Frame Windows::CMDIChildWnd" @668
 					ShowCompartmentStereotypes 	TRUE
-					location   	(4128, 1184)
+					location   	(3408, 1184)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -47254,8 +47519,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@669
-					    location   	(3935, 1110)
+					    Parent_View 	@668
+					    location   	(3215, 1110)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	386
@@ -47269,316 +47534,7 @@
 					height     	172
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherDoc" @670
-					ShowCompartmentStereotypes 	TRUE
-					location   	(6448, 1824)
-					font       	(object Font
-					    size       	10
-					    face       	"Arial"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	0
-					    default_color 	TRUE)
-					label      	(object ItemLabel
-					    Parent_View 	@670
-					    location   	(6277, 1773)
-					    fill_color 	13434879
-					    nlines     	1
-					    max_width  	342
-					    justify    	0
-					    label      	"CSketcherDoc")
-					icon_style 	"Icon"
-					line_color 	3342489
-					fill_color 	13434879
-					quidu      	"4770E2060352"
-					width      	360
-					height     	126
-					annotation 	8
-					autoResize 	TRUE)
-				    (object InheritView "" @671
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"4770E2060353"
-					client     	@670
-					supplier   	@662
-					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::ShapeHandler" @672
-					ShowCompartmentStereotypes 	TRUE
-					location   	(3520, 1824)
-					font       	(object Font
-					    size       	10
-					    face       	"Arial"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	0
-					    default_color 	TRUE)
-					label      	(object ItemLabel
-					    Parent_View 	@672
-					    location   	(3351, 1772)
-					    fill_color 	13434879
-					    nlines     	1
-					    max_width  	338
-					    justify    	0
-					    label      	"ShapeHandler")
-					icon_style 	"Icon"
-					line_color 	3342489
-					fill_color 	13434879
-					quidu      	"4770E2070074"
-					width      	356
-					height     	128
-					annotation 	8
-					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherView" @673
-					ShowCompartmentStereotypes 	TRUE
-					location   	(3520, 1504)
-					font       	(object Font
-					    size       	10
-					    face       	"Arial"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	0
-					    default_color 	TRUE)
-					label      	(object ItemLabel
-					    Parent_View 	@673
-					    location   	(3339, 1453)
-					    fill_color 	13434879
-					    nlines     	1
-					    max_width  	362
-					    justify    	0
-					    label      	"CSketcherView")
-					icon_style 	"Icon"
-					line_color 	3342489
-					fill_color 	13434879
-					quidu      	"4770E206021A"
-					width      	380
-					height     	126
-					annotation 	8
-					autoResize 	TRUE)
-				    (object InheritView "" @674
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"4770E206021B"
-					client     	@673
-					supplier   	@661
-					line_style 	0)
-				    (object AssociationViewNew "$UNNAMED$14" @675
-					location   	(3520, 1663)
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"4770E2070075"
-					roleview_list 	(list RoleViews
-					    (object RoleView "$UNNAMED$15" @676
-						Parent_View 	@675
-						location   	(2592, 1151)
-						font       	(object Font
-						    size       	10
-						    face       	"Arial"
-						    charSet    	204
-						    bold       	FALSE
-						    italics    	FALSE
-						    underline  	FALSE
-						    strike     	FALSE
-						    color      	0
-						    default_color 	TRUE)
-						label      	(object SegLabel @677
-						    Parent_View 	@676
-						    location   	(3479, 1739)
-						    font       	(object Font
-							size       	10
-							face       	"Arial"
-							charSet    	204
-							bold       	FALSE
-							italics    	FALSE
-							underline  	FALSE
-							strike     	FALSE
-							color      	0
-							default_color 	TRUE)
-						    hidden     	TRUE
-						    anchor     	1
-						    anchor_loc 	1
-						    nlines     	1
-						    max_width  	450
-						    justify    	0
-						    label      	""
-						    pctDist    	0.800000
-						    height     	42
-						    orientation 	1)
-						stereotype 	TRUE
-						line_color 	3342489
-						quidu      	"4770E2070086"
-						client     	@675
-						supplier   	@672
-						line_style 	0)
-					    (object RoleView "_view" @678
-						Parent_View 	@675
-						location   	(2592, 1151)
-						font       	(object Font
-						    size       	10
-						    face       	"Arial"
-						    charSet    	204
-						    bold       	FALSE
-						    italics    	FALSE
-						    underline  	FALSE
-						    strike     	FALSE
-						    color      	0
-						    default_color 	TRUE)
-						label      	(object SegLabel @679
-						    Parent_View 	@678
-						    location   	(3479, 1587)
-						    font       	(object Font
-							size       	10
-							face       	"Arial"
-							charSet    	204
-							bold       	FALSE
-							italics    	FALSE
-							underline  	FALSE
-							strike     	FALSE
-							color      	0
-							default_color 	TRUE)
-						    anchor     	1
-						    anchor_loc 	1
-						    nlines     	1
-						    max_width  	112
-						    justify    	0
-						    label      	"-_view"
-						    pctDist    	0.800000
-						    height     	42
-						    orientation 	0)
-						stereotype 	TRUE
-						line_color 	3342489
-						quidu      	"4770E2070084"
-						client     	@675
-						supplier   	@673
-						line_style 	0)))
-				    (object AssociationViewNew "$UNNAMED$8" @680
-					location   	(3520, 1663)
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"4770E2060230"
-					roleview_list 	(list RoleViews
-					    (object RoleView "$UNNAMED$9" @681
-						Parent_View 	@680
-						location   	(3168, 799)
-						font       	(object Font
-						    size       	10
-						    face       	"Arial"
-						    charSet    	204
-						    bold       	FALSE
-						    italics    	FALSE
-						    underline  	FALSE
-						    strike     	FALSE
-						    color      	0
-						    default_color 	TRUE)
-						label      	(object SegLabel @682
-						    Parent_View 	@681
-						    location   	(3479, 1587)
-						    font       	(object Font
-							size       	10
-							face       	"Arial"
-							charSet    	204
-							bold       	FALSE
-							italics    	FALSE
-							underline  	FALSE
-							strike     	FALSE
-							color      	0
-							default_color 	TRUE)
-						    hidden     	TRUE
-						    anchor     	1
-						    anchor_loc 	1
-						    nlines     	1
-						    max_width  	450
-						    justify    	0
-						    label      	""
-						    pctDist    	0.800000
-						    height     	42
-						    orientation 	0)
-						stereotype 	TRUE
-						line_color 	3342489
-						quidu      	"4770E2060233"
-						client     	@680
-						supplier   	@673
-						line_style 	0)
-					    (object RoleView "_handler" @683
-						Parent_View 	@680
-						location   	(3168, 799)
-						font       	(object Font
-						    size       	10
-						    face       	"Arial"
-						    charSet    	204
-						    bold       	FALSE
-						    italics    	FALSE
-						    underline  	FALSE
-						    strike     	FALSE
-						    color      	0
-						    default_color 	TRUE)
-						label      	(object SegLabel @684
-						    Parent_View 	@683
-						    location   	(3479, 1739)
-						    font       	(object Font
-							size       	10
-							face       	"Arial"
-							charSet    	204
-							bold       	FALSE
-							italics    	FALSE
-							underline  	FALSE
-							strike     	FALSE
-							color      	0
-							default_color 	TRUE)
-						    anchor     	1
-						    anchor_loc 	1
-						    nlines     	1
-						    max_width  	179
-						    justify    	0
-						    label      	"#_handler"
-						    pctDist    	0.800000
-						    height     	42
-						    orientation 	1)
-						stereotype 	TRUE
-						line_color 	3342489
-						quidu      	"4770E2060231"
-						client     	@680
-						supplier   	@672
-						line_style 	0)))
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleTemplateServer" @685
-					ShowCompartmentStereotypes 	TRUE
-					IncludeAttribute 	TRUE
-					location   	(896, 848)
-					font       	(object Font
-					    size       	10
-					    face       	"Arial"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	0
-					    default_color 	TRUE)
-					label      	(object ItemLabel
-					    Parent_View 	@685
-					    location   	(631, 773)
-					    fill_color 	13434879
-					    nlines     	1
-					    max_width  	530
-					    justify    	0
-					    label      	"COleTemplateServer")
-					icon_style 	"Icon"
-					line_color 	3342489
-					fill_color 	13434879
-					quidu      	"365C7A7202EF"
-					width      	548
-					height     	174
-					annotation 	8
-					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherApp" @686
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherApp" @669
 					ShowCompartmentStereotypes 	TRUE
 					location   	(336, 528)
 					font       	(object Font
@@ -47592,7 +47548,7 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@686
+					    Parent_View 	@669
 					    location   	(155, 477)
 					    fill_color 	13434879
 					    nlines     	1
@@ -47607,22 +47563,52 @@
 					height     	126
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @687
+				    (object InheritView "" @670
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4770E2070027"
-					client     	@686
+					client     	@669
 					supplier   	@663
 					line_style 	0)
-				    (object AssociationViewNew "$UNNAMED$12" @688
-					location   	(595, 675)
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleTemplateServer" @671
+					ShowCompartmentStereotypes 	TRUE
+					IncludeAttribute 	TRUE
+					location   	(704, 848)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@671
+					    location   	(439, 773)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	530
+					    justify    	0
+					    label      	"COleTemplateServer")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"365C7A7202EF"
+					width      	548
+					height     	174
+					annotation 	8
+					autoResize 	TRUE)
+				    (object AssociationViewNew "$UNNAMED$12" @672
+					location   	(505, 675)
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4770E2070036"
 					roleview_list 	(list RoleViews
-					    (object RoleView "$UNNAMED$13" @689
-						Parent_View 	@688
-						location   	(243, -173)
+					    (object RoleView "$UNNAMED$13" @673
+						Parent_View 	@672
+						location   	(153, -173)
 						font       	(object Font
 						    size       	10
 						    face       	"Arial"
@@ -47633,9 +47619,9 @@
 						    strike     	FALSE
 						    color      	0
 						    default_color 	TRUE)
-						label      	(object SegLabel @690
-						    Parent_View 	@689
-						    location   	(457, 645)
+						label      	(object SegLabel @674
+						    Parent_View 	@673
+						    location   	(402, 640)
 						    font       	(object Font
 							size       	10
 							face       	"Arial"
@@ -47659,12 +47645,12 @@
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"4770E2070039"
-						client     	@688
-						supplier   	@686
+						client     	@672
+						supplier   	@669
 						line_style 	0)
-					    (object RoleView "m_server" @691
-						Parent_View 	@688
-						location   	(243, -173)
+					    (object RoleView "m_server" @675
+						Parent_View 	@672
+						location   	(153, -173)
 						font       	(object Font
 						    size       	10
 						    face       	"Arial"
@@ -47675,9 +47661,9 @@
 						    strike     	FALSE
 						    color      	0
 						    default_color 	TRUE)
-						label      	(object SegLabel @692
-						    Parent_View 	@691
-						    location   	(693, 779)
+						label      	(object SegLabel @676
+						    Parent_View 	@675
+						    location   	(557, 775)
 						    font       	(object Font
 							size       	10
 							face       	"Arial"
@@ -47700,12 +47686,12 @@
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"4770E2070037"
-						client     	@688
-						supplier   	@685
+						client     	@672
+						supplier   	@671
 						line_style 	0)))
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CMainFrame" @693
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CMainFrame" @677
 					ShowCompartmentStereotypes 	TRUE
-					location   	(4720, 1504)
+					location   	(4016, 1504)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -47717,8 +47703,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@693
-					    location   	(4561, 1453)
+					    Parent_View 	@677
+					    location   	(3857, 1453)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	318
@@ -47732,16 +47718,16 @@
 					height     	126
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @694
+				    (object InheritView "" @678
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4770E2080064"
-					client     	@693
+					client     	@677
 					supplier   	@664
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Control Bars::CStatusBar" @695
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CChildFrame" @679
 					ShowCompartmentStereotypes 	TRUE
-					location   	(4416, 1824)
+					location   	(3408, 1504)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -47753,8 +47739,44 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@695
-					    location   	(4254, 1749)
+					    Parent_View 	@679
+					    location   	(3248, 1453)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	320
+					    justify    	0
+					    label      	"CChildFrame")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"4770E20803CF"
+					width      	338
+					height     	126
+					annotation 	8
+					autoResize 	TRUE)
+				    (object InheritView "" @680
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"4770E20803D0"
+					client     	@679
+					supplier   	@668
+					line_style 	0)
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Control Bars::CStatusBar" @681
+					ShowCompartmentStereotypes 	TRUE
+					location   	(3712, 1824)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@681
+					    location   	(3550, 1749)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	324
@@ -47768,15 +47790,15 @@
 					height     	174
 					annotation 	8
 					autoResize 	TRUE)
-				    (object AssociationViewNew "$UNNAMED$32" @696
-					location   	(4578, 1651)
+				    (object AssociationViewNew "$UNNAMED$32" @682
+					location   	(3874, 1651)
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4770E2080079"
 					roleview_list 	(list RoleViews
-					    (object RoleView "$UNNAMED$33" @697
-						Parent_View 	@696
-						location   	(4194, 1075)
+					    (object RoleView "$UNNAMED$33" @683
+						Parent_View 	@682
+						location   	(3490, 1075)
 						font       	(object Font
 						    size       	10
 						    face       	"Arial"
@@ -47787,9 +47809,9 @@
 						    strike     	FALSE
 						    color      	0
 						    default_color 	TRUE)
-						label      	(object SegLabel @698
-						    Parent_View 	@697
-						    location   	(4673, 1612)
+						label      	(object SegLabel @684
+						    Parent_View 	@683
+						    location   	(3969, 1612)
 						    font       	(object Font
 							size       	10
 							face       	"Arial"
@@ -47813,12 +47835,12 @@
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"4770E208007C"
-						client     	@696
-						supplier   	@693
+						client     	@682
+						supplier   	@677
 						line_style 	0)
-					    (object RoleView "m_wndStatusBar" @699
-						Parent_View 	@696
-						location   	(4194, 1075)
+					    (object RoleView "m_wndStatusBar" @685
+						Parent_View 	@682
+						location   	(3490, 1075)
 						font       	(object Font
 						    size       	10
 						    face       	"Arial"
@@ -47829,9 +47851,9 @@
 						    strike     	FALSE
 						    color      	0
 						    default_color 	TRUE)
-						label      	(object SegLabel @700
-						    Parent_View 	@699
-						    location   	(4545, 1748)
+						label      	(object SegLabel @686
+						    Parent_View 	@685
+						    location   	(3841, 1748)
 						    font       	(object Font
 							size       	10
 							face       	"Arial"
@@ -47854,54 +47876,18 @@
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"4770E208007A"
-						client     	@696
-						supplier   	@695
+						client     	@682
+						supplier   	@681
 						line_style 	0)))
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CChildFrame" @701
-					ShowCompartmentStereotypes 	TRUE
-					location   	(4128, 1504)
-					font       	(object Font
-					    size       	10
-					    face       	"Arial"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	0
-					    default_color 	TRUE)
-					label      	(object ItemLabel
-					    Parent_View 	@701
-					    location   	(3968, 1453)
-					    fill_color 	13434879
-					    nlines     	1
-					    max_width  	320
-					    justify    	0
-					    label      	"CChildFrame")
-					icon_style 	"Icon"
-					line_color 	3342489
-					fill_color 	13434879
-					quidu      	"4770E20803CF"
-					width      	338
-					height     	126
-					annotation 	8
-					autoResize 	TRUE)
-				    (object InheritView "" @702
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"4770E20803D0"
-					client     	@701
-					supplier   	@669
-					line_style 	0)
-				    (object AssociationViewNew "$UNNAMED$50" @703
-					location   	(4261, 1651)
+				    (object AssociationViewNew "$UNNAMED$50" @687
+					location   	(3548, 1651)
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4770E20803D2"
 					roleview_list 	(list RoleViews
-					    (object RoleView "$UNNAMED$51" @704
-						Parent_View 	@703
-						location   	(3877, 1075)
+					    (object RoleView "$UNNAMED$51" @688
+						Parent_View 	@687
+						location   	(3164, 1075)
 						font       	(object Font
 						    size       	10
 						    face       	"Arial"
@@ -47912,9 +47898,9 @@
 						    strike     	FALSE
 						    color      	0
 						    default_color 	TRUE)
-						label      	(object SegLabel @705
-						    Parent_View 	@704
-						    location   	(4171, 1613)
+						label      	(object SegLabel @689
+						    Parent_View 	@688
+						    location   	(3456, 1613)
 						    font       	(object Font
 							size       	10
 							face       	"Arial"
@@ -47938,12 +47924,12 @@
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"4770E20803D5"
-						client     	@703
-						supplier   	@701
+						client     	@687
+						supplier   	@679
 						line_style 	0)
-					    (object RoleView "m_StatusBar" @706
-						Parent_View 	@703
-						location   	(3877, 1075)
+					    (object RoleView "m_StatusBar" @690
+						Parent_View 	@687
+						location   	(3164, 1075)
 						font       	(object Font
 						    size       	10
 						    face       	"Arial"
@@ -47954,9 +47940,9 @@
 						    strike     	FALSE
 						    color      	0
 						    default_color 	TRUE)
-						label      	(object SegLabel @707
-						    Parent_View 	@706
-						    location   	(4291, 1746)
+						label      	(object SegLabel @691
+						    Parent_View 	@690
+						    location   	(3582, 1748)
 						    font       	(object Font
 							size       	10
 							face       	"Arial"
@@ -47979,12 +47965,12 @@
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"4770E20803D3"
-						client     	@703
-						supplier   	@695
+						client     	@687
+						supplier   	@681
 						line_style 	0)))
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleDropTarget" @708
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleDropTarget" @692
 					ShowCompartmentStereotypes 	TRUE
-					location   	(3520, 2144)
+					location   	(2656, 528)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -47996,8 +47982,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@708
-					    location   	(3255, 2069)
+					    Parent_View 	@692
+					    location   	(2391, 453)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	530
@@ -48011,10 +47997,9 @@
 					height     	174
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Control Bars::COleResizeBar" @709
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CInPlaceFrame" @693
 					ShowCompartmentStereotypes 	TRUE
-					IncludeAttribute 	TRUE
-					location   	(5328, 2144)
+					location   	(4608, 1824)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -48026,37 +48011,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@709
-					    location   	(5147, 2069)
-					    fill_color 	13434879
-					    nlines     	1
-					    max_width  	362
-					    justify    	0
-					    label      	"COleResizeBar")
-					icon_style 	"Icon"
-					line_color 	3342489
-					fill_color 	13434879
-					quidu      	"365C7A740364"
-					width      	380
-					height     	174
-					annotation 	8
-					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CInPlaceFrame" @710
-					ShowCompartmentStereotypes 	TRUE
-					location   	(5328, 1824)
-					font       	(object Font
-					    size       	10
-					    face       	"Arial"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	0
-					    default_color 	TRUE)
-					label      	(object ItemLabel
-					    Parent_View 	@710
-					    location   	(5144, 1773)
+					    Parent_View 	@693
+					    location   	(4424, 1773)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	368
@@ -48070,195 +48026,17 @@
 					height     	126
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @711
+				    (object InheritView "" @694
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4770E20800B4"
-					client     	@710
+					client     	@693
 					supplier   	@665
 					line_style 	0)
-				    (object AssociationViewNew "$UNNAMED$34" @712
-					location   	(4464, 1976)
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"4770E20800D2"
-					roleview_list 	(list RoleViews
-					    (object RoleView "$UNNAMED$35" @713
-						Parent_View 	@712
-						location   	(3840, 1400)
-						font       	(object Font
-						    size       	10
-						    face       	"Arial"
-						    charSet    	204
-						    bold       	FALSE
-						    italics    	FALSE
-						    underline  	FALSE
-						    strike     	FALSE
-						    color      	0
-						    default_color 	TRUE)
-						label      	(object SegLabel @714
-						    Parent_View 	@713
-						    location   	(5007, 1922)
-						    font       	(object Font
-							size       	10
-							face       	"Arial"
-							charSet    	204
-							bold       	FALSE
-							italics    	FALSE
-							underline  	FALSE
-							strike     	FALSE
-							color      	0
-							default_color 	TRUE)
-						    hidden     	TRUE
-						    anchor     	1
-						    anchor_loc 	1
-						    nlines     	1
-						    max_width  	450
-						    justify    	0
-						    label      	""
-						    pctDist    	0.800000
-						    height     	42
-						    orientation 	1)
-						stereotype 	TRUE
-						line_color 	3342489
-						quidu      	"4770E20800D5"
-						client     	@712
-						supplier   	@710
-						line_style 	0)
-					    (object RoleView "m_dropTarget" @715
-						Parent_View 	@712
-						location   	(3840, 1400)
-						font       	(object Font
-						    size       	10
-						    face       	"Arial"
-						    charSet    	204
-						    bold       	FALSE
-						    italics    	FALSE
-						    underline  	FALSE
-						    strike     	FALSE
-						    color      	0
-						    default_color 	TRUE)
-						label      	(object SegLabel @716
-						    Parent_View 	@715
-						    location   	(3922, 2031)
-						    font       	(object Font
-							size       	10
-							face       	"Arial"
-							charSet    	204
-							bold       	FALSE
-							italics    	FALSE
-							underline  	FALSE
-							strike     	FALSE
-							color      	0
-							default_color 	TRUE)
-						    anchor     	1
-						    anchor_loc 	1
-						    nlines     	1
-						    max_width  	280
-						    justify    	0
-						    label      	"#m_dropTarget"
-						    pctDist    	0.800000
-						    height     	42
-						    orientation 	1)
-						stereotype 	TRUE
-						line_color 	3342489
-						quidu      	"4770E20800D3"
-						client     	@712
-						supplier   	@708
-						line_style 	0)))
-				    (object AssociationViewNew "$UNNAMED$36" @717
-					location   	(5328, 1971)
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"4770E20800D7"
-					roleview_list 	(list RoleViews
-					    (object RoleView "$UNNAMED$37" @718
-						Parent_View 	@717
-						location   	(4704, 595)
-						font       	(object Font
-						    size       	10
-						    face       	"Arial"
-						    charSet    	204
-						    bold       	FALSE
-						    italics    	FALSE
-						    underline  	FALSE
-						    strike     	FALSE
-						    color      	0
-						    default_color 	TRUE)
-						label      	(object SegLabel @719
-						    Parent_View 	@718
-						    location   	(5287, 1905)
-						    font       	(object Font
-							size       	10
-							face       	"Arial"
-							charSet    	204
-							bold       	FALSE
-							italics    	FALSE
-							underline  	FALSE
-							strike     	FALSE
-							color      	0
-							default_color 	TRUE)
-						    hidden     	TRUE
-						    anchor     	1
-						    anchor_loc 	1
-						    nlines     	1
-						    max_width  	450
-						    justify    	0
-						    label      	""
-						    pctDist    	0.800000
-						    height     	42
-						    orientation 	0)
-						stereotype 	TRUE
-						line_color 	3342489
-						quidu      	"4770E20800DA"
-						client     	@717
-						supplier   	@710
-						line_style 	0)
-					    (object RoleView "m_wndResizeBar" @720
-						Parent_View 	@717
-						location   	(4704, 595)
-						font       	(object Font
-						    size       	10
-						    face       	"Arial"
-						    charSet    	204
-						    bold       	FALSE
-						    italics    	FALSE
-						    underline  	FALSE
-						    strike     	FALSE
-						    color      	0
-						    default_color 	TRUE)
-						label      	(object SegLabel @721
-						    Parent_View 	@720
-						    location   	(5287, 2039)
-						    font       	(object Font
-							size       	10
-							face       	"Arial"
-							charSet    	204
-							bold       	FALSE
-							italics    	FALSE
-							underline  	FALSE
-							strike     	FALSE
-							color      	0
-							default_color 	TRUE)
-						    anchor     	1
-						    anchor_loc 	1
-						    nlines     	1
-						    max_width  	342
-						    justify    	0
-						    label      	"#m_wndResizeBar"
-						    pctDist    	0.800000
-						    height     	42
-						    orientation 	1)
-						stereotype 	TRUE
-						line_color 	3342489
-						quidu      	"4770E20800D8"
-						client     	@717
-						supplier   	@709
-						line_style 	0)))
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleClientItem" @722
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleClientItem" @695
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
-					location   	(2176, 848)
+					location   	(1456, 848)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -48270,8 +48048,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@722
-					    location   	(1911, 773)
+					    Parent_View 	@695
+					    location   	(1191, 773)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	530
@@ -48285,17 +48063,17 @@
 					height     	174
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @723
+				    (object InheritView "" @696
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65D013A"
 					client     	@666
-					supplier   	@722
+					supplier   	@695
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleServerItem" @724
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleServerItem" @697
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
-					location   	(2928, 848)
+					location   	(2208, 848)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -48307,8 +48085,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@724
-					    location   	(2663, 773)
+					    Parent_View 	@697
+					    location   	(1943, 773)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	530
@@ -48322,17 +48100,17 @@
 					height     	174
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @725
+				    (object InheritView "" @698
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65D00AD"
 					client     	@658
-					supplier   	@724
+					supplier   	@697
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleLinkingDoc" @726
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleLinkingDoc" @699
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
-					location   	(7008, 1184)
+					location   	(6112, 1184)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -48344,8 +48122,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@726
-					    location   	(6743, 1109)
+					    Parent_View 	@699
+					    location   	(5847, 1109)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	530
@@ -48359,17 +48137,17 @@
 					height     	174
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @727
+				    (object InheritView "" @700
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65B032B"
 					client     	@662
-					supplier   	@726
+					supplier   	@699
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleDocument" @728
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleDocument" @701
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
-					location   	(7008, 848)
+					location   	(6112, 848)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -48381,8 +48159,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@728
-					    location   	(6743, 773)
+					    Parent_View 	@701
+					    location   	(5847, 773)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	530
@@ -48396,17 +48174,17 @@
 					height     	174
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @729
+				    (object InheritView "" @702
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65B021D"
-					client     	@726
-					supplier   	@728
+					client     	@699
+					supplier   	@701
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::CDocItem" @730
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::CDocItem" @703
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
-					location   	(2544, 528)
+					location   	(1840, 528)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -48418,8 +48196,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@730
-					    location   	(2279, 453)
+					    Parent_View 	@703
+					    location   	(1575, 453)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	530
@@ -48433,24 +48211,24 @@
 					height     	174
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @731
+				    (object InheritView "" @704
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65C026F"
-					client     	@722
-					supplier   	@730
+					client     	@695
+					supplier   	@703
 					line_style 	0)
-				    (object InheritView "" @732
+				    (object InheritView "" @705
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65D0003"
-					client     	@724
-					supplier   	@730
+					client     	@697
+					supplier   	@703
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::CCmdTarget" @733
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::CCmdTarget" @706
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
-					location   	(2544, 208)
+					location   	(2656, 208)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -48462,8 +48240,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@733
-					    location   	(2279, 133)
+					    Parent_View 	@706
+					    location   	(2391, 133)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	530
@@ -48477,24 +48255,24 @@
 					height     	174
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @734
+				    (object InheritView "" @707
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65A0121"
-					client     	@708
-					supplier   	@733
+					client     	@692
+					supplier   	@706
 					line_style 	0)
-				    (object InheritView "" @735
+				    (object InheritView "" @708
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65C012E"
-					client     	@730
-					supplier   	@733
+					client     	@703
+					supplier   	@706
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Views::CView" @736
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Views::CView" @709
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
-					location   	(3520, 848)
+					location   	(2816, 848)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -48506,8 +48284,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@736
-					    location   	(3413, 773)
+					    Parent_View 	@709
+					    location   	(2709, 773)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	214
@@ -48521,14 +48299,14 @@
 					height     	174
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @737
+				    (object InheritView "" @710
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD667029C"
 					client     	@661
-					supplier   	@736
+					supplier   	@709
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleObjectFactory" @738
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::COleObjectFactory" @711
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					location   	(1088, 528)
@@ -48543,7 +48321,7 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@738
+					    Parent_View 	@711
 					    location   	(823, 453)
 					    fill_color 	13434879
 					    nlines     	1
@@ -48558,24 +48336,24 @@
 					height     	174
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @739
+				    (object InheritView "" @712
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65A0059"
-					client     	@685
-					supplier   	@738
+					client     	@671
+					supplier   	@711
 					line_style 	0)
-				    (object InheritView "" @740
+				    (object InheritView "" @713
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65A0009"
-					client     	@738
-					supplier   	@733
+					client     	@711
+					supplier   	@706
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::CDocument" @741
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::CDocument" @714
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
-					location   	(7008, 528)
+					location   	(6112, 528)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -48587,8 +48365,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@741
-					    location   	(6743, 453)
+					    Parent_View 	@714
+					    location   	(5847, 453)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	530
@@ -48602,24 +48380,24 @@
 					height     	174
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @742
+				    (object InheritView "" @715
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65B00BE"
-					client     	@728
-					supplier   	@741
+					client     	@701
+					supplier   	@714
 					line_style 	0)
-				    (object InheritView "" @743
+				    (object InheritView "" @716
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65A02D0"
-					client     	@741
-					supplier   	@733
+					client     	@714
+					supplier   	@706
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::CWnd" @744
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::CWnd" @717
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
-					location   	(4128, 528)
+					location   	(3408, 528)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -48631,8 +48409,8 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@744
-					    location   	(3930, 453)
+					    Parent_View 	@717
+					    location   	(3210, 453)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	396
@@ -48646,23 +48424,24 @@
 					height     	174
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @745
+				    (object InheritView "" @718
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD66601AB"
-					client     	@736
-					supplier   	@744
+					client     	@709
+					supplier   	@717
 					line_style 	0)
-				    (object InheritView "" @746
+				    (object InheritView "" @719
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"36CCD65F007E"
-					client     	@744
-					supplier   	@733
+					client     	@717
+					supplier   	@706
 					line_style 	0)
-				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::ShapeContainer" @747
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Frame Windows::COleIPFrameWnd" @720
 					ShowCompartmentStereotypes 	TRUE
-					location   	(6256, 1504)
+					IncludeAttribute 	TRUE
+					location   	(4608, 1184)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -48674,8 +48453,174 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@747
-					    location   	(6069, 1452)
+					    Parent_View 	@720
+					    location   	(4390, 1109)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	436
+					    justify    	0
+					    label      	"COleIPFrameWnd")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"365C7A7401C8"
+					width      	454
+					height     	174
+					annotation 	8
+					autoResize 	TRUE)
+				    (object InheritView "" @721
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"36CCD66200AB"
+					client     	@665
+					supplier   	@720
+					line_style 	0)
+				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Frame Windows::CFrameWnd" @722
+					ShowCompartmentStereotypes 	TRUE
+					IncludeAttribute 	TRUE
+					location   	(4016, 848)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@722
+					    location   	(3823, 773)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	386
+					    justify    	0
+					    label      	"CFrameWnd")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"365C7A74009C"
+					width      	404
+					height     	174
+					annotation 	8
+					autoResize 	TRUE)
+				    (object InheritView "" @723
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"36CCD66101FE"
+					client     	@668
+					supplier   	@722
+					line_style 	0)
+				    (object InheritView "" @724
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"36CCD661026C"
+					client     	@664
+					supplier   	@722
+					line_style 	0)
+				    (object InheritView "" @725
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"36CCD661033E"
+					client     	@720
+					supplier   	@722
+					line_style 	0)
+				    (object InheritView "" @726
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"36CCD66100DB"
+					client     	@722
+					supplier   	@717
+					line_style 	0)
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherDoc" @727
+					ShowCompartmentStereotypes 	TRUE
+					location   	(5728, 1824)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@727
+					    location   	(5557, 1773)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	342
+					    justify    	0
+					    label      	"CSketcherDoc")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"4770E2060352"
+					width      	360
+					height     	126
+					annotation 	8
+					autoResize 	TRUE)
+				    (object InheritView "" @728
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"4770E2060353"
+					client     	@727
+					supplier   	@662
+					line_style 	0)
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::CSketcherView" @729
+					ShowCompartmentStereotypes 	TRUE
+					location   	(2816, 1504)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@729
+					    location   	(2635, 1453)
+					    fill_color 	13434879
+					    nlines     	1
+					    max_width  	362
+					    justify    	0
+					    label      	"CSketcherView")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"4770E206021A"
+					width      	380
+					height     	126
+					annotation 	8
+					autoResize 	TRUE)
+				    (object InheritView "" @730
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"4770E206021B"
+					client     	@729
+					supplier   	@661
+					line_style 	0)
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::ShapeContainer" @731
+					ShowCompartmentStereotypes 	TRUE
+					location   	(5360, 1504)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@731
+					    location   	(5173, 1452)
 					    fill_color 	13434879
 					    nlines     	1
 					    max_width  	374
@@ -48689,15 +48634,15 @@
 					height     	128
 					annotation 	8
 					autoResize 	TRUE)
-				    (object AssociationViewNew "$UNNAMED$10" @748
-					location   	(6351, 1664)
+				    (object AssociationViewNew "$UNNAMED$10" @732
+					location   	(5544, 1664)
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"4770E2060362"
 					roleview_list 	(list RoleViews
-					    (object RoleView "$UNNAMED$11" @749
-						Parent_View 	@748
-						location   	(5983, 816)
+					    (object RoleView "$UNNAMED$11" @733
+						Parent_View 	@732
+						location   	(5176, 816)
 						font       	(object Font
 						    size       	10
 						    face       	"Arial"
@@ -48708,9 +48653,9 @@
 						    strike     	FALSE
 						    color      	0
 						    default_color 	TRUE)
-						label      	(object SegLabel @750
-						    Parent_View 	@749
-						    location   	(6433, 1719)
+						label      	(object SegLabel @734
+						    Parent_View 	@733
+						    location   	(5659, 1710)
 						    font       	(object Font
 							size       	10
 							face       	"Arial"
@@ -48734,12 +48679,12 @@
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"4770E2060365"
-						client     	@748
-						supplier   	@670
+						client     	@732
+						supplier   	@727
 						line_style 	0)
-					    (object RoleView "_shapeContainer" @751
-						Parent_View 	@748
-						location   	(5983, 816)
+					    (object RoleView "_shapeContainer" @735
+						Parent_View 	@732
+						location   	(5176, 816)
 						font       	(object Font
 						    size       	10
 						    face       	"Arial"
@@ -48750,9 +48695,9 @@
 						    strike     	FALSE
 						    color      	0
 						    default_color 	TRUE)
-						label      	(object SegLabel @752
-						    Parent_View 	@751
-						    location   	(6342, 1567)
+						label      	(object SegLabel @736
+						    Parent_View 	@735
+						    location   	(5483, 1556)
 						    font       	(object Font
 							size       	10
 							face       	"Arial"
@@ -48775,13 +48720,12 @@
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"4770E2060363"
-						client     	@748
-						supplier   	@747
+						client     	@732
+						supplier   	@731
 						line_style 	0)))
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Frame Windows::COleIPFrameWnd" @753
+				    (object ClassView "Class" "Logical View::VC++ Reverse Engineered::Sketcher::ShapeHandler" @737
 					ShowCompartmentStereotypes 	TRUE
-					IncludeAttribute 	TRUE
-					location   	(5328, 1184)
+					location   	(2816, 1824)
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -48793,86 +48737,199 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@753
-					    location   	(5110, 1109)
+					    Parent_View 	@737
+					    location   	(2647, 1772)
 					    fill_color 	13434879
 					    nlines     	1
-					    max_width  	436
+					    max_width  	338
 					    justify    	0
-					    label      	"COleIPFrameWnd")
+					    label      	"ShapeHandler")
 					icon_style 	"Icon"
 					line_color 	3342489
 					fill_color 	13434879
-					quidu      	"365C7A7401C8"
-					width      	454
-					height     	174
+					quidu      	"4770E2070074"
+					width      	356
+					height     	128
 					annotation 	8
 					autoResize 	TRUE)
-				    (object InheritView "" @754
+				    (object AssociationViewNew "$UNNAMED$14" @738
+					location   	(2816, 1663)
 					stereotype 	TRUE
 					line_color 	3342489
-					quidu      	"36CCD66200AB"
-					client     	@665
-					supplier   	@753
-					line_style 	0)
-				    (object ClassView "Class" "Logical View::MFC 6.0::CObject Classes::Application Architecture::Window Support::Frame Windows::CFrameWnd" @755
-					ShowCompartmentStereotypes 	TRUE
-					IncludeAttribute 	TRUE
-					location   	(4720, 848)
-					font       	(object Font
-					    size       	10
-					    face       	"Arial"
-					    charSet    	204
-					    bold       	FALSE
-					    italics    	FALSE
-					    underline  	FALSE
-					    strike     	FALSE
-					    color      	0
-					    default_color 	TRUE)
-					label      	(object ItemLabel
-					    Parent_View 	@755
-					    location   	(4527, 773)
-					    fill_color 	13434879
-					    nlines     	1
-					    max_width  	386
-					    justify    	0
-					    label      	"CFrameWnd")
-					icon_style 	"Icon"
-					line_color 	3342489
-					fill_color 	13434879
-					quidu      	"365C7A74009C"
-					width      	404
-					height     	174
-					annotation 	8
-					autoResize 	TRUE)
-				    (object InheritView "" @756
+					quidu      	"4770E2070075"
+					roleview_list 	(list RoleViews
+					    (object RoleView "$UNNAMED$15" @739
+						Parent_View 	@738
+						location   	(1888, 1151)
+						font       	(object Font
+						    size       	10
+						    face       	"Arial"
+						    charSet    	204
+						    bold       	FALSE
+						    italics    	FALSE
+						    underline  	FALSE
+						    strike     	FALSE
+						    color      	0
+						    default_color 	TRUE)
+						label      	(object SegLabel @740
+						    Parent_View 	@739
+						    location   	(2775, 1739)
+						    font       	(object Font
+							size       	10
+							face       	"Arial"
+							charSet    	204
+							bold       	FALSE
+							italics    	FALSE
+							underline  	FALSE
+							strike     	FALSE
+							color      	0
+							default_color 	TRUE)
+						    hidden     	TRUE
+						    anchor     	1
+						    anchor_loc 	1
+						    nlines     	1
+						    max_width  	450
+						    justify    	0
+						    label      	""
+						    pctDist    	0.800000
+						    height     	42
+						    orientation 	1)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"4770E2070086"
+						client     	@738
+						supplier   	@737
+						line_style 	0)
+					    (object RoleView "_view" @741
+						Parent_View 	@738
+						location   	(1888, 1151)
+						font       	(object Font
+						    size       	10
+						    face       	"Arial"
+						    charSet    	204
+						    bold       	FALSE
+						    italics    	FALSE
+						    underline  	FALSE
+						    strike     	FALSE
+						    color      	0
+						    default_color 	TRUE)
+						label      	(object SegLabel @742
+						    Parent_View 	@741
+						    location   	(2775, 1587)
+						    font       	(object Font
+							size       	10
+							face       	"Arial"
+							charSet    	204
+							bold       	FALSE
+							italics    	FALSE
+							underline  	FALSE
+							strike     	FALSE
+							color      	0
+							default_color 	TRUE)
+						    anchor     	1
+						    anchor_loc 	1
+						    nlines     	1
+						    max_width  	112
+						    justify    	0
+						    label      	"-_view"
+						    pctDist    	0.800000
+						    height     	42
+						    orientation 	0)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"4770E2070084"
+						client     	@738
+						supplier   	@729
+						line_style 	0)))
+				    (object AssociationViewNew "$UNNAMED$8" @743
+					location   	(2816, 1663)
 					stereotype 	TRUE
 					line_color 	3342489
-					quidu      	"36CCD66101FE"
-					client     	@669
-					supplier   	@755
-					line_style 	0)
-				    (object InheritView "" @757
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"36CCD661026C"
-					client     	@664
-					supplier   	@755
-					line_style 	0)
-				    (object InheritView "" @758
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"36CCD661033E"
-					client     	@753
-					supplier   	@755
-					line_style 	0)
-				    (object InheritView "" @759
-					stereotype 	TRUE
-					line_color 	3342489
-					quidu      	"36CCD66100DB"
-					client     	@755
-					supplier   	@744
-					line_style 	0))))))
+					quidu      	"4770E2060230"
+					roleview_list 	(list RoleViews
+					    (object RoleView "$UNNAMED$9" @744
+						Parent_View 	@743
+						location   	(2464, 799)
+						font       	(object Font
+						    size       	10
+						    face       	"Arial"
+						    charSet    	204
+						    bold       	FALSE
+						    italics    	FALSE
+						    underline  	FALSE
+						    strike     	FALSE
+						    color      	0
+						    default_color 	TRUE)
+						label      	(object SegLabel @745
+						    Parent_View 	@744
+						    location   	(2775, 1587)
+						    font       	(object Font
+							size       	10
+							face       	"Arial"
+							charSet    	204
+							bold       	FALSE
+							italics    	FALSE
+							underline  	FALSE
+							strike     	FALSE
+							color      	0
+							default_color 	TRUE)
+						    hidden     	TRUE
+						    anchor     	1
+						    anchor_loc 	1
+						    nlines     	1
+						    max_width  	450
+						    justify    	0
+						    label      	""
+						    pctDist    	0.800000
+						    height     	42
+						    orientation 	0)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"4770E2060233"
+						client     	@743
+						supplier   	@729
+						line_style 	0)
+					    (object RoleView "_handler" @746
+						Parent_View 	@743
+						location   	(2464, 799)
+						font       	(object Font
+						    size       	10
+						    face       	"Arial"
+						    charSet    	204
+						    bold       	FALSE
+						    italics    	FALSE
+						    underline  	FALSE
+						    strike     	FALSE
+						    color      	0
+						    default_color 	TRUE)
+						label      	(object SegLabel @747
+						    Parent_View 	@746
+						    location   	(2775, 1739)
+						    font       	(object Font
+							size       	10
+							face       	"Arial"
+							charSet    	204
+							bold       	FALSE
+							italics    	FALSE
+							underline  	FALSE
+							strike     	FALSE
+							color      	0
+							default_color 	TRUE)
+						    anchor     	1
+						    anchor_loc 	1
+						    nlines     	1
+						    max_width  	179
+						    justify    	0
+						    label      	"#_handler"
+						    pctDist    	0.800000
+						    height     	42
+						    orientation 	1)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"4770E2060231"
+						client     	@743
+						supplier   	@737
+						line_style 	0))))))))
 		logical_presentations 	(list unit_reference_list))
 	    (object Class_Category "MIDL Reverse Engineered"
 		quid       	"4770E20D0110"
@@ -48952,28 +49009,133 @@
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0)
-				    (object Operation "DrawLine"
+				    (object Operation "drawTextInOval"
 					attributes 	(list Attribute_Set
 					    (object Attribute
 						tool       	"COM"
 						name       	"id"
 						value      	"3"))
-					quid       	"4770E20D0131"
+					quid       	"47728C0B0280"
 					parameters 	(list Parameters
-					    (object Parameter "x1"
-						quid       	"4770E20D0132"
+					    (object Parameter "x"
+						quid       	"47728C0B0290"
 						type       	"float")
-					    (object Parameter "y1"
-						quid       	"4770E20D0133"
+					    (object Parameter "y"
+						quid       	"47728C0B0291"
 						type       	"float")
-					    (object Parameter "x2"
-						quid       	"4770E20D0134"
+					    (object Parameter "content"
+						quid       	"47728C0B029F"
+						type       	"BSTR")
+					    (object Parameter "r1"
+						quid       	"47728C0B02A0"
 						type       	"float")
-					    (object Parameter "y2"
-						quid       	"4770E20D0135"
+					    (object Parameter "r2"
+						quid       	"47728C0B02A1"
+						type       	"float"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "drawText"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"COM"
+						name       	"id"
+						value      	"4"))
+					quid       	"47728C0B02AF"
+					parameters 	(list Parameters
+					    (object Parameter "x"
+						quid       	"47728C0B02B0"
 						type       	"float")
-					    (object Parameter "text"
-						quid       	"4770E20D0136"
+					    (object Parameter "y"
+						quid       	"47728C0B02BF"
+						type       	"float")
+					    (object Parameter "content"
+						quid       	"47728C0B02C0"
+						type       	"BSTR"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "drawRectangle"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"COM"
+						name       	"id"
+						value      	"5"))
+					quid       	"47728C0B02C1"
+					parameters 	(list Parameters
+					    (object Parameter "x"
+						quid       	"47728C0B02CE"
+						type       	"float")
+					    (object Parameter "y"
+						quid       	"47728C0B02CF"
+						type       	"float")
+					    (object Parameter "height"
+						quid       	"47728C0B02DE"
+						type       	"float")
+					    (object Parameter "width"
+						quid       	"47728C0B02DF"
+						type       	"float"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "drawOval"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"COM"
+						name       	"id"
+						value      	"6"))
+					quid       	"47728C0B02E0"
+					parameters 	(list Parameters
+					    (object Parameter "x"
+						quid       	"47728C0B02EE"
+						type       	"float")
+					    (object Parameter "y"
+						quid       	"47728C0B02EF"
+						type       	"float")
+					    (object Parameter "r1"
+						quid       	"47728C0B02FD"
+						type       	"float")
+					    (object Parameter "r2"
+						quid       	"47728C0B030D"
+						type       	"float"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "addRibble"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"COM"
+						name       	"id"
+						value      	"7"))
+					quid       	"47728C0B030E"
+					parameters 	(list Parameters
+					    (object Parameter "id1"
+						quid       	"47728C0B030F"
+						type       	"BSTR")
+					    (object Parameter "id2"
+						quid       	"47728C0B0310"
+						type       	"BSTR"))
+					result     	"void"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "removeRibble"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"COM"
+						name       	"id"
+						value      	"8"))
+					quid       	"47728C0B0311"
+					parameters 	(list Parameters
+					    (object Parameter "id1"
+						quid       	"47728C0B031C"
+						type       	"BSTR")
+					    (object Parameter "id2"
+						quid       	"47728C0B031D"
 						type       	"BSTR"))
 					result     	"void"
 					concurrency 	"Sequential"
@@ -48992,7 +49154,7 @@
 				origin_x   	0
 				origin_y   	0
 				items      	(list diagram_item_list
-				    (object Label @760
+				    (object Label @748
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -49010,7 +49172,7 @@
 |This diagram was automatically created by Rational Rose Model Update Tool.
 |25 Декабрь 2007 г. 13:57:17
 					)
-				    (object ClassView "Class" "Logical View::MIDL Reverse Engineered::Sketcher.odl::Document" @761
+				    (object ClassView "Class" "Logical View::MIDL Reverse Engineered::Sketcher.odl::Document" @749
 					ShowCompartmentStereotypes 	TRUE
 					SuppressAttribute 	TRUE
 					SuppressOperation 	TRUE
@@ -49026,7 +49188,7 @@
 					    color      	16777215
 					    default_color 	FALSE)
 					label      	(object ItemLabel
-					    Parent_View 	@761
+					    Parent_View 	@749
 					    location   	(22, 363)
 					    fill_color 	13434879
 					    nlines     	1
@@ -49034,7 +49196,7 @@
 					    justify    	0
 					    label      	"Document")
 					stereotype 	(object ItemLabel
-					    Parent_View 	@761
+					    Parent_View 	@749
 					    location   	(22, 313)
 					    fill_color 	13434879
 					    anchor     	10
@@ -49050,7 +49212,7 @@
 					height     	167
 					annotation 	8
 					autoResize 	TRUE)
-				    (object ClassView "Class" "Logical View::MIDL Reverse Engineered::Sketcher.odl::ISketcher" @762
+				    (object ClassView "Class" "Logical View::MIDL Reverse Engineered::Sketcher.odl::ISketcher" @750
 					ShowCompartmentStereotypes 	TRUE
 					SuppressAttribute 	TRUE
 					location   	(176, 656)
@@ -49065,7 +49227,7 @@
 					    color      	0
 					    default_color 	TRUE)
 					label      	(object ItemLabel
-					    Parent_View 	@762
+					    Parent_View 	@750
 					    location   	(175, 764)
 					    anchor_loc 	1
 					    nlines     	1
@@ -49081,7 +49243,7 @@
 					height     	58
 					annotation 	8
 					autoResize 	TRUE)
-				    (object RealizeView "" @763
+				    (object RealizeView "" @751
 					font       	(object Font
 					    size       	10
 					    face       	"Arial"
@@ -49092,8 +49254,8 @@
 					    strike     	FALSE
 					    color      	0
 					    default_color 	TRUE)
-					stereotype 	(object SegLabel @764
-					    Parent_View 	@763
+					stereotype 	(object SegLabel @752
+					    Parent_View 	@751
 					    location   	(296, 547)
 					    font       	(object Font
 						size       	10
@@ -49116,8 +49278,8 @@
 					    orientation 	0)
 					line_color 	3342489
 					quidu      	"4770E20D0116"
-					client     	@761
-					supplier   	@762
+					client     	@749
+					supplier   	@750
 					line_style 	0))))))
 		logical_presentations 	(list unit_reference_list)))
 	logical_presentations 	(list unit_reference_list
@@ -49130,7 +49292,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object CategoryView "Logical View::MFC 6.0" @765
+		    (object CategoryView "Logical View::MFC 6.0" @753
 			location   	(464, 432)
 			font       	(object Font
 			    size       	10
@@ -49143,7 +49305,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@765
+			    Parent_View 	@753
 			    location   	(320, 348)
 			    fill_color 	13434879
 			    nlines     	2
@@ -49156,7 +49318,7 @@
 			quidu      	"365C7A6F006A"
 			width      	300
 			height     	180)
-		    (object NoteView @766
+		    (object NoteView @754
 			location   	(1552, 432)
 			font       	(object Font
 			    size       	10
@@ -49169,7 +49331,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@766
+			    Parent_View 	@754
 			    location   	(1030, 273)
 			    fill_color 	13434879
 			    nlines     	6
@@ -49179,11 +49341,11 @@
 			fill_color 	8585215
 			width      	1069
 			height     	331)
-		    (object AttachView "" @767
+		    (object AttachView "" @755
 			stereotype 	TRUE
 			line_color 	3342489
-			client     	@765
-			supplier   	@766
+			client     	@753
+			supplier   	@754
 			line_style 	0)))))
     root_subsystem 	(object SubSystem "Component View"
 	quid       	"365C7A6603BD"
@@ -49297,11 +49459,11 @@
 		    (object Attribute
 			tool       	"VC++"
 			name       	"ProjectFile"
-			value      	"D:\\_leti\\_sem_9\\главное\\оот\\labs\\lab3\\src\\Sketcher\\Sketcher.dsp")
+			value      	"..\\src\\Sketcher\\Sketcher.dsp")
 		    (object Attribute
 			tool       	"VC++"
 			name       	"WorkspaceFile"
-			value      	"D:\\_leti\\_sem_9\\главное\\оот\\labs\\lab3\\src\\Sketcher\\Sketcher.dsw")
+			value      	"..\\src\\Sketcher\\Sketcher.dsw")
 		    (object Attribute
 			tool       	"VC++"
 			name       	"Kind"
@@ -49309,7 +49471,63 @@
 		    (object Attribute
 			tool       	"VC++"
 			name       	"ProjectName"
-			value      	"Sketcher"))
+			value      	"Sketcher")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"Copyright"
+			value      	(value Text "Copyright (C) 1991 - 1999 Rational Software Corporation"))
+		    (object Attribute
+			tool       	"VC++"
+			name       	"UpdateATL"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"SmartPointersOnAssoc"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"GenerateImports"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"FullPathInImports"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"UseImportAttributes"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"ImportAttributes"
+			value      	"no_namespace named_guids")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"PutImportsIn"
+			value      	"stdafx.h")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"ImportProjTypeLib"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"DefaultTypeLib"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"DefaultPtrStyle"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"TypeLibLocation"
+			value      	"")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"CompileProjTypeLib"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"Generate"
+			value      	"True"))
 		quid       	"4770E1F6012F"
 		stereotype 	"EXE"
 		language   	"VC++")
@@ -49318,11 +49536,11 @@
 		    (object Attribute
 			tool       	"VC++"
 			name       	"ProjectFile"
-			value      	"D:\\_leti\\_sem_9\\главное\\оот\\labs\\lab3\\src\\Sketcher\\Sketcher.dsp")
+			value      	"..\\src\\Sketcher\\Sketcher.dsp")
 		    (object Attribute
 			tool       	"VC++"
 			name       	"WorkspaceFile"
-			value      	"D:\\_leti\\_sem_9\\главное\\оот\\labs\\lab3\\src\\Sketcher\\Sketcher.dsw")
+			value      	"..\\src\\Sketcher\\Sketcher.dsw")
 		    (object Attribute
 			tool       	"VC++"
 			name       	"Kind"
@@ -49330,7 +49548,7 @@
 		    (object Attribute
 			tool       	"VC++"
 			name       	"FileName"
-			value      	"D:\\_leti\\_sem_9\\главное\\оот\\labs\\lab3\\src\\Sketcher\\Sketcher.odl")
+			value      	"E:\\_leti\\_sem_9\\главное\\оот\\.eav_labs\\lab3\\src\\Sketcher\\Sketcher.odl")
 		    (object Attribute
 			tool       	"VC++"
 			name       	"ProjectName"
@@ -49342,7 +49560,7 @@
 		    (object Attribute
 			tool       	"COM"
 			name       	"filename"
-			value      	"D:\\_leti\\_sem_9\\главное\\оот\\labs\\lab3\\src\\Sketcher\\Debug\\Sketcher.tlb")
+			value      	"E:\\_leti\\_sem_9\\главное\\оот\\.eav_labs\\lab3\\src\\Sketcher\\Release\\Sketcher.tlb")
 		    (object Attribute
 			tool       	"COM"
 			name       	"uuid"
@@ -49350,7 +49568,63 @@
 		    (object Attribute
 			tool       	"COM"
 			name       	"version"
-			value      	"1.0"))
+			value      	"1.0")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"Copyright"
+			value      	(value Text "Copyright (C) 1991 - 1999 Rational Software Corporation"))
+		    (object Attribute
+			tool       	"VC++"
+			name       	"UpdateATL"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"SmartPointersOnAssoc"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"GenerateImports"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"FullPathInImports"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"UseImportAttributes"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"ImportAttributes"
+			value      	"no_namespace named_guids")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"PutImportsIn"
+			value      	"stdafx.h")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"ImportProjTypeLib"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"DefaultTypeLib"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"DefaultPtrStyle"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"TypeLibLocation"
+			value      	"")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"CompileProjTypeLib"
+			value      	"True")
+		    (object Attribute
+			tool       	"VC++"
+			name       	"Generate"
+			value      	"True"))
 		quid       	"4770E1FE0074"
 		stereotype 	"MIDL"
 		language   	"VC++"))
@@ -52485,7 +52759,7 @@
 		    (object Attribute
 			tool       	"Java"
 			name       	"ClassPath"
-			value      	"C:\\Program Files\\IBM\\WebSphere MQ\\Java\\lib\\providerutil.jar;C:\\Program Files\\IBM\\WebSphere MQ\\Java\\lib\\com.ibm.mqjms.jar;C:\\Program Files\\IBM\\WebSphere MQ\\Java\\lib\\ldap.jar;C:\\Program Files\\IBM\\WebSphere MQ\\Java\\lib\\jta.jar;C:\\Program Files\\IBM\\WebSphere MQ\\Java\\lib\\jndi.jar;C:\\Program Files\\IBM\\WebSphere MQ\\Java\\lib\\jms.jar;C:\\Program Files\\IBM\\WebSphere MQ\\Java\\lib\\connector.jar;C:\\Program Files\\IBM\\WebSphere MQ\\Java\\lib\\fscontext.jar;C:\\Program Files\\IBM\\WebSphere MQ\\Java\\lib\\com.ibm.mq.jar;C:\\j2sdk1.4.2_05\\jre\\lib\\charsets.jar;C:\\j2sdk1.4.2_05\\jre\\lib\\jce.jar;C:\\j2sdk1.4.2_05\\jre\\lib\\jsse.jar;C:\\j2sdk1.4.2_05\\jre\\lib\\rt.jar;C:\\j2sdk1.4.2_05\\jre\\lib\\sunrsasign.jar;C:\\j2sdk1.4.2_05\\jre\\lib\\ext\\dnsns.jar;C:\\j2sdk1.4.2_05\\jre\\lib\\ext\\ldapsec.jar;C:\\j2sdk1.4.2_05\\jre\\lib\\ext\\localedata.jar;C:\\j2sdk1.4.2_05\\jre\\lib\\ext\\sunjce_provider.jar;C:\\j2sdk1.4.2_05\\jre\\lib\\security\\local_policy.jar;C:\\j2sdk1.4.2_05\\jre\\lib\\security\\US_export_policy.jar;C:\\j2sdk1.4.2_05\\lib\\dt.jar;C:\\j2sdk1.4.2_05\\lib\\htmlconverter.jar;C:\\j2sdk1.4.2_05\\lib\\tools.jar;C:\\j2sdk1.4.2_05\\src.zip;D:\\Work\\ED\\edmac\\Project\\ClientWS\\MDBArchive;D:\\Work\\ED\\edmac\\Project\\ClientWS\\MDBArchive\\src;D:\\Work\\ED\\edmac\\Project\\ClientWS\\lib;D:\\Work\\ED\\edmac\\Project\\ClientWS\\lib\\jaxrpc.jar;D:\\Work\\ED\\edmac\\Project\\ClientWS\\lib\\jboss-j2ee.jar;D:\\Work\\ED\\edmac\\Project\\ClientWS\\MDBArchive\\hibernate2.jar;D:\\Work\\ED\\edmac\\Project\\ClientWS\\MDBArchive\\jaxb-api.jar;D:\\WORK\\EDTITS\\GWT-EDITOR\\APPS\\MARKUP2JCODECONVERTER\\src")
+			value      	"")
 		    (object Attribute
 			tool       	"Java"
 			name       	"ReferenceClasspath"
@@ -54753,7 +55027,15 @@
 		    (object Attribute
 			tool       	"cg"
 			name       	"AlwaysKeepOrphanedCode"
-			value      	FALSE)))
+			value      	FALSE)
+		    (object Attribute
+			tool       	"cg"
+			name       	"UseMSVC"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"cg"
+			name       	"CommentWidth"
+			value      	60)))
 	    (object Attribute
 		tool       	"cg"
 		name       	"compiler3.0__Project"
@@ -54913,7 +55195,15 @@
 		    (object Attribute
 			tool       	"cg"
 			name       	"AlwaysKeepOrphanedCode"
-			value      	FALSE)))
+			value      	FALSE)
+		    (object Attribute
+			tool       	"cg"
+			name       	"UseMSVC"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"cg"
+			name       	"CommentWidth"
+			value      	60)))
 	    (object Attribute
 		tool       	"cg"
 		name       	"default__Class"
@@ -56105,7 +56395,23 @@
 			    (object Attribute
 				tool       	"cg"
 				name       	"Sequence"
-				value      	47)))))
+				value      	47)))
+		    (object Attribute
+			tool       	"cg"
+			name       	"GenerateInclude"
+			value      	("GenerateIncludeSet" 0))
+		    (object Attribute
+			tool       	"cg"
+			name       	"GenerateIncludeSet"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"cg"
+				name       	"Default"
+				value      	0)
+			    (object Attribute
+				tool       	"cg"
+				name       	"Always"
+				value      	1)))))
 	    (object Attribute
 		tool       	"cg"
 		name       	"default__Attribute"

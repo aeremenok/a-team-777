@@ -26,13 +26,14 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CLab3drivDlg)
 	enum { IDD = IDD_LAB3DRIV_DIALOG };
+	CEdit	m_id2;
+	CEdit	m_id1;
 	CEdit	m_Text;
 	CEdit	m_Width;
 	CEdit	m_Height;
 	CEdit	m_Y;
 	CEdit	m_X;
-	CEdit	m_sizeControl;
-	CEdit	m_EditControl;
+	CEdit	ID_to_delete;
     CComboBox _typeSelect;
 	//}}AFX_DATA
 
@@ -53,10 +54,11 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	afx_msg void OnButton1();
-	afx_msg void OnButton2();
 	afx_msg void OnButton3();
 	afx_msg void OnButton4();
 	afx_msg void OnSelendokComboType();
+	afx_msg void OnLink();
+	afx_msg void OnUnLink();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

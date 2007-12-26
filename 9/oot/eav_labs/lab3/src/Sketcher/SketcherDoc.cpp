@@ -66,8 +66,8 @@ BEGIN_DISPATCH_MAP(CSketcherDoc, COleServerDoc)
 	DISP_FUNCTION(CSketcherDoc, "drawText", drawText, VT_EMPTY, VTS_R4 VTS_R4 VTS_BSTR)
 	DISP_FUNCTION(CSketcherDoc, "drawRectangle", drawRectangle, VT_EMPTY, VTS_R4 VTS_R4 VTS_R4 VTS_R4)
 	DISP_FUNCTION(CSketcherDoc, "drawOval", drawOval, VT_EMPTY, VTS_R4 VTS_R4 VTS_R4 VTS_R4)
-	DISP_FUNCTION(CSketcherDoc, "addRibble", addRibble, VT_EMPTY, VTS_I2 VTS_I2)
-	DISP_FUNCTION(CSketcherDoc, "removeRibble", removeRibble, VT_EMPTY, VTS_I2 VTS_I2)
+	DISP_FUNCTION(CSketcherDoc, "addRibble", addRibble, VT_EMPTY, VTS_BSTR VTS_BSTR)
+	DISP_FUNCTION(CSketcherDoc, "removeRibble", removeRibble, VT_EMPTY, VTS_BSTR VTS_BSTR)
 	//}}AFX_DISPATCH_MAP
 END_DISPATCH_MAP()
 
@@ -350,7 +350,7 @@ void CSketcherDoc::OnUpdateElementRibble(CCmdUI* pCmdUI)
 //##ModelId=47728BFF030D
 void CSketcherDoc::drawTextInOval(float x, float y, LPCTSTR content, float r1, float r2) 
 {
-    CRect* rect = new CRect(CPoint(x-50,y+50),CPoint(x+50,y-50));
+    CRect* rect = new CRect(CPoint(x-r1,y+r1),CPoint(x+r1,y-r1));
     TextInOval* elem = TextInOval::create(rect->BottomRight(), rect->TopLeft(), BLACK);
     elem->set__content(string(content));
     getShapeContainer()->AddElement(elem);
@@ -400,21 +400,23 @@ BOOL CSketcherDoc::deleteElement(LPCTSTR key)
 }
 
 //##ModelId=47728C0000CB
-void CSketcherDoc::addRibble(short id1, short id2) 
+void CSketcherDoc::addRibble(LPCTSTR id1, LPCTSTR id2) 
 {
-    CElement* elem1 = getShapeContainer()->getElementById(id1);
-    CElement* elem2 = getShapeContainer()->getElementById(id2);
+    CElement* elem1 = getShapeContainer()->getElementById(atoi(id1));
+    CElement* elem2 = getShapeContainer()->getElementById(atoi(id2));
     getShapeContainer()->linkElements(elem1, elem2);
     UpdateAllViews(NULL);
     SetModifiedFlag();
 }
 
 //##ModelId=47728C000119
-void CSketcherDoc::removeRibble(short id1, short id2) 
+void CSketcherDoc::removeRibble(LPCTSTR id1, LPCTSTR id2) 
 {
-    CElement* elem1 = getShapeContainer()->getElementById(id1);
-    CElement* elem2 = getShapeContainer()->getElementById(id2);
+    CElement* elem1 = getShapeContainer()->getElementById(atoi(id1));
+    CElement* elem2 = getShapeContainer()->getElementById(atoi(id2));
     getShapeContainer()->removeRibble(elem1, elem2);
+    getShapeContainer()->AddElement(elem1);
+    getShapeContainer()->AddElement(elem2);
     UpdateAllViews(NULL);
     SetModifiedFlag();
 }

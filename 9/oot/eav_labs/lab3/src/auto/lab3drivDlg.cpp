@@ -75,13 +75,14 @@ void CLab3drivDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CLab3drivDlg)
+	DDX_Control(pDX, IDC_EDIT9, m_id2);
+	DDX_Control(pDX, IDC_EDIT8, m_id1);
 	DDX_Control(pDX, IDC_EDIT7, m_Text);
 	DDX_Control(pDX, IDC_EDIT5, m_Width);
 	DDX_Control(pDX, IDC_EDIT3, m_Height);
 	DDX_Control(pDX, IDC_EDIT4, m_Y);
 	DDX_Control(pDX, IDC_EDIT1, m_X);
-	DDX_Control(pDX, IDC_EDIT6, m_sizeControl);
-	DDX_Control(pDX, IDC_EDIT2, m_EditControl);
+	DDX_Control(pDX, IDC_EDIT2, ID_to_delete);
     DDX_Control(pDX, IDC_COMBO_TYPE, _typeSelect);
 	//}}AFX_DATA_MAP
 }
@@ -92,10 +93,11 @@ BEGIN_MESSAGE_MAP(CLab3drivDlg, CDialog)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, OnButton1)
-	ON_BN_CLICKED(IDC_BUTTON2, OnButton2)
 	ON_BN_CLICKED(IDC_BUTTON3, OnButton3)
 	ON_BN_CLICKED(IDC_BUTTON4, OnButton4)
 	ON_CBN_SELENDOK(IDC_COMBO_TYPE, OnSelendokComboType)
+	ON_BN_CLICKED(IDC_BUTTON5, OnLink)
+	ON_BN_CLICKED(IDC_BUTTON6, OnUnLink)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -189,20 +191,8 @@ void CLab3drivDlg::OnButton1()
 	if (!m_initialized)
 		return;
 	CString strText;
-	m_EditControl.GetWindowText(strText);
+	ID_to_delete.GetWindowText(strText);
 	m_oleDriver.deleteElement(strText);
-}
-
-void CLab3drivDlg::OnButton2() 
-{
-    /*
-	if (!m_initialized)
-		return;
-	short size = m_oleDriver.getHashSize();
-	char c[5];
-	itoa(size, c, 10);
-	m_sizeControl.SetWindowText(c);
-    */
 }
 
 void CLab3drivDlg::OnButton3() 
@@ -241,8 +231,6 @@ void CLab3drivDlg::OnButton3()
 
 void CLab3drivDlg::OnButton4() 
 {
-	// TODO: Add your control notification handler code here
-
 	if (!m_oleDriver.CreateDispatch(_T("Sketcher.Document")))
 	{
 		AfxMessageBox("Cannot create OLEApp.Document");
@@ -292,4 +280,20 @@ void CLab3drivDlg::OnSelendokComboType()
     default:
         break;
     }
+}
+
+void CLab3drivDlg::OnLink() 
+{
+    CString id1, id2;
+    m_id1.GetWindowText(id1);
+    m_id2.GetWindowText(id2);
+    m_oleDriver.addRibble(id1, id2);
+}
+
+void CLab3drivDlg::OnUnLink() 
+{
+    CString id1, id2;
+    m_id1.GetWindowText(id1);
+    m_id2.GetWindowText(id2);
+    m_oleDriver.removeRibble(id1, id2);	
 }
