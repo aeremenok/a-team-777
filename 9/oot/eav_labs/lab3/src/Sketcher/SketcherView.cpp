@@ -294,6 +294,7 @@ CSketcherCntrItem* CSketcherView::HitTestItems(CPoint point)
 	return pItemHit;    // return top item at point
 }
 
+//##ModelId=4770E20602AA
 void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
 	CSketcherCntrItem* pItemHit = HitTestItems(point);
@@ -317,6 +318,7 @@ void CSketcherView::OnLButtonDown(UINT nFlags, CPoint point)
     	_handler->onLBDown(point);
 }
 
+//##ModelId=4770E20602B6
 void CSketcherView::OnLButtonUp(UINT nFlags, CPoint point) 
 {
 	//GetDocument()->NotifyChanged();
@@ -331,12 +333,14 @@ void CSketcherView::OnMouseMove(UINT nFlags, CPoint point)
     _handler->onMMove(point, (nFlags & MK_LBUTTON) );
 }
 
+//##ModelId=4770E20602C6
 void CSketcherView::OnRButtonDown(UINT nFlags, CPoint point) 
 {
     _handler->onRBDown(point);
     //GetDocument()->NotifyChanged();
 }
 
+//##ModelId=4770E20602CA
 void CSketcherView::OnRButtonUp(UINT nFlags, CPoint point) 
 {
     _handler->onRBUp(point);
@@ -409,6 +413,7 @@ CSketcherDoc* CSketcherView::GetDocument() // non-debug version is inline
 }
 #endif //_DEBUG
 
+//##ModelId=47728BFF01A5
 void CSketcherView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	OnLButtonDown(nFlags, point);
@@ -422,7 +427,7 @@ void CSketcherView::OnLButtonDblClk(UINT nFlags, CPoint point)
 	CView::OnLButtonDblClk(nFlags, point);
 }
 
-//##ModelId=4741F10E0225
+//##ModelId=4770E206026A
 void CSketcherView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
 	Invalidate();
@@ -563,11 +568,13 @@ void CSketcherView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
     CScrollView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
+//##ModelId=47728BFF0252
 void CSketcherView::OnUpdateEditCopy(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_pSelection != NULL);
 }
 
+//##ModelId=47728BFF0271
 void CSketcherView::OnEditPaste() 
 {
     CSketcherCntrItem* pItem = NULL;
@@ -606,12 +613,14 @@ void CSketcherView::OnEditPaste()
 	GetDocument()->NotifyChanged();
 }
 
+//##ModelId=47728BFF0242
 void CSketcherView::OnEditCopy()
 {
     if (m_pSelection != NULL)
         m_pSelection->CopyToClipboard();
 }
 
+//##ModelId=47728BFF01E4
 BOOL CSketcherView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
     if (pWnd == this && m_pSelection != NULL)

@@ -12,7 +12,7 @@
 //##ModelId=4770E20703D2
 list<Oval*> Oval::_ovals;
 //////////////////////////////////////////////////////////////////////////
-//##ModelId=473EDDF403C8
+//##ModelId=4770E20703DF
 Oval::Oval(float firstRad, float secondRad, float x, float y)
 : Shape(x, y)
 {

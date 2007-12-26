@@ -26,13 +26,21 @@ library Sketcher
 			// NOTE - ClassWizard will maintain method information here.
 			//    Use extreme caution when editing this section.
 			//{{AFX_ODL_METHOD(CSketcherDoc)
+		//##ModelId=4770E20D0122
 			[id(1)] boolean deleteElement(BSTR key);
+		//##ModelId=4770E20D0130
 			[id(2)] void showWindow();
+		//##ModelId=47728C0B0280
 			[id(3)] void drawTextInOval(float x, float y, BSTR content, float r1, float r2);
+		//##ModelId=47728C0B02AF
 			[id(4)] void drawText(float x, float y, BSTR content);
+		//##ModelId=47728C0B02C1
 			[id(5)] void drawRectangle(float x, float y, float height, float width);
+		//##ModelId=47728C0B02E0
 			[id(6)] void drawOval(float x, float y, float r1, float r2);
+		//##ModelId=47728C0B030E
 			[id(7)] void addRibble(short id1, short id2);
+		//##ModelId=47728C0B0311
 			[id(8)] void removeRibble(short id1, short id2);
 			//}}AFX_ODL_METHOD
 

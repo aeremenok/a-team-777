@@ -254,7 +254,7 @@ void CSketcherDoc::OnUpdateElementText(CCmdUI* pCmdUI)
 
 
 // Get the rectangle enclosing the entire document
-//##ModelId=476D9BD500FD
+//##ModelId=4770E2060374
 CRect CSketcherDoc::GetDocExtent()
 {
 	CRect DocExtent(0,0,1,1);    // Initial document extent
@@ -347,6 +347,7 @@ void CSketcherDoc::OnUpdateElementRibble(CCmdUI* pCmdUI)
 }
 
 //////////////////////////////////////////////////////////////////////////
+//##ModelId=47728BFF030D
 void CSketcherDoc::drawTextInOval(float x, float y, LPCTSTR content, float r1, float r2) 
 {
     CRect* rect = new CRect(CPoint(x-50,y+50),CPoint(x+50,y-50));
@@ -357,6 +358,7 @@ void CSketcherDoc::drawTextInOval(float x, float y, LPCTSTR content, float r1, f
 	SetModifiedFlag();
 }
 
+//##ModelId=47728BFF0399
 void CSketcherDoc::drawText(float x, float y, LPCTSTR content) 
 {
     CRect* rect = new CRect(CPoint(x-50,y+50),CPoint(x+50,y-50));
@@ -367,6 +369,7 @@ void CSketcherDoc::drawText(float x, float y, LPCTSTR content)
 	SetModifiedFlag();
 }
 
+//##ModelId=47728C000000
 void CSketcherDoc::drawRectangle(float x, float y, float height, float width) 
 {
     CRect* rect = new CRect(CPoint(x-width,y+height),CPoint(x+width,y-height));
@@ -376,6 +379,7 @@ void CSketcherDoc::drawRectangle(float x, float y, float height, float width)
 	SetModifiedFlag();
 }
 
+//##ModelId=47728C00006D
 void CSketcherDoc::drawOval(float x, float y, float r1, float r2) 
 {
     CRect* rect = new CRect(CPoint(x-r1,y+r2),CPoint(x+r1,y-r2));
@@ -385,6 +389,7 @@ void CSketcherDoc::drawOval(float x, float y, float r1, float r2)
 	SetModifiedFlag();
 }
 
+//##ModelId=4770E207000C
 BOOL CSketcherDoc::deleteElement(LPCTSTR key) 
 {
     CElement* elem = getShapeContainer()->getElementById(atoi(key));
@@ -394,6 +399,7 @@ BOOL CSketcherDoc::deleteElement(LPCTSTR key)
     return TRUE;
 }
 
+//##ModelId=47728C0000CB
 void CSketcherDoc::addRibble(short id1, short id2) 
 {
     CElement* elem1 = getShapeContainer()->getElementById(id1);
@@ -403,6 +409,7 @@ void CSketcherDoc::addRibble(short id1, short id2)
     SetModifiedFlag();
 }
 
+//##ModelId=47728C000119
 void CSketcherDoc::removeRibble(short id1, short id2) 
 {
     CElement* elem1 = getShapeContainer()->getElementById(id1);

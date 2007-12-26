@@ -21,7 +21,9 @@ protected:
 	//##ModelId=4770E20802E5
     int m_Pen;                         
 public:
+	//##ModelId=47728C0003D8
     COLORREF Color() const { return m_Color; }
+	//##ModelId=47728C0003DA
     void Color(COLORREF val) { m_Color = val; }
 
 	//изменяет размер фигуры
