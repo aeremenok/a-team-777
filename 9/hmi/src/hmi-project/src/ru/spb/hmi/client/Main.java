@@ -1,11 +1,13 @@
 package ru.spb.hmi.client;
 
+import ru.spb.hmi.client.popups.AboutDialog;
 import ru.spb.hmi.client.service.DocList;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -14,26 +16,32 @@ public class Main
     implements
         EntryPoint
 {
+    VerticalPanel _mainPanel = new VerticalPanel();
 
     public void onModuleLoad()
     {
         RootPanel rootPanel = RootPanel.get();
         rootPanel.setSize( "100%", "100%" );
         rootPanel.setTitle( "DocRedactor" );
+        _mainPanel.setSize( "100%", "100%" );
+        rootPanel.add( _mainPanel );
 
         {
             final MenuBar menuBar = new MenuBar();
-            rootPanel.add( menuBar, 0, 0 );
+
+            _mainPanel.add( menuBar );
             menuBar.setWidth( "100%" );
 
             final MenuBar menuBar_1 = new MenuBar( true );
 
-            menuBar_1.addItem( "GetList", new Command()
+            menuBar_1.addItem( "Get List", new Command()
             {
-                DocList docList = new DocList();
+                DocList docList = new DocList( _mainPanel );
 
                 public void execute()
                 {
+                    System.out.println( "loading doc list" );
+
                     docList.onModuleLoad();
                 }
             } );

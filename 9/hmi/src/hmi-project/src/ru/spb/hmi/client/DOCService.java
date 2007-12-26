@@ -10,7 +10,7 @@ public interface DOCService
     extends
         RemoteService
 {
-    String getContent(
+    String getDocContent(
         String id );
 
     ArrayList getDocList();

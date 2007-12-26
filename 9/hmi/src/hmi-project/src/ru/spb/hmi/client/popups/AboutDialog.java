@@ -1,4 +1,4 @@
-package ru.spb.hmi.client;
+package ru.spb.hmi.client.popups;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.Button;

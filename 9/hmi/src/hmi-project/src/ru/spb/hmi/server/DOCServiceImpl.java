@@ -11,26 +11,38 @@ public class DOCServiceImpl
     implements
         DOCService
 {
-    public String getContent(
+    IDoc                        _docHandler;
+
+    private static final Object _syncronizer = new Object();
+
+    public DOCServiceImpl()
+    {
+        super();
+        _docHandler = new DataBaseDoc();
+    }
+
+    public String getDocContent(
         String id )
     {
         if ( id.equalsIgnoreCase( "1" ) )
         {
             return "777";
         }
-        else
-        {
-            return "888";
-        }
+        return "888";
     }
 
     @Override
     public ArrayList getDocList()
     {
-        ArrayList res = new ArrayList();
-        res.add( "111" );
-        res.add( "222" );
-        res.add( "333" );
-        return res;
+        synchronized ( _syncronizer )
+        {
+            // todo
+            ArrayList res = // _docHandler.getDocList();
+                            new ArrayList();
+            res.add( "111" );
+            res.add( "222" );
+            res.add( "333" );
+            return res;
+        }
     }
 }
