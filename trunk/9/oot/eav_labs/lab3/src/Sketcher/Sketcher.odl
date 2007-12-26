@@ -39,9 +39,9 @@ library Sketcher
 		//##ModelId=47728C0B02E0
 			[id(6)] void drawOval(float x, float y, float r1, float r2);
 		//##ModelId=47728C0B030E
-			[id(7)] void addRibble(short id1, short id2);
+			[id(7)] void addRibble(BSTR id1, BSTR id2);
 		//##ModelId=47728C0B0311
-			[id(8)] void removeRibble(short id1, short id2);
+			[id(8)] void removeRibble(BSTR id1, BSTR id2);
 			//}}AFX_ODL_METHOD
 
 	};

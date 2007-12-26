@@ -59,14 +59,16 @@ void OleDriver::drawOval( float x, float y, float r1, float r2 )
     InvokeHelper(0x6, DISPATCH_METHOD, VT_EMPTY, NULL, params, x, y, r1, r2);
 }
 
-void OleDriver::addRibble( short id1, short id2 )
+void OleDriver::addRibble( LPCTSTR id1, LPCTSTR id2 )
 {
-    const BYTE params[] = VTS_I2 VTS_I2;
+    AfxMessageBox(id1);
+    AfxMessageBox(id2);
+    const BYTE params[] = VTS_BSTR VTS_BSTR;
     InvokeHelper(0x7, DISPATCH_METHOD, VT_EMPTY, NULL, params, id1, id2);
 }
 
-void OleDriver::removeRibble( short id1, short id2 )
+void OleDriver::removeRibble( LPCTSTR id1, LPCTSTR id2 )
 {
-    const BYTE params[] = VTS_I2 VTS_I2;
+    const BYTE params[] = VTS_BSTR VTS_BSTR;
     InvokeHelper(0x8, DISPATCH_METHOD, VT_EMPTY, NULL, params, id1, id2);    
 }

@@ -132,9 +132,9 @@ protected:
 	//##ModelId=47728C00006D
 	afx_msg void drawOval(float x, float y, float r1, float r2);
 	//##ModelId=47728C0000CB
-	afx_msg void addRibble(short id1, short id2);
+	afx_msg void addRibble(LPCTSTR id1, LPCTSTR id2);
 	//##ModelId=47728C000119
-	afx_msg void removeRibble(short id1, short id2);
+	afx_msg void removeRibble(LPCTSTR id1, LPCTSTR id2);
 	//}}AFX_DISPATCH
 	DECLARE_DISPATCH_MAP()
 	DECLARE_INTERFACE_MAP()

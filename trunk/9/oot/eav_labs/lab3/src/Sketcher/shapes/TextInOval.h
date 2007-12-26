@@ -40,7 +40,7 @@ public:
     //параметры
     //если такого не существует - создает новый
     //##ModelId=4770E20600F1
-    static TextInOval* create(  float firstRad = NULL, float secondRad = NULL,   std::string content = "",   float x = NULL, float y = NULL  );
+    static TextInOval* create( float firstRad = NULL, float secondRad = NULL, std::string content = "", float x = NULL, float y = NULL );
 
 	//##ModelId=4770E20600F8
     static TextInOval* create(CPoint Start, CPoint End, COLORREF aColor);
