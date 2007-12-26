@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CSketcherView
+LastClass=CSketcherDoc
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "Sketcher.h"
@@ -26,12 +26,12 @@ Resource5=IDR_SKETCHTYPE_SRVR_IP
 Resource6=IDR_SKETCHTYPE_SRVR_EMB
 Resource8=IDR_CURSOR_MENU (English (U.S.))
 Resource9=IDR_SKETCHTYPE (English (U.S.))
-Resource10=IDR_MAINFRAME (English (U.S.))
-Resource11=IDD_ABOUTBOX (English (U.S.))
+Resource10=IDD_ABOUTBOX (English (U.S.))
+Resource11=IDD_SCALE_DLG
 Resource7=IDR_SKETCHTYPE_SRVR_IP (English (U.S.))
-Resource12=IDD_SCALE_DLG
+Resource12=IDD_TEXTREQUEST_DIALOG
 Resource13=IDR_SKETCHTYPE_CNTR_IP (English (U.S.))
-Resource14=IDD_TEXTREQUEST_DIALOG
+Resource14=IDR_MAINFRAME (English (U.S.))
 Class6=CChildFrame
 Resource15=IDR_SKETCHTYPE_SRVR_EMB (English (U.S.))
 
@@ -46,6 +46,9 @@ Type=0
 HeaderFile=SketcherDoc.h
 ImplementationFile=SketcherDoc.cpp
 Filter=N
+BaseClass=COleServerDoc
+VirtualFilter=vLODC
+LastObject=CSketcherDoc
 
 [CLS:CSketcherView]
 Type=0

@@ -1,5 +1,5 @@
 // SketcherDoc.cpp : implementation of the CSketcherDoc class
-//
+//////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include "Sketcher.h"
 #include "resource.h"
@@ -8,6 +8,11 @@
 
 #include "CntrItem.h"
 #include "SrvrItem.h"
+
+#include "shapes/Oval.h"
+#include "shapes/Rectangle.h"
+#include "shapes/Text.h"
+#include "shapes/TextInOval.h"
 
 #include "TextRequest.h"
 //////////////////////////////////////////////////////////////////////////
@@ -55,11 +60,14 @@ END_MESSAGE_MAP()
 
 BEGIN_DISPATCH_MAP(CSketcherDoc, COleServerDoc)
 	//{{AFX_DISPATCH_MAP(CSketcherDoc)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//      DO NOT EDIT what you see in these blocks of generated code!
 	DISP_FUNCTION(CSketcherDoc, "deleteElement", deleteElement, VT_BOOL, VTS_BSTR)
 	DISP_FUNCTION(CSketcherDoc, "showWindow", showWindow, VT_EMPTY, VTS_NONE)
-	//DISP_FUNCTION(CSketcherDoc, "DrawLine", DrawLine, VT_EMPTY, VTS_R4 VTS_R4 VTS_R4 VTS_R4 VTS_BSTR)
+	DISP_FUNCTION(CSketcherDoc, "drawTextInOval", drawTextInOval, VT_EMPTY, VTS_R4 VTS_R4 VTS_BSTR VTS_R4 VTS_R4)
+	DISP_FUNCTION(CSketcherDoc, "drawText", drawText, VT_EMPTY, VTS_R4 VTS_R4 VTS_BSTR)
+	DISP_FUNCTION(CSketcherDoc, "drawRectangle", drawRectangle, VT_EMPTY, VTS_R4 VTS_R4 VTS_R4 VTS_R4)
+	DISP_FUNCTION(CSketcherDoc, "drawOval", drawOval, VT_EMPTY, VTS_R4 VTS_R4 VTS_R4 VTS_R4)
+	DISP_FUNCTION(CSketcherDoc, "addRibble", addRibble, VT_EMPTY, VTS_I2 VTS_I2)
+	DISP_FUNCTION(CSketcherDoc, "removeRibble", removeRibble, VT_EMPTY, VTS_I2 VTS_I2)
 	//}}AFX_DISPATCH_MAP
 END_DISPATCH_MAP()
 
@@ -278,16 +286,6 @@ BOOL CSketcherDoc::OnUpdateDocument()
 	return COleServerDoc::OnUpdateDocument();
 }
 
-//##ModelId=4770E207000C
-BOOL CSketcherDoc::deleteElement(LPCTSTR key) 
-{
-	// TODO: Add your dispatch handler code here
-    getShapeContainer()->DeleteElement(key);
-	UpdateAllViews(NULL);
-	SetModifiedFlag();
-	return TRUE;
-}
-
 //##ModelId=4770E2070017
 void CSketcherDoc::showWindow() 
 {
@@ -302,16 +300,6 @@ void CSketcherDoc::showWindow()
 			pFrameWnd->ActivateFrame(SW_SHOW);
 	}
 }
-
-/*
-void CSketcherDoc::DrawLine(float x1, float y1, float x2, float y2, LPCTSTR key) 
-{
-	CElement* line = new CLine(CPoint(x1, y1), CPoint(x2, y2), GetElementColor());
-	AddElement(line, key);
-	UpdateAllViews(NULL);
-	SetModifiedFlag();
-}
-*/
 
 //##ModelId=4770E2060383
 void CSketcherDoc::OnSetItemRects(LPCRECT lpPosRect, LPCRECT lpClipRect) 
@@ -357,4 +345,63 @@ void CSketcherDoc::OnUpdateElementRibble(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(_shapeContainer->GetElementType()==RIBBLE);
 }
 
+//////////////////////////////////////////////////////////////////////////
+void CSketcherDoc::drawTextInOval(float x, float y, LPCTSTR content, float r1, float r2) 
+{
+    TextInOval* elem = TextInOval::create(r1, r2, content, x, y);
+    getShapeContainer()->AddElement(elem);
+    UpdateAllViews(NULL);
+	SetModifiedFlag();
+}
+
+void CSketcherDoc::drawText(float x, float y, LPCTSTR content) 
+{
+    Text* elem = Text::create(content, x, y);
+    getShapeContainer()->AddElement(elem);
+    UpdateAllViews(NULL);
+	SetModifiedFlag();
+}
+
+void CSketcherDoc::drawRectangle(float x, float y, float height, float width) 
+{
+    Rectangle2* elem = Rectangle2::create(height, width, x, y);
+    getShapeContainer()->AddElement(elem);
+    UpdateAllViews(NULL);
+	SetModifiedFlag();
+}
+
+void CSketcherDoc::drawOval(float x, float y, float r1, float r2) 
+{
+    Oval* elem = Oval::create(r1, r2, x, y);
+    getShapeContainer()->AddElement(elem);
+    UpdateAllViews(NULL);
+	SetModifiedFlag();
+}
+
+BOOL CSketcherDoc::deleteElement(LPCTSTR key) 
+{
+    CElement* elem = getShapeContainer()->getElementById(atoi(key));
+    getShapeContainer()->DeleteElement(elem);
+    UpdateAllViews(NULL);
+    SetModifiedFlag();
+    return TRUE;
+}
+
+void CSketcherDoc::addRibble(short id1, short id2) 
+{
+    CElement* elem1 = getShapeContainer()->getElementById(id1);
+    CElement* elem2 = getShapeContainer()->getElementById(id2);
+    getShapeContainer()->linkElements(elem1, elem2);
+    UpdateAllViews(NULL);
+    SetModifiedFlag();
+}
+
+void CSketcherDoc::removeRibble(short id1, short id2) 
+{
+    CElement* elem1 = getShapeContainer()->getElementById(id1);
+    CElement* elem2 = getShapeContainer()->getElementById(id2);
+    getShapeContainer()->removeRibble(elem1, elem2);
+    UpdateAllViews(NULL);
+    SetModifiedFlag();
+}
 

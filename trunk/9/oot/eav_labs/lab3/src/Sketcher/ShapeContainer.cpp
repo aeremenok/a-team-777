@@ -195,31 +195,6 @@ void ShapeContainer::DeleteElement( CElement* m_pSelected )
     }
 }
 
-//##ModelId=4770E20701ED
-void ShapeContainer::DeleteElement( LPCTSTR id )
-{
-    int ider = atoi(id);
-    Shape* shape = NULL;
-    Iterator<CElement>* iter = getNewIterator();
-    while (iter->hasNext())
-    {
-        Ribble<CElement>* current = iter->next();
-
-        shape = (Shape*)current->get__vertex1();
-        if (shape->get__id() == ider)
-        {
-            break;
-        }
-
-        shape = (Shape*)current->get__vertex2();
-        if (shape->get__id() == ider)
-        {
-            break;
-        }
-    }
-    DeleteElement(shape);
-}
-
 //##ModelId=4770E20701EF
 void ShapeContainer::linkElements( CElement* element1, CElement* element2 )
 {
@@ -247,4 +222,42 @@ ExternalGraphIterator<CElement>* ShapeContainer::getNearestRibbles( CElement* se
         AfxMessageBox(e->getException().c_str());
     }
     return NULL;
+}
+
+CElement* ShapeContainer::getElementById( int id )
+{
+    Shape* shape = NULL;
+    Iterator<CElement>* iter = getNewIterator();
+    while (iter->hasNext())
+    {
+        Ribble<CElement>* current = iter->next();
+        
+        shape = (Shape*)current->get__vertex1();
+        if (shape->get__id() == id)
+        {
+            return shape;
+        }
+        
+        shape = (Shape*)current->get__vertex2();
+        if (shape->get__id() == id)
+        {
+            return shape;
+        }
+    }    
+    return NULL;
+}
+
+void ShapeContainer::removeRibble( CElement* element1, CElement* element2 )
+{
+    try
+    {
+        _container->removeRibble(element1, element2);
+    }
+    catch (GraphException* e)
+    {
+        try{
+    	AfxMessageBox(e->getException().c_str());
+        } catch(...){}
+    }
+    
 }
