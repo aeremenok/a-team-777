@@ -95,20 +95,17 @@ BOOL CSketcherSrvrItem::OnDraw(CDC* pDC, CSize& rSize)
 	ASSERT_VALID(pDoc);
 
 	pDC->SetMapMode(MM_ANISOTROPIC);
-    //if (!isInitialized)
-    {
-        CSize sizeDoc = pDoc->GetDocSize();
-        //sizeDoc.cy = -sizeDoc.cy;
-        pDC->SetWindowOrg(0,0);
-	    pDC->SetWindowExt(sizeDoc);
-        isInitialized = true;
-    }
+    CSize sizeDoc = pDoc->GetDocSize();
+    //sizeDoc.cy = -sizeDoc.cy;
+    pDC->SetWindowOrg(0,0);
+	pDC->SetWindowExt(sizeDoc);
+    isInitialized = true;
+
 
 	// draw the OLE items from the list
 	POSITION pos = pDoc->GetStartPosition();
 	while (pos != NULL)
 	{
-		// draw the item
 		CSketcherCntrItem* pItem = (CSketcherCntrItem*)pDoc->GetNextItem(pos);
 		pItem->Draw(pDC, pItem->m_rect);
 	}
