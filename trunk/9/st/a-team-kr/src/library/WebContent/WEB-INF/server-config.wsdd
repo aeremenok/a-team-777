@@ -8,8 +8,8 @@
   <parameter name="dotNetSoapEncFix" value="true"/>
   <parameter name="enableNamespacePrefixOptimization" value="false"/>
   <parameter name="sendXMLDeclaration" value="true"/>
-  <parameter name="sendXsiTypes" value="true"/>
   <parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+  <parameter name="sendXsiTypes" value="true"/>
   <requestFlow>
    <handler type="java:org.apache.axis.handlers.JWSHandler">
     <parameter name="scope" value="session"/>
@@ -23,12 +23,42 @@
  <handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper"/>
  <handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>
  <handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
- <service name="petrovichSOAP" provider="java:RPC" style="wrapped" use="literal">
+ <service name="irbisSOAP" provider="java:RPC" style="wrapped" use="literal">
   <parameter name="allowedMethods" value="*"/>
   <parameter name="typeMappingVersion" value="1.2"/>
+  <parameter name="wsdlPortType" value="irbis"/>
+  <parameter name="className" value="org.example.www.irbis.IrbisSOAPSkeleton"/>
+  <parameter name="wsdlServicePort" value="irbisSOAP"/>
+  <parameter name="wsdlTargetNamespace" value="http://www.example.org/irbis/"/>
+  <parameter name="wsdlServiceElement" value="irbis"/>
+  <parameter name="schemaUnqualified" value="http://www.example.org/irbis/"/>
+ </service>
+ <service name="librarianSOAP" provider="java:RPC" style="wrapped" use="literal">
+  <parameter name="allowedMethods" value="*"/>
+  <parameter name="typeMappingVersion" value="1.2"/>
+  <parameter name="wsdlPortType" value="librarian"/>
+  <parameter name="className" value="org.example.www.librarian.LibrarianSOAPSkeleton"/>
+  <parameter name="wsdlServicePort" value="librarianSOAP"/>
+  <parameter name="wsdlTargetNamespace" value="http://www.example.org/librarian/"/>
+  <parameter name="wsdlServiceElement" value="librarian"/>
+  <parameter name="schemaUnqualified" value="http://www.example.org/librarian/"/>
+ </service>
+ <service name="librarian_compSOAP" provider="java:RPC" style="wrapped" use="literal">
+  <parameter name="allowedMethods" value="*"/>
+  <parameter name="wsdlPortType" value="librarian_comp"/>
+  <parameter name="typeMappingVersion" value="1.2"/>
+  <parameter name="wsdlServicePort" value="librarian_compSOAP"/>
+  <parameter name="className" value="org.example.www.librarian_comp.Librarian_compSOAPSkeleton"/>
+  <parameter name="wsdlTargetNamespace" value="http://www.example.org/librarian_comp/"/>
+  <parameter name="wsdlServiceElement" value="librarian_comp"/>
+  <parameter name="schemaUnqualified" value="http://www.example.org/librarian_comp/"/>
+ </service>
+ <service name="petrovichSOAP" provider="java:RPC" style="wrapped" use="literal">
+  <parameter name="allowedMethods" value="*"/>
   <parameter name="wsdlPortType" value="petrovich"/>
-  <parameter name="className" value="org.example.www.petrovich.PetrovichSOAPSkeleton"/>
+  <parameter name="typeMappingVersion" value="1.2"/>
   <parameter name="wsdlServicePort" value="petrovichSOAP"/>
+  <parameter name="className" value="org.example.www.petrovich.PetrovichSOAPSkeleton"/>
   <parameter name="wsdlTargetNamespace" value="http://www.example.org/petrovich/"/>
   <parameter name="wsdlServiceElement" value="petrovich"/>
   <parameter name="schemaUnqualified" value="http://www.example.org/petrovich/"/>
