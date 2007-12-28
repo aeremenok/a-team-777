@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:tns="libArtifacts" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.example.org/irbis/" name="bookGettingArtifacts" targetNamespace="libArtifacts" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <plnk:partnerLinkType name="irbis_ws">
+    <plnk:role name="cipherProvider" portType="wsdl:irbis"/>
+  </plnk:partnerLinkType>
+  <import location="..\..\..\library\WebContent\wsdl\irbisSOAP.wsdl" namespace="http://www.example.org/irbis/"/>
+</definitions>
