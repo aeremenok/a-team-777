@@ -1,0 +1,42 @@
+<project name="MyProject" default="dist" basedir=".">
+    <description>
+        simple example build file
+    </description>
+  <!-- set global properties for this build -->
+  <property name="src" location="D:/Docs/3351/REPOS-a-team-777/trunk/9/st/a-team-kr/src/Servers/wsdl/bpel"/>
+  <property name="build" location="D:/Docs/3351/REPOS-a-team-777/trunk/9/st/a-team-kr/deploy"/>
+  <property name="dist"  location="D:/Docs/3351/REPOS-a-team-777/trunk/9/st/a-team-kr"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+      <!-- copy&&& -->
+    <!-- javac srcdir="${src}" destdir="${build}"/ -->
+      <copy todir="${build}">
+          <fileset dir="${src}" />
+      </copy>
+  </target>
+
+  <target name="dist" depends="compile"
+        description="generate the distribution" >
+
+
+    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <war warfile="${dist}/MyProject-${DSTAMP}.war" webxml="${build}/WEB-INF/web.xml" basedir="${build}"  />
+  </target>
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+</project>
+
