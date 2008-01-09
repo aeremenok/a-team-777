@@ -2,7 +2,9 @@
 <bpws:process exitOnStandardFault="yes" name="bookGetting"
     suppressJoinFailure="yes" targetNamespace="lib"
     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-    xmlns:ns="libArtifacts" xmlns:ns0="http://www.example.org/irbis/" xmlns:tns="lib">
+    xmlns:ns="libArtifacts" xmlns:ns0="http://www.example.org/irbis/"
+    xmlns:ns1="http://www.example.org/librarian/"
+    xmlns:ns2="http://www.example.org/librarian_comp/" xmlns:tns="lib">
     <bpws:import importType="http://schemas.xmlsoap.org/wsdl/"
         location="bookGetting.wsdl" namespace="lib"/>
     <bpws:import importType="http://schemas.xmlsoap.org/wsdl/"
@@ -12,16 +14,72 @@
     <bpws:import importType="http://schemas.xmlsoap.org/wsdl/" namespace="libArtifacts"/>
     <bpws:import importType="http://schemas.xmlsoap.org/wsdl/"
         location="bookGettingArtifacts.wsdl" namespace="libArtifacts"/>
+    <bpws:import importType="http://schemas.xmlsoap.org/wsdl/"
+        location="../irbis.wsdl" namespace="http://www.example.org/irbis/"/>
+    <bpws:import importType="http://schemas.xmlsoap.org/wsdl/"
+        location="../librarian.wsdl" namespace="http://www.example.org/librarian/"/>
+    <bpws:import importType="http://schemas.xmlsoap.org/wsdl/"
+        location="../librarian_comp.wsdl" namespace="http://www.example.org/librarian_comp/"/>
     <bpws:partnerLinks>
         <bpws:partnerLink myRole="bookGettingProvider" name="client" partnerLinkType="tns:bookGetting"/>
-        <bpws:partnerLink name="irbis_ws" partnerLinkType="ns:irbis_ws" partnerRole="cipherProvider"/>
-        <bpws:partnerLink name="librarian_ws" partnerLinkType="tns:bookGetting"/>
+        <bpws:partnerLink name="irbis_ws"
+            partnerLinkType="tns:bookGetting" partnerRole="bookGettingProvider"/>
+        <bpws:partnerLink name="librarian_ws"
+            partnerLinkType="ns:bookProvider1" partnerRole="librarianNCN"/>
+        <bpws:partnerLink name="comp_ws"
+            partnerLinkType="ns:shelfProvider" partnerRole="compNCN"/>
+        <bpws:partnerLink name="librarian_ws_1"
+            partnerLinkType="ns:bookByShelfProvider" partnerRole="bookByShelfNCN"/>
     </bpws:partnerLinks>
     <bpws:variables>
         <bpws:variable messageType="tns:bookGettingRequestMessage" name="input"/>
         <bpws:variable messageType="tns:bookGettingResponseMessage" name="output"/>
         <bpws:variable messageType="ns0:getCipherByNameResponse" name="irbis_wsResponse"/>
         <bpws:variable messageType="ns0:getCipherByNameRequest" name="irbis_wsRequest"/>
+        <bpws:variable messageType="ns1:getBookByNameResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:getBookByNameRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:getBookByNameResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:getBookByNameRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:isShelfRememberedResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:isShelfRememberedRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:getBookCipherByNameResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:getBookCipherByNameRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:isShelfRememberedResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:isShelfRememberedRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:getBookByCipherResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:getBookByCipherRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns2:getShelfByNameResponse" name="comp_wsResponse"/>
+        <bpws:variable messageType="ns2:getShelfByNameRequest" name="comp_wsRequest"/>
+        <bpws:variable messageType="ns1:getBookByCipherResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:getBookByCipherRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:getBookCipherByNameResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:getBookCipherByNameRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:getBookCipherByNameResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:getBookCipherByNameRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:getBookCipherByNameResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:getBookCipherByNameRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:getBookCipherByNameResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:getBookCipherByNameRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:isShelfRememberedResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:isShelfRememberedRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:isShelfRememberedResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:isShelfRememberedRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:isShelfRememberedResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:isShelfRememberedRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:isShelfRememberedResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:isShelfRememberedRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:getBookByCipherResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:getBookByCipherRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:isShelfRememberedResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:isShelfRememberedRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:isShelfRememberedResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:isShelfRememberedRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns1:getBookByCipherResponse" name="librarian_wsResponse"/>
+        <bpws:variable messageType="ns1:getBookByCipherRequest" name="librarian_wsRequest"/>
+        <bpws:variable messageType="ns2:getShelfByCipherResponse" name="comp_wsResponse"/>
+        <bpws:variable messageType="ns2:getShelfByCipherRequest" name="comp_wsRequest"/>
+        <bpws:variable messageType="ns1:getBookByShelfResponse1" name="librarian_ws_1Response"/>
+        <bpws:variable messageType="ns1:getBookByShelfRequest" name="librarian_ws_1Request"/>
     </bpws:variables>
     <bpws:sequence name="getting book">
         <bpws:receive createInstance="yes" name="receiveInput"
@@ -29,11 +87,22 @@
             portType="tns:bookGetting" variable="input"/>
         <bpws:if name="wantGetCipher">
             <bpws:sequence name="getting cipher">
-                <bpws:invoke inputVariable="irbis_wsRequest"
-                    name="cipher request" operation="getCipherByName"
-                    outputVariable="irbis_wsResponse"
-                    partnerLink="irbis_ws" portType="ns0:irbis"/>
-                <bpws:if name="isFound">
+                <bpws:receive name="Receive" operation="process"
+                    partnerLink="client" portType="tns:bookGetting" variable="input"/>
+                <bpws:assign name="Assign7" validate="yes">
+                    <bpws:copy>
+                        <bpws:from part="payload" variable="input">
+                            <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/tns:input]]></bpws:query>
+                        </bpws:from>
+                        <bpws:to part="parameters" variable="irbis_wsRequest">
+                            <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/in]]></bpws:query>
+                        </bpws:to>
+                    </bpws:copy>
+                </bpws:assign>
+                <bpws:invoke inputVariable="input" name="cipher request"
+                    operation="process" outputVariable="output"
+                    partnerLink="irbis_ws" portType="tns:bookGetting"/>
+                <bpws:if name="notFound">
                     <bpws:assign name="Assign" validate="yes">
                         <bpws:copy>
                             <bpws:from>
@@ -44,7 +113,7 @@
                             </bpws:to>
                         </bpws:copy>
                     </bpws:assign>
-                    <bpws:condition><![CDATA[$irbis_wsResponse==""]]></bpws:condition>
+                    <bpws:condition><![CDATA[$irbis_wsResponse=""]]></bpws:condition>
                     <bpws:elseif>
                         <bpws:condition><![CDATA[$irbis_wsResponse!=""]]></bpws:condition>
                         <bpws:assign name="Assign1" validate="yes">
@@ -59,14 +128,195 @@
                         </bpws:assign>
                     </bpws:elseif>
                 </bpws:if>
-                <bpws:reply name="Reply" operation="process"
+                <bpws:reply name="replyCipher" operation="process"
                     partnerLink="client" portType="tns:bookGetting" variable="output"/>
             </bpws:sequence>
             <bpws:condition><![CDATA[starts-with($input.payload/tns:input, "true")]]></bpws:condition>
             <bpws:elseif>
                 <bpws:condition><![CDATA[starts-with($input.payload/tns:input, "false")]]></bpws:condition>
                 <bpws:sequence name="getting book">
-                    <bpws:invoke name="book request"/>
+                    <bpws:receive name="Receive1" operation="process"
+                        partnerLink="client" portType="tns:bookGetting" variable="input"/>
+                    <bpws:assign name="Assign8" validate="yes">
+                        <bpws:copy>
+                            <bpws:from part="payload" variable="input">
+                                <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/tns:input]]></bpws:query>
+                            </bpws:from>
+                            <bpws:to part="parameters" variable="librarian_wsRequest">
+                                <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/in]]></bpws:query>
+                            </bpws:to>
+                        </bpws:copy>
+                    </bpws:assign>
+                    <bpws:invoke inputVariable="librarian_wsRequest"
+                        name="book request"
+                        operation="getBookCipherByName"
+                        outputVariable="librarian_wsResponse"
+                        partnerLink="librarian_ws" portType="ns1:librarian"/>
+                    <bpws:if name="won't Obtain Book">
+                        <bpws:sequence name="won't obtain">
+                            <bpws:assign name="Assign2" validate="yes">
+                                <bpws:copy>
+                                    <bpws:from>
+                                    <bpws:literal>
+											"failure"
+										</bpws:literal>
+                                    </bpws:from>
+                                    <bpws:to part="payload" variable="output">
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/tns:result]]></bpws:query>
+                                    </bpws:to>
+                                </bpws:copy>
+                            </bpws:assign>
+                            <bpws:reply name="replyFailure"
+                                operation="process" partnerLink="client"
+                                portType="tns:bookGetting" variable="output"/>
+                        </bpws:sequence>
+                        <bpws:condition><![CDATA[$librarian_wsResponse=""]]></bpws:condition>
+                        <bpws:elseif>
+                            <bpws:condition><![CDATA[$librarian_wsResponse!=""]]></bpws:condition>
+                            <bpws:sequence name="book search">
+                                <bpws:assign name="Assign10" validate="yes">
+                                    <bpws:copy>
+                                    <bpws:from part="parameters" variable="irbis_wsResponse">
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/out]]></bpws:query>
+                                    </bpws:from>
+                                    <bpws:to part="parameters" variable="librarian_wsRequest">
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/in]]></bpws:query>
+                                    </bpws:to>
+                                    </bpws:copy>
+                                </bpws:assign>
+                                <bpws:invoke
+                                    inputVariable="librarian_wsRequest"
+                                    name="doesLibrarianRememberShelf"
+                                    operation="isShelfRemembered"
+                                    outputVariable="librarian_wsResponse"
+                                    partnerLink="librarian_ws" portType="ns1:librarian"/>
+                                <bpws:if name="remebers">
+                                    <bpws:sequence name="Sequence">
+                                    <bpws:assign name="Assign9" validate="yes">
+                                    <bpws:copy>
+                                    <bpws:from
+                                    part="parameters" variable="librarian_wsResponse">
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/out]]></bpws:query>
+                                    </bpws:from>
+                                    <bpws:to part="payload" variable="output">
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/tns:result]]></bpws:query>
+                                    </bpws:to>
+                                    </bpws:copy>
+                                    </bpws:assign>
+                                    <bpws:assign name="Assign11" validate="yes">
+                                    <bpws:copy>
+                                    <bpws:from
+                                    part="payload" variable="output">
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/tns:result]]></bpws:query>
+                                    </bpws:from>
+                                    <bpws:to
+                                    part="parameters" variable="librarian_wsRequest">
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/in]]></bpws:query>
+                                    </bpws:to>
+                                    </bpws:copy>
+                                    </bpws:assign>
+                                    <bpws:invoke
+                                    inputVariable="librarian_wsRequest"
+                                    name="getBook"
+                                    operation="getBookByCipher"
+                                    outputVariable="librarian_wsResponse"
+                                    partnerLink="librarian_ws" portType="ns1:librarian"/>
+                                    <bpws:assign name="Assign3" validate="yes">
+                                    <bpws:copy>
+                                    <bpws:from
+                                    part="parameters" variable="librarian_wsResponse">
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/out]]></bpws:query>
+                                    </bpws:from>
+                                    <bpws:to part="payload" variable="output">
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/tns:result]]></bpws:query>
+                                    </bpws:to>
+                                    </bpws:copy>
+                                    </bpws:assign>
+                                    <bpws:reply name="replyBook"
+                                    operation="process"
+                                    partnerLink="client"
+                                    portType="tns:bookGetting" variable="output"/>
+                                    </bpws:sequence>
+                                    <bpws:condition><![CDATA[true($librarian_wsResponse)]]></bpws:condition>
+                                    <bpws:elseif>
+                                    <bpws:condition><![CDATA[true($librarian_wsResponse)]]></bpws:condition>
+                                    <bpws:sequence name="Sequence1">
+                                    <bpws:assign name="Assign12" validate="yes">
+                                    <bpws:copy>
+                                    <bpws:from
+                                    part="parameters" variable="librarian_wsRequest">
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/in]]></bpws:query>
+                                    </bpws:from>
+                                    <bpws:to
+                                    part="parameters" variable="librarian_wsRequest">
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/in]]></bpws:query>
+                                    </bpws:to>
+                                    </bpws:copy>
+                                    </bpws:assign>
+                                    <bpws:invoke
+                                    inputVariable="comp_wsRequest"
+                                    name="getShelf"
+                                    operation="getShelfByCipher"
+                                    outputVariable="comp_wsResponse"
+                                    partnerLink="comp_ws" portType="ns2:librarian_comp"/>
+                                    <bpws:if name="is shelf found">
+                                    <bpws:sequence name="Sequence2">
+                                    <bpws:assign
+                                    name="Assign4" validate="yes">
+                                    <bpws:copy>
+                                    <bpws:from
+                                    part="parameters" variable="comp_wsResponse">
+
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/out]]></bpws:query>
+                                    </bpws:from>
+                                    <bpws:to
+                                    part="parameters" variable="librarian_ws_1Request">
+
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/in]]></bpws:query>
+                                    </bpws:to>
+                                    </bpws:copy>
+                                    </bpws:assign>
+                                    <bpws:invoke
+                                    inputVariable="librarian_ws_1Request"
+                                    name="getBook"
+                                    operation="getBookByShelf"
+                                    outputVariable="librarian_ws_1Response"
+                                    partnerLink="librarian_ws_1" portType="ns1:librarian"/>
+                                    <bpws:assign
+                                    name="Assign5" validate="no"/>
+                                    <bpws:reply
+                                    name="replyBook"
+                                    operation="process"
+                                    partnerLink="client"
+                                    portType="tns:bookGetting" variable="output"/>
+                                    </bpws:sequence>
+                                    <bpws:condition><![CDATA[$comp_wsResponse!=""]]></bpws:condition>
+                                    <bpws:elseif>
+                                    <bpws:condition><![CDATA[$comp_wsResponse=""]]></bpws:condition>
+                                    <bpws:sequence name="reply No Book found">
+                                    <bpws:assign
+                                    name="Assign6" validate="yes">
+                                    <bpws:copy>
+                                    <bpws:from>
+                                    <bpws:literal>"no book"</bpws:literal>
+                                    </bpws:from>
+                                    <bpws:to
+                                    part="payload" variable="output">
+
+                                    <bpws:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[/tns:result]]></bpws:query>
+                                    </bpws:to>
+                                    </bpws:copy>
+                                    </bpws:assign>
+                                    <bpws:reply name="replyNoBook"/>
+                                    </bpws:sequence>
+                                    </bpws:elseif>
+                                    </bpws:if>
+                                    </bpws:sequence>
+                                    </bpws:elseif>
+                                </bpws:if>
+                            </bpws:sequence>
+                        </bpws:elseif>
+                    </bpws:if>
                 </bpws:sequence>
             </bpws:elseif>
         </bpws:if>

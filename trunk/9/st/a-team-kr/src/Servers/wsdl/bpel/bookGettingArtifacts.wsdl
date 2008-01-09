@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:tns="libArtifacts" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.example.org/irbis/" name="bookGettingArtifacts" targetNamespace="libArtifacts" xmlns="http://schemas.xmlsoap.org/wsdl/">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:tns="libArtifacts" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.example.org/irbis/" xmlns:wsdl1="http://www.example.org/librarian/" xmlns:wsdl2="http://www.example.org/librarian_comp/" name="bookGettingArtifacts" targetNamespace="libArtifacts">
   <plnk:partnerLinkType name="irbis_ws">
     <plnk:role name="cipherProvider" portType="wsdl:irbis"/>
   </plnk:partnerLinkType>
-  <import location="..\..\..\library\WebContent\wsdl\irbisSOAP.wsdl" namespace="http://www.example.org/irbis/"/>
+    <plnk:partnerLinkType name="bookProvider">
+    <plnk:role name="librarianNCN" portType="wsdl1:librarian"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="bookProvider1">
+    <plnk:role name="librarianNCN" portType="wsdl1:librarian"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="shelfProvider">
+    <plnk:role name="compNCN" portType="wsdl2:librarian_comp"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="rememberShelf">
+    <plnk:role name="bookProvider" portType="wsdl1:librarian"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="bookByShelfProvider">
+    <plnk:role name="bookByShelfNCN" portType="wsdl1:librarian"/>
+  </plnk:partnerLinkType>
+    <import location="..\..\..\library\WebContent\wsdl\librarianSOAP.wsdl" namespace="http://www.example.org/librarian/"/>
+    <import location="..\librarian_comp.wsdl" namespace="http://www.example.org/librarian_comp/"/>
+    <import location="..\librarian.wsdl" namespace="http://www.example.org/librarian/"/>
 </definitions>

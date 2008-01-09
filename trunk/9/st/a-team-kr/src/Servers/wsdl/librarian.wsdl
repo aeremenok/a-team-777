@@ -2,14 +2,14 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/librarian/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="librarian" targetNamespace="http://www.example.org/librarian/">
   <wsdl:types>
     <xsd:schema targetNamespace="http://www.example.org/librarian/">
-      <xsd:element name="getBookByName">
+      <xsd:element name="getBookCipherByName">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element name="in" type="xsd:string"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
-      <xsd:element name="getBookByNameResponse">
+      <xsd:element name="getBookCipherByNameResponse">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element name="out" type="xsd:string"/>
@@ -32,13 +32,53 @@
       		</xsd:sequence>
       	</xsd:complexType>
       </xsd:element>
+      <xsd:element name="isShelfRemembered">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="in" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="isShelfRememberedResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="out" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getBookByShelf">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="in" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="NewOperationResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="out" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getBookByShelfResponse1">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="out" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="getBookByNameRequest">
-    <wsdl:part element="tns:getBookByName" name="parameters"/>
+  <wsdl:message name="getBookCipherByNameRequest">
+    <wsdl:part element="tns:getBookCipherByName" name="parameters"/>
   </wsdl:message>
-  <wsdl:message name="getBookByNameResponse">
-    <wsdl:part element="tns:getBookByNameResponse" name="parameters"/>
+  <wsdl:message name="getBookCipherByNameResponse">
+    <wsdl:part element="tns:getBookCipherByNameResponse" name="parameters"/>
   </wsdl:message>
   <wsdl:message name="getBookByCipherRequest">
   	<wsdl:part name="parameters" element="tns:getBookByCipher"></wsdl:part>
@@ -46,20 +86,44 @@
   <wsdl:message name="getBookByCipherResponse">
   	<wsdl:part name="parameters" element="tns:getBookByCipherResponse"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="isShelfRememberedRequest">
+  	<wsdl:part name="parameters" element="tns:isShelfRemembered"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isShelfRememberedResponse">
+  	<wsdl:part name="parameters" element="tns:isShelfRememberedResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBookByShelfRequest">
+  	<wsdl:part name="parameters" element="tns:getBookByShelf"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NewOperationResponse">
+  	<wsdl:part name="parameters" element="tns:NewOperationResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBookByShelfResponse1">
+  	<wsdl:part name="parameters" element="tns:getBookByShelfResponse1"></wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="librarian">
-    <wsdl:operation name="getBookByName">
-      <wsdl:input message="tns:getBookByNameRequest"/>
-      <wsdl:output message="tns:getBookByNameResponse"/>
+    <wsdl:operation name="getBookCipherByName">
+      <wsdl:input message="tns:getBookCipherByNameRequest"/>
+      <wsdl:output message="tns:getBookCipherByNameResponse"/>
     </wsdl:operation>
     <wsdl:operation name="getBookByCipher">
     	<wsdl:input message="tns:getBookByCipherRequest"></wsdl:input>
     	<wsdl:output message="tns:getBookByCipherResponse"></wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="isShelfRemembered">
+    	<wsdl:input message="tns:isShelfRememberedRequest"></wsdl:input>
+    	<wsdl:output message="tns:isShelfRememberedResponse"></wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="getBookByShelf">
+    	<wsdl:input message="tns:getBookByShelfRequest"></wsdl:input>
+    	<wsdl:output message="tns:getBookByShelfResponse1"></wsdl:output>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="librarianSOAP" type="tns:librarian">
   	<soap:binding style="document"
   		transport="http://schemas.xmlsoap.org/soap/http" />
-  	<wsdl:operation name="getBookByName">
+  	<wsdl:operation name="getBookCipherByName">
   		<soap:operation
   			soapAction="http://www.example.org/librarian/NewOperation" />
   		<wsdl:input>
