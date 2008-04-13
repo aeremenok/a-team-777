@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domains project-version="2.0">
+  <domain name="ArtistsDomain">
+    <map name="ArtistsDomainMap" location="ArtistsDomainMap.map.xml" />
+    <node name="ArtistsDomainNode" datasource="ArtistsDomainNode.driver.xml" factory="org.apache.cayenne.conf.DriverDataSourceFactory">
+      <map-ref name="ArtistsDomainMap" />
+    </node>
+  </domain>
+</domains>
+

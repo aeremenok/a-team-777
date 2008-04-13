@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-map project-version="2.0">
+	<property name="defaultPackage" value="ru.spb.etu"/>
+	<db-entity name="ARTIST">
+		<db-attribute name="BIRTH" type="DATE"/>
+		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="NAME" type="VARCHAR" length="200"/>
+	</db-entity>
+	<db-entity name="GALLERY">
+		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="NAME" type="VARCHAR" length="200"/>
+	</db-entity>
+	<db-entity name="PAINTING">
+		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="TITLE" type="VARCHAR" length="200"/>
+	</db-entity>
+	<obj-entity name="Artist" className="ru.spb.etu.Artist" dbEntityName="ARTIST">
+		<obj-attribute name="birth" type="java.util.Date" db-attribute-path="BIRTH"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="NAME"/>
+	</obj-entity>
+	<obj-entity name="Gallery" className="ru.spb.etu.Gallery" dbEntityName="GALLERY">
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="NAME"/>
+	</obj-entity>
+	<obj-entity name="Painting" className="ru.spb.etu.Painting" dbEntityName="PAINTING">
+		<obj-attribute name="title" type="java.lang.String" db-attribute-path="TITLE"/>
+	</obj-entity>
+	<db-relationship name="paintings" source="ARTIST" target="PAINTING" toMany="true">
+		<db-attribute-pair source="ID" target="ID"/>
+	</db-relationship>
+	<db-relationship name="paintings" source="GALLERY" target="PAINTING" toMany="true">
+		<db-attribute-pair source="ID" target="ID"/>
+	</db-relationship>
+	<db-relationship name="artist" source="PAINTING" target="ARTIST" toDependentPK="true" toMany="false">
+		<db-attribute-pair source="ID" target="ID"/>
+	</db-relationship>
+	<db-relationship name="gallery" source="PAINTING" target="GALLERY" toDependentPK="true" toMany="false">
+		<db-attribute-pair source="ID" target="ID"/>
+	</db-relationship>
+	<obj-relationship name="paintings" source="Artist" target="Painting" db-relationship-path="paintings"/>
+	<obj-relationship name="paintings" source="Gallery" target="Painting" db-relationship-path="paintings"/>
+	<obj-relationship name="artist" source="Painting" target="Artist" db-relationship-path="artist"/>
+	<obj-relationship name="gallery" source="Painting" target="Gallery" db-relationship-path="gallery"/>
+</data-map>
