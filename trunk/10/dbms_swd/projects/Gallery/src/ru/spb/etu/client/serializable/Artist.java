@@ -2,15 +2,19 @@ package ru.spb.etu.client.serializable;
 
 import java.util.Date;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
+/**
+ * обертка данных художника
+ * 
+ * @author eav
+ */
 public class Artist
     implements
-        IsSerializable
+        EntityWrapper
 {
     Date   birthDate;
     String country;
     String description;
+    String imageUrl;
     String name;
 
     public Artist()
@@ -18,15 +22,18 @@ public class Artist
     }
 
     public Artist(
-        String name,
         Date birthDate,
         String country,
-        String description )
+        String description,
+        String name,
+        String imageUrl )
     {
-        this.name = name;
+        super();
         this.birthDate = birthDate;
         this.country = country;
         this.description = description;
+        this.name = name;
+        this.imageUrl = imageUrl;
     }
 
     public Date getBirthDate()
@@ -44,9 +51,19 @@ public class Artist
         return description;
     }
 
+    public String getImageUrl()
+    {
+        return imageUrl;
+    }
+
     public String getName()
     {
         return name;
+    }
+
+    public String getTitle()
+    {
+        return getName();
     }
 
     public void setBirthDate(
@@ -65,6 +82,12 @@ public class Artist
         String description )
     {
         this.description = description;
+    }
+
+    public void setImageUrl(
+        String imageUrl )
+    {
+        this.imageUrl = imageUrl;
     }
 
     public void setName(

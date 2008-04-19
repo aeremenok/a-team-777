@@ -1,14 +1,11 @@
 package ru.spb.etu.client.serializable;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Image;
-
 public class MasterPiece
     implements
-        IsSerializable
+        EntityWrapper
 {
     int    creationYear;
-    Image  image;
+    String imageUrl;
     String title;
 
     public MasterPiece()
@@ -16,13 +13,14 @@ public class MasterPiece
     }
 
     public MasterPiece(
-        String title,
         int creationYear,
-        Image image )
+        String imageUrl,
+        String title )
     {
-        this.title = title;
+        super();
         this.creationYear = creationYear;
-        this.image = image;
+        this.imageUrl = imageUrl;
+        this.title = title;
     }
 
     public int getCreationYear()
@@ -30,9 +28,9 @@ public class MasterPiece
         return creationYear;
     }
 
-    public Image getImage()
+    public String getImageUrl()
     {
-        return image;
+        return imageUrl;
     }
 
     public String getTitle()
@@ -46,10 +44,10 @@ public class MasterPiece
         this.creationYear = creationYear;
     }
 
-    public void setImage(
-        Image image )
+    public void setImageUrl(
+        String imageUrl )
     {
-        this.image = image;
+        this.imageUrl = imageUrl;
     }
 
     public void setTitle(

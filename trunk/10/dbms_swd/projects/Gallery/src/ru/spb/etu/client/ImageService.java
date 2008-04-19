@@ -1,5 +1,9 @@
 package ru.spb.etu.client;
 
+import java.util.ArrayList;
+
+import ru.spb.etu.client.serializable.Artist;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -8,8 +12,6 @@ public interface ImageService
     extends
         RemoteService
 {
-    String getHello();
-
     public static class App
     {
         private static ImageServiceAsync ourInstance = null;
@@ -24,4 +26,15 @@ public interface ImageService
             return ourInstance;
         }
     }
+
+    /**
+     * @gwt.typeArgs <ru.spb.etu.client.serializable.Artist>
+     */
+    ArrayList getMasterPieces(
+        Artist artist );
+
+    /**
+     * @gwt.typeArgs <ru.spb.etu.client.serializable.MasterPiece>
+     */
+    ArrayList getArtists();
 }
