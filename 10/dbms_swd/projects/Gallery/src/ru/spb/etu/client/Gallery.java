@@ -1,62 +1,81 @@
 package ru.spb.etu.client;
 
+import ru.spb.etu.client.ui.EditPanel;
+import ru.spb.etu.client.ui.ViewPanel;
+
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * Entry point classes define <code>onModuleLoad()</code>.
- */
 public class Gallery
     implements
         EntryPoint
 {
+    private static SimplePanel panel   = new SimplePanel();
+    private static MenuBar     menuBar = null;
 
-    /**
-     * This is the entry point method.
-     */
     public void onModuleLoad()
     {
-        final Button button = new Button( "Click me" );
-        final Label label = new Label();
-
-        button.addClickListener( new ClickListener()
-        {
-            ImageServiceAsync async = ImageService.App.getInstance();
-
-            public void onClick(
-                Widget sender )
-            {
-                if ( label.getText().equals( "" ) )
-                    async.getHello( new AsyncCallback()
-                    {
-                        public void onFailure(
-                            Throwable arg0 )
-                        {
-                            label.setText( arg0.toString() );
-                        }
-
-                        public void onSuccess(
-                            Object arg0 )
-                        {
-                            label.setText( (String) arg0 );
-                        }
-                    } );
-                else
-                    label.setText( "" );
-            }
-        } );
-
-        // Assume that the host HTML has elements defined whose
-        // IDs are "slot1", "slot2". In a real app, you probably would not want
-        // to hard-code IDs. Instead, you could, for example, search for all
-        // elements with a particular CSS class and replace them with widgets.
-        //
-        RootPanel.get( "slot1" ).add( button );
-        RootPanel.get( "slot2" ).add( label );
+        RootPanel.get().add( getMenu() );
+        RootPanel.get().add( panel );
     }
+
+    private Widget getMenu()
+    {
+        if ( menuBar == null )
+        {
+            menuBar = new MenuBar();
+            menuBar.addStyleName( "gwt-MenuBar" );
+            MenuItem edit = new MenuItem( "Edit", new Command()
+            {
+                public void execute()
+                {
+                    setPanel( EditPanel.getInstance() );
+                }
+            } );
+            menuBar.addItem( edit );
+
+            MenuItem view = new MenuItem( "View", new Command()
+            {
+                public void execute()
+                {
+                    setPanel( ViewPanel.getInstance() );
+                }
+            } );
+            menuBar.addItem( view );
+
+            MenuItem close = new MenuItem( "Close", new Command()
+            {
+                public void execute()
+                {
+                    closeWindow();
+                }
+            } );
+            menuBar.addItem( close );
+        }
+
+        return menuBar;
+    }
+
+    public static Panel getPanel()
+    {
+        return (Panel) panel.getWidget();
+    }
+
+    public static void setPanel(
+        Panel panel )
+    {
+        Gallery.panel.setWidget( panel );
+    }
+
+    // в firefox'e не работает %)
+    public native void closeWindow()
+    /*-{
+          $wnd.close();
+    }-*/;
 }
