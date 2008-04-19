@@ -1,4 +1,4 @@
-package ru.spb.etu.client.ui;
+package ru.spb.etu.client.ui.edit;
 
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -22,4 +22,5 @@ public class EditPanel
         super();
         add( new Label( "edit" ), CENTER );
     }
+
 }
