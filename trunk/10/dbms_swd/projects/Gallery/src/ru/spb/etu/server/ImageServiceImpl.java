@@ -20,12 +20,14 @@ public class ImageServiceImpl
 
         Artist artist = new Artist();
         artist.setName( "artist1" );
-        artist.setImageUrl( "images/03.jpg" );
+        artist.setImageUrl( "images/03.JPG" );
+        artist.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
         artists.add( artist );
 
         Artist artist1 = new Artist();
         artist1.setName( "artist2" );
-        artist1.setImageUrl( "images/04.jpg" );
+        artist1.setImageUrl( "images/04.JPG" );
+        artist1.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
         artists.add( artist1 );
 
         return artists;
@@ -37,15 +39,20 @@ public class ImageServiceImpl
     {
         ArrayList arrayList = new ArrayList();
 
-        MasterPiece masterPiece = new MasterPiece();
-        masterPiece.setTitle( "01" );
-        masterPiece.setImageUrl( "images/01.jpg" );
-        arrayList.add( masterPiece );
+        for ( int i = 0; i < 100; i++ )
+        {
+            MasterPiece masterPiece = new MasterPiece();
+            masterPiece.setTitle( "01" );
+            masterPiece.setImageUrl( "images/01.JPG" );
+            masterPiece.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
+            arrayList.add( masterPiece );
 
-        MasterPiece masterPiece1 = new MasterPiece();
-        masterPiece1.setTitle( "02" );
-        masterPiece1.setImageUrl( "images/02.jpg" );
-        arrayList.add( masterPiece1 );
+            MasterPiece masterPiece1 = new MasterPiece();
+            masterPiece1.setTitle( "02" );
+            masterPiece1.setImageUrl( "images/02.JPG" );
+            masterPiece1.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
+            arrayList.add( masterPiece1 );
+        }
 
         return arrayList;
     }

@@ -9,4 +9,6 @@ public interface EntityWrapper
     String getTitle();
 
     String getImageUrl();
+
+    String getDescription();
 }

@@ -6,6 +6,8 @@ import java.util.Iterator;
 import ru.spb.etu.client.ImageService;
 import ru.spb.etu.client.ImageServiceAsync;
 import ru.spb.etu.client.serializable.Artist;
+import ru.spb.etu.client.ui.view.tables.CyclingTable;
+import ru.spb.etu.client.ui.view.tables.MasterPieceTable;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -22,11 +24,12 @@ public class ResultPanel
     extends TabPanel
 {
     ImageServiceAsync async        = ImageService.App.getInstance();
-    CyclingTable      cyclingTable = new CyclingTable( 7 );
+    CyclingTable      cyclingTable = new MasterPieceTable( 7 );
 
     public ResultPanel(
         final ArrayList artists )
     {
+        setWidth( "100%" );
         addStyleName( "gwt-TabBar" );
 
         // группируем художников по вкладкам
@@ -55,6 +58,7 @@ public class ResultPanel
             }
         };
 
+        selectTab( 0 );
         addTabListener( tabListener );
         tabListener.onTabSelected( this, 0 );
     }
