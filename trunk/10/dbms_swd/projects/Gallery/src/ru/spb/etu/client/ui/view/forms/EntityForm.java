@@ -19,11 +19,21 @@ import com.google.gwt.user.client.ui.Widget;
 public class EntityForm
     extends FocusPanel
 {
-    protected EntityWrapper entityWrapper;
+    protected EntityWrapper   entityWrapper;
 
-    private PopupPanel      descriptionPanel;
+    /**
+     * подксказка должна отображаться только одна
+     */
+    private static PopupPanel descriptionPanel = new PopupPanel( true );
 
-    protected Image         image;
+    static
+    {
+        descriptionPanel.addStyleName( "gwt-DialogBox" );
+    }
+
+    protected Image           image;
+
+    private VerticalPanel     description;
 
     public EntityForm(
         EntityWrapper entityWrapper )
@@ -42,19 +52,15 @@ public class EntityForm
             public void onMouseEnter(
                 Widget sender )
             {
-                // image.addStyleName( "selected" );
-                getDescriptionPanel().setPopupPosition( image.getAbsoluteLeft() + image.getWidth(), getAbsoluteTop() );
                 getDescriptionPanel().show();
             }
 
             public void onMouseLeave(
                 Widget sender )
             {
-                // image.removeStyleName( "selected" );
                 getDescriptionPanel().hide();
             }
         } );
-
     }
 
     public EntityWrapper getEntityWrapper()
@@ -64,18 +70,20 @@ public class EntityForm
 
     public PopupPanel getDescriptionPanel()
     {
-        if ( descriptionPanel == null )
-        {
-            descriptionPanel = new PopupPanel( true );
-            descriptionPanel.addStyleName( "gwt-DialogBox" );
-
-            VerticalPanel verticalPanel = new VerticalPanel();
-            verticalPanel.add( new HTML( entityWrapper.getTitle() ) );
-            // todo verticalPanel.add( new Image( entityWrapper.getImageUrl() ) );
-            verticalPanel.add( new HTML( entityWrapper.getDescription() ) );
-
-            descriptionPanel.setWidget( verticalPanel );
-        }
+        descriptionPanel.setPopupPosition( image.getAbsoluteLeft() + image.getWidth(), getAbsoluteTop() );
+        descriptionPanel.setWidget( getDesctiption() );
         return descriptionPanel;
+    }
+
+    private VerticalPanel getDesctiption()
+    {
+        if ( description == null )
+        {
+            description = new VerticalPanel();
+            description.add( new HTML( entityWrapper.getTitle() ) );
+            // todo description.add( new Image( entityWrapper.getImageUrl() ) );
+            description.add( new HTML( entityWrapper.getDescription() ) );
+        }
+        return description;
     }
 }

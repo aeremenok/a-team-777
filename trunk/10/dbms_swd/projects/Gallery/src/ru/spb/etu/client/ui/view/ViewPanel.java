@@ -1,12 +1,5 @@
 package ru.spb.etu.client.ui.view;
 
-import java.util.ArrayList;
-
-import ru.spb.etu.client.ImageService;
-import ru.spb.etu.client.ImageServiceAsync;
-import ru.spb.etu.client.serializable.Artist;
-import ru.spb.etu.client.serializable.EntityWrapper;
-
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -17,8 +10,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class ViewPanel
     extends SimplePanel
 {
-    static ViewPanel  instance = null;
-    ImageServiceAsync async    = ImageService.App.getInstance();
+    static ViewPanel instance = null;
 
     public static ViewPanel getInstance()
     {
@@ -35,18 +27,6 @@ public class ViewPanel
     }
 
     QueryBuilder queryBuilder = new QueryBuilder( this );
-
-    public void addCriterion(
-        EntityWrapper entityWrapper )
-    {
-        // TODO заглушка
-        if ( entityWrapper instanceof Artist )
-        {
-            ArrayList artists = new ArrayList();
-            artists.add( entityWrapper );
-            setWidget( new ResultPanel( artists ) );
-        }
-    }
 
     public static ViewPanel reset()
     {

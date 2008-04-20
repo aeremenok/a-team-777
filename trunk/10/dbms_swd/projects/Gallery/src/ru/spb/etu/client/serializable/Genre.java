@@ -4,21 +4,65 @@ public class Genre
     implements
         EntityWrapper
 {
-    public String getImageUrl()
+    private String description;
+    private String imageUrl;
+    private String name;
+
+    public Genre()
     {
-        // TODO Auto-generated method stub
-        return null;
     }
 
-    public String getTitle()
+    public Genre(
+        String name,
+        String imageUrl,
+        String description )
     {
-        // TODO Auto-generated method stub
-        return null;
+        super();
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.description = description;
     }
 
     public String getDescription()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return description;
+    }
+
+    public String getImageUrl()
+    {
+        return imageUrl;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public String getTitle()
+    {
+        return name;
+    }
+
+    public void setDescription(
+        String description )
+    {
+        this.description = description;
+    }
+
+    public void setImageUrl(
+        String imageUrl )
+    {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setName(
+        String name )
+    {
+        this.name = name;
+    }
+
+    public void requestMasterPieces()
+    {
+        async.getArtistsByGenre( this, asyncCallback );
     }
 }
