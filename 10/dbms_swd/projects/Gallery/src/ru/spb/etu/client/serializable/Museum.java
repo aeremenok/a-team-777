@@ -4,21 +4,67 @@ public class Museum
     implements
         EntityWrapper
 {
-    public String getImageUrl()
+    private String description;
+
+    private String imageUrl;
+
+    private String name;
+
+    public Museum()
     {
-        // TODO Auto-generated method stub
-        return null;
     }
 
-    public String getTitle()
+    public Museum(
+        String description,
+        String name,
+        String imageUrl )
     {
-        // TODO Auto-generated method stub
-        return null;
+        super();
+        this.description = description;
+        this.name = name;
+        this.imageUrl = imageUrl;
     }
 
     public String getDescription()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return description;
+    }
+
+    public String getImageUrl()
+    {
+        return imageUrl;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public String getTitle()
+    {
+        return name;
+    }
+
+    public void setDescription(
+        String description )
+    {
+        this.description = description;
+    }
+
+    public void setImageUrl(
+        String imageUrl )
+    {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setName(
+        String name )
+    {
+        this.name = name;
+    }
+
+    public void requestMasterPieces()
+    {
+        async.getArtistsByMuseum( this, asyncCallback );
     }
 }

@@ -23,7 +23,7 @@ public class QueryBuilder
     /**
      * меню выбора критерия
      */
-    CyclingTable      cyclingTable  = new CyclingTable( 7 );
+    CyclingTable      cyclingTable  = new CyclingTable( 8 );
     /**
      * таблица возможных значений критериев
      */
@@ -57,7 +57,7 @@ public class QueryBuilder
                 int arg2 )
             {
                 // узнаем какого автора/жанра/музея произведения отображать
-                viewPanel.addCriterion( cyclingTable.getEntityWrapper( arg1, arg2 ) );
+                cyclingTable.getEntityWrapper( arg1, arg2 ).requestMasterPieces();
             }
         } );
     }
@@ -71,13 +71,13 @@ public class QueryBuilder
     public void queryGenres()
     {
         setWidget( cyclingTable );
-        // todo async.getGenres( asyncCallback );
+        async.getGenres( asyncCallback );
     }
 
     public void queryMuseums()
     {
         setWidget( cyclingTable );
-        // todo async.getMuseums( asyncCallback );
+        async.getMuseums( asyncCallback );
     }
 
     public void reset()

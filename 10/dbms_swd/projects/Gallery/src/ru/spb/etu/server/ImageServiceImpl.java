@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import ru.spb.etu.client.ImageService;
 import ru.spb.etu.client.serializable.Artist;
-import ru.spb.etu.client.serializable.MasterPiece;
+import ru.spb.etu.client.serializable.Genre;
+import ru.spb.etu.client.serializable.Museum;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -13,47 +14,53 @@ public class ImageServiceImpl
     implements
         ImageService
 {
+    EntityExtractor entityExtractor;
+
     @Override
     public ArrayList getArtists()
     {
-        ArrayList artists = new ArrayList();
+        return getEntityExtractor().getArtists();
+    }
 
-        Artist artist = new Artist();
-        artist.setName( "artist1" );
-        artist.setImageUrl( "images/03.JPG" );
-        artist.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
-        artists.add( artist );
+    @Override
+    public ArrayList getMuseums()
+    {
+        return getEntityExtractor().getMuseums();
+    }
 
-        Artist artist1 = new Artist();
-        artist1.setName( "artist2" );
-        artist1.setImageUrl( "images/04.JPG" );
-        artist1.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
-        artists.add( artist1 );
-
-        return artists;
+    @Override
+    public ArrayList getGenres()
+    {
+        return getEntityExtractor().getGenres();
     }
 
     @Override
     public ArrayList getMasterPieces(
         Artist artist )
     {
-        ArrayList arrayList = new ArrayList();
+        return getEntityExtractor().getMasterPieces( artist );
+    }
 
-        for ( int i = 0; i < 100; i++ )
+    @Override
+    public ArrayList getArtistsByGenre(
+        Genre genre )
+    {
+        return getEntityExtractor().getArtistsByGenre( genre );
+    }
+
+    @Override
+    public ArrayList getArtistsByMuseum(
+        Museum museum )
+    {
+        return getEntityExtractor().getArtistsByMuseum( museum );
+    }
+
+    public EntityExtractor getEntityExtractor()
+    {
+        if ( entityExtractor == null )
         {
-            MasterPiece masterPiece = new MasterPiece();
-            masterPiece.setTitle( "01" );
-            masterPiece.setImageUrl( "images/01.JPG" );
-            masterPiece.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
-            arrayList.add( masterPiece );
-
-            MasterPiece masterPiece1 = new MasterPiece();
-            masterPiece1.setTitle( "02" );
-            masterPiece1.setImageUrl( "images/02.JPG" );
-            masterPiece1.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
-            arrayList.add( masterPiece1 );
+            entityExtractor = new EntityExtractorStub();
         }
-
-        return arrayList;
+        return entityExtractor;
     }
 }

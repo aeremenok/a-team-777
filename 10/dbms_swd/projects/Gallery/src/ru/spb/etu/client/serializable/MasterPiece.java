@@ -69,4 +69,8 @@ public class MasterPiece
     {
         this.title = title;
     }
+
+    public void requestMasterPieces()
+    {
+    }
 }

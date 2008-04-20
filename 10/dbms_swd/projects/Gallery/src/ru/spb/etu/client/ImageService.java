@@ -3,6 +3,8 @@ package ru.spb.etu.client;
 import java.util.ArrayList;
 
 import ru.spb.etu.client.serializable.Artist;
+import ru.spb.etu.client.serializable.Genre;
+import ru.spb.etu.client.serializable.Museum;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -37,4 +39,26 @@ public interface ImageService
      * @gwt.typeArgs <ru.spb.etu.client.serializable.MasterPiece>
      */
     ArrayList getArtists();
+
+    /**
+     * @gwt.typeArgs <ru.spb.etu.client.serializable.Museum>
+     */
+    ArrayList getMuseums();
+
+    /**
+     * @gwt.typeArgs <ru.spb.etu.client.serializable.Genre>
+     */
+    ArrayList getGenres();
+
+    /**
+     * @gwt.typeArgs <ru.spb.etu.client.serializable.Artist>
+     */
+    ArrayList getArtistsByGenre(
+        Genre genre );
+
+    /**
+     * @gwt.typeArgs <ru.spb.etu.client.serializable.Artist>
+     */
+    ArrayList getArtistsByMuseum(
+        Museum museum );
 }
