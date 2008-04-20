@@ -47,4 +47,11 @@ public class ViewPanel
             setWidget( new ResultPanel( artists ) );
         }
     }
+
+    public static ViewPanel reset()
+    {
+        getInstance().queryBuilder.reset();
+        getInstance().setWidget( getInstance().queryBuilder );
+        return getInstance();
+    }
 }

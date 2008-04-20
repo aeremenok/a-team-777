@@ -36,32 +36,30 @@ public class Gallery
         {
             menuBar = new MenuBar();
             menuBar.addStyleName( "gwt-MenuBar" );
-            MenuItem edit = new MenuItem( "Edit", new Command()
+
+            menuBar.addItem( new MenuItem( "Edit", new Command()
             {
                 public void execute()
                 {
                     setPanel( EditPanel.getInstance() );
                 }
-            } );
-            menuBar.addItem( edit );
+            } ) );
 
-            MenuItem view = new MenuItem( "View", new Command()
+            menuBar.addItem( new MenuItem( "View", new Command()
             {
                 public void execute()
                 {
-                    setPanel( ViewPanel.getInstance() );
+                    setPanel( ViewPanel.reset() );
                 }
-            } );
-            menuBar.addItem( view );
+            } ) );
 
-            MenuItem close = new MenuItem( "Close", new Command()
+            menuBar.addItem( new MenuItem( "Close", new Command()
             {
                 public void execute()
                 {
                     closeWindow();
                 }
-            } );
-            menuBar.addItem( close );
+            } ) );
         }
 
         return menuBar;

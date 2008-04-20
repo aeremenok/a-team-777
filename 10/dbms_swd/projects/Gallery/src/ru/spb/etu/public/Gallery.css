@@ -467,3 +467,33 @@ a:visited {
   border: 1px solid #87B3FF;
   padding: 4px;
 }
+
+.small {
+    display: block;
+    width: 120px;
+    height: 120px;
+    margin: 3px;
+}
+
+.selected {
+    border: 3px solid #0000ff;
+    margin: 0px;
+}
+
+.label {
+    font-size: large;
+    font-weight: bold;
+    font-family: fantasy;
+    text-align: right;
+}
+
+.big {
+    border: 5px solid #000000;
+    margin-left: 10px;
+    margin-right: 0px;
+    margin-top: 10px;
+}
+
+.title-label {
+    font-size: x-large;
+}

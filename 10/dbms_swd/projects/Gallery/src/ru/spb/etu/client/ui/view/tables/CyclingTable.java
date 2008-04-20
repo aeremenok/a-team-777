@@ -1,15 +1,12 @@
-package ru.spb.etu.client.ui.view;
+package ru.spb.etu.client.ui.view.tables;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import ru.spb.etu.client.serializable.EntityWrapper;
+import ru.spb.etu.client.ui.view.forms.EntityForm;
 
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * таблица с фиксированной шириной, заполняется зигзагом
@@ -27,11 +24,12 @@ public class CyclingTable
         int width )
     {
         super();
+        setWidth( "100%" );
         this.width = width;
     }
 
-    public void add(
-        Widget widget )
+    public void addCycled(
+        EntityForm widget )
     {
         if ( col == width - 1 )
         {
@@ -39,30 +37,6 @@ public class CyclingTable
             col = 0;
         }
         setWidget( row, col++, widget );
-    }
-
-    /**
-     * форма отображения сущности
-     * 
-     * @author eav
-     */
-    public class EntityForm
-        extends VerticalPanel
-    {
-        private EntityWrapper entityWrapper;
-
-        public EntityForm(
-            EntityWrapper entityWrapper )
-        {
-            this.entityWrapper = entityWrapper;
-            add( new Image( entityWrapper.getImageUrl() ) );
-            add( new Label( entityWrapper.getTitle() ) );
-        }
-
-        public EntityWrapper getEntityWrapper()
-        {
-            return entityWrapper;
-        }
     }
 
     /**
@@ -79,8 +53,14 @@ public class CyclingTable
         while ( iterator.hasNext() )
         {
             EntityWrapper entityWrapper = (EntityWrapper) iterator.next();
-            add( new EntityForm( entityWrapper ) );
+            addCycled( createEntityForm( entityWrapper ) );
         }
+    }
+
+    public EntityForm createEntityForm(
+        EntityWrapper entityWrapper )
+    {
+        return new EntityForm( entityWrapper );
     }
 
     public EntityWrapper getEntityWrapper(

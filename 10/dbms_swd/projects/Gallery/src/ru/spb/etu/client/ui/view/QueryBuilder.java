@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ru.spb.etu.client.ImageService;
 import ru.spb.etu.client.ImageServiceAsync;
+import ru.spb.etu.client.ui.view.tables.CyclingTable;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -77,5 +78,10 @@ public class QueryBuilder
     {
         setWidget( cyclingTable );
         // todo async.getMuseums( asyncCallback );
+    }
+
+    public void reset()
+    {
+        setWidget( choiceMenu );
     }
 }

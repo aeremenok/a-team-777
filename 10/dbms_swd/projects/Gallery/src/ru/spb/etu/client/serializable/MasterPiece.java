@@ -5,6 +5,7 @@ public class MasterPiece
         EntityWrapper
 {
     int    creationYear;
+    String description;
     String imageUrl;
     String title;
 
@@ -15,17 +16,24 @@ public class MasterPiece
     public MasterPiece(
         int creationYear,
         String imageUrl,
-        String title )
+        String title,
+        String description )
     {
         super();
         this.creationYear = creationYear;
         this.imageUrl = imageUrl;
         this.title = title;
+        this.description = description;
     }
 
     public int getCreationYear()
     {
         return creationYear;
+    }
+
+    public String getDescription()
+    {
+        return description;
     }
 
     public String getImageUrl()
@@ -42,6 +50,12 @@ public class MasterPiece
         int creationYear )
     {
         this.creationYear = creationYear;
+    }
+
+    public void setDescription(
+        String description )
+    {
+        this.description = description;
     }
 
     public void setImageUrl(
