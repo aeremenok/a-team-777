@@ -7,4 +7,5 @@
 	<entry-point class='ru.spb.etu.client.Gallery' />
 	
 	<servlet path="/Gallery/ImageService" class="ru.spb.etu.server.ImageServiceImpl"/>
+	<servlet path="/Gallery/FileUploadServlet" class="ru.spb.etu.server.FileUploadServlet"/>
 </module>

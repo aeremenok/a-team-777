@@ -15,6 +15,17 @@
 		<url-pattern>/ImageService</url-pattern>
 	</servlet-mapping>
 
+    <servlet>
+        <servlet-name>FileUploadServlet</servlet-name>
+        <servlet-class>
+            ru.spb.etu.server.FileUploadServlet
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FileUploadServlet</servlet-name>
+        <url-pattern>/FileUploadServlet</url-pattern>
+    </servlet-mapping>
+
 	<session-config>
 		<session-timeout>1</session-timeout>
 	</session-config>
