@@ -1,7 +1,6 @@
 package ru.spb.etu.client.ui.edit;
 
 import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.Label;
 
 public class EditPanel
     extends DockPanel
@@ -20,7 +19,7 @@ public class EditPanel
     public EditPanel()
     {
         super();
-        add( new Label( "edit" ), CENTER );
+        add( FileUploadPanel.getInstance(), CENTER );
     }
 
 }
