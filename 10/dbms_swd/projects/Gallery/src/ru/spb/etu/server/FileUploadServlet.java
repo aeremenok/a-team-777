@@ -28,19 +28,12 @@ public class FileUploadServlet
             IOException
     {
         response.setContentType( "text/plain" );
-
-        FileItem uploadItem = getFileItem( request );
-        if ( uploadItem == null )
-        {
-            response.getWriter().write( "NO-SCRIPT-DATA" );
-            return;
-        }
-
-        response.getWriter().write( new String( uploadItem.get() ) );
+        getFileItem( request, response );
     }
 
-    private FileItem getFileItem(
-        HttpServletRequest request )
+    private void getFileItem(
+        HttpServletRequest request,
+        HttpServletResponse response )
     {
         FileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload( factory );
@@ -54,8 +47,7 @@ public class FileUploadServlet
                 FileItem item = (FileItem) it.next();
                 if ( !item.isFormField() && "testcaseFile".equals( item.getFieldName() ) )
                 {
-                    saveToFile( item );
-                    return item;
+                    response.getWriter().write( saveToFile( item ) );
                 }
             }
         }
@@ -63,10 +55,9 @@ public class FileUploadServlet
         {
             e.printStackTrace();
         }
-        return null;
     }
 
-    private void saveToFile(
+    private String saveToFile(
         FileItem item )
         throws FileNotFoundException,
             IOException
@@ -74,12 +65,15 @@ public class FileUploadServlet
         // полное имя загруженного файла
         String path = item.getName();
         // путь к папке, где все храним
-        String imagePath = Bootstrap.getPath() + "/" + ImageServiceImpl.getBaseUrl() + "/images";
+        String modulePath = Bootstrap.getPath() + "/" + ImageServiceImpl.getBaseUrl();
         // полное имя сохраненного файла
-        String fullName = imagePath + "/" + path.substring( path.lastIndexOf( "\\" ) + 1 );
+        String name = "images/" + path.substring( path.lastIndexOf( "\\" ) + 1 );
+        String fullName = modulePath + "/" + name;
 
         FileOutputStream fileOutputStream = new FileOutputStream( new File( fullName ) );
         fileOutputStream.write( item.get() );
         fileOutputStream.flush();
+
+        return name;
     }
 }

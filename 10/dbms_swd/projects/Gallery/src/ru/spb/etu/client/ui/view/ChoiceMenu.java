@@ -15,7 +15,7 @@ public class ChoiceMenu
     extends DockPanel
 {
     public ChoiceMenu(
-        final QueryBuilder queryBuilder )
+        final EntityProcessor entityProcessor )
     {
         add( new Label( "Choose filter" ), NORTH );
         Button artists = new Button( "Artists" );
@@ -30,7 +30,7 @@ public class ChoiceMenu
             public void onClick(
                 Widget arg0 )
             {
-                queryBuilder.queryArtists();
+                entityProcessor.processArtists();
             }
         } );
 
@@ -39,7 +39,7 @@ public class ChoiceMenu
             public void onClick(
                 Widget arg0 )
             {
-                queryBuilder.queryGenres();
+                entityProcessor.processGenres();
             }
         } );
 
@@ -48,7 +48,7 @@ public class ChoiceMenu
             public void onClick(
                 Widget arg0 )
             {
-                queryBuilder.queryMuseums();
+                entityProcessor.processMuseums();
             }
         } );
     }
