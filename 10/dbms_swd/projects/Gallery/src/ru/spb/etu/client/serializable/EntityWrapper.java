@@ -42,4 +42,7 @@ public interface EntityWrapper
                                                                             .setArtists( (ArrayList) arg0 ) );
                                         }
                                     };
+
+    void setImageUrl(
+        String results );
 }

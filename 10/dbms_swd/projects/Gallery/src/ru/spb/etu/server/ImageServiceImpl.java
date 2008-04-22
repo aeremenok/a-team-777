@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ru.spb.etu.client.ImageService;
 import ru.spb.etu.client.serializable.Artist;
+import ru.spb.etu.client.serializable.EntityWrapper;
 import ru.spb.etu.client.serializable.Genre;
 import ru.spb.etu.client.serializable.Museum;
 
@@ -75,5 +76,12 @@ public class ImageServiceImpl
     public static String getBaseUrl()
     {
         return baseUrl;
+    }
+
+    @Override
+    public void saveOrUpdate(
+        EntityWrapper entityWrapper )
+    {
+        // todo
     }
 }

@@ -1,5 +1,7 @@
 package ru.spb.etu.client.ui.edit;
 
+import ru.spb.etu.client.ui.view.forms.EntityForm;
+
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -9,7 +11,6 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FileUploadPanel
@@ -19,12 +20,12 @@ public class FileUploadPanel
         FormHandler
 {
     private FileUpload fileUpload;
-    private Image      image;
+    private EntityForm entityForm;
 
     public FileUploadPanel(
-        Image image )
+        EntityForm entityForm )
     {
-        this.image = image;
+        this.entityForm = entityForm;
         // связка с сервлетом
         setMethod( METHOD_POST );
         setEncoding( ENCODING_MULTIPART );
@@ -68,6 +69,6 @@ public class FileUploadPanel
                   results.replaceAll( "<PRE>", "" ).replaceAll( "<pre>", "" ).replaceAll( "</PRE>", "" )
                          .replaceAll( "</pre>", "" );
         Window.alert( results );
-        image.setUrl( results );
+        entityForm.setUrl( results );
     }
 }
