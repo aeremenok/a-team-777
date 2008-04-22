@@ -61,4 +61,7 @@ public interface ImageService
      */
     ArrayList getArtistsByMuseum(
         Museum museum );
+
+    void setBaseUrl(
+        String url );
 }

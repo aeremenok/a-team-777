@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormSubmitEvent;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -19,7 +19,7 @@ public class FileUploadPanel
         FormHandler
 {
     private static FileUploadPanel instance;
-    private Label                  label;
+    private HTML                   label;
     private FileUpload             fileUpload;
 
     public static FileUploadPanel getInstance()
@@ -42,7 +42,7 @@ public class FileUploadPanel
         VerticalPanel verticalPanel = new VerticalPanel();
         setWidget( verticalPanel );
 
-        label = new Label( "Specify File" );
+        label = new HTML( "Specify File" );
         verticalPanel.add( label );
 
         fileUpload = new FileUpload();
@@ -74,6 +74,6 @@ public class FileUploadPanel
     public void onSubmitComplete(
         FormSubmitCompleteEvent arg0 )
     {
-        label.setText( "Result: " + arg0.getResults() );
+        label.setText( arg0.getResults() );
     }
 }
