@@ -4,8 +4,10 @@ import ru.spb.etu.client.ui.edit.EditPanel;
 import ru.spb.etu.client.ui.view.ViewPanel;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Panel;
@@ -15,7 +17,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class Gallery
     implements
-        EntryPoint
+        EntryPoint,
+        AsyncCallback
 {
     private static ScrollPanel panel   = new ScrollPanel();
     private static MenuBar     menuBar = null;
@@ -28,6 +31,9 @@ public class Gallery
 
         panel.setSize( "100%", "98%" );
         RootPanel.get().add( panel );
+
+        ImageServiceAsync async = ImageService.App.getInstance();
+        async.setBaseUrl( GWT.getModuleName(), this );
     }
 
     private Widget getMenu()
@@ -81,4 +87,15 @@ public class Gallery
     /*-{
           $wnd.close();
     }-*/;
+
+    public void onFailure(
+        Throwable arg0 )
+    {
+        Window.alert( arg0.toString() );
+    }
+
+    public void onSuccess(
+        Object arg0 )
+    {
+    }
 }

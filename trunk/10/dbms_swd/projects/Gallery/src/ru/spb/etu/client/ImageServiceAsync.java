@@ -62,4 +62,12 @@ public interface ImageServiceAsync
         Museum museum,
         AsyncCallback callback );
 
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void setBaseUrl(
+        String url,
+        AsyncCallback callback );
+
 }

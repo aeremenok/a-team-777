@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/">
+	<Valve
+		className="org.apache.catalina.authenticator.BasicAuthenticator"
+		disableProxyCaching="false" />
+
+	<Realm className="org.apache.catalina.realm.DataSourceRealm"
+		dataSourceName="jdbc/MainDB" debug="99" digest="MD5"
+		localDataSource="true" roleNameCol="role" userCredCol="password"
+		userNameCol="login" userRoleTable="user_role" userTable="users" />
+</Context>

@@ -14,7 +14,8 @@ public class ImageServiceImpl
     implements
         ImageService
 {
-    EntityExtractor entityExtractor;
+    EntityExtractor       entityExtractor;
+    private static String baseUrl;
 
     @Override
     public ArrayList getArtists()
@@ -62,5 +63,17 @@ public class ImageServiceImpl
             entityExtractor = new EntityExtractorStub();
         }
         return entityExtractor;
+    }
+
+    @Override
+    public void setBaseUrl(
+        String url )
+    {
+        ImageServiceImpl.baseUrl = url;
+    }
+
+    public static String getBaseUrl()
+    {
+        return baseUrl;
     }
 }
