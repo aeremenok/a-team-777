@@ -8,7 +8,9 @@ public class ArtistEditPanel
 {
     protected EntityWrapper createEntityWrapper()
     {
-        return new Artist();
+        Artist artist = new Artist();
+        artist.setImageUrl( getDefaultImageUrl() );
+        return artist;
     }
 
     protected String getDefaultImageUrl()

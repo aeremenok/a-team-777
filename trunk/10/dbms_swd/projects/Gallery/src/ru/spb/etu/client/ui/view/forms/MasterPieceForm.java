@@ -14,6 +14,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class MasterPieceForm
     extends EntityForm
+    implements
+        ClickListener
 {
     private CloseableDialog imagePanel;
 
@@ -21,15 +23,7 @@ public class MasterPieceForm
         MasterPiece masterPiece )
     {
         super( masterPiece );
-
-        image.addClickListener( new ClickListener()
-        {
-            public void onClick(
-                Widget arg0 )
-            {
-                getImagePanel().show();
-            }
-        } );
+        image.addClickListener( this );
     }
 
     class CloseableDialog
@@ -71,5 +65,11 @@ public class MasterPieceForm
             imagePanel.center();
         }
         return imagePanel;
+    }
+
+    public void onClick(
+        Widget arg0 )
+    {
+        getImagePanel().show();
     }
 }

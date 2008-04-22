@@ -3,6 +3,7 @@ package ru.spb.etu.client;
 import java.util.ArrayList;
 
 import ru.spb.etu.client.serializable.Artist;
+import ru.spb.etu.client.serializable.EntityWrapper;
 import ru.spb.etu.client.serializable.Genre;
 import ru.spb.etu.client.serializable.Museum;
 
@@ -64,4 +65,7 @@ public interface ImageService
 
     void setBaseUrl(
         String url );
+
+    void saveOrUpdate(
+        EntityWrapper entityWrapper );
 }

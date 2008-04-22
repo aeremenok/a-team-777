@@ -71,11 +71,11 @@ public class EntityForm
     public PopupPanel getDescriptionPanel()
     {
         descriptionPanel.setPopupPosition( image.getAbsoluteLeft() + image.getWidth(), getAbsoluteTop() );
-        descriptionPanel.setWidget( getDesctiption() );
+        descriptionPanel.setWidget( getDescription() );
         return descriptionPanel;
     }
 
-    private VerticalPanel getDesctiption()
+    private VerticalPanel getDescription()
     {
         if ( description == null )
         {
@@ -85,5 +85,12 @@ public class EntityForm
             description.add( new HTML( entityWrapper.getDescription() ) );
         }
         return description;
+    }
+
+    public void setUrl(
+        String results )
+    {
+        entityWrapper.setImageUrl( results );
+        image.setUrl( results );
     }
 }
