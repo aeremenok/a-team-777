@@ -8,8 +8,8 @@ import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormSubmitEvent;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FileUploadPanel
@@ -18,32 +18,21 @@ public class FileUploadPanel
         ClickListener,
         FormHandler
 {
-    private static FileUploadPanel instance;
-    private HTML                   label;
-    private FileUpload             fileUpload;
+    private FileUpload fileUpload;
+    private Image      image;
 
-    public static FileUploadPanel getInstance()
+    public FileUploadPanel(
+        Image image )
     {
-        if ( instance == null )
-        {
-            instance = new FileUploadPanel();
-        }
-        return instance;
-    }
-
-    public FileUploadPanel()
-    {
+        this.image = image;
         // связка с сервлетом
         setMethod( METHOD_POST );
         setEncoding( ENCODING_MULTIPART );
         setAction( "/Gallery/FileUploadServlet" );
 
         // содержимое
-        VerticalPanel verticalPanel = new VerticalPanel();
+        HorizontalPanel verticalPanel = new HorizontalPanel();
         setWidget( verticalPanel );
-
-        label = new HTML( "Specify File" );
-        verticalPanel.add( label );
 
         fileUpload = new FileUpload();
         fileUpload.setName( "testcaseFile" );
@@ -74,6 +63,11 @@ public class FileUploadPanel
     public void onSubmitComplete(
         FormSubmitCompleteEvent arg0 )
     {
-        label.setText( arg0.getResults() );
+        String results = arg0.getResults();
+        results =
+                  results.replaceAll( "<PRE>", "" ).replaceAll( "<pre>", "" ).replaceAll( "</PRE>", "" )
+                         .replaceAll( "</pre>", "" );
+        Window.alert( results );
+        image.setUrl( results );
     }
 }

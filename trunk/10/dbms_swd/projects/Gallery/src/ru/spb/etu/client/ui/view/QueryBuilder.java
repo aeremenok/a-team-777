@@ -19,13 +19,15 @@ import com.google.gwt.user.client.ui.TableListener;
  */
 public class QueryBuilder
     extends SimplePanel
+    implements
+        EntityProcessor
 {
     /**
-     * меню выбора критерия
+     * таблица возможных значений критериев
      */
     CyclingTable      cyclingTable  = new CyclingTable( 8 );
     /**
-     * таблица возможных значений критериев
+     * меню выбора критерия
      */
     ChoiceMenu        choiceMenu    = new ChoiceMenu( this );
 
@@ -62,19 +64,28 @@ public class QueryBuilder
         } );
     }
 
-    public void queryArtists()
+    /* (non-Javadoc)
+     * @see ru.spb.etu.client.ui.view.EntityProcessor#queryArtists()
+     */
+    public void processArtists()
     {
         setWidget( cyclingTable );
         async.getArtists( asyncCallback );
     }
 
-    public void queryGenres()
+    /* (non-Javadoc)
+     * @see ru.spb.etu.client.ui.view.EntityProcessor#queryGenres()
+     */
+    public void processGenres()
     {
         setWidget( cyclingTable );
         async.getGenres( asyncCallback );
     }
 
-    public void queryMuseums()
+    /* (non-Javadoc)
+     * @see ru.spb.etu.client.ui.view.EntityProcessor#queryMuseums()
+     */
+    public void processMuseums()
     {
         setWidget( cyclingTable );
         async.getMuseums( asyncCallback );

@@ -47,7 +47,7 @@ public class Gallery
             {
                 public void execute()
                 {
-                    setPanel( EditPanel.getInstance() );
+                    setPanel( EditPanel.reset() );
                 }
             } ) );
 
