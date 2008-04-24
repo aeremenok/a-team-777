@@ -15,11 +15,11 @@ public class Artist
     implements
         EntityWrapper
 {
-    Date   birthDate;
-    String country;
-    String description;
-    String imageUrl;
-    String name;
+    Date             birthDate;
+    ReflectiveString country     = new ReflectiveString();
+    ReflectiveString description = new ReflectiveString();
+    String           imageUrl;
+    ReflectiveString name        = new ReflectiveString();
 
     public Artist()
     {
@@ -33,11 +33,11 @@ public class Artist
         String imageUrl )
     {
         super();
-        this.birthDate = birthDate;
-        this.country = country;
-        this.description = description;
-        this.name = name;
-        this.imageUrl = imageUrl;
+        setBirthDate( birthDate );
+        setCountry( country );
+        setDescription( description );
+        setName( name );
+        setImageUrl( imageUrl );
     }
 
     public Date getBirthDate()
@@ -45,12 +45,12 @@ public class Artist
         return birthDate;
     }
 
-    public String getCountry()
+    public ReflectiveString getCountry()
     {
         return country;
     }
 
-    public String getDescription()
+    public ReflectiveString getDescription()
     {
         return description;
     }
@@ -60,12 +60,12 @@ public class Artist
         return imageUrl;
     }
 
-    public String getName()
+    public ReflectiveString getName()
     {
         return name;
     }
 
-    public String getTitle()
+    public ReflectiveString getTitle()
     {
         return getName();
     }
@@ -79,13 +79,13 @@ public class Artist
     public void setCountry(
         String country )
     {
-        this.country = country;
+        this.country.setString( country );
     }
 
     public void setDescription(
         String description )
     {
-        this.description = description;
+        this.description.setString( description );
     }
 
     public void setImageUrl(
@@ -97,7 +97,7 @@ public class Artist
     public void setName(
         String name )
     {
-        this.name = name;
+        this.name.setString( name );
     }
 
     public void requestMasterPieces()

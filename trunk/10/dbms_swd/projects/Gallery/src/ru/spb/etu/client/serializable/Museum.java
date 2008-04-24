@@ -4,11 +4,11 @@ public class Museum
     implements
         EntityWrapper
 {
-    private String description;
+    private ReflectiveString description = new ReflectiveString();
 
-    private String imageUrl;
+    private String           imageUrl;
 
-    private String name;
+    private ReflectiveString name        = new ReflectiveString();
 
     public Museum()
     {
@@ -20,12 +20,12 @@ public class Museum
         String imageUrl )
     {
         super();
-        this.description = description;
-        this.name = name;
-        this.imageUrl = imageUrl;
+        setDescription( description );
+        setName( name );
+        setImageUrl( imageUrl );
     }
 
-    public String getDescription()
+    public ReflectiveString getDescription()
     {
         return description;
     }
@@ -35,20 +35,20 @@ public class Museum
         return imageUrl;
     }
 
-    public String getName()
+    public ReflectiveString getName()
     {
         return name;
     }
 
-    public String getTitle()
+    public ReflectiveString getTitle()
     {
-        return name;
+        return getName();
     }
 
     public void setDescription(
         String description )
     {
-        this.description = description;
+        this.description.setString( description );
     }
 
     public void setImageUrl(
@@ -60,7 +60,7 @@ public class Museum
     public void setName(
         String name )
     {
-        this.name = name;
+        this.name.setString( name );
     }
 
     public void requestMasterPieces()

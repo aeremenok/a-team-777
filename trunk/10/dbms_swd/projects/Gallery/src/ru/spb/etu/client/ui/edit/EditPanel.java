@@ -1,5 +1,8 @@
 package ru.spb.etu.client.ui.edit;
 
+import ru.spb.etu.client.ui.edit.entities.ArtistEditPanel;
+import ru.spb.etu.client.ui.edit.entities.GenreEditPanel;
+import ru.spb.etu.client.ui.edit.entities.MuseumEditPanel;
 import ru.spb.etu.client.ui.view.ChoiceMenu;
 import ru.spb.etu.client.ui.view.EntityProcessor;
 
@@ -36,13 +39,13 @@ public class EditPanel
 
     public void processGenres()
     {
-        // TODO Auto-generated method stub
+        setWidget( new GenreEditPanel() );
 
     }
 
     public void processMuseums()
     {
-        // TODO Auto-generated method stub
+        setWidget( new MuseumEditPanel() );
 
     }
 

@@ -44,7 +44,7 @@ public class EntityForm
         image = new Image( entityWrapper.getImageUrl() );
         image.addStyleName( "small" );
         verticalPanel.add( image );
-        verticalPanel.add( new Label( entityWrapper.getTitle() ) );
+        verticalPanel.add( new Label( entityWrapper.getTitle().toString() ) );
         setWidget( verticalPanel );
 
         addMouseListener( new MouseListenerAdapter()
@@ -80,9 +80,9 @@ public class EntityForm
         if ( description == null )
         {
             description = new VerticalPanel();
-            description.add( new HTML( entityWrapper.getTitle() ) );
+            description.add( new HTML( entityWrapper.getTitle().toString() ) );
             // todo description.add( new Image( entityWrapper.getImageUrl() ) );
-            description.add( new HTML( entityWrapper.getDescription() ) );
+            description.add( new HTML( entityWrapper.getDescription().toString() ) );
         }
         return description;
     }

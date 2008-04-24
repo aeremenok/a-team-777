@@ -4,9 +4,9 @@ public class Genre
     implements
         EntityWrapper
 {
-    private String description;
-    private String imageUrl;
-    private String name;
+    private ReflectiveString description = new ReflectiveString();
+    private String           imageUrl;
+    private ReflectiveString name        = new ReflectiveString();
 
     public Genre()
     {
@@ -18,12 +18,12 @@ public class Genre
         String description )
     {
         super();
-        this.name = name;
-        this.imageUrl = imageUrl;
-        this.description = description;
+        setName( name );
+        setImageUrl( imageUrl );
+        setDescription( description );
     }
 
-    public String getDescription()
+    public ReflectiveString getDescription()
     {
         return description;
     }
@@ -33,12 +33,12 @@ public class Genre
         return imageUrl;
     }
 
-    public String getName()
+    public ReflectiveString getName()
     {
         return name;
     }
 
-    public String getTitle()
+    public ReflectiveString getTitle()
     {
         return name;
     }
@@ -46,7 +46,7 @@ public class Genre
     public void setDescription(
         String description )
     {
-        this.description = description;
+        this.description.setString( description );
     }
 
     public void setImageUrl(
@@ -58,7 +58,7 @@ public class Genre
     public void setName(
         String name )
     {
-        this.name = name;
+        this.name.setString( name );
     }
 
     public void requestMasterPieces()

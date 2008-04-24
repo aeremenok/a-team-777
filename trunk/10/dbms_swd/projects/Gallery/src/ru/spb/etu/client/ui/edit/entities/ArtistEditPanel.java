@@ -1,4 +1,4 @@
-package ru.spb.etu.client.ui.edit;
+package ru.spb.etu.client.ui.edit.entities;
 
 import ru.spb.etu.client.serializable.Artist;
 import ru.spb.etu.client.serializable.EntityWrapper;
@@ -8,9 +8,7 @@ public class ArtistEditPanel
 {
     protected EntityWrapper createEntityWrapper()
     {
-        Artist artist = new Artist();
-        artist.setImageUrl( getDefaultImageUrl() );
-        return artist;
+        return new Artist();
     }
 
     protected String getDefaultImageUrl()

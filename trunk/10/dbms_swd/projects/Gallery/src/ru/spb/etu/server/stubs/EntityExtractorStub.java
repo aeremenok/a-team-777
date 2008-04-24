@@ -1,4 +1,4 @@
-package ru.spb.etu.server;
+package ru.spb.etu.server.stubs;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,7 @@ import ru.spb.etu.client.serializable.Artist;
 import ru.spb.etu.client.serializable.Genre;
 import ru.spb.etu.client.serializable.MasterPiece;
 import ru.spb.etu.client.serializable.Museum;
+import ru.spb.etu.server.EntityExtractor;
 
 public class EntityExtractorStub
     implements
