@@ -7,6 +7,8 @@ import ru.spb.etu.client.serializable.Artist;
 import ru.spb.etu.client.serializable.EntityWrapper;
 import ru.spb.etu.client.serializable.Genre;
 import ru.spb.etu.client.serializable.Museum;
+import ru.spb.etu.server.stubs.EntityBackuperStub;
+import ru.spb.etu.server.stubs.EntityExtractorStub;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -15,32 +17,19 @@ public class ImageServiceImpl
     implements
         ImageService
 {
+    EntityBackuper        entityBackuper;
     EntityExtractor       entityExtractor;
     private static String baseUrl;
+
+    public static String getBaseUrl()
+    {
+        return baseUrl;
+    }
 
     @Override
     public ArrayList getArtists()
     {
         return getEntityExtractor().getArtists();
-    }
-
-    @Override
-    public ArrayList getMuseums()
-    {
-        return getEntityExtractor().getMuseums();
-    }
-
-    @Override
-    public ArrayList getGenres()
-    {
-        return getEntityExtractor().getGenres();
-    }
-
-    @Override
-    public ArrayList getMasterPieces(
-        Artist artist )
-    {
-        return getEntityExtractor().getMasterPieces( artist );
     }
 
     @Override
@@ -57,6 +46,15 @@ public class ImageServiceImpl
         return getEntityExtractor().getArtistsByMuseum( museum );
     }
 
+    public EntityBackuper getEntityBackuper()
+    {
+        if ( entityBackuper == null )
+        {
+            entityBackuper = new EntityBackuperStub();
+        }
+        return entityBackuper;
+    }
+
     public EntityExtractor getEntityExtractor()
     {
         if ( entityExtractor == null )
@@ -67,21 +65,35 @@ public class ImageServiceImpl
     }
 
     @Override
-    public void setBaseUrl(
-        String url )
+    public ArrayList getGenres()
     {
-        ImageServiceImpl.baseUrl = url;
+        return getEntityExtractor().getGenres();
     }
 
-    public static String getBaseUrl()
+    @Override
+    public ArrayList getMasterPieces(
+        Artist artist )
     {
-        return baseUrl;
+        return getEntityExtractor().getMasterPieces( artist );
+    }
+
+    @Override
+    public ArrayList getMuseums()
+    {
+        return getEntityExtractor().getMuseums();
     }
 
     @Override
     public void saveOrUpdate(
         EntityWrapper entityWrapper )
     {
-        // todo
+        getEntityBackuper().saveOrUpdate( entityWrapper );
+    }
+
+    @Override
+    public void setBaseUrl(
+        String url )
+    {
+        ImageServiceImpl.baseUrl = url;
     }
 }

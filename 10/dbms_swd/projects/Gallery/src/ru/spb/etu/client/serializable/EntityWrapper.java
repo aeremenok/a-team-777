@@ -15,14 +15,6 @@ public interface EntityWrapper
     extends
         IsSerializable
 {
-    String getTitle();
-
-    String getImageUrl();
-
-    String getDescription();
-
-    void requestMasterPieces();
-
     ImageServiceAsync async         = ImageService.App.getInstance();
 
     AsyncCallback     asyncCallback = new AsyncCallback()
@@ -42,6 +34,43 @@ public interface EntityWrapper
                                                                             .setArtists( (ArrayList) arg0 ) );
                                         }
                                     };
+
+    class ReflectiveString
+        implements
+            IsSerializable
+    {
+        public ReflectiveString()
+        {
+        }
+
+        String string = "";
+
+        public ReflectiveString(
+            String string )
+        {
+            super();
+            this.string = string;
+        }
+
+        public void setString(
+            String string )
+        {
+            this.string = string;
+        }
+
+        public String toString()
+        {
+            return string;
+        }
+    }
+
+    ReflectiveString getDescription();
+
+    String getImageUrl();
+
+    ReflectiveString getTitle();
+
+    void requestMasterPieces();
 
     void setImageUrl(
         String results );

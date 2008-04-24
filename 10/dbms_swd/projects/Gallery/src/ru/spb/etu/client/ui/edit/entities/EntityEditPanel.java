@@ -1,9 +1,14 @@
-package ru.spb.etu.client.ui.edit;
+package ru.spb.etu.client.ui.edit.entities;
 
 import ru.spb.etu.client.ImageService;
 import ru.spb.etu.client.ImageServiceAsync;
 import ru.spb.etu.client.serializable.EntityWrapper;
+import ru.spb.etu.client.serializable.EntityWrapper.ReflectiveString;
+import ru.spb.etu.client.ui.edit.FileUploadPanel;
 import ru.spb.etu.client.ui.view.forms.EntityForm;
+import ru.spb.etu.client.ui.widgets.HasValue;
+import ru.spb.etu.client.ui.widgets.MyTextArea;
+import ru.spb.etu.client.ui.widgets.MyTextBox;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -11,17 +16,12 @@ import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SourcesChangeEvents;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class EntityEditPanel
     extends FlexTable
     implements
-        AsyncCallback,
-        ChangeListener
+        AsyncCallback
 {
 
     EntityWrapper     entityWrapper;
@@ -31,6 +31,7 @@ public abstract class EntityEditPanel
     {
         super();
         entityWrapper = createEntityWrapper();
+        entityWrapper.setImageUrl( getDefaultImageUrl() );
 
         int row = 0;
         // картинка
@@ -39,8 +40,8 @@ public abstract class EntityEditPanel
         // загрузка картинки
         createCenteredCell( row++, new FileUploadPanel( entityForm ) );
 
-        createRow( row++, "Name", new TextBox() );
-        createRow( row++, "Description", new TextArea() );
+        createRow( row++, "Name", new MyTextBox(), entityWrapper.getTitle() );
+        createRow( row++, "Description", new MyTextArea(), entityWrapper.getDescription() );
     }
 
     private void createCenteredCell(
@@ -55,20 +56,20 @@ public abstract class EntityEditPanel
     private void createRow(
         int row,
         String name,
-        SourcesChangeEvents sourcesChangeEvents )
+        final HasValue hasValue,
+        final ReflectiveString entityAttribute )
     {
         setWidget( row, 0, new Label( name ) );
-        setWidget( row, 1, (Widget) sourcesChangeEvents );
-        sourcesChangeEvents.addChangeListener( this );
-    }
-
-    public void onChange(
-        Widget arg0 )
-    {
-        if ( !((TextBoxBase) arg0).getText().equals( "" ) )
-        { // todo
-            async.saveOrUpdate( entityWrapper, EntityEditPanel.this );
-        }
+        setWidget( row, 1, (Widget) hasValue );
+        hasValue.addChangeListener( new ChangeListener()
+        {
+            public void onChange(
+                Widget arg0 )
+            {
+                entityAttribute.setString( hasValue.getText() );
+                async.saveOrUpdate( entityWrapper, EntityEditPanel.this );
+            }
+        } );
     }
 
     protected abstract String getDefaultImageUrl();

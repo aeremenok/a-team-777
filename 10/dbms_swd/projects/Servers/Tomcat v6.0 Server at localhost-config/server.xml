@@ -101,7 +101,7 @@
                prefix="localhost_access_log." suffix=".txt" pattern="common" resolveHosts="false"/>
         -->
 
-      <Context docBase="Gallery" path="/Gallery" reloadable="true" source="org.eclipse.jst.j2ee.server:Gallery"/></Host>
+      <Context docBase="Gallery" path="/Gallery" reloadable="false" source="org.eclipse.jst.j2ee.server:Gallery"/></Host>
     </Engine>
   </Service>
 </Server>

@@ -4,10 +4,10 @@ public class MasterPiece
     implements
         EntityWrapper
 {
-    int    creationYear;
-    String description;
-    String imageUrl;
-    String title;
+    int              creationYear;
+    ReflectiveString description = new ReflectiveString();
+    String           imageUrl;
+    ReflectiveString title       = new ReflectiveString();
 
     public MasterPiece()
     {
@@ -20,10 +20,10 @@ public class MasterPiece
         String description )
     {
         super();
-        this.creationYear = creationYear;
-        this.imageUrl = imageUrl;
-        this.title = title;
-        this.description = description;
+        setCreationYear( creationYear );
+        setImageUrl( imageUrl );
+        setCreationYear( creationYear );
+        setDescription( description );
     }
 
     public int getCreationYear()
@@ -31,7 +31,7 @@ public class MasterPiece
         return creationYear;
     }
 
-    public String getDescription()
+    public ReflectiveString getDescription()
     {
         return description;
     }
@@ -41,7 +41,7 @@ public class MasterPiece
         return imageUrl;
     }
 
-    public String getTitle()
+    public ReflectiveString getTitle()
     {
         return title;
     }
@@ -55,7 +55,7 @@ public class MasterPiece
     public void setDescription(
         String description )
     {
-        this.description = description;
+        this.description.setString( description );
     }
 
     public void setImageUrl(
@@ -67,7 +67,7 @@ public class MasterPiece
     public void setTitle(
         String title )
     {
-        this.title = title;
+        this.title.setString( title );
     }
 
     public void requestMasterPieces()

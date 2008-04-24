@@ -78,7 +78,7 @@ public class ResultPanel
         {
             final Artist artist = (Artist) iterator.next();
             // в TabPanel в каждой вкладке д.б. свой виджет
-            Label label = new Label( artist.getName() );
+            Label label = new Label( artist.getName().toString() );
             label.addClickListener( new ClickListener()
             {
                 public void onClick(
