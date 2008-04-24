@@ -1,36 +1,89 @@
-#include <stdio.h> 
-#include <stdlib.h> 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-typedef struct RootProc_t;
+#include <sys/link.h>
+#include <sys/root.h>
+#include <sys/sys_rpc.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    RootProc_t* root;
-    int myProcId;
-    int neighbourId;
+       RootProc_t* root;
+       int MyProcId;
+       int myx, myy, myz;
+       int dimx, dimy, dimz;
+       int next;
 
-    printf("hello!\n");
+       printf("started\n");
 
-    root = GETROOT()->ProcRoot;
-    myProcId = root->MyProcId;
-    
-    neighbourId = getNeighbourId(root);
-    printf("upper neighbour %s\n", neighbourId);
-    
-    return 0;
-}
+       root = GET_ROOT()->ProcRoot;
+       MyProcId = root->MyProcID;
 
-int getNeighbourId(RootProc_t root){
-    int res = -1;
-    if (root->MyY < (root->DimY - 1))
-    {
-        res =  root->MyZ * root->DimX * root->DimY +
-               ((root->MyY+1) * root->DimX) +
-               root->MyX
-    }
-    else
-    {
-        printf("no upper neighbours by Y\n");
-    }
-    return res;
+       myx=root->MyX;
+       myy=root->MyY;
+       myz=root->MyZ;
+
+       printf("[%d] my{%d %d %d}\n", MyProcId, myx,myy,myz);
+
+       dimx = root->DimX;
+       dimy = root->DimY;
+       dimz = root->DimZ;
+
+       printf("[%d] dim{%d %d %d}\n", MyProcId, dimx,dimy,dimz);
+
+       if (myy < (dimy-1))
+       {
+               next =
+                   ( myz * dimz * dimy ) +
+                   ( ( myy + 1 ) * dimx ) +
+                   myx;
+               printf("[%d] up %d\n", MyProcId, next);
+       }
+       else
+       {
+               printf("[%d] no up\n", MyProcId);
+       }
+
+
+       if (myx < (dimx-1))
+       {
+               next =
+                   ( myz * dimz * dimx ) +
+                   ( myy * dimx ) +
+                   ( myx + 1 );
+               printf("[%d] right %d\n", MyProcId, next);
+       }
+       else
+       {
+               printf("[%d] no right\n", MyProcId);
+       }
+
+       if (myx > 1)
+       {
+               next =
+                   ( myz * dimz * dimx ) +
+                   ( myy * dimx ) +
+                   ( myx - 1 );
+               printf("[%d] left %d\n", MyProcId, next);
+       }
+       else
+       {
+               printf("[%d] no left\n", MyProcId);
+       }
+
+       if (myy > 1)
+       {
+               next =
+                   ( myz * dimz * dimx ) +
+                   ( ( myy - 1 ) * dimx ) +
+                   myx;
+               printf("[%d] down %d\n", MyProcId, next);
+       }
+       else
+       {
+               printf("[%d] no down\n", MyProcId);
+       }
+
+       printf("[%d] finished\n", MyProcId);
+       return 0;
 }
