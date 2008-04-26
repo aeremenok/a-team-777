@@ -1,6 +1,9 @@
 package ru.spb.etu.client.ui.widgets;
 
+import ru.spb.etu.client.serializable.ReflectiveString;
+
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 public class MyTextBox
     extends TextBox
@@ -8,4 +11,24 @@ public class MyTextBox
         HasValue
 {
 
+    private ReflectiveString field;
+
+    public MyTextBox()
+    {
+        super();
+        addChangeListener( this );
+    }
+
+    public void bindField(
+        ru.spb.etu.client.serializable.ReflectiveString field )
+    {
+        this.field = field;
+    }
+
+    public void onChange(
+        Widget arg0 )
+    {
+        field.setString( getText() );
+        field.updateHost();
+    }
 }

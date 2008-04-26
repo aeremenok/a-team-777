@@ -16,10 +16,10 @@ public class Artist
         EntityWrapper
 {
     Date             birthDate;
-    ReflectiveString country     = new ReflectiveString();
-    ReflectiveString description = new ReflectiveString();
+    ReflectiveString country     = new ReflectiveString( this );
+    ReflectiveString description = new ReflectiveString( this );
     String           imageUrl;
-    ReflectiveString name        = new ReflectiveString();
+    ReflectiveString name        = new ReflectiveString( this );
 
     public Artist()
     {

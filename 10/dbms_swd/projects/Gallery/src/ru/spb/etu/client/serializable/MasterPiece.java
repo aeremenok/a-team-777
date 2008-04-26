@@ -5,9 +5,9 @@ public class MasterPiece
         EntityWrapper
 {
     int              creationYear;
-    ReflectiveString description = new ReflectiveString();
+    ReflectiveString description = new ReflectiveString( this );
     String           imageUrl;
-    ReflectiveString title       = new ReflectiveString();
+    ReflectiveString title       = new ReflectiveString( this );
 
     public MasterPiece()
     {

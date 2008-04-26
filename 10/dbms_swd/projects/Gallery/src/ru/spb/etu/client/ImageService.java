@@ -68,4 +68,11 @@ public interface ImageService
 
     void saveOrUpdate(
         EntityWrapper entityWrapper );
+
+    void remove(
+        EntityWrapper entityWrapper );
+
+    EntityWrapper create(
+        String type )
+        throws Exception;
 }

@@ -3,6 +3,7 @@ package ru.spb.etu.server.stubs;
 import java.util.HashMap;
 
 import ru.spb.etu.client.serializable.EntityWrapper;
+import ru.spb.etu.client.serializable.ReflectiveString;
 import ru.spb.etu.server.EntityBackuper;
 
 public class EntityBackuperStub
@@ -10,6 +11,7 @@ public class EntityBackuperStub
         EntityBackuper
 {
 
+    private static final String           PACK    = "ru.spb.etu.client.serializable";
     static HashMap<String, EntityWrapper> hashMap = new HashMap<String, EntityWrapper>();
 
     @Override
@@ -21,7 +23,7 @@ public class EntityBackuperStub
     }
 
     public static EntityWrapper get(
-        EntityWrapper.ReflectiveString key )
+        ReflectiveString key )
     {
         return hashMap.get( key.toString() );
     }
@@ -30,5 +32,28 @@ public class EntityBackuperStub
         String key )
     {
         return hashMap.get( key );
+    }
+
+    @Override
+    public EntityWrapper create(
+        String type )
+        throws Exception
+    {
+        try
+        {
+            return (EntityWrapper) Class.forName( PACK + "." + type ).newInstance();
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public void remove(
+        EntityWrapper entityWrapper )
+    {
+        hashMap.remove( entityWrapper );
     }
 }
