@@ -96,4 +96,19 @@ public class ImageServiceImpl
     {
         ImageServiceImpl.baseUrl = url;
     }
+
+    @Override
+    public void remove(
+        EntityWrapper entityWrapper )
+    {
+        getEntityBackuper().remove( entityWrapper );
+    }
+
+    @Override
+    public EntityWrapper create(
+        String type )
+        throws Exception
+    {
+        return getEntityBackuper().create( type );
+    }
 }

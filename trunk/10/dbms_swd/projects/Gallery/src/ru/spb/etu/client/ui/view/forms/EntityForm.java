@@ -5,7 +5,6 @@ import ru.spb.etu.client.serializable.EntityWrapper;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -19,32 +18,25 @@ import com.google.gwt.user.client.ui.Widget;
 public class EntityForm
     extends FocusPanel
 {
-    protected EntityWrapper   entityWrapper;
+    private VerticalPanel   info  = new VerticalPanel();
 
-    /**
-     * подксказка должна отображаться только одна
-     */
-    private static PopupPanel descriptionPanel = new PopupPanel( true );
+    protected EntityWrapper entityWrapper;
 
-    static
-    {
-        descriptionPanel.addStyleName( "gwt-DialogBox" );
-    }
-
-    protected Image           image;
-
-    private VerticalPanel     description;
+    protected Image         image = new Image();
 
     public EntityForm(
         EntityWrapper entityWrapper )
     {
-        this.entityWrapper = entityWrapper;
+        this();
+        setEntityWrapper( entityWrapper );
+    }
 
+    public EntityForm()
+    {
         VerticalPanel verticalPanel = new VerticalPanel();
-        image = new Image( entityWrapper.getImageUrl() );
         image.addStyleName( "small" );
         verticalPanel.add( image );
-        verticalPanel.add( new Label( entityWrapper.getTitle().toString() ) );
+        verticalPanel.add( title );
         setWidget( verticalPanel );
 
         addMouseListener( new MouseListenerAdapter()
@@ -52,15 +44,27 @@ public class EntityForm
             public void onMouseEnter(
                 Widget sender )
             {
-                getDescriptionPanel().show();
+                getInfoPopup().show();
             }
 
             public void onMouseLeave(
                 Widget sender )
             {
-                getDescriptionPanel().hide();
+                getInfoPopup().hide();
             }
         } );
+    }
+
+    /**
+     * подксказка должна отображаться только одна
+     */
+    private static PopupPanel infoPopup = new PopupPanel( true );
+
+    private HTML              title     = new HTML();
+
+    static
+    {
+        infoPopup.addStyleName( "gwt-DialogBox" );
     }
 
     public EntityWrapper getEntityWrapper()
@@ -68,23 +72,20 @@ public class EntityForm
         return entityWrapper;
     }
 
-    public PopupPanel getDescriptionPanel()
+    public PopupPanel getInfoPopup()
     {
-        descriptionPanel.setPopupPosition( image.getAbsoluteLeft() + image.getWidth(), getAbsoluteTop() );
-        descriptionPanel.setWidget( getDescription() );
-        return descriptionPanel;
+        infoPopup.setPopupPosition( image.getAbsoluteLeft() + image.getWidth(), getAbsoluteTop() );
+        infoPopup.setWidget( getInfoPanel() );
+        return infoPopup;
     }
 
-    private VerticalPanel getDescription()
+    public void setEntityWrapper(
+        EntityWrapper entityWrapper )
     {
-        if ( description == null )
-        {
-            description = new VerticalPanel();
-            description.add( new HTML( entityWrapper.getTitle().toString() ) );
-            // todo description.add( new Image( entityWrapper.getImageUrl() ) );
-            description.add( new HTML( entityWrapper.getDescription().toString() ) );
-        }
-        return description;
+        this.entityWrapper = entityWrapper;
+        image.setUrl( entityWrapper.getImageUrl() );
+        title.setHTML( entityWrapper.getTitle().toString() );
+        updateInfo();
     }
 
     public void setUrl(
@@ -92,5 +93,21 @@ public class EntityForm
     {
         entityWrapper.setImageUrl( results );
         image.setUrl( results );
+    }
+
+    private VerticalPanel getInfoPanel()
+    {
+        if ( info.getWidgetCount() == 0 )
+        {
+            updateInfo();
+        }
+        return info;
+    }
+
+    private void updateInfo()
+    {
+        info.clear();
+        info.add( new HTML( entityWrapper.getTitle().toString() ) );
+        info.add( new HTML( entityWrapper.getDescription().toString() ) );
     }
 }

@@ -4,11 +4,11 @@ public class Museum
     implements
         EntityWrapper
 {
-    private ReflectiveString description = new ReflectiveString();
+    private ReflectiveString description = new ReflectiveString( this );
 
     private String           imageUrl;
 
-    private ReflectiveString name        = new ReflectiveString();
+    private ReflectiveString name        = new ReflectiveString( this );
 
     public Museum()
     {

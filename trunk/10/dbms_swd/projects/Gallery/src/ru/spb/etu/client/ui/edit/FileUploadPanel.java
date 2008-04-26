@@ -25,7 +25,7 @@ public class FileUploadPanel
     public FileUploadPanel(
         EntityForm entityForm )
     {
-        this.entityForm = entityForm;
+        setEntityForm( entityForm );
         // связка с сервлетом
         setMethod( METHOD_POST );
         setEncoding( ENCODING_MULTIPART );
@@ -70,5 +70,11 @@ public class FileUploadPanel
                          .replaceAll( "</pre>", "" );
         Window.alert( results );
         entityForm.setUrl( results );
+    }
+
+    public void setEntityForm(
+        EntityForm entityForm )
+    {
+        this.entityForm = entityForm;
     }
 }

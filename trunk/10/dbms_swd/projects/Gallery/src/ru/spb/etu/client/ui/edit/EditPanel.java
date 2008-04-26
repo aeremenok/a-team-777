@@ -1,8 +1,8 @@
 package ru.spb.etu.client.ui.edit;
 
-import ru.spb.etu.client.ui.edit.entities.ArtistEditPanel;
-import ru.spb.etu.client.ui.edit.entities.GenreEditPanel;
-import ru.spb.etu.client.ui.edit.entities.MuseumEditPanel;
+import ru.spb.etu.client.ui.edit.entities.edit.ArtistEditPanel;
+import ru.spb.etu.client.ui.edit.entities.edit.GenreEditPanel;
+import ru.spb.etu.client.ui.edit.entities.edit.MuseumEditPanel;
 import ru.spb.etu.client.ui.view.ChoiceMenu;
 import ru.spb.etu.client.ui.view.EntityProcessor;
 

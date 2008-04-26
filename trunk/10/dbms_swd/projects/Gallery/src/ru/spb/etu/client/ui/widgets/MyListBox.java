@@ -1,12 +1,23 @@
 package ru.spb.etu.client.ui.widgets;
 
+import ru.spb.etu.client.serializable.ReflectiveString;
+
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Widget;
 
 public class MyListBox
     extends ListBox
     implements
         HasValue
 {
+    private ReflectiveString field;
+
+    public MyListBox()
+    {
+        super();
+        addChangeListener( this );
+    }
+
     public String getText()
     {
         return getValue( getSelectedIndex() );
@@ -22,6 +33,22 @@ public class MyListBox
                 setSelectedIndex( i );
                 break;
             }
+        }
+    }
+
+    public void bindField(
+        ru.spb.etu.client.serializable.ReflectiveString field )
+    {
+        this.field = field;
+    }
+
+    public void onChange(
+        Widget arg0 )
+    {
+        if ( field != null )
+        {
+            field.setString( getText() );
+            field.updateHost();
         }
     }
 

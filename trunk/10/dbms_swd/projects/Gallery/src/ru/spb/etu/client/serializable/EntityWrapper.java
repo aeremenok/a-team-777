@@ -35,35 +35,6 @@ public interface EntityWrapper
                                         }
                                     };
 
-    class ReflectiveString
-        implements
-            IsSerializable
-    {
-        public ReflectiveString()
-        {
-        }
-
-        String string = "";
-
-        public ReflectiveString(
-            String string )
-        {
-            super();
-            this.string = string;
-        }
-
-        public void setString(
-            String string )
-        {
-            this.string = string;
-        }
-
-        public String toString()
-        {
-            return string;
-        }
-    }
-
     ReflectiveString getDescription();
 
     String getImageUrl();

@@ -16,4 +16,20 @@ public class EntityBackuperImpl
 
     }
 
+    @Override
+    public EntityWrapper create(
+        String type )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void remove(
+        EntityWrapper entityWrapper )
+    {
+        // TODO Auto-generated method stub
+
+    }
+
 }
