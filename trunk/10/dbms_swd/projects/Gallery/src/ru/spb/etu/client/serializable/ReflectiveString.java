@@ -44,6 +44,17 @@ public class ReflectiveString
         return string;
     }
 
+    public int toInt()
+    {
+        return Integer.parseInt( string );
+    }
+
+    public void setInt(
+        int i )
+    {
+        string = String.valueOf( i );
+    }
+
     public void updateHost()
     {
         ImageServiceAsync async = ImageService.App.getInstance();

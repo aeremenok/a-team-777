@@ -26,6 +26,12 @@ public class MasterPieceForm
         image.addClickListener( this );
     }
 
+    public MasterPieceForm()
+    {
+        super();
+        image.addClickListener( this );
+    }
+
     class CloseableDialog
         extends DialogBox
         implements

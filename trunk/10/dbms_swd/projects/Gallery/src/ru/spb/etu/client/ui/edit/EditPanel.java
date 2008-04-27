@@ -1,7 +1,9 @@
 package ru.spb.etu.client.ui.edit;
 
+import ru.spb.etu.client.serializable.Artist;
 import ru.spb.etu.client.ui.edit.entities.edit.ArtistEditPanel;
 import ru.spb.etu.client.ui.edit.entities.edit.GenreEditPanel;
+import ru.spb.etu.client.ui.edit.entities.edit.MasterpieceEditPanel;
 import ru.spb.etu.client.ui.edit.entities.edit.MuseumEditPanel;
 import ru.spb.etu.client.ui.view.ChoiceMenu;
 import ru.spb.etu.client.ui.view.EntityProcessor;
@@ -45,6 +47,18 @@ public class EditPanel
     public void processMuseums()
     {
         setWidget( new MuseumEditPanel() );
+    }
+
+    public void processPaintings(
+        Artist artist )
+    {
+        setWidget( new MasterpieceEditPanel( artist ) );
+    }
+
+    public void processSculpture(
+        Artist artitst )
+    {
+        setWidget( new MasterpieceEditPanel( artitst ) );
     }
 
     public static EditPanel reset()
