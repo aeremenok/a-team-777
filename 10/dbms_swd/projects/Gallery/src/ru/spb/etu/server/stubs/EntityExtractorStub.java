@@ -6,6 +6,8 @@ import ru.spb.etu.client.serializable.Artist;
 import ru.spb.etu.client.serializable.Genre;
 import ru.spb.etu.client.serializable.MasterPiece;
 import ru.spb.etu.client.serializable.Museum;
+import ru.spb.etu.client.serializable.Painting;
+import ru.spb.etu.client.serializable.Sculpture;
 import ru.spb.etu.server.EntityExtractor;
 
 public class EntityExtractorStub
@@ -120,6 +122,68 @@ public class EntityExtractorStub
         Museum museum )
     {
         return getArtists();
+    }
+
+    @Override
+    public ArrayList getPaintings(
+        Artist artist )
+    {
+        ArrayList arrayList = new ArrayList();
+
+        if ( artist.equals( this.artist ) )
+        {
+            for ( int i = 0; i < 100; i++ )
+            {
+                Painting masterPiece = new Painting();
+                masterPiece.setTitle( "01" );
+                masterPiece.setImageUrl( "images/01.JPG" );
+                masterPiece.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
+                arrayList.add( masterPiece );
+            }
+        }
+        else if ( artist.equals( this.artist1 ) )
+        {
+            for ( int i = 0; i < 100; i++ )
+            {
+                Painting masterPiece1 = new Painting();
+                masterPiece1.setTitle( "02" );
+                masterPiece1.setImageUrl( "images/02.JPG" );
+                masterPiece1.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
+                arrayList.add( masterPiece1 );
+            }
+        }
+        return arrayList;
+    }
+
+    @Override
+    public ArrayList getSculptures(
+        Artist artist )
+    {
+        ArrayList arrayList = new ArrayList();
+
+        if ( artist.equals( this.artist ) )
+        {
+            for ( int i = 0; i < 100; i++ )
+            {
+                Sculpture masterPiece = new Sculpture();
+                masterPiece.setTitle( "01" );
+                masterPiece.setImageUrl( "images/01.JPG" );
+                masterPiece.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
+                arrayList.add( masterPiece );
+            }
+        }
+        else if ( artist.equals( this.artist1 ) )
+        {
+            for ( int i = 0; i < 100; i++ )
+            {
+                Sculpture masterPiece1 = new Sculpture();
+                masterPiece1.setTitle( "02" );
+                masterPiece1.setImageUrl( "images/02.JPG" );
+                masterPiece1.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
+                arrayList.add( masterPiece1 );
+            }
+        }
+        return arrayList;
     }
 
 }
