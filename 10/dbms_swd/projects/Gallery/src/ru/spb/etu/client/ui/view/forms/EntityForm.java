@@ -20,16 +20,11 @@ public class EntityForm
 {
     private VerticalPanel   info  = new VerticalPanel();
 
+    private HTML              title     = new HTML();
+
     protected EntityWrapper entityWrapper;
 
     protected Image         image = new Image();
-
-    public EntityForm(
-        EntityWrapper entityWrapper )
-    {
-        this();
-        setEntityWrapper( entityWrapper );
-    }
 
     public EntityForm()
     {
@@ -55,12 +50,17 @@ public class EntityForm
         } );
     }
 
+    public EntityForm(
+        EntityWrapper entityWrapper )
+    {
+        this();
+        setEntityWrapper( entityWrapper );
+    }
+
     /**
      * подксказка должна отображаться только одна
      */
     private static PopupPanel infoPopup = new PopupPanel( true );
-
-    private HTML              title     = new HTML();
 
     static
     {

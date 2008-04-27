@@ -40,13 +40,11 @@ public class EditPanel
     public void processGenres()
     {
         setWidget( new GenreEditPanel() );
-
     }
 
     public void processMuseums()
     {
         setWidget( new MuseumEditPanel() );
-
     }
 
     public static EditPanel reset()

@@ -6,7 +6,7 @@ public class MuseumEditPanel
     extends EntityEditPanel
 {
 
-    protected String getDefaultImageUrl()
+    public String getDefaultImageUrl()
     {
         return "images/museum.jpg";
     }

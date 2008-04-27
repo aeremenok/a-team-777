@@ -14,8 +14,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -29,19 +29,36 @@ public class TraversalPanel
         ChangeListener,
         ClickListener
 {
+    /**
+     * все доступные для выбора записи
+     */
     private ArrayList       entities;
 
+    /**
+     * панель правки, которой принадлежим
+     */
     private EntityEditPanel entityEditPanel;
 
-    private MyListBox       listBox = new MyListBox();
+    /**
+     * выбор записи для правки
+     */
+    private MyListBox       listBox     = new MyListBox();
 
-    ImageServiceAsync       async   = ImageService.App.getInstance();
+    HorizontalPanel         buttonPanel = new HorizontalPanel();
+
+    ImageServiceAsync       async       = ImageService.App.getInstance();
 
     public TraversalPanel(
         EntityEditPanel entityEditPanel )
     {
         this.entityEditPanel = entityEditPanel;
-        add( createListBox() );
+        setHorizontalAlignment( HasHorizontalAlignment.ALIGN_CENTER );
+
+        add( listBox );
+        listBox.addItem( "select item", "" );
+        listBox.setWidth( "300" );
+        listBox.addClickListener( this );
+        listBox.addChangeListener( this );
 
         Button addButton = new Button( "+", new ClickListener()
         {
@@ -51,7 +68,8 @@ public class TraversalPanel
                 addNewEntity();
             }
         } );
-        add( addButton );
+
+        buttonPanel.add( addButton );
 
         Button delButton = new Button( "x", new ClickListener()
         {
@@ -61,18 +79,13 @@ public class TraversalPanel
                 deleteCurrentEntity();
             }
         } );
-        add( delButton );
+        buttonPanel.add( delButton );
     }
 
     public void onChange(
         Widget arg0 )
     {
         entityEditPanel.showEntity( getCurrentEntity() );
-    }
-
-    private EntityWrapper getCurrentEntity()
-    {
-        return (EntityWrapper) entities.get( listBox.getSelectedIndex() );
     }
 
     public void onClick(
@@ -98,8 +111,11 @@ public class TraversalPanel
                 }
                 listBox.setSelectedIndex( 0 );
 
+                // записи загружены, больше этого не делаем
                 listBox.removeClickListener( TraversalPanel.this );
-                entityEditPanel.getEditTable().setVisible( true );
+                // можно редактировать
+                entityEditPanel.showEditTable( true );
+                add( buttonPanel );
 
                 onChange( listBox );
             }
@@ -107,14 +123,21 @@ public class TraversalPanel
 
     }
 
-    private ListBox createListBox()
+    /**
+     * подновить изменившееся имя
+     * 
+     * @param name имя
+     */
+    public void updateName(
+        MyTextBox name )
     {
-        listBox.addItem( "select item", "" );
-        listBox.addClickListener( this );
-        listBox.addChangeListener( this );
-        return listBox;
+        listBox.setItemText( listBox.getSelectedIndex(), name.getText() );
+        entityEditPanel.getEntityForm().setEntityWrapper( getCurrentEntity() );
     }
 
+    /**
+     * удалить текущую запись
+     */
     private void deleteCurrentEntity()
     {
         async.remove( getCurrentEntity(), new AsyncCallback()
@@ -140,6 +163,17 @@ public class TraversalPanel
         } );
     }
 
+    /**
+     * @return текущая запись
+     */
+    private EntityWrapper getCurrentEntity()
+    {
+        return (EntityWrapper) entities.get( listBox.getSelectedIndex() );
+    }
+
+    /**
+     * добавить новую запись
+     */
     protected void addNewEntity()
     {
         async.create( entityEditPanel.entityTypeName(), new AsyncCallback()
@@ -158,16 +192,10 @@ public class TraversalPanel
                 listBox.addItem( entityWrapper.getTitle().toString() );
                 listBox.setSelectedIndex( listBox.getItemCount() - 1 );
 
+                entityWrapper.setImageUrl( entityEditPanel.getDefaultImageUrl() );
                 entityEditPanel.showEntity( entityWrapper );
             }
         } );
 
     }
-
-    public void updateName(
-        MyTextBox name )
-    {
-        listBox.setItemText( listBox.getSelectedIndex(), name.getText() );
-    }
-
 }
