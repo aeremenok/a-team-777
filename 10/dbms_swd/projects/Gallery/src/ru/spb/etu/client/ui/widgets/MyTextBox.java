@@ -10,7 +10,6 @@ public class MyTextBox
     implements
         HasValue
 {
-
     private ReflectiveString field;
 
     public MyTextBox()

@@ -21,24 +21,29 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class EntityEditPanel
     extends VerticalPanel
 {
-    ImageServiceAsync  async          = ImageService.App.getInstance();
+    protected ImageServiceAsync async          = ImageService.App.getInstance();
 
     /**
      * таблица правки полей
      */
-    FlexTable          editTable      = new FlexTable();
+    protected FlexTable         editTable      = new FlexTable();
     /**
      * панель прокрутки записей
      */
-    TraversalPanel     traversalPanel = new TraversalPanel( this );
+    protected TraversalPanel    traversalPanel = new TraversalPanel( this );
     /**
      * формуляр с картинкой
      */
-    EntityForm         entityForm     = new EntityForm();
+    protected EntityForm        entityForm;
 
     // основные поля
-    private MyTextArea description    = new MyTextArea();
-    private MyTextBox  name           = new MyTextBox();
+    private MyTextArea          description    = new MyTextArea();
+    private MyTextBox           name           = new MyTextBox();
+
+    /**
+     * счетчик строк в таблице
+     */
+    private int                 row            = 0;
 
     public EntityEditPanel()
     {
@@ -50,14 +55,15 @@ public abstract class EntityEditPanel
 
         editTable.setVisible( false );
 
-        int row = 0;
         // формуляр с картинкой
-        createCenteredCell( row++, entityForm );
+        createCenteredCell( getEntityForm() );
         // загрузка картинки
-        createCenteredCell( row++, new FileUploadPanel( entityForm ) );
+        createCenteredCell( new FileUploadPanel( getEntityForm() ) );
 
-        createRow( row++, "Name", name );
-        createRow( row++, "Description", description );
+        createRow( "Name", name );
+        description.setCharacterWidth( 100 );
+        description.setVisibleLines( 5 );
+        createRow( "Description", description );
 
         name.addChangeListener( new ChangeListener()
         {
@@ -72,6 +78,10 @@ public abstract class EntityEditPanel
 
     public EntityForm getEntityForm()
     {
+        if ( entityForm == null )
+        {
+            entityForm = new EntityForm();
+        }
         return entityForm;
     }
 
@@ -98,19 +108,18 @@ public abstract class EntityEditPanel
     {
         name.bindField( entityWrapper.getTitle() );
         description.bindField( entityWrapper.getDescription() );
-        entityForm.setEntityWrapper( entityWrapper );
+        getEntityForm().setEntityWrapper( entityWrapper );
     }
 
     /**
      * вставить в таблицу и центрировать виджет
      * 
-     * @param row куда вставить
      * @param widget что вставить
      */
     private void createCenteredCell(
-        int row,
         Widget widget )
     {
+        row++;
         editTable.setWidget( row, 0, widget );
         editTable.getFlexCellFormatter().setColSpan( row, 0, 2 );
         editTable.getFlexCellFormatter().setHorizontalAlignment( row, 0, HasHorizontalAlignment.ALIGN_CENTER );
@@ -119,15 +128,14 @@ public abstract class EntityEditPanel
     /**
      * создать строку для правки поля
      * 
-     * @param row где создать
      * @param name имя поля
      * @param hasValue виджет для правки поля
      */
-    private void createRow(
-        int row,
+    protected void createRow(
         String name,
         HasValue hasValue )
     {
+        row++;
         editTable.setWidget( row, 0, new Label( name ) );
         editTable.setWidget( row, 1, (Widget) hasValue );
     }

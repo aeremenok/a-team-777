@@ -15,18 +15,19 @@ import com.google.gwt.user.client.ui.Widget;
 public class ChoiceMenu
     extends DockPanel
 {
+
     public ChoiceMenu(
         final EntityProcessor entityProcessor )
     {
         setHorizontalAlignment( HasHorizontalAlignment.ALIGN_CENTER );
 
-        add( new Label( "Choose filter" ), NORTH );
+        add( new Label( "Choose filter" ), DockPanel.NORTH );
         Button artists = new Button( "Artists" );
-        add( artists, WEST );
+        add( artists, DockPanel.WEST );
         Button genres = new Button( "Genres" );
-        add( genres, CENTER );
+        add( genres, DockPanel.CENTER );
         Button museums = new Button( "Museums" );
-        add( museums, EAST );
+        add( museums, DockPanel.EAST );
 
         artists.addClickListener( new ClickListener()
         {

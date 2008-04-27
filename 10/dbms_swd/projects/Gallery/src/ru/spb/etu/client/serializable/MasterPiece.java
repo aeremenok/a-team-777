@@ -4,10 +4,10 @@ public class MasterPiece
     implements
         EntityWrapper
 {
-    int              creationYear;
-    ReflectiveString description = new ReflectiveString( this );
+    ReflectiveString creationYear = new ReflectiveString( this );
+    ReflectiveString description  = new ReflectiveString( this );
     String           imageUrl;
-    ReflectiveString title       = new ReflectiveString( this );
+    ReflectiveString title        = new ReflectiveString( this );
 
     public MasterPiece()
     {
@@ -26,7 +26,7 @@ public class MasterPiece
         setDescription( description );
     }
 
-    public int getCreationYear()
+    public ReflectiveString getCreationYear()
     {
         return creationYear;
     }
@@ -49,7 +49,7 @@ public class MasterPiece
     public void setCreationYear(
         int creationYear )
     {
-        this.creationYear = creationYear;
+        this.creationYear.setInt( creationYear );
     }
 
     public void setDescription(
