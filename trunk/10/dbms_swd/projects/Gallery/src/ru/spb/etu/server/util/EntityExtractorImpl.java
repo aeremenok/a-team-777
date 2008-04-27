@@ -57,4 +57,20 @@ public class EntityExtractorImpl
         return null;
     }
 
+    @Override
+    public ArrayList getPaintings(
+        Artist artist )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ArrayList getSculptures(
+        Artist artist )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

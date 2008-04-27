@@ -1,5 +1,6 @@
 package ru.spb.etu.client.ui.view.forms;
 
+import ru.spb.etu.client.serializable.EntityWrapper;
 import ru.spb.etu.client.serializable.MasterPiece;
 import ru.spb.etu.client.ui.view.AnimatedImage;
 
@@ -61,6 +62,18 @@ public class MasterPieceForm
         {
             hide();
         }
+
+        public void setUrl(
+            String imageUrl )
+        {
+            bigImage.setUrl( imageUrl );
+        }
+
+        public void setTitle(
+            String title )
+        {
+            setText( title + ": click on image to close" );
+        }
     }
 
     public CloseableDialog getImagePanel()
@@ -77,5 +90,13 @@ public class MasterPieceForm
         Widget arg0 )
     {
         getImagePanel().show();
+    }
+
+    public void setEntityWrapper(
+        EntityWrapper entityWrapper )
+    {
+        super.setEntityWrapper( entityWrapper );
+        getImagePanel().setTitle( entityWrapper.getTitle().toString() );
+        getImagePanel().setUrl( entityWrapper.getImageUrl() );
     }
 }

@@ -75,4 +75,10 @@ public interface ImageService
     EntityWrapper create(
         String type )
         throws Exception;
+
+    ArrayList getPaintings(
+        Artist artist );
+
+    ArrayList getSculptures(
+        Artist artist );
 }

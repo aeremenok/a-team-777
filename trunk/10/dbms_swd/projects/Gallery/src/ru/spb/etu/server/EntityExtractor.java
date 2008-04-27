@@ -23,4 +23,10 @@ public interface EntityExtractor
     ArrayList getArtistsByMuseum(
         Museum museum );
 
+    ArrayList getPaintings(
+        Artist artist );
+
+    ArrayList getSculptures(
+        Artist artist );
+
 }

@@ -7,14 +7,12 @@ import ru.spb.etu.client.ui.view.forms.EntityForm;
 import ru.spb.etu.client.ui.view.forms.MasterPieceForm;
 import ru.spb.etu.client.ui.widgets.MyTextBox;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
-public class MasterpieceEditPanel
+public abstract class MasterpieceEditPanel
     extends EntityEditPanel
 {
-    private Artist artist;
+    protected Artist artist;
 
-    MyTextBox      creationYear = new MyTextBox();
+    MyTextBox        creationYear = new MyTextBox();
 
     public MasterpieceEditPanel(
         Artist artist )
@@ -25,22 +23,6 @@ public class MasterpieceEditPanel
         creationYear.setMaxLength( 4 );
         creationYear.setVisibleLength( 4 );
         createRow( "Creation Year", creationYear );
-    }
-
-    public String entityTypeName()
-    {
-        return "MasterPiece";
-    }
-
-    public String getDefaultImageUrl()
-    {
-        return "images/painting.jpg";
-    }
-
-    public void retreiveEntities(
-        AsyncCallback callback )
-    {
-        async.getMasterPieces( artist, callback );
     }
 
     public EntityForm getEntityForm()
