@@ -23,11 +23,10 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author eav
  */
-public abstract class TraversalPanel
+public class TraversalPanel
     extends HorizontalPanel
     implements
         ChangeListener,
-        AsyncCallback,
         ClickListener
 {
     private ArrayList       entities;
@@ -79,29 +78,33 @@ public abstract class TraversalPanel
     public void onClick(
         Widget arg0 )
     {
-        retreiveEntities( this );
-        listBox.removeClickListener( this );
-        entityEditPanel.getEditTable().setVisible( true );
-    }
-
-    public void onFailure(
-        Throwable arg0 )
-    {
-        Window.alert( arg0.toString() );
-    }
-
-    public void onSuccess(
-        Object arg0 )
-    {
-        entities = (ArrayList) arg0;
-        listBox.removeItem( 0 );
-        for ( int i = 0; i < entities.size(); i++ )
+        entityEditPanel.retreiveEntities( new AsyncCallback()
         {
-            EntityWrapper entityWrapper = (EntityWrapper) entities.get( i );
-            listBox.addItem( entityWrapper.getTitle().toString() );
-        }
-        listBox.setSelectedIndex( 0 );
-        onChange( listBox );
+            public void onFailure(
+                Throwable arg0 )
+            {
+                Window.alert( arg0.toString() );
+            }
+
+            public void onSuccess(
+                Object arg0 )
+            {
+                entities = (ArrayList) arg0;
+                listBox.removeItem( 0 );
+                for ( int i = 0; i < entities.size(); i++ )
+                {
+                    EntityWrapper entityWrapper = (EntityWrapper) entities.get( i );
+                    listBox.addItem( entityWrapper.getTitle().toString() );
+                }
+                listBox.setSelectedIndex( 0 );
+
+                listBox.removeClickListener( TraversalPanel.this );
+                entityEditPanel.getEditTable().setVisible( true );
+
+                onChange( listBox );
+            }
+        } );
+
     }
 
     private ListBox createListBox()
@@ -119,7 +122,7 @@ public abstract class TraversalPanel
             public void onFailure(
                 Throwable arg0 )
             {
-                TraversalPanel.this.onFailure( arg0 );
+                Window.alert( arg0.toString() );
             }
 
             public void onSuccess(
@@ -139,12 +142,12 @@ public abstract class TraversalPanel
 
     protected void addNewEntity()
     {
-        async.create( entityTypeName(), new AsyncCallback()
+        async.create( entityEditPanel.entityTypeName(), new AsyncCallback()
         {
             public void onFailure(
                 Throwable arg0 )
             {
-                TraversalPanel.this.onFailure( arg0 );
+                Window.alert( arg0.toString() );
             }
 
             public void onSuccess(
@@ -153,16 +156,13 @@ public abstract class TraversalPanel
                 EntityWrapper entityWrapper = (EntityWrapper) arg0;
                 entities.add( entityWrapper );
                 listBox.addItem( entityWrapper.getTitle().toString() );
+                listBox.setSelectedIndex( listBox.getItemCount() - 1 );
+
                 entityEditPanel.showEntity( entityWrapper );
             }
         } );
 
     }
-
-    protected abstract String entityTypeName();
-
-    protected abstract void retreiveEntities(
-        AsyncCallback callback );
 
     public void updateName(
         MyTextBox name )

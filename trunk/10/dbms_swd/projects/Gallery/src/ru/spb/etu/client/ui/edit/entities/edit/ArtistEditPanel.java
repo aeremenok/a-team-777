@@ -1,7 +1,6 @@
 package ru.spb.etu.client.ui.edit.entities.edit;
 
-import ru.spb.etu.client.ui.edit.entities.traversal.ArtistTraversalPanel;
-import ru.spb.etu.client.ui.edit.entities.traversal.TraversalPanel;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class ArtistEditPanel
     extends EntityEditPanel
@@ -11,9 +10,14 @@ public class ArtistEditPanel
         return "images/artist.jpg";
     }
 
-    protected TraversalPanel createTraversalPanel(
-        EntityEditPanel entityEditPanel )
+    public void retreiveEntities(
+        AsyncCallback callback )
     {
-        return new ArtistTraversalPanel( entityEditPanel );
+        async.getArtists( callback );
+    }
+
+    public String entityTypeName()
+    {
+        return "Artist";
     }
 }

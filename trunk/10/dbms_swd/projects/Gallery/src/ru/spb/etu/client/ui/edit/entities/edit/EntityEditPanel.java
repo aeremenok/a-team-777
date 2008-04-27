@@ -10,6 +10,7 @@ import ru.spb.etu.client.ui.widgets.HasValue;
 import ru.spb.etu.client.ui.widgets.MyTextArea;
 import ru.spb.etu.client.ui.widgets.MyTextBox;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -21,21 +22,22 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 public abstract class EntityEditPanel
     extends VerticalPanel
 {
-    private MyTextArea description = new MyTextArea();
+    private MyTextArea description    = new MyTextArea();
     private EntityForm entityForm;
-    private MyTextBox  name        = new MyTextBox();
-    ImageServiceAsync  async       = ImageService.App.getInstance();
+    private MyTextBox  name           = new MyTextBox();
+    ImageServiceAsync  async          = ImageService.App.getInstance();
 
-    FlexTable          editTable   = new FlexTable();
+    FlexTable          editTable      = new FlexTable();
     EntityWrapper      entityWrapper;
-    TraversalPanel     traversalPanel;
+    TraversalPanel     traversalPanel = new TraversalPanel( this );
 
     public EntityEditPanel()
     {
         super();
-        traversalPanel = createTraversalPanel( this );
+
         add( traversalPanel );
         add( editTable );
+
         editTable.setVisible( false );
 
         int row = 0;
@@ -102,9 +104,6 @@ public abstract class EntityEditPanel
         setWidget( row, 1, (Widget) hasValue );
     }
 
-    protected abstract TraversalPanel createTraversalPanel(
-        EntityEditPanel entityEditPanel );
-
     protected abstract String getDefaultImageUrl();
 
     MyTextArea getDescription()
@@ -121,4 +120,9 @@ public abstract class EntityEditPanel
     {
         return editTable;
     }
+
+    public abstract void retreiveEntities(
+        AsyncCallback callback );
+
+    public abstract String entityTypeName();
 }

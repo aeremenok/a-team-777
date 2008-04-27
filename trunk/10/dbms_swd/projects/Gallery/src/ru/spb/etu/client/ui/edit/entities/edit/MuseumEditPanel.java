@@ -1,7 +1,6 @@
 package ru.spb.etu.client.ui.edit.entities.edit;
 
-import ru.spb.etu.client.ui.edit.entities.traversal.MuseumTraversalPanel;
-import ru.spb.etu.client.ui.edit.entities.traversal.TraversalPanel;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class MuseumEditPanel
     extends EntityEditPanel
@@ -12,10 +11,14 @@ public class MuseumEditPanel
         return "images/museum.jpg";
     }
 
-    protected TraversalPanel createTraversalPanel(
-        EntityEditPanel entityEditPanel )
+    public void retreiveEntities(
+        AsyncCallback callback )
     {
-        return new MuseumTraversalPanel( entityEditPanel );
+        async.getMuseums( callback );
     }
 
+    public String entityTypeName()
+    {
+        return "Museum";
+    }
 }

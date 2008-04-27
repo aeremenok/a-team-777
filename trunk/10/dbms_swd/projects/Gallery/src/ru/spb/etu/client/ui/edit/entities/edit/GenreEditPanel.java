@@ -1,7 +1,6 @@
 package ru.spb.etu.client.ui.edit.entities.edit;
 
-import ru.spb.etu.client.ui.edit.entities.traversal.GenreTraversalPanel;
-import ru.spb.etu.client.ui.edit.entities.traversal.TraversalPanel;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class GenreEditPanel
     extends EntityEditPanel
@@ -11,9 +10,14 @@ public class GenreEditPanel
         return "images/genre.gif";
     }
 
-    protected TraversalPanel createTraversalPanel(
-        EntityEditPanel entityEditPanel )
+    public void retreiveEntities(
+        AsyncCallback callback )
     {
-        return new GenreTraversalPanel( entityEditPanel );
+        async.getGenres( callback );
+    }
+
+    public String entityTypeName()
+    {
+        return "Genre";
     }
 }
