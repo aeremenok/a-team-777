@@ -40,6 +40,7 @@ public class MyListBox
         ru.spb.etu.client.serializable.ReflectiveString field )
     {
         this.field = field;
+        setText( field.toString() );
     }
 
     public void onChange(

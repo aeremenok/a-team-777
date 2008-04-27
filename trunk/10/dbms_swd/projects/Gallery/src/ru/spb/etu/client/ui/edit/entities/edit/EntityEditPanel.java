@@ -17,23 +17,33 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 public abstract class EntityEditPanel
     extends VerticalPanel
 {
-    private MyTextArea description    = new MyTextArea();
-    private EntityForm entityForm;
-    private MyTextBox  name           = new MyTextBox();
     ImageServiceAsync  async          = ImageService.App.getInstance();
 
+    /**
+     * таблица правки полей
+     */
     FlexTable          editTable      = new FlexTable();
-    EntityWrapper      entityWrapper;
+    /**
+     * панель прокрутки записей
+     */
     TraversalPanel     traversalPanel = new TraversalPanel( this );
+    /**
+     * формуляр с картинкой
+     */
+    EntityForm         entityForm     = new EntityForm();
+
+    // основные поля
+    private MyTextArea description    = new MyTextArea();
+    private MyTextBox  name           = new MyTextBox();
 
     public EntityEditPanel()
     {
         super();
+        setHorizontalAlignment( HasHorizontalAlignment.ALIGN_CENTER );
 
         add( traversalPanel );
         add( editTable );
@@ -41,20 +51,21 @@ public abstract class EntityEditPanel
         editTable.setVisible( false );
 
         int row = 0;
-        entityForm = new EntityForm();
+        // формуляр с картинкой
         createCenteredCell( row++, entityForm );
         // загрузка картинки
         createCenteredCell( row++, new FileUploadPanel( entityForm ) );
 
-        createRow( row++, "Name", getName() );
-        createRow( row++, "Description", getDescription() );
+        createRow( row++, "Name", name );
+        createRow( row++, "Description", description );
 
-        getName().addChangeListener( new ChangeListener()
+        name.addChangeListener( new ChangeListener()
         {
             public void onChange(
                 Widget arg0 )
             {
-                traversalPanel.updateName( getName() );
+                // подновляем изменившееся имя
+                traversalPanel.updateName( name );
             }
         } );
     }
@@ -64,65 +75,76 @@ public abstract class EntityEditPanel
         return entityForm;
     }
 
-    public FlexCellFormatter getFlexCellFormatter()
-    {
-        return editTable.getFlexCellFormatter();
-    }
+    /**
+     * @return имя класса сущностей
+     */
+    public abstract String entityTypeName();
 
-    public void setWidget(
-        int arg0,
-        int arg1,
-        Widget arg2 )
-    {
-        editTable.setWidget( arg0, arg1, arg2 );
-    }
+    /**
+     * получить все записи с сервера
+     * 
+     * @param callback обработчик, принимающий записи
+     */
+    public abstract void retreiveEntities(
+        AsyncCallback callback );
 
+    /**
+     * настроить формуляр и поля на работу с заданной сущностью
+     * 
+     * @param entityWrapper сущность
+     */
     public void showEntity(
         EntityWrapper entityWrapper )
     {
-        getName().bindField( entityWrapper.getTitle() );
-        getDescription().bindField( entityWrapper.getDescription() );
-        getEntityForm().setEntityWrapper( entityWrapper );
-        getEntityForm().setUrl( getDefaultImageUrl() );
+        name.bindField( entityWrapper.getTitle() );
+        description.bindField( entityWrapper.getDescription() );
+        entityForm.setEntityWrapper( entityWrapper );
     }
 
+    /**
+     * вставить в таблицу и центрировать виджет
+     * 
+     * @param row куда вставить
+     * @param widget что вставить
+     */
     private void createCenteredCell(
         int row,
         Widget widget )
     {
-        setWidget( row, 0, widget );
-        getFlexCellFormatter().setColSpan( row, 0, 2 );
-        getFlexCellFormatter().setHorizontalAlignment( row, 0, HasHorizontalAlignment.ALIGN_CENTER );
+        editTable.setWidget( row, 0, widget );
+        editTable.getFlexCellFormatter().setColSpan( row, 0, 2 );
+        editTable.getFlexCellFormatter().setHorizontalAlignment( row, 0, HasHorizontalAlignment.ALIGN_CENTER );
     }
 
+    /**
+     * создать строку для правки поля
+     * 
+     * @param row где создать
+     * @param name имя поля
+     * @param hasValue виджет для правки поля
+     */
     private void createRow(
         int row,
         String name,
-        final HasValue hasValue )
+        HasValue hasValue )
     {
-        setWidget( row, 0, new Label( name ) );
-        setWidget( row, 1, (Widget) hasValue );
+        editTable.setWidget( row, 0, new Label( name ) );
+        editTable.setWidget( row, 1, (Widget) hasValue );
     }
 
-    protected abstract String getDefaultImageUrl();
+    /**
+     * @return путь к стандартной картике
+     */
+    public abstract String getDefaultImageUrl();
 
-    MyTextArea getDescription()
+    /**
+     * показать таблицу правки (по умолчанию - спрятана, чтоб не мешалась)
+     * 
+     * @param show показать/спрятать
+     */
+    public void showEditTable(
+        boolean show )
     {
-        return description;
+        editTable.setVisible( show );
     }
-
-    MyTextBox getName()
-    {
-        return name;
-    }
-
-    public FlexTable getEditTable()
-    {
-        return editTable;
-    }
-
-    public abstract void retreiveEntities(
-        AsyncCallback callback );
-
-    public abstract String entityTypeName();
 }

@@ -23,6 +23,7 @@ public class MyTextBox
         ru.spb.etu.client.serializable.ReflectiveString field )
     {
         this.field = field;
+        setText( field.toString() );
     }
 
     public void onChange(
