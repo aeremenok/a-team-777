@@ -136,7 +136,7 @@ public class EntityExtractorStub
             {
                 Painting masterPiece = new Painting();
                 masterPiece.setTitle( "01" );
-                masterPiece.setImageUrl( "images/01.JPG" );
+                masterPiece.setImageUrl( "images/painting.jpg" );
                 masterPiece.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
                 arrayList.add( masterPiece );
             }
@@ -147,7 +147,7 @@ public class EntityExtractorStub
             {
                 Painting masterPiece1 = new Painting();
                 masterPiece1.setTitle( "02" );
-                masterPiece1.setImageUrl( "images/02.JPG" );
+                masterPiece1.setImageUrl( "images/painting.jpg" );
                 masterPiece1.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
                 arrayList.add( masterPiece1 );
             }
@@ -167,7 +167,7 @@ public class EntityExtractorStub
             {
                 Sculpture masterPiece = new Sculpture();
                 masterPiece.setTitle( "01" );
-                masterPiece.setImageUrl( "images/01.JPG" );
+                masterPiece.setImageUrl( "images/sculpture.jpg" );
                 masterPiece.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
                 arrayList.add( masterPiece );
             }
@@ -178,7 +178,7 @@ public class EntityExtractorStub
             {
                 Sculpture masterPiece1 = new Sculpture();
                 masterPiece1.setTitle( "02" );
-                masterPiece1.setImageUrl( "images/02.JPG" );
+                masterPiece1.setImageUrl( "images/sculpture.jpg" );
                 masterPiece1.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
                 arrayList.add( masterPiece1 );
             }

@@ -81,7 +81,6 @@ public class MasterPieceForm
         if ( imagePanel == null )
         {
             imagePanel = new CloseableDialog( (MasterPiece) entityWrapper );
-            imagePanel.center();
         }
         return imagePanel;
     }
@@ -89,7 +88,7 @@ public class MasterPieceForm
     public void onClick(
         Widget arg0 )
     {
-        getImagePanel().show();
+        getImagePanel().center();
     }
 
     public void setEntityWrapper(
