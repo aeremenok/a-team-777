@@ -8,14 +8,18 @@ import ru.spb.etu.client.ImageServiceAsync;
 import ru.spb.etu.client.serializable.Artist;
 import ru.spb.etu.client.ui.view.tables.CyclingTable;
 import ru.spb.etu.client.ui.view.tables.MasterPieceTable;
+import ru.spb.etu.client.ui.widgets.MyListBox;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
 import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -24,38 +28,76 @@ import com.google.gwt.user.client.ui.Widget;
  * @author eav
  */
 public class ResultPanel
-    extends TabPanel
+    extends VerticalPanel
+    implements
+        TabListener,
+        ChangeListener
 {
-    ArrayList         artists;
+    private static final String PAINTINGS  = "Paintings";
 
-    ImageServiceAsync async       = ImageService.App.getInstance();
+    private static final String SCULPTURES = "Sculptures";
 
-    TabListener       tabListener = new TabListener()
-                                  {
-                                      public boolean onBeforeTabSelected(
-                                          SourcesTabEvents arg0,
-                                          int arg1 )
-                                      {
-                                          return false;
-                                      }
+    private static final String ALL        = "All";
 
-                                      public void onTabSelected(
-                                          SourcesTabEvents arg0,
-                                          int tabIndex )
-                                      {
-                                          // получаем с сервера произведения выбранного художника
-                                          getMasterPieces( (Artist) artists.get( tabIndex ) );
-                                      }
-                                  };
+    ArrayList                   artists;
 
-    public ResultPanel()
+    ImageServiceAsync           async      = ImageService.App.getInstance();
+
+    MyListBox                   listBox    = new MyListBox();
+
+    TabPanel                    tabPanel   = new TabPanel();
+
+    private int                 lastSelectedTabIndex;
+
+    private ResultPanel()
     {
+        setHorizontalAlignment( ALIGN_CENTER );
+
+        listBox.addItem( ALL );
+        listBox.addItem( SCULPTURES );
+        listBox.addItem( PAINTINGS );
+        listBox.addChangeListener( this );
+
+        add( listBox );
+        add( tabPanel );
+
         setWidth( "100%" );
-        addStyleName( "gwt-TabBar" );
-        addTabListener( tabListener );
+        tabPanel.addStyleName( "gwt-TabBar" );
+        tabPanel.addTabListener( this );
     }
 
     static ResultPanel instance;
+
+    private class MasterpieceArrangingCallBack
+        implements
+            AsyncCallback
+    {
+        private Artist artist;
+
+        public MasterpieceArrangingCallBack(
+            Artist artist )
+        {
+            super();
+            this.artist = artist;
+        }
+
+        public void onFailure(
+            Throwable arg0 )
+        {
+            Window.alert( arg0.toString() );
+        }
+
+        public void onSuccess(
+            Object arg0 )
+        {
+            int index = artists.indexOf( artist );
+            DeckPanel deckPanel = tabPanel.getDeckPanel();
+
+            deckPanel.showWidget( index );
+            CyclingTable cyclingTable = (CyclingTable) deckPanel.getWidget( index );
+            cyclingTable.fill( (ArrayList) arg0 );
+        }
+    }
 
     public static ResultPanel getInstance()
     {
@@ -66,10 +108,51 @@ public class ResultPanel
         return instance;
     }
 
+    public boolean onBeforeTabSelected(
+        SourcesTabEvents arg0,
+        int arg1 )
+    {
+        return false;
+    }
+
+    public void onChange(
+        Widget arg0 )
+    {
+        onTabSelected( tabPanel, lastSelectedTabIndex );
+    }
+
+    public void onTabSelected(
+        SourcesTabEvents arg0,
+        int tabIndex )
+    {
+        this.lastSelectedTabIndex = tabIndex;
+        // получаем с сервера произведения выбранного художника
+        Artist artist = getSelectedArtist();
+
+        MasterpieceArrangingCallBack masterpieceArrangingCallBack = new MasterpieceArrangingCallBack( artist );
+        if ( listBox.getText().equals( ALL ) )
+        {
+            async.getMasterPieces( artist, masterpieceArrangingCallBack );
+        }
+        else if ( listBox.getText().equals( SCULPTURES ) )
+        {
+            async.getSculptures( artist, masterpieceArrangingCallBack );
+        }
+        else if ( listBox.getText().equals( PAINTINGS ) )
+        {
+            async.getPaintings( artist, masterpieceArrangingCallBack );
+        }
+    }
+
+    private Artist getSelectedArtist()
+    {
+        return (Artist) artists.get( lastSelectedTabIndex );
+    }
+
     public ResultPanel setArtists(
         final ArrayList artists )
     {
-        clear();
+        tabPanel.clear();
 
         this.artists = artists;
         // группируем художников по вкладкам
@@ -84,36 +167,14 @@ public class ResultPanel
                 public void onClick(
                     Widget arg0 )
                 {
-                    onTabSelected( ResultPanel.this, artists.indexOf( artist ) );
+                    tabPanel.onTabSelected( tabPanel, artists.indexOf( artist ) );
                 }
             } );
-            add( new MasterPieceTable( 8 ), label );
+            tabPanel.add( new MasterPieceTable( 8 ), label );
         }
 
-        selectTab( 0 );
-        tabListener.onTabSelected( this, 0 );
+        tabPanel.selectTab( 0 );
+        onTabSelected( tabPanel, 0 );
         return this;
-    }
-
-    private void getMasterPieces(
-        final Artist artist )
-    {
-        async.getMasterPieces( artist, new AsyncCallback()
-        {
-            public void onFailure(
-                Throwable arg0 )
-            {
-                Window.alert( arg0.toString() );
-            }
-
-            public void onSuccess(
-                Object arg0 )
-            {
-                int index = artists.indexOf( artist );
-                getDeckPanel().showWidget( index );
-                CyclingTable cyclingTable = (CyclingTable) getDeckPanel().getWidget( index );
-                cyclingTable.fill( (ArrayList) arg0 );
-            }
-        } );
     }
 }
