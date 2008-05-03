@@ -4,7 +4,7 @@ import ru.spb.etu.client.ImageService;
 import ru.spb.etu.client.ImageServiceAsync;
 import ru.spb.etu.client.serializable.EntityWrapper;
 import ru.spb.etu.client.ui.edit.FileUploadPanel;
-import ru.spb.etu.client.ui.edit.entities.TraversalPanel;
+import ru.spb.etu.client.ui.edit.entities.traversal.TraversalPanel;
 import ru.spb.etu.client.ui.view.forms.EntityForm;
 import ru.spb.etu.client.ui.widgets.HasValue;
 import ru.spb.etu.client.ui.widgets.MyTextArea;
@@ -21,35 +21,36 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class EntityEditPanel
     extends VerticalPanel
 {
-    protected ImageServiceAsync async          = ImageService.App.getInstance();
+    protected ImageServiceAsync async       = ImageService.App.getInstance();
 
     /**
      * таблица правки полей
      */
-    protected FlexTable         editTable      = new FlexTable();
+    protected FlexTable         editTable   = new FlexTable();
     /**
      * панель прокрутки записей
      */
-    protected TraversalPanel    traversalPanel = new TraversalPanel( this );
+    protected TraversalPanel    traversalPanel;
     /**
      * формуляр с картинкой
      */
     protected EntityForm        entityForm;
 
     // основные поля
-    private MyTextArea          description    = new MyTextArea();
-    private MyTextBox           name           = new MyTextBox();
+    private MyTextArea          description = new MyTextArea();
+    private MyTextBox           name        = new MyTextBox();
 
     /**
      * счетчик строк в таблице
      */
-    private int                 row            = 0;
+    private int                 row         = 0;
 
     public EntityEditPanel()
     {
         super();
         setHorizontalAlignment( HasHorizontalAlignment.ALIGN_CENTER );
 
+        traversalPanel = createTraversalPanel( this );
         add( traversalPanel );
         add( editTable );
 
@@ -74,6 +75,12 @@ public abstract class EntityEditPanel
                 traversalPanel.updateName( name );
             }
         } );
+    }
+
+    protected TraversalPanel createTraversalPanel(
+        EntityEditPanel entityEditPanel )
+    {
+        return new TraversalPanel( entityEditPanel );
     }
 
     public EntityForm getEntityForm()
@@ -116,7 +123,7 @@ public abstract class EntityEditPanel
      * 
      * @param widget что вставить
      */
-    private void createCenteredCell(
+    protected void createCenteredCell(
         Widget widget )
     {
         row++;

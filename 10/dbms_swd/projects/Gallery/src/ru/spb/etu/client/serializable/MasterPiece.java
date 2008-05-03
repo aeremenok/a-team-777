@@ -10,6 +10,10 @@ public class MasterPiece
     ReflectiveString description  = new ReflectiveString( this );
     ReflectiveString title        = new ReflectiveString( this );
 
+    Artist           artist;
+    Genre            genre;
+    Museum           museum;
+
     public MasterPiece()
     {
     }
@@ -73,5 +77,38 @@ public class MasterPiece
 
     public void requestMasterPieces()
     {
+    }
+
+    public Artist getArtist()
+    {
+        return artist;
+    }
+
+    public void setArtist(
+        Artist artist )
+    {
+        this.artist = artist;
+    }
+
+    public Genre getGenre()
+    {
+        return genre;
+    }
+
+    public void setGenre(
+        Genre genre )
+    {
+        this.genre = genre;
+    }
+
+    public Museum getMuseum()
+    {
+        return museum;
+    }
+
+    public void setMuseum(
+        Museum museum )
+    {
+        this.museum = museum;
     }
 }

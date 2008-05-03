@@ -1,4 +1,4 @@
-package ru.spb.etu.client.ui.edit.entities;
+package ru.spb.etu.client.ui.edit.entities.traversal;
 
 import java.util.ArrayList;
 
@@ -32,21 +32,21 @@ public class TraversalPanel
     /**
      * все доступные для выбора записи
      */
-    private ArrayList       entities;
+    private ArrayList         entities;
 
     /**
      * панель правки, которой принадлежим
      */
-    private EntityEditPanel entityEditPanel;
+    private EntityEditPanel   entityEditPanel;
 
     /**
      * выбор записи для правки
      */
-    private MyListBox       listBox     = new MyListBox();
+    private MyListBox         listBox     = new MyListBox();
 
-    HorizontalPanel         buttonPanel = new HorizontalPanel();
+    protected HorizontalPanel buttonPanel = new HorizontalPanel();
 
-    ImageServiceAsync       async       = ImageService.App.getInstance();
+    private ImageServiceAsync async       = ImageService.App.getInstance();
 
     public TraversalPanel(
         EntityEditPanel entityEditPanel )
@@ -91,12 +91,14 @@ public class TraversalPanel
     public void onClick(
         Widget arg0 )
     {
+        add( buttonPanel );
         entityEditPanel.retreiveEntities( new AsyncCallback()
         {
             public void onFailure(
                 Throwable arg0 )
             {
                 Window.alert( arg0.toString() );
+                remove( buttonPanel );
             }
 
             public void onSuccess(
@@ -115,7 +117,6 @@ public class TraversalPanel
                 listBox.removeClickListener( TraversalPanel.this );
                 // можно редактировать
                 entityEditPanel.showEditTable( true );
-                add( buttonPanel );
 
                 onChange( listBox );
             }
@@ -138,7 +139,7 @@ public class TraversalPanel
     /**
      * удалить текущую запись
      */
-    private void deleteCurrentEntity()
+    protected void deleteCurrentEntity()
     {
         async.remove( getCurrentEntity(), new AsyncCallback()
         {
@@ -166,7 +167,7 @@ public class TraversalPanel
     /**
      * @return текущая запись
      */
-    private EntityWrapper getCurrentEntity()
+    protected EntityWrapper getCurrentEntity()
     {
         return (EntityWrapper) entities.get( listBox.getSelectedIndex() );
     }
@@ -187,15 +188,19 @@ public class TraversalPanel
             public void onSuccess(
                 Object arg0 )
             {
-                EntityWrapper entityWrapper = (EntityWrapper) arg0;
-                entities.add( entityWrapper );
-                listBox.addItem( entityWrapper.getTitle().toString() );
-                listBox.setSelectedIndex( listBox.getItemCount() - 1 );
-
-                entityWrapper.setImageUrl( entityEditPanel.getDefaultImageUrl() );
-                entityEditPanel.showEntity( entityWrapper );
+                processNewEntity( (EntityWrapper) arg0 );
             }
         } );
+    }
 
+    protected void processNewEntity(
+        EntityWrapper entityWrapper )
+    {
+        entities.add( entityWrapper );
+        listBox.addItem( entityWrapper.getTitle().toString() );
+        listBox.setSelectedIndex( listBox.getItemCount() - 1 );
+
+        entityWrapper.setImageUrl( entityEditPanel.getDefaultImageUrl() );
+        entityEditPanel.showEntity( entityWrapper );
     }
 }
