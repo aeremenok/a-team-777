@@ -1,15 +1,8 @@
 package ru.spb.etu.client.serializable;
 
 public class Museum
-    implements
-        EntityWrapper
+    extends EntityWrapper
 {
-    private ReflectiveString description = new ReflectiveString( this );
-
-    private String           imageUrl;
-
-    private ReflectiveString name        = new ReflectiveString( this );
-
     public Museum()
     {
     }
@@ -19,52 +12,22 @@ public class Museum
         String name,
         String imageUrl )
     {
-        super();
-        setDescription( description );
-        setName( name );
-        setImageUrl( imageUrl );
-    }
-
-    public ReflectiveString getDescription()
-    {
-        return description;
-    }
-
-    public String getImageUrl()
-    {
-        return imageUrl;
+        super( description, imageUrl, name );
     }
 
     public ReflectiveString getName()
     {
-        return name;
-    }
-
-    public ReflectiveString getTitle()
-    {
-        return getName();
-    }
-
-    public void setDescription(
-        String description )
-    {
-        this.description.setString( description );
-    }
-
-    public void setImageUrl(
-        String imageUrl )
-    {
-        this.imageUrl = imageUrl;
+        return getTitle();
     }
 
     public void setName(
         String name )
     {
-        this.name.setString( name );
+        this.getTitle().setString( name );
     }
 
     public void requestMasterPieces()
     {
-        async.getArtistsByMuseum( this, asyncCallback );
+        getAsync().getArtistsByMuseum( this, asyncCallback );
     }
 }

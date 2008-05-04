@@ -32,4 +32,13 @@ public class EntityBackuperImpl
 
     }
 
+    @Override
+    public void updateBlob(
+        EntityWrapper entityWrapper,
+        byte[] bytes )
+    {
+        // TODO Auto-generated method stub
+
+    }
+
 }

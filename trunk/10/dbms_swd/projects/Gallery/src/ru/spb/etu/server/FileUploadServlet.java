@@ -1,6 +1,7 @@
 package ru.spb.etu.server;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,6 +49,7 @@ public class FileUploadServlet
                 if ( !item.isFormField() && "testcaseFile".equals( item.getFieldName() ) )
                 {
                     response.getWriter().write( saveToFile( item ) );
+                    break;
                 }
             }
         }
@@ -64,16 +66,58 @@ public class FileUploadServlet
     {
         // полное имя загруженного файла
         String path = item.getName();
-        // путь к папке, где все храним
-        String modulePath = Bootstrap.getPath() + "/" + ImageServiceImpl.getBaseUrl();
         // полное имя сохраненного файла
         String name = "images/" + path.substring( path.lastIndexOf( "\\" ) + 1 );
-        String fullName = modulePath + "/" + name;
+        String fullName = getModulePath() + "/" + name;
 
         FileOutputStream fileOutputStream = new FileOutputStream( new File( fullName ) );
         fileOutputStream.write( item.get() );
         fileOutputStream.flush();
 
         return name;
+    }
+
+    /**
+     * @return путь к папке, где храним
+     */
+    private static String getModulePath()
+    {
+        return Bootstrap.getPath() + "/" + ImageServiceImpl.getBaseUrl();
+    }
+
+    /**
+     * сохранить файл на диск
+     * 
+     * @param imageUrl
+     * @param bytes
+     * @throws IOException
+     */
+    public static void writeBytes(
+        String imageUrl,
+        byte[] bytes )
+        throws IOException
+    {
+        File file = new File( getModulePath() + "/" + imageUrl );
+        System.out.println( "writing file " + file.getCanonicalPath() );
+        new FileOutputStream( file ).write( bytes );
+    }
+
+    /**
+     * загрузить файл с диска
+     * 
+     * @param imageUrl
+     * @return
+     * @throws IOException
+     */
+    public static byte[] readBytes(
+        String imageUrl )
+        throws IOException
+    {
+        File file = new File( getModulePath() + "/" + imageUrl );
+        System.out.println( "reading file " + file.getCanonicalPath() );
+
+        byte[] fileContent = new byte[(int) file.length()];
+        new FileInputStream( file ).read( fileContent );
+        return fileContent;
     }
 }

@@ -56,4 +56,13 @@ public class EntityBackuperStub
     {
         hashMap.remove( entityWrapper );
     }
+
+    @Override
+    public void updateBlob(
+        EntityWrapper entityWrapper,
+        byte[] bytes )
+    {
+        // TODO Auto-generated method stub
+
+    }
 }

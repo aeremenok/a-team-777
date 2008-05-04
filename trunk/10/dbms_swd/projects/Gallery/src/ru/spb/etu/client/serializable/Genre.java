@@ -1,13 +1,8 @@
 package ru.spb.etu.client.serializable;
 
 public class Genre
-    implements
-        EntityWrapper
+    extends EntityWrapper
 {
-    private ReflectiveString description = new ReflectiveString( this );
-    private String           imageUrl;
-    private ReflectiveString name        = new ReflectiveString( this );
-
     public Genre()
     {
     }
@@ -17,52 +12,22 @@ public class Genre
         String imageUrl,
         String description )
     {
-        super();
-        setName( name );
-        setImageUrl( imageUrl );
-        setDescription( description );
-    }
-
-    public ReflectiveString getDescription()
-    {
-        return description;
-    }
-
-    public String getImageUrl()
-    {
-        return imageUrl;
+        super( description, imageUrl, name );
     }
 
     public ReflectiveString getName()
     {
-        return name;
-    }
-
-    public ReflectiveString getTitle()
-    {
-        return name;
-    }
-
-    public void setDescription(
-        String description )
-    {
-        this.description.setString( description );
-    }
-
-    public void setImageUrl(
-        String imageUrl )
-    {
-        this.imageUrl = imageUrl;
+        return getTitle();
     }
 
     public void setName(
         String name )
     {
-        this.name.setString( name );
+        getName().setString( name );
     }
 
     public void requestMasterPieces()
     {
-        async.getArtistsByGenre( this, asyncCallback );
+        getAsync().getArtistsByGenre( this, asyncCallback );
     }
 }

@@ -200,7 +200,7 @@ public class TraversalPanel
         listBox.addItem( entityWrapper.getTitle().toString() );
         listBox.setSelectedIndex( listBox.getItemCount() - 1 );
 
-        entityWrapper.setImageUrl( entityEditPanel.getDefaultImageUrl() );
+        entityWrapper.setImageUrlAndUpdate( entityEditPanel.getDefaultImageUrl() );
         entityEditPanel.showEntity( entityWrapper );
     }
 }

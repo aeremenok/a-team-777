@@ -1,7 +1,5 @@
 package ru.spb.etu.client.ui.view.forms;
 
-import ru.spb.etu.client.ImageService;
-import ru.spb.etu.client.ImageServiceAsync;
 import ru.spb.etu.client.serializable.EntityWrapper;
 
 import com.google.gwt.user.client.Window;
@@ -108,9 +106,7 @@ public class EntityForm
     public void setUrl(
         String results )
     {
-        entityWrapper.setImageUrl( results );
-        ImageServiceAsync async = ImageService.App.getInstance();
-        async.saveOrUpdate( getEntityWrapper(), this );
+        entityWrapper.setImageUrlAndUpdate( results );
         image.setUrl( results );
     }
 
