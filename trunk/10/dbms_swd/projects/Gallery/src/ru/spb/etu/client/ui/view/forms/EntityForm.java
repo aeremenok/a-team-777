@@ -1,7 +1,11 @@
 package ru.spb.etu.client.ui.view.forms;
 
+import ru.spb.etu.client.ImageService;
+import ru.spb.etu.client.ImageServiceAsync;
 import ru.spb.etu.client.serializable.EntityWrapper;
 
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -17,10 +21,12 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class EntityForm
     extends FocusPanel
+    implements
+        AsyncCallback
 {
     private VerticalPanel   info  = new VerticalPanel();
 
-    private HTML              title     = new HTML();
+    private HTML            title = new HTML();
 
     protected EntityWrapper entityWrapper;
 
@@ -79,6 +85,17 @@ public class EntityForm
         return infoPopup;
     }
 
+    public void onFailure(
+        Throwable arg0 )
+    {
+        Window.alert( arg0.toString() );
+    }
+
+    public void onSuccess(
+        Object arg0 )
+    {
+    }
+
     public void setEntityWrapper(
         EntityWrapper entityWrapper )
     {
@@ -92,6 +109,8 @@ public class EntityForm
         String results )
     {
         entityWrapper.setImageUrl( results );
+        ImageServiceAsync async = ImageService.App.getInstance();
+        async.saveOrUpdate( getEntityWrapper(), this );
         image.setUrl( results );
     }
 

@@ -32,21 +32,21 @@ public class TraversalPanel
     /**
      * все доступные для выбора записи
      */
-    private ArrayList         entities;
+    private ArrayList           entities;
 
     /**
      * панель правки, которой принадлежим
      */
-    private EntityEditPanel   entityEditPanel;
+    private EntityEditPanel     entityEditPanel;
 
     /**
      * выбор записи для правки
      */
-    private MyListBox         listBox     = new MyListBox();
+    private MyListBox           listBox     = new MyListBox();
 
-    protected HorizontalPanel buttonPanel = new HorizontalPanel();
+    protected HorizontalPanel   buttonPanel = new HorizontalPanel();
 
-    private ImageServiceAsync async       = ImageService.App.getInstance();
+    protected ImageServiceAsync async       = ImageService.App.getInstance();
 
     public TraversalPanel(
         EntityEditPanel entityEditPanel )
