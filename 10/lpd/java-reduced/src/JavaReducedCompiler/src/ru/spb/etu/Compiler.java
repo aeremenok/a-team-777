@@ -1,10 +1,10 @@
 package ru.spb.etu;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-import ru.spb.etu.rpn.templates.ClassTemplate;
+import org.gjt.jclasslib.io.ClassFileWriter;
+import org.gjt.jclasslib.structures.ClassFile;
 
 /**
  * запускает компиляцию
@@ -16,17 +16,17 @@ public class Compiler
     /**
      * инструкции ПОЛИЗ, сгенерированные СА
      */
-    static ArrayList                RPNInstructions = new ArrayList( 0 );
+    static ArrayList            RPNInstructions = new ArrayList( 0 );
 
     /**
      * целевые классы с байт-кодом
      */
-    static ArrayList<ClassTemplate> builtClasses    = new ArrayList<ClassTemplate>( 0 );
+    static ArrayList<ClassFile> builtClasses    = new ArrayList<ClassFile>( 0 );
 
     /**
      * классы, полученные по резульатам анализа
      */
-    static ArrayList                parsedClasses   = new ArrayList( 0 );
+    static ArrayList            parsedClasses   = new ArrayList( 0 );
 
     /**
      * @param args
@@ -61,8 +61,9 @@ public class Compiler
     {
         for ( Object object : parsedClasses )
         {
-            ClassTemplate classTemplate = new ClassTemplate( object );
-            builtClasses.add( classTemplate );
+            ClassFile classFile = new ClassFile();
+            // todo как-то заполнить
+            builtClasses.add( classFile );
         }
     }
 
@@ -73,12 +74,10 @@ public class Compiler
     {
         try
         {
-            for ( ClassTemplate classTemplate : builtClasses )
+            for ( ClassFile classFile : builtClasses )
             {
-                File file = new File( classTemplate.getFileName() );
-                FileOutputStream fileOutputStream;
-                fileOutputStream = new FileOutputStream( file );
-                fileOutputStream.write( classTemplate.toString().getBytes( "utf8" ) );
+                File file = new File( classFile.getThisClassName() );
+                ClassFileWriter.writeToFile( file, classFile );
             }
         }
         catch ( Exception e )
