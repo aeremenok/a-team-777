@@ -1,10 +1,14 @@
 package ru.spb.etu.rpn.templates;
 
+import org.gjt.jclasslib.structures.ClassFile;
+
 /**
  * ראבכמם class-פאיכא
  * 
  * @author eav
+ * @deprecated use {@link ClassFile}
  */
+@Deprecated
 public class ClassTemplate
     extends FileTemplate
 {
@@ -14,7 +18,6 @@ public class ClassTemplate
     public ClassTemplate(
         Object object )
     {
-
     }
 
     public String getFileName()
