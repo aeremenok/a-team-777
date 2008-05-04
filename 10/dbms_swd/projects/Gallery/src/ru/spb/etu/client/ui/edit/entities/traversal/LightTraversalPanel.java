@@ -9,6 +9,8 @@ import ru.spb.etu.client.ui.edit.entities.edit.EntityEditPanel;
 import ru.spb.etu.client.ui.edit.entities.edit.MasterpieceEditPanel;
 import ru.spb.etu.client.ui.widgets.MyTextBox;
 
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -18,6 +20,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class LightTraversalPanel
     extends TraversalPanel
+    implements
+        AsyncCallback
 {
     private MasterpieceEditPanel host;
 
@@ -47,6 +51,7 @@ public class LightTraversalPanel
         {
             masterPiece.setMuseum( (Museum) currentEntity );
         }
+        async.saveOrUpdate( masterPiece, this );
     }
 
     public void onClick(
@@ -72,6 +77,17 @@ public class LightTraversalPanel
 
     protected void processNewEntity(
         EntityWrapper entityWrapper )
+    {
+    }
+
+    public void onFailure(
+        Throwable arg0 )
+    {
+        Window.alert( arg0.toString() );
+    }
+
+    public void onSuccess(
+        Object arg0 )
     {
     }
 }

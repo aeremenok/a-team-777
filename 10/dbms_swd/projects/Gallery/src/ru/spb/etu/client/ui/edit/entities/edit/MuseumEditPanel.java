@@ -8,7 +8,7 @@ public class MuseumEditPanel
 
     public String getDefaultImageUrl()
     {
-        return "images/museum.jpg";
+        return "images/museum.gif";
     }
 
     public void retreiveEntities(

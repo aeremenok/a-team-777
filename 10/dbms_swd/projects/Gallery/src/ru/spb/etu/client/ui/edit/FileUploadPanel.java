@@ -68,7 +68,7 @@ public class FileUploadPanel
         results =
                   results.replaceAll( "<PRE>", "" ).replaceAll( "<pre>", "" ).replaceAll( "</PRE>", "" )
                          .replaceAll( "</pre>", "" );
-        Window.alert( results );
+        // Window.alert( results );
         entityForm.setUrl( results );
     }
 
