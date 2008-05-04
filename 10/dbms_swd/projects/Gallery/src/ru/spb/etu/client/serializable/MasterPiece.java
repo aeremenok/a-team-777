@@ -1,18 +1,13 @@
 package ru.spb.etu.client.serializable;
 
 public class MasterPiece
-    implements
-        EntityWrapper
+    extends EntityWrapper
 {
-    String           imageUrl;
-
-    ReflectiveString creationYear = new ReflectiveString( this );
-    ReflectiveString description  = new ReflectiveString( this );
-    ReflectiveString title        = new ReflectiveString( this );
-
     Artist           artist;
     Genre            genre;
     Museum           museum;
+
+    ReflectiveString creationYear = new ReflectiveString( this );
 
     public MasterPiece()
     {
@@ -24,11 +19,14 @@ public class MasterPiece
         String title,
         String description )
     {
-        super();
+        super( description, imageUrl, title );
         setCreationYear( creationYear );
-        setImageUrl( imageUrl );
         setCreationYear( creationYear );
-        setDescription( description );
+    }
+
+    public Artist getArtist()
+    {
+        return artist;
     }
 
     public ReflectiveString getCreationYear()
@@ -36,52 +34,18 @@ public class MasterPiece
         return creationYear;
     }
 
-    public ReflectiveString getDescription()
+    public Genre getGenre()
     {
-        return description;
+        return genre;
     }
 
-    public String getImageUrl()
+    public Museum getMuseum()
     {
-        return imageUrl;
-    }
-
-    public ReflectiveString getTitle()
-    {
-        return title;
-    }
-
-    public void setCreationYear(
-        int creationYear )
-    {
-        this.creationYear.setInt( creationYear );
-    }
-
-    public void setDescription(
-        String description )
-    {
-        this.description.setString( description );
-    }
-
-    public void setImageUrl(
-        String imageUrl )
-    {
-        this.imageUrl = imageUrl;
-    }
-
-    public void setTitle(
-        String title )
-    {
-        this.title.setString( title );
+        return museum;
     }
 
     public void requestMasterPieces()
     {
-    }
-
-    public Artist getArtist()
-    {
-        return artist;
     }
 
     public void setArtist(
@@ -90,20 +54,16 @@ public class MasterPiece
         this.artist = artist;
     }
 
-    public Genre getGenre()
+    public void setCreationYear(
+        int creationYear )
     {
-        return genre;
+        this.creationYear.setInt( creationYear );
     }
 
     public void setGenre(
         Genre genre )
     {
         this.genre = genre;
-    }
-
-    public Museum getMuseum()
-    {
-        return museum;
     }
 
     public void setMuseum(

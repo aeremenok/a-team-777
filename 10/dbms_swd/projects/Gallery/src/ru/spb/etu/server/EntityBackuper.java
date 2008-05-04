@@ -15,4 +15,8 @@ public interface EntityBackuper
         String type )
         throws Exception;
 
+    void updateBlob(
+        EntityWrapper entityWrapper,
+        byte[] bytes );
+
 }

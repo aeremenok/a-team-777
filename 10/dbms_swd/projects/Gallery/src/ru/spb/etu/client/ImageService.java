@@ -81,4 +81,7 @@ public interface ImageService
 
     ArrayList getSculptures(
         Artist artist );
+
+    void updateImage(
+        EntityWrapper entityWrapper );
 }

@@ -1,5 +1,6 @@
 package ru.spb.etu.server;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import ru.spb.etu.client.ImageService;
@@ -124,5 +125,21 @@ public class ImageServiceImpl
         String url )
     {
         ImageServiceImpl.baseUrl = url;
+    }
+
+    @Override
+    public void updateImage(
+        EntityWrapper entityWrapper )
+    {
+        getEntityBackuper().saveOrUpdate( entityWrapper );
+        try
+        {
+            byte[] bytes = FileUploadServlet.readBytes( entityWrapper.getImageUrl() );
+            getEntityBackuper().updateBlob( entityWrapper, bytes );
+        }
+        catch ( IOException e )
+        {
+            e.printStackTrace();
+        }
     }
 }
