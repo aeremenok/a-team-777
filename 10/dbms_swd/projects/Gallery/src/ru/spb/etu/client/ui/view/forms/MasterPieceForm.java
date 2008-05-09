@@ -76,6 +76,13 @@ public class MasterPieceForm
         }
     }
 
+    public void setUrl(
+        String url )
+    {
+        super.setUrl( url );
+        imagePanel.setUrl( url );
+    }
+
     public CloseableDialog getImagePanel()
     {
         if ( imagePanel == null )

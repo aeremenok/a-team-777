@@ -1,10 +1,7 @@
 package ru.spb.etu.client.ui.edit.entities.traversal;
 
-import ru.spb.etu.client.serializable.Artist;
 import ru.spb.etu.client.serializable.EntityWrapper;
-import ru.spb.etu.client.serializable.Genre;
 import ru.spb.etu.client.serializable.MasterPiece;
-import ru.spb.etu.client.serializable.Museum;
 import ru.spb.etu.client.ui.edit.entities.edit.EntityEditPanel;
 import ru.spb.etu.client.ui.edit.entities.edit.MasterpieceEditPanel;
 import ru.spb.etu.client.ui.widgets.MyTextBox;
@@ -37,21 +34,14 @@ public class LightTraversalPanel
         Widget arg0 )
     {
         // ничего не показываем, только задаем
-        MasterPiece masterPiece = (MasterPiece) host.getEntityForm().getEntityWrapper();
-        EntityWrapper currentEntity = getCurrentEntity();
-        if ( currentEntity instanceof Artist )
-        {
-            masterPiece.setArtist( (Artist) currentEntity );
-        }
-        else if ( currentEntity instanceof Genre )
-        {
-            masterPiece.setGenre( (Genre) currentEntity );
-        }
-        else if ( currentEntity instanceof Museum )
-        {
-            masterPiece.setMuseum( (Museum) currentEntity );
-        }
+        MasterPiece masterPiece = getMasterpiece();
+        getCurrentEntity().applyToMasterPiece( masterPiece );
         async.saveOrUpdate( masterPiece, this );
+    }
+
+    private MasterPiece getMasterpiece()
+    {
+        return (MasterPiece) host.getEntityForm().getEntityWrapper();
     }
 
     public void onClick(
@@ -60,6 +50,18 @@ public class LightTraversalPanel
         super.onClick( arg0 );
         // кнопки здесь не нужны
         remove( buttonPanel );
+    }
+
+    public void applyReference()
+    {
+        EntityWrapper masterpieceReference = entityEditPanel.getMasterpieceReference( getMasterpiece() );
+        if ( masterpieceReference != null )
+        {
+            listBox.clear();
+            listBox.addItem( masterpieceReference.getTitle().toString() );
+        }
+        else
+            listBox.addStyleName( "error" );
     }
 
     public void updateName(
@@ -89,5 +91,6 @@ public class LightTraversalPanel
     public void onSuccess(
         Object arg0 )
     {
+        listBox.removeStyleName( "error" );
     }
 }

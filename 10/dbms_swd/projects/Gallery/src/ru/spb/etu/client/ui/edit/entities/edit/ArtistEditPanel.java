@@ -1,6 +1,8 @@
 package ru.spb.etu.client.ui.edit.entities.edit;
 
 import ru.spb.etu.client.serializable.Artist;
+import ru.spb.etu.client.serializable.EntityWrapper;
+import ru.spb.etu.client.serializable.MasterPiece;
 import ru.spb.etu.client.ui.edit.EditPanel;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -66,5 +68,11 @@ public class ArtistEditPanel
     {
         super.showEditTable( show );
         masterPieces.setVisible( show );
+    }
+
+    public EntityWrapper getMasterpieceReference(
+        MasterPiece masterpiece )
+    {
+        return masterpiece.getArtist();
     }
 }

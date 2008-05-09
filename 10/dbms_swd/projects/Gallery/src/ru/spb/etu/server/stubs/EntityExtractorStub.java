@@ -135,6 +135,7 @@ public class EntityExtractorStub
             for ( int i = 0; i < 100; i++ )
             {
                 Painting masterPiece = new Painting();
+                masterPiece.setArtist( artist );
                 masterPiece.setTitle( "01" );
                 masterPiece.setImageUrl( "images/painting.jpg" );
                 masterPiece.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );
@@ -146,6 +147,7 @@ public class EntityExtractorStub
             for ( int i = 0; i < 100; i++ )
             {
                 Painting masterPiece1 = new Painting();
+                masterPiece1.setArtist( artist );
                 masterPiece1.setTitle( "02" );
                 masterPiece1.setImageUrl( "images/painting.jpg" );
                 masterPiece1.setDescription( "dhfasdghfhasdgvgasdvcbvxzbcvd" + "fashdfjhasjdfh" + "dsajfhjksdah" );

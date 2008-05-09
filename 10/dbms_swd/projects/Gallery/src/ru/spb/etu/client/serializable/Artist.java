@@ -100,4 +100,10 @@ public class Artist
     {
         setTitle( name );
     }
+
+    public void applyToMasterPiece(
+        MasterPiece masterPiece )
+    {
+        masterPiece.setArtist( this );
+    }
 }

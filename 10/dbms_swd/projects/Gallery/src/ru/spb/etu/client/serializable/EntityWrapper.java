@@ -113,4 +113,7 @@ public abstract class EntityWrapper
     {
         this.title.setString( title );
     }
+
+    public abstract void applyToMasterPiece(
+        MasterPiece masterPiece );
 }

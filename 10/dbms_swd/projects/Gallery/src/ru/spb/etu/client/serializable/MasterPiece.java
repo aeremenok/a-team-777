@@ -71,4 +71,9 @@ public class MasterPiece
     {
         this.museum = museum;
     }
+
+    public void applyToMasterPiece(
+        MasterPiece masterPiece )
+    {
+    }
 }

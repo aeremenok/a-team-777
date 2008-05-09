@@ -497,3 +497,7 @@ a:visited {
 .title-label {
     font-size: x-large;
 }
+
+.error{
+	background-color: red;
+}

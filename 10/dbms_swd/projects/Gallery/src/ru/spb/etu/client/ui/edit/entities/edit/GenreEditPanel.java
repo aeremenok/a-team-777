@@ -1,5 +1,8 @@
 package ru.spb.etu.client.ui.edit.entities.edit;
 
+import ru.spb.etu.client.serializable.EntityWrapper;
+import ru.spb.etu.client.serializable.MasterPiece;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class GenreEditPanel
@@ -19,5 +22,11 @@ public class GenreEditPanel
     public String entityTypeName()
     {
         return "Genre";
+    }
+
+    public EntityWrapper getMasterpieceReference(
+        MasterPiece masterpiece )
+    {
+        return masterpiece.getGenre();
     }
 }

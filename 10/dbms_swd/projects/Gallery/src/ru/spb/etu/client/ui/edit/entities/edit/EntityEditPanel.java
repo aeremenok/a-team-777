@@ -3,6 +3,7 @@ package ru.spb.etu.client.ui.edit.entities.edit;
 import ru.spb.etu.client.ImageService;
 import ru.spb.etu.client.ImageServiceAsync;
 import ru.spb.etu.client.serializable.EntityWrapper;
+import ru.spb.etu.client.serializable.MasterPiece;
 import ru.spb.etu.client.ui.edit.FileUploadPanel;
 import ru.spb.etu.client.ui.edit.entities.traversal.TraversalPanel;
 import ru.spb.etu.client.ui.view.forms.EntityForm;
@@ -161,4 +162,7 @@ public abstract class EntityEditPanel
     {
         editTable.setVisible( show );
     }
+
+    public abstract EntityWrapper getMasterpieceReference(
+        MasterPiece masterpiece );
 }
