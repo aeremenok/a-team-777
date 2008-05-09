@@ -23,14 +23,14 @@ public abstract class MasterpieceEditPanel
         super();
         this.artist = artist;
 
+        // todo сделать singleton
+        createRow( "Author", new LightTraversalPanel( this, new ArtistEditPanel() ) );
+        createRow( "Genre", new LightTraversalPanel( this, new GenreEditPanel() ) );
+        createRow( "Museum", new LightTraversalPanel( this, new MuseumEditPanel() ) );
+
         creationYear.setMaxLength( 4 );
         creationYear.setVisibleLength( 4 );
         createRow( "Creation Year", creationYear );
-
-        // todo сделать singleton
-        createCenteredCell( new LightTraversalPanel( this, new ArtistEditPanel() ) );
-        createCenteredCell( new LightTraversalPanel( this, new GenreEditPanel() ) );
-        createCenteredCell( new LightTraversalPanel( this, new MuseumEditPanel() ) );
     }
 
     public EntityForm getEntityForm()
