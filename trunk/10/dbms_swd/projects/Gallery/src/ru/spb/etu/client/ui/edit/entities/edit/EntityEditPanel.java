@@ -6,7 +6,6 @@ import ru.spb.etu.client.serializable.EntityWrapper;
 import ru.spb.etu.client.ui.edit.FileUploadPanel;
 import ru.spb.etu.client.ui.edit.entities.traversal.TraversalPanel;
 import ru.spb.etu.client.ui.view.forms.EntityForm;
-import ru.spb.etu.client.ui.widgets.HasValue;
 import ru.spb.etu.client.ui.widgets.MyTextArea;
 import ru.spb.etu.client.ui.widgets.MyTextBox;
 
@@ -136,15 +135,15 @@ public abstract class EntityEditPanel
      * создать строку для правки поля
      * 
      * @param name имя поля
-     * @param hasValue виджет для правки поля
+     * @param widget виджет для правки поля
      */
     protected void createRow(
         String name,
-        HasValue hasValue )
+        Widget widget )
     {
         row++;
         editTable.setWidget( row, 0, new Label( name ) );
-        editTable.setWidget( row, 1, (Widget) hasValue );
+        editTable.setWidget( row, 1, widget );
     }
 
     /**
