@@ -30,4 +30,10 @@ public class Genre
     {
         getAsync().getArtistsByGenre( this, asyncCallback );
     }
+
+    public void applyToMasterPiece(
+        MasterPiece masterPiece )
+    {
+        masterPiece.setGenre( this );
+    }
 }

@@ -104,10 +104,10 @@ public class EntityForm
     }
 
     public void setUrl(
-        String results )
+        String url )
     {
-        entityWrapper.setImageUrlAndUpdate( results );
-        image.setUrl( results );
+        entityWrapper.setImageUrlAndUpdate( url );
+        image.setUrl( url );
     }
 
     private VerticalPanel getInfoPanel()

@@ -13,9 +13,13 @@ import ru.spb.etu.client.ui.widgets.MyTextBox;
 public abstract class MasterpieceEditPanel
     extends EntityEditPanel
 {
-    protected Artist artist;
+    protected Artist    artist;
 
-    MyTextBox        creationYear = new MyTextBox();
+    MyTextBox           creationYear    = new MyTextBox();
+
+    LightTraversalPanel artistTraversal = new LightTraversalPanel( this, new ArtistEditPanel() );
+    LightTraversalPanel genreTraversal  = new LightTraversalPanel( this, new GenreEditPanel() );
+    LightTraversalPanel museumTraversal = new LightTraversalPanel( this, new MuseumEditPanel() );
 
     public MasterpieceEditPanel(
         Artist artist )
@@ -23,10 +27,9 @@ public abstract class MasterpieceEditPanel
         super();
         this.artist = artist;
 
-        // todo сделать singleton
-        createRow( "Author", new LightTraversalPanel( this, new ArtistEditPanel() ) );
-        createRow( "Genre", new LightTraversalPanel( this, new GenreEditPanel() ) );
-        createRow( "Museum", new LightTraversalPanel( this, new MuseumEditPanel() ) );
+        createRow( "Author", artistTraversal );
+        createRow( "Genre", genreTraversal );
+        createRow( "Museum", museumTraversal );
 
         creationYear.setMaxLength( 4 );
         creationYear.setVisibleLength( 4 );
@@ -42,12 +45,29 @@ public abstract class MasterpieceEditPanel
         return entityForm;
     }
 
+    public EntityWrapper getMasterpieceReference(
+        MasterPiece masterpiece )
+    {
+        return null;
+    }
+
     public void showEntity(
         EntityWrapper entityWrapper )
     {
         super.showEntity( entityWrapper );
         MasterPiece masterPiece = (MasterPiece) entityWrapper;
         creationYear.bindField( masterPiece.getCreationYear() );
+
+        applyReference( new LightTraversalPanel[] { artistTraversal, genreTraversal, museumTraversal } );
+    }
+
+    private void applyReference(
+        LightTraversalPanel[] lightTraversalPanels )
+    {
+        for ( int i = 0; i < lightTraversalPanels.length; i++ )
+        {
+            lightTraversalPanels[i].applyReference();
+        }
     }
 
     protected TraversalPanel createTraversalPanel(

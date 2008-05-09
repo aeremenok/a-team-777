@@ -37,12 +37,12 @@ public class TraversalPanel
     /**
      * панель правки, которой принадлежим
      */
-    private EntityEditPanel     entityEditPanel;
+    protected EntityEditPanel   entityEditPanel;
 
     /**
      * выбор записи для правки
      */
-    private MyListBox           listBox     = new MyListBox();
+    protected MyListBox         listBox     = new MyListBox();
 
     protected HorizontalPanel   buttonPanel = new HorizontalPanel();
 
@@ -105,7 +105,7 @@ public class TraversalPanel
                 Object arg0 )
             {
                 entities = (ArrayList) arg0;
-                listBox.removeItem( 0 );
+                listBox.clear();
                 for ( int i = 0; i < entities.size(); i++ )
                 {
                     EntityWrapper entityWrapper = (EntityWrapper) entities.get( i );

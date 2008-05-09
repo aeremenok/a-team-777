@@ -30,4 +30,10 @@ public class Museum
     {
         getAsync().getArtistsByMuseum( this, asyncCallback );
     }
+
+    public void applyToMasterPiece(
+        MasterPiece masterPiece )
+    {
+        masterPiece.setMuseum( this );
+    }
 }

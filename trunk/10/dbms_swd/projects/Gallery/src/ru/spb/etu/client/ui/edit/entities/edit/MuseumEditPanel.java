@@ -1,5 +1,8 @@
 package ru.spb.etu.client.ui.edit.entities.edit;
 
+import ru.spb.etu.client.serializable.EntityWrapper;
+import ru.spb.etu.client.serializable.MasterPiece;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class MuseumEditPanel
@@ -20,5 +23,11 @@ public class MuseumEditPanel
     public String entityTypeName()
     {
         return "Museum";
+    }
+
+    public EntityWrapper getMasterpieceReference(
+        MasterPiece masterpiece )
+    {
+        return masterpiece.getMuseum();
     }
 }
