@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="eav.xslt"?>
+<!DOCTYPE autobiography SYSTEM "schema.dtd" >
+<autobiography>
+    <header>Автобиография</header>
+    <author>
+        <credentials
+            birthDate="06-05-1986"
+            birthPlace="Ленинград"
+            fullName="Ерёменок Андрей Вячеславович"
+        />
+        <school
+            startDate="01-09-1993"
+            endDate="31-06-2003"
+            city="Санкт-Петербург"
+            number="144"
+        />
+        <highSchool
+            startDate="31-08-2003"
+            profession="220400"
+            schoolName="ЛЭТИ"
+        />
+        <address
+            appartment="000"
+            city="Санкт-Петербург"
+            district="Калининский"
+            house="00"
+            street="Тимуровская"
+        />
+    </author>
+    <relatives>
+        <relative status="мать">
+            <credentials
+                birthDate="26-02-1965"
+                birthPlace="Ленинград"
+                fullName="Ерёменок Лариса Валентиновна"
+            />
+        </relative>
+        <relative status="отец">
+            <credentials
+                birthDate="11-02-1962"
+                birthPlace="Освея"
+                fullName="Ерёменок Вячеслав Тимофеевич"
+            />
+        </relative>
+    </relatives>
+    <legal
+        abroad="Ближайших родственников, проживающих за границей, не имею."
+        court="Я и мои ближайшие родственники под судом и следствием не находились."
+    />
+</autobiography>
