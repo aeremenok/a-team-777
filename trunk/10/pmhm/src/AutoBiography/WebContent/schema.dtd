@@ -1,0 +1,50 @@
+<!ELEMENT autobiography (header, author, relatives, legal) >
+<!ELEMENT header (#PCDATA)>
+<!ELEMENT author (
+    credentials,
+    school*,
+    highSchool*,
+    address
+    ) >
+<!ELEMENT relatives (relative*) >
+
+<!ELEMENT relative (credentials)>
+<!ATTLIST relative 
+    status CDATA #REQUIRED
+>
+
+<!ELEMENT school (#PCDATA) >
+<!ATTLIST school
+    startDate CDATA #REQUIRED
+    endDate CDATA #REQUIRED
+    number CDATA #REQUIRED
+    city CDATA #REQUIRED
+>
+<!ELEMENT highSchool (#PCDATA) >
+<!ATTLIST highSchool
+    startDate CDATA #REQUIRED
+    endDate CDATA #IMPLIED
+    schoolName CDATA #REQUIRED
+    profession CDATA #REQUIRED
+>
+
+<!ELEMENT credentials (#PCDATA) >
+<!ATTLIST credentials 
+    fullName CDATA #REQUIRED
+    birthDate CDATA #REQUIRED
+    birthPlace CDATA #REQUIRED
+>
+<!ELEMENT address (#PCDATA)>
+<!ATTLIST address 
+    city CDATA #REQUIRED
+    district CDATA #REQUIRED
+    street CDATA #REQUIRED
+    house CDATA #REQUIRED
+    appartment CDATA #REQUIRED
+>
+
+<!ELEMENT legal (#PCDATA)>
+<!ATTLIST legal
+    abroad CDATA #FIXED "Ближайших родственников, проживающих за границей, не имею."  
+    court CDATA #FIXED "Я и мои ближайшие родственники под судом и следствием не находились." 
+>
