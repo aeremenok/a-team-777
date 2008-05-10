@@ -25,6 +25,8 @@ class CLoginDialog: public QDialog
   CLoginDialog& operator=(const CLoginDialog& obj);
 
   Ui::CLoginDialog m_form;
+
+  virtual void accept();
 public:
   CLoginDialog(QWidget * parent = 0, Qt::WindowFlags f = 0);
   

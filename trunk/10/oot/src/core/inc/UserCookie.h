@@ -32,7 +32,7 @@ public:
   {
   }
  
-  void findUser(const std::string& name, const std::string& password);
+  bool findUser(const std::string& name, const std::string& password);
 
   const CUser& getUser() const;
 
