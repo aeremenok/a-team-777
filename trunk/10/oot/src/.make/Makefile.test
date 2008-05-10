@@ -1,0 +1,34 @@
+# $Id: Makefile.test,v 1.1.2.20 2007/09/18 13:22:52 dumb Exp $
+
+test_TARGET ?= ${TARGET}.tst
+
+
+test .test.passed ${test_TARGET}: GOAL := test
+
+test: lib .test.passed
+
+test-executable: lib ${test_TARGET}
+
+test-parallel:
+
+define test_run
+echo "Running    ./${test_TARGET}"
+time ${ROOT}/.make/limitRealTime 600 ./${test_TARGET}
+endef
+
+test-run: lib ${test_TARGET}
+	@${test_run}
+
+.test.passed: ${test_TARGET}
+	@${test_run}
+	@touch .test.passed
+
+GOAL := test
+test_deps := ${_deps} ${_objs} ${libadd}
+
+${test_TARGET}: ${test_deps}
+	@${make_exe}
+
+include ${ROOT}/.make/Makefile.dep
+
+GOAL :=

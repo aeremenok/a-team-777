@@ -1,0 +1,72 @@
+# $Id: Makefile.project,v 1.1.2.34 2007/01/27 10:48:50 dumb Exp $
+
+SHELL := /bin/bash
+
+include project.conf
+include .make/Makefile.defs
+
+
+define label_inc
+bash -c "`sed 's/\(\([0-9]*_\)\{3\}\)\([0-9]*\)\(.*\)/A=\1 ; B=$$(( \3 + 1 )) ; C=\4 ; echo $$A$$B$$C/' <version`" >version
+endef
+
+define label_cvs
+${get_label} ; \
+cd .. && ${CVS} commit -m "Release $$LABEL" && ${CVS} tag $$LABEL
+endef
+
+label-inc:
+	@${label_inc}
+
+label: label-inc
+	@${label_cvs}
+
+
+define target_release
+${get_label} ; \
+ssh ${RELEASE_SERVER} "[ -d ${S_RELEASEDIR}/${CFG} ] || mkdir -p ${S_RELEASEDIR}/${CFG}" && \
+tar -cC ${RELEASEDIR} ./ | gzip | ssh ${RELEASE_SERVER} "cat >${S_RELEASEDIR}/${CFG}/release.tgz" && \
+scp ${RELEASEDIR}/status ${RELEASE_SERVER}:${S_RELEASEDIR}/${CFG}
+endef
+
+
+target-release:
+	@echo 'Target release'
+	@${target_release}
+
+
+release express-release: label request-release
+
+
+define request_release_cfg
+${get_label} ; \
+ssh ${RELEASE_SERVER} " ${CONDITION} \
+  { mkdir -p ${S_RELEASEDIR}/${CFG} ; \
+    rm -f ${S_RELEASEDIR}/${CFG}/status ; \
+    echo $$USER@nic.spb.ru >> ${S_RELEASEDIR}/${CFG}/request && \
+    { chmod -R g+w ${S_RELEASEROOT} >& /dev/null || true ; } && \
+    { grep ${PROJECT}/$$LABEL/${CFG} ${S_RELEASEROOT}/queue || echo ${PROJECT}/$$LABEL/${CFG} >> ${S_RELEASEROOT}/queue ; } ; }"
+endef
+
+request-release-cfg: CONDITION := 
+ask-release-cfg: CONDITION := [ -f ${S_RELEASEDIR}/${CFG}/status ] || 
+
+request-release-cfg ask-release-cfg:
+	@echo 'Requesting ${PROJECT} release in cfg "${CFG}" for '"${ARCH}"
+	@${request_release_cfg}
+
+
+define request_release
+for A in ${ARCHS} ; do \
+  for C in ${CFGS} ; do \
+    ${MAKE} -f .make/Makefile.project ARCH=$$A CFG=$$C ${CMD} ; \
+  done ; \
+done
+endef
+
+
+ask-release: CMD := ask-release-cfg
+request-release: CMD := request-release-cfg
+
+request-release ask-release:
+	@${request_release}

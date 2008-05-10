@@ -1,0 +1,13 @@
+# $Id: Makefile.compile,v 1.1.2.1 2007/01/11 14:48:44 dumb Exp $
+
+include ${ROOT}/project.conf
+
+
+compile: GOAL := compile
+compile: ${_objs}
+
+GOAL := compile
+
+include ${ROOT}/.make/Makefile.dep
+
+GOAL :=

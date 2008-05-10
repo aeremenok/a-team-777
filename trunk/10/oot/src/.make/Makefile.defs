@@ -1,0 +1,22 @@
+# $Id: Makefile.defs,v 1.1.2.15 2006/05/26 14:31:28 dumb Exp $
+
+LD = ${CXX}
+CVS ?= cvs
+
+ARCH ?= `${CXX} -dumpmachine`-`${CXX} -dumpversion`
+ARCHS ?= ${ARCH}
+
+ARCHDIR := ${ARCH}
+RELEASEDIR := ../released
+LOCAL_RELEASEDIR := ../_released
+
+RELEASE_SERVER ?= 192.168.81.7
+S_RELEASEROOT := /tftprel/autocompiler/${ARCHDIR}
+S_RELEASEDIR = ${S_RELEASEROOT}/${PROJECT}/$$LABEL
+
+get_label = LABEL=${PROJECT}-`cat version`
+
+DIRS ?= $(wildcard *)
+
+CFG ?= debug
+CFGS ?= ${CFG}

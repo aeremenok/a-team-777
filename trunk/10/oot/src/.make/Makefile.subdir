@@ -1,0 +1,29 @@
+# $Id: Makefile.subdir,v 1.1.2.5 2007/08/14 09:01:09 dumb Exp $
+
+ifneq ($(filter recursive,${MAKE_FLAGS}),)
+
+define make_stiff
+recursive_${target}_%:
+	@[ ! -f $$*/Makefile -o -f $$*/.nomake ] || $${MAKE} -C $$* ${target} || true
+
+${target}: $(addprefix recursive_${target}_,${SUBDIRS})
+endef
+  
+STIFF_TARGETS := default all compile lib ui depend clean distclean
+$(foreach target,${STIFF_TARGETS},$(eval ${make_stiff}))
+
+
+define make_frail
+recursive_${target}_%:
+	@[ ! -f $$*/Makefile -o -f $$*/.nomake -o -f $$*/.notest ] || $${MAKE} -C $$* ${target}
+
+${target}: $(addprefix recursive_${target}_,${SUBDIRS})
+endef
+
+FRAIL_TARGETS := test test-header test-executable test-parallel
+$(foreach target,${FRAIL_TARGETS},$(eval ${make_frail}))
+
+
+.PHONY: ${STIFF_TARGETS} ${FRAIL_TARGETS}
+
+endif

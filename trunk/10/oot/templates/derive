@@ -1,0 +1,22 @@
+#!/bin/sh
+# $Id: derive,v 1.2 2006/01/13 09:00:29 dumb Exp $
+
+if [ x = x$1 ]; then echo 'Имя класса (без префикса "C"):'; read NM; else NM=$1; fi;
+
+UUID=`uuidgen | sed -e s/-/_/g -e y/abcdef/ABCDEF/`
+YEAR=`date +%Y`
+
+NAME=C$NM
+NAMEH=$NM.h
+NAMECPP=$NM.cpp
+
+REPL_NAME='-e s/$(NAME)/'$NAME'/g'
+REPL_NAMEH='-e s/$(NAMEH)/'$NAMEH'/g'
+REPL_NAMECPP='-e s/$(NAMECPP)/'$NAMECPP'/g'
+REPL_UUID='-e s/$(UUID)/'$UUID'/g'
+REPL_YEAR='-e s/$(YEAR)/'$YEAR'/g'
+
+CMD="sed $REPL_NAME $REPL_NAMEH $REPL_NAMECPP $REPL_UUID $REPL_YEAR"
+
+$CMD <template.h >$NAMEH
+$CMD <template.cpp >$NAMECPP

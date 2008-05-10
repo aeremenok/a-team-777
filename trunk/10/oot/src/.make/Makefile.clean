@@ -1,0 +1,41 @@
+# $Id: Makefile.clean,v 1.1.2.1 2006/03/02 17:15:56 dumb Exp $
+
+.PHONY: distclean clean clean-exe clean-lib clean-so clean-test
+
+
+define distclean
+rm -rf ${OBJDIR} ${UIDIR}
+rm -f ${exe_TARGET} ${lib_TARGET} ${so_TARGET} ${test_TARGET}
+endef
+
+
+distclean:
+	@${distclean}
+
+
+define make_clean
+rm -f ${drvd_objs} ${drvd_deps} ${target}
+endef
+
+
+clean: clean-exe clean-lib clean-so clean-test clean-ui
+
+clean-exe: GOAL := exe
+clean-lib: GOAL := lib
+clean-so: GOAL := so
+clean-test: GOAL := test
+
+clean-exe:
+	@${make_clean}
+
+clean-lib:
+	@${make_clean}
+
+clean-so:
+	@${make_clean}
+
+clean-test:
+	@${make_clean}
+
+clean-ui:
+	@rm -f ${drvd_uics} ${drvd_mocs}

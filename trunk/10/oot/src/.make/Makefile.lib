@@ -1,0 +1,27 @@
+# $Id: Makefile.lib,v 1.1.2.2 2006/03/02 17:15:56 dumb Exp $
+
+include ${ROOT}/project.conf
+
+lib_TARGET ?= ${TARGET}.a
+
+
+define make_lib
+echo 'Archiving ' $@
+-rm -f $@
+${AR} cr $@ ${_objs}
+${AR} cr ${ROOT}/${PROJECT}.a ${_objs}
+endef
+
+
+lib: ${lib_TARGET}
+lib ${lib_TARGET}: GOAL := lib
+
+GOAL := lib
+lib_deps := ${_deps} ${_objs}
+
+${lib_TARGET}: ${lib_deps}
+	@${make_lib}
+
+include ${ROOT}/.make/Makefile.dep
+
+GOAL :=

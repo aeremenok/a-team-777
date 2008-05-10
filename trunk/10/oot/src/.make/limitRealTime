@@ -1,0 +1,27 @@
+#! /bin/bash
+
+function onExit()
+{
+  exec &> /dev/null
+  [ "$R" ] || kill -KILL -$$
+}
+
+TIMELIMIT=$1
+shift
+trap onExit EXIT
+
+( sleep $TIMELIMIT ; echo "Timeout ("$TIMELIMIT")" 1>&2 ; kill -TERM $$ ; ) &
+KILLER=$!
+
+bash -c "$*" &
+CHILD=$!
+
+wait $CHILD
+R=$?
+
+exec &> /dev/null
+kill -KILL $KILLER
+wait $KILLER
+
+exit $R
+

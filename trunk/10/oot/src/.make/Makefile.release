@@ -1,0 +1,6 @@
+# $Id: Makefile.release,v 1.1.2.5 2006/05/26 14:31:28 dumb Exp $
+
+local-release release: default
+	@echo 'Releasing ' ${TARGET}
+	-@cp ./inc/*.* ${ROOT}/${LOCAL_RELEASEDIR}/inc
+	-@[ ! -x ${exe_TARGET} ] || cp ${exe_TARGET} ${ROOT}/${LOCAL_RELEASEDIR}/bin

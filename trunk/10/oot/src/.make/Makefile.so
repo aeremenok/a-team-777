@@ -1,0 +1,25 @@
+# $Id: Makefile.so,v 1.2.4.1 2006/03/02 17:15:56 dumb Exp $
+
+include ${ROOT}/project.conf
+
+so_TARGET ?= lib${TARGET}.so
+
+
+define make_so
+echo 'Linking   ' $@
+${LD} -shared ${ldflags} ${_objs} ${libadd} ${ldadd} -o $@
+endef
+
+
+so: ${so_TARGET}
+so ${so_TARGET}: GOAL := so
+
+GOAL := so
+so_deps := ${_deps} ${_objs} ${libadd}
+
+${so_TARGET}: ${so_deps}
+	@${make_so}
+
+include ${ROOT}/.make/Makefile.dep
+
+GOAL :=

@@ -1,0 +1,63 @@
+# $Id: Makefile.ui,v 1.2.2.3 2007/07/06 10:37:04 dumb Exp $
+
+ifeq ($(filter qt4,${MAKE_FLAGS}),)
+
+LDFLAGS += -L${QTDIR}/lib
+INC += -I${QTDIR}/include
+
+ifneq ($(strip ${uics} ${mocs} ${uis}),)
+
+UIC ?= ${QTDIR}/bin/uic
+MOC ?= ${QTDIR}/bin/moc
+
+
+UIDIR ?= ui
+UI_MAGIC := $(shell mkdir ${UIDIR} >/dev/null 2>&1)
+
+
+${UIDIR}/%.h: %.ui
+	@echo 'Uicing (h) $<'
+	@${UIC} -o $@ $<
+
+${UIDIR}/%.cpp: %.ui ${UIDIR}/%.h
+	@echo 'Uicing     $<'
+	@${UIC} -o $@ -impl $(@:.cpp=.h) $<
+
+${UIDIR}/moc_%.cpp: ${UIDIR}/%.h
+	@echo 'Mocing (h) $<'
+	@${MOC} -o $@ $<
+
+${UIDIR}/moc_%.cpp: %.h
+	@echo 'Mocing     $<'
+	@${MOC} -o $@ $<
+
+
+${OBJDIR}/%.d: ${UIDIR}/%.cpp
+	@${make_cxxdep}
+
+${OBJDIR}/%.o: ${UIDIR}/%.cpp
+	@${make_cxx}
+
+
+
+drvd_uics = $(addprefix ${UIDIR}/,$(notdir $(addsuffix .cpp,$(basename $(uis)))))
+_uics = ${uics} ${drvd_uics}
+
+drvd_mocs = $(addprefix ${UIDIR}/moc_,$(notdir $(_uics)))
+_mocs = ${mocs} ${drvd_mocs}
+
+_srcs += ${_uics} ${_mocs}
+
+
+ui: ${_uics} ${_mocs}
+
+#CLEAN += ${_UICS} $(_UICS:.cpp=.h) ${_MOCS}
+
+
+.PRECIOUS: ${UIDIR}/%.cpp ${UIDIR}/%.h ${UIDIR}/moc_%.cpp
+
+include ${ROOT}/.make/Makefile.dep
+
+endif
+
+endif
