@@ -29,7 +29,9 @@ class CMainWindow: public QMainWindow
   CMainWindow& operator=(const CMainWindow& obj);
  
   Ui::CMainWindow m_form;
- 
+protected:
+  virtual void showEvent(QShowEvent *event);
+
 public:
   CMainWindow(QWidget * parent = 0, Qt::WindowFlags f = 0);
   

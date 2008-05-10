@@ -23,18 +23,30 @@ const CUser& CUserCookie::getUser() const
   return m_user;
 }
 
-void CUserCookie::findUser(const std::string& name, const std::string &password)
+bool CUserCookie::findUser(const std::string& name, const std::string &password)
 {
   // здесь по идее надо куда-то лезть, и искать пользователя в базе, определив его тип.
   // но это все в теории.... (:
   if(name=="client"&&password=="client")
+  {
     m_user=CUser("Клиент",CUser::CLIENT);
-  else if(name=="seller"&&password=="seller")
+    return true;
+  }
+
+  if(name=="seller"&&password=="seller")
+  {
     m_user=CUser("Продавец",CUser::SELLER);
-  else if(name=="manager"&&password=="manager")
+    return true;
+  }
+
+  if(name=="manager"&&password=="manager")
+  {
     m_user=CUser("Менеджер-консультант",CUser::MANAGER);
-  else
-    m_user=CUser();
+    return true;
+  }
+  
+  m_user=CUser();
+  return false;
 }
 
 /* ===[ End of file $Source: /cvs/decisions/templates/template.cpp,v $ ]=== */
