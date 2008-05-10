@@ -1,0 +1,74 @@
+# $Id: Makefile.main,v 1.1.2.2.2.5 2008/01/11 14:22:06 dumb Exp $
+
+include project.conf
+include .make/Makefile.defs
+
+MAKEFILE_MAIN := 1
+MAKE_FLAGS += recursive
+SUBDIRS = ${DIRS}
+include .make/Makefile.subdir
+
+clean distclean:
+	@rm -f ${PROJECT}.a
+
+
+prepare-%:
+	@${MAKE} -f .make/Makefile.prepare $@
+
+prepare load-release verify-version:
+	@${MAKE} -f .make/Makefile.prepare $@
+
+
+define release_dir
+rm -rf ${LOCAL_RELEASEDIR} ; \
+mkdir -p ${LOCAL_RELEASEDIR}/{inc,lib,bin} ;
+endef
+
+
+define local_release
+[ 'inc/*.*' == "`echo inc/*.*`" ] || cp inc/*.* ${LOCAL_RELEASEDIR}/inc ; \
+[ ! -f ${PROJECT}.a ] || cp ${PROJECT}.a ${LOCAL_RELEASEDIR}/lib ; \
+if [ -d ${RELEASEDIR} ] ; \
+then \
+  { diff -Nru ${RELEASEDIR}/inc ${LOCAL_RELEASEDIR}/inc > ${LOCAL_RELEASEDIR}/inc.diff ; \
+    rm -rf ${LOCAL_RELEASEDIR}/inc && cat ${LOCAL_RELEASEDIR}/inc.diff | patch -p0 ; } ; \
+  for R in bin lib ; do \
+    { rm -rf ${RELEASEDIR}/$$R && mv -f ${LOCAL_RELEASEDIR}/$$R ${RELEASEDIR} ; } || exit ; \
+  done ; \
+else \
+  mv ${LOCAL_RELEASEDIR} ${RELEASEDIR} ; \
+fi ; \
+rm -rf ${LOCAL_RELEASEDIR}
+endef
+
+
+release-dir:
+	@${release_dir}
+
+do-local-release:
+	@${local_release}
+	@echo 1 > ${RELEASEDIR}/status
+
+local-release: default test release-dir $(addprefix local-release_,${DIRS}) do-local-release
+local-release-notest: default release-dir $(addprefix local-release_,${DIRS}) do-local-release
+
+local-release_%:
+	@[ ! -f $*/Makefile -o -f $*/.nomake ] || ${MAKE} -C $* local-release
+
+
+target-release: local-release
+
+release: verify-version
+
+release express-release target-release request-release request-release-cfg ask-release-cfg label:
+	@${MAKE} -f .make/Makefile.project $@
+
+dist srpm rpm:
+	@${MAKE} -f .make/Makefile.dist $@
+
+register:
+	@.make/register
+
+boot:
+
+.PHONY: release-dir release local-release target-release

@@ -1,0 +1,129 @@
+# $Id: Makefile.prepare,v 1.11.2.45.2.3 2008/01/11 13:24:25 dumb Exp $
+
+include project.conf
+include .make/Makefile.defs
+
+SHELL := /bin/bash
+
+DEPROOT ?= ../..
+PRJROOT ?= ${PROJECT}
+EXTLIB_LOCAL := ${PRJROOT}/src/extlib.inc
+EXTLIB ?= /dev/null
+
+define set_tag
+DPLNAME=$${DEPPROJECT}_LABEL ; DPL=$${!DPLNAME} ; \
+[ -z "$$DPL" ] || TAG="-r $$DPL" ; \
+DEPPROJECTDIR=$$DEPPROJECT
+endef
+
+#
+# создает DEPROOT, если он отсутствует
+# создает каталоги inc и lib на одном уровне с src
+# для каждй зависимости из перечисленных в project.conf делает следующее:
+#  если зависимость отсутствует в DEPROOT выполняет cvs get, по метке или нет (prepare/prepare-risky)
+#  в inc и lib делает символьные ссылки на release/`uname`/inc и release/`uname`/lib зависомости
+#  добавляет общую библиотеку зависимости в LIBADD в extlib.inc
+#  рекурсивно вызывает себя же для зависомости
+#
+define make_prepare
+cd ${DEPROOT} ; \
+if [ ! -f ${EXTLIB_LOCAL} ] ; then \
+  [ ! -d ${DEPROOT} ] || mkdir -p ${DEPROOT} || exit ; \
+  rm -rf ${PRJROOT}/{inc,lib} ; \
+  mkdir ${PRJROOT}/{inc,lib} ; \
+  DEPPROJECTS="${DEPPROJECTS}" ; \
+  for DEPPROJECT in $$DEPPROJECTS ; do \
+    ${set_tag} ; \
+    if [ ! -d $$DEPPROJECTDIR ] ; then \
+      ${CVS} get $$TAG $$DEPPROJECT || exit ; \
+    fi ; \
+    ${MAKE} -C $$DEPPROJECTDIR/src DEPROOT=../.. PRJROOT=$$DEPPROJECTDIR EXTLIB="${EXTLIB_LOCAL}" DOLOCALRELEASE=1 $@ || exit ; \
+    SRC=$$DEPPROJECTDIR/src/${RELEASEDIR} ; \
+    for SUB in inc lib ; do \
+      [ ! -d $$SRC/$$SUB ] || ln -s ${DEPROOT}/$$SRC/$$SUB ${PRJROOT}/$$SUB/$$DEPPROJECT ; \
+      for SUBDEP in $$DEPPROJECTDIR/$$SUB/* ; do \
+        [ "$$SUBDEP" = $$DEPPROJECTDIR/$$SUB/'*' ] || ln -s ${DEPROOT}/$$SUBDEP ${PRJROOT}/$$SUB/`basename $$SUBDEP` ; \
+      done; \
+    done; \
+  done ; \
+  touch ${EXTLIB_LOCAL} ; \
+fi
+endef
+
+define update_extlib
+cd ${DEPROOT} ; \
+[ ! -f ${PRJROOT}/src/${RELEASEDIR}/lib/${PROJECT}.a ] || echo "LIBADD += $$""{ROOT}/../lib/${PROJECT}/${PROJECT}.a" >> ${EXTLIB} ; \
+cat ${EXTLIB_LOCAL} >> ${EXTLIB}
+endef
+
+ifneq (${DOLOCALRELEASE},)
+prepare: load-release-no-clobber
+endif
+
+prepare:
+	@echo "Preparing ${PROJECT}"
+	@${make_prepare}
+	@${update_extlib}
+	-@${MAKE} verify-version
+
+
+prepare-struct-fake-release:
+	@mkdir -p ${RELEASEDIR}/{inc,lib}
+	@touch ${RELEASEDIR}/lib/${PROJECT}.a
+
+prepare-struct: prepare-struct-fake-release
+	@echo "Preparing ${PROJECT}"
+	@${make_prepare}
+	@${update_extlib}
+	@${MAKE} verify-version
+
+
+prepare-risky: set_tag := DEPPROJECTDIR=$$DEPPROJECT
+
+prepare-risky: 
+	@echo "Risky-preparing ${PROJECT}"
+	@${make_prepare}
+	@if [ ${DOLOCALRELEASE} ] ; then ${MAKE} local-release ; fi
+	@${update_extlib}
+
+
+define load_release
+if [ ! -d ${RELEASEDIR} ] ; then \
+  ${get_label} ; \
+  STATUS=$$(ssh ${RELEASE_SERVER} "cat ${S_RELEASEDIR}/${CFG}/status" 2>/dev/null ) ; \
+  [ "$$STATUS" != "0" ] || { echo 'Release has status UNSUCCESSFUL ' ; exit 1 ; } ; \
+  mkdir -p ${RELEASEDIR} ; \
+  if [ "$$STATUS" == "1" ] ; then \
+    echo "Loading ${PROJECT} release" ; \
+    ssh ${RELEASE_SERVER} "cat ${S_RELEASEDIR}/${CFG}/release.tgz" | tar -xzvC ${RELEASEDIR} ; \
+  else \
+    echo 'Release has no status' ; \
+    ${MAKE} CFG=${CFG} request-release-cfg ; \
+  fi ; \
+fi
+endef
+
+
+load-release-no-clobber:
+	@${load_release}
+
+load-release:
+	@rm -rf ${RELEASEDIR}
+	@${load_release}
+
+
+define verify_version
+cd ${DEPROOT} ; \
+DEPPROJECTS="${DEPPROJECTS}" ; \
+for DEPPROJECT in $$DEPPROJECTS ; do \
+  ${set_tag} ; \
+  if [ "$$DPL" -a "$$DEPPROJECT-`cat $$DEPPROJECTDIR/src/version`" != "$$DPL" ] ; then \
+    echo Несовместимость ${PROJECT}/$$DEPPROJECT : $$DPL != $$DEPPROJECT-`cat $$DEPPROJECTDIR/src/version`; \
+    exit 1 ; \
+  fi ; \
+  ${MAKE} -C $$DEPPROJECTDIR/src $@ || exit ; \
+done;
+endef
+
+verify-version:
+	@${verify_version}

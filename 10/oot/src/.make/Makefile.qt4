@@ -1,0 +1,53 @@
+# $Id: Makefile.qt4,v 1.1.2.3 2007/07/26 12:10:04 dumb Exp $
+
+ifneq ($(filter qt4,${MAKE_FLAGS}),)
+
+ifneq ($(strip ${uics} ${mocs} ${uis}),)
+
+UIC ?= ${QTDIR}/bin/uic
+MOC ?= ${QTDIR}/bin/moc
+
+UIDIR ?= ./ui
+UI_MAGIC := $(shell mkdir ${UIDIR} >/dev/null 2>&1)
+
+
+${UIDIR}/ui_%.h: %.ui
+	@echo 'Uicing     $<'
+	@${UIC} -o $@ $<
+
+${UIDIR}/moc_%.cpp: %.h
+	@echo 'Mocing     $<'
+	@${MOC} ${INC} -o $@ $<
+
+${OBJDIR}/%.d: ${UIDIR}/%.cpp
+	@${make_cxxdep}
+
+${OBJDIR}/%.o: ${UIDIR}/%.cpp
+	@${make_cxx}
+
+
+drvd_uics = $(addprefix ${UIDIR}/ui_,$(notdir $(addsuffix .h,$(basename $(uis)))))
+_uics = ${uics}
+
+drvd_mocs = $(addprefix ${UIDIR}/moc_,$(notdir $(addsuffix .cpp,$(basename $(uics)))))
+_mocs = ${mocs} ${drvd_mocs}
+
+_srcs += ${_uics} ${_mocs}
+
+${_mocs} ${_srcs}: ${drvd_uics}
+
+${UIDIR}/uicing.passed: ${drvd_uics}
+	@touch $@
+
+${_deps} ${exe_deps}: ${UIDIR}/uicing.passed
+
+ui: ${drvd_uics} ${_uics} ${_mocs}
+Makefile: ${drvd_uics}
+
+.PRECIOUS: ${UIDIR}/ui_%.h ${UIDIR}/moc_%.cpp
+
+include ${ROOT}/.make/Makefile.dep
+
+endif
+
+endif

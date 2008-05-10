@@ -1,0 +1,122 @@
+1) символьные имена
+
+   ./ - $METAROOT (с уровня подпроекта)
+    +-arch.inc
+    `-project/ - $PROJECT (только имя)
+             +-src/ - $ROOT (с уровня подпроекта)
+             |    +-Makefile
+             |    +-@Makefile.inc
+             |    +-@makefile
+             |    +-project.conf
+             |    +-version
+             |    +-inc.inc
+             |    +-extlib.inc
+             |    `-subproject/
+             |                +-Makefile
+             |                +-inc/
+             |                +-src/
+             |                `-tst/
+             +-release/ - $RELEASEDIR (с уровня $ROOT)
+             |        +-inc/
+             |        `-lib/
+             +-dep/ - $DEPDIR (с уровня $ROOT)
+             |    +-dep1-x_x_x_x/
+             |    | ...
+             |    `-depN-x_x_x_x/
+             +-inc/
+             |    +-~dep1
+             |    | ...
+             |    `-~depN
+             `-lib/
+                  +-~dep1
+                  | ...
+                  `-~depN
+
+2) вид проекта в cvs
+
+   ./
+    `-project/
+             `-src/
+                  +-Makefile
+                  +-project.conf
+                  +-version
+                  +-inc.inc
+                  `-subproject/
+                              +-Makefile
+                              +-inc/
+                              +-src/
+                              `-tst/
+
+3) проект подготовленный make prepare
+   ./
+    +-arch.inc
+    +-project/
+    |        +-src/
+    |        |    +-Makefile
+    |        |    +-@Makefile.inc
+    |        |    +-@makefile
+    |        |    +-project.conf
+    |        |    +-version
+    |        |    +-inc.inc
+    |        |    +-extlib.inc
+    |        |    +-.make/
+    |        |    `-subproject/
+    |        |                +-Makefile
+    |        |                +-inc/
+    |        |                +-src/
+    |        |                `-tst/
+    |        +-release/
+    |        |        +-inc/
+    |        |        `-lib/
+    |        +-inc/
+    |        |    +-~dep1
+    |        |    | ...
+    |        |    `-~depN
+    |        `-lib/
+    |             +-~dep1
+    |             | ...
+    |             `-~depN
+    |
+    +-dep1-x_x_x_x/
+    |             `-release/
+    |                      +-inc/
+    |                      `-lib/
+    | ...
+    `-depN-x_x_x_x/
+                  `-release/
+                           +-inc/
+                           `-lib/
+
+4) проект подготовленный make prepare-risky
+   ./
+    +-arch.inc
+    +-project/
+    |        +-src/
+    |        |    +-Makefile
+    |        |    +-@Makefile.inc
+    |        |    +-@makefile
+    |        |    +-project.conf
+    |        |    +-version
+    |        |    +-inc.inc
+    |        |    +-extlib.inc
+    |        |    +-.make/
+    |        |    `-subproject/
+    |        |                +-Makefile
+    |        |                +-inc/
+    |        |                +-src/
+    |        |                `-tst/
+    |        +-release/
+    |        |        +-inc/
+    |        |        `-lib/
+    |        +-inc/
+    |        |    +-~dep1
+    |        |    | ...
+    |        |    `-~depN
+    |        `-lib/
+    |             +-~dep1
+    |             | ...
+    |             `-~depN
+    |
+    +-dep1/
+    | ...
+    `-depN/

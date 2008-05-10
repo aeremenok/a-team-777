@@ -1,0 +1,52 @@
+#! /bin/bash
+
+function onExit()
+{
+  rm -f $KEY
+}
+
+KEY=autoreader.key
+
+trap onExit EXIT
+
+cat >$KEY << EOF
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAukkgkaYhL2kL063y1WT3+MWXPk8rQkr5lZI5qkTqn44rGAB1
+VFbUj62JB4N8kuwV142PwjyAMC2V3Tm6yW/NSo4GWZSBPCCkrncf6I3LMZRWAWju
+CgnkI+/TG48rlAhQwMtXl5+gIT/UJvARNmntadteSIlp73lg5sExwXH1jeyvlH8X
+30KPcntcj9D4CBiKssT50Knp0kp2Znef1xi0ORaOtlcTT6k/281E+nxnPaXAlQah
+8WzxeLqsf49ZhcneXM8T599NFBzkKgGq3FyzzYo3yIpz5w0UtHG1fa/hZu7YyccM
+Q9MjoS4FxGGLhbaDLjyah8cOZsKQGSGb095P6wIBIwKCAQEAj7TBWmo2225K88C0
+A7RKQ5Ec5uydtswfn0Tqp+wFc8Vxs24RXlGcqVn7/ntgGZGNMUFRpHfQmjHLYYRO
+Q59j2m2P3rRjsgqNqyiyNw5MStGELPksqKiLbC4JQSVNgNM2+yCFZlaReLw18ibo
+tPKhNGdl/XFRuLy4d38XwR1lp/5n5l5ppowI93biYbPtniNOvcnzeEDxTNxyc9Pd
++l1TnT11q1hLC6CqNNGsA0ZOeQAW2tHYqWPjS98zwAcG8S3Wf9LH3tlz8WZ/bmwK
+mT9VOJRRSLbMqHVFGTzG4yRsXPisva81nXpyfRjGu93J+VjWDoApV47bB3dTrpjM
+D8ZdowKBgQDySxTXqF9X0wxbxsLxSdUSNAWeBCO81yXONZADI+hqoeFoDTzk7WjG
+e3C1i1rWOeWYdjmDiEH9kmElqfk9c/UmFumahWboLnLRuckSsevLbbWbIaB+zHFP
+hAqhoxges2jhSCIPCWaAP3TjOlFZFt0MEu8Wh3Ypmq/Y6KDwTPGGVQKBgQDE0u/d
+L5X8l4kKvC5Ef33/dcMNOh8HJbsKWGMxGU8DILYS3fOUNrwOhDBRo8ZtqUTIH5cr
+ep/8qexWtrxoZ2nklrfLoGf+AhI915mT6IcbFnylD8QbNsFiIqaD0Jfz3DClziCu
+PuDfkCc9XaTXSBD5VFuHTHHI3tbY71vI7bw9PwKBgQCmJNsXiWXzFGA+7rGPgxXD
+Vt9HyFMFJdDH6jbdlPckjELLAcNbJnO7TVSZvqSwJ7NhOyAfreQbl5MSgy6Qigcw
+D7Yg0IEUPRuIf2VOpeOELfjfZ4P/LRp/qv/5zuv3y3seItWGp1w6ryuUf8LAvzh9
+Ts/U7yx0TNBaOR3mmylGKwKBgEN7hXBoFiq3nLM5NG9Bp4rJSjBrst3hDO2apapv
+E8aO31btAw4+puBn1g1cuQ+nv8+VzW3+KDle1LAEI1b+4npCTaTmig3yFOIAxvDi
+Am+v8DiXsPNjOv0TMcbLLMijQ+ETeOtIwiDDta6jw30Cw/22hcf888/XX5rVuRGw
+mE+DAoGAejE8RHYsRYpv3loYkS4nSR+ggMiRRu6i8B/XMp5/3cZ4BVjTOaxDq0sl
++iznlsLVsDZF97l4u5MCGs56b4jRj/ARAuamk04QWtKr92hBWPI2w6l5jdfPdAeQ
+fHdZUYnudZXxb/dvsB5KbgzBApMaXFQ4fZlXyMQIIYXPmMW00jg=
+-----END RSA PRIVATE KEY-----
+EOF
+
+chmod go-rwx $KEY
+
+[ -f ~/.ssh/id_rsa.pub ] || ssh-keygen -t rsa
+
+SERVERS='192.168.81.7'
+[ $# == 0 ] || SERVERS="$@"
+
+for SERVER in $SERVERS
+do
+  cat ~/.ssh/id_rsa.pub | ssh -q -i $KEY autoreader@$SERVER "./register $USER"
+done

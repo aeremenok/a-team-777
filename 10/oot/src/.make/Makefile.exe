@@ -1,0 +1,20 @@
+# $Id:$
+
+exe_TARGET ?= ${TARGET}
+
+
+define make_exe
+echo 'Linking   ' $@
+${LD} ${ldflags} ${_objs} ${libadd} ${ldadd} -o $@
+endef
+
+exe ${exe_TARGET}: GOAL := exe
+exe: ${exe_TARGET}
+
+GOAL := exe
+exe_deps := ${_deps} ${_objs} ${libadd}
+
+${exe_TARGET}: ${exe_deps}
+	@${make_exe}
+
+include ${ROOT}/.make/Makefile.dep

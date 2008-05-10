@@ -1,0 +1,10 @@
+# $Id: Makefile.dep,v 1.2.2.1 2006/03/02 17:15:56 dumb Exp $
+
+ifeq (,$(filter clean distclean,${MAKECMDGOALS}))
+ifneq (${drvd_deps},)
+
+Makefile: ${drvd_deps}
+-include ${drvd_deps}
+
+endif
+endif

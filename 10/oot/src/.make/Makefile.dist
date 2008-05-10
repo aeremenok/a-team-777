@@ -1,0 +1,49 @@
+# $Id: Makefile.dist,v 1.1.2.4 2008/01/11 14:22:06 dumb Exp $
+
+include project.conf
+include .make/Makefile.defs
+
+SHELL := /bin/bash
+
+DISTNAME ?= ${PROJECT}
+NAME ?= ${DISTNAME}-$(shell cat version | sed 's/-.*//g' | sed 's/_/./g' )
+
+define dist
+VERSION="${PROJECT}-`cat version`" ; \
+DISTFILE="${PWD}/${RELEASEDIR}/${NAME}.tar.gz" \
+TMP=`mktemp -d` ; \
+( mkdir "$$TMP/${NAME}" ; cd $$TMP ; pushd "${NAME}" ; \
+  cvs get -r $$VERSION ${PROJECT} && pushd ${PROJECT}/src && \
+  ${MAKE} prepare-struct && popd && rm -rf */released && popd && \
+  tar -czf "$$DISTFILE" "${NAME}" ) ; \
+rm -rf $$TMP
+endef
+
+${RELEASEDIR}/${NAME}.tar.gz:
+	@echo 'Archiving ${NAME}.tar.gz'
+	@${dist}
+
+dist: ${RELEASEDIR}/${NAME}.tar.gz
+
+
+define srpm
+rpmbuild --nodeps -bs \
+  --eval '%define _sourcedir ${RELEASEDIR}' \
+  --eval '%define _srcrpmdir ${RELEASEDIR}' \
+  ../install/${DISTNAME}.spec
+endef
+
+srpm: dist
+	@echo 'Making SRPM'
+	@${srpm}
+
+
+define rpm
+mkdir -p ${RELEASEDIR}/rpm
+mock --rebuild ${RELEASEDIR}/*.src.rpm --result ${RELEASEDIR}/rpm
+endef
+
+rpm: srpm
+	@echo 'Mocking SRPM into RPM'
+	@${rpm}
+
