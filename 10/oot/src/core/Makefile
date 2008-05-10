@@ -7,7 +7,7 @@ ROOT ?= ..
 # target name & sources list
 TARGET ?= core
 
-SRCS = Graph.cpp
+SRCS = Graph.cpp User.cpp UserCookie.cpp
 
 
 test_SRCS := TestSuite_core.cpp

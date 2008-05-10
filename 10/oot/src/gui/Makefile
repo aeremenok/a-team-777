@@ -1,9 +1,9 @@
 # $Id: Makefile,v 1.26 2008/03/17 07:33:01 zps Exp $
 
-MAKE_FLAGS += qt4
+MAKE_FLAGS += qt4 recursive
 
 SUBUI = ${SUBDIRS}
-SUBDIRS = 
+SUBDIRS = LoginDialog
 
 ROOT ?= ..
 
