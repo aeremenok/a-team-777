@@ -1,0 +1,35 @@
+
+Sub Main
+    Dim Result As Integer
+
+    'Initially Recorded: 11.05.2008  23:19:44
+    'Script Name: my6
+    
+    
+    Window SetContext, "Caption=Редактор ГТД - Windows Internet Explorer", ""
+    
+    SetThinkAvg 859
+    HTML Click, "HTMLId=ext-gen16", "Coords=250,100"    
+    SetThinkAvg 234
+    TypingDelays "0, 296, 281, 234, 203"
+    InputKeys "54321"
+    
+    
+    
+    
+    Dim SubResult As Integer
+    Result = HTMLVP (CompareData, "HTMLId=ext-gen16", "VP=54321;Wait=2.30")
+    
+    
+    
+    SetThinkAvg 859
+    HTML Click, "HTMLId=ext-gen16", "Coords=250,35"    
+    'HTMLId  HTMLText HTMLTitle Index Name
+
+    
+    SetThinkAvg 234
+    TypingDelays "0, 296, 281, 234, 203"
+    InputKeys "54321"
+    
+   
+End Sub

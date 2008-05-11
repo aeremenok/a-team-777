@@ -1,0 +1,148 @@
+/////////////////////////////////////////////////////////////////////
+//
+//    Name:         JavaClassMap.dat   
+//
+//    Description:  The JavaClassMap.dat informs the Java runtime support
+//                  how to map Java components to supported Robot operations.
+//
+//    Revision History
+//    Who           Date        Revision
+//	  btobin		06/23/99	Update command specification to reflect actual
+//								commands.
+//	  btobin		08/14/98	Add requested notes by the doc folks
+//    btobin        07/19/98    Update component mapping; Canvas = Panel so remove, 
+//                              Applet/Dialog/Frame = Window functionally so remove.
+//                              Add JavaTableHeader.
+//    btobin        06/24/98    Add JavaIgnore component operation.
+//    btobin        06/10/98    Created.
+/////////////////////////////////////////////////////////////////////
+//
+// Example entry might be:
+//
+//[JavaPushButton]
+//mycompany.myproject.MyWhizzyButton
+//
+// Notes:
+// - the full class name is needed. 
+// - follows the Robot identifier for the Robot operation.  
+// - all class names in this file are case sensitive, just as they are in Java.
+// - component identifiers (in brackets []) are not case sensitive.
+// - comments and white-space are ignored, comments start with "//" or "#".
+// - class names and operations must be on a line alone (no comments on same line).
+//
+// The Robot class names encased in brackets [] are all prefixed
+// with "Java" to aviod confusion with the HWND based mapping of
+// the same Robot commands.  For instance the "Pushbutton" Robot
+// command type has been replaced by "JavaPushbutton" in this file
+// specification.  The "Java" prefix is not significant for any of
+// the non-Java specific command types.  For the Java specific 
+// command types (JavaPanel, JavaWindow, JavaTable, JavaTree, etc)
+// the prefix is significant.
+//
+// You made add as many entries under each Robot command specification
+// as desired.  If you have two whizzy buttons you may both.  There
+// is not a limit on the number of entries.  However, if you add a
+// MyWhizzyButton you need not add another MyWhizzierButton if it
+// extends the previous class.  The superclass hierarchy is searched 
+// for all components until a supported class is located (or the
+// class is just mapped to JavaObject).
+//
+// A leading '*' or trailing " *" indicates that the command is a subobject
+// and not an actual command.  This is a visual indicator for the GUI
+// class mapping dialog.  Visual flag is needed to show a difference in
+// these commands relative to the other class specifications.
+//
+
+[JavaObject]
+
+
+[PushButton]
+
+
+[CheckBox]
+
+
+[RadioButton]
+
+
+[ComboBox]
+
+
+[ComboListBox]
+
+
+[Label]
+
+
+[ListBox]
+
+
+[ScrollBar]
+
+
+[EditBox]
+
+
+[TrackBar]
+
+
+[TabControl]
+
+
+[ProgressBar]
+
+
+[JavaPanel]
+
+
+[JavaWindow]
+
+
+[JavaTree]
+
+
+[JavaSplitPane]
+
+
+[JavaSplitter]
+
+
+[JavaMenuBar *]
+
+
+[JavaMenu *]
+
+
+[JavaMenuItem *]
+
+
+[JavaCheckBoxMenuItem *]
+
+
+[JavaMenuSeparator *]
+
+
+[JavaPopupMenu]
+
+
+[JavaTable]
+
+
+[JavaTableHeader]
+
+
+[JavaCanvas]
+
+
+[JavaListView]
+
+
+[Toolbar]
+
+
+[Java_Ignore]
+// Components that follow this component type will be ignored
+// by Robot.  For instance the Box$Filler class in Swing is of
+// no interest from a testing perspective and the containing
+// panel should be used in it's place.
+

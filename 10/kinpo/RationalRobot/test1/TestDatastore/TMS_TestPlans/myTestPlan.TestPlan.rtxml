@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<TestPlan>
+   <UID><![CDATA[2ccaeb80-6c3f-42c8-8fd779f729121193]]></UID>
+   <Name><![CDATA[myTestPlan]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:11:22:43:33]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:11:22:43:33]]></ModificationDate>
+   <LastModifiedBy><![CDATA[admin]]></LastModifiedBy>
+   <CreatedBy><![CDATA[admin]]></CreatedBy>
+   <Owner><![CDATA[admin]]></Owner>
+   <Custom1 />
+   <Custom2 />
+   <Custom3 />
+   <ExternalDocuments />
+   <Parent><![CDATA[1e47d9c9-2d03-4bd7-bc3cb1995e754eb]]></Parent>
+   <Iterations />
+   <Configurations />
+</TestPlan>
+</TestAsset>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<Log>
+   <UID><![CDATA[a5f501c2-140-478a-9b7b856fcd2ac192]]></UID>
+   <Name><![CDATA[user_sequences]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:22:24:47]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:22:24:47]]></ModificationDate>
+   <LastModifiedBy><![CDATA[admin]]></LastModifiedBy>
+   <CreatedBy><![CDATA[admin]]></CreatedBy>
+   <UAWPath />
+   <MasterLogFilePath />
+   <PerformanceDataPath />
+   <VPPath />
+   <AgentLogFilesPath />
+   <Promoted />
+   <Defects />
+   <AttachedLogFilesPath />
+   <Cached />
+   <Suite />
+   <Build><![CDATA[d1c555b7-754a-4157-92a8c48129682bcc]]></Build>
+   <Parent><![CDATA[59b45ac-19b-4ed8-aca582cb25a0683c]]></Parent>
+</Log>
+</TestAsset>

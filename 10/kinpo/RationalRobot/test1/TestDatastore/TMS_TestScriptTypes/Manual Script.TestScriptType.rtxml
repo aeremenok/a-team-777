@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<TestScriptType>
+   <UID><![CDATA[63ba3bd6-8cbc-4b37-b2638fe9195a1289]]></UID>
+   <Name><![CDATA[Manual Script]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:15]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:15]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <Owner><![CDATA[TestManagementSystem]]></Owner>
+   <ConsoleAdapterName><![CDATA[rtconsoleadapter]]></ConsoleAdapterName>
+   <ExecutionAdapterName><![CDATA[rttseacmd]]></ExecutionAdapterName>
+   <ConsoleAdapterType><![CDATA[1]]></ConsoleAdapterType>
+   <ExecutionAdapterType><![CDATA[2]]></ExecutionAdapterType>
+   <NewMethod />
+   <EditMethod />
+   <SelectMethod />
+   <RecordMethod />
+   <ExecutionMethod><![CDATA[RTManualTest -run {testscript} -project "{project}" -user "{username}" -password "{password}"]]></ExecutionMethod>
+   <SelectUseFileDlg><![CDATA[0]]></SelectUseFileDlg>
+   <ConsoleAdapterPath />
+   <ExecutionAdapterPath />
+   <Flags><![CDATA[0]]></Flags>
+   <Type><![CDATA[32]]></Type>
+   <MaxTesters><![CDATA[1]]></MaxTesters>
+   <Parent><![CDATA[11be3bb2-6f83-43ed-942613fb1b163fda]]></Parent>
+   <ScriptSources><![CDATA[a64b6bd6-ee83-42ef-9984fe54d48c78c9]]></ScriptSources>
+</TestScriptType>
+</TestAsset>

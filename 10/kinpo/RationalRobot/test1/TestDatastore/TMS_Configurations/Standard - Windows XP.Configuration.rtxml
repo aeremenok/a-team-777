@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<Configuration>
+   <UID><![CDATA[38d6f621-fee2-4e39-8ff37e342c16479]]></UID>
+   <Name><![CDATA[Standard - Windows XP]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:15]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:15]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <Owner><![CDATA[TestManagementSystem]]></Owner>
+   <Attributes Name="Operating System" Operator="1"><![CDATA[Windows]]></Attributes>
+   <Attributes Name="OS Version" Operator="1"><![CDATA[XP]]></Attributes>
+   <Parent><![CDATA[3f491b24-f14d-4765-ab3d1ae617f17168]]></Parent>
+</Configuration>
+</TestAsset>

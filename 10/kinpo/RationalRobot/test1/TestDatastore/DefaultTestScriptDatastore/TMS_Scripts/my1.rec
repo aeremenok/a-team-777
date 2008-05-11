@@ -1,0 +1,17 @@
+
+Sub Main
+    Dim Result As Integer
+
+    'Initially Recorded: 11.05.2008  23:00:41
+    'Script Name: my1
+    
+    Window SetContext, "Class=Shell_TrayWnd", ""
+    Toolbar Click, "Text=Выполнение приложений;\;ItemText=Java EE - EDGWT/web/META-INF/context.xml - Eclipse Platform", "Coords=101,20"
+    
+    Window SetContext, "Caption=Редактор ГТД - Windows Internet Explorer", ""
+    Browser NewPage,"HTMLTitle=Редактор ГТД;Index=0",""
+    EditBox Left_Drag, "HTMLId=ext-gen16", "Coords=54,9,-25,3"
+    EditBox Click, "HTMLId=ext-gen16", "Coords=29,10"
+    InputKeys "123"
+
+End Sub

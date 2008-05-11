@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<ListingReport>
+   <UID><![CDATA[1ca72bec-e1f3-4ed2-b6d11b28d02a9ff]]></UID>
+   <Name><![CDATA[Configuration Summary (Rational)]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:15]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:15]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <AssetType><![CDATA[Configuration]]></AssetType>
+   <LayoutFilePath><![CDATA[Configuration Summary (Rational)]]></LayoutFilePath>
+   <LayoutType />
+   <Extended />
+   <Parent><![CDATA[3f491b24-f14d-4765-ab3d1ae617f17168]]></Parent>
+</ListingReport>
+</TestAsset>

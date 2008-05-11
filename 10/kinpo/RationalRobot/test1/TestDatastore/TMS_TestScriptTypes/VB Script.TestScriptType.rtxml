@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<TestScriptType>
+   <UID><![CDATA[a0c783b-bd7c-4eb9-bf111a8616d3438]]></UID>
+   <Name><![CDATA[VB Script]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:15]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:15]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <Owner><![CDATA[TestManagementSystem]]></Owner>
+   <ConsoleAdapterName><![CDATA[rtconsoleadapter]]></ConsoleAdapterName>
+   <ExecutionAdapterName><![CDATA[rttseavb]]></ExecutionAdapterName>
+   <ConsoleAdapterType><![CDATA[1]]></ConsoleAdapterType>
+   <ExecutionAdapterType><![CDATA[1]]></ExecutionAdapterType>
+   <NewMethod />
+   <EditMethod />
+   <SelectMethod />
+   <RecordMethod />
+   <ExecutionMethod />
+   <SelectUseFileDlg><![CDATA[0]]></SelectUseFileDlg>
+   <ConsoleAdapterPath />
+   <ExecutionAdapterPath />
+   <Flags><![CDATA[0]]></Flags>
+   <Type><![CDATA[16]]></Type>
+   <MaxTesters><![CDATA[0]]></MaxTesters>
+   <Parent><![CDATA[11be3bb2-6f83-43ed-942613fb1b163fda]]></Parent>
+   <ScriptSources><![CDATA[70b06e07-3062-49ee-b099ea67c5502443]]></ScriptSources>
+</TestScriptType>
+</TestAsset>

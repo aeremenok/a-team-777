@@ -1,0 +1,26 @@
+
+Sub Main
+    Dim Result As Integer
+
+    'Initially Recorded: 10.05.2008  22:23:46
+    'Script Name: user_sequences
+    
+    Window SetContext, "Class=Shell_TrayWnd", ""
+    Toolbar Click, "Text=¬ыполнение приложений;\;ItemText=MySQL Administrator", "Coords=37,18"
+    
+    Window SetContext, "Caption=–едактор √“ƒ - Windows Internet Explorer", ""
+    Browser NewPage,"HTMLTitle=–едактор √“ƒ;Index=0",""
+    EditBox Click, "HTMLId=ext-gen53", "Coords=25,7"
+    InputKeys "авываы"
+    EditBox Left_Drag, "HTMLId=ext-gen59", "Coords=138,13,-49,-11"
+    InputKeys "фыфва"
+    EditBox Left_Drag, "HTMLId=ext-gen65", "Coords=123,8,-3,6"
+    InputKeys "йййййй"
+    EditBox Click, "HTMLId=ext-gen71", "Coords=79,7"
+    InputKeys "уууу"
+    EditBox Click, "HTMLId=ext-gen77", "Coords=25,14"
+    InputKeys "ццццц"
+    EditBox Left_Drag, "HTMLId=ext-gen234", "Coords=119,12,-46,1"
+    InputKeys "€€€€€€€€€"
+
+End Sub

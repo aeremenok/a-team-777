@@ -1,0 +1,19 @@
+
+Sub Main
+    Dim Result As Integer
+
+    'Initially Recorded: 11.05.2008  23:13:25
+    'Script Name: my5
+    
+    Window SetContext, "Class=Shell_TrayWnd", ""
+
+    'Toolbar Click, "Text=Выполнение приложений;\;ItemText=Java EE - EDGWT/web/META-INF/context.xml - Eclipse Platform", "Coords=47,9"
+    
+    Window SetContext, "Caption=Редактор ГТД - Windows Internet Explorer", ""
+
+    EditBox Click, "HTMLId=ext-gen16", "Coords=8,10"
+    SetThinkAvg 100
+    'TypingDelays "0, 109, 234"
+    InputKeys "456"
+
+End Sub

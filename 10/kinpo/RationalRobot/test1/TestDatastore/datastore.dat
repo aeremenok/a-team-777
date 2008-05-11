@@ -1,0 +1,9 @@
+DatastoreCMLevel=0
+DatabaseType=ACCESS
+PhysicalDBLocation=G:\Downloads\RationalRobot\test1\TestDatastore
+DatastoreVersion=2004.02.31
+DatastoreDSN=RATL_RT_TestManagementDatastore
+DatastoreName=test1-TestManagementDatastore
+ServerName=
+ClientProtocols=
+HostNames=

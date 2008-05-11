@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<TestScriptType>
+   <UID><![CDATA[c8c71c4c-322d-41bb-8b197dc683689037]]></UID>
+   <Name><![CDATA[Robot VU Script]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:15]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:15]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <Owner><![CDATA[TestManagementSystem]]></Owner>
+   <ConsoleAdapterName><![CDATA[rtconsoleadapter]]></ConsoleAdapterName>
+   <ExecutionAdapterName><![CDATA[System]]></ExecutionAdapterName>
+   <ConsoleAdapterType><![CDATA[1]]></ConsoleAdapterType>
+   <ExecutionAdapterType><![CDATA[1]]></ExecutionAdapterType>
+   <NewMethod />
+   <EditMethod />
+   <SelectMethod />
+   <RecordMethod />
+   <ExecutionMethod />
+   <SelectUseFileDlg><![CDATA[0]]></SelectUseFileDlg>
+   <ConsoleAdapterPath />
+   <ExecutionAdapterPath />
+   <Flags><![CDATA[0]]></Flags>
+   <Type><![CDATA[2]]></Type>
+   <MaxTesters><![CDATA[0]]></MaxTesters>
+   <Parent><![CDATA[11be3bb2-6f83-43ed-942613fb1b163fda]]></Parent>
+   <ScriptSources><![CDATA[c1d7e3d6-8b05-4c89-9afc1f7556a783]]></ScriptSources>
+</TestScriptType>
+</TestAsset>

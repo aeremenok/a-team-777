@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<Datapool>
+   <UID><![CDATA[e4afdcf4-84c1-44ab-874f1cafbb6e6af1]]></UID>
+   <Name><![CDATA[RTAuthentication]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:14]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:14]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <CSVFilePath />
+   <SPCFilePath />
+   <Cursor />
+   <Parent><![CDATA[d234162e-f197-4a74-ba6cceb18bd2bdf]]></Parent>
+</Datapool>
+</TestAsset>

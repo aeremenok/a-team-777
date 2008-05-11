@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<Script>
+   <UID><![CDATA[2c4adf63-2259-460b-ac6acb9d56d18bb1]]></UID>
+   <Name><![CDATA[my1]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:11:23:00:41]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:11:23:01:00]]></ModificationDate>
+   <LastModifiedBy><![CDATA[admin]]></LastModifiedBy>
+   <CreatedBy><![CDATA[admin]]></CreatedBy>
+   <Owner><![CDATA[admin]]></Owner>
+   <Purpose />
+   <Environment />
+   <Type><![CDATA[1]]></Type>
+   <TypeName><![CDATA[GUI]]></TypeName>
+   <Custom1 />
+   <Custom2 />
+   <Custom3 />
+   <Developed><![CDATA[0]]></Developed>
+   <SpecFilePath />
+   <SpecNotes />
+   <Defines />
+   <Libraries />
+   <ClassPath />
+   <VPPath />
+   <DLLPath />
+   <IncludePath />
+   <LLSPath />
+   <ExternCPath />
+   <IDLPath />
+   <DATPath />
+   <SQABasicPath />
+   <JavaProxiesPath />
+   <Win32Path />
+   <DesignStepType />
+   <DesignStepText />
+   <DesignStepNotes />
+   <DesignStepExpectedResult />
+   <DesignStepExpectedResultFile />
+   <FilePath />
+   <Parent><![CDATA[5ecc83a5-30d0-4f49-b94ae32be4f3af9]]></Parent>
+   <Session />
+</Script>
+</TestAsset>
