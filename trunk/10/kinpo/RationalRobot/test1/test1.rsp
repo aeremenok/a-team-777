@@ -1,0 +1,13 @@
+[General]
+Name=test1
+Location=G:\Downloads\RationalRobot\test1\
+Path=G:\Downloads\RationalRobot\test1\test1.rsp
+Version=7.0.0.0
+UCMEnabled=0
+TestAssetsCMEnabled=0
+RequirementsCMEnabled=0
+ClearQuestDatabaseName=
+ClearQuestDbConnectionName=
+Password=456
+TestUserGroupDatastorePath=G:\Downloads\RationalRobot\test1\TestUsersAndGroups
+TestDatastorePath=G:\Downloads\RationalRobot\test1\TestDatastore

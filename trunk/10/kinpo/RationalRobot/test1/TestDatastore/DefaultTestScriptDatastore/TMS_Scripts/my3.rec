@@ -1,0 +1,17 @@
+
+Sub Main
+    Dim Result As Integer
+
+    'Initially Recorded: 11.05.2008  23:12:03
+    'Script Name: my3
+    
+    Window SetContext, "Caption=Редактор ГТД - Windows Internet Explorer", ""
+
+    HTML Click, "HTMLId=ext-gen16", "Coords=4,5"
+
+    EditBox Click, "HTMLId=ext-gen16", "Coords=46,11"
+
+    TypingDelays "0, 312, 250"
+    InputKeys "456"
+
+End Sub

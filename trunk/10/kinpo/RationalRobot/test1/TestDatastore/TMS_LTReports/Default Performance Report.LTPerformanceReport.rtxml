@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<LTPerformanceReport>
+   <UID><![CDATA[ee40f524-3a77-4262-994c384ee023c85]]></UID>
+   <Name><![CDATA[Default Performance Report]]></Name>
+   <Owner><![CDATA[TestManagementSystem]]></Owner>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:15]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:15]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <ReportType><![CDATA[2]]></ReportType>
+   <FilePath />
+   <Parent><![CDATA[8e4aa855-31d0-4935-bc1cbb4cb4ae9eb2]]></Parent>
+</LTPerformanceReport>
+</TestAsset>

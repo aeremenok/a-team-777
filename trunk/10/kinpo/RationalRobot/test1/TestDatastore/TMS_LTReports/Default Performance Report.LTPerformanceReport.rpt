@@ -1,0 +1,63 @@
+LOADTEST REPORT
+TYPE: PERFORMANCE
+VERSION: 1
+bModified = 0
+bBeginTime = 0
+bEndTime = 0
+bLowerResponseLimit = 0
+bUpperResponseLimit = 0
+bResponseTypes = 0
+bPercentileInterpolation = 1
+bLoadLevel = 0
+bWideFormat = 0
+bMagnitudeSort = 0
+bHttpConnectionChecked = 1
+bBlockTimersChecked = 1
+bOthersChecked = 1
+bTestcaseChecked = 1
+nBeginTime = 0
+nEndTime = 2147483647
+nLoadLevel = 0
+nSummaryChecked = 0
+szRespTypes = <(null)>
+szCalculation = <lslr>
+szPercentiles = <50,70,80,90,95>
+szLowerResponseLimit = <(null)>
+szUpperResponseLimit = <(null)>
+nGraphMethodChecked = 2
+nGraphTypeChecked = 3
+bTimestamps = 1
+nResponseStatus = 97
+szSourceLine = <(null)>
+szCommandCount = <(null)>
+bProcessInFull = 0
+bProcessErrors = 0
+bCarriageReturn = 0
+bNewLine = 0
+bBackSpace = 0
+bFormFeed = 0
+bHorizontalTab = 0
+szResponseTypes = <(null)>
+szEnvVars = <(null)>
+szEscapeSequence = <(null)>
+bAbsolute = 0
+bWeighted = 0
+nCompareField = 0
+nPercentile = 0
+szPercentile = <(null)>
+szXAxisLabel = <(null)>
+szYAxisLabel = <(null)>
+szHeaderLine = <(null)>
+szFooterLine = <(null)>
+nTimers = 0
+nSorting = 0
+bSelectedUsers = 0
+bSelectedScripts = 0
+bSelectedCommands = 0
+szzSelectedUsers
+EndUsers
+szzSelectedScripts
+EndScripts
+szzSelectedCommands
+EndCommands
+EndOfReportFile

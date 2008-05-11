@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<TestInputType>
+   <UID><![CDATA[7fcf6aee-c0d3-476e-91424d74f4521ed2]]></UID>
+   <Name><![CDATA[Rational Rose]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:15]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:15]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <Owner><![CDATA[TestManagementSystem]]></Owner>
+   <AdapterName><![CDATA[RTroseadapter.dll]]></AdapterName>
+   <Flags />
+   <Type><![CDATA[2]]></Type>
+   <Parent><![CDATA[e91550c4-eee8-492a-ad6bf6af63f88cd5]]></Parent>
+   <InputSources />
+</TestInputType>
+</TestAsset>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<ConfigurationAttribute>
+   <UID><![CDATA[c3d5d64b-4cbe-43a7-a8592be23bd6926]]></UID>
+   <Name><![CDATA[Operating System]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:15]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:15]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <Owner><![CDATA[TestManagementSystem]]></Owner>
+   <InternalName><![CDATA[_TMS55]]></InternalName>
+   <Values><![CDATA[Windows]]></Values>
+   <Values><![CDATA[Solaris]]></Values>
+   <Values><![CDATA[HP/UX]]></Values>
+   <Values><![CDATA[AIX]]></Values>
+   <Values><![CDATA[Dynix/ptx]]></Values>
+   <Values><![CDATA[Linux]]></Values>
+   <AttributeType><![CDATA[1]]></AttributeType>
+   <Parent><![CDATA[8413f2c4-38b6-47b6-b019c9e542ee465e]]></Parent>
+</ConfigurationAttribute>
+</TestAsset>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<LTAnalogReport>
+   <UID><![CDATA[a6a12a82-9651-49c4-8ba6867177443e81]]></UID>
+   <Name><![CDATA[Default Command Data Report]]></Name>
+   <Owner><![CDATA[TestManagementSystem]]></Owner>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:15]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:15]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <ReportType><![CDATA[6]]></ReportType>
+   <FilePath />
+   <Parent><![CDATA[cfe16f76-11fa-49d5-95cd5ba7dcc29786]]></Parent>
+</LTAnalogReport>
+</TestAsset>

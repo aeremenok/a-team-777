@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<TestScriptSource>
+   <UID><![CDATA[a64b6bd6-ee83-42ef-9984fe54d48c78c9]]></UID>
+   <Name><![CDATA[Manual - (Rational Test Datastore)]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:15]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:15]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <Owner><![CDATA[TestManagementSystem]]></Owner>
+   <DataPath><![CDATA[G:\Downloads\RationalRobot\test1\TestDatastore]]></DataPath>
+   <DataPathSpecificity><![CDATA[2]]></DataPathSpecificity>
+   <ConfigurationData />
+   <ConnectionOptions Name="Default Datastore" Operator="0"><![CDATA[1]]></ConnectionOptions>
+   <ConnectionOptions Name="Type" Operator="0"><![CDATA[Manual]]></ConnectionOptions>
+   <Flags />
+   <ExecutionOptions />
+   <DatapoolPath />
+   <DatapoolPathSpecificity><![CDATA[2]]></DatapoolPathSpecificity>
+   <EnableVersioning />
+   <Parent><![CDATA[b3fff84-5ba9-4028-a29422cccd42a9e7]]></Parent>
+   <ScriptType><![CDATA[63ba3bd6-8cbc-4b37-b2638fe9195a1289]]></ScriptType>
+</TestScriptSource>
+</TestAsset>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<LogFilter>
+   <UID><![CDATA[a8478424-27c7-4d8b-a09a2abbe409b90]]></UID>
+   <Name><![CDATA[All]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:15]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:15]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <ResultOptionCriteria><![CDATA[0]]></ResultOptionCriteria>
+   <EventTypeCriteria />
+   <EventSpecificCriteria />
+   <VPCriteria />
+   <ProtocolCriteria />
+   <CommonCommandCriteria />
+   <ASCIICommandCriteria />
+   <XCommandCriteria />
+   <HTTPCommandCriteria />
+   <TuxedoCommandCriteria />
+   <SQLCommandCriteria />
+   <SocketCommandCriteria />
+   <IIOPCommandCriteria />
+   <DCOMCommandCriteria />
+   <EJBCommandCriteria />
+   <Parent><![CDATA[773bd1fd-832f-4dce-aa5820e09730a9a]]></Parent>
+</LogFilter>
+</TestAsset>

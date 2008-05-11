@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE TestAsset SYSTEM "TestAsset.dtd">
+<TestAsset Version="0.1">
+<LogEventPropertyType>
+   <UID><![CDATA[3fe4fc-86f6-4bef-803b8c185a2bdc5b]]></UID>
+   <Name><![CDATA[_TMS79]]></Name>
+   <Description />
+   <CreationDate><![CDATA[2008:05:10:18:14:15]]></CreationDate>
+   <ModificationDate><![CDATA[2008:05:10:18:14:15]]></ModificationDate>
+   <LastModifiedBy><![CDATA[TestManagementSystem]]></LastModifiedBy>
+   <CreatedBy><![CDATA[TestManagementSystem]]></CreatedBy>
+   <Owner><![CDATA[TestManagementSystem]]></Owner>
+   <ViewerType><![CDATA[2]]></ViewerType>
+   <FormatType><![CDATA[1]]></FormatType>
+   <ExternalViewerCommand />
+   <InternalViewerType><![CDATA[2]]></InternalViewerType>
+   <Parent><![CDATA[ff79eec0-180c-46dc-969747c635392e9]]></Parent>
+</LogEventPropertyType>
+</TestAsset>

@@ -1,0 +1,170 @@
+[Version]
+Version=6.0
+
+[INShared]
+Link=None°Transparent°Scrollbar°Background°Active Caption°Inactive Caption°Menu°Window°Window Frame°Menu Text°Window Text°Caption Text°Active Border°Inactive Border°AppWorkSpace°Highlight°Highlight Text°Button Face°Button Shadow°Disabled Text°Button Text°Inactive Caption Text°Button Hightlight°3D Dark Shadow°3D Light°ToolTip Text°ToolTip Background
+
+[STShared]
+State=Checked°Unchecked°Indeterminate
+Selection Style=Single°Multiple°Extended
+Owner Draw=No°Fixed°Variable
+Alignment=Left°Right°Centered
+Text Case=Any°Lower°Upper
+
+[Combobox]
+Type=Simple°DropDown°DropDownList
+
+[DWShared]
+border=0 - None°1 - Shadow°2 - Rectangle°3 - Resize°4 - Line°5 - 3D Lowered°6 - 3D Raised
+background.mode=0 - Opaque°1 - Transparent
+pen.style=0 - Solid°1 - Dash°2 - Dotted°3 - Dash-Dot °4 - Dash-Dot-Dot °5 - Null
+brush.hatch=0 - Horizontal°1 - Back Diagonal°2 - Vertical°3 - Cross°4 - Front Diagonal°5 - Diagonal Cross°6 - Solid°7 - Transparent
+alignment=0 - Left°1 - Right°2 - Center
+charset=0 - ANSI°1 - Default°2 - Symbol°128 - Shift JIS°255 - OEM
+family=0 - Any Font°1 - Roman°2 - Swiss°3 - Modern°4 - Script°5 - Decorative
+pitch=0 - Default°1 - Fixed°2 - Variable
+slideup=AllAbove°DirectlyAbove°No
+type=Bitmap°Column°Compute°Graph°Line°Ellipse°Rectangle°Report°RoundRectangle°TableBlob°Text°DataWindow°OLE
+coltype=char()°date°datetime°decimal()°long°ulong°real°number°time°timestamp
+CurrentBand=Header°Footer°Detail
+FontPitch=±pitch
+FontFamily=±family
+
+[DataWindow]
+font.bias=0 - As Display Fonts°1 - As Printer Fonts°2 - Neutral
+grid.lines=0 - On°1 - Off°2 - Display Only°3 - Print Only
+help.command=0 - Index°1 - TopicID°2 - Search Keyword
+label.shape=Rectangle°RoundRectangle°Oval
+print.color=0 - Color°1 - Monochrome
+print.duplex=1 - Simplex (None)°2 - Horizontal°3 - Vertical
+print.orientation=0 - Default°1 - Landscape°2 - Protrait
+print.page.rangeinclude=0 - Print All°1 - Print Even Pages°2 - Print Odd Pages
+print.paper.size=0 - Default°1 - Letter 8 1/2 x 11 in°2 - LetterSmall 8 1/2 x 11in°3 - Tabloid 17 x 11 in°4 - Ledger 17 x 11 in°5 - Legal 8 1/2 x 14 in°6 - Statement 5 1/2 x 8 1/2 in°7 - Executive 7 1/4 x 10 1/2 in°8 - A3 297 x 420 mm°9 - A4 210 x 297 mm°10 - A4 Small 210 x 297 mm°11 - A5 148 x 210 mm°12 - B4 250 x 354 mm°13 - B5 182 x 257 mm°14 - Folio 8 1/2 x 13 in°15 - Quarto 215 x 275 mm°16 - 10x14 in°17 - 11x17 in°18 - Note 8 1/2 x 11 in°19 - Envelope #9 3 7/8 x 8 7/8°20 - Envelope #10 4 1/8 x 9 1/2°21 - Envelope #11 4 1/2 x 10 3/8°22 - Envelope #12  4 x 11 1/276°23 - Envelope #14 5 x 11 1/2°24 - C Size Sheet°25 - D Size Sheet°26 - E Size Sheet°27 - Envelope DL 110 x 220mm°28 - Envelope C5 162 x 229 mm°29 - Envelope C3  324 x 458 mm°30 - Envelope C4  229 x 324 mm°31 - Envelope C6  114 x 162 mm°32 - Envelope C65 114 x 229 mm°33 - Envelope B4  250 x 353 mm°34 - Envelope B5  176 x 250 mm°35 - Envelope B6  176 x 125 mm°36 - Envelope 110 x 230 mm°37 - Envelope Monarch 3.875 x 7.5 in°38 - 6 3/4 Envelope 3 5/8 x 6 1/2 in°39 - US Std. Fanfold 14 7/8 x 11 in°40 - German Std. Fanfold 8 1/2 x 12 in°41 - German Legal Fanfold 8 1/2 x 13 in
+print.paper.source=0 - Default°1 - Upper Tray°2 - Lower Tray°3 - Middle Tray°4 - Manual Feed°5 - Envelope Feed°6 - Envelope Manual°7 - Auto Select°8 - Tractor°9 - Smallfmt°10 - Largefmt°11 - Large Capacity°12 - Cassette
+print.quality=0 - Default°1 - High°2 - Medium°3 - Low°4 - Draft
+processing=0 - Freeform, Group, Query, or Tabular°1 - Grid°2 - Label°3 - Graph°4 - Crosstab°5 - Composite Report°6 - OLE°7 - Rich Text
+table.updatewhere=0 - Key Columns°1 - Key and Updatable Columns°2 - Key and Modified Columns
+units=0 - PowerBuilder°1 - Pixels°2 - 1/1000 Inch°3 - 1/1000 Centimeter
+
+[DWColumn]
+case=Any°Upper°Lower
+edit.style=Checkbox°DDDW°DDLB°Edit°EditMask°RadioButtons
+initial=empty°null°spaces°today
+
+[DWGraph]
+droplines=0 - None°1 - Solid°2 - Dash°3 - Dot°4 - Dash-Dot°5 - Dash-Dot-Dot
+majortic=1 - None°2 - Inside°3 - Outside°4 - Straddle
+minortic=1 - None°2 - Inside°3 - Outside°4 - Straddle
+roundtounit=0 - Default°1 - Years°2 - Months°3 - Days°4 - Hours°5 - Minutes°6 - Seconds°7 - Microseconds
+scaletype=1 - Linear°2 - Log 10°3 - Log e
+scalevalue=1 - Actual°2 - Cumulative°3 - Percentage°4 - Cum. Percent
+sort=0 - Unsorted°1 - Ascending°2 - Descending
+graphtype=1 - Area°2 - Bar°3 - Bar 3D°4 - Bar 3D Solid°5 - Bar Stacked°6 - Bar Stacked 3D Solid°7 - Column°8 - Column 3D°9 - Column 3D Solid°10 - Column Stacked°11 - Column Stacked 3D Solid°12 - Line°13 - Pie°14 - Scatter°15 - Area 3D°16 - Line 3D°17 - Pie 3D
+legend=0 - None°1 - Left°2 - Right°3 - Top°5 - Bottom
+alignment=0 - Left°1 - Right°2 - Center
+
+[VBShared]
+MousePointer=0 - Default°1 - Arrow°2 - Cross°3 - I-Beam°4 - Icon°5 - Size°6 - Size NE SW°7 - Size N S°8 - Size NW SE°9 - Size W E°10 - Up Arrow°11 - Hourglass°12 - No Drop°13 - Arrow and Hourglass°14 - Arrow and Question°15 - Size All°99 - Custom
+Appearance=0 - Flat°1 - 3D
+DragMode=0 - Manual°1 - Automatic
+Align=0 - None°1 - Align Top°2 - Align Bottom°3 - Align Left°4 - Align Right
+WindowState=0 - Normal°1 - Minimized°2 - Maximized
+StartUpPosition=0 - Manual°1 - CenterOwner°2 - CenterScreen°3 - Windows Default
+ScaleMode=0 - User°1 - Twip°2 - Point°3 - Pixel°4 - Character°5 - Inch°6 - Millimeter°7 - Centimeter
+DrawStyle=0 - Solid°1 - Dash°2 - Dot°3 - Dash-Dot°4 - Dash-Dot-Dot°5 - Transparent°6 - Inside Solid
+DrawMode=°1 - Blackness°2 - Not Merge Pen°3 - Mask Not Pen°4 - Not Copy Pen°5 - Mask Pen Not°6 - Invert°7 - Xor Pen°8 - Not Mask Pen°9 - Mask Pen°10 - Not Xor Pen°11 - Nop°12 - Merge Not Pen°13 - Copy Pen°14 - Merge Pen Not°15 - Merge Pen°16 - Whiteness
+FillStyle=0 - Solid°1 - Transparent°2 - Horizontal Line°3 - Vertical Line°4 - Upward Diagonal°5 - Downward Diagonal°6 - Cross°7 - Diagonal Cross
+OLEDragMode=0 - Manual°1 - Automatic
+BackStyle=0 - Transparent°1 - Opaque
+MultiSelect=0 - None°1 - Simple°2 - Extended
+BorderStyle=0 - None°1 - Fixed Single
+LinkMode=0 - None°1 - Automatic°2 - Manual°3 - Notify
+OLEDropMode=0 - None°1 - Manual
+Alignment=0 - Left Justify°1 - Right Justify°2 - Center
+Style=0 - Standard°1 - Graphical
+
+[OLShared]
+MousePointer=0 - Default°1 - Arrow°2 - Cross°3 - I-Beam°4 - Icon°5 - Size°6 - Size NE SW°7 - Size N S°8 - Size NW SE°9 - Size W E°10 - Up Arrow°11 - Hourglass°12 - No Drop°13 - Arrow and Hourglass°14 - Arrow and Question°15 - Size All°99 - Custom
+Appearance=0 - Flat°1 - 3D
+DragMode=0 - Manual°1 - Automatic
+LinkMode=0 - None°1 - Automatic°2 - Manual°3 - Notify
+BorderStyle=0 - None°1 - Fixed Single
+Align=0 - None°1 - Align Top°2 - Align Bottom°3 - Align Left°4 - Align Right
+
+[ThunderMDIForm]
+LinkMode=0 - None°1 - Source
+
+[ThunderForm]
+BorderStyle=0 - None°1 - Fixed Single°2 - Sizable°3 - Fixed Dialog°4 - Fixed ToolWindow°5 - Sizable ToolWindow
+LinkMode=0 - None°1 - Source
+PaletteMode=0 - Halftone°1 - UseZOrder°2 - Custom
+
+[ThunderImage]
+OLEDropMode=0 - None°1 - Manual°2 - Automatic
+
+[ThunderLine]
+BorderStyle=0 - Transparent°1 - Solid°2 - Dash°3 - Dot°4 - Dash-Dot°5 - Dash-Dot-Dot°6 - Inside Solid
+
+[ThunderShape]
+Shape=0 - Rectangle°1 - Square°2 - Oval°3 - Circle°4 - Rounded Rectangle°5 - Rounded Square
+BorderStyle=0 - Transparent°1 - Solid°2 - Dash°3 - Dot°4 - Dash-Dot°5 - Dash-Dot-Dot°6 - Inside Solid
+
+[ThunderData]
+BOFAction=0 - Move First°1 - BOF
+EOFAction=0 - Move Last°1 - EOF°2 - Add New
+RecordsetType=0 - Table°1 - Dynaset°2 - Snapshot
+EditMode=0 - None°1 - InProgress°2 - Add
+DefaultCursorType=0 - DefaultCursor°1 - ODBCCursor°2 - ServerSideCursor
+DefaultType=°1 - UseODBC°2 - UseJet
+Recordset.EditMode=±EditMode
+Recordset.Type=Table°Dynaset°Snapshot
+Recordset.Fields.Item.Type=1 - Boolean°2 - Byte°3 - Integer°4 - Long°5 - Currency°6 - Single°7 - Double°8 - Date°10 - Text°11 - LongBinary°12 - Memo
+
+[ThunderListBox]
+Style=0 - Standard°1 - Checkbox
+
+[ThunderComboBox]
+Style=0 - Dropdown Combo°1 - Simple Combo°2 - Dropdown List
+
+[ThunderOptionButton]
+Alignment=0 - Left Justify°1 - Right Justify
+
+[ThunderCheckBox]
+Alignment=0 - Left Justify°1 - Right Justify
+Value=0 - Unchecked°1 - Checked°2 - Grayed
+
+[ThunderTextBox]
+OLEDropMode=0 - None°1 - Manual°2 - Automatic
+ScrollBars=0 - None°1 - Horizontal°2 - Vertical°3 - Both
+
+[ThunderPictureBox]
+OLEDropMode=0 - None°1 - Manual°2 - Automatic
+
+[ThunderOLE]
+OLEType=0 - Linked°1 - Embedded°3 - None
+UpdateOptions=0 - Automatic°1 - Frozen°2 - Manual
+SizeMode=0 - Clip°1 - Stretch°2 - AutoSize°3 - Zoom
+AutoActivate=0 - Manual°1 - GetFocus°2 - DoubleClick°3 - Automatic
+OLETypeAllowed=0 - Linked°1 - Embedded°2 - Either
+DisplayType=0 - Content°1 - Icon
+
+[DEShared]
+Align=alNone°alTop°alBottom°alLeft°alRight°alClient
+Alignment=taLeftJustify°taRightJustify°taCenter
+BorderStyle=bsNone°bsSingle
+Cursor=crDefault°crNone°crArrow°crCross°crIBeam°crSize°crSizeNESW°crSizeNS°crSizeNWSE°crSizeWE°crUpArrow°crHourglass°crDrag°crNoDrop°crHSplit°crVSplit°crMultiDrag°crSQLWait°crNo°crAppStart°crHelp
+DragCursor=±Cursor
+DragMode=dmManual°dmAutomatic
+Font.Pitch=fpDefault°fpVariable°fpFixed
+ScrollBars=ssNone°ssHorizontal°ssVertical°ssBoth
+SortType=stNone°stData°stText°stBoth
+UpdateMode=upWhereAll°upWhereChanged°upWhereKeyOnly
+
+[ThunderGRAPH]
+ColorData=0 - Black°1 - Blue°2 - Green°3 - Cyan°4 - Red°5 - Magenta°6 - Brown°7 - Light Gray°8 - Dark Gray°9 - Light Blue°10 - Light Green°11 - Light Cyan°12 - Light Red°13 - Light Magenta°14 - Yellow°15 - White°Undefined
+SymbolData=0 - Cross (+)°1 - Cross (x)°2 - Triangle (up)°3 - Solid triangle (up)°4 - Triangle (down)°5 - Solid triangle (down)°6 - Square°7 - Solid Square°8 - Diamond°9 - Solid Diamond°Undefined
+
+[Graph]
+Background=0 - Black°1 - Blue°2 - Green°3 - Cyan°4 - Red°5 - Magenta°6 - Brown°7 - Light gray°8 - Dark gray°9 - Light blue°10 - Light green°11 - Light cyan°12 - Light red°13 - Light magenta°14 - Yellow°15 - White
+ColorData=±Background
+SymbolData=0 - Cross plus°1 - Cross times°2 - Triangle up°3 - Solid triangle up°4 - Triangle down°5 - Solid triangle down°6 - Square°7 - Solid square°8 - Diamond°9 - Solid diamond
