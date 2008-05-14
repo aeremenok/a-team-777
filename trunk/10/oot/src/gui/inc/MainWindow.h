@@ -32,6 +32,8 @@ class CMainWindow: public QMainWindow
 protected:
   virtual void showEvent(QShowEvent *event);
 
+protected slots:
+  void addCargo();
 public:
   CMainWindow(QWidget * parent = 0, Qt::WindowFlags f = 0);
   

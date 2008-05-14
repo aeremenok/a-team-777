@@ -3,7 +3,7 @@
 MAKE_FLAGS += qt4 recursive
 
 SUBUI = ${SUBDIRS}
-SUBDIRS = LoginDialog
+SUBDIRS = LoginDialog NewCargoDialog
 
 ROOT ?= ..
 
@@ -30,9 +30,9 @@ DEFS += -DQT_THREAD_SUPPORT
 
 INC += -I./ -I./ui $(addprefix -I,$(addsuffix /inc,${SUBUI})) $(addprefix -I,$(addsuffix /ui,${SUBUI}))
 
-
-
 default: compile lib exe
+
+compile: ui
 
 include ${ROOT}/inc.inc
 include ${ROOT}/Makefile.inc

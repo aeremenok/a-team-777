@@ -13,10 +13,14 @@
 #include "MainWindow.h"
 #include "UserCookie.h"
 #include "LoginDialog.h"
+#include "NewCargoDialog.h"
 
 CMainWindow::CMainWindow(QWidget * parent, Qt::WindowFlags f): QMainWindow(parent,f)
 {
   m_form.setupUi(this);
+  
+  connect(m_form.m_newCargo,SIGNAL(triggered()),SLOT(addCargo()));
+
 }
 
 
@@ -29,6 +33,13 @@ void CMainWindow::showEvent(QShowEvent *event)
     if(dialog.exec()==QDialog::Rejected)
       exit(0);
   }
+}
+
+
+void CMainWindow::addCargo()
+{
+  CNewCargoDialog dialog(this);
+  dialog.exec();
 }
 
 /* ===[ End of file $Source: /cvs/decisions/templates/template.cpp,v $ ]=== */

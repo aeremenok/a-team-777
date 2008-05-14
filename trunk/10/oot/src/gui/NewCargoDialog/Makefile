@@ -14,8 +14,8 @@ DEFS += -DQT_THREAD_SUPPORT
 
 INC += -I./ -I./ui
 
-UIS := LoginDialog.ui
-UICS := LoginDialog.cpp
+UIS := NewCargoDialog.ui
+UICS := NewCargoDialog.cpp
 
 default: compile lib
 
