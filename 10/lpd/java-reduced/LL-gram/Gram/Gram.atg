@@ -1,0 +1,201 @@
+COMPILER CompilationUnit
+
+// Функция возвращает токен, следующий за текущим (заглядывает вперед)
+bool next(int i)
+    {
+       scanner->ResetPeek();
+       Token* x = scanner->Peek();
+       return x->kind == i;
+    };
+  
+/*--------------------------------------------------------------------------*/
+CHARACTERS
+  letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
+  digit = "0123456789".
+  cr  = '\r'.
+  lf  = '\n'.
+  tab = '\t'.
+  dot = '.'.
+  //openRoundBracketC = '('.
+  stringCh  = ANY - '"' - cr - lf. 
+/* спец символы
+   stringCh  = ANY - '"' - '\\' - cr - lf. 
+   printable =  '\u0020' .. '\u007e'.
+   string  = '"' { stringCh | '\\' printable } '"'.
+*/
+
+
+TOKENS
+	identifier  = letter { letter | digit }.
+	realNumber =             ['-']  [digit { digit }  dot]  digit { digit } ["e-" digit {digit}] .
+	string = '"' {stringCh} '"'.
+	interface =		"interface".
+	final=			"final".
+	static =		"static".
+	openRoundBracket = '('.
+	closeRoundBracket = ')'.
+
+COMMENTS FROM "/*" TO "*/" NESTED
+COMMENTS FROM "//" TO cr lf
+
+IGNORE cr + lf + tab
+
+PRODUCTIONS
+/*----------------------------------CompilationUnit----------------------------------*/
+CompilationUnit =
+	typeDeclaration {typeDeclaration}
+.
+/*----------------------------------typeDeclaration----------------------------------*/
+typeDeclaration =
+	[accessSpecifier]
+	(interfaceDeclaration | classDeclaration)
+.
+/*----------------------------------empty----------------------------------*/
+/*empty =
+.*/
+/*----------------------------------classDeclaration----------------------------------*/
+classDeclaration =
+	[final][static]
+	"class"
+	identifier
+	"extends" identifier
+//	interfaces
+	classBody
+.
+/*----------------------------------interfaceDeclaration----------------------------------*/
+interfaceDeclaration =
+	"interface"
+	identifier
+//	[extendsInterfaces]
+//	interfaceBody
+.
+/*----------------------------------accessSpecifier----------------------------------*/
+accessSpecifier =
+	("public" | "protected" | "private" )
+.
+/*----------------------------------type----------------------------------*/
+type =
+	("byte" | "short" | "int" | "long" | "char"| "float" | "double" | "bool" | "void")
+.
+/*----------------------------------formalParameterList----------------------------------*/
+formalParameterList =
+	(type | identifier)
+	identifier
+	['=' expression]
+.
+/*----------------------------------classBody----------------------------------*/
+classBody =
+	'{'
+	{
+		[accessSpecifier]
+		((IF(next(_openRoundBracket))
+			identifier
+			openRoundBracket [formalParameterList] closeRoundBracket /*TODO: тело конструктора*/
+		)
+		|
+		(
+		[final]
+		[static]
+		(IF(next(_identifier))
+			(type | identifier)
+			identifier
+			(
+				(
+					openRoundBracket [formalParameterList] closeRoundBracket /*TODO: тело функции*/
+				)
+			|
+				(
+					['=' expression] ';'
+				)
+			)
+		)
+		)
+		)
+	}
+	'}'
+.
+
+
+
+
+/*----------------------------------interfaceBody----------------------------------*/
+/*interfaceBody =
+	'{'
+	{interfaceMemberDeclaration}
+	'}'
+.*/
+
+
+
+/*----------------------------------expression----------------------------------*/
+expression =
+	(conditionalExpression /*| assignment*/)
+.
+/*----------------------------------conditionalExpression----------------------------------*/
+conditionalExpression =
+	conditionalOrExpression 
+	//['?' expression ':' conditionalExpression] 
+.
+/*----------------------------------conditionalOrExpression----------------------------------*/
+conditionalOrExpression =
+	conditionalAndExpression {"||" conditionalOrExpression}
+.
+/*----------------------------------conditionalAndExpression----------------------------------*/
+conditionalAndExpression =
+	inclusiveOrExpression {"&&" conditionalAndExpression}
+.
+/*----------------------------------inclusiveOrExpression----------------------------------*/
+inclusiveOrExpression =
+	exclusiveOrExpression {'|' inclusiveOrExpression}
+.
+/*----------------------------------exclusiveOrExpression----------------------------------*/
+exclusiveOrExpression =
+	andExpression {'^' exclusiveOrExpression}
+.
+/*----------------------------------andExpression----------------------------------*/
+andExpression =
+	equalityExpression {'&' andExpression}
+.
+/*----------------------------------equalityExpression----------------------------------*/
+equalityExpression =
+	relationalExpression {("==" | "!=") equalityExpression}
+.
+/*----------------------------------relationalExpression----------------------------------*/
+relationalExpression =
+	shiftExpression {("<" | ">" | "<=" | ">=") relationalExpression}
+.
+/*----------------------------------shiftExpression----------------------------------*/
+shiftExpression =
+	additiveExpression {("<<" | ">>" | "<<<" ) shiftExpression}
+.
+/*----------------------------------additiveExpression----------------------------------*/
+additiveExpression =
+	multiplicativeExpression {('+' | '-' ) additiveExpression}
+.
+/*----------------------------------multiplicativeExpression----------------------------------*/
+multiplicativeExpression =
+	unaryExpression {('*' | '/' | '%' ) multiplicativeExpression}
+.
+/*----------------------------------unaryExpression----------------------------------*/
+unaryExpression =
+	(expressionName /*| primary*/) {('*' | '/' | '%' ) unaryExpression}
+.
+/*----------------------------------expressionName----------------------------------*/
+expressionName =
+	((identifier {'.' identifier}) | (realNumber))
+.
+/*----------------------------------assignment----------------------------------*/
+/*assignment =
+	leftHandSide
+	assignmentOperator
+	expression
+.*/
+/*----------------------------------leftHandSide----------------------------------*/
+/*leftHandSide =
+	expressionName
+.*/
+/*----------------------------------assignmentOperator----------------------------------*/
+/*assignmentOperator =
+	("=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|=")
+.*/
+END CompilationUnit.
