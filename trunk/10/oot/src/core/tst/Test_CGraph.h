@@ -84,6 +84,24 @@ namespace Test
       CPPUNIT_ASSERT(g.edges_count()==0);
       CPPUNIT_ASSERT(g.vertices_count()==2);
     }
+    
+    void testIterator()
+    {
+      CGraph<int> g;
+      g.add(1);
+      g.add(2);
+      for(class CGraph<int>::vertex_iterator it=g.vertex_begin();it!=g.vertex_end();++it)
+      {
+
+      }
+
+      std::list<int> l;
+      l.push_back(2);
+      l.push_back(2);
+      l.push_back(2);
+      l.push_back(2);
+      CPPUNIT_ASSERT(l.size()==4);
+    }
 
   public:
     void setUp()

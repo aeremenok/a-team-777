@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>351</width>
-    <height>244</height>
+    <width>513</width>
+    <height>466</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -46,50 +46,48 @@
       <bool>false</bool>
      </property>
      <property name="title" >
-      <string>Срочность</string>
+      <string>Возможный транспорт</string>
      </property>
      <layout class="QVBoxLayout" >
       <item>
-       <widget class="QRadioButton" name="radioButton" >
+       <widget class="QCheckBox" name="m_airplane" >
         <property name="text" >
-         <string>Сверхсрочный груз</string>
-        </property>
-        <property name="checked" >
-         <bool>true</bool>
+         <string>Авиа сообщение</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_2" >
+       <widget class="QCheckBox" name="m_train" >
         <property name="text" >
-         <string>Срочный груз</string>
+         <string>Железнодорожное сообщение</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_3" >
+       <widget class="QCheckBox" name="m_ship" >
         <property name="text" >
-         <string>Несрочный груз</string>
+         <string>Морское сообщение</string>
         </property>
        </widget>
       </item>
       <item>
-       <spacer>
-        <property name="orientation" >
-         <enum>Qt::Vertical</enum>
+       <widget class="QCheckBox" name="m_truck" >
+        <property name="text" >
+         <string>Автомобильное сообщение</string>
         </property>
-        <property name="sizeHint" >
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
+       </widget>
       </item>
      </layout>
     </widget>
    </item>
    <item row="3" column="0" colspan="2" >
+    <widget class="CRoutesView" native="1" name="m_routes" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2" >
     <widget class="QDialogButtonBox" name="buttonBox" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
@@ -101,6 +99,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CRoutesView</class>
+   <extends>QWidget</extends>
+   <header>RoutesView.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
