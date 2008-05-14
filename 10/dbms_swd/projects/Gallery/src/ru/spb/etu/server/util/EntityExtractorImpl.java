@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.query.SelectQuery;
+import org.apache.commons.logging.Log;
 
 import ru.spb.etu.client.serializable.Artist;
 import ru.spb.etu.client.serializable.Genre;
@@ -30,6 +31,7 @@ public class EntityExtractorImpl implements EntityExtractor
 	@Override
     public ArrayList<Artist> getArtists()
     {
+    	log(" getArtists() ");
     	//init
     	DataContext context;
 		try {
@@ -44,6 +46,7 @@ public class EntityExtractorImpl implements EntityExtractor
 		try {
 			SelectQuery select1 = new SelectQuery(DbArtist.class);
 			actorsDB = context.performQuery(select1);
+			log(" getArtists() returned ", actorsDB );
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<Artist>();
@@ -58,6 +61,7 @@ public class EntityExtractorImpl implements EntityExtractor
 	@Override
     public ArrayList<MasterPiece> getMasterPieces( Artist artist )
     {
+    	log(" getMasterPieces() ");
     	//init
     	DataContext context;
 		try {
@@ -87,6 +91,8 @@ public class EntityExtractorImpl implements EntityExtractor
 			
 			
 			resultDB = context.performQuery(query2);
+			
+			log("  getMasterPieces() returned ", resultDB);
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return new ArrayList<MasterPiece>();
@@ -100,6 +106,7 @@ public class EntityExtractorImpl implements EntityExtractor
     @Override
     public ArrayList<Museum> getMuseums()
     {
+    	log("  getMuseums()  ");
     	//init
     	DataContext context;
 		try {
@@ -114,6 +121,7 @@ public class EntityExtractorImpl implements EntityExtractor
 		try {
 			SelectQuery select1 = new SelectQuery(DbMuseum.class);
 			resultDB = context.performQuery(select1);
+			log("  getMuseums() returned ", resultDB);
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return new ArrayList<Museum>();
@@ -127,6 +135,7 @@ public class EntityExtractorImpl implements EntityExtractor
     @Override
     public ArrayList<Genre> getGenres()
     {
+    	log("  getGenres() ");
     	//init
     	DataContext context;
 		try {
@@ -141,6 +150,7 @@ public class EntityExtractorImpl implements EntityExtractor
 		try {
 			SelectQuery select1 = new SelectQuery(DbGenre.class);
 			resultDB = context.performQuery(select1);
+			log("  getGenres() returned ", resultDB);
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return new ArrayList<Genre>();
@@ -155,6 +165,7 @@ public class EntityExtractorImpl implements EntityExtractor
     public ArrayList<Artist> getArtistsByGenre(
         Genre genre )
     {
+		log("  getArtistsByGenre()  ");
     	//init
     	DataContext context;
 		try {
@@ -180,6 +191,8 @@ public class EntityExtractorImpl implements EntityExtractor
 			SelectQuery query2 = select1.queryWithParameters(params);
 			
 			actorsDB = context.performQuery(query2);
+			
+			log("  getArtistsByGenre() returned ", actorsDB);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<Artist>();
@@ -194,6 +207,7 @@ public class EntityExtractorImpl implements EntityExtractor
     public ArrayList<Artist> getArtistsByMuseum(
         Museum museum )
     {
+    	log(  "  getArtistsByMuseum()  " );
     	//init
     	DataContext context;
 		try {
@@ -221,6 +235,10 @@ public class EntityExtractorImpl implements EntityExtractor
 			
 			
 			actorsDB = context.performQuery(query2);
+			
+			log("  getArtistsByGenre() returned ", actorsDB);
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<Artist>();
@@ -235,6 +253,7 @@ public class EntityExtractorImpl implements EntityExtractor
     public ArrayList<Painting> getPaintings(
         Artist artist )
     {
+    	log("  getPaintings()  ");
     	//init
     	DataContext context;
 		try {
@@ -266,6 +285,9 @@ public class EntityExtractorImpl implements EntityExtractor
 			
 			
 			resultDB = context.performQuery(query2);
+			
+			log("  getPaintings() returned ", resultDB);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<Painting>();
@@ -280,6 +302,7 @@ public class EntityExtractorImpl implements EntityExtractor
     public ArrayList<Sculpture> getSculptures(
         Artist artist )
     {
+    	log("  getSculptures()  ");
     	//init
     	DataContext context;
 		try {
@@ -308,6 +331,7 @@ public class EntityExtractorImpl implements EntityExtractor
 			SelectQuery query2 = select1.queryWithParameters(params);
 			
 			resultDB = context.performQuery(query2);
+			log("  getSculptures() returned ", resultDB);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<Sculpture>();
@@ -318,4 +342,17 @@ public class EntityExtractorImpl implements EntityExtractor
         return ObjectsConverter.convertSculptures(resultDB);
     }
 
+    private void log(String str){
+    	System.out.println("[EntityExtractorImpl] " + str);
+    }
+    
+    private void log(String str, List l){
+    	System.out.print("[EntityExtractorImpl] " + str);
+    	if(l == null) {
+    		System.out.println(" NULL ");
+    	} else {
+    		System.out.println(l.size() + ". ");
+    	}
+    }
+    
 }
