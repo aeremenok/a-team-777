@@ -18,7 +18,7 @@
 #include <QtGui/QStandardItemModel>
 #include "ui_RoutesView.h"
 #include "City.h"
-#include "CostType.h"
+#include "EdgeParameters.h"
 #include "TreeModel.h"
 /*!
  * \brief Отображение иска маршрутов
@@ -32,12 +32,12 @@ class CRoutesView: public QWidget
   
   Ui::CRoutesView m_form;
   
-  QTreeModel m_model;
+  CTreeModel m_model;
 
 public:
   CRoutesView(QWidget * parent = 0, Qt::WindowFlags f = 0);
 
-  void updateModel(const CCity& from, const CCity& to, const std::set<CCostType::Type>& validTypes);
+  void updateModel(const CCity& from, const CCity& to, const std::set<CEdgeParameters::LinkType>& validTypes);
   
 };//class CRoutesView
 
