@@ -11,7 +11,7 @@
 #ifndef _CEdgeParameters_H_FAB24717_0B58_433C_8E8F_C5C07EB55AB3_INCLUDED_
 #define _CEdgeParameters_H_FAB24717_0B58_433C_8E8F_C5C07EB55AB3_INCLUDED_
 
-#include <set>
+#include <vector>
 /*!
  * \brief набор стоимостей доставки
  */
@@ -55,15 +55,15 @@ public:
       return m_time;
     }
 
-    bool operator <(const CLink& link)
+    bool operator<(const CLink& link) const
     {
-      return m_type<link.m_type
+      return m_type<link.m_type;
     }
   };
 
 private:
 
-  std::set<CLink> m_links; // набор существующих ребер
+  std::vector<CLink> m_links; // набор существующих ребер
 
 public:
   CEdgeParameters();
@@ -75,7 +75,9 @@ public:
   size_t linkCount() const;
 
   const CLink& getLink(LinkType type) const;
- 
+
+  const CLink& getLink(size_t index) const;
+  
   ~CEdgeParameters();
 };//class CEdgeParameters
 

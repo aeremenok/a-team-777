@@ -26,11 +26,89 @@
 #define foreach BOOST_FOREACH
 #endif
 
+/*!
+ * \brief путь
+ */
+template <typename VertexType, typename LinkType>
+class CPath 
+{
+  typedef VertexType vertex;
+  
+  std::list<vertex>  vertices_list; //!< список вершин
+  std::list<LinkType>    link_list; //!< список типов перевозки между вершинами
+public:
+  typedef typename std::list<LinkType> Linklist;
+  typedef typename std::list<VertexType> Vertexlist;
+  typedef typename std::list<VertexType>::iterator vertex_iterator;
+  typedef typename std::list<VertexType>::const_iterator vertex_const_iterator;
+  typedef typename std::list<LinkType>::iterator link_iterator;
+  typedef typename std::list<LinkType>::const_iterator link_const_iterator;
+
+  vertex_iterator vertex_begin() { return vertices_list.begin(); }
+  vertex_iterator vertex_end() { return vertices_list.end(); }
+
+  vertex_const_iterator vertex_begin() const{ return vertices_list.begin(); }
+  vertex_const_iterator vertex_end() const { return vertices_list.end(); }
+  
+  link_iterator link_begin() { return link_list.begin(); }
+  link_iterator link_end() { return link_list.end(); }
+  
+  link_const_iterator link_begin() const { return link_list.begin(); }
+  link_const_iterator link_end() const { return link_list.end(); }
+
+  CPath()
+  {
+  }
+
+  bool operator < (const CPath& other) const 
+  {
+    if (getCost() == other.getCost()) 
+      return vertices_list.size() < vertices_list.size();
+    else 
+      return (getCost() < other.getCost());
+  }
+
+  const vertex& vertex_back() const
+  {
+    return vertices_list.back();
+  }
+  
+  const vertex& vertex_front() const
+  {
+    return vertices_list.front();
+  }
+
+  void add(const vertex& v, const LinkType& c)
+  {
+    vertices_list.push_back(v);
+    link_list.push_back(c);
+  }
+
+  unsigned long getCost() const
+  {
+    unsigned long cost=0;
+    for(typename std::list<LinkType>::iterator it=link_list.begin();link_list.end();++it)
+      cost += it->getCost();
+    return cost;
+  }
+  
+  bool exist(const vertex& v) const
+  {
+    for(typename std::list<vertex>::const_iterator it=vertices_list.begin(); it!=vertices_list.end(); it++)
+    {
+      if((*it)==v)
+        return true;
+    }
+    return false;
+  }
+
+};
+
 
 /*!
  * \brief граф
  */
-template<typename VertexType, typename CostType = int> 
+template<typename VertexType, typename EdgeType = int> 
 class CGraph 
 {
 public:
@@ -43,9 +121,9 @@ public:
   struct edge 
   {
     pair    vertex_pair; //!< соединяемые вершины
-    CostType  cost;      //!< вес ребра
+    EdgeType  cost;      //!< вес ребра
 
-    edge(const pair& e, const CostType& c): vertex_pair(e), cost(c) 
+    edge(const pair& e, const EdgeType& c): vertex_pair(e), cost(c) 
     {
     }
 
@@ -62,76 +140,6 @@ public:
     }
   };
   
-  /*!
-   * \brief путь
-   */
-  class path 
-  {
-    std::list<vertex>  vertices_list; //!< список вершин
-    std::list<CostType>    cost_list; //!< список типов перевозки между вершинами
-    CostType                    cost; //!< общая стоимость
-  public:
-    path()
-    {
-    }
-
-    path(const vertex& v )
-    {
-      vertices_list.push_back(v);
-    }
-
-    bool operator < (const path& other) const 
-    {
-      if (cost == other.cost) 
-        return vertices_list.size() < vertices_list.size();
-      else 
-        return (cost < other.cost);
-    }
-
-    const vertex& lastVertex() const
-    {
-      return vertices_list.back();
-    }
-
-    void addVertex(const vertex& v, const CostType& c)
-    {
-      vertices_list.push_back(v);
-      cost_list.push_back(c);
-      cost = cost + c;
-    }
-
-    const CostType& getSummaryCost() const
-    {
-      return cost;
-    }
-    
-    const std::list<vertex>& getVertices() const
-    {
-      return vertices_list;
-    }
-
-    const std::list<CostType>& getCost() const
-    {
-      return cost_list;
-    }
-
-    std::list<CostType>& getCost()
-    {
-      return cost_list;
-    }
-
-    bool exist(const vertex& v) const
-    {
-      for(typename std::list<vertex>::const_iterator it=vertices_list.begin(); it!=vertices_list.end(); it++)
-      {
-        if((*it)==v)
-          return true;
-      }
-      return false;
-    }
-
-  };
-
 private:
   /*!
    * \brief Внутреннее представление графа  
@@ -158,7 +166,7 @@ public:
    * \brief Добавить ребро. 
    * Если такое ребро уже есть, то оно замещается указанным
    */
-  void add(const pair& p, const CostType& c) 
+  void add(const pair& p, const EdgeType& c) 
   {
     remove(p);
 
@@ -292,7 +300,7 @@ public:
    */
   class vertex_iterator : public std::iterator<std::bidirectional_iterator_tag, VertexType>  
   {
-    typedef class CGraph<VertexType, CostType>      _Owner;
+    typedef class CGraph<VertexType, EdgeType>      _Owner;
     typedef VertexType&                  reference;
     typedef VertexType*                  pointer;
     typedef typename std::list<VertexType>::iterator  _NodePtr;

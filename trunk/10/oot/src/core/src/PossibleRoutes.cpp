@@ -11,22 +11,12 @@
 #include <set>
 #include "DeliveryNetwork.h"
 
-/*!
- * так как сейчас в пути только вершины, а между некоторыми двумя может быть различное сообщение то надо это учесть и разделить его 
- * на несколько по сути различных
- */
-//id CDeliveryNetwork::makePossiblesRoutes(CDeliveryNetwork::Graph::path& current, std::list<CDeliveryNetwork::Graph::path> &res)
-//{
-   
-//}
-
-
-void CDeliveryNetwork::findPossiblesRoutes(const CCity& destination, CDeliveryNetwork::Graph::path& current, std::list<CDeliveryNetwork::Graph::path> &res)
+void CDeliveryNetwork::findPossiblesRoutes(const CCity& destination, CDeliveryNetwork::Path& current, std::list<CDeliveryNetwork::Path> &res)
 {
-  CCity last = current.lastVertex();
+  CCity last = current.vertex_back();
   if(last==destination) // пришли
   {
-//    makePossiblesRoutes(current,res);
+    res.push_back(current);
     return;
   }
   std::list<CDeliveryNetwork::Graph::edge> adjacent = m_graph.adjacent_edges(last);
@@ -35,16 +25,22 @@ void CDeliveryNetwork::findPossiblesRoutes(const CCity& destination, CDeliveryNe
   {
     if(!current.exist(it->vertex_pair.second)) // по вершине мы еще не ходили
     {
-      current.addVertex(it->vertex_pair.second, it->cost);
-      findPossiblesRoutes(destination,current,res);
+      for(size_t i=0; i< it->cost.linkCount(); ++i)
+      {
+        CEdgeParameters::CLink link = it->cost.getLink(i);
+        current.add(it->vertex_pair.second, link);
+        findPossiblesRoutes(destination,current,res);
+      }
     }
   }
 }
 
-std::list<CDeliveryNetwork::Graph::path> CDeliveryNetwork::getPossibleRoutes(const CCity& from, const CCity& to)
+std::list<CDeliveryNetwork::Path> CDeliveryNetwork::getPossibleRoutes(const CCity& from, const CCity& to)
 {
-  CDeliveryNetwork::Graph::path current(from);
-  std::list<CDeliveryNetwork::Graph::path> res;
+  CDeliveryNetwork::Path current;
+  current.add(from, CEdgeParameters::CLink());
+
+  std::list<CDeliveryNetwork::Path> res;
   findPossiblesRoutes(to, current, res);
   return res;
 }

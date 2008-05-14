@@ -13,7 +13,7 @@
 
 #include "Graph.h"
 #include "City.h"
-#include "CostType.h"
+#include "EdgeParameters.h"
 
 /*!
  * \brief Описание Мира 
@@ -22,7 +22,11 @@
 class CDeliveryNetwork
 {
 
-  typedef CGraph<CCity, CCostType> Graph;
+public:
+  typedef CPath<CCity,CEdgeParameters::CLink> Path;
+
+private:
+  typedef CGraph<CCity, CEdgeParameters> Graph;
   
   Graph m_graph; //!< описание мира (: города, дороги и больше ничего
 
@@ -41,11 +45,10 @@ class CDeliveryNetwork
   /*!
    * \brief рекурсивный поиск всех путей до destination
    */
-  void findPossiblesRoutes(const CCity& destination, Graph::path& current, std::list<Graph::path> &res);
+  void findPossiblesRoutes(const CCity& destination, Path& current, std::list<Path> &res);
 
 public:
 
-  typedef Graph::path CPath;
   /*!
    * \brief получить полный список всех городов
    */
@@ -64,12 +67,12 @@ public:
   /*!
    * \brief добавить маршрут из города в город, с заданным типом и стоимостью
    */
-  void addRoute(const CCity& from, const CCity& to, CCostType::Type type, unsigned long cost, unsigned long time);
+  void addRoute(const CCity& from, const CCity& to, CEdgeParameters::LinkType type, unsigned long cost, unsigned long time);
 
   /*!
    * \brief получить список всех возможных маршрутов
    */
-  std::list<Graph::path> getPossibleRoutes(const CCity& from, const CCity &to);
+  std::list<Path> getPossibleRoutes(const CCity& from, const CCity &to);
 
   static CDeliveryNetwork& getInstance();
   
