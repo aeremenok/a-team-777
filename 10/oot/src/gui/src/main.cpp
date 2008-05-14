@@ -47,15 +47,8 @@ int main(int argc, char *argv[])
   net.addRoute(a,b,CEdgeParameters::AIRLINES,100,1);
   net.addRoute(b,c,CEdgeParameters::TRUCK,100,1);
   net.addRoute(b,d,CEdgeParameters::TRUCK,100,1);
-  net.addRoute(e,a,CEdgeParameters::TRUCK,100,1);
-  net.addRoute(d,f,CEdgeParameters::TRUCK,100,1);
-  net.addRoute(f,h,CEdgeParameters::TRUCK,100,1);
-  net.addRoute(h,i,CEdgeParameters::TRUCK,100,1);
-  net.addRoute(i,j,CEdgeParameters::TRUCK,100,1);
-  net.addRoute(j,e,CEdgeParameters::TRUCK,100,1);
-  net.addRoute(a,d,CEdgeParameters::TRUCK,100,1);
-  net.addRoute(a,c,CEdgeParameters::TRUCK,100,1);
-  net.addRoute(c,d,CEdgeParameters::TRUCK,100,1);
+  net.addRoute(d,a,CEdgeParameters::TRUCK,100,1);
+  net.addRoute(a,b,CEdgeParameters::TRAIN,100,1);
   int indx,opt; 
 
   const char *pConfig=NULL;

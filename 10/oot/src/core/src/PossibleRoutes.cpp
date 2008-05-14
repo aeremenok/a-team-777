@@ -7,16 +7,17 @@
  *
  * ------------------------------------------------------------------------ */
 
+#include <iostream>
 #include <vector>
 #include <set>
 #include "DeliveryNetwork.h"
 
-void CDeliveryNetwork::findPossiblesRoutes(const CCity& destination, CDeliveryNetwork::Path& current, std::list<CDeliveryNetwork::Path> &res)
+void CDeliveryNetwork::findPossiblesRoutes(const CCity& destination, CDeliveryNetwork::Path &current, std::list<CDeliveryNetwork::Path> &res)
 {
   CCity last = current.vertex_back();
   if(last==destination) // пришли
   {
-    res.push_back(current);
+    res.push_back(CDeliveryNetwork::Path(current));
     return;
   }
   std::list<CDeliveryNetwork::Graph::edge> adjacent = m_graph.adjacent_edges(last);
@@ -28,8 +29,9 @@ void CDeliveryNetwork::findPossiblesRoutes(const CCity& destination, CDeliveryNe
       for(size_t i=0; i< it->cost.linkCount(); ++i)
       {
         CEdgeParameters::CLink link = it->cost.getLink(i);
-        current.add(it->vertex_pair.second, link);
+        current.push_back(it->vertex_pair.second, link);
         findPossiblesRoutes(destination,current,res);
+        current.pop_back();
       }
     }
   }
@@ -38,10 +40,11 @@ void CDeliveryNetwork::findPossiblesRoutes(const CCity& destination, CDeliveryNe
 std::list<CDeliveryNetwork::Path> CDeliveryNetwork::getPossibleRoutes(const CCity& from, const CCity& to)
 {
   CDeliveryNetwork::Path current;
-  current.add(from, CEdgeParameters::CLink());
+  current.push_back(from, CEdgeParameters::CLink());
 
   std::list<CDeliveryNetwork::Path> res;
   findPossiblesRoutes(to, current, res);
+  std::cerr << "res.size" << res.size() << "\n";
   return res;
 }
 

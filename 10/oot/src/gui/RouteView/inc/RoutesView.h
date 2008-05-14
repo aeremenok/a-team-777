@@ -19,7 +19,6 @@
 #include "ui_RoutesView.h"
 #include "City.h"
 #include "EdgeParameters.h"
-#include "TreeModel.h"
 /*!
  * \brief Отображение иска маршрутов
  */
@@ -32,7 +31,7 @@ class CRoutesView: public QWidget
   
   Ui::CRoutesView m_form;
   
-  CTreeModel m_model;
+  QStandardItemModel m_model;
 
 public:
   CRoutesView(QWidget * parent = 0, Qt::WindowFlags f = 0);

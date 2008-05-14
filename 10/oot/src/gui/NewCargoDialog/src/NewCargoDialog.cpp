@@ -16,15 +16,14 @@ CNewCargoDialog::CNewCargoDialog(QWidget *parent, Qt::WindowFlags f): QDialog(pa
 {
   m_form.setupUi(this);
   std::set<CCity> list = CDeliveryNetwork::getInstance().getCitys();
-  int i=0;
   for(std::set<CCity>::iterator it=list.begin();it!=list.end();++it)
   {
-    m_comboBoxCity.insert(std::pair<int,CCity>(i,*it));
-    m_form.m_from->insertItem(i,tr(it->getName().c_str()));
-    ++i;
+    m_comboBoxCity.insert(std::pair<QString,CCity>(tr(it->getName().c_str()),*it));
+    m_form.m_from->addItem(tr(it->getName().c_str()));
   }
 
   connect(m_form.m_from, SIGNAL(activated(int)), SLOT(itemActivated(int)));
+  connect(m_form.m_dest, SIGNAL(activated(int)), SLOT(itemChecked()));
   connect(m_form.m_airplane, SIGNAL(clicked()), SLOT(itemChecked()));
   connect(m_form.m_train, SIGNAL(clicked()), SLOT(itemChecked()));
   connect(m_form.m_ship, SIGNAL(clicked()), SLOT(itemChecked()));
@@ -48,9 +47,11 @@ void CNewCargoDialog::itemChecked()
   for(CConstMap<QCheckBox*, CEdgeParameters::LinkType>::const_iterator it = n.begin(); it!=n.end(); ++it)
     if(it->first->isChecked())
       validTypes.insert(it->second);
-
-  m_form.m_routes->updateModel(m_comboBoxCity.find(m_form.m_from->currentIndex())->second,
-                               m_comboBoxCity.find(m_form.m_dest->currentIndex())->second,
+  
+  validTypes.insert(CEdgeParameters::UNKNOWN);
+  
+  m_form.m_routes->updateModel(m_comboBoxCity.find(m_form.m_from->currentText())->second,
+                               m_comboBoxCity.find(m_form.m_dest->currentText())->second,
                                                    validTypes);
 
 }
@@ -62,7 +63,7 @@ void CNewCargoDialog::itemActivated(int index)
   m_form.m_dest->clear();
   m_form.m_speed->setEnabled(true);
   m_form.m_routes->setEnabled(true);
-  CCity from = m_comboBoxCity.find(index)->second;
+  CCity from = m_comboBoxCity.find(m_form.m_from->currentText())->second;
   std::set<CCity> list = CDeliveryNetwork::getInstance().getAccessibleCity(from);
   int i=0;
   for(std::set<CCity>::iterator it=list.begin();it!=list.end();++it)
@@ -70,6 +71,7 @@ void CNewCargoDialog::itemActivated(int index)
     m_form.m_dest->insertItem(i,tr(it->getName().c_str()));
     ++i;
   }
+  itemChecked();
 }
 
 
