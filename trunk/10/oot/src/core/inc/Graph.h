@@ -78,10 +78,16 @@ public:
     return vertices_list.front();
   }
 
-  void add(const vertex& v, const LinkType& c)
+  void push_back(const vertex& v, const LinkType& c)
   {
     vertices_list.push_back(v);
     link_list.push_back(c);
+  }
+  
+  void pop_back()
+  {
+    vertices_list.pop_back();
+    link_list.pop_back();
   }
 
   unsigned long getCost() const

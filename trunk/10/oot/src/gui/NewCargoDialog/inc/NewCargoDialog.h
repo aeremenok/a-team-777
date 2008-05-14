@@ -28,7 +28,7 @@ class CNewCargoDialog: public QDialog
   
   Ui::CNewCargoDialog m_form;
 
-  std::map<int, CCity> m_comboBoxCity;
+  std::map<QString, CCity> m_comboBoxCity;
 
 protected slots:
   void itemActivated(int);

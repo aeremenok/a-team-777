@@ -13,9 +13,9 @@ TARGET := RouteView
 DEFS += -DQT_THREAD_SUPPORT
 
 INC += -I./ -I./ui
-SRCS:= TreeItem.cpp TreeModel.cpp
+#  SRCS:= TreeItem.cpp TreeModel.cpp
 UIS := RoutesView.ui
-UICS := RoutesView.cpp TreeModel.cpp
+UICS := RoutesView.cpp
 
 default: compile lib
 
