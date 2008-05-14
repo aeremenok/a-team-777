@@ -3,81 +3,76 @@
 #include "TreeItem.h"
 
 
-TreeItem* TreeItem::getSubTree(const CDeliveryNetwork::CPath &path)
-{
-  std::list<CCity> list = path.getVertices();
-  std::list<CCostType> costs = path.getCost();
-
-  TreeItem *parent = new TreeItem(std::pair<CCity,CCity>(list.front(), list.back()), path.getSummaryCost(), CCostType::UNKNOWN);
-
-  std::list<CCostType>::iterator cost = costs.begin();
-
-  for(std::list<CCity>::iterator it=list.begin();it!=list.end();++it,++cost)
+CTreeItem::CTreeItem(const CDeliveryNetwork::Path &path):parentItem(NULL)
+{ 
+  m_pair = std::pair<CCity,CCity>(path.vertex_front(), path.vertex_back());
+  m_link = CEdgeParameters::CLink(CEdgeParameters::UNKNOWN, path.getCost(),0);
+  CDeliveryNetwork::Path::link_const_iterator link = path.link_begin();
+  CDeliveryNetwork::Path::vertex_const_iterator it = path.vertex_begin();
+  for(;it!=path.vertex_end();++it,++link)
   {
-    std::list<CCity>::iterator next = it;  next++;
-    parent->appendChild(new TreeItem(std::pair<CCity,CCity>(*it,*next), *cost, parent));
+    CDeliveryNetwork::Path::vertex_const_iterator next = it;  next++;
+    appendChild(new CTreeItem(std::pair<CCity,CCity>(*it,*next), *link, this));
   }
-
-  return parent;
 }
 
-TreeItem::TreeItem(const std::pair<CCity,CCity> &pair, const CCostType &cost, CCostType::Type type, TreeItem *parent)
+CTreeItem::CTreeItem(const std::pair<CCity,CCity> &pair, const CEdgeParameters::CLink &link, CTreeItem *parent)
 {
   m_pair = pair;
-  m_type = type;
-  m_cost = cost;
+  m_link = link;
   parentItem = parent;
 }
 
-TreeItem::~TreeItem()
+CTreeItem::~CTreeItem()
 {
   qDeleteAll(childItems);
 }
 
-void TreeItem::appendChild(TreeItem *item)
+void CTreeItem::appendChild(CTreeItem *item)
 {
   childItems.append(item);
 }
 
-TreeItem *TreeItem::child(int row)
+CTreeItem *CTreeItem::child(int row)
 {
   return childItems.value(row);
 }
 
-int TreeItem::childCount() const
+int CTreeItem::childCount() const
 {
   return childItems.count();
 }
 
-int TreeItem::columnCount() const
+int CTreeItem::columnCount() const
 {
   return 4;
 }
 
-QVariant TreeItem::data(int column) const
+QVariant CTreeItem::data(int column) const
 {
   switch(column)
   {
     case 0:
-      return QVariant(QObject:(m_pair.first.getName().c_str()));
+      return QVariant(QObject::tr(m_pair.first.getName().c_str()));
     case 1:
-      return QVariant(QObject:tr(m_pair.second.getName().c_str()));
+      return QVariant(QObject::tr(m_pair.second.getName().c_str()));
     case 2:
-      return QVariant(m_type);
+      return QVariant(m_link.getType());
     case 3:
-      return QVariant(m_cost.getCost(m_type));
+      return QVariant((unsigned int)(m_link.getCost()));
   }
+  return QVariant();
 }
 
-TreeItem *TreeItem::parent()
+CTreeItem *CTreeItem::parent()
 {
   return parentItem;
 }
 
-int TreeItem::row() const
+int CTreeItem::row() const
 {
   if (parentItem)
-    return parentItem->childItems.indexOf(const_cast<TreeItem*>(this));
+    return parentItem->childItems.indexOf(const_cast<CTreeItem*>(this));
 
   return 0;
 }

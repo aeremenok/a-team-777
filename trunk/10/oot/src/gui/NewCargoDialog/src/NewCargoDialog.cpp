@@ -34,18 +34,18 @@ CNewCargoDialog::CNewCargoDialog(QWidget *parent, Qt::WindowFlags f): QDialog(pa
 
 void CNewCargoDialog::itemChecked()
 {
-  std::set<CCostType::Type> validTypes;
+  std::set<CEdgeParameters::LinkType> validTypes;
 
-  static CPodPair<QCheckBox*, CCostType::Type> _nn[]=
+  static CPodPair<QCheckBox*, CEdgeParameters::LinkType> _nn[]=
   {
-    {m_form.m_airplane, CCostType::AIRLINES},
-    {m_form.m_ship, CCostType::SHIP},
-    {m_form.m_train, CCostType::TRAIN},
-    {m_form.m_truck, CCostType::TRUCK},
+    {m_form.m_airplane, CEdgeParameters::AIRLINES},
+    {m_form.m_ship, CEdgeParameters::SHIP},
+    {m_form.m_train, CEdgeParameters::TRAIN},
+    {m_form.m_truck, CEdgeParameters::TRUCK},
   };
-  static const CConstMap<QCheckBox*, CCostType::Type> n(_nn,_nn+COUNT(_nn));
+  static const CConstMap<QCheckBox*, CEdgeParameters::LinkType> n(_nn,_nn+COUNT(_nn));
   
-  for(CConstMap<QCheckBox*, CCostType::Type>::const_iterator it = n.begin(); it!=n.end(); ++it)
+  for(CConstMap<QCheckBox*, CEdgeParameters::LinkType>::const_iterator it = n.begin(); it!=n.end(); ++it)
     if(it->first->isChecked())
       validTypes.insert(it->second);
 

@@ -4,36 +4,35 @@
 #include <QtCore/QList>
 #include <QtCore/QVariant>
 #include "City.h"
-#include "CostType.h"
+#include "EdgeParameters.h"
 #include "DeliveryNetwork.h"
 
-class TreeItem
+class CTreeItem
 {
-    QList<TreeItem*> childItems;
+    QList<CTreeItem*> childItems;
 
     std::pair<CCity, CCity> m_pair;
-    CCostType               m_cost;
-    CCostType::Type         m_type;
-    TreeItem *              parentItem;
+    CEdgeParameters::CLink  m_link;
+    CTreeItem             * parentItem;
 
-    TreeItem(const std::pair<CCity,CCity> & pair, const CCostType& cost, CCostType::Type type, TreeItem* parent =0);
-
-public:
+    CTreeItem(const std::pair<CCity,CCity> & pair, const CEdgeParameters::CLink&, CTreeItem* parent =0);
     
-    TreeItem(){}
+public:
+   
+    CTreeItem() 
+    {}
+    CTreeItem(const CDeliveryNetwork::Path &path);
 
-    TreeItem* getSubTree(const CDeliveryNetwork::CPath &path);
+    void appendChild(CTreeItem *child);
 
-    void appendChild(TreeItem *child);
-
-    TreeItem *child(int row);
+    CTreeItem *child(int row);
     int childCount() const;
     int columnCount() const;
     QVariant data(int column) const;
     int row() const;
-    TreeItem *parent();
+    CTreeItem *parent();
     
-    ~TreeItem();
+    ~CTreeItem();
 };
 
 #endif

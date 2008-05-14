@@ -87,7 +87,7 @@ public:
   unsigned long getCost() const
   {
     unsigned long cost=0;
-    for(typename std::list<LinkType>::iterator it=link_list.begin();link_list.end();++it)
+    for(typename std::list<LinkType>::const_iterator it=link_list.begin();it!=link_list.end();++it)
       cost += it->getCost();
     return cost;
   }

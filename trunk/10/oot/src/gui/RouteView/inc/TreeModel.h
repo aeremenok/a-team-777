@@ -5,15 +5,15 @@
 #include <QtCore/QModelIndex>
 #include <QtCore/QVariant>
 
-class TreeItem;
+class CTreeItem;
 
-class TreeModel : public QAbstractItemModel
+class CTreeModel : public QAbstractItemModel
 {
     Q_OBJECT
 
 public:
-    TreeModel(const QString &data, QObject *parent = 0);
-    ~TreeModel();
+    CTreeModel(QObject *parent = 0);
+    ~CTreeModel();
 
     QVariant data(const QModelIndex &index, int role) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -25,8 +25,10 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
+    void addRow(CTreeItem *item);
+
 private:
-    TreeItem *rootItem;
+    CTreeItem *rootItem;
 };
 
 #endif
