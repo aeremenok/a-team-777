@@ -13,14 +13,17 @@ CEdgeParameters::CEdgeParameters()
 {
 }
 
-bool CEdgeParameters::isAvail(CEdgeParameters::Type type) const
+bool CEdgeParameters::isAvail(CEdgeParameters::LinkType type) const
 {
-  return m_links.count(type) > 0;
+  for(size_t it=0;it<m_links.size();++it)
+    if(m_links[it].getType()==type)
+      return true;
+  return false;
 }
 
 void CEdgeParameters::addLink(const CEdgeParameters::CLink& link)
 {
-  m_links.insert(link);
+  m_links.push_back(link);
 }
 
 size_t CEdgeParameters::linkCount() const
@@ -28,9 +31,18 @@ size_t CEdgeParameters::linkCount() const
   return m_links.size();
 }
 
-const CLink& getLink(LinkType type) const
+const CEdgeParameters::CLink& CEdgeParameters::getLink(LinkType type) const
 {
-  return m_links.find(type);
+  for(size_t it=0;it<m_links.size();++it)
+    if(m_links[it].getType()==type)
+      return m_links[it];
+  
+  throw;
+}
+
+const CEdgeParameters::CLink& CEdgeParameters::getLink(size_t index) const
+{
+  return m_links[index];
 }
 
 CEdgeParameters::~CEdgeParameters()

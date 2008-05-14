@@ -11,7 +11,6 @@
 
 CDeliveryNetwork::CDeliveryNetwork()
 {
-
 }
 
 std::set<CCity> CDeliveryNetwork::getCitys() const
@@ -48,19 +47,19 @@ const CDeliveryNetwork::Graph::edge& CDeliveryNetwork::getEdge(const CCity& from
 //\todo вставить исключение "ребро не нашел"
 }
 
-void CDeliveryNetwork::addRoute(const CCity& from, const CCity& to, CCostType::Type type, unsigned long cost, unsigned long time)
+void CDeliveryNetwork::addRoute(const CCity& from, const CCity& to, CEdgeParameters::LinkType type, unsigned long cost, unsigned long time)
 {
   CDeliveryNetwork::Graph::pair p(from,to);
   
-  CCostType costType;
-  costType.setCost(type,cost,time);
+  CEdgeParameters parameters;
+  parameters.addLink(CEdgeParameters::CLink(type,cost,time));
 
   if(isEdgeAvail(from,to))
   {
-    costType = getEdge(from,to).cost;
-    costType.setCost(type,cost,time);
+    parameters = getEdge(from,to).cost;
+    parameters.addLink(CEdgeParameters::CLink(type,cost,time));
   }
-  m_graph.add(p,costType);
+  m_graph.add(p,parameters);
 }
 
 CDeliveryNetwork& CDeliveryNetwork::getInstance()
