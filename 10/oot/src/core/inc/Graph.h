@@ -217,7 +217,25 @@ public:
   }
 
   /*!
+   * \brief получить список смежных вершин
+   * \param v вершина для которой требуется список вершин
+   */
+  std::list<vertex>  adjacent_vertices(const VertexType& v) const 
+  {
+    std::list<vertex> result;
+
+    foreach(const edge& e, edges) {
+      if (e.vertex_pair.first == v) {
+        result.push_back(e.vertex_pair.second);
+      }
+    }
+
+    return result;
+  }
+
+  /*!
    * \brief итератор по вершинам
+   * в свою очередь предоставляет итератор по смежным ребрам
    */
   class vertex_iterator : public std::iterator<std::bidirectional_iterator_tag, VertexType>  
   {

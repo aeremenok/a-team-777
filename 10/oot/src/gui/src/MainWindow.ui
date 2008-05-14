@@ -22,8 +22,20 @@
      <height>31</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu" >
+    <property name="title" >
+     <string>Операции</string>
+    </property>
+    <addaction name="m_newCargo" />
+   </widget>
+   <addaction name="menu" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
+  <action name="m_newCargo" >
+   <property name="text" >
+    <string>Добавить заказ</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
