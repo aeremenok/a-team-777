@@ -33,6 +33,8 @@ class CNewCargoDialog: public QDialog
 protected slots:
   void itemActivated(int);
 
+  void itemChecked();
+
 public:
   CNewCargoDialog(QWidget * parent = 0, Qt::WindowFlags f = 0);
   

@@ -1,9 +1,9 @@
 # $Id: Makefile,v 1.26 2008/03/17 07:33:01 zps Exp $
 
-MAKE_FLAGS += qt4 recursive
+MAKE_FLAGS += recursive qt4 
 
 SUBUI = ${SUBDIRS}
-SUBDIRS = LoginDialog NewCargoDialog
+SUBDIRS = LoginDialog NewCargoDialog RouteView
 
 ROOT ?= ..
 
@@ -16,7 +16,6 @@ vpath %.ui  ./src $(addsuffix /src,${SUBUI})
 # target name & sources list
 TARGET := gui
 
-SRCS :=
 UIS := MainWindow.ui
 UICS := MainWindow.cpp
 
@@ -30,9 +29,7 @@ DEFS += -DQT_THREAD_SUPPORT
 
 INC += -I./ -I./ui $(addprefix -I,$(addsuffix /inc,${SUBUI})) $(addprefix -I,$(addsuffix /ui,${SUBUI}))
 
-default: compile lib exe
-
-compile: ui
+default: ui compile lib exe
 
 include ${ROOT}/inc.inc
 include ${ROOT}/Makefile.inc

@@ -38,7 +38,14 @@ class CDeliveryNetwork
 
   const Graph::edge& getEdge(const CCity& from, const CCity& to) const;
 
+  /*!
+   * \brief рекурсивный поиск всех путей до destination
+   */
+  void findPossiblesRoutes(const CCity& destination, Graph::path& current, std::list<Graph::path> &res);
+
 public:
+
+  typedef Graph::path CPath;
   /*!
    * \brief получить полный список всех городов
    */
@@ -57,7 +64,12 @@ public:
   /*!
    * \brief добавить маршрут из города в город, с заданным типом и стоимостью
    */
-  void addRoute(const CCity& from, const CCity& to, CCostType::Type type, unsigned long cost);
+  void addRoute(const CCity& from, const CCity& to, CCostType::Type type, unsigned long cost, unsigned long time);
+
+  /*!
+   * \brief получить список всех возможных маршрутов
+   */
+  std::list<Graph::path> getPossibleRoutes(const CCity& from, const CCity &to);
 
   static CDeliveryNetwork& getInstance();
   

@@ -65,10 +65,20 @@ public:
   /*!
    * \brief путь
    */
-  struct path 
+  class path 
   {
     std::list<vertex>  vertices_list; //!< список вершин
-    CostType      cost;               //!< стоимость
+    std::list<CostType>    cost_list; //!< список типов перевозки между вершинами
+    CostType                    cost; //!< общая стоимость
+  public:
+    path()
+    {
+    }
+
+    path(const vertex& v )
+    {
+      vertices_list.push_back(v);
+    }
 
     bool operator < (const path& other) const 
     {
@@ -77,6 +87,49 @@ public:
       else 
         return (cost < other.cost);
     }
+
+    const vertex& lastVertex() const
+    {
+      return vertices_list.back();
+    }
+
+    void addVertex(const vertex& v, const CostType& c)
+    {
+      vertices_list.push_back(v);
+      cost_list.push_back(c);
+      cost = cost + c;
+    }
+
+    const CostType& getSummaryCost() const
+    {
+      return cost;
+    }
+    
+    const std::list<vertex>& getVertices() const
+    {
+      return vertices_list;
+    }
+
+    const std::list<CostType>& getCost() const
+    {
+      return cost_list;
+    }
+
+    std::list<CostType>& getCost()
+    {
+      return cost_list;
+    }
+
+    bool exist(const vertex& v) const
+    {
+      for(typename std::list<vertex>::const_iterator it=vertices_list.begin(); it!=vertices_list.end(); it++)
+      {
+        if((*it)==v)
+          return true;
+      }
+      return false;
+    }
+
   };
 
 private:
@@ -252,6 +305,13 @@ public:
     vertex_iterator() : owner(0)
     {
 
+    }
+
+    vertex_iterator(const vertex_iterator&v)
+    {
+      owner = v.owner;
+      node = v.node;
+      adjacent_edge = std::auto_ptr<std::list<edge> >(new std::list<edge>(*v.adjacent_edge));
     }
 
     vertex_iterator(_Owner* pOwner, _NodePtr _node) : owner(pOwner), node(_node)

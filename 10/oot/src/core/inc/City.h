@@ -22,6 +22,8 @@ class CCity
   unsigned long m_people; //!< численность
 public:
 
+  CCity(){}
+
   CCity(const std::string& name, unsigned long people);
 
   const std::string& getName() const;

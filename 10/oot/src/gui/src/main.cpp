@@ -44,15 +44,18 @@ int main(int argc, char *argv[])
   net.addCity(i);
   net.addCity(j);
   net.addCity(k);
-  net.addRoute(a,b,CCostType::AIRLINES,100);
-  net.addRoute(b,c,CCostType::TRUCK,100);
-  net.addRoute(b,d,CCostType::TRUCK,100);
-  net.addRoute(e,a,CCostType::TRUCK,100);
-  net.addRoute(d,f,CCostType::TRUCK,100);
-  net.addRoute(f,h,CCostType::TRUCK,100);
-  net.addRoute(h,i,CCostType::TRUCK,100);
-  net.addRoute(i,j,CCostType::TRUCK,100);
-  net.addRoute(j,e,CCostType::TRUCK,100);
+  net.addRoute(a,b,CCostType::AIRLINES,100,1);
+  net.addRoute(b,c,CCostType::TRUCK,100,1);
+  net.addRoute(b,d,CCostType::TRUCK,100,1);
+  net.addRoute(e,a,CCostType::TRUCK,100,1);
+  net.addRoute(d,f,CCostType::TRUCK,100,1);
+  net.addRoute(f,h,CCostType::TRUCK,100,1);
+  net.addRoute(h,i,CCostType::TRUCK,100,1);
+  net.addRoute(i,j,CCostType::TRUCK,100,1);
+  net.addRoute(j,e,CCostType::TRUCK,100,1);
+  net.addRoute(a,d,CCostType::TRUCK,100,1);
+  net.addRoute(a,c,CCostType::TRUCK,100,1);
+  net.addRoute(c,d,CCostType::TRUCK,100,1);
   int indx,opt; 
 
   const char *pConfig=NULL;

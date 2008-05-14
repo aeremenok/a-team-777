@@ -8,17 +8,14 @@ vpath %.ui  ./src
 
 MAKE_FLAGS += qt4
 
-TARGET := NewCargoDialog
-
-INCDIRS = RouteView
-
-INC += -I./ -I./ui -I../inc -I../ui $(addprefix -I../,$(addsuffix /inc,${INCDIRS})) $(addprefix -I../,$(addsuffix /ui,${INCDIRS}))
+TARGET := RouteView
 
 DEFS += -DQT_THREAD_SUPPORT
 
-
-UIS := NewCargoDialog.ui
-UICS := NewCargoDialog.cpp
+INC += -I./ -I./ui
+SRCS:= TreeItem.cpp
+UIS := RoutesView.ui
+UICS := RoutesView.cpp TreeModel.cpp
 
 default: compile lib
 

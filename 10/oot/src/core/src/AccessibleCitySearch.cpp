@@ -1,7 +1,7 @@
 /* $Id: template.cpp,v 1.3 2006/01/13 09:00:29 dumb Exp $ */
 /*!
  * file DeliveryNetwork.cpp
- * \brief —Ä–µ–∞–ª–∏–∑–∞—Ü–∏—è –∫–ª–∞—Å—Å–∞ CDeliveryNetwork
+ * \brief “≈¡Ã…⁄¡√…— CDeliveryNetwork::getAccessibleCity
  *
  * PROJ: oot
  *
