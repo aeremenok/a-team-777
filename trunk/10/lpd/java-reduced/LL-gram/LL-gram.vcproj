@@ -40,14 +40,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;D:\SVNLeti\10\lpd\java-reduced\LL-gram\Gram&quot;;&quot;D:\SVNLeti\10\lpd\java-reduced\LL-gram\CoCo&quot;"
+				AdditionalIncludeDirectories=".\Gram;.\CoCo"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -240,7 +240,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine=".\CoCo\Coco.exe  .\Gram\Gram.atg"
+					CommandLine=".\CoCo\Coco.exe  .\Gram\Gram.atg&#x0D;&#x0A;"
 					Outputs="\Gram\Scanner.h;\Gram\Scanner.cpp;\Gram\Parser.h;\Gram\Parser.cpp"
 				/>
 			</FileConfiguration>

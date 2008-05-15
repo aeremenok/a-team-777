@@ -10,10 +10,11 @@ public class Foo extends Fufel
   {
   	  int a = 6, b=4;
   	  add(6>=5,a);
-  	  super.helloWorld(7!=6, st);
+  	  b = 966;
+  	  super.helloWorld(7!=6, st, "ava");
   	  if(a > 5) 
   	  {
-  	  	  bool b = 5==5;
+  	  	  bool b = 5==Foo4.Hello("GOOD");
   	  	  return;
   	  }
   	 return 6<=3;
