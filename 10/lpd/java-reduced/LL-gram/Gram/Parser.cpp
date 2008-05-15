@@ -76,7 +76,7 @@ void Parser::typeDeclaration() {
 			interfaceDeclaration();
 		} else if (la->kind == 5 || la->kind == 6 || la->kind == 11) {
 			classDeclaration();
-		} else SynErr(55);
+		} else SynErr(66);
 }
 
 void Parser::accessSpecifier() {
@@ -86,7 +86,7 @@ void Parser::accessSpecifier() {
 			Get();
 		} else if (la->kind == 15) {
 			Get();
-		} else SynErr(56);
+		} else SynErr(67);
 }
 
 void Parser::interfaceDeclaration() {
@@ -137,7 +137,7 @@ void Parser::classBody() {
 					type();
 				} else if (la->kind == 1) {
 					Get();
-				} else SynErr(57);
+				} else SynErr(68);
 				Expect(1);
 				if (la->kind == 7) {
 					Get();
@@ -156,8 +156,8 @@ void Parser::classBody() {
 						expression();
 					}
 					Expect(27);
-				} else SynErr(58);
-			} else SynErr(59);
+				} else SynErr(69);
+			} else SynErr(70);
 		}
 		Expect(10);
 }
@@ -200,7 +200,7 @@ void Parser::type() {
 			Get();
 			break;
 		}
-		default: SynErr(60); break;
+		default: SynErr(71); break;
 		}
 }
 
@@ -209,7 +209,7 @@ void Parser::formalParameterList() {
 			type();
 		} else if (la->kind == 1) {
 			Get();
-		} else SynErr(61);
+		} else SynErr(72);
 		Expect(1);
 		while (la->kind == 25) {
 			Get();
@@ -217,7 +217,7 @@ void Parser::formalParameterList() {
 				type();
 			} else if (la->kind == 1) {
 				Get();
-			} else SynErr(62);
+			} else SynErr(73);
 			Expect(1);
 		}
 }
@@ -237,7 +237,7 @@ void Parser::statement() {
 				Expect(10);
 			} else if (StartOf(4)) {
 				statement();
-			} else SynErr(63);
+			} else SynErr(74);
 			if (la->kind == 29) {
 				Get();
 				if (la->kind == 9) {
@@ -248,7 +248,7 @@ void Parser::statement() {
 					Expect(10);
 				} else if (StartOf(4)) {
 					statement();
-				} else SynErr(64);
+				} else SynErr(75);
 			}
 			break;
 		}
@@ -265,12 +265,12 @@ void Parser::statement() {
 				Expect(10);
 			} else if (StartOf(4)) {
 				statement();
-			} else SynErr(65);
+			} else SynErr(76);
 			break;
 		}
 		case 31: {
 			Get();
-			if (la->kind == 1 || la->kind == 2) {
+			if (la->kind == 1 || la->kind == 2 || la->kind == 3) {
 				expression();
 			}
 			Expect(27);
@@ -280,7 +280,7 @@ void Parser::statement() {
 			Get();
 			expressionName();
 			Expect(7);
-			if (la->kind == 1 || la->kind == 2) {
+			if (la->kind == 1 || la->kind == 2 || la->kind == 3) {
 				expression();
 			}
 			Expect(8);
@@ -331,7 +331,7 @@ void Parser::statement() {
 				Expect(27);
 			} else if (la->kind == 7) {
 				Get();
-				if (la->kind == 1 || la->kind == 2) {
+				if (la->kind == 1 || la->kind == 2 || la->kind == 3) {
 					expression();
 					while (la->kind == 25) {
 						Get();
@@ -340,7 +340,11 @@ void Parser::statement() {
 				}
 				Expect(8);
 				Expect(27);
-			} else SynErr(66);
+			} else if (StartOf(7)) {
+				assignmentOperator();
+				expression();
+				Expect(27);
+			} else SynErr(77);
 			break;
 		}
 		case 33: {
@@ -348,7 +352,7 @@ void Parser::statement() {
 			Expect(34);
 			Expect(1);
 			Expect(7);
-			if (la->kind == 1 || la->kind == 2) {
+			if (la->kind == 1 || la->kind == 2 || la->kind == 3) {
 				expression();
 				while (la->kind == 25) {
 					Get();
@@ -359,12 +363,12 @@ void Parser::statement() {
 			Expect(27);
 			break;
 		}
-		default: SynErr(67); break;
+		default: SynErr(78); break;
 		}
 }
 
 void Parser::expression() {
-		conditionalExpression();
+		conditionalOrExpression();
 }
 
 void Parser::expressionName() {
@@ -374,13 +378,76 @@ void Parser::expressionName() {
 				Get();
 				Expect(1);
 			}
+			if (la->kind == 7) {
+				Get();
+				if (la->kind == 1 || la->kind == 2 || la->kind == 3) {
+					expression();
+					while (la->kind == 25) {
+						Get();
+						expression();
+					}
+				}
+				Expect(8);
+			}
 		} else if (la->kind == 2) {
 			Get();
-		} else SynErr(68);
+		} else if (la->kind == 3) {
+			Get();
+		} else SynErr(79);
 }
 
-void Parser::conditionalExpression() {
-		conditionalOrExpression();
+void Parser::assignmentOperator() {
+		switch (la->kind) {
+		case 26: {
+			Get();
+			break;
+		}
+		case 54: {
+			Get();
+			break;
+		}
+		case 55: {
+			Get();
+			break;
+		}
+		case 56: {
+			Get();
+			break;
+		}
+		case 57: {
+			Get();
+			break;
+		}
+		case 58: {
+			Get();
+			break;
+		}
+		case 59: {
+			Get();
+			break;
+		}
+		case 60: {
+			Get();
+			break;
+		}
+		case 61: {
+			Get();
+			break;
+		}
+		case 62: {
+			Get();
+			break;
+		}
+		case 63: {
+			Get();
+			break;
+		}
+		case 64: {
+			Get();
+			break;
+		}
+		default: SynErr(80); break;
+		}
 }
 
 void Parser::conditionalOrExpression() {
@@ -437,7 +504,7 @@ void Parser::equalityExpression() {
 
 void Parser::relationalExpression() {
 		shiftExpression();
-		while (StartOf(7)) {
+		while (StartOf(8)) {
 			if (la->kind == 42) {
 				Get();
 			} else if (la->kind == 43) {
@@ -518,7 +585,7 @@ void Parser::Parse() {
 }
 
 Parser::Parser(Scanner *scanner) {
-	maxT = 54;
+	maxT = 65;
 
 	dummyToken = NULL;
 	t = la = NULL;
@@ -532,15 +599,16 @@ bool Parser::StartOf(int s) {
 	const bool T = true;
 	const bool x = false;
 
-	static bool set[8][56] = {
-		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,x,x,x, T,T,T,x, x,x,x,T, x,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,T,T,x, x,x,x,x, x,T,T,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,x,x,x, x,T,x,x, x,x,x,x, T,T,T,T, T,T,T,T, T,x,x,x, T,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,T,T,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x}
+	static bool set[9][67] = {
+		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
+		{x,x,x,x, T,T,T,x, x,x,x,T, x,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
+		{x,T,x,x, x,T,T,x, x,x,x,x, x,T,T,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
+		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
+		{x,T,x,x, x,x,x,x, x,T,x,x, x,x,x,x, T,T,T,T, T,T,T,T, T,x,x,x, T,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
+		{x,T,x,x, x,T,T,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
+		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
+		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,T,T,T, T,x,x},
+		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x}
 	};
 
 
@@ -614,21 +682,33 @@ void Errors::SynErr(int line, int col, int n) {
 			case 51: s = coco_string_create(L"\"*\" expected"); break;
 			case 52: s = coco_string_create(L"\"/\" expected"); break;
 			case 53: s = coco_string_create(L"\"%\" expected"); break;
-			case 54: s = coco_string_create(L"??? expected"); break;
-			case 55: s = coco_string_create(L"invalid typeDeclaration"); break;
-			case 56: s = coco_string_create(L"invalid accessSpecifier"); break;
-			case 57: s = coco_string_create(L"invalid classBody"); break;
-			case 58: s = coco_string_create(L"invalid classBody"); break;
-			case 59: s = coco_string_create(L"invalid classBody"); break;
-			case 60: s = coco_string_create(L"invalid type"); break;
-			case 61: s = coco_string_create(L"invalid formalParameterList"); break;
-			case 62: s = coco_string_create(L"invalid formalParameterList"); break;
-			case 63: s = coco_string_create(L"invalid statement"); break;
-			case 64: s = coco_string_create(L"invalid statement"); break;
-			case 65: s = coco_string_create(L"invalid statement"); break;
-			case 66: s = coco_string_create(L"invalid statement"); break;
-			case 67: s = coco_string_create(L"invalid statement"); break;
-			case 68: s = coco_string_create(L"invalid expressionName"); break;
+			case 54: s = coco_string_create(L"\"*=\" expected"); break;
+			case 55: s = coco_string_create(L"\"/=\" expected"); break;
+			case 56: s = coco_string_create(L"\"%=\" expected"); break;
+			case 57: s = coco_string_create(L"\"+=\" expected"); break;
+			case 58: s = coco_string_create(L"\"-=\" expected"); break;
+			case 59: s = coco_string_create(L"\"<<=\" expected"); break;
+			case 60: s = coco_string_create(L"\">>=\" expected"); break;
+			case 61: s = coco_string_create(L"\">>>=\" expected"); break;
+			case 62: s = coco_string_create(L"\"&=\" expected"); break;
+			case 63: s = coco_string_create(L"\"^=\" expected"); break;
+			case 64: s = coco_string_create(L"\"|=\" expected"); break;
+			case 65: s = coco_string_create(L"??? expected"); break;
+			case 66: s = coco_string_create(L"invalid typeDeclaration"); break;
+			case 67: s = coco_string_create(L"invalid accessSpecifier"); break;
+			case 68: s = coco_string_create(L"invalid classBody"); break;
+			case 69: s = coco_string_create(L"invalid classBody"); break;
+			case 70: s = coco_string_create(L"invalid classBody"); break;
+			case 71: s = coco_string_create(L"invalid type"); break;
+			case 72: s = coco_string_create(L"invalid formalParameterList"); break;
+			case 73: s = coco_string_create(L"invalid formalParameterList"); break;
+			case 74: s = coco_string_create(L"invalid statement"); break;
+			case 75: s = coco_string_create(L"invalid statement"); break;
+			case 76: s = coco_string_create(L"invalid statement"); break;
+			case 77: s = coco_string_create(L"invalid statement"); break;
+			case 78: s = coco_string_create(L"invalid statement"); break;
+			case 79: s = coco_string_create(L"invalid expressionName"); break;
+			case 80: s = coco_string_create(L"invalid assignmentOperator"); break;
 
 		default:
 		{

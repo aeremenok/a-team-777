@@ -82,7 +82,7 @@ bool next(int i)
 	void statement();
 	void expression();
 	void expressionName();
-	void conditionalExpression();
+	void assignmentOperator();
 	void conditionalOrExpression();
 	void conditionalAndExpression();
 	void inclusiveOrExpression();

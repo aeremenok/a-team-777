@@ -133,14 +133,13 @@ statement =
 			{',' identifier ['=' expression]} ';')
 		|(identifier 
 			((identifier ['=' expression] {',' identifier ['=' expression]} ';')
-			|(openRoundBracket [expression {',' expression}] closeRoundBracket ';'))
-			)
+			|(openRoundBracket [expression {',' expression}] closeRoundBracket ';')
+			|(assignmentOperator expression ';')
+			))
 		|("super" '.' identifier 
 			openRoundBracket [expression {',' expression}] closeRoundBracket ';')
 	)
 .
-
-
 
 /*----------------------------------interfaceBody----------------------------------*/
 /*interfaceBody =
@@ -153,12 +152,7 @@ statement =
 
 /*----------------------------------expression----------------------------------*/
 expression =
-	(conditionalExpression /*| assignment*/)
-.
-/*----------------------------------conditionalExpression----------------------------------*/
-conditionalExpression =
 	conditionalOrExpression 
-	//['?' expression ':' conditionalExpression] 
 .
 /*----------------------------------conditionalOrExpression----------------------------------*/
 conditionalOrExpression =
@@ -206,20 +200,10 @@ unaryExpression =
 .
 /*----------------------------------expressionName----------------------------------*/
 expressionName =
-	((identifier {'.' identifier}) | (realNumber))
+	((identifier {'.' identifier} ['('[expression {',' expression}]')']) | (realNumber)|(string))
 .
-/*----------------------------------assignment----------------------------------*/
-/*assignment =
-	leftHandSide
-	assignmentOperator
-	expression
-.*/
-/*----------------------------------leftHandSide----------------------------------*/
-/*leftHandSide =
-	expressionName
-.*/
 /*----------------------------------assignmentOperator----------------------------------*/
-/*assignmentOperator =
+assignmentOperator =
 	("=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|=")
-.*/
+.
 END CompilationUnit.
