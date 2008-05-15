@@ -16,10 +16,9 @@ CHARACTERS
   lf  = '\n'.
   tab = '\t'.
   dot = '.'.
-  //openRoundBracketC = '('.
   stringCh  = ANY - '"' - cr - lf. 
 /* спец символы
-   stringCh  = ANY - '"' - '\\' - cr - lf. 
+   stringCh  = ANY - '"' - '\\' - cr - lf.
    printable =  '\u0020' .. '\u007e'.
    string  = '"' { stringCh | '\\' printable } '"'.
 */
@@ -34,6 +33,8 @@ TOKENS
 	static =		"static".
 	openRoundBracket = '('.
 	closeRoundBracket = ')'.
+	openCurlyBracket = '{'.
+	closeCurlyBracket = '}'.
 
 COMMENTS FROM "/*" TO "*/" NESTED
 COMMENTS FROM "//" TO cr lf
@@ -79,9 +80,9 @@ type =
 .
 /*----------------------------------formalParameterList----------------------------------*/
 formalParameterList =
-	(type | identifier)
-	identifier
-	['=' expression]
+	(type | identifier) identifier
+	{',' (type | identifier) identifier}
+	//['=' expression]
 .
 /*----------------------------------classBody----------------------------------*/
 classBody =
@@ -90,7 +91,8 @@ classBody =
 		[accessSpecifier]
 		((IF(next(_openRoundBracket))
 			identifier
-			openRoundBracket [formalParameterList] closeRoundBracket /*TODO: тело конструктора*/
+			openRoundBracket [formalParameterList] closeRoundBracket 
+				openCurlyBracket {statement} closeCurlyBracket
 		)
 		|
 		(
@@ -101,7 +103,8 @@ classBody =
 			identifier
 			(
 				(
-					openRoundBracket [formalParameterList] closeRoundBracket /*TODO: тело функции*/
+					openRoundBracket [formalParameterList] closeRoundBracket 
+						openCurlyBracket {statement} closeCurlyBracket
 				)
 			|
 				(
@@ -114,7 +117,28 @@ classBody =
 	}
 	'}'
 .
-
+/*----------------------------------statement----------------------------------*/
+statement =	
+	(
+		("if" openRoundBracket expression closeRoundBracket 
+			((openCurlyBracket {statement} closeCurlyBracket) | statement)
+			["else" ((openCurlyBracket {statement} closeCurlyBracket) | statement)]
+		)
+		|("while" openRoundBracket expression closeRoundBracket 
+			((openCurlyBracket {statement} closeCurlyBracket) | statement))
+		|("return" [expression] ';')
+		|("new" expressionName openRoundBracket [expression] closeRoundBracket)
+		|(openCurlyBracket {statement} closeCurlyBracket)
+		|(type identifier ['=' expression]
+			{',' identifier ['=' expression]} ';')
+		|(identifier 
+			((identifier ['=' expression] {',' identifier ['=' expression]} ';')
+			|(openRoundBracket [expression {',' expression}] closeRoundBracket ';'))
+			)
+		|("super" '.' identifier 
+			openRoundBracket [expression {',' expression}] closeRoundBracket ';')
+	)
+.
 
 
 
