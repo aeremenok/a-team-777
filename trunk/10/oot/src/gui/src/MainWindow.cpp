@@ -14,11 +14,14 @@
 #include "UserCookie.h"
 #include "LoginDialog.h"
 #include "NewCargoDialog.h"
+#include "GraphWidget.h"
 
 CMainWindow::CMainWindow(QWidget * parent, Qt::WindowFlags f): QMainWindow(parent,f)
 {
   m_form.setupUi(this);
-  
+  GraphWidget * w = new GraphWidget(this);  
+  w->setGraph(CDeliveryNetwork::getInstance().getContainer());
+  setCentralWidget(w);
   connect(m_form.m_newCargo,SIGNAL(triggered()),SLOT(addCargo()));
 
 }
