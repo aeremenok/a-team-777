@@ -19,6 +19,7 @@ public class Foo extends Fufel
   	  }
   	 return 6<=3;
   	 {
+  	 	 System.out.println( c );
   	 	 return 7==4;
   	 }
   }
