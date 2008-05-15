@@ -34,6 +34,8 @@ private:
 		_static=6,
 		_openRoundBracket=7,
 		_closeRoundBracket=8,
+		_openCurlyBracket=9,
+		_closeCurlyBracket=10,
 	};
 	int maxT;
 
@@ -77,7 +79,9 @@ bool next(int i)
 	void classBody();
 	void type();
 	void formalParameterList();
+	void statement();
 	void expression();
+	void expressionName();
 	void conditionalExpression();
 	void conditionalOrExpression();
 	void conditionalAndExpression();
@@ -90,7 +94,6 @@ bool next(int i)
 	void additiveExpression();
 	void multiplicativeExpression();
 	void unaryExpression();
-	void expressionName();
 
 	void Parse();
 
