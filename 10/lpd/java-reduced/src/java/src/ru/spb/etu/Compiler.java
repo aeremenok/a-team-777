@@ -3,6 +3,7 @@ package ru.spb.etu;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class Compiler
 {
@@ -14,12 +15,14 @@ public class Compiler
     {
         try
         {
-            File file = new File( "" );
+            File file = new File( args[0] );
             FileInputStream fileInputStream = new FileInputStream( file );
             Scanner scanner = new Scanner( fileInputStream );
+            System.out.println( "scanning" );
             scanner.Scan();
 
-            Parser parser = new Parser( scanner );
+            Parser parser = new MyParser( scanner );
+            System.out.println( "parsing" );
             parser.Parse();
         }
         catch ( FileNotFoundException e )
