@@ -9,12 +9,14 @@
 		<db-attribute name="description" type="VARCHAR" length="255"/>
 		<db-attribute name="imageUrl" type="VARCHAR" length="255"/>
 		<db-attribute name="name" type="VARCHAR" length="30"/>
+		<db-attribute name="picture" type="BLOB"/>
 	</db-entity>
 	<db-entity name="db_genre" schema="etu">
 		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
 		<db-attribute name="Name" type="VARCHAR" length="255"/>
 		<db-attribute name="descrption" type="VARCHAR" length="255"/>
 		<db-attribute name="imageURL" type="VARCHAR" length="255"/>
+		<db-attribute name="picture" type="BLOB"/>
 	</db-entity>
 	<db-entity name="db_masterpiece" schema="etu">
 		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
@@ -26,6 +28,7 @@
 		<db-attribute name="description" type="VARCHAR" length="255"/>
 		<db-attribute name="imageURL" type="VARCHAR" length="255"/>
 		<db-attribute name="photo" type="VARCHAR" length="255"/>
+		<db-attribute name="picture" type="BLOB"/>
 		<db-attribute name="title" type="VARCHAR" length="255"/>
 	</db-entity>
 	<db-entity name="db_museum" schema="etu">
@@ -33,6 +36,7 @@
 		<db-attribute name="description" type="VARCHAR" length="255"/>
 		<db-attribute name="imageURL" type="VARCHAR" length="255"/>
 		<db-attribute name="name" type="VARCHAR" length="50"/>
+		<db-attribute name="picture" type="BLOB"/>
 		<db-attribute name="www" type="VARCHAR" length="255"/>
 	</db-entity>
 	<db-entity name="db_painting" schema="etu">
@@ -49,37 +53,43 @@
 		<obj-attribute name="birthdate" type="java.util.Date" db-attribute-path="birthdate"/>
 		<obj-attribute name="country" type="java.lang.String" db-attribute-path="country"/>
 		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="id" type="java.lang.Integer" db-attribute-path="ID"/>
 		<obj-attribute name="imageUrl" type="java.lang.String" db-attribute-path="imageUrl"/>
 		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="picture" type="byte[]" db-attribute-path="picture"/>
 	</obj-entity>
 	<obj-entity name="DbGenre" className="ru.spb.etu.server.model.DbGenre" dbEntityName="db_genre">
 		<obj-attribute name="descrption" type="java.lang.String" db-attribute-path="descrption"/>
+		<obj-attribute name="id" type="java.lang.Integer" db-attribute-path="ID"/>
 		<obj-attribute name="imageURL" type="java.lang.String" db-attribute-path="imageURL"/>
 		<obj-attribute name="name" type="java.lang.String" db-attribute-path="Name"/>
+		<obj-attribute name="picture" type="byte[]" db-attribute-path="picture"/>
 	</obj-entity>
 	<obj-entity name="DbMasterpiece" className="ru.spb.etu.server.model.DbMasterpiece" dbEntityName="db_masterpiece">
 		<obj-attribute name="creationYear" type="java.lang.Integer" db-attribute-path="creationYear"/>
 		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="id" type="java.lang.Integer" db-attribute-path="ID"/>
 		<obj-attribute name="idType" type="java.lang.Integer" db-attribute-path="ID_type"/>
 		<obj-attribute name="imageURL" type="java.lang.String" db-attribute-path="imageURL"/>
 		<obj-attribute name="photo" type="java.lang.String" db-attribute-path="photo"/>
+		<obj-attribute name="picture" type="byte[]" db-attribute-path="picture"/>
 		<obj-attribute name="title" type="java.lang.String" db-attribute-path="title"/>
 	</obj-entity>
 	<obj-entity name="DbMuseum" className="ru.spb.etu.server.model.DbMuseum" dbEntityName="db_museum">
 		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="id" type="java.lang.Integer" db-attribute-path="ID"/>
 		<obj-attribute name="imageURL" type="java.lang.String" db-attribute-path="imageURL"/>
 		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="picture" type="byte[]" db-attribute-path="picture"/>
 		<obj-attribute name="www" type="java.lang.String" db-attribute-path="www"/>
 	</obj-entity>
 	<obj-entity name="DbPainting" superEntityName="DbMasterpiece" className="ru.spb.etu.server.model.DbPainting">
-		<qualifier><![CDATA[ID_type = 1]]></qualifier>
-		<obj-attribute name="height" type="java.lang.Integer"/>
-		<obj-attribute name="width" type="java.lang.Integer"/>
+		<obj-attribute name="height" type="java.lang.Integer" db-attribute-path="height"/>
+		<obj-attribute name="width" type="java.lang.Integer" db-attribute-path="width"/>
 	</obj-entity>
 	<obj-entity name="DbSculpture" superEntityName="DbMasterpiece" className="ru.spb.etu.server.model.DbSculpture">
-		<qualifier><![CDATA[ID_type = 2]]></qualifier>
-		<obj-attribute name="mass" type="java.lang.Integer"/>
-		<obj-attribute name="material" type="java.lang.String"/>
+		<obj-attribute name="mass" type="java.lang.Integer" db-attribute-path="mass"/>
+		<obj-attribute name="material" type="java.lang.String" db-attribute-path="material"/>
 	</obj-entity>
 	<db-relationship name="masterpieces" source="db_artist" target="db_masterpiece" toMany="true">
 		<db-attribute-pair source="ID" target="ID_artist"/>
@@ -111,14 +121,9 @@
 	<db-relationship name="mymasterpiece" source="db_sculpture" target="db_masterpiece" toMany="false">
 		<db-attribute-pair source="ID" target="ID"/>
 	</db-relationship>
-	<obj-relationship name="masterpieces" source="DbArtist" target="DbMasterpiece" db-relationship-path="masterpieces"/>
-	<obj-relationship name="masterpieces" source="DbGenre" target="DbMasterpiece" db-relationship-path="masterpieces"/>
-	<obj-relationship name="ispainting" source="DbMasterpiece" target="DbPainting" db-relationship-path="ispainting"/>
-	<obj-relationship name="issculpture" source="DbMasterpiece" target="DbSculpture" db-relationship-path="issculpture"/>
 	<obj-relationship name="myartist" source="DbMasterpiece" target="DbArtist" db-relationship-path="myartist"/>
 	<obj-relationship name="mygenre" source="DbMasterpiece" target="DbGenre" db-relationship-path="mygenre"/>
 	<obj-relationship name="mymuseum" source="DbMasterpiece" target="DbMuseum" db-relationship-path="mymuseum"/>
-	<obj-relationship name="masterpieces" source="DbMuseum" target="DbMasterpiece" db-relationship-path="masterpieces"/>
-	<obj-relationship name="generalmasterpiece" source="DbPainting" target="DbMasterpiece"/>
-	<obj-relationship name="mymasterpiece" source="DbSculpture" target="DbMasterpiece"/>
+	<obj-relationship name="generalmasterpiece" source="DbPainting" target="DbMasterpiece" db-relationship-path="generalmasterpiece"/>
+	<obj-relationship name="mymasterpiece" source="DbSculpture" target="DbMasterpiece" db-relationship-path="mymasterpiece"/>
 </data-map>

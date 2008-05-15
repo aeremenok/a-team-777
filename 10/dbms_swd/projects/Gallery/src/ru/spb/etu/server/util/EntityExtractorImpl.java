@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.cayenne.DataObjectUtils;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.query.SelectQuery;
 import org.apache.commons.logging.Log;
@@ -75,22 +76,21 @@ public class EntityExtractorImpl implements EntityExtractor
     	List<DbMasterpiece> resultDB;
 		try {
 			//TODO filter by artist!!!
-			
-			
-			Map params = new HashMap();
-			
-			if(artist.getBirthDate() != null ) params.put("BirthDate", artist.getBirthDate());
-			if(artist.getCountry() != null ) params.put("Country", artist.getCountry());
-			if(artist.getDescription() != null )params.put("Description", artist.getDescription());
-			if(artist.getImageUrl() != null )params.put("ImageUrl", artist.getImageUrl());
-			if(artist.getName() != null )params.put("Name", artist.getName());
-			if(artist.getTitle() != null )params.put("Title", artist.getTitle());
-			
 			SelectQuery select1 = new SelectQuery(DbMasterpiece.class);
-			SelectQuery query2 = select1.queryWithParameters(params);
 			
+			if(artist != null){
+				DbArtist picasso  = null;
+				if(artist.getId() != null && artist.getId() > 0) {
+					picasso = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, artist.getId());
+			    }
+				if(artist != null){
+					Map params = new HashMap();
+					params.put(DbMasterpiece.MYARTIST_PROPERTY, picasso.getId() );
+					select1 = select1.queryWithParameters(params);
+				}
+			}
 			
-			resultDB = context.performQuery(query2);
+			resultDB = context.performQuery(select1);
 			
 			log("  getMasterPieces() returned ", resultDB);
 		} catch (RuntimeException e) {
@@ -179,18 +179,20 @@ public class EntityExtractorImpl implements EntityExtractor
     	List<DbArtist> actorsDB;
 		try {
 			//TODO add filter
-
-			Map params = new HashMap();
-			
-			if(genre.getDescription() != null )params.put("Description", genre.getDescription());
-			if(genre.getImageUrl() != null )params.put("ImageUrl", genre.getImageUrl());
-			if(genre.getName() != null )params.put("Name", genre.getName());
-			if(genre.getTitle() != null )params.put("Title", genre.getTitle());
-			
 			SelectQuery select1 = new SelectQuery(DbArtist.class);
-			SelectQuery query2 = select1.queryWithParameters(params);
+			if(genre != null){
+				DbGenre picasso  = null;
+				if(genre.getId() != null && genre.getId() > 0) {
+					picasso = (DbGenre) DataObjectUtils.objectForPK(context, DbGenre.class, genre.getId());
+			    }
+				if(genre != null){
+					/*Map params = new HashMap();
+					params.put(DbArtist.MYGENRE_PROPERTY, picasso.getId() );
+					select1 = select1.queryWithParameters(params);*/
+				}
+			}
 			
-			actorsDB = context.performQuery(query2);
+			actorsDB = context.performQuery(select1 );
 			
 			log("  getArtistsByGenre() returned ", actorsDB);
 		} catch (Exception e) {
@@ -221,21 +223,22 @@ public class EntityExtractorImpl implements EntityExtractor
     	List<DbArtist> actorsDB;
 		try {
 			//TODO add filter
-			
-			
-			Map params = new HashMap();
-			
-			if(museum.getDescription() != null )params.put("Description", museum.getDescription());
-			if(museum.getImageUrl() != null )params.put("ImageUrl", museum.getImageUrl());
-			if(museum.getName() != null )params.put("Name", museum.getName());
-			if(museum.getTitle() != null )params.put("Title", museum.getTitle());
-			
 			SelectQuery select1 = new SelectQuery(DbArtist.class);
-			SelectQuery query2 = select1.queryWithParameters(params);
+			if(museum != null){
+				DbMuseum picasso  = null;
+				if(museum.getId() != null && museum.getId() > 0) {
+					picasso = (DbMuseum) DataObjectUtils.objectForPK(context, DbMuseum.class, museum.getId());
+			    }
+				if(museum != null){
+					/*Map params = new HashMap();
+					params.put(DbArtist.MYGENRE_PROPERTY, picasso.getId() );
+					select1 = select1.queryWithParameters(params);*/
+				}
+			}
 			
-			
-			actorsDB = context.performQuery(query2);
-			
+			actorsDB = context.performQuery(select1 );
+
+
 			log("  getArtistsByGenre() returned ", actorsDB);
 			
 			
@@ -267,25 +270,24 @@ public class EntityExtractorImpl implements EntityExtractor
     	List<DbPainting> resultDB;
 		try {
 			//TODO add filter
-			
-
-			Map params = new HashMap();
-			
-
-			if(artist.getBirthDate() != null ) params.put("BirthDate", artist.getBirthDate());
-			if(artist.getCountry() != null ) params.put("Country", artist.getCountry());
-			if(artist.getDescription() != null )params.put("Description", artist.getDescription());
-			if(artist.getImageUrl() != null )params.put("ImageUrl", artist.getImageUrl());
-			if(artist.getName() != null )params.put("Name", artist.getName());
-			if(artist.getTitle() != null )params.put("Title", artist.getTitle());
-			
-			
 			SelectQuery select1 = new SelectQuery(DbPainting.class);
-			SelectQuery query2 = select1.queryWithParameters(params);
+			if(artist != null){
+				DbArtist picasso  = null;
+				if(artist.getId() != null && artist.getId() > 0) {
+					picasso = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, artist.getId());
+			    }
+				if(picasso != null){
+					Map params = new HashMap();
+					params.put(DbPainting.MYARTIST_PROPERTY, picasso.getId() );
+					select1 = select1.queryWithParameters(params);
+				}
+			}
 			
-			
-			resultDB = context.performQuery(query2);
-			
+			resultDB = context.performQuery(select1 );
+
+
+
+
 			log("  getPaintings() returned ", resultDB);
 			
 		} catch (Exception e) {
@@ -316,21 +318,26 @@ public class EntityExtractorImpl implements EntityExtractor
     	List<DbSculpture> resultDB;
 		try {
 			//TODO add filter
-			Map params = new HashMap();
-			
-
-			if(artist.getBirthDate() != null ) params.put("BirthDate", artist.getBirthDate());
-			if(artist.getCountry() != null ) params.put("Country", artist.getCountry());
-			if(artist.getDescription() != null )params.put("Description", artist.getDescription());
-			if(artist.getImageUrl() != null )params.put("ImageUrl", artist.getImageUrl());
-			if(artist.getName() != null )params.put("Name", artist.getName());
-			if(artist.getTitle() != null )params.put("Title", artist.getTitle());
-			
 			
 			SelectQuery select1 = new SelectQuery(DbPainting.class);
-			SelectQuery query2 = select1.queryWithParameters(params);
+			if(artist != null){
+				DbArtist picasso  = null;
+				if(artist.getId() != null && artist.getId() > 0) {
+					picasso = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, artist.getId());
+			    }
+				if(picasso != null){
+					Map params = new HashMap();
+					params.put(DbSculpture.MYARTIST_PROPERTY, picasso.getId() );
+					select1 = select1.queryWithParameters(params);
+				}
+			}
 			
-			resultDB = context.performQuery(query2);
+			resultDB = context.performQuery(select1 );
+
+			
+			
+			
+			
 			log("  getSculptures() returned ", resultDB);
 		} catch (Exception e) {
 			e.printStackTrace();

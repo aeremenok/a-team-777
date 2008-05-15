@@ -38,6 +38,7 @@ public abstract class EntityWrapper
                                                  };
 
     protected String               imageUrl;
+    protected Integer id;
 
     public EntityWrapper()
     {
@@ -116,4 +117,15 @@ public abstract class EntityWrapper
 
     public abstract void applyToMasterPiece(
         MasterPiece masterPiece );
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+    
+    
+    
 }

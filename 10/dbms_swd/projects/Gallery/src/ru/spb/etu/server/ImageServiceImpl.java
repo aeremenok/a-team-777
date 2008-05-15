@@ -8,8 +8,8 @@ import ru.spb.etu.client.serializable.Artist;
 import ru.spb.etu.client.serializable.EntityWrapper;
 import ru.spb.etu.client.serializable.Genre;
 import ru.spb.etu.client.serializable.Museum;
-import ru.spb.etu.server.stubs.EntityBackuperStub;
-import ru.spb.etu.server.stubs.EntityExtractorStub;
+import ru.spb.etu.server.util.EntityBackuperImpl;
+import ru.spb.etu.server.util.EntityExtractorImpl;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -59,7 +59,7 @@ public class ImageServiceImpl
     {
         if ( entityBackuper == null )
         {
-            entityBackuper = new EntityBackuperStub();
+            entityBackuper = new EntityBackuperImpl();
         }
         return entityBackuper;
     }
@@ -68,7 +68,7 @@ public class ImageServiceImpl
     {
         if ( entityExtractor == null )
         {
-            entityExtractor = new EntityExtractorStub();
+            entityExtractor = new EntityExtractorImpl();
         }
         return entityExtractor;
     }

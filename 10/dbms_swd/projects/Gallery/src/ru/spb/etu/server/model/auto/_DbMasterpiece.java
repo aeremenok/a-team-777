@@ -12,6 +12,7 @@ public class _DbMasterpiece extends org.apache.cayenne.CayenneDataObject {
     public static final String ID_TYPE_PROPERTY = "idType";
     public static final String IMAGE_URL_PROPERTY = "imageURL";
     public static final String PHOTO_PROPERTY = "photo";
+    public static final String PICTURE_PROPERTY = "picture";
     public static final String TITLE_PROPERTY = "title";
     public static final String ISPAINTING_PROPERTY = "ispainting";
     public static final String ISSCULPTURE_PROPERTY = "issculpture";
@@ -58,6 +59,14 @@ public class _DbMasterpiece extends org.apache.cayenne.CayenneDataObject {
     }
     public String getPhoto() {
         return (String)readProperty("photo");
+    }
+    
+    
+    public void setPicture(byte[] picture) {
+        writeProperty("picture", picture);
+    }
+    public byte[] getPicture() {
+        return (byte[])readProperty("picture");
     }
     
     

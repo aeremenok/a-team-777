@@ -52,6 +52,7 @@ public class ObjectsConverter {
 		        a.getName(),
 		        a.getImageUrl() 
 		);
+		b.setId(a.getId());
 		return b;
 	}
 	 	
@@ -100,6 +101,7 @@ public class ObjectsConverter {
 				 a.getTitle(),
 				 a.getDescription() 
 		);
+		 b.setId(a.getId());
 		return b;
 	}
 	 
@@ -148,6 +150,7 @@ public class ObjectsConverter {
 				 a.getName(), 
 				 a.getImageURL()				 
 		 		);
+		 b.setId(a.getId());
 		return b;
 	}
 	 
@@ -196,6 +199,7 @@ public class ObjectsConverter {
 				 a.getImageURL(),	
 				 a.getDescrption()			 
 		 		);
+		 b.setId(a.getId());
 		return b;
 	}
 		
@@ -240,6 +244,7 @@ public class ObjectsConverter {
 		 Painting b = new Painting(
 						 
 		 		);
+		 b.setId(a.getId());
 		return b;
 	}
 	 
@@ -284,6 +289,7 @@ public class ObjectsConverter {
 	 private static Sculpture convertSculpture(DbSculpture a) {
 		 Sculpture b = new Sculpture(	 
 		 		);
+		 b.setId(a.getId());
 		return b;
 	}
 	 

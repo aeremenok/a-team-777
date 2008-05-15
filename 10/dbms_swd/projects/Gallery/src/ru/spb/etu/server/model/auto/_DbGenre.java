@@ -12,6 +12,7 @@ public class _DbGenre extends org.apache.cayenne.CayenneDataObject {
     public static final String DESCRPTION_PROPERTY = "descrption";
     public static final String IMAGE_URL_PROPERTY = "imageURL";
     public static final String NAME_PROPERTY = "name";
+    public static final String PICTURE_PROPERTY = "picture";
     public static final String MASTERPIECES_PROPERTY = "masterpieces";
 
     public static final String ID_PK_COLUMN = "ID";
@@ -37,6 +38,14 @@ public class _DbGenre extends org.apache.cayenne.CayenneDataObject {
     }
     public String getName() {
         return (String)readProperty("name");
+    }
+    
+    
+    public void setPicture(byte[] picture) {
+        writeProperty("picture", picture);
+    }
+    public byte[] getPicture() {
+        return (byte[])readProperty("picture");
     }
     
     

@@ -45,15 +45,17 @@ public class EntityBackuperImpl
 		//TODO check if no - then create
 		if( entityWrapper instanceof Artist ){
 			Artist e = (Artist) (entityWrapper);
-			DbArtist a;
+			DbArtist a = null;
 			
-			Expression qualifier = ExpressionFactory.matchExp( DbArtist.NAME_PROPERTY, e.getName() );
-			SelectQuery select = new SelectQuery(DbArtist.class, qualifier);
-			a = (DbArtist) DataObjectUtils.objectForQuery(context, select);
-			
+			if(e.getId() != null && e.getId() > 0) {
+		        a = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, e.getId());
+		    }
+
+						
 			if(a == null) {
 				log(" new object ");
 	            a = (DbArtist) context.newObject(DbArtist.class);
+	            
 	        }
 
 			a.setBirthdate(e.getBirthDate());
@@ -67,15 +69,16 @@ public class EntityBackuperImpl
 		
 		} else if( entityWrapper instanceof Museum ){
 			Museum e = (Museum) (entityWrapper);
-			DbMuseum a;
+			DbMuseum a = null;
 			
-			Expression qualifier = ExpressionFactory.matchExp( DbMuseum.NAME_PROPERTY, e.getName() );
-			SelectQuery select = new SelectQuery(DbMuseum.class, qualifier);
-			a = (DbMuseum) DataObjectUtils.objectForQuery(context, select);
+			if(e.getId() != null && e.getId() > 0) {
+		        a = (DbMuseum) DataObjectUtils.objectForPK(context, DbMuseum.class, e.getId());
+		    }
 			
 			if(a == null) {
 				log(" new object ");
 	            a = (DbMuseum) context.newObject(DbMuseum.class);
+	            
 	        }
 
 			a.setName(e.getName().toString());
@@ -87,11 +90,11 @@ public class EntityBackuperImpl
 			
 		} else  if( entityWrapper instanceof Genre ) {
 			Genre e = (Genre) (entityWrapper);
-			DbGenre a;
+			DbGenre a = null;
 			
-			Expression qualifier = ExpressionFactory.matchExp( DbGenre.NAME_PROPERTY, e.getName() );
-			SelectQuery select = new SelectQuery(DbGenre.class, qualifier);
-			a = (DbGenre) DataObjectUtils.objectForQuery(context, select);
+			if(e.getId() != null && e.getId() > 0) {
+		        a = (DbGenre) DataObjectUtils.objectForPK(context, DbGenre.class, e.getId());
+		    }
 			
 			if(a == null) {
 				log(" new object ");
@@ -106,15 +109,24 @@ public class EntityBackuperImpl
 		    log(" updated ! ");
 		} else  if( entityWrapper instanceof Painting ) {
 			Painting e = (Painting) (entityWrapper);
-			DbPainting a;
+			DbPainting a = null;
 			
-			Expression qualifier = ExpressionFactory.matchExp( DbPainting.TITLE_PROPERTY, e.getTitle() );
-			SelectQuery select = new SelectQuery(DbPainting.class, qualifier);
-			a = (DbPainting) DataObjectUtils.objectForQuery(context, select);
+			if(e.getArtist() == null 
+					|| e.getGenre()== null 
+					|| e.getMuseum() == null   					
+			){
+				log(" incorrect! ");
+				return;
+			}
+			
+			if(e.getId() != null && e.getId() > 0) {
+		        a = (DbPainting) DataObjectUtils.objectForPK(context, DbPainting.class, e.getId());
+		    }
 			
 			if(a == null) {
 				log(" new object ");
 	            a = (DbPainting) context.newObject(DbPainting.class);
+	           
 	        }
 
 			
@@ -135,32 +147,31 @@ public class EntityBackuperImpl
 			try{h = Integer.parseInt(e.getHeight() .toString());}catch(Exception ex){}
 			if(h > 0) a.setHeight( h ); else a.setHeight( null );  
 			
-			Expression qualifierM = ExpressionFactory.matchExp( DbMuseum.NAME_PROPERTY, e.getMuseum() );
-			SelectQuery selectM = new SelectQuery(DbMuseum.class, qualifierM);
-			DbMuseum m = (DbMuseum) DataObjectUtils.objectForQuery(context, selectM);
+			DbMuseum m = null;
+			if(e.getMuseum() != null && e.getMuseum().getId() > 0) {
+		        m = (DbMuseum) DataObjectUtils.objectForPK(context, DbMuseum.class, e.getMuseum().getId() );
+		    }
 			
 			if(m == null) {
 				log(" no real Museum! ");
 	        }
 			a.setMymuseum(m);
 
-			
-			
-			Expression qualifierG = ExpressionFactory.matchExp( DbGenre.NAME_PROPERTY, e.getGenre() );
-			SelectQuery selectG = new SelectQuery(DbGenre.class, qualifierG);
-			DbGenre g = (DbGenre) DataObjectUtils.objectForQuery(context, selectG);
-			
+			DbGenre g = null;
+			 if(e.getGenre() != null && e.getGenre().getId() > 0) {
+		        g = (DbGenre) DataObjectUtils.objectForPK(context, DbGenre.class, e.getGenre().getId() );
+		    } 
+			 
 			if(g == null) {
 				log(" no real genre! ");
 	        }
 			a.setMygenre( g );
 			
-			
-			
-			Expression qualifierA = ExpressionFactory.matchExp( DbArtist.NAME_PROPERTY, e.getArtist() );
-			SelectQuery selectA = new SelectQuery(DbArtist.class, qualifierA);
-			DbArtist ar = (DbArtist) DataObjectUtils.objectForQuery(context, selectA);
-			
+			DbArtist ar = null;
+			if(e.getMuseum() != null && e.getArtist().getId() > 0) {
+		        ar = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, e.getArtist().getId() );
+		    }
+
 			if(ar == null) {
 				log(" no real artist! ");
 	        }
@@ -171,15 +182,24 @@ public class EntityBackuperImpl
 		    log(" updated ! ");
 		} else  if( entityWrapper instanceof Sculpture ) {
 			Sculpture e = (Sculpture) (entityWrapper);
-			DbSculpture a;
+			DbSculpture a = null;
 			
-			Expression qualifier = ExpressionFactory.matchExp( DbSculpture.TITLE_PROPERTY, e.getTitle() );
-			SelectQuery select = new SelectQuery(DbSculpture.class, qualifier);
-			a = (DbSculpture) DataObjectUtils.objectForQuery(context, select);
+			if(e.getArtist() == null 
+					|| e.getGenre()== null 
+					|| e.getMuseum() == null   					
+			){
+				log(" incorrect! ");
+				return;
+			}
+			
+			if(e.getId() != null && e.getId() > 0) {
+		        a = (DbSculpture) DataObjectUtils.objectForPK(context, DbSculpture.class, e.getId());
+		    }
 			
 			if(a == null) {
 				log(" new object ");
 	            a = (DbSculpture) context.newObject(DbSculpture.class);
+	            
 	        }
 
 			
@@ -196,11 +216,11 @@ public class EntityBackuperImpl
 			try{w = Integer.parseInt(e.getMass().toString());}catch(Exception ex){}
 			if(w > 0) a.setMass( w ); else a.setMass( null );  
 			
-			
-			Expression qualifierM = ExpressionFactory.matchExp( DbMuseum.NAME_PROPERTY, e.getMuseum() );
-			SelectQuery selectM = new SelectQuery(DbMuseum.class, qualifierM);
-			DbMuseum m = (DbMuseum) DataObjectUtils.objectForQuery(context, selectM);
-			
+			DbMuseum m = null;
+			if(e.getId() != null && e.getId() > 0) {
+		        m = (DbMuseum) DataObjectUtils.objectForPK(context, DbMuseum.class, e.getId());
+		    }
+
 			if(m == null) {
 				log(" no real Museum! ");
 	        }
@@ -208,21 +228,23 @@ public class EntityBackuperImpl
 
 			
 			
-			Expression qualifierG = ExpressionFactory.matchExp( DbGenre.NAME_PROPERTY, e.getGenre() );
-			SelectQuery selectG = new SelectQuery(DbGenre.class, qualifierG);
-			DbGenre g = (DbGenre) DataObjectUtils.objectForQuery(context, selectG);
-			
+			DbGenre g = null;
+			if(e.getId() != null && e.getId() > 0) {
+		        g = (DbGenre) DataObjectUtils.objectForPK(context, DbGenre.class, e.getId());
+		    }
+
 			if(g == null) {
 				log(" no real genre! ");
 	        }
 			a.setMygenre( g );
 			
 			
-			
-			Expression qualifierA = ExpressionFactory.matchExp( DbArtist.NAME_PROPERTY, e.getArtist() );
-			SelectQuery selectA = new SelectQuery(DbArtist.class, qualifierA);
-			DbArtist ar = (DbArtist) DataObjectUtils.objectForQuery(context, selectA);
-			
+			DbArtist ar  = null;
+			if(e.getId() != null && e.getId() > 0) {
+		        ar = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, e.getId());
+		    }
+
+
 			if(ar == null) {
 				log(" no real artist! ");
 	        }
@@ -272,12 +294,10 @@ public class EntityBackuperImpl
     		try {
 				Artist cur = (Artist) entityWrapper;
 
-				Expression qualifier = ExpressionFactory.matchExp( DbArtist.NAME_PROPERTY, cur.getName() );
-				SelectQuery select = new SelectQuery(DbArtist.class, qualifier);
-
-				//context.performQuery(select2);
-				//DbArtist picasso1 = (DbArtist) context.performQuery(select);
-				DbArtist picasso = (DbArtist) DataObjectUtils.objectForQuery(context, select);
+				DbArtist picasso  = null;
+				if(entityWrapper.getId() != null && entityWrapper.getId() > 0) {
+					picasso = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, entityWrapper.getId());
+			    }
 				
 				if (picasso != null) {
 				    context.deleteObject(picasso);
@@ -297,12 +317,11 @@ public class EntityBackuperImpl
     		try {
     			Museum cur = (Museum) entityWrapper;
 
-				Expression qualifier = ExpressionFactory.matchExp( DbMuseum.NAME_PROPERTY, cur.getName() );
-				SelectQuery select = new SelectQuery(DbMuseum.class, qualifier);
+    			DbMuseum picasso  = null;
+				if(entityWrapper.getId() != null && entityWrapper.getId() > 0) {
+					picasso = (DbMuseum) DataObjectUtils.objectForPK(context, DbMuseum.class, entityWrapper.getId());
+			    }
 
-				//context.performQuery(select2);
-				//DbArtist picasso1 = (DbArtist) context.performQuery(select);
-				DbMuseum picasso = (DbMuseum) DataObjectUtils.objectForQuery(context, select);
 				
 				if (picasso != null) {
 				    context.deleteObject(picasso);
@@ -322,13 +341,12 @@ public class EntityBackuperImpl
     		try {
     			Genre cur = (Genre) entityWrapper;
 
-				Expression qualifier = ExpressionFactory.matchExp( DbGenre.NAME_PROPERTY, cur.getName() );
-				SelectQuery select = new SelectQuery(DbGenre.class, qualifier);
+    			DbGenre picasso  = null;
+				if(entityWrapper.getId() != null && entityWrapper.getId() > 0) {
+					picasso = (DbGenre) DataObjectUtils.objectForPK(context, DbGenre.class, entityWrapper.getId());
+			    }
 
-				//context.performQuery(select2);
-				//DbArtist picasso1 = (DbArtist) context.performQuery(select);
-				DbGenre picasso = (DbGenre) DataObjectUtils.objectForQuery(context, select);
-				
+
 				if (picasso != null) {
 				    context.deleteObject(picasso);
 				    context.commitChanges();
@@ -346,14 +364,12 @@ public class EntityBackuperImpl
     	}else if(entityWrapper instanceof Painting){
     		try {
     			Painting cur = (Painting) entityWrapper;
+    			
+    			DbPainting picasso  = null;
+				if(entityWrapper.getId() != null && entityWrapper.getId() > 0) {
+					picasso = (DbPainting) DataObjectUtils.objectForPK(context, DbPainting.class, entityWrapper.getId());
+			    }
 
-				Expression qualifier = ExpressionFactory.matchExp( DbPainting.TITLE_PROPERTY, cur.getTitle() );
-				SelectQuery select = new SelectQuery(DbPainting.class, qualifier);
-
-				//context.performQuery(select2);
-				//DbArtist picasso1 = (DbArtist) context.performQuery(select);
-				DbPainting picasso = (DbPainting) DataObjectUtils.objectForQuery(context, select);
-				
 				if (picasso != null) {
 				    context.deleteObject(picasso);
 				    context.commitChanges();
@@ -372,13 +388,11 @@ public class EntityBackuperImpl
     		try {
     			Sculpture cur = (Sculpture) entityWrapper;
 
-				Expression qualifier = ExpressionFactory.matchExp( DbSculpture.TITLE_PROPERTY, cur.getTitle() );
-				SelectQuery select = new SelectQuery(DbSculpture.class, qualifier);
+    			DbSculpture picasso  = null;
+				if(entityWrapper.getId() != null && entityWrapper.getId() > 0) {
+					picasso = (DbSculpture) DataObjectUtils.objectForPK(context, DbSculpture.class, entityWrapper.getId());
+			    }
 
-				//context.performQuery(select2);
-				//DbArtist picasso1 = (DbArtist) context.performQuery(select);
-				DbSculpture picasso = (DbSculpture) DataObjectUtils.objectForQuery(context, select);
-				
 				if (picasso != null) {
 				    context.deleteObject(picasso);
 				    context.commitChanges();
