@@ -49,6 +49,11 @@ private:
 
 public:
 
+  const Graph& getContainer() const
+  {
+    return m_graph;
+  }
+
   /*!
    * \brief получить полный список всех городов
    */

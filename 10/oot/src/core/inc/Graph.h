@@ -144,6 +144,19 @@ public:
       return vertex_pair.first == other.vertex_pair.first &&
              vertex_pair.second == other.vertex_pair.second;
     }
+    
+    bool operator < (const edge& other) const 
+    {
+      if(vertex_pair.first!=other.vertex_pair.first)
+        return vertex_pair.first < other.vertex_pair.first;
+      return vertex_pair.second < other.vertex_pair.second;
+    }
+    
+    bool operator != (const edge& other) const 
+    {
+      return vertex_pair.first != other.vertex_pair.first &&
+             vertex_pair.second != other.vertex_pair.second;
+    }
   };
   
 private:
