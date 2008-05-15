@@ -77,6 +77,7 @@ bool next(int i)
 	void interfaceDeclaration();
 	void classDeclaration();
 	void classBody();
+	void interfaceBody();
 	void type();
 	void formalParameterList();
 	void statement();

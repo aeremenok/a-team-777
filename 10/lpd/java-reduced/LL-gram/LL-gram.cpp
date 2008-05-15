@@ -9,7 +9,7 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-   wchar_t* str = L"D:\\SVN\\10\\lpd\\java-reduced\\examples\\Foo1.java";
+   wchar_t* str = L"D:\\SVN\\10\\lpd\\java-reduced\\examples\\Foo.java";
 	Scanner scanPadStack(str);
 	Parser parsPadStack(&scanPadStack);
 	parsPadStack.Parse();

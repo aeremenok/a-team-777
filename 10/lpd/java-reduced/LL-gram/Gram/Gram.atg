@@ -51,24 +51,21 @@ typeDeclaration =
 	[accessSpecifier]
 	(interfaceDeclaration | classDeclaration)
 .
-/*----------------------------------empty----------------------------------*/
-/*empty =
-.*/
 /*----------------------------------classDeclaration----------------------------------*/
 classDeclaration =
 	[final][static]
 	"class"
 	identifier
-	"extends" identifier
-//	interfaces
+	["extends" identifier]
+	["implements" identifier {',' identifier}]
 	classBody
 .
 /*----------------------------------interfaceDeclaration----------------------------------*/
 interfaceDeclaration =
 	"interface"
 	identifier
-//	[extendsInterfaces]
-//	interfaceBody
+   ["extends" identifier]
+	interfaceBody
 .
 /*----------------------------------accessSpecifier----------------------------------*/
 accessSpecifier =
@@ -82,7 +79,6 @@ type =
 formalParameterList =
 	(type | identifier) identifier
 	{',' (type | identifier) identifier}
-	//['=' expression]
 .
 /*----------------------------------classBody----------------------------------*/
 classBody =
@@ -131,25 +127,30 @@ statement =
 		|(openCurlyBracket {statement} closeCurlyBracket)
 		|(type identifier ['=' expression]
 			{',' identifier ['=' expression]} ';')
-		|(identifier 
+		|(identifier ['('[expression {',' expression}]')'] 
+		   {'.' identifier ['('[expression {',' expression}]')']}
 			((identifier ['=' expression] {',' identifier ['=' expression]} ';')
-			|(openRoundBracket [expression {',' expression}] closeRoundBracket ';')
+			|/*(openRoundBracket [expression {',' expression}] closeRoundBracket */';'/*)*/
 			|(assignmentOperator expression ';')
 			))
-		|("super" '.' identifier 
+		|("super" {'.' identifier} 
 			openRoundBracket [expression {',' expression}] closeRoundBracket ';')
 	)
 .
 
 /*----------------------------------interfaceBody----------------------------------*/
-/*interfaceBody =
+interfaceBody =
 	'{'
-	{interfaceMemberDeclaration}
+	{
+		[accessSpecifier]
+		[final]
+		[static]
+		(type | identifier)
+		identifier	
+		openRoundBracket [formalParameterList] closeRoundBracket ';'
+	}
 	'}'
-.*/
-
-
-
+.
 /*----------------------------------expression----------------------------------*/
 expression =
 	conditionalOrExpression 
@@ -196,11 +197,12 @@ multiplicativeExpression =
 .
 /*----------------------------------unaryExpression----------------------------------*/
 unaryExpression =
-	(expressionName /*| primary*/) {('*' | '/' | '%' ) unaryExpression}
+	expressionName {('*' | '/' | '%' ) unaryExpression}
 .
 /*----------------------------------expressionName----------------------------------*/
 expressionName =
-	((identifier {'.' identifier} ['('[expression {',' expression}]')']) | (realNumber)|(string))
+	(((identifier | "super") ['('[expression {',' expression}]')'] 
+	   {'.' identifier['('[expression {',' expression}]')']}) | (realNumber)|(string))
 .
 /*----------------------------------assignmentOperator----------------------------------*/
 assignmentOperator =
