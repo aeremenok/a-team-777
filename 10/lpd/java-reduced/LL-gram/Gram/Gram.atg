@@ -1,5 +1,6 @@
-COMPILER CompilationUnit
+COMPILER CompilationUnit // собственно здесь описывает основное правило с которого начинается вывод
 
+// Следуюящая функция будет примеком добавленна в сгенерированные .h и .cpp файлы
 // Функция возвращает токен, следующий за текущим (заглядывает вперед)
 bool next(int i)
     {
@@ -9,6 +10,7 @@ bool next(int i)
     };
   
 /*--------------------------------------------------------------------------*/
+// Секция в которой описываются символы  
 CHARACTERS
   letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
   digit = "0123456789".
@@ -24,10 +26,11 @@ CHARACTERS
 */
 
 
+// Секция описания токенов, каждое описание заканчивается точкой
 TOKENS
-	identifier  = letter { letter | digit }.
-	realNumber =             ['-']  [digit { digit }  dot]  digit { digit } ["e-" digit {digit}] .
-	string = '"' {stringCh} '"'.
+	identifier  = letter { letter | digit }. // любое слово 
+	realNumber =             ['-']  [digit { digit }  dot]  digit { digit } ["e-" digit {digit}] . // Действительное число
+	string = '"' {stringCh} '"'. // Строка, ограниченная двойными кавычками
 	interface =		"interface".
 	final=			"final".
 	static =		"static".
@@ -36,26 +39,29 @@ TOKENS
 	openCurlyBracket = '{'.
 	closeCurlyBracket = '}'.
 
+// Секция в которой описывается комментарии
 COMMENTS FROM "/*" TO "*/" NESTED
 COMMENTS FROM "//" TO cr lf
 
 IGNORE cr + lf + tab
 
+// Секция правил вывода, каждое правило заканчивается точкой
 PRODUCTIONS
 /*----------------------------------CompilationUnit----------------------------------*/
 CompilationUnit =
-	typeDeclaration {typeDeclaration}
+	typeDeclaration {typeDeclaration} // один и более описания типов
 .
 /*----------------------------------typeDeclaration----------------------------------*/
 typeDeclaration =
-	[accessSpecifier]
-	(interfaceDeclaration | classDeclaration)
+	[accessSpecifier] // спецификаторы public, protected, private перед class или interface
+
+	(interfaceDeclaration | classDeclaration) 
 .
 /*----------------------------------classDeclaration----------------------------------*/
 classDeclaration =
 	[final][static]
 	"class"
-	identifier
+	identifier // Имя класса
 	["extends" identifier]
 	["implements" identifier {',' identifier}]
 	classBody
@@ -63,7 +69,7 @@ classDeclaration =
 /*----------------------------------interfaceDeclaration----------------------------------*/
 interfaceDeclaration =
 	"interface"
-	identifier
+	identifier // Имя интерфейса
    ["extends" identifier]
 	interfaceBody
 .
@@ -79,31 +85,34 @@ type =
 formalParameterList =
 	(type | identifier) identifier
 	{',' (type | identifier) identifier}
+	// Пример: int a, Foo1 b, bool c
 .
 /*----------------------------------classBody----------------------------------*/
 classBody =
 	'{'
-	{
+	{ // любое количество
 		[accessSpecifier]
-		((IF(next(_openRoundBracket))
-			identifier
+		((IF(next(_openRoundBracket)) // Если вторым токеном идет открывающая круглая скобка,
+						// то мы наткнулись на конструктор. Пример: Foo1()
+			identifier  		// Имя класса
 			openRoundBracket [formalParameterList] closeRoundBracket 
-				openCurlyBracket {statement} closeCurlyBracket
+				openCurlyBracket {statement} closeCurlyBracket // Реализация конструктора
 		)
-		|
+		| // Если не конструктор, то переходим сюда, далее либо определение метода, либо члена
 		(
 		[final]
 		[static]
-		(IF(next(_identifier))
-			(type | identifier)
-			identifier
+		(IF(next(_identifier)) // Этот if  по идее не нужен, но я оставил на всякий случай
+			(type | identifier) // Тип либо возращаемого значения функции, либо члена
+			identifier // имя функции или переменной
 			(
-				(
+				(	// Формальные параметры функции
 					openRoundBracket [formalParameterList] closeRoundBracket 
+						// Реализация функции
 						openCurlyBracket {statement} closeCurlyBracket
 				)
 			|
-				(
+				(	// присвоение переменной значения
 					['=' expression] ';'
 				)
 			)
@@ -116,24 +125,24 @@ classBody =
 /*----------------------------------statement----------------------------------*/
 statement =	
 	(
-		("if" openRoundBracket expression closeRoundBracket 
+		("if" openRoundBracket expression closeRoundBracket  // описание для if
 			((openCurlyBracket {statement} closeCurlyBracket) | statement)
 			["else" ((openCurlyBracket {statement} closeCurlyBracket) | statement)]
 		)
-		|("while" openRoundBracket expression closeRoundBracket 
+		|("while" openRoundBracket expression closeRoundBracket // описание для while
 			((openCurlyBracket {statement} closeCurlyBracket) | statement))
-		|("return" [expression] ';')
-		|("new" expressionName openRoundBracket [expression] closeRoundBracket)
+		|("return" [expression] ';') // описание для return
+		|("new" expressionName openRoundBracket [expression] closeRoundBracket) // описание для new
 		|(openCurlyBracket {statement} closeCurlyBracket)
-		|(type identifier ['=' expression]
+		|(type identifier ['=' expression] // описание переменной, начинающейся со стандартного типа, перечисленных в type
 			{',' identifier ['=' expression]} ';')
-		|(identifier ['('[expression {',' expression}]')'] 
-		   {'.' identifier ['('[expression {',' expression}]')']}
-			((identifier ['=' expression] {',' identifier ['=' expression]} ';')
-			|/*(openRoundBracket [expression {',' expression}] closeRoundBracket */';'/*)*/
-			|(assignmentOperator expression ';')
+		|(identifier ['('[expression {',' expression}]')']  // начало для описания переменной сложно типа (в смысле  не type) либо присвоения значения переменной без объявления
+		   {'.' identifier ['('[expression {',' expression}]')']} // здесь реализуется вызов плана Foo1(a,b).Foo2()
+			((identifier ['=' expression] {',' identifier ['=' expression]} ';') // Собственно определение переменной
+			|';' // Пустой оператор
+			|(assignmentOperator expression ';') // присвоение переменной без объявления
 			))
-		|("super" {'.' identifier} 
+		|("super" {'.' identifier}  // описание для super
 			openRoundBracket [expression {',' expression}] closeRoundBracket ';')
 	)
 .
@@ -152,7 +161,7 @@ interfaceBody =
 	'}'
 .
 /*----------------------------------expression----------------------------------*/
-expression =
+expression = // Далее реализованно определение выражения через правую рекурсию, без скобок.
 	conditionalOrExpression 
 .
 /*----------------------------------conditionalOrExpression----------------------------------*/
