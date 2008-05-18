@@ -19,6 +19,7 @@ public class Artist
 
     public Artist()
     {
+        birthDate = new Date();
     }
 
     public Artist(

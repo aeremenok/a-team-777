@@ -6,6 +6,7 @@ import java.util.Iterator;
 import ru.spb.etu.client.serializable.EntityWrapper;
 import ru.spb.etu.client.ui.view.forms.EntityForm;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
 
 /**
@@ -48,12 +49,18 @@ public class CyclingTable
         ArrayList arrayList )
     {
         clear();
-
-        Iterator iterator = arrayList.iterator();
-        while ( iterator.hasNext() )
+        if ( arrayList.size() == 0 )
         {
-            EntityWrapper entityWrapper = (EntityWrapper) iterator.next();
-            addCycled( createEntityForm( entityWrapper ) );
+            Window.alert( "no results" );
+        }
+        else
+        {
+            Iterator iterator = arrayList.iterator();
+            while ( iterator.hasNext() )
+            {
+                EntityWrapper entityWrapper = (EntityWrapper) iterator.next();
+                addCycled( createEntityForm( entityWrapper ) );
+            }
         }
     }
 
