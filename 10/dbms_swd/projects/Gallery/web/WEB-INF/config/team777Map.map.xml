@@ -5,15 +5,15 @@
 	<db-entity name="db_artist" schema="etu">
 		<db-attribute name="artistID" type="INTEGER" isPrimaryKey="true" isGenerated="true" isMandatory="true"/>
 		<db-attribute name="birthdate" type="TIMESTAMP"/>
-		<db-attribute name="country" type="VARCHAR" length="10"/>
-		<db-attribute name="description" type="VARCHAR" length="255"/>
+		<db-attribute name="country" type="VARCHAR" length="50"/>
+		<db-attribute name="description" type="VARCHAR" length="1000"/>
 		<db-attribute name="imageUrl" type="VARCHAR" length="255"/>
-		<db-attribute name="name" type="VARCHAR" length="30"/>
+		<db-attribute name="name" type="VARCHAR" length="100"/>
 		<db-attribute name="picture" type="BLOB"/>
 	</db-entity>
 	<db-entity name="db_genre" schema="etu">
 		<db-attribute name="Name" type="VARCHAR" length="255"/>
-		<db-attribute name="descrption" type="VARCHAR" length="255"/>
+		<db-attribute name="descrption" type="VARCHAR" length="1000"/>
 		<db-attribute name="genreID" type="INTEGER" isPrimaryKey="true" isGenerated="true" isMandatory="true"/>
 		<db-attribute name="imageURL" type="VARCHAR" length="255"/>
 		<db-attribute name="picture" type="BLOB"/>
@@ -24,7 +24,7 @@
 		<db-attribute name="ID_museum" type="INTEGER"/>
 		<db-attribute name="ID_type" type="INTEGER" isMandatory="true"/>
 		<db-attribute name="creationYear" type="INTEGER"/>
-		<db-attribute name="description" type="VARCHAR" length="255"/>
+		<db-attribute name="description" type="VARCHAR" length="1000"/>
 		<db-attribute name="height" type="INTEGER"/>
 		<db-attribute name="imageURL" type="VARCHAR" length="255"/>
 		<db-attribute name="mass" type="INTEGER"/>
@@ -36,10 +36,10 @@
 		<db-attribute name="width" type="INTEGER"/>
 	</db-entity>
 	<db-entity name="db_museum" schema="etu">
-		<db-attribute name="description" type="VARCHAR" length="255"/>
+		<db-attribute name="description" type="VARCHAR" length="1000"/>
 		<db-attribute name="imageURL" type="VARCHAR" length="255"/>
 		<db-attribute name="museumID" type="INTEGER" isPrimaryKey="true" isGenerated="true" isMandatory="true"/>
-		<db-attribute name="name" type="VARCHAR" length="50"/>
+		<db-attribute name="name" type="VARCHAR" length="100"/>
 		<db-attribute name="picture" type="BLOB"/>
 		<db-attribute name="www" type="VARCHAR" length="255"/>
 	</db-entity>
