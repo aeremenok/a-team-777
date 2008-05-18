@@ -11,88 +11,112 @@ import ru.spb.etu.client.serializable.Museum;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * @author epa
+ * @author eav
  * @generated generated asynchronous callback interface to be used on the client side
  *
  */
-public interface ImageServiceAsync {
+public interface ImageServiceAsync
+{
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void getMasterPieces(Artist artist, AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void getMasterPieces(
+        Artist artist,
+        AsyncCallback callback );
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void getArtists(AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void getArtists(
+        AsyncCallback callback );
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void getMuseums(AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void getMuseums(
+        AsyncCallback callback );
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void getGenres(AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void getGenres(
+        AsyncCallback callback );
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void getArtistsByGenre(Genre genre, AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void getArtistsByGenre(
+        Genre genre,
+        AsyncCallback callback );
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void getArtistsByMuseum(Museum museum, AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void getArtistsByMuseum(
+        Museum museum,
+        AsyncCallback callback );
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void setBaseUrl(String url, AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void setBaseUrl(
+        String url,
+        AsyncCallback callback );
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void saveOrUpdate(EntityWrapper entityWrapper, AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void saveOrUpdate(
+        EntityWrapper entityWrapper,
+        AsyncCallback callback );
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void remove(EntityWrapper entityWrapper, AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void remove(
+        EntityWrapper entityWrapper,
+        AsyncCallback callback );
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void create(String type, AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void create(
+        String type,
+        AsyncCallback callback );
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void getPaintings(Artist artist, AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void getPaintings(
+        Artist artist,
+        AsyncCallback callback );
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void getSculptures(Artist artist, AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void getSculptures(
+        Artist artist,
+        AsyncCallback callback );
 
-	/**
-	 * @param  callback the callback that will be called to receive the return value
-	 * @generated generated method with asynchronous callback parameter to be used on the client side
-	 */
-	void updateImage(EntityWrapper entityWrapper, AsyncCallback callback);
+    /**
+     * @param  callback the callback that will be called to receive the return value
+     * @generated generated method with asynchronous callback parameter to be used on the client side
+     */
+    void updateImage(
+        EntityWrapper entityWrapper,
+        AsyncCallback callback );
 
 }

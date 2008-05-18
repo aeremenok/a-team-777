@@ -66,7 +66,7 @@ public interface ImageService
     void setBaseUrl(
         String url );
 
-    void saveOrUpdate(
+    Integer saveOrUpdate(
         EntityWrapper entityWrapper );
 
     void remove(
@@ -82,6 +82,7 @@ public interface ImageService
     ArrayList getSculptures(
         Artist artist );
 
-    void updateImage(
-        EntityWrapper entityWrapper );
+    Integer updateImage(
+        EntityWrapper entityWrapper )
+        throws Exception;
 }

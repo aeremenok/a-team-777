@@ -111,14 +111,31 @@ public class TraversalPanel
                     EntityWrapper entityWrapper = (EntityWrapper) entities.get( i );
                     listBox.addItem( entityWrapper.getTitle().toString() );
                 }
-                listBox.setSelectedIndex( 0 );
 
                 // записи загружены, больше этого не делаем
                 listBox.removeClickListener( TraversalPanel.this );
+                listBox.addClickListener( new ClickListener()
+                {
+                    public void onClick(
+                        Widget arg0 )
+                    {
+                        // если запись одна - событие change не происходит
+                        if ( listBox.getItemCount() == 1 )
+                            onChange( arg0 );
+                    }
+                } );
                 // можно редактировать
                 entityEditPanel.showEditTable( true );
 
-                onChange( listBox );
+                if ( entities.size() > 0 )
+                {
+                    listBox.setSelectedIndex( 0 );
+                    onChange( listBox );
+                }
+                else
+                {
+                    addNewEntity();
+                }
             }
         } );
 
@@ -154,11 +171,15 @@ public class TraversalPanel
             {
                 entities.remove( listBox.getSelectedIndex() );
                 listBox.removeItem( listBox.getSelectedIndex() );
-                entityEditPanel.showEntity( getCurrentEntity() );
+                listBox.setSelectedIndex( listBox.getItemCount() );
 
                 if ( entities.size() == 0 )
                 {
                     addNewEntity();
+                }
+                else
+                {
+                    entityEditPanel.showEntity( getCurrentEntity() );
                 }
             }
         } );

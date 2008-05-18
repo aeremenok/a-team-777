@@ -69,6 +69,7 @@ public class ReflectiveString
             public void onSuccess(
                 Object arg0 )
             {
+                host.setId( (Integer) arg0 );
             }
         } );
     }

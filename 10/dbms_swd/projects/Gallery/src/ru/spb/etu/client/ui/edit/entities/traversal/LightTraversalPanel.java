@@ -91,6 +91,7 @@ public class LightTraversalPanel
     public void onSuccess(
         Object arg0 )
     {
+        getCurrentEntity().setId( (Integer) arg0 );
         listBox.removeStyleName( "error" );
     }
 }

@@ -15,33 +15,32 @@ public abstract class EntityWrapper
     implements
         IsSerializable
 {
-    private ReflectiveString       description   = new ReflectiveString( this );
+    private ReflectiveString description   = new ReflectiveString( this );
 
-    private ReflectiveString       title         = new ReflectiveString( this );
-    protected static AsyncCallback asyncCallback = new AsyncCallback()
-                                                 {
-                                                     public void onFailure(
-                                                         Throwable arg0 )
-                                                     {
-                                                         Window.alert( arg0.toString() );
-                                                     }
+    private ReflectiveString title         = new ReflectiveString( this );
+    static AsyncCallback     asyncCallback = new AsyncCallback()
+                                           {
+                                               public void onFailure(
+                                                   Throwable arg0 )
+                                               {
+                                                   Window.alert( arg0.toString() );
+                                               }
 
-                                                     public void onSuccess(
-                                                         Object arg0 )
-                                                     {
-                                                         ViewPanel
-                                                                  .getInstance()
-                                                                  .setWidget(
-                                                                              ResultPanel.getInstance()
-                                                                                         .setArtists( (ArrayList) arg0 ) );
-                                                     }
-                                                 };
+                                               public void onSuccess(
+                                                   Object arg0 )
+                                               {
+                                                   ResultPanel instance = ResultPanel.getInstance();
+                                                   ResultPanel resultPanel = instance.setArtists( (ArrayList) arg0 );
+                                                   ViewPanel.getInstance().setWidget( resultPanel );
+                                               }
+                                           };
 
-    protected String               imageUrl;
-    protected Integer id;
+    protected String         imageUrl;
+    protected Integer        id;
 
     public EntityWrapper()
     {
+        imageUrl = "";
     }
 
     public EntityWrapper(
@@ -105,6 +104,7 @@ public abstract class EntityWrapper
             public void onSuccess(
                 Object arg0 )
             {
+                setId( (Integer) arg0 );
             }
         } );
     }
@@ -118,14 +118,15 @@ public abstract class EntityWrapper
     public abstract void applyToMasterPiece(
         MasterPiece masterPiece );
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId()
+    {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-    
-    
-    
+    public void setId(
+        Integer id )
+    {
+        this.id = id;
+    }
+
 }

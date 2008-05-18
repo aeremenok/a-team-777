@@ -1,6 +1,5 @@
 package ru.spb.etu.server;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import ru.spb.etu.client.ImageService;
@@ -18,6 +17,8 @@ public class ImageServiceImpl
     implements
         ImageService
 {
+    static final String   LINE_DELIM =
+                                       "*****************************************************************************************";
     EntityBackuper        entityBackuper;
     EntityExtractor       entityExtractor;
     private static String baseUrl;
@@ -114,18 +115,20 @@ public class ImageServiceImpl
     }
 
     @Override
-    public void saveOrUpdate(
+    public Integer saveOrUpdate(
         EntityWrapper entityWrapper )
     {
-    	System.out.println("*****************************************************************************************");
-    	System.out.println("[ImageServiceImpl] saveOrUpdate " + entityWrapper.getId() + ".");
+        System.out.println( LINE_DELIM );
+        System.out.println( "[ImageServiceImpl] saveOrUpdate " + entityWrapper.getId() + "." );
         int id = getEntityBackuper().saveOrUpdate( entityWrapper );
-        System.out.println("[ImageServiceImpl] saveOrUpdated! " + entityWrapper.getId() + ".");
-        if(entityWrapper.getId() == null || entityWrapper.getId() <= 0 ){
-        	entityWrapper.setId(id);
-        	System.out.println("[ImageServiceImpl] saveOrUpdate set new id " + entityWrapper.getId() + ".");
+        System.out.println( "[ImageServiceImpl] saveOrUpdated! " + entityWrapper.getId() + "." );
+        if ( entityWrapper.getId() == null || entityWrapper.getId() <= 0 )
+        {
+            entityWrapper.setId( id );
+            System.out.println( "[ImageServiceImpl] saveOrUpdate set new id " + entityWrapper.getId() + "." );
         }
-        System.out.println("*****************************************************************************************");
+        System.out.println( LINE_DELIM );
+        return entityWrapper.getId();
     }
 
     @Override
@@ -136,28 +139,31 @@ public class ImageServiceImpl
     }
 
     @Override
-    public void updateImage(
+    public Integer updateImage(
         EntityWrapper entityWrapper )
+        throws Exception
     {
-    	System.out.println("*****************************************************************************************");
-    	System.out.println("[ImageServiceImpl] saveOrUpdate " + entityWrapper.getId() + ".");
-        int id = getEntityBackuper().saveOrUpdate( entityWrapper );
-        System.out.println("[ImageServiceImpl] saveOrUpdated! " + entityWrapper.getId() + ".");
-        if(entityWrapper.getId() == null || entityWrapper.getId() <= 0 ){
-        	entityWrapper.setId(id);
-        	System.out.println("[ImageServiceImpl] saveOrUpdate set new id " + entityWrapper.getId() + ".");
-        }
-        System.out.println("*****************************************************************************************");
-        
-        
         try
         {
+            System.out.println( LINE_DELIM );
+            System.out.println( "[ImageServiceImpl] saveOrUpdate " + entityWrapper.getId() + "." );
+            int id = getEntityBackuper().saveOrUpdate( entityWrapper );
+            System.out.println( "[ImageServiceImpl] saveOrUpdated! " + entityWrapper.getId() + "." );
+            if ( entityWrapper.getId() == null || entityWrapper.getId() <= 0 )
+            {
+                entityWrapper.setId( id );
+                System.out.println( "[ImageServiceImpl] saveOrUpdate set new id " + entityWrapper.getId() + "." );
+            }
+            System.out.println( LINE_DELIM );
+
             byte[] bytes = FileUploadServlet.readBytes( entityWrapper.getImageUrl() );
             getEntityBackuper().updateBlob( entityWrapper, bytes );
+            return entityWrapper.getId();
         }
-        catch ( IOException e )
+        catch ( Throwable e )
         {
             e.printStackTrace();
+            throw new Exception( e );
         }
     }
 }
