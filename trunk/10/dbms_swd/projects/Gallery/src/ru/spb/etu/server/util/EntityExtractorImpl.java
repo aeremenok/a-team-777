@@ -200,7 +200,7 @@ public class EntityExtractorImpl implements EntityExtractor
 			SelectQuery select1 = new SelectQuery(DbMuseum.class);
 			resultDB = context.performQuery(select1);
 			log("  getMuseums() returned ", resultDB);
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<Museum>();
 		}

@@ -62,7 +62,13 @@ public class EntityBackuperImpl
 			a.setImageUrl(e.getImageUrl());
 			a.setName(e.getName().toString());
 		
-			context.commitChanges();
+			try {
+				context.commitChanges();
+			} catch (CayenneRuntimeException e1) {
+				log(" ERROR:   ");
+				e1.printStackTrace();
+				return 0;
+			}
 		    log(" updated ! ");
 		    
 		    return a.getId();
@@ -85,7 +91,13 @@ public class EntityBackuperImpl
 			a.setDescription(e.getDescription().toString());
 			a.setImageURL(e.getImageUrl());
 			
-			context.commitChanges();
+			try {
+				context.commitChanges();
+			} catch (CayenneRuntimeException e1) {
+				log(" ERROR:   ");
+				e1.printStackTrace();
+				return 0;
+			}
 		    log(" updated ! ");
 		    
 		    return a.getId();
@@ -107,7 +119,13 @@ public class EntityBackuperImpl
 			a.setImageURL(e.getImageUrl());
 			a.setName(e.getName().toString());
 		
-			context.commitChanges();
+			try {
+				context.commitChanges();
+			} catch (CayenneRuntimeException e1) {
+				log(" ERROR:   ");
+				e1.printStackTrace();
+				return 0;
+			}
 		    log(" updated ! ");
 		    
 		    return a.getId();
@@ -137,6 +155,8 @@ public class EntityBackuperImpl
 			a.setDescription(e.getDescription().toString());
 			a.setImageURL(e.getImageUrl());
 			a.setTitle(e.getTitle().toString() );
+			a.setIdType( DbArtist.PICTURE_ID_TYPE );
+			
 			
 			int year = 0;
 			try{year = Integer.parseInt(e.getCreationYear().toString());}catch(Exception ex){}
@@ -185,7 +205,15 @@ public class EntityBackuperImpl
 			a.setMyArtist( ar );
 			
 			
-			context.commitChanges();
+			
+			
+			try {
+				context.commitChanges();
+			} catch (CayenneRuntimeException e1) {
+				log(" ERROR:   ");
+				e1.printStackTrace();
+				return 0;
+			}
 		    log(" updated ! ");
 		    
 		    return a.getId();
@@ -214,6 +242,7 @@ public class EntityBackuperImpl
 			a.setDescription(e.getDescription().toString());
 			a.setImageURL(e.getImageUrl());
 			a.setTitle(e.getTitle().toString() );
+			a.setIdType( DbArtist.SCULPTURE_ID_TYPE );
 			
 			int year = 0;
 			try{year = Integer.parseInt(e.getCreationYear().toString());}catch(Exception ex){}
@@ -262,6 +291,7 @@ public class EntityBackuperImpl
 			try {
 				context.commitChanges();
 			} catch (CayenneRuntimeException e1) {
+				log(" ERROR:   ");
 				e1.printStackTrace();
 				return 0;
 			}

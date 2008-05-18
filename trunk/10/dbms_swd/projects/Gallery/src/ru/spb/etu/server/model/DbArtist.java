@@ -11,6 +11,11 @@ import ru.spb.etu.server.model.auto._DbArtist;
 
 public class DbArtist extends _DbArtist {
 
+	public static final Integer MASTERPICE_ID_TYPE = 0;
+	public static final Integer PICTURE_ID_TYPE = 1;
+	public static final Integer SCULPTURE_ID_TYPE = 2;
+	
+	
 	public Integer  getId(){
 		return DataObjectUtils.intPKForObject(this);
 	}
