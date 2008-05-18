@@ -9,9 +9,8 @@ public class _DbPainting extends ru.spb.etu.server.model.DbMasterpiece {
 
     public static final String HEIGHT_PROPERTY = "height";
     public static final String WIDTH_PROPERTY = "width";
-    public static final String PAINTING_MASTERPIECE_PROPERTY = "paintingMasterpiece";
 
-    public static final String PAINTING_ID_PK_COLUMN = "paintingID";
+    public static final String MASTERPIECE_ID_PK_COLUMN = "masterpieceID";
 
     public void setHeight(Integer height) {
         writeProperty("height", height);
@@ -27,15 +26,6 @@ public class _DbPainting extends ru.spb.etu.server.model.DbMasterpiece {
     public Integer getWidth() {
         return (Integer)readProperty("width");
     }
-    
-    
-    public void setPaintingMasterpiece(ru.spb.etu.server.model.DbMasterpiece paintingMasterpiece) {
-        setToOneTarget("paintingMasterpiece", paintingMasterpiece, true);
-    }
-
-    public ru.spb.etu.server.model.DbMasterpiece getPaintingMasterpiece() {
-        return (ru.spb.etu.server.model.DbMasterpiece)readProperty("paintingMasterpiece");
-    } 
     
     
 }

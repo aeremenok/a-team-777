@@ -17,8 +17,6 @@ public class _DbMasterpiece extends org.apache.cayenne.CayenneDataObject {
     public static final String MY_ARTIST_PROPERTY = "myArtist";
     public static final String MY_GENRE_PROPERTY = "myGenre";
     public static final String MY_MUSEUM_PROPERTY = "myMuseum";
-    public static final String MY_PAINTING_PROPERTY = "myPainting";
-    public static final String MY_SCULPTURE_PROPERTY = "mySculpture";
 
     public static final String MASTERPIECE_ID_PK_COLUMN = "masterpieceID";
 
@@ -102,24 +100,6 @@ public class _DbMasterpiece extends org.apache.cayenne.CayenneDataObject {
 
     public ru.spb.etu.server.model.DbMuseum getMyMuseum() {
         return (ru.spb.etu.server.model.DbMuseum)readProperty("myMuseum");
-    } 
-    
-    
-    public void setMyPainting(ru.spb.etu.server.model.DbPainting myPainting) {
-        setToOneTarget("myPainting", myPainting, true);
-    }
-
-    public ru.spb.etu.server.model.DbPainting getMyPainting() {
-        return (ru.spb.etu.server.model.DbPainting)readProperty("myPainting");
-    } 
-    
-    
-    public void setMySculpture(ru.spb.etu.server.model.DbSculpture mySculpture) {
-        setToOneTarget("mySculpture", mySculpture, true);
-    }
-
-    public ru.spb.etu.server.model.DbSculpture getMySculpture() {
-        return (ru.spb.etu.server.model.DbSculpture)readProperty("mySculpture");
     } 
     
     

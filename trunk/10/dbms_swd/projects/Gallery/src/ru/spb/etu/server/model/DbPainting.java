@@ -16,7 +16,7 @@ public class DbPainting extends _DbPainting {
 	/** Read-only access to PK */
 	   public Integer getPaintingId() {
 	      return (getObjectId() != null && !getObjectId().isTemporary()) 
-	               ? (Integer)getObjectId().getIdSnapshot().get(PAINTING_ID_PK_COLUMN) 
+	               ? (Integer)getObjectId().getIdSnapshot().get(MASTERPIECE_ID_PK_COLUMN) 
 	               : null;
 	   }
 	   
