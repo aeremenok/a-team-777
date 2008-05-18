@@ -15,9 +15,9 @@ public class _DbArtist extends org.apache.cayenne.CayenneDataObject {
     public static final String IMAGE_URL_PROPERTY = "imageUrl";
     public static final String NAME_PROPERTY = "name";
     public static final String PICTURE_PROPERTY = "picture";
-    public static final String MASTERPIECES_PROPERTY = "masterpieces";
+    public static final String ARTIST_MASTERPIECE_PROPERTY = "artistMasterpiece";
 
-    public static final String ID_PK_COLUMN = "ID";
+    public static final String ARTIST_ID_PK_COLUMN = "artistID";
 
     public void setBirthdate(java.util.Date birthdate) {
         writeProperty("birthdate", birthdate);
@@ -67,14 +67,14 @@ public class _DbArtist extends org.apache.cayenne.CayenneDataObject {
     }
     
     
-    public void addToMasterpieces(ru.spb.etu.server.model.DbMasterpiece obj) {
-        addToManyTarget("masterpieces", obj, true);
+    public void addToArtistMasterpiece(ru.spb.etu.server.model.DbMasterpiece obj) {
+        addToManyTarget("artistMasterpiece", obj, true);
     }
-    public void removeFromMasterpieces(ru.spb.etu.server.model.DbMasterpiece obj) {
-        removeToManyTarget("masterpieces", obj, true);
+    public void removeFromArtistMasterpiece(ru.spb.etu.server.model.DbMasterpiece obj) {
+        removeToManyTarget("artistMasterpiece", obj, true);
     }
-    public List getMasterpieces() {
-        return (List)readProperty("masterpieces");
+    public List getArtistMasterpiece() {
+        return (List)readProperty("artistMasterpiece");
     }
     
     

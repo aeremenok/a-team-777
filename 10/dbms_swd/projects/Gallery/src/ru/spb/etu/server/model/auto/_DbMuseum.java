@@ -14,9 +14,9 @@ public class _DbMuseum extends org.apache.cayenne.CayenneDataObject {
     public static final String NAME_PROPERTY = "name";
     public static final String PICTURE_PROPERTY = "picture";
     public static final String WWW_PROPERTY = "www";
-    public static final String MASTERPIECES_PROPERTY = "masterpieces";
+    public static final String MUSEUM_MASTERPIECE_PROPERTY = "museumMasterpiece";
 
-    public static final String ID_PK_COLUMN = "ID";
+    public static final String MUSEUM_ID_PK_COLUMN = "museumID";
 
     public void setDescription(String description) {
         writeProperty("description", description);
@@ -58,14 +58,14 @@ public class _DbMuseum extends org.apache.cayenne.CayenneDataObject {
     }
     
     
-    public void addToMasterpieces(ru.spb.etu.server.model.DbMasterpiece obj) {
-        addToManyTarget("masterpieces", obj, true);
+    public void addToMuseumMasterpiece(ru.spb.etu.server.model.DbMasterpiece obj) {
+        addToManyTarget("museumMasterpiece", obj, true);
     }
-    public void removeFromMasterpieces(ru.spb.etu.server.model.DbMasterpiece obj) {
-        removeToManyTarget("masterpieces", obj, true);
+    public void removeFromMuseumMasterpiece(ru.spb.etu.server.model.DbMasterpiece obj) {
+        removeToManyTarget("museumMasterpiece", obj, true);
     }
-    public List getMasterpieces() {
-        return (List)readProperty("masterpieces");
+    public List getMuseumMasterpiece() {
+        return (List)readProperty("museumMasterpiece");
     }
     
     

@@ -31,15 +31,15 @@ public class EntityBackuperImpl
 {
 
     @Override
-    public void saveOrUpdate( EntityWrapper entityWrapper )
+    public int saveOrUpdate( EntityWrapper entityWrapper )
     {
     	log(" saveOrUpdate " + entityWrapper.getClass() );
     	DataContext context;
 		try {
-			context = DataContext.createDataContext();
+			context = DataContext.getThreadDataContext();
 		} catch (Exception e) {			
 			e.printStackTrace();
-			return;
+			return 0;
 		} 
 				
 		//TODO check if no - then create
@@ -50,14 +50,12 @@ public class EntityBackuperImpl
 			if(e.getId() != null && e.getId() > 0) {
 		        a = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, e.getId());
 		    }
-
 						
 			if(a == null) {
 				log(" new object ");
-	            a = (DbArtist) context.newObject(DbArtist.class);
-	            
+	            a = (DbArtist) context.newObject(DbArtist.class);	            
 	        }
-
+			
 			a.setBirthdate(e.getBirthDate());
 			a.setCountry(e.getCountry().toString());
 			a.setDescription(e.getDescription().toString());
@@ -66,7 +64,9 @@ public class EntityBackuperImpl
 		
 			context.commitChanges();
 		    log(" updated ! ");
-		
+		    
+		    return a.getId();
+		    
 		} else if( entityWrapper instanceof Museum ){
 			Museum e = (Museum) (entityWrapper);
 			DbMuseum a = null;
@@ -87,6 +87,8 @@ public class EntityBackuperImpl
 			
 			context.commitChanges();
 		    log(" updated ! ");
+		    
+		    return a.getId();
 			
 		} else  if( entityWrapper instanceof Genre ) {
 			Genre e = (Genre) (entityWrapper);
@@ -107,6 +109,8 @@ public class EntityBackuperImpl
 		
 			context.commitChanges();
 		    log(" updated ! ");
+		    
+		    return a.getId();
 		} else  if( entityWrapper instanceof Painting ) {
 			Painting e = (Painting) (entityWrapper);
 			DbPainting a = null;
@@ -116,7 +120,7 @@ public class EntityBackuperImpl
 					|| e.getMuseum() == null   					
 			){
 				log(" incorrect! ");
-				return;
+				return 0;
 			}
 			
 			if(e.getId() != null && e.getId() > 0) {
@@ -155,7 +159,7 @@ public class EntityBackuperImpl
 			if(m == null) {
 				log(" no real Museum! ");
 	        }
-			a.setMymuseum(m);
+			a.setMyMuseum(m);
 
 			DbGenre g = null;
 			 if(e.getGenre() != null && e.getGenre().getId() > 0) {
@@ -165,7 +169,7 @@ public class EntityBackuperImpl
 			if(g == null) {
 				log(" no real genre! ");
 	        }
-			a.setMygenre( g );
+			a.setMyGenre( g );
 			
 			DbArtist ar = null;
 			if(e.getMuseum() != null && e.getArtist().getId() > 0) {
@@ -175,11 +179,14 @@ public class EntityBackuperImpl
 			if(ar == null) {
 				log(" no real artist! ");
 	        }
-			a.setMyartist( ar );
+			a.setMyArtist( ar );
 			
 			
 			context.commitChanges();
 		    log(" updated ! ");
+		    
+		    return a.getId();
+		    
 		} else  if( entityWrapper instanceof Sculpture ) {
 			Sculpture e = (Sculpture) (entityWrapper);
 			DbSculpture a = null;
@@ -189,7 +196,7 @@ public class EntityBackuperImpl
 					|| e.getMuseum() == null   					
 			){
 				log(" incorrect! ");
-				return;
+				return 0;
 			}
 			
 			if(e.getId() != null && e.getId() > 0) {
@@ -224,7 +231,7 @@ public class EntityBackuperImpl
 			if(m == null) {
 				log(" no real Museum! ");
 	        }
-			a.setMymuseum(m);
+			a.setMyMuseum(m);
 
 			
 			
@@ -236,7 +243,7 @@ public class EntityBackuperImpl
 			if(g == null) {
 				log(" no real genre! ");
 	        }
-			a.setMygenre( g );
+			a.setMyGenre( g );
 			
 			
 			DbArtist ar  = null;
@@ -248,18 +255,20 @@ public class EntityBackuperImpl
 			if(ar == null) {
 				log(" no real artist! ");
 	        }
-			a.setMyartist( ar );
+			a.setMyArtist( ar );
 			
 			
 			context.commitChanges();
 		    log(" updated ! ");
-		} else {
-			log("Unknown class");
-		}
 
+		    
+		    return a.getId();
+		    
+		} 
+			
 		
-		//TODO commit
-		context.commitChanges();
+		log("Unknown class");
+		return 0;
     }
 
     @Override
@@ -284,7 +293,7 @@ public class EntityBackuperImpl
 
     	DataContext context;
 		try {
-			context = DataContext.createDataContext();
+			context = DataContext.getThreadDataContext();
 		} catch (Exception e) {			
 			e.printStackTrace();
 			return;
@@ -294,6 +303,8 @@ public class EntityBackuperImpl
     		try {
 				Artist cur = (Artist) entityWrapper;
 
+				log("ID = " + cur.getId() + "|" + entityWrapper.getId());
+				
 				DbArtist picasso  = null;
 				if(entityWrapper.getId() != null && entityWrapper.getId() > 0) {
 					picasso = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, entityWrapper.getId());
@@ -316,7 +327,8 @@ public class EntityBackuperImpl
     	} else if(entityWrapper instanceof Museum){
     		try {
     			Museum cur = (Museum) entityWrapper;
-
+    			log("ID = " + cur.getId() + "|" + entityWrapper.getId());
+				
     			DbMuseum picasso  = null;
 				if(entityWrapper.getId() != null && entityWrapper.getId() > 0) {
 					picasso = (DbMuseum) DataObjectUtils.objectForPK(context, DbMuseum.class, entityWrapper.getId());
@@ -340,7 +352,8 @@ public class EntityBackuperImpl
     	} else if(entityWrapper instanceof Genre){
     		try {
     			Genre cur = (Genre) entityWrapper;
-
+    			log("ID = " + cur.getId() + "|" + entityWrapper.getId());
+				
     			DbGenre picasso  = null;
 				if(entityWrapper.getId() != null && entityWrapper.getId() > 0) {
 					picasso = (DbGenre) DataObjectUtils.objectForPK(context, DbGenre.class, entityWrapper.getId());
@@ -364,7 +377,8 @@ public class EntityBackuperImpl
     	}else if(entityWrapper instanceof Painting){
     		try {
     			Painting cur = (Painting) entityWrapper;
-    			
+    			log("ID = " + cur.getId() + "|" + entityWrapper.getId());
+				
     			DbPainting picasso  = null;
 				if(entityWrapper.getId() != null && entityWrapper.getId() > 0) {
 					picasso = (DbPainting) DataObjectUtils.objectForPK(context, DbPainting.class, entityWrapper.getId());
@@ -387,7 +401,8 @@ public class EntityBackuperImpl
     	}else if(entityWrapper instanceof Sculpture){
     		try {
     			Sculpture cur = (Sculpture) entityWrapper;
-
+    			log("ID = " + cur.getId() + "|" + entityWrapper.getId());
+				
     			DbSculpture picasso  = null;
 				if(entityWrapper.getId() != null && entityWrapper.getId() > 0) {
 					picasso = (DbSculpture) DataObjectUtils.objectForPK(context, DbSculpture.class, entityWrapper.getId());

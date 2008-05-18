@@ -13,9 +13,9 @@ public class _DbGenre extends org.apache.cayenne.CayenneDataObject {
     public static final String IMAGE_URL_PROPERTY = "imageURL";
     public static final String NAME_PROPERTY = "name";
     public static final String PICTURE_PROPERTY = "picture";
-    public static final String MASTERPIECES_PROPERTY = "masterpieces";
+    public static final String GENRE_MASTERPIECE_PROPERTY = "genreMasterpiece";
 
-    public static final String ID_PK_COLUMN = "ID";
+    public static final String GENRE_ID_PK_COLUMN = "genreID";
 
     public void setDescrption(String descrption) {
         writeProperty("descrption", descrption);
@@ -49,14 +49,14 @@ public class _DbGenre extends org.apache.cayenne.CayenneDataObject {
     }
     
     
-    public void addToMasterpieces(ru.spb.etu.server.model.DbMasterpiece obj) {
-        addToManyTarget("masterpieces", obj, true);
+    public void addToGenreMasterpiece(ru.spb.etu.server.model.DbMasterpiece obj) {
+        addToManyTarget("genreMasterpiece", obj, true);
     }
-    public void removeFromMasterpieces(ru.spb.etu.server.model.DbMasterpiece obj) {
-        removeToManyTarget("masterpieces", obj, true);
+    public void removeFromGenreMasterpiece(ru.spb.etu.server.model.DbMasterpiece obj) {
+        removeToManyTarget("genreMasterpiece", obj, true);
     }
-    public List getMasterpieces() {
-        return (List)readProperty("masterpieces");
+    public List getGenreMasterpiece() {
+        return (List)readProperty("genreMasterpiece");
     }
     
     

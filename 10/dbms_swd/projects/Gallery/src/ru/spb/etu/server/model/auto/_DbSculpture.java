@@ -9,9 +9,9 @@ public class _DbSculpture extends ru.spb.etu.server.model.DbMasterpiece {
 
     public static final String MASS_PROPERTY = "mass";
     public static final String MATERIAL_PROPERTY = "material";
-    public static final String MYMASTERPIECE_PROPERTY = "mymasterpiece";
+    public static final String SCULPTURE_MASTERPIECE_PROPERTY = "sculptureMasterpiece";
 
-    public static final String ID_PK_COLUMN = "ID";
+    public static final String SCULPTURE_ID_PK_COLUMN = "sculptureID";
 
     public void setMass(Integer mass) {
         writeProperty("mass", mass);
@@ -29,12 +29,12 @@ public class _DbSculpture extends ru.spb.etu.server.model.DbMasterpiece {
     }
     
     
-    public void setMymasterpiece(ru.spb.etu.server.model.DbMasterpiece mymasterpiece) {
-        setToOneTarget("mymasterpiece", mymasterpiece, true);
+    public void setSculptureMasterpiece(ru.spb.etu.server.model.DbMasterpiece sculptureMasterpiece) {
+        setToOneTarget("sculptureMasterpiece", sculptureMasterpiece, true);
     }
 
-    public ru.spb.etu.server.model.DbMasterpiece getMymasterpiece() {
-        return (ru.spb.etu.server.model.DbMasterpiece)readProperty("mymasterpiece");
+    public ru.spb.etu.server.model.DbMasterpiece getSculptureMasterpiece() {
+        return (ru.spb.etu.server.model.DbMasterpiece)readProperty("sculptureMasterpiece");
     } 
     
     

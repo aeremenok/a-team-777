@@ -44,7 +44,8 @@ public class ObjectsConverter {
 	 * converting database artist to client artist
 	 * @param a
 	 * @return
-	 */private static Artist convertArtist(DbArtist a) {
+	 */
+	 public static Artist convertArtist(DbArtist a) {
 		Artist b = new Artist(
 				a.getBirthdate(),
 		        a.getCountry(),
@@ -52,7 +53,9 @@ public class ObjectsConverter {
 		        a.getName(),
 		        a.getImageUrl() 
 		);
-		b.setId(a.getId());
+		Integer i = a.getId();
+		System.out.println("Artist i=" + i);
+		b.setId(i);
 		return b;
 	}
 	 	
@@ -94,7 +97,7 @@ public class ObjectsConverter {
 	 * converting database MasterPiece to client MasterPiece
 	 * @param a
 	 * @return
-	 */private static MasterPiece convertMasterpiece(DbMasterpiece a) {
+	 */public  static MasterPiece convertMasterpiece(DbMasterpiece a) {
 		 MasterPiece b = new MasterPiece( 
 				 a.getCreationYear(), 
 				 a.getImageURL(), 
@@ -144,7 +147,7 @@ public class ObjectsConverter {
 	 * @param a
 	 * @return
 	 */
-	 private static Museum convertMuseum(DbMuseum a) {
+	 public  static Museum convertMuseum(DbMuseum a) {
 		 Museum b = new Museum(  
 				 a.getDescription(), 
 				 a.getName(), 
@@ -193,7 +196,7 @@ public class ObjectsConverter {
 	 * @param a
 	 * @return
 	 */
-	 private static Genre convertGenre(DbGenre a) {
+	 public  static Genre convertGenre(DbGenre a) {
 		 Genre b = new Genre(
 				 a.getName(), 
 				 a.getImageURL(),	
@@ -240,7 +243,7 @@ public class ObjectsConverter {
 	 * @param a
 	 * @return
 	 */
-	 private static Painting convertPainting(DbPainting a) {
+	 public  static Painting convertPainting(DbPainting a) {
 		 Painting b = new Painting(
 						 
 		 		);
@@ -286,7 +289,7 @@ public class ObjectsConverter {
 	 * @param a
 	 * @return
 	 */
-	 private static Sculpture convertSculpture(DbSculpture a) {
+	 public  static Sculpture convertSculpture(DbSculpture a) {
 		 Sculpture b = new Sculpture(	 
 		 		);
 		 b.setId(a.getId());
