@@ -333,7 +333,7 @@ public class EntityExtractorImpl
             // validation
             Assert.assertNotNull( "museum not correct", museum );
             Assert.assertNotNull( "museum not correct", museum.getId() );
-            Assert.assertTrue( "museum not correct", museum.getId() <= 0 );
+            Assert.assertTrue( "museum not correct", museum.getId() > 0 );
 
             DbMuseum dbMuseum = (DbMuseum) DataObjectUtils.objectForPK( context, DbMuseum.class, museum.getId() );
             log( " got DbMuseum from database " );
