@@ -117,6 +117,7 @@ public class ImageServiceImpl
     public void saveOrUpdate(
         EntityWrapper entityWrapper )
     {
+    	System.out.println("*****************************************************************************************");
     	System.out.println("[ImageServiceImpl] saveOrUpdate " + entityWrapper.getId() + ".");
         int id = getEntityBackuper().saveOrUpdate( entityWrapper );
         System.out.println("[ImageServiceImpl] saveOrUpdated! " + entityWrapper.getId() + ".");
@@ -124,6 +125,7 @@ public class ImageServiceImpl
         	entityWrapper.setId(id);
         	System.out.println("[ImageServiceImpl] saveOrUpdate set new id " + entityWrapper.getId() + ".");
         }
+        System.out.println("*****************************************************************************************");
     }
 
     @Override
@@ -137,6 +139,7 @@ public class ImageServiceImpl
     public void updateImage(
         EntityWrapper entityWrapper )
     {
+    	System.out.println("*****************************************************************************************");
     	System.out.println("[ImageServiceImpl] saveOrUpdate " + entityWrapper.getId() + ".");
         int id = getEntityBackuper().saveOrUpdate( entityWrapper );
         System.out.println("[ImageServiceImpl] saveOrUpdated! " + entityWrapper.getId() + ".");
@@ -144,6 +147,7 @@ public class ImageServiceImpl
         	entityWrapper.setId(id);
         	System.out.println("[ImageServiceImpl] saveOrUpdate set new id " + entityWrapper.getId() + ".");
         }
+        System.out.println("*****************************************************************************************");
         
         
         try
