@@ -155,26 +155,29 @@ public class ResultPanel
         tabPanel.clear();
 
         this.artists = artists;
-        // группируем художников по вкладкам
-        Iterator iterator = artists.iterator();
-        while ( iterator.hasNext() )
+        if ( !artists.isEmpty() )
         {
-            final Artist artist = (Artist) iterator.next();
-            // в TabPanel в каждой вкладке д.б. свой виджет
-            Label label = new Label( artist.getName().toString() );
-            label.addClickListener( new ClickListener()
+            // группируем художников по вкладкам
+            Iterator iterator = artists.iterator();
+            while ( iterator.hasNext() )
             {
-                public void onClick(
-                    Widget arg0 )
+                final Artist artist = (Artist) iterator.next();
+                // в TabPanel в каждой вкладке д.б. свой виджет
+                Label label = new Label( artist.getName().toString() );
+                label.addClickListener( new ClickListener()
                 {
-                    tabPanel.onTabSelected( tabPanel, artists.indexOf( artist ) );
-                }
-            } );
-            tabPanel.add( new MasterPieceTable( 8 ), label );
-        }
+                    public void onClick(
+                        Widget arg0 )
+                    {
+                        tabPanel.onTabSelected( tabPanel, artists.indexOf( artist ) );
+                    }
+                } );
+                tabPanel.add( new MasterPieceTable( 8 ), label );
+            }
 
-        tabPanel.selectTab( 0 );
-        onTabSelected( tabPanel, 0 );
+            tabPanel.selectTab( 0 );
+            onTabSelected( tabPanel, 0 );
+        }
         return this;
     }
 }

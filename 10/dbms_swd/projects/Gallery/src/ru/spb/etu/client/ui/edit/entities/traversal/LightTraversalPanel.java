@@ -59,6 +59,7 @@ public class LightTraversalPanel
         {
             listBox.clear();
             listBox.addItem( masterpieceReference.getTitle().toString() );
+            listBox.removeStyleName( "error" );
         }
         else
             listBox.addStyleName( "error" );
@@ -91,7 +92,7 @@ public class LightTraversalPanel
     public void onSuccess(
         Object arg0 )
     {
-        getCurrentEntity().setId( (Integer) arg0 );
+        // getCurrentEntity().setId( (Integer) arg0 );
         listBox.removeStyleName( "error" );
     }
 }
