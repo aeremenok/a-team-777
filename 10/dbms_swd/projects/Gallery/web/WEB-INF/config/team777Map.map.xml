@@ -25,11 +25,15 @@
 		<db-attribute name="ID_type" type="INTEGER" isMandatory="true"/>
 		<db-attribute name="creationYear" type="INTEGER"/>
 		<db-attribute name="description" type="VARCHAR" length="255"/>
+		<db-attribute name="height" type="INTEGER"/>
 		<db-attribute name="imageURL" type="VARCHAR" length="255"/>
+		<db-attribute name="mass" type="INTEGER"/>
 		<db-attribute name="masterpieceID" type="INTEGER" isPrimaryKey="true" isGenerated="true" isMandatory="true"/>
+		<db-attribute name="material" type="VARCHAR" length="100"/>
 		<db-attribute name="photo" type="VARCHAR" length="255"/>
 		<db-attribute name="picture" type="BLOB"/>
 		<db-attribute name="title" type="VARCHAR" length="255"/>
+		<db-attribute name="width" type="INTEGER"/>
 	</db-entity>
 	<db-entity name="db_museum" schema="etu">
 		<db-attribute name="description" type="VARCHAR" length="255"/>
@@ -38,16 +42,6 @@
 		<db-attribute name="name" type="VARCHAR" length="50"/>
 		<db-attribute name="picture" type="BLOB"/>
 		<db-attribute name="www" type="VARCHAR" length="255"/>
-	</db-entity>
-	<db-entity name="db_painting" schema="etu">
-		<db-attribute name="height" type="INTEGER"/>
-		<db-attribute name="paintingID" type="INTEGER" isPrimaryKey="true" isGenerated="true" isMandatory="true"/>
-		<db-attribute name="width" type="INTEGER"/>
-	</db-entity>
-	<db-entity name="db_sculpture" schema="etu">
-		<db-attribute name="mass" type="INTEGER"/>
-		<db-attribute name="material" type="VARCHAR" length="40"/>
-		<db-attribute name="sculptureID" type="INTEGER" isPrimaryKey="true" isGenerated="true" isMandatory="true"/>
 	</db-entity>
 	<obj-entity name="DbArtist" className="ru.spb.etu.server.model.DbArtist" dbEntityName="db_artist">
 		<obj-attribute name="birthdate" type="java.util.Date" db-attribute-path="birthdate"/>
@@ -64,7 +58,7 @@
 		<obj-attribute name="picture" type="byte[]" db-attribute-path="picture"/>
 	</obj-entity>
 	<obj-entity name="DbMasterpiece" className="ru.spb.etu.server.model.DbMasterpiece" dbEntityName="db_masterpiece">
-		<qualifier><![CDATA[ID_type = 0]]></qualifier>
+		<qualifier><![CDATA[idType = 0]]></qualifier>
 		<obj-attribute name="creationYear" type="java.lang.Integer" db-attribute-path="creationYear"/>
 		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
 		<obj-attribute name="idType" type="java.lang.Integer" db-attribute-path="ID_type"/>
@@ -81,10 +75,12 @@
 		<obj-attribute name="www" type="java.lang.String" db-attribute-path="www"/>
 	</obj-entity>
 	<obj-entity name="DbPainting" superEntityName="DbMasterpiece" className="ru.spb.etu.server.model.DbPainting">
+		<qualifier><![CDATA[idType = 1]]></qualifier>
 		<obj-attribute name="height" type="java.lang.Integer" db-attribute-path="height"/>
 		<obj-attribute name="width" type="java.lang.Integer" db-attribute-path="width"/>
 	</obj-entity>
 	<obj-entity name="DbSculpture" superEntityName="DbMasterpiece" className="ru.spb.etu.server.model.DbSculpture">
+		<qualifier><![CDATA[idType = 2]]></qualifier>
 		<obj-attribute name="mass" type="java.lang.Integer" db-attribute-path="mass"/>
 		<obj-attribute name="material" type="java.lang.String" db-attribute-path="material"/>
 	</obj-entity>
@@ -107,6 +103,8 @@
 		<db-attribute-pair source="museumID" target="ID_museum"/>
 	</db-relationship>
 	<obj-relationship name="artistMasterpiece" source="DbArtist" target="DbMasterpiece" deleteRule="Cascade" db-relationship-path="artistMasterpiecedb"/>
+	<obj-relationship name="artistPaintings" source="DbArtist" target="DbPainting" deleteRule="Cascade" db-relationship-path="artistMasterpiecedb"/>
+	<obj-relationship name="artistSculpture" source="DbArtist" target="DbSculpture" deleteRule="Cascade" db-relationship-path="artistMasterpiecedb"/>
 	<obj-relationship name="genreMasterpiece" source="DbGenre" target="DbMasterpiece" deleteRule="Cascade" db-relationship-path="genreMasterpiecedb"/>
 	<obj-relationship name="myArtist" source="DbMasterpiece" target="DbArtist" db-relationship-path="myArtistdb"/>
 	<obj-relationship name="myGenre" source="DbMasterpiece" target="DbGenre" db-relationship-path="myGenredb"/>

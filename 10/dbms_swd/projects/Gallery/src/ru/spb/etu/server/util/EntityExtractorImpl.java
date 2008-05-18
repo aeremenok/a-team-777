@@ -16,6 +16,7 @@ import org.apache.cayenne.ObjectId;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
+import org.apache.cayenne.exp.ExpressionParameter;
 import org.apache.cayenne.query.RelationshipQuery;
 import org.apache.cayenne.query.SelectQuery;
 import org.apache.commons.logging.Log;
@@ -98,7 +99,9 @@ public class EntityExtractorImpl implements EntityExtractor
 	@Override
     public ArrayList<MasterPiece> getMasterPieces( Artist artist )
     {
+    	//log 
     	log(" getMasterPieces(Artist) ");
+    	
     	//init
     	DataContext context;
 		try {
@@ -108,26 +111,24 @@ public class EntityExtractorImpl implements EntityExtractor
 			return new ArrayList<MasterPiece>();
 		}
     	
-    	//get objects
+		// validation
+		if(artist == null || artist.getId() == null || artist.getId() <= 0) {
+			logError(" No Artist ID ");
+			return new ArrayList<MasterPiece>();
+		}
+		log(" Artist id:" + artist.getId() );
+		
+    	//getting objects 
     	List<DbMasterpiece> resultDB;
 		try {
-			//TODO filter by artist!!!
-			if(artist == null || artist.getId() == null || artist.getId() <= 0) {
-				log(" No Artist ID ");
-				return new ArrayList<MasterPiece>();
-			}
-			
-			log(" artist id = " + artist.getId() );
-			
-			
 			DbArtist a = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, artist.getId());
 			if(a == null){
-				log(" No Artist in DataBase ");
+				logError(" No Artist in DataBase ");
 				return new ArrayList<MasterPiece>();
 			}
+			
 			log(" got artist from database ");
-			
-			
+						
 			try{
 				
 				resultDB = a.getArtistMasterpiece();
@@ -139,12 +140,12 @@ public class EntityExtractorImpl implements EntityExtractor
 				
 			}catch(Exception e){
 				e.printStackTrace();
-				log("got exception on a.getArtistMasterpiece() ");
+				logError("got exception on a.getArtistMasterpiece() ");
 			}
 			log("trying another way...");
 			
 			
-		// obtain a list of paintings
+			// obtain a list of paintings
 			/*
 			 * // object path
 					Expression e1 = Expression.fromString("artistName = 'Salvador Dali'");
@@ -169,7 +170,7 @@ public class EntityExtractorImpl implements EntityExtractor
 			
 			log(" getMasterPieces() returned ",resultDB);
 			
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<MasterPiece>();
 		}
@@ -243,7 +244,11 @@ public class EntityExtractorImpl implements EntityExtractor
 	@Override
     public ArrayList<Artist> getArtistsByGenre( Genre genre )
     {
+    	
+			
+			//log 
 		log("  getArtistsByGenre()  ");
+		
     	//init
     	DataContext context;
 		try {
@@ -252,43 +257,45 @@ public class EntityExtractorImpl implements EntityExtractor
 			e.printStackTrace();
 			return new ArrayList<Artist>();
 		}
+		
+		//validation
+		if(genre == null || genre.getId() == null || genre.getId() <= 0) {
+			logError(" No GENRE ID");
+			return new ArrayList<Artist>();
+		}
+		log("Genre id:" + genre.getId());
     	
     	//get objects
-    	List<DbArtist> actorsDB;
+    	List<DbArtist> actorsDB = new ArrayList<DbArtist>();
 		try {
-			//TODO add filter
-			SelectQuery select1 = new SelectQuery(DbArtist.class);
-			if(genre != null && genre.getId() != null && genre.getId() > 0) {
-					
-					String q = "DbGenre.id = $genreid";
-					Expression qualifier3 = Expression.fromString(q);
-					Map m = new HashMap();
-					m.put("genreid", genre.getId()); //Collections.singletonMap("genreid", genre.getId()
-					qualifier3 = qualifier3.expWithParameters(m);
-					SelectQuery select3 = new SelectQuery(DbArtist.class, qualifier3);
-					List paintings3 = context.performQuery(select3);
-					
-					/*Map params = new HashMap();
-					params.put(DbArtist.MYGENRE_PROPERTY, picasso.getId() );
-					select1 = select1.queryWithParameters(params);*/
-				
-			} else{
-				
-				log(" No GENRE ID");
+
+			DbGenre g = (DbGenre) DataObjectUtils.objectForPK(context, DbGenre.class, genre.getId());
+			if(g == null){
+				logError(" No Genre in DataBase ");
 				return new ArrayList<Artist>();
 			}
 			
-			actorsDB = context.performQuery(select1 );
+			log(" got DbGenre from database ");
+
+
+			Expression qualifier = ExpressionFactory.matchExp(DbPainting.MY_GENRE_PROPERTY , g.getId());
+			SelectQuery select = new SelectQuery(DbMasterpiece.class, qualifier);
+			List<DbMasterpiece> mp = context.performQuery(select);
+			
+			
+			for(DbMasterpiece m : mp){
+				actorsDB.add( m.getMyArtist());
+			}
 			
 			log("  getArtistsByGenre() returned ", actorsDB);
+			// convert objects 
+	    	// and return 
+	        return ObjectsConverter.convertArtists(actorsDB);
+					
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<Artist>();
 		}
-
-    	// convert objects 
-    	// and return 
-        return ObjectsConverter.convertArtists(actorsDB);
     }
     
     
@@ -296,6 +303,7 @@ public class EntityExtractorImpl implements EntityExtractor
     public ArrayList<Artist> getArtistsByMuseum( Museum museum )
     {
     	log(  " getArtistsByMuseum() " );
+    	
     	//init
     	DataContext context;
 		try {
@@ -304,49 +312,53 @@ public class EntityExtractorImpl implements EntityExtractor
 			e.printStackTrace();
 			return new ArrayList<Artist>();
 		}
-    	
+		
+		//validation
+		if(museum == null || museum.getId() == null || museum.getId() <= 0) {
+			logError(" No GENRE ID");
+			return new ArrayList<Artist>();
+		}
+		log("museum id:" + museum.getId());
+	
     	//get objects
     	List<DbArtist> actorsDB = null;
 		try {
-			//TODO add filter
-			SelectQuery select1 = new SelectQuery(DbArtist.class);
-			if(museum != null){
-				DbMuseum picasso  = null;
-				if(museum.getId() != null && museum.getId() > 0) {
-					picasso = (DbMuseum) DataObjectUtils.objectForPK(context, DbMuseum.class, museum.getId());
-			    }
-				if(museum != null){
-					ObjectId id = new ObjectId("Artist", "ARTIST_ID", 55);
-					RelationshipQuery query = new RelationshipQuery(id, "paintingArray", true);
-					actorsDB = context.performQuery(query);
-
-					/*Map params = new HashMap();
-					params.put(DbArtist.MYGENRE_PROPERTY, picasso.getId() );
-					select1 = select1.queryWithParameters(params);*/
-				}
-			} else {
-				actorsDB = context.performQuery(select1 );
+			DbMuseum g = (DbMuseum) DataObjectUtils.objectForPK(context, DbMuseum.class, museum.getId());
+			if(g == null){
+				logError(" No Genre in DataBase ");
+				return new ArrayList<Artist>();
 			}
-
-
-			log("  getArtistsByGenre() returned ", actorsDB);
 			
+			log(" got DbMuseum from database ");
+
+
+			Expression qualifier = ExpressionFactory.matchExp(DbPainting.MY_MUSEUM_PROPERTY, g.getId());
+			SelectQuery select = new SelectQuery(DbMasterpiece.class, qualifier);
+			List<DbMasterpiece> mp = context.performQuery(select);
+						
+			for(DbMasterpiece m : mp){
+				actorsDB.add( m.getMyArtist());
+			}
+			
+			log("  getArtistsByGenre() returned ", actorsDB);
+			// convert objects 
+	    	// and return 
+	        return ObjectsConverter.convertArtists(actorsDB);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<Artist>();
 		}
-
-    	// convert objects 
-    	// and return 
-        return ObjectsConverter.convertArtists(actorsDB);
     }
+    
 
     @Override
     public ArrayList<Painting> getPaintings(
         Artist artist )
     {
-    	log("  getPaintings()  ");
+    	//log
+    	log("  getPaintings(artist)  ");
+    	
     	//init
     	DataContext context;
 		try {
@@ -356,30 +368,39 @@ public class EntityExtractorImpl implements EntityExtractor
 			return new ArrayList<Painting>();
 		}
     	
+		//validation
+		if(artist == null || artist.getId() == null || artist.getId() <= 0){
+			logError(" No Artist ID ");
+			return new ArrayList<Painting>();
+		}
+		log("artist id:" + artist.getId());
+			
+		
     	//get objects
     	List<DbPainting> resultDB;
 		try {
-			//TODO add filter
-			SelectQuery select1 = new SelectQuery(DbPainting.class);
-			if(artist != null){
-				DbArtist picasso  = null;
-				if(artist.getId() != null && artist.getId() > 0) {
-					picasso = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, artist.getId() );
-			    }
-				if(picasso != null){
-					Map params = new HashMap();
-					params.put(DbPainting.MY_ARTIST_PROPERTY, picasso.getId() );
-					select1 = select1.queryWithParameters(params);
-				}
+			DbArtist a = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, artist.getId() );
+		    
+			if(a == null){
+				logError(" No Artist in DataBase ");
+				return new ArrayList<Painting>();
 			}
+
+			resultDB = a.getArtistPaintings();
 			
-			resultDB = context.performQuery(select1 );
-
-
-
-
+			/*SelectQuery select1 = new SelectQuery(DbPainting.class);
+			
+			Map params = new HashMap();
+			params.put(DbPainting.MY_ARTIST_PROPERTY, a.getId() );
+			select1 = select1.queryWithParameters(params);
+			
+			
+			resultDB = context.performQuery(select1 ); */
+			
+			
+			
 			log("  getPaintings() returned ", resultDB);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<Painting>();
@@ -391,10 +412,11 @@ public class EntityExtractorImpl implements EntityExtractor
     }
 
     @Override
-    public ArrayList<Sculpture> getSculptures(
-        Artist artist )
+    public ArrayList<Sculpture> getSculptures( Artist artist )
     {
-    	log("  getSculptures()  ");
+    	//log
+    	log("  getPaintings(artist)  ");
+    	
     	//init
     	DataContext context;
 		try {
@@ -404,17 +426,27 @@ public class EntityExtractorImpl implements EntityExtractor
 			return new ArrayList<Sculpture>();
 		}
     	
+		//validation
+		if(artist == null || artist.getId() == null || artist.getId() <= 0){
+			logError(" No Artist ID ");
+			return new ArrayList<Sculpture>();
+		}
+		log("artist id:" + artist.getId());
+			
+		
     	//get objects
     	List<DbSculpture> resultDB;
 		try {
-			//TODO add filter
+			DbArtist a = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, artist.getId() );
+		    
+			if(a == null){
+				logError(" No Artist in DataBase ");
+				return new ArrayList<Sculpture>();
+			}
+
+			resultDB = a.getArtistPaintings();
 			
-			SelectQuery select1 = new SelectQuery(DbPainting.class);
-			if(artist != null){
-				DbArtist picasso  = null;
-				if(artist.getId() != null && artist.getId() > 0) {
-					picasso = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, artist.getId());
-			    }
+			/*
 				if(picasso != null){
 					Map params = new HashMap();
 					params.put(DbSculpture.MY_ARTIST_PROPERTY, picasso.getId() );
@@ -422,7 +454,11 @@ public class EntityExtractorImpl implements EntityExtractor
 				}
 			}
 			
-			resultDB = context.performQuery(select1 );
+			resultDB = context.performQuery(select1 );*/
+			
+			
+			
+			
 			log("  getSculptures() returned ", resultDB);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -434,6 +470,11 @@ public class EntityExtractorImpl implements EntityExtractor
         return ObjectsConverter.convertSculptures(resultDB);
     }
 
+    private void logError(String str){
+    	log("ERROR: " + str);
+    }
+    
+    
     private void log(String str){
     	System.out.println("[EntityExtractorImpl] " + str);
     	//log.info("[EntityExtractorImpl] " + str);

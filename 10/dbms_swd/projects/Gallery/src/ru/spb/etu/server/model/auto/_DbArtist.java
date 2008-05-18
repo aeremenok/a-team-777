@@ -16,6 +16,8 @@ public class _DbArtist extends org.apache.cayenne.CayenneDataObject {
     public static final String NAME_PROPERTY = "name";
     public static final String PICTURE_PROPERTY = "picture";
     public static final String ARTIST_MASTERPIECE_PROPERTY = "artistMasterpiece";
+    public static final String ARTIST_PAINTINGS_PROPERTY = "artistPaintings";
+    public static final String ARTIST_SCULPTURE_PROPERTY = "artistSculpture";
 
     public static final String ARTIST_ID_PK_COLUMN = "artistID";
 
@@ -75,6 +77,28 @@ public class _DbArtist extends org.apache.cayenne.CayenneDataObject {
     }
     public List getArtistMasterpiece() {
         return (List)readProperty("artistMasterpiece");
+    }
+    
+    
+    public void addToArtistPaintings(ru.spb.etu.server.model.DbPainting obj) {
+        addToManyTarget("artistPaintings", obj, true);
+    }
+    public void removeFromArtistPaintings(ru.spb.etu.server.model.DbPainting obj) {
+        removeToManyTarget("artistPaintings", obj, true);
+    }
+    public List getArtistPaintings() {
+        return (List)readProperty("artistPaintings");
+    }
+    
+    
+    public void addToArtistSculpture(ru.spb.etu.server.model.DbSculpture obj) {
+        addToManyTarget("artistSculpture", obj, true);
+    }
+    public void removeFromArtistSculpture(ru.spb.etu.server.model.DbSculpture obj) {
+        removeToManyTarget("artistSculpture", obj, true);
+    }
+    public List getArtistSculpture() {
+        return (List)readProperty("artistSculpture");
     }
     
     

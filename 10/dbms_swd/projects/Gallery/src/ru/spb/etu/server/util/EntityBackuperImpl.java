@@ -158,6 +158,7 @@ public class EntityBackuperImpl
 			
 			if(m == null) {
 				log(" no real Museum! ");
+				return 0;
 	        }
 			a.setMyMuseum(m);
 
@@ -168,6 +169,7 @@ public class EntityBackuperImpl
 			 
 			if(g == null) {
 				log(" no real genre! ");
+				return 0;
 	        }
 			a.setMyGenre( g );
 			
@@ -178,6 +180,7 @@ public class EntityBackuperImpl
 
 			if(ar == null) {
 				log(" no real artist! ");
+				return 0;
 	        }
 			a.setMyArtist( ar );
 			
@@ -205,10 +208,8 @@ public class EntityBackuperImpl
 			
 			if(a == null) {
 				log(" new object ");
-	            a = (DbSculpture) context.newObject(DbSculpture.class);
-	            
+	            a = (DbSculpture) context.newObject(DbSculpture.class);	            
 	        }
-
 			
 			a.setDescription(e.getDescription().toString());
 			a.setImageURL(e.getImageUrl());
@@ -230,6 +231,7 @@ public class EntityBackuperImpl
 
 			if(m == null) {
 				log(" no real Museum! ");
+				return 0;
 	        }
 			a.setMyMuseum(m);
 
@@ -242,6 +244,7 @@ public class EntityBackuperImpl
 
 			if(g == null) {
 				log(" no real genre! ");
+				return 0;
 	        }
 			a.setMyGenre( g );
 			
@@ -250,20 +253,21 @@ public class EntityBackuperImpl
 			if(e.getId() != null && e.getId() > 0) {
 		        ar = (DbArtist) DataObjectUtils.objectForPK(context, DbArtist.class, e.getId());
 		    }
-
-
 			if(ar == null) {
 				log(" no real artist! ");
+				return 0;
 	        }
 			a.setMyArtist( ar );
-			
-			
-			context.commitChanges();
+						
+			try {
+				context.commitChanges();
+			} catch (CayenneRuntimeException e1) {
+				e1.printStackTrace();
+				return 0;
+			}
 		    log(" updated ! ");
-
 		    
-		    return a.getId();
-		    
+		    return a.getId();		    
 		} 
 			
 		
