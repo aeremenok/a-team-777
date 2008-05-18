@@ -14,13 +14,13 @@ public class _DbMasterpiece extends org.apache.cayenne.CayenneDataObject {
     public static final String PHOTO_PROPERTY = "photo";
     public static final String PICTURE_PROPERTY = "picture";
     public static final String TITLE_PROPERTY = "title";
-    public static final String ISPAINTING_PROPERTY = "ispainting";
-    public static final String ISSCULPTURE_PROPERTY = "issculpture";
-    public static final String MYARTIST_PROPERTY = "myartist";
-    public static final String MYGENRE_PROPERTY = "mygenre";
-    public static final String MYMUSEUM_PROPERTY = "mymuseum";
+    public static final String MY_ARTIST_PROPERTY = "myArtist";
+    public static final String MY_GENRE_PROPERTY = "myGenre";
+    public static final String MY_MUSEUM_PROPERTY = "myMuseum";
+    public static final String MY_PAINTING_PROPERTY = "myPainting";
+    public static final String MY_SCULPTURE_PROPERTY = "mySculpture";
 
-    public static final String ID_PK_COLUMN = "ID";
+    public static final String MASTERPIECE_ID_PK_COLUMN = "masterpieceID";
 
     public void setCreationYear(Integer creationYear) {
         writeProperty("creationYear", creationYear);
@@ -78,48 +78,48 @@ public class _DbMasterpiece extends org.apache.cayenne.CayenneDataObject {
     }
     
     
-    public void setIspainting(ru.spb.etu.server.model.DbPainting ispainting) {
-        setToOneTarget("ispainting", ispainting, true);
+    public void setMyArtist(ru.spb.etu.server.model.DbArtist myArtist) {
+        setToOneTarget("myArtist", myArtist, true);
     }
 
-    public ru.spb.etu.server.model.DbPainting getIspainting() {
-        return (ru.spb.etu.server.model.DbPainting)readProperty("ispainting");
+    public ru.spb.etu.server.model.DbArtist getMyArtist() {
+        return (ru.spb.etu.server.model.DbArtist)readProperty("myArtist");
     } 
     
     
-    public void setIssculpture(ru.spb.etu.server.model.DbSculpture issculpture) {
-        setToOneTarget("issculpture", issculpture, true);
+    public void setMyGenre(ru.spb.etu.server.model.DbGenre myGenre) {
+        setToOneTarget("myGenre", myGenre, true);
     }
 
-    public ru.spb.etu.server.model.DbSculpture getIssculpture() {
-        return (ru.spb.etu.server.model.DbSculpture)readProperty("issculpture");
+    public ru.spb.etu.server.model.DbGenre getMyGenre() {
+        return (ru.spb.etu.server.model.DbGenre)readProperty("myGenre");
     } 
     
     
-    public void setMyartist(ru.spb.etu.server.model.DbArtist myartist) {
-        setToOneTarget("myartist", myartist, true);
+    public void setMyMuseum(ru.spb.etu.server.model.DbMuseum myMuseum) {
+        setToOneTarget("myMuseum", myMuseum, true);
     }
 
-    public ru.spb.etu.server.model.DbArtist getMyartist() {
-        return (ru.spb.etu.server.model.DbArtist)readProperty("myartist");
+    public ru.spb.etu.server.model.DbMuseum getMyMuseum() {
+        return (ru.spb.etu.server.model.DbMuseum)readProperty("myMuseum");
     } 
     
     
-    public void setMygenre(ru.spb.etu.server.model.DbGenre mygenre) {
-        setToOneTarget("mygenre", mygenre, true);
+    public void setMyPainting(ru.spb.etu.server.model.DbPainting myPainting) {
+        setToOneTarget("myPainting", myPainting, true);
     }
 
-    public ru.spb.etu.server.model.DbGenre getMygenre() {
-        return (ru.spb.etu.server.model.DbGenre)readProperty("mygenre");
+    public ru.spb.etu.server.model.DbPainting getMyPainting() {
+        return (ru.spb.etu.server.model.DbPainting)readProperty("myPainting");
     } 
     
     
-    public void setMymuseum(ru.spb.etu.server.model.DbMuseum mymuseum) {
-        setToOneTarget("mymuseum", mymuseum, true);
+    public void setMySculpture(ru.spb.etu.server.model.DbSculpture mySculpture) {
+        setToOneTarget("mySculpture", mySculpture, true);
     }
 
-    public ru.spb.etu.server.model.DbMuseum getMymuseum() {
-        return (ru.spb.etu.server.model.DbMuseum)readProperty("mymuseum");
+    public ru.spb.etu.server.model.DbSculpture getMySculpture() {
+        return (ru.spb.etu.server.model.DbSculpture)readProperty("mySculpture");
     } 
     
     

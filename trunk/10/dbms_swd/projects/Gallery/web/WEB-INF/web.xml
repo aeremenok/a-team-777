@@ -39,4 +39,18 @@
 			<encoding>utf8</encoding>
 		</locale-encoding-mapping>
 	</locale-encoding-mapping-list>
+	
+	<context-param>
+	    <param-name>cayenne.configuration.path</param-name>
+	    <param-value>/WEB-INF/config</param-value>
+	</context-param>
+
+	<filter>
+	    <filter-name>CayenneFilter</filter-name>
+	    <filter-class>org.apache.cayenne.conf.WebApplicationContextFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>CayenneFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>

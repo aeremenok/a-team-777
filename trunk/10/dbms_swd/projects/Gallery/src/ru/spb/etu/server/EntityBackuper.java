@@ -4,8 +4,8 @@ import ru.spb.etu.client.serializable.EntityWrapper;
 
 public interface EntityBackuper
 {
-
-    void saveOrUpdate(
+	//now it will return last inserted id or updated id
+    int saveOrUpdate(
         EntityWrapper entityWrapper );
 
     void remove(
