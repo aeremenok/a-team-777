@@ -6,10 +6,13 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.apache.cayenne.DataObjectUtils;
+import org.apache.cayenne.PersistenceState;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
+import org.apache.cayenne.query.QueryMetadata;
 import org.apache.cayenne.query.SelectQuery;
+import org.apache.log4j.Logger;
 
 import ru.spb.etu.client.serializable.Artist;
 import ru.spb.etu.client.serializable.Genre;
@@ -29,6 +32,12 @@ public class EntityExtractorImpl
     implements
         EntityExtractor
 {
+
+    protected static Logger log = Logger.getLogger( EntityExtractorImpl.class );
+    static
+    {
+        log.setLevel( org.apache.log4j.Level.ALL );
+    }
 
     /*protected static Logger log;
     private final static String fileName = "C:\\Temp\\Gallery\\EntityExtractorImpl.log";
@@ -57,7 +66,7 @@ public class EntityExtractorImpl
     @Override
     public ArrayList<Artist> getArtists()
     {
-        log( " getArtists() " );
+        log.info( "================== getArtists() ================== " );
         // init
         DataContext context;
         try
@@ -75,6 +84,7 @@ public class EntityExtractorImpl
         try
         {
             SelectQuery select1 = new SelectQuery( DbArtist.class );
+            select1.setCachePolicy( QueryMetadata.NO_CACHE );
             actorsDB = context.performQuery( select1 );
             log( " getArtists() returned ", actorsDB );
         }
@@ -95,7 +105,7 @@ public class EntityExtractorImpl
         Artist artist )
     {
         // log
-        log( " getMasterPieces(Artist) " );
+        log.info( "==================  getMasterPieces(Artist) ================== " );
 
         // init
         DataContext context;
@@ -112,30 +122,31 @@ public class EntityExtractorImpl
         // validation
         if ( artist == null || artist.getId() == null || artist.getId() <= 0 )
         {
-            logError( " No Artist ID " );
+            log.error( " No Artist ID " );
             return new ArrayList<MasterPiece>();
         }
-        log( " Artist id:" + artist.getId() );
+        log.info( " Artist id:" + artist.getId() );
 
         // getting objects
         List<DbMasterpiece> resultDB;
         try
         {
+
             DbArtist a = (DbArtist) DataObjectUtils.objectForPK( context, DbArtist.class, artist.getId() );
             if ( a == null )
             {
-                logError( " No Artist in DataBase " );
+                log.error( " No Artist in DataBase " );
                 return new ArrayList<MasterPiece>();
             }
 
-            log( " got artist from database " );
+            log.info( " got artist from database " );
 
             try
             {
-
+                a.setPersistenceState( PersistenceState.HOLLOW );
                 resultDB = a.getArtistMasterpiece();
 
-                log( " resultDB is:" + resultDB.isEmpty() + " | size:" + resultDB.size() );
+                log.info( " resultDB is:" + resultDB.isEmpty() + " | size:" + resultDB.size() );
                 log( " getMasterPieces() returned ", resultDB );
 
                 return ObjectsConverter.convertMasterpieces( resultDB );
@@ -144,9 +155,9 @@ public class EntityExtractorImpl
             catch ( Exception e )
             {
                 e.printStackTrace();
-                logError( "got exception on a.getArtistMasterpiece() " );
+                log.error( "got exception on a.getArtistMasterpiece() " );
             }
-            log( "trying another way..." );
+            log.info( "trying another way..." );
 
             // obtain a list of paintings
             /*
@@ -189,7 +200,7 @@ public class EntityExtractorImpl
     @Override
     public ArrayList<Museum> getMuseums()
     {
-        log( "  getMuseums()  " );
+        log.info( "==================   getMuseums()  ================== " );
         // init
         DataContext context;
         try
@@ -207,6 +218,7 @@ public class EntityExtractorImpl
         try
         {
             SelectQuery select1 = new SelectQuery( DbMuseum.class );
+            select1.setCachePolicy( QueryMetadata.NO_CACHE );
             resultDB = context.performQuery( select1 );
             log( "  getMuseums() returned ", resultDB );
         }
@@ -224,7 +236,7 @@ public class EntityExtractorImpl
     @Override
     public ArrayList<Genre> getGenres()
     {
-        log( "  getGenres() " );
+        log.info( "==================   getGenres() ================== " );
         // init
         DataContext context;
         try
@@ -242,6 +254,7 @@ public class EntityExtractorImpl
         try
         {
             SelectQuery select1 = new SelectQuery( DbGenre.class );
+            select1.setCachePolicy( QueryMetadata.NO_CACHE );
             resultDB = context.performQuery( select1 );
             log( "  getGenres() returned ", resultDB );
         }
@@ -261,9 +274,8 @@ public class EntityExtractorImpl
     public ArrayList<Artist> getArtistsByGenre(
         Genre genre )
     {
-
         // log
-        log( "  getArtistsByGenre()  " );
+        log.info( "==================   getArtistsByGenre()  ================== " );
 
         // init
         DataContext context;
@@ -280,39 +292,39 @@ public class EntityExtractorImpl
         // validation
         if ( genre == null || genre.getId() == null || genre.getId() <= 0 )
         {
-            logError( " No GENRE ID" );
+            log.error( " No GENRE ID " );
             return new ArrayList<Artist>();
         }
-        log( "Genre id:" + genre.getId() );
+        log.info( "Genre id:" + genre.getId() );
 
         // get objects
         List<DbArtist> actorsDB = new ArrayList<DbArtist>();
         try
         {
-
             DbGenre g = (DbGenre) DataObjectUtils.objectForPK( context, DbGenre.class, genre.getId() );
             if ( g == null )
             {
-                logError( " No Genre in DataBase " );
+                log.error( " No Genre in DataBase " );
                 return new ArrayList<Artist>();
             }
 
-            log( " got DbGenre from database " );
+            log.info( "  got DbGenre from database " );
 
             Expression qualifier = ExpressionFactory.matchExp( DbPainting.MY_GENRE_PROPERTY, g.getId() );
             SelectQuery select = new SelectQuery( DbMasterpiece.class, qualifier );
+            select.setCachePolicy( QueryMetadata.NO_CACHE );
             List<DbMasterpiece> mp = context.performQuery( select );
 
             for ( DbMasterpiece m : mp )
             {
-                actorsDB.add( m.getMyArtist() );
+                if ( !actorsDB.contains( m.getMyArtist() ) )
+                    actorsDB.add( m.getMyArtist() );
             }
 
             log( "  getArtistsByGenre() returned ", actorsDB );
             // convert objects
             // and return
             return ObjectsConverter.convertArtists( actorsDB );
-
         }
         catch ( Exception e )
         {
@@ -328,7 +340,7 @@ public class EntityExtractorImpl
         // init
         try
         {
-            log( " getArtistsByMuseum() " );
+            log.info( "==================  getArtistsByMuseum() ================== " );
             DataContext context = DataContext.getThreadDataContext();
             // validation
             Assert.assertNotNull( "museum not correct", museum );
@@ -336,9 +348,11 @@ public class EntityExtractorImpl
             Assert.assertTrue( "museum not correct", museum.getId() > 0 );
 
             DbMuseum dbMuseum = (DbMuseum) DataObjectUtils.objectForPK( context, DbMuseum.class, museum.getId() );
-            log( " got DbMuseum from database " );
+            Assert.assertNotNull( "museum is not in DB", dbMuseum );
+            log.info( " got DbMuseum from database " );
 
             // все произведения музея
+            dbMuseum.setPersistenceState( PersistenceState.HOLLOW );
             List<DbMasterpiece> masterpieces = dbMuseum.getMasterpieces( context );
 
             // художники, которые их создали
@@ -366,7 +380,7 @@ public class EntityExtractorImpl
         Artist artist )
     {
         // log
-        log( "  getPaintings(artist)  " );
+        log.info( "==================   getPaintings(artist)  ================== " );
 
         // init
         DataContext context;
@@ -383,10 +397,10 @@ public class EntityExtractorImpl
         // validation
         if ( artist == null || artist.getId() == null || artist.getId() <= 0 )
         {
-            logError( " No Artist ID " );
+            log.error( " No Artist ID " );
             return new ArrayList<Painting>();
         }
-        log( "artist id:" + artist.getId() );
+        log.info( "artist id:" + artist.getId() );
 
         // get objects
         List<DbPainting> resultDB;
@@ -396,11 +410,14 @@ public class EntityExtractorImpl
 
             if ( a == null )
             {
-                logError( " No Artist in DataBase " );
+                log.error( " No Artist in DataBase " );
                 return new ArrayList<Painting>();
             }
 
+            a.setPersistenceState( PersistenceState.HOLLOW );
             resultDB = a.getArtistPaintings();
+
+            resultDB.size();
 
             /*SelectQuery select1 = new SelectQuery(DbPainting.class);
             
@@ -430,7 +447,7 @@ public class EntityExtractorImpl
         Artist artist )
     {
         // log
-        log( "  getPaintings(artist)  " );
+        log.info( "==================   getSculptures(artist)  ================== " );
 
         // init
         DataContext context;
@@ -447,10 +464,10 @@ public class EntityExtractorImpl
         // validation
         if ( artist == null || artist.getId() == null || artist.getId() <= 0 )
         {
-            logError( " No Artist ID " );
+            log.error( " No Artist ID " );
             return new ArrayList<Sculpture>();
         }
-        log( "artist id:" + artist.getId() );
+        log.info( "artist id:" + artist.getId() );
 
         // get objects
         List<DbSculpture> resultDB;
@@ -460,11 +477,12 @@ public class EntityExtractorImpl
 
             if ( a == null )
             {
-                logError( " No Artist in DataBase " );
+                log.error( " No Artist in DataBase " );
                 return new ArrayList<Sculpture>();
             }
 
-            resultDB = a.getArtistPaintings();
+            a.setPersistenceState( PersistenceState.HOLLOW );
+            resultDB = a.getArtistSculpture();
 
             /*
             	if(picasso != null){
@@ -489,36 +507,11 @@ public class EntityExtractorImpl
         return ObjectsConverter.convertSculptures( resultDB );
     }
 
-    private void logError(
-        String str )
-    {
-        log( "ERROR: " + str );
-    }
-
-    private void log(
-        String str )
-    {
-        System.out.println( "[EntityExtractorImpl] " + str );
-        // log.info("[EntityExtractorImpl] " + str);
-    }
-
     private void log(
         String str,
         List l )
     {
-        System.out.print( "[EntityExtractorImpl] " + str );
-        // log.info("[EntityExtractorImpl] " + str);
-        if ( l == null )
-        {
-            System.out.println( " NULL " );
-            // log.info(" NULL ");
-        }
-        else
-        {
-            System.out.println( l.size() + ". " );
-            // log.info(l.size() + ". ");
-        }
-
+        log.info( str + ((l == null) ? " NULL " : l.size()) + ". " );
     }
 
 }
