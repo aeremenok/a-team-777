@@ -1,17 +1,18 @@
 package ru.spb.etu;
 
+import org.apache.bcel.Constants;
+import org.apache.bcel.generic.ClassGen;
+
 public class Parser {
 	static final int _EOF = 0;
-	static final int _identifier = 1;
-	static final int _realNumber = 2;
-	static final int _string = 3;
-	static final int _interface = 4;
-	static final int _final = 5;
-	static final int _static = 6;
-	static final int _openRoundBracket = 7;
-	static final int _closeRoundBracket = 8;
-	static final int _openCurlyBracket = 9;
-	static final int _closeCurlyBracket = 10;
+	static final int _realNumber = 1;
+	static final int _string = 2;
+	static final int _interface = 3;
+	static final int _openRoundBracket = 4;
+	static final int _closeRoundBracket = 5;
+	static final int _openCurlyBracket = 6;
+	static final int _closeCurlyBracket = 7;
+	static final int _id = 8;
 	static final int maxT = 66;
 
 	static final boolean T = true;
@@ -31,6 +32,11 @@ public class Parser {
 		Token x = scanner.Peek();
 		return (x.kind == i);
 	}
+	
+    String idValue()
+    {
+        return "todo";
+    }
 /*--------------------------------------------------------------------------*/
 
 
@@ -89,6 +95,13 @@ public class Parser {
 		}
 	}
 	
+	String  identifier() {
+		String  id;
+		id = idValue(); 
+		Expect(8);
+		return id;
+	}
+
 	void CompilationUnit() {
 		typeDeclaration();
 		while (StartOf(1)) {
@@ -100,9 +113,9 @@ public class Parser {
 		if (la.kind == 15 || la.kind == 16 || la.kind == 17) {
 			accessSpecifier();
 		}
-		if (la.kind == 4) {
+		if (la.kind == 3) {
 			interfaceDeclaration();
-		} else if (la.kind == 5 || la.kind == 6 || la.kind == 11) {
+		} else if (la.kind == 9 || la.kind == 13 || la.kind == 14) {
 			classDeclaration();
 		} else SynErr(67);
 	}
@@ -118,81 +131,101 @@ public class Parser {
 	}
 
 	void interfaceDeclaration() {
-		Expect(4);
-		Expect(1);
-		if (la.kind == 12) {
+		Expect(3);
+		interfaceName = identifier();
+		if (la.kind == 10) {
 			Get();
-			Expect(1);
+			superInterfaceName = identifier();
 		}
 		interfaceBody();
 	}
 
 	void classDeclaration() {
-		if (la.kind == 5) {
-			Get();
+		int modifier = Constants.ACC_PUBLIC; 
+		int fMod = 0; 
+		int sMod = 0; 
+		if (la.kind == 14) {
+			fMod = finalAccess();
 		}
-		if (la.kind == 6) {
-			Get();
-		}
-		Expect(11);
-		Expect(1);
-		if (la.kind == 12) {
-			Get();
-			Expect(1);
-		}
+		modifier |= fMod;
 		if (la.kind == 13) {
+			sMod = staticAccess();
+		}
+		modifier |= sMod;
+		Expect(9);
+		ClassGen classGen;
+		className = identifier();
+		if (la.kind == 10) {
 			Get();
-			Expect(1);
-			while (la.kind == 14) {
+			superName = identifier();
+		}
+		if (la.kind == 11) {
+			Get();
+			interfaceName = identifier();
+			while (la.kind == 12) {
 				Get();
-				Expect(1);
+				interfaceName = identifier();
 			}
 		}
 		classBody();
 	}
 
+	int  finalAccess() {
+		int  modifier;
+		Expect(14);
+		modifier = Constants.ACC_FINAL;
+		return modifier;
+	}
+
+	int  staticAccess() {
+		int  modifier;
+		Expect(13);
+		modifier = Constants.ACC_STATIC;
+		return modifier;
+	}
+
 	void classBody() {
-		Expect(9);
+		Expect(6);
 		while (StartOf(2)) {
 			if (la.kind == 15 || la.kind == 16 || la.kind == 17) {
 				accessSpecifier();
 			}
 			if (next(_openRoundBracket)) {
-				Expect(1);
-				Expect(7);
+				someThing = identifier();
+				Expect(4);
 				if (StartOf(3)) {
 					formalParameterList();
 				}
-				Expect(8);
-				Expect(9);
+				Expect(5);
+				Expect(6);
 				while (StartOf(4)) {
 					statement();
 				}
-				Expect(10);
+				Expect(7);
 			} else if (StartOf(5)) {
-				if (la.kind == 5) {
-					Get();
+				if (la.kind == 14) {
+					fMod = finalAccess();
 				}
-				if (la.kind == 6) {
-					Get();
+				if (la.kind == 13) {
+					sMod = staticAccess();
 				}
 				if (StartOf(6)) {
 					type();
-				} else if (la.kind == 1) {
-					Get();
+				} else if (la.kind == 8) {
+					someThing = identifier();
 				} else SynErr(69);
-				Expect(1);
-				if (la.kind == 7) {
+				someThing = identifier();
+				if (la.kind == 4) {
 					Get();
 					if (StartOf(3)) {
 						formalParameterList();
 					}
-					Expect(8);
-					Expect(9);
+					Expect(5);
+					Expect(6);
 					while (StartOf(4)) {
 						statement();
 					}
-					Expect(10);
+					Expect(7);
 				} else if (la.kind == 27 || la.kind == 28) {
 					if (la.kind == 27) {
 						Get();
@@ -202,35 +235,35 @@ public class Parser {
 				} else SynErr(70);
 			} else SynErr(71);
 		}
-		Expect(10);
+		Expect(7);
 	}
 
 	void interfaceBody() {
-		Expect(9);
+		Expect(6);
 		while (StartOf(2)) {
 			if (la.kind == 15 || la.kind == 16 || la.kind == 17) {
 				accessSpecifier();
 			}
-			if (la.kind == 5) {
-				Get();
+			if (la.kind == 14) {
+				fMod = finalAccess();
 			}
-			if (la.kind == 6) {
-				Get();
+			if (la.kind == 13) {
+				sMod = staticAccess();
 			}
 			if (StartOf(6)) {
 				type();
-			} else if (la.kind == 1) {
-				Get();
+			} else if (la.kind == 8) {
+				someThing = identifier();
 			} else SynErr(72);
-			Expect(1);
-			Expect(7);
+			someThing = identifier();
+			Expect(4);
 			if (StartOf(3)) {
 				formalParameterList();
 			}
-			Expect(8);
+			Expect(5);
 			Expect(28);
 		}
-		Expect(10);
+		Expect(7);
 	}
 
 	void type() {
@@ -278,18 +311,18 @@ public class Parser {
 	void formalParameterList() {
 		if (StartOf(6)) {
 			type();
-		} else if (la.kind == 1) {
-			Get();
+		} else if (la.kind == 8) {
+			varName = identifier();
 		} else SynErr(74);
-		Expect(1);
-		while (la.kind == 14) {
+		varName = identifier();
+		while (la.kind == 12) {
 			Get();
 			if (StartOf(6)) {
 				type();
-			} else if (la.kind == 1) {
-				Get();
+			} else if (la.kind == 8) {
+				varName = identifier();
 			} else SynErr(75);
-			Expect(1);
+			varName = identifier();
 		}
 	}
 
@@ -297,26 +330,26 @@ public class Parser {
 		switch (la.kind) {
 		case 29: {
 			Get();
-			Expect(7);
+			Expect(4);
 			expression();
-			Expect(8);
-			if (la.kind == 9) {
+			Expect(5);
+			if (la.kind == 6) {
 				Get();
 				while (StartOf(4)) {
 					statement();
 				}
-				Expect(10);
+				Expect(7);
 			} else if (StartOf(4)) {
 				statement();
 			} else SynErr(76);
 			if (la.kind == 30) {
 				Get();
-				if (la.kind == 9) {
+				if (la.kind == 6) {
 					Get();
 					while (StartOf(4)) {
 						statement();
 					}
-					Expect(10);
+					Expect(7);
 				} else if (StartOf(4)) {
 					statement();
 				} else SynErr(77);
@@ -325,15 +358,15 @@ public class Parser {
 		}
 		case 31: {
 			Get();
-			Expect(7);
+			Expect(4);
 			expression();
-			Expect(8);
-			if (la.kind == 9) {
+			Expect(5);
+			if (la.kind == 6) {
 				Get();
 				while (StartOf(4)) {
 					statement();
 				}
-				Expect(10);
+				Expect(7);
 			} else if (StartOf(4)) {
 				statement();
 			} else SynErr(78);
@@ -350,31 +383,31 @@ public class Parser {
 		case 33: {
 			Get();
 			expressionName();
-			Expect(7);
+			Expect(4);
 			if (StartOf(7)) {
 				expression();
 			}
-			Expect(8);
+			Expect(5);
 			break;
 		}
-		case 9: {
+		case 6: {
 			Get();
 			while (StartOf(4)) {
 				statement();
 			}
-			Expect(10);
+			Expect(7);
 			break;
 		}
 		case 18: case 19: case 20: case 21: case 22: case 23: case 24: case 25: case 26: {
 			type();
-			Expect(1);
+			someThing = identifier();
 			if (la.kind == 27) {
 				Get();
 				expression();
 			}
-			while (la.kind == 14) {
+			while (la.kind == 12) {
 				Get();
-				Expect(1);
+				someThing = identifier();
 				if (la.kind == 27) {
 					Get();
 					expression();
@@ -383,43 +416,43 @@ public class Parser {
 			Expect(28);
 			break;
 		}
-		case 1: {
-			Get();
-			if (la.kind == 7) {
+		case 8: {
+			someThing = identifier();
+			if (la.kind == 4) {
 				Get();
 				if (StartOf(7)) {
 					expression();
-					while (la.kind == 14) {
+					while (la.kind == 12) {
 						Get();
 						expression();
 					}
 				}
-				Expect(8);
+				Expect(5);
 			}
 			while (la.kind == 34) {
 				Get();
-				Expect(1);
-				if (la.kind == 7) {
+				someThing = identifier();
+				if (la.kind == 4) {
 					Get();
 					if (StartOf(7)) {
 						expression();
-						while (la.kind == 14) {
+						while (la.kind == 12) {
 							Get();
 							expression();
 						}
 					}
-					Expect(8);
+					Expect(5);
 				}
 			}
-			if (la.kind == 1) {
-				Get();
+			if (la.kind == 8) {
+				someThing = identifier();
 				if (la.kind == 27) {
 					Get();
 					expression();
 				}
-				while (la.kind == 14) {
+				while (la.kind == 12) {
 					Get();
-					Expect(1);
+					someThing = identifier();
 					if (la.kind == 27) {
 						Get();
 						expression();
@@ -439,17 +472,17 @@ public class Parser {
 			Get();
 			while (la.kind == 34) {
 				Get();
-				Expect(1);
+				someThing = identifier();
 			}
-			Expect(7);
+			Expect(4);
 			if (StartOf(7)) {
 				expression();
-				while (la.kind == 14) {
+				while (la.kind == 12) {
 					Get();
 					expression();
 				}
 			}
-			Expect(8);
+			Expect(5);
 			Expect(28);
 			break;
 		}
@@ -462,41 +495,41 @@ public class Parser {
 	}
 
 	void expressionName() {
-		if (la.kind == 1 || la.kind == 35) {
-			if (la.kind == 1) {
-				Get();
+		if (la.kind == 8 || la.kind == 35) {
+			if (la.kind == 8) {
+				someThing = identifier();
 			} else {
 				Get();
 			}
-			if (la.kind == 7) {
+			if (la.kind == 4) {
 				Get();
 				if (StartOf(7)) {
 					expression();
-					while (la.kind == 14) {
+					while (la.kind == 12) {
 						Get();
 						expression();
 					}
 				}
-				Expect(8);
+				Expect(5);
 			}
 			while (la.kind == 34) {
 				Get();
-				Expect(1);
-				if (la.kind == 7) {
+				someThing = identifier();
+				if (la.kind == 4) {
 					Get();
 					if (StartOf(7)) {
 						expression();
-						while (la.kind == 14) {
+						while (la.kind == 12) {
 							Get();
 							expression();
 						}
 					}
-					Expect(8);
+					Expect(5);
 				}
 			}
-		} else if (la.kind == 2) {
+		} else if (la.kind == 1) {
 			Get();
-		} else if (la.kind == 3) {
+		} else if (la.kind == 2) {
 			Get();
 		} else SynErr(81);
 	}
@@ -690,13 +723,13 @@ public class Parser {
 
 	private boolean[][] set = {
 		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,x,x,x, T,T,T,x, x,x,x,T, x,x,x,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,T,T,x, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,x,x,x, x,T,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,T,T,x, x,T,x,T, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,T,T,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,x,x,T, x,x,x,x, x,T,x,x, x,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,x,x,x, x,x,x,x, T,x,x,x, x,T,T,T, T,T,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,x,x,x, x,x,T,x, T,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,T,T,x, x,T,x,T, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,x,x,x, x,x,x,x, T,x,x,x, x,T,T,x, x,x,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,T,T,x, x,x,x,x, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, T,T,x,x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x}
 
@@ -724,20 +757,20 @@ class Errors {
 		String s;
 		switch (n) {
 			case 0: s = "EOF expected"; break;
-			case 1: s = "identifier expected"; break;
-			case 2: s = "realNumber expected"; break;
-			case 3: s = "string expected"; break;
-			case 4: s = "interface expected"; break;
-			case 5: s = "final expected"; break;
-			case 6: s = "static expected"; break;
-			case 7: s = "openRoundBracket expected"; break;
-			case 8: s = "closeRoundBracket expected"; break;
-			case 9: s = "openCurlyBracket expected"; break;
-			case 10: s = "closeCurlyBracket expected"; break;
-			case 11: s = "\"class\" expected"; break;
-			case 12: s = "\"extends\" expected"; break;
-			case 13: s = "\"implements\" expected"; break;
-			case 14: s = "\",\" expected"; break;
+			case 1: s = "realNumber expected"; break;
+			case 2: s = "string expected"; break;
+			case 3: s = "interface expected"; break;
+			case 4: s = "openRoundBracket expected"; break;
+			case 5: s = "closeRoundBracket expected"; break;
+			case 6: s = "openCurlyBracket expected"; break;
+			case 7: s = "closeCurlyBracket expected"; break;
+			case 8: s = "id expected"; break;
+			case 9: s = "\"class\" expected"; break;
+			case 10: s = "\"extends\" expected"; break;
+			case 11: s = "\"implements\" expected"; break;
+			case 12: s = "\",\" expected"; break;
+			case 13: s = "\"static\" expected"; break;
+			case 14: s = "\"final\" expected"; break;
 			case 15: s = "\"public\" expected"; break;
 			case 16: s = "\"protected\" expected"; break;
 			case 17: s = "\"private\" expected"; break;

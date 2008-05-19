@@ -1,3 +1,6 @@
+import org.apache.bcel.Constants;
+import org.apache.bcel.generic.ClassGen;
+
 COMPILER CompilationUnit
 
 // Функция возвращает токен, следующий за текущим (заглядывает вперед)
@@ -7,6 +10,11 @@ boolean next(int i)
 		Token x = scanner.Peek();
 		return (x.kind == i);
 	}
+	
+    String idValue()
+    {
+        return "todo";
+    }
 /*--------------------------------------------------------------------------*/
 CHARACTERS
   letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
@@ -24,16 +32,14 @@ CHARACTERS
 
 
 TOKENS
-	identifier  = letter { letter | digit }.
 	realNumber =             ['-']  [digit { digit }  dot]  digit { digit } ["e-" digit {digit}] .
 	string = '"' {stringCh} '"'.
 	interface =		"interface".
-	final=			"final".
-	static =		"static".
 	openRoundBracket = '('.
 	closeRoundBracket = ')'.
 	openCurlyBracket = '{'.
 	closeCurlyBracket = '}'.
+	id = letter { letter | digit }.
 
 COMMENTS FROM "/*" TO "*/" NESTED
 COMMENTS FROM "//" TO cr lf
@@ -41,6 +47,13 @@ COMMENTS FROM "//" TO cr lf
 IGNORE cr + lf + tab
 
 PRODUCTIONS
+
+/*----------------------------------identifier----------------------------------*/
+identifier<out String id>
+= 
+(. id = idValue(); .)
+id
+.
 /*----------------------------------CompilationUnit----------------------------------*/
 CompilationUnit = 
 	typeDeclaration {typeDeclaration}
@@ -51,19 +64,39 @@ typeDeclaration =
 	(interfaceDeclaration | classDeclaration)
 .
 /*----------------------------------classDeclaration----------------------------------*/
-classDeclaration =
-	[final][static]
-	"class"
-	identifier
-	["extends" identifier]
-	["implements" identifier {',' identifier}]
+classDeclaration =  
+    (. int modifier = Constants.ACC_PUBLIC; .)
+    (. int fMod = 0; .)
+    (. int sMod = 0; .)
+	[finalAccess<out fMod>]    (.modifier |= fMod;.)
+	[staticAccess<out sMod>]   (.modifier |= sMod;.)
+	"class"                    (.ClassGen classGen;.)
+	identifier<out className>
+	["extends" identifier<out superName>]
+	["implements" 
+	identifier<out interfaceName>
+	 {',' 
+	 identifier<out interfaceName>
+	 }]
 	classBody
 .
+/*----------------------------------staticAccess----------------------------------*/
+staticAccess<out int modifier> 
+= 
+ "static" (.modifier = Constants.ACC_STATIC;.)
+.
+/*----------------------------------finalAccess----------------------------------*/
+finalAccess<out int modifier>
+=
+ "final" (.modifier = Constants.ACC_FINAL;.)
+.
 /*----------------------------------interfaceDeclaration----------------------------------*/
-interfaceDeclaration =
+interfaceDeclaration =  //todo
 	"interface"
-	identifier
-   ["extends" identifier]
+	identifier<out interfaceName>
+   ["extends" 
+   identifier<out superInterfaceName>
+   ]
 	interfaceBody
 .
 /*----------------------------------accessSpecifier----------------------------------*/
@@ -75,9 +108,11 @@ type =
 	("byte" | "short" | "int" | "long" | "char"| "float" | "double" | "bool" | "void")
 .
 /*----------------------------------formalParameterList----------------------------------*/
-formalParameterList =
-	(type | identifier) identifier
-	{',' (type | identifier) identifier}
+formalParameterList =  //todo
+	(type | 
+	identifier<out varName>
+	) identifier<out varName>
+	{',' (type | identifier<out varName>) identifier<out varName>}
 .
 /*----------------------------------classBody----------------------------------*/
 classBody =
@@ -85,17 +120,19 @@ classBody =
 	{
 		[accessSpecifier]
 		((IF(next(_openRoundBracket))
-			identifier
+			identifier<out someThing> //todo
 			openRoundBracket [formalParameterList] closeRoundBracket 
 				openCurlyBracket {statement} closeCurlyBracket
 		)
 		|
 		(
-		[final]
-		[static]
+		[finalAccess<out fMod>]
+		[staticAccess<out sMod>]
 		(IF(next(_identifier))
-			(type | identifier)
-			identifier
+			(type | 
+			identifier<out someThing> //todo
+			)
+			identifier<out someThing> //todo
 			(
 				(
 					openRoundBracket [formalParameterList] closeRoundBracket 
@@ -124,15 +161,29 @@ statement =
 		|("return" [expression] ';')
 		|("new" expressionName openRoundBracket [expression] closeRoundBracket)
 		|(openCurlyBracket {statement} closeCurlyBracket)
-		|(type identifier ['=' expression]
-			{',' identifier ['=' expression]} ';')
-		|(identifier ['('[expression {',' expression}]')'] 
-		   {'.' identifier ['('[expression {',' expression}]')']}
-			((identifier ['=' expression] {',' identifier ['=' expression]} ';')
+		|(type 
+		identifier<out someThing> //todo
+		 ['=' expression]
+			{',' 
+			identifier<out someThing> //todo
+			 ['=' expression]} ';')
+		|(
+		identifier<out someThing> //todo
+		 ['('[expression {',' expression}]')'] 
+		   {'.' 
+		   identifier<out someThing> //todo
+		    ['('[expression {',' expression}]')']}
+			((
+			identifier<out someThing> //todo
+			 ['=' expression] {',' 
+			identifier<out someThing> //todo
+			 ['=' expression]} ';')
 			|/*(openRoundBracket [expression {',' expression}] closeRoundBracket */';'/*)*/
 			|(assignmentOperator expression ';')
 			))
-		|("super" {'.' identifier} 
+		|("super" {'.' 
+		identifier<out someThing> //todo
+		} 
 			openRoundBracket [expression {',' expression}] closeRoundBracket ';')
 	)
 .
@@ -142,10 +193,12 @@ interfaceBody =
 	'{'
 	{
 		[accessSpecifier]
-		[final]
-		[static]
-		(type | identifier)
-		identifier	
+		[finalAccess<out fMod>]
+		[staticAccess<out sMod>]
+		(type | 
+		identifier<out someThing> //todo
+		)
+		identifier<out someThing> //todo	
 		openRoundBracket [formalParameterList] closeRoundBracket ';'
 	}
 	'}'
@@ -200,8 +253,12 @@ unaryExpression =
 .
 /*----------------------------------expressionName----------------------------------*/
 expressionName =
-	(((identifier | "super") ['('[expression {',' expression}]')'] 
-	   {'.' identifier['('[expression {',' expression}]')']}) | (realNumber)|(string))
+	(((
+	identifier<out someThing> //todo
+	 | "super") ['('[expression {',' expression}]')'] 
+	   {'.' 
+	   identifier<out someThing> //todo
+	   ['('[expression {',' expression}]')']}) | (realNumber)|(string))
 .
 /*----------------------------------assignmentOperator----------------------------------*/
 assignmentOperator =
