@@ -22,7 +22,7 @@ import org.gjt.jclasslib.structures.constants.ConstantUtf8Info;
  * 
  * @author eav
  */
-public class Compiler
+public class TempCompiler
 {
     /**
      * инструкции ПОЛИЗ, сгенерированные СА

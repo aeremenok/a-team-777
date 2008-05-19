@@ -1,7 +1,5 @@
 package ru.spb.etu;
 
-import org.gjt.jclasslib.structures.ClassFile;
-
 public class Parser {
 	static final int _EOF = 0;
 	static final int _identifier = 1;
