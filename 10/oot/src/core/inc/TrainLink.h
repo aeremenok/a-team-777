@@ -14,7 +14,7 @@
 #ifndef _CTrainLink_H_6FB7D836_EA20_4459_8857_DB5F89CAEFA7_INCLUDED_
 #define _CTrainLink_H_6FB7D836_EA20_4459_8857_DB5F89CAEFA7_INCLUDED_
 
-#include "EdgeParameters.h"
+#include "DefaultLink.h"
 
 class CTrainLink: public CDefaultLink
 {

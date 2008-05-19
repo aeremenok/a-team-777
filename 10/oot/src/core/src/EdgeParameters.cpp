@@ -50,7 +50,7 @@ CDefaultLink* CEdgeParameters::getLink(size_t index)
   return m_links[index];
 }
 
-CEdgeParameters::~CEdgeParameters()
+    CEdgeParameters::~CEdgeParameters()
 {
 }
 /* ===[ End of file $Source: /cvs/decisions/templates/template.cpp,v $ ]=== */

@@ -8,6 +8,7 @@
  * ------------------------------------------------------------------------ */
 
 #include <iostream>
+#include <fstream>
 #include "NewCargoDialog.h"
 #include "ConstMap.h"
 #include "PodPair.h"
@@ -77,11 +78,11 @@ void CNewCargoDialog::itemActivated(int index)
 }
 
 
-void CNewCargoDialog::accepted()
+void CNewCargoDialog::accept()
 {
   CUser &user = CUserCookie::getInstance().getUser();  
   user.addCargo(m_form.m_routes->currentPath());
-  QDialog::accepted();
+  QDialog::accept();
 }
 
 /* ===[ End of file $Source: /cvs/decisions/templates/template.cpp,v $ ]=== */
