@@ -2,7 +2,7 @@
 //! \file   Controller.h
 //! \brief  Объявление класса для управления игрой
 //! \author Bessonov A.V.
-//! \date   17.May.2008 - 17.May.2008
+//! \date   17.May.2008 - 19.May.2008
 // **************************************************************************
 
 #ifndef __CONTROLLER_H
@@ -20,9 +20,12 @@ class CMainDlg;
 //!	Класс управляет работой программы
 class Controller 
 {
-  public:
+      //! Закрываем конструктор согласно паттерну Singleton
+      //! Чтобы случайно не создать вторую копию
       Controller(CMainDlg* dlg);
-      ~Controller();
+      
+  public:
+     ~Controller();
 
       //! Создает структуру для игры
       void createNetwork (int newNumberOfHoles, int newNumberOfCell);
@@ -43,6 +46,10 @@ class Controller
       //! Изменяет состояние игры
       void setActive(bool newState) {active = newState;};
 
+
+      //! Если объект уже создан, возвращает ссылку, иначе создает объект
+      static Controller* Instance(CMainDlg* dlg = 0);
+
   private:
     
       //! Восстанавливает структуру сети при загрузке игры из файла
@@ -52,10 +59,12 @@ class Controller
       bool restorePlayers ();
    
   private: 
-      ListOfPlayers        *playersList;  //!< Список игроков
-      tdata::Data          *netStruc;     //!< Внутренняя структутра игры
-      CMainDlg             *mainDlg;      //!< Главное окно программы
-      bool                 active;      //!< Если true, то игра активна
+      ListOfPlayers        *playersList;     //!< Список игроков
+      tdata::Data          *netStruc;        //!< Внутренняя структутра игры
+      CMainDlg             *mainDlg;         //!< Главное окно программы
+      bool                 active;           //!< Если true, то игра активна
+
+      static Controller* _instance; //!< Единственный объект в программе
 };
    
 } //end of namespace Game

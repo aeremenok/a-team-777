@@ -198,11 +198,11 @@ LRESULT CMainDlg::OnNew(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& 
       /************************************************************************/
       
       //! Вызов инициализации
-      control->initialize(names, 1);
+      Game::Controller::Instance()->initialize(names, 1);
       
    }else
    { //! Произошла отмена, проверяем была ли игра активной ранее
-      if(control->isActive())
+      if(Game::Controller::Instance()->isActive())
       {
          //! Игра была активной, активируем кнопки
          ActivateButtons(TRUE);
@@ -250,40 +250,39 @@ void CMainDlg::CloseDialog(int nVal)
    ::PostQuitMessage(nVal);
 }
 
-// ==========================================================================
 LRESULT CMainDlg::OnBnClickedButtonHole1(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-   control->makeStep(1);
+   Game::Controller::Instance()->makeStep(1);
    return 0;
 }
 
 LRESULT CMainDlg::OnBnClickedButtonHole2(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-   control->makeStep(2);
+   Game::Controller::Instance()->makeStep(2);
    return 0;
 }
 
 LRESULT CMainDlg::OnBnClickedButtonHole3(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-   control->makeStep(3);
+   Game::Controller::Instance()->makeStep(3);
    return 0;
 }
 
 LRESULT CMainDlg::OnBnClickedButtonHole4(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-   control->makeStep(4);
+   Game::Controller::Instance()->makeStep(4);
    return 0;
 }
 
 LRESULT CMainDlg::OnBnClickedButtonHole5(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-   control->makeStep(5);
+   Game::Controller::Instance()->makeStep(5);
    return 0;
 }
 
 LRESULT CMainDlg::OnBnClickedButtonHole6(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-   control->makeStep(6);
+   Game::Controller::Instance()->makeStep(6);
    return 0;
 }
 
@@ -339,9 +338,5 @@ void CMainDlg::ActivateNew(bool act)
 void CMainDlg::setTip(std::string tip)
 {
    GetDlgItem(IDC_STATIC_STATUS).SetWindowText(tip.c_str());
-}
-void CMainDlg::setControl(Controller *newControl)
-{
-   control = newControl;
 }
 }
