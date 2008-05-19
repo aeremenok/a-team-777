@@ -28,7 +28,7 @@ void CDeliveryNetwork::findPossiblesRoutes(const CCity& destination, CDeliveryNe
     {
       for(size_t i=0; i< it->cost.linkCount(); ++i)
       {
-        CEdgeParameters::CLink link = it->cost.getLink(i);
+        CDefaultLink *link = it->cost.getLink(i);
         current.push_back(it->vertex_pair.second, link);
         findPossiblesRoutes(destination,current,res);
         current.pop_back();
@@ -40,11 +40,10 @@ void CDeliveryNetwork::findPossiblesRoutes(const CCity& destination, CDeliveryNe
 std::list<CDeliveryNetwork::Path> CDeliveryNetwork::getPossibleRoutes(const CCity& from, const CCity& to)
 {
   CDeliveryNetwork::Path current;
-  current.push_back(from, CEdgeParameters::CLink());
+  current.push_back(from, new CDefaultLink());
 
   std::list<CDeliveryNetwork::Path> res;
   findPossiblesRoutes(to, current, res);
-  std::cerr << "res.size" << res.size() << "\n";
   return res;
 }
 

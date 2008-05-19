@@ -13,15 +13,15 @@ CEdgeParameters::CEdgeParameters()
 {
 }
 
-bool CEdgeParameters::isAvail(CEdgeParameters::LinkType type) const
+bool CEdgeParameters::isAvail(CDefaultLink::LinkType type) const
 {
   for(size_t it=0;it<m_links.size();++it)
-    if(m_links[it].getType()==type)
+    if(m_links[it]->getType()==type)
       return true;
   return false;
 }
 
-void CEdgeParameters::addLink(const CEdgeParameters::CLink& link)
+void CEdgeParameters::addLink(CDefaultLink *link)
 {
   m_links.push_back(link);
 }
@@ -31,22 +31,26 @@ size_t CEdgeParameters::linkCount() const
   return m_links.size();
 }
 
-const CEdgeParameters::CLink& CEdgeParameters::getLink(LinkType type) const
+const CDefaultLink* CEdgeParameters::getLink(CDefaultLink::LinkType type) const
 {
   for(size_t it=0;it<m_links.size();++it)
-    if(m_links[it].getType()==type)
+    if(m_links[it]->getType()==type)
       return m_links[it];
   
   throw;
 }
 
-const CEdgeParameters::CLink& CEdgeParameters::getLink(size_t index) const
+const CDefaultLink* CEdgeParameters::getLink(size_t index) const
+{
+  return m_links[index];
+}
+
+CDefaultLink* CEdgeParameters::getLink(size_t index)
 {
   return m_links[index];
 }
 
 CEdgeParameters::~CEdgeParameters()
 {
-
 }
 /* ===[ End of file $Source: /cvs/decisions/templates/template.cpp,v $ ]=== */

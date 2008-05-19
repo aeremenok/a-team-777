@@ -34,7 +34,8 @@ protected slots:
   void itemActivated(int);
 
   void itemChecked();
-
+  
+  void accepted();
 public:
   CNewCargoDialog(QWidget * parent = 0, Qt::WindowFlags f = 0);
   

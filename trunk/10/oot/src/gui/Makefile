@@ -22,7 +22,7 @@ UICS := MainWindow.cpp
 
 exe_SRCS := main.cpp
 exe_LDFLAGS += -pthread
-exe_LDADD += -lQtCore -lQtGui
+exe_LDADD += -lQtCore -lQtGui -lboost_serialization
 
 
 DEFS += -DQT_THREAD_SUPPORT

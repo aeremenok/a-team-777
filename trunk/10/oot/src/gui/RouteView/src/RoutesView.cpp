@@ -12,30 +12,31 @@
 
 #include <iostream>
 #include "RoutesView.h"
-#include "DeliveryNetwork.h"
 
 #include "ConstMap.h"
 #include "PodPair.h"
 
-const char * getFriendlyName(CEdgeParameters::LinkType type)
+const char * getFriendlyName(CDefaultLink::LinkType type)
 {
-  static CPodPair<CEdgeParameters::LinkType, const char *> _nn[]=
+  static CPodPair<CDefaultLink::LinkType, const char *> _nn[]=
   {
-    {CEdgeParameters::AIRLINES, "Авиалинии"},
-    {CEdgeParameters::SHIP, "Морские линии"},
-    {CEdgeParameters::TRAIN, "Железнодорожный транспорт"},
-    {CEdgeParameters::TRUCK, "Автотранспорт"},
-    {CEdgeParameters::UNKNOWN, ""},
+    {CDefaultLink::AIRLINES, "Авиалинии"},
+    {CDefaultLink::SHIP, "Морские линии"},
+    {CDefaultLink::TRAIN, "Железнодорожный транспорт"},
+    {CDefaultLink::TRUCK, "Автотранспорт"},
+    {CDefaultLink::UNKNOWN, ""},
   };
-  static const CConstMap<CEdgeParameters::LinkType, const char *> n(_nn,_nn+COUNT(_nn));
+  static const CConstMap<CDefaultLink::LinkType, const char *> n(_nn,_nn+COUNT(_nn));
 
   return n[type];
 }
 
-void  parse(const CDeliveryNetwork::Path &path, QStandardItemModel & model)
+void CRoutesView::parse(const CDeliveryNetwork::Path path)
 { 
+  if(path.vertex_front()==path.vertex_back())
+    return;
   std::pair<CCity,CCity> m_pair(path.vertex_front(), path.vertex_back());
-  CEdgeParameters::CLink m_link(CEdgeParameters::UNKNOWN, path.getCost(),0);
+  CStupidLink m_link("весь путь", path.getCost(),0);
   
   QList<QStandardItem*> list;
   QStandardItem* a = new QStandardItem(QObject::tr(m_pair.first.getName().c_str()));
@@ -46,8 +47,12 @@ void  parse(const CDeliveryNetwork::Path &path, QStandardItemModel & model)
   list.push_back(b);
   list.push_back(c);
   list.push_back(d);
+  m_path[a]=path;
+  m_path[b]=path;
+  m_path[c]=path;
+  m_path[d]=path;
 
-  model.appendRow(list);
+  m_model.appendRow(list);
 
   CDeliveryNetwork::Path::link_const_iterator link = path.link_begin(); link++;
   CDeliveryNetwork::Path::vertex_const_iterator it = path.vertex_begin();
@@ -60,12 +65,16 @@ void  parse(const CDeliveryNetwork::Path &path, QStandardItemModel & model)
     QList<QStandardItem*> list;
     QStandardItem* e = new QStandardItem(QObject::tr(it->getName().c_str()));
     QStandardItem* f = new QStandardItem(QObject::tr(next->getName().c_str()));
-    QStandardItem* g = new QStandardItem(QObject::tr(getFriendlyName(link->getType())));
-    QStandardItem* h = new QStandardItem(QString("%1").arg(link->getCost()));
+    QStandardItem* g = new QStandardItem(QObject::tr(getFriendlyName((*link)->getType())));
+    QStandardItem* h = new QStandardItem(QString("%1").arg((*link)->getCost()));
     list.push_back(e);
     list.push_back(f);
     list.push_back(g);
     list.push_back(h);
+    m_path[e]=path;
+    m_path[f]=path;
+    m_path[g]=path;
+    m_path[h]=path;
 
     a->appendRow(list);
   }
@@ -78,24 +87,33 @@ CRoutesView::CRoutesView(QWidget *parent, Qt::WindowFlags f): QWidget(parent, f)
   m_form.m_view->setModel(&m_model);
 }
 
-bool isValid(const CDeliveryNetwork::Path& path, const std::set<CEdgeParameters::LinkType>& validTypes)
+bool CRoutesView::isValid(const CDeliveryNetwork::Path& path, const std::set<CDefaultLink::LinkType>& validTypes)
 {
   for(CDeliveryNetwork::Path::link_const_iterator it=path.link_begin(); it!=path.link_end(); ++it)
   {
-    if(validTypes.count(it->getType())==0)
+    if(validTypes.count((*it)->getType())==0)
       return false;
   }
   return true;  
 }
 
-void CRoutesView::updateModel(const CCity& from, const CCity& to, const std::set<CEdgeParameters::LinkType>& validTypes)
+void CRoutesView::updateModel(const CCity& from, const CCity& to, const std::set<CDefaultLink::LinkType>& validTypes)
 {
   m_model.clear();
   m_model.setColumnCount(4);
-  m_model.setHorizontalHeaderItem(0, new QStandardItem(QObject::tr("Пункт отправления")));
-  m_model.setHorizontalHeaderItem(1, new QStandardItem(QObject::tr("Пункт назначения")));
-  m_model.setHorizontalHeaderItem(2, new QStandardItem(QObject::tr("Вид транспорта")));
-  m_model.setHorizontalHeaderItem(3, new QStandardItem(QObject::tr("Стоимость")));
+  QStandardItem *item;
+  item = new QStandardItem(QObject::tr("Пункт отправления"));
+  m_model.setHorizontalHeaderItem(0, item);
+  
+  item= new QStandardItem(QObject::tr("Пункт назначения"));
+  m_model.setHorizontalHeaderItem(1,item);
+
+  item = new QStandardItem(QObject::tr("Вид транспорта"));
+  m_model.setHorizontalHeaderItem(2,item);
+
+  item =  new QStandardItem(QObject::tr("Стоимость"));
+  m_model.setHorizontalHeaderItem(3,item);
+
   std::list<CDeliveryNetwork::Path> routes = CDeliveryNetwork::getInstance().getPossibleRoutes(from,to);
   
   for(std::list<CDeliveryNetwork::Path>::iterator it=routes.begin();it!=routes.end();++it)
@@ -103,11 +121,28 @@ void CRoutesView::updateModel(const CCity& from, const CCity& to, const std::set
     if(isValid(*it,validTypes))
     {
       // добавить в модель виджета
-       //       m_model.appendRow( new QStandardItem(*it, m_model.getTopItem()));
-      parse(*it,m_model);
+      parse(*it);
     }
   }
 }
 
+void CRoutesView::updateModel(const CUser& user)
+{
+  m_model.clear();
+  m_model.setColumnCount(4);
+  m_model.setHorizontalHeaderItem(0, new QStandardItem(QObject::tr("Пункт отправления")));
+  m_model.setHorizontalHeaderItem(1, new QStandardItem(QObject::tr("Пункт назначения")));
+  m_model.setHorizontalHeaderItem(2, new QStandardItem(QObject::tr("Вид транспорта")));
+  m_model.setHorizontalHeaderItem(3, new QStandardItem(QObject::tr("Стоимость")));
+  for(CUser::path_const_iterator it=user.begin(); it!=user.end(); ++it)
+  {
+    parse(*it);   
+  }
+}
+
+CPath<CCity, CDefaultLink> CRoutesView::currentPath() const
+{
+  return m_path.find(m_model.itemFromIndex(m_form.m_view->currentIndex()))->second;
+}
 
 /* ===[ End of file $Source: /cvs/decisions/templates/template.cpp,v $ ]=== */

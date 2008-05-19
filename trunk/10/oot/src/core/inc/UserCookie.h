@@ -21,20 +21,27 @@ class CUserCookie
   CUserCookie(const CUserCookie& obj);
   CUserCookie& operator=(const CUserCookie& obj);
  
-  CUser m_user;
+  std::list<CUser> m_user;
+  CUser::Type m_current;
 
-  CUserCookie()
-  {}
+  CUserCookie();
+  
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_NVP(m_user);
+    ar & BOOST_SERIALIZATION_NVP(m_current);
+  }
   
 public:
   
-  ~CUserCookie()
-  {
-  }
+  ~CUserCookie();
  
   bool findUser(const std::string& name, const std::string& password);
 
   const CUser& getUser() const;
+  CUser& getUser();
 
   static CUserCookie& getInstance();
 };//class CUserCookie

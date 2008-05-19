@@ -13,6 +13,19 @@
 
 #include <string>
 
+// Serialization
+#include <boost/serialization/nvp.hpp>
+#include <boost/serialization/utility.hpp>
+#include <boost/serialization/list.hpp>
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/version.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <boost/archive/tmpdir.hpp>
+#include <boost/archive/xml_iarchive.hpp>
+#include <boost/archive/xml_oarchive.hpp>
+
+#include <boost/serialization/export.hpp>	// must be in the end of serializatrion headers list
+
 /*!
  * \brief Город
  */
@@ -20,6 +33,15 @@ class CCity
 {
   std::string m_name; //!< Имя города
   unsigned long m_people; //!< численность
+
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_NVP(m_name);
+    ar & BOOST_SERIALIZATION_NVP(m_people);
+  }
+  
 public:
 
   CCity(){}
