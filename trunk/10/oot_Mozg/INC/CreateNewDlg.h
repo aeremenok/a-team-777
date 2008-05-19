@@ -62,8 +62,8 @@ public:
    //! Количество игроков, задаваемое пользователем в окне
    int m_nPlayersNumber;
    
-   std::vector<LPTSTR> m_strPlayers;
-   CString m_strPlayer1; //!< Имя первого игрока
+   std::vector<CString> m_strPlayers;
+   ATL::CComBSTR m_strPlayer1; //!< Имя первого игрока
    //LPTSTR m_strPlayer2; //!< Имя второго игрока
    //LPTSTR m_strPlayer3; //!< Имя третьего игрока
    //LPTSTR m_strPlayer4; //!< Имя четвертого игрока
