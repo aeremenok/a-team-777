@@ -20,7 +20,7 @@
 			IntermediateDirectory="Debug"
 			ConfigurationType="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="1"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -108,7 +108,7 @@
 			IntermediateDirectory="Release"
 			ConfigurationType="1"
 			ATLMinimizesCRunTimeLibraryUsage="true"
-			CharacterSet="1"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -308,6 +308,10 @@
 				RelativePath=".\INC\stdafx.h"
 				>
 			</File>
+			<File
+				RelativePath=".\INC\tools.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -326,10 +330,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\INC\resource"
-			>
-		</File>
 	</Files>
 	<Globals>
 		<Global

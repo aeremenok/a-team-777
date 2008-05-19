@@ -44,11 +44,11 @@ bool Controller::restorePlayers ()
 	return 0;
 }
 
-bool Controller::restoreGame (std::wstring destanation)
+bool Controller::restoreGame (std::string destanation)
 {
 	return 0;
 }
-void Controller::initialize (std::list<std::wstring>& names, int nStr)
+void Controller::initialize (std::list<std::string>& names, int nStr)
 {
    //! Проверяем была игра активна
    if (isActive())
@@ -66,7 +66,7 @@ void Controller::initialize (std::list<std::wstring>& names, int nStr)
    //! Создаем список игроков, первого игрока делаем главным
    playersList = new ListOfPlayers;
    Player* pl = new MainPlayer;
-   std::list<std::wstring>::const_iterator itr = names.begin();
+   std::list<std::string>::const_iterator itr = names.begin();
    pl->setName(*itr);
    playersList->addPlayer(pl);
    //! Остальных ведомыми
@@ -85,7 +85,7 @@ void Controller::initialize (std::list<std::wstring>& names, int nStr)
    netStruc = new tdata::Data;
 
    //! Установить в статусе подсказку, что ходит первый игрок
-   mainDlg->setTip(L"Ход игрока " + playersList->getActivePlayer()->getName());
+   mainDlg->setTip("Ход игрока " + playersList->getActivePlayer()->getName());
 }
 void Controller::makeStep(int hole)
 {
@@ -94,7 +94,7 @@ void Controller::makeStep(int hole)
       netStruc->Redraw();     //!< Перерисовываем сеть Перти
       playersList->goNext();  //!< Перешли к следующему игроку
       //! Сменили подсказку
-      mainDlg->setTip(L"Ход игрока " + playersList->getActivePlayer()->getName());
+      mainDlg->setTip("Ход игрока " + playersList->getActivePlayer()->getName());
       if (playersList->getActivePlayer()->ifMain())
       {
          mainDlg->ActivateOpen(TRUE);
@@ -117,8 +117,8 @@ void Controller::makeStep(int hole)
       mainDlg->ActivateButtons(FALSE);
       mainDlg->ActivateSave(FALSE);
       //! Выводим сообщение, о победители
-      mainDlg->setTip(L"Поздравляем " + playersList->getActivePlayer()->getName() 
-                                      + L" с победой в игре Мозгодолбалка!");
+      mainDlg->setTip("Поздравляем " + playersList->getActivePlayer()->getName() 
+                                      + " с победой в игре Мозгодолбалка!");
    }
 }
 } //end of namespace Game

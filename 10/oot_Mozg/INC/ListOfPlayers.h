@@ -27,7 +27,7 @@ class ListOfPlayers
      
       //! Удаляет игрока из списка.
       //! Возвращает true в случае удачи, в противном случае false.
-      bool deletePlayer (std::wstring nameForDelete);
+      bool deletePlayer (std::string nameForDelete);
 
       //! Возвращает число игроков в списке
       int getCountOfPlayers ();
@@ -44,9 +44,9 @@ class ListOfPlayers
         :public std::unary_function<Player* , bool> 
      {
         //! Имя передаваемое через параметр в предикат
-        const std::wstring name; 
+        const std::string name; 
      public:
-        explicit FindName_eq(const std::wstring& str): name(str){}
+        explicit FindName_eq(const std::string& str): name(str){}
         bool operator()(Player *const pl) const 
         {
            if(pl == 0)

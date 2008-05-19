@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include ".\INC\resource."
+#include ".\INC\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -57,14 +57,14 @@ BEGIN
     LTEXT           "Шестой игрок",IDC_STATIC_PLAYER_6,23,118,52,12
 END
 
-IDD_ABOUTBOX DIALOG  0, 0, 187, 102
+IDD_ABOUTBOX DIALOGEX 0, 0, 187, 102
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,130,81,50,14
     CTEXT           "Mozg Application v1.0\n\n(c) Copyright 2008",IDC_STATIC,25,57,78,32
-    ICON            IDR_MAINFRAME,IDC_STATIC,55,26,18,20
+    ICON            IDR_MAINFRAME,IDC_STATIC,55,26,20,20
     GROUPBOX        "",IDC_STATIC,7,7,115,88
 END
 

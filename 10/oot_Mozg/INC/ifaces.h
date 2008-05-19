@@ -34,10 +34,10 @@ namespace iface   //!< Общие интерфейсы, используемы в программе
    {
    public:
       //! Записать данные в файл
-      virtual bool PutIntoFile(std::wstring& filename) = 0;
+      virtual bool PutIntoFile(std::string& filename) = 0;
 
       //! Получить данные из файла
-      virtual bool GetFromFile(std::wstring& filename) = 0;
+      virtual bool GetFromFile(std::string& filename) = 0;
 
       virtual ~iSerializable() {};
 

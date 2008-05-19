@@ -17,17 +17,17 @@ class Player
 {
   public:
       //! Задает имя игрока
-      void setName (std::wstring newName);
+      void setName (std::string newName);
 
       //! Задает имя игрока
-      std::wstring getName () const;
+      std::string getName () const;
 
       //! Возвращает true, если игрок-организатор.
       virtual bool ifMain () const =0;
 
   private: 
    
-      std::wstring name; //!< Имя игрока
+      std::string name; //!< Имя игрока
 };
 }//end of namespace Game
 // ==========================================================================

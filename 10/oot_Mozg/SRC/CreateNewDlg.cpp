@@ -23,12 +23,12 @@ LRESULT CCreateNewDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*l
    ud.SetRange32(2,6); 
    //! Задаем значение по умолчанию для количества игроков
    m_nPlayersNumber = 6;
-   m_strPlayers.push_back(L"Player1"); 
-   m_strPlayers.push_back(L"Player2");
-   m_strPlayers.push_back(L"Player3");
-   m_strPlayers.push_back(L"Player4");
-   m_strPlayers.push_back(L"Player5");
-   m_strPlayers.push_back(L"Player6");
+   m_strPlayers.push_back("Player1"); 
+   m_strPlayers.push_back("Player2");
+   m_strPlayers.push_back("Player3");
+   m_strPlayers.push_back("Player4");
+   m_strPlayers.push_back("Player5");
+   m_strPlayers.push_back("Player6");
    DoDataExchange(DDX_LOAD);
 
    return TRUE;

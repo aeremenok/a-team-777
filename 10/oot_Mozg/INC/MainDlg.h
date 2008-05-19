@@ -117,7 +117,7 @@ public:
    void ActivateNew(bool act = true);
    
    void setControl(Controller *newControl); //!< Замещает контроллер игры 
-   void setTip(std::wstring tip) ;//!< Функция устанавливающая подсказку
+   void setTip(std::string tip) ;//!< Функция устанавливающая подсказку
 private:
    Controller *control; //!< Контроллер игры
 };

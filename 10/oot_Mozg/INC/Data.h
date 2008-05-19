@@ -34,8 +34,8 @@ namespace tdata //!< namespace Data
       virtual void Redraw() const;
 
       //********************* интерфейс iSerializable ***********************
-      virtual bool PutIntoFile(std::wstring& filename);
-      virtual bool GetFromFile(std::wstring& filename);
+      virtual bool PutIntoFile(std::string& filename);
+      virtual bool GetFromFile(std::string& filename);
 
    };
 
