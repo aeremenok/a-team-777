@@ -24,7 +24,7 @@ public:
    BEGIN_MSG_MAP(CCreateNewDlg)
       MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
       MESSAGE_HANDLER(WM_DESTROY, OnClose)
-      COMMAND_HANDLER(IDC_EDIT_PLAYER_NUMBER, EN_CHANGE, OnPlayerNumChanged)
+      //COMMAND_HANDLER(IDC_EDIT_PLAYER_NUMBER, EN_CHANGE, OnPlayerNumChanged)
 
       COMMAND_HANDLER(IDOK, BN_CLICKED, OnOK)
       COMMAND_HANDLER(IDCANCEL, BN_CLICKED, OnCancel)
@@ -35,7 +35,7 @@ public:
    
    BEGIN_DDX_MAP(CCreateNewDlg)
       //DDX_INT(IDC_EDIT_PLAYER_NUMBER, m_nPlayersNumber)
-      DDX_TEXT(IDC_EDIT_PLAYER_1, m_strPlayer1)
+      //DDX_TEXT(IDC_EDIT_PLAYER_1, m_strPlayer1)
       /*DDX_TEXT(IDC_EDIT_PLAYER_2, m_strPlayer2)
       DDX_TEXT(IDC_EDIT_PLAYER_3, m_strPlayer3)
       DDX_TEXT(IDC_EDIT_PLAYER_4, m_strPlayer4)
@@ -57,13 +57,13 @@ public:
    LRESULT OnBnClickedRadioLocalGame(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
    LRESULT OnBnClickedRadioNetworkGame(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
    LRESULT OnDeltaposSpinPlayerNumber(int /*idCtrl*/, LPNMHDR pNMHDR, BOOL& /*bHandled*/);
-   LRESULT OnPlayerNumChanged(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+   //LRESULT OnPlayerNumChanged(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 public:
    //! Количество игроков, задаваемое пользователем в окне
    int m_nPlayersNumber;
    
-   std::vector<CString> m_strPlayers;
-   ATL::CComBSTR m_strPlayer1; //!< Имя первого игрока
+   std::vector<std::string> m_strPlayers;
+   //ATL::CComBSTR m_strPlayer1; //!< Имя первого игрока
    //LPTSTR m_strPlayer2; //!< Имя второго игрока
    //LPTSTR m_strPlayer3; //!< Имя третьего игрока
    //LPTSTR m_strPlayer4; //!< Имя четвертого игрока

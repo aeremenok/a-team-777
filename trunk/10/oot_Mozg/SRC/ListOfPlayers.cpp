@@ -52,7 +52,7 @@ bool ListOfPlayers::addPlayer (Player* player)
    return true;
 }
 
-bool ListOfPlayers::deletePlayer (std::wstring nameForDelete)
+bool ListOfPlayers::deletePlayer (std::string nameForDelete)
 {
    //! Если игроков нет, ничего не делаем
    //! Удаляем игрока с таким именем

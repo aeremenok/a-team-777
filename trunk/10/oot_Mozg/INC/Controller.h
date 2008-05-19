@@ -28,11 +28,11 @@ class Controller
       void createNetwork (int newNumberOfHoles, int newNumberOfCell);
 
       //! Восстанавливает игру из файла
-	   bool restoreGame (std::wstring destanation);
+	   bool restoreGame (std::string destanation);
       
       //! Запускае начальную инициализацию или перазапускает текущую
       //! Создает список игроков и структуру
-      void initialize (std::list<std::wstring>& names, int nStr);
+      void initialize (std::list<std::string>& names, int nStr);
 
       //! Обрабатывает один бросок фишки
       void makeStep(int hole);

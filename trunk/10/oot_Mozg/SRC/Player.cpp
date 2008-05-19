@@ -12,12 +12,12 @@
 namespace Game 
 {
 
-void Player::setName (std::wstring newName)
+void Player::setName (std::string newName)
 {
    name = newName;
 }
 
-std::wstring Player::getName () const
+std::string Player::getName () const
 {
    return name;
 }

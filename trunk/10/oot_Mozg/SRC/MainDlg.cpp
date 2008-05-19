@@ -25,12 +25,12 @@ enum    {
 // ===========================================================================
 LPTSTR CMainDlg::tbToolTips[TBAR_BTN_NUM] = 
 {
-   L"Создать игру",
-   L"Открыть игру",
-   L"Сохранить игру",
-   L"Начать заново",
-   L"Информация о программе",
-   L"Закрыть программу"
+   "Создать игру",
+   "Открыть игру",
+   "Сохранить игру",
+   "Начать заново",
+   "Информация о программе",
+   "Закрыть программу"
 };
 
 // ===========================================================================
@@ -188,7 +188,7 @@ LRESULT CMainDlg::OnNew(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& 
       ActivateSave(TRUE);
       ActivateReset(TRUE);
       //! Заполняем список имен игроков, полученный из окна новой игры
-      std::list<std::wstring> names;
+      std::list<std::string> names;
       for (int i = 0; i<dlg.m_nPlayersNumber; i++)
       {
          names.push_back(dlg.m_strPlayers[i]); 
@@ -336,7 +336,7 @@ void CMainDlg::ActivateNew(bool act)
 {
    m_tbar.EnableButton(ID_CMD_NEW, act);
 }
-void CMainDlg::setTip(std::wstring tip)
+void CMainDlg::setTip(std::string tip)
 {
    GetDlgItem(IDC_STATIC_STATUS).SetWindowText(tip.c_str());
 }

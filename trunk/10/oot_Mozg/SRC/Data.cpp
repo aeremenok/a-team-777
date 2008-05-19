@@ -50,11 +50,11 @@ namespace tdata //!< Namespace tdata
    }
 
    //********************* интерфейс iSerializable ***********************
-   bool Data::PutIntoFile(std::wstring& filename)
+   bool Data::PutIntoFile(std::string& filename)
    {
       return true;
    }
-   bool Data::GetFromFile(std::wstring& filename)
+   bool Data::GetFromFile(std::string& filename)
    {
       return true;
    }
