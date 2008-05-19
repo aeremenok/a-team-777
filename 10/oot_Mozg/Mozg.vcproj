@@ -293,6 +293,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\INC\petrinet.inl"
+				>
+			</File>
+			<File
 				RelativePath=".\INC\Player.h"
 				>
 			</File>
