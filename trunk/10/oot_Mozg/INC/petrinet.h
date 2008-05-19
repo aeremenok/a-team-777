@@ -21,12 +21,8 @@ namespace tdata //!< Template Data
    enum { NONE = -1 };            //!< Некорректное значение индекса
 
    // =======================================================================
-   //! Структура для задания входной и выходной функций переходов
-   struct IOFunc
-   {
-      TRANSITION Transition;     //!< Переход
-      POSITION   Position;       //!< Связанная с ним позиция
-   };
+   //! Входная и выходная функция переходов
+   typedef std::vector<POSITION> IOFunc;
 
    // =======================================================================
    // FORWARD DECLARATION
@@ -47,85 +43,88 @@ namespace tdata //!< Template Data
    {
    public:
       // --------------------------------------------------------------------
-      typedef position_iterator<MarkingType> position_iterator;
-      typedef transition_iterator<MarkingType> transition_iterator;
-      typedef transition_input_it<MarkingType> transition_input_it;
-      typedef transition_output_it<MarkingType> transition_output_it;
+      typedef position_iterator<MarkingType> iposition;
+      typedef transition_iterator<MarkingType> itransition;
+      typedef transition_input_it<MarkingType> itransition_input;
+      typedef transition_output_it<MarkingType> itransition_output;
 
-      friend class position_iterator;
-      friend class transition_iterator;
-      friend class transition_input_it;
-      friend class transition_output_it;
+      friend class iposition;
+      friend class itransition;
+      friend class itransition_input;
+      friend class itransition_output;
 
       // --------------------------------------------------------------------
-      PetriNet(TRANSITION maxFired = 100){}
+      PetriNet(TRANSITION maxFired = 100);
+
+      //! Очистить содержимое
+      void Clear();
 
       //! Задать число позиций
-      void SetPositionsNumber(POSITION number){}
+      void SetPositionsNumber(POSITION number);
 
       //! Задать число переходов
-      void SetTransitionsNumber(TRANSITION number){}
+      void SetTransitionsNumber(TRANSITION number);
 
       //! Добавить позицию во входную функцию перехода
       //! \param tr - переход
       //! \param pos - добавляемая позиция
-      void AddPositionToInput(TRANSITION tr, POSITION pos){}
+      void AddPositionToInput(TRANSITION tr, POSITION pos);
 
       //! Добавить позицию в выходную функцию перехода
       //! \param tr - переход
       //! \param pos - добавляемая позиция
-      void AddPositionToOutput(TRANSITION tr, POSITION pos){}
+      void AddPositionToOutput(TRANSITION tr, POSITION pos);
 
       //! Изменить маркировку
-      void SetMarking(const std::vector<MarkingType>& marking){}
+      void SetMarking(const std::vector<MarkingType>& marking);
 
       //! Изменить наличие фишки(ек) в позиции
       //! \return true - если добавление произошло, false - иначе
-      bool SetToken(POSITION pos, MarkingType token){return 0}
+      bool SetToken(POSITION pos, MarkingType token);
 
       //! Запустить все допустимые срабатывания переходов
       //! \param drawable - указатель на объект, реализующий интерфейс рисования
       //! \return true - если все допустимые переходы сработали
       //! \return false - если сработало максимально допустимое кол-во переходов
-      bool FireAllTransitions(iface::iDrawable* drawable = NULL){return 0}
+      bool FireAllTransitions(iface::iDrawable* drawable = NULL);
 
       // --------------------------------------------------------------------
       //! Проверить, можно ли добавить фишку в позицию
-      bool IsPositionAvailable(POSITION pos) const {return 0}
+      bool IsPositionAvailable(POSITION pos) const;
 
       //! Проверить, активен ли переход
-      bool IsTransitionActive(TRANSITION tr) const {return 0}
+      bool IsTransitionActive(TRANSITION tr) const;
 
       //! Получить количество позиций
-      POSITION GetPositionsNumber() const {return 0}
+      POSITION GetPositionsNumber() const;
 
       //! Получить количество переходов
-      TRANSITION GetTransitionsNumber() const {return 0}
+      TRANSITION GetTransitionsNumber() const;
 
       //! Получить текущую маркировку
-      const std::vector<MarkingType>& GetCurrentMarking() const {return 0}
+      const std::vector<MarkingType>& GetCurrentMarking() const;
 
       //! Поулчить максимально допустимое для срабатывания число переходов
       //! в рамках одного запуска сети
-      TRANSITION GetMaxFired() const {return 0} 
+      TRANSITION GetMaxFired() const; 
 
       // --------------------------------------------------------------------
       //! Получить итератор для обхода позиций
-      position_iterator GetPositions() const {return 0}
+      iposition GetPositions() const;
       //! Получить итератор для обхода переходов
-      transition_iterator GetTransitions() const {return 0}
+      itransition GetTransitions() const;
       //! Получить итератор для обхода входных позиций перехода
-      transition_input_it GetTransitionInput(TRANSITION tr) const {return 0}
+      itransition_input GetTransitionInput(TRANSITION tr) const;
       //! Получить итератор для обхода выходных позиций перехода
-      transition_output_it GetTransitionOutput(TRANSITION tr) const {return 0}
+      itransition_output GetTransitionOutput(TRANSITION tr) const;
 
    private:
       //! Запустить срабатывание заданного перехода
       void FireTransition(TRANSITION tr);
 
-   protected:
-      std::vector<POSITION>    m_positions;  //!< Позиции
-      std::vector<TRANSITION>  m_transitions;//!< Переходы
+   private:
+      POSITION                 m_positions;  //!< Позиции
+      TRANSITION               m_transitions;//!< Переходы
       std::vector<IOFunc>      m_Input;      //!< Множество входных функций
       std::vector<IOFunc>      m_Output;     //!< Множество выходных функций
       std::vector<MarkingType> m_Marking;    //!< Текущая маркировка сети
@@ -150,7 +149,7 @@ namespace tdata //!< Template Data
       
       friend class PetriNet<MarkingType>;
    private:
-      position_iterator(const PetriNet<MarkingType>* parts, POSITION id);
+      position_iterator(const PetriNet<MarkingType>* net, POSITION id);
       const PetriNet<MarkingType>* m_net;
       POSITION m_pos;
    };
@@ -173,7 +172,7 @@ namespace tdata //!< Template Data
 
       friend class PetriNet<MarkingType>;
    private:
-      transition_iterator(const PetriNet<MarkingType>* parts, TRANSITION id);
+      transition_iterator(const PetriNet<MarkingType>* net, TRANSITION id);
       const PetriNet<MarkingType>* m_net;
       TRANSITION m_tr;
    };
@@ -195,7 +194,7 @@ namespace tdata //!< Template Data
 
       friend class PetriNet<MarkingType>;
    private:
-      transition_input_it(const PetriNet<MarkingType>* parts, TRANSITION tr);
+      transition_input_it(const PetriNet<MarkingType>* net, TRANSITION tr);
       const PetriNet<MarkingType>* m_net;
       TRANSITION m_tr;
       POSITION m_pos;
@@ -218,12 +217,15 @@ namespace tdata //!< Template Data
 
       friend class PetriNet<MarkingType>;
    private:
-      transition_output_it(const PetriNet<MarkingType>* parts, TRANSITION tr);
+      transition_output_it(const PetriNet<MarkingType>* net, TRANSITION tr);
       const PetriNet<MarkingType>* m_net;
       TRANSITION m_tr;
       POSITION m_pos;
    };
 
+// ==========================================================================
+#include "petrinet.inl"
+// ==========================================================================
 } // end of namespace tdata
 
 // ==========================================================================
