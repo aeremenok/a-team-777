@@ -1,5 +1,7 @@
 package ru.spb.etu.server.util;
 
+import java.text.SimpleDateFormat;
+
 import org.apache.cayenne.DataObjectUtils;
 import org.apache.cayenne.access.DataContext;
 import org.apache.log4j.Logger;
@@ -42,7 +44,7 @@ public class EntityBackuperImpl
 
             if ( entityWrapper instanceof Artist )
             {
-                Artist e = (Artist) (entityWrapper);
+                Artist e = (Artist) entityWrapper;
                 DbArtist a = null;
 
                 if ( e.getId() != null && e.getId() > 0 )
@@ -56,7 +58,8 @@ public class EntityBackuperImpl
                     a = (DbArtist) context.newObject( DbArtist.class );
                 }
 
-                a.setBirthdate( e.getBirthDate() );
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+                a.setBirthdate( simpleDateFormat.parse( e.getBirthDate().toString() ) );
                 a.setCountry( e.getCountry().toString() );
                 a.setDescription( e.getDescription().toString() );
                 a.setImageUrl( e.getImageUrl() );
@@ -70,7 +73,7 @@ public class EntityBackuperImpl
             }
             else if ( entityWrapper instanceof Museum )
             {
-                Museum e = (Museum) (entityWrapper);
+                Museum e = (Museum) entityWrapper;
                 DbMuseum a = null;
 
                 if ( e.getId() != null && e.getId() > 0 )
@@ -96,7 +99,7 @@ public class EntityBackuperImpl
             }
             else if ( entityWrapper instanceof Genre )
             {
-                Genre e = (Genre) (entityWrapper);
+                Genre e = (Genre) entityWrapper;
                 DbGenre a = null;
 
                 if ( e.getId() != null && e.getId() > 0 )
@@ -122,7 +125,7 @@ public class EntityBackuperImpl
             }
             else if ( entityWrapper instanceof Painting )
             {
-                Painting e = (Painting) (entityWrapper);
+                Painting e = (Painting) entityWrapper;
                 DbPainting a = null;
 
                 if ( e.getArtist() == null || e.getGenre() == null || e.getMuseum() == null )
@@ -231,7 +234,7 @@ public class EntityBackuperImpl
             }
             else if ( entityWrapper instanceof Sculpture )
             {
-                Sculpture e = (Sculpture) (entityWrapper);
+                Sculpture e = (Sculpture) entityWrapper;
                 DbSculpture a = null;
 
                 if ( e.getArtist() == null || e.getGenre() == null || e.getMuseum() == null )
@@ -428,7 +431,9 @@ public class EntityBackuperImpl
                 DbPainting picasso = null;
                 if ( entityWrapper.getId() != null && entityWrapper.getId() > 0 )
                 {
-                    picasso = (DbPainting) DataObjectUtils.objectForPK( context, DbPainting.class, entityWrapper.getId() );
+                    picasso =
+                              (DbPainting) DataObjectUtils.objectForPK( context, DbPainting.class,
+                                                                        entityWrapper.getId() );
                 }
 
                 if ( picasso != null )
@@ -446,7 +451,9 @@ public class EntityBackuperImpl
                 DbSculpture picasso = null;
                 if ( entityWrapper.getId() != null && entityWrapper.getId() > 0 )
                 {
-                    picasso = (DbSculpture) DataObjectUtils.objectForPK( context, DbSculpture.class, entityWrapper.getId() );
+                    picasso =
+                              (DbSculpture) DataObjectUtils.objectForPK( context, DbSculpture.class,
+                                                                         entityWrapper.getId() );
                 }
 
                 if ( picasso != null )

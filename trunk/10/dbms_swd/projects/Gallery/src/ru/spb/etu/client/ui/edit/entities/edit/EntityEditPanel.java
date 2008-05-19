@@ -48,7 +48,7 @@ public abstract class EntityEditPanel
     public EntityEditPanel()
     {
         super();
-        setHorizontalAlignment( HasHorizontalAlignment.ALIGN_CENTER );
+        setHorizontalAlignment( HasHorizontalAlignment.ALIGN_LEFT );
 
         traversalPanel = createTraversalPanel( this );
         add( traversalPanel );

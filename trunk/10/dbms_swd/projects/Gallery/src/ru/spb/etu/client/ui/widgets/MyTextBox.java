@@ -15,6 +15,7 @@ public class MyTextBox
     public MyTextBox()
     {
         super();
+        setWidth( "200" );
         addChangeListener( this );
     }
 

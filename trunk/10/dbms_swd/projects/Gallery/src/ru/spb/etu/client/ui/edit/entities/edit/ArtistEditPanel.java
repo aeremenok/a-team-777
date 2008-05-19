@@ -4,6 +4,7 @@ import ru.spb.etu.client.serializable.Artist;
 import ru.spb.etu.client.serializable.EntityWrapper;
 import ru.spb.etu.client.serializable.MasterPiece;
 import ru.spb.etu.client.ui.edit.EditPanel;
+import ru.spb.etu.client.ui.widgets.MyTextBox;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -14,12 +15,19 @@ import com.google.gwt.user.client.ui.Widget;
 public class ArtistEditPanel
     extends EntityEditPanel
 {
-    HorizontalPanel masterPieces = new HorizontalPanel();
+    HorizontalPanel   masterPieces = new HorizontalPanel();
+    // доп. поля художника
+    private MyTextBox birthDate    = new MyTextBox();
+    private MyTextBox country      = new MyTextBox();
 
     public ArtistEditPanel()
     {
         super();
 
+        createRow( "Birth Date", birthDate );
+        createRow( "Country", country );
+
+        masterPieces.setHorizontalAlignment( ALIGN_CENTER );
         add( masterPieces );
         masterPieces.setVisible( false );
 
@@ -74,5 +82,14 @@ public class ArtistEditPanel
         MasterPiece masterpiece )
     {
         return masterpiece.getArtist();
+    }
+
+    public void showEntity(
+        EntityWrapper entityWrapper )
+    {
+        Artist artist = (Artist) entityWrapper;
+        country.bindField( artist.getCountry() );
+        birthDate.bindField( artist.getBirthDate() );
+        super.showEntity( entityWrapper );
     }
 }
