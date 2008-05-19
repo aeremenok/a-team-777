@@ -14,12 +14,11 @@ import ru.spb.etu.client.ui.view.ViewPanel;
 public class Artist
     extends EntityWrapper
 {
-    Date             birthDate;
-    ReflectiveString country = new ReflectiveString( this );
+    ReflectiveString birthDate = new ReflectiveString( this );
+    ReflectiveString country   = new ReflectiveString( this );
 
     public Artist()
     {
-        birthDate = new Date();
     }
 
     public Artist(
@@ -54,7 +53,7 @@ public class Artist
         return true;
     }
 
-    public Date getBirthDate()
+    public ReflectiveString getBirthDate()
     {
         return birthDate;
     }
@@ -87,7 +86,7 @@ public class Artist
     public void setBirthDate(
         Date birthDate )
     {
-        this.birthDate = birthDate;
+        this.birthDate.setString( birthDate.toString() );
     }
 
     public void setCountry(

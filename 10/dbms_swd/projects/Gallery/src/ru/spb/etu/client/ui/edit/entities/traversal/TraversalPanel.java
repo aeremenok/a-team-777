@@ -52,7 +52,7 @@ public class TraversalPanel
         EntityEditPanel entityEditPanel )
     {
         this.entityEditPanel = entityEditPanel;
-        setHorizontalAlignment( HasHorizontalAlignment.ALIGN_CENTER );
+        setHorizontalAlignment( HasHorizontalAlignment.ALIGN_LEFT );
 
         add( listBox );
         listBox.addItem( "select item", "" );
