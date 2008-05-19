@@ -23,16 +23,13 @@ class CDeliveryNetwork
 {
 
 public:
-  typedef CPath<CCity,CEdgeParameters::CLink> Path;
+  typedef CPath<CCity,CDefaultLink> Path;
 
 private:
   typedef CGraph<CCity, CEdgeParameters> Graph;
   
   Graph m_graph; //!< описание мира (: города, дороги и больше ничего
 
-  CDeliveryNetwork(const CDeliveryNetwork& obj);
-  CDeliveryNetwork& operator=(const CDeliveryNetwork& obj);
-  
   CDeliveryNetwork();
 
   /*!
@@ -72,7 +69,7 @@ public:
   /*!
    * \brief добавить маршрут из города в город, с заданным типом и стоимостью
    */
-  void addRoute(const CCity& from, const CCity& to, CEdgeParameters::LinkType type, unsigned long cost, unsigned long time);
+  void addRoute(const CCity& from, const CCity& to, CDefaultLink* link);
 
   /*!
    * \brief получить список всех возможных маршрутов

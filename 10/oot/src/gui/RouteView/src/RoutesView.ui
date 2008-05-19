@@ -16,7 +16,7 @@
    <item>
     <widget class="QLabel" name="label" >
      <property name="text" >
-      <string>Возможные маршруты</string>
+      <string>Заказы</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignCenter</set>

@@ -11,6 +11,8 @@
 #include "NewCargoDialog.h"
 #include "ConstMap.h"
 #include "PodPair.h"
+#include "UserCookie.h"
+
 
 CNewCargoDialog::CNewCargoDialog(QWidget *parent, Qt::WindowFlags f): QDialog(parent,f)
 {
@@ -33,22 +35,22 @@ CNewCargoDialog::CNewCargoDialog(QWidget *parent, Qt::WindowFlags f): QDialog(pa
 
 void CNewCargoDialog::itemChecked()
 {
-  std::set<CEdgeParameters::LinkType> validTypes;
+  std::set<CDefaultLink::LinkType> validTypes;
 
-  static CPodPair<QCheckBox*, CEdgeParameters::LinkType> _nn[]=
+  static CPodPair<QCheckBox*, CDefaultLink::LinkType> _nn[]=
   {
-    {m_form.m_airplane, CEdgeParameters::AIRLINES},
-    {m_form.m_ship, CEdgeParameters::SHIP},
-    {m_form.m_train, CEdgeParameters::TRAIN},
-    {m_form.m_truck, CEdgeParameters::TRUCK},
+    {m_form.m_airplane, CDefaultLink::AIRLINES},
+    {m_form.m_ship, CDefaultLink::SHIP},
+    {m_form.m_train, CDefaultLink::TRAIN},
+    {m_form.m_truck, CDefaultLink::TRUCK},
   };
-  static const CConstMap<QCheckBox*, CEdgeParameters::LinkType> n(_nn,_nn+COUNT(_nn));
+  static const CConstMap<QCheckBox*, CDefaultLink::LinkType> n(_nn,_nn+COUNT(_nn));
   
-  for(CConstMap<QCheckBox*, CEdgeParameters::LinkType>::const_iterator it = n.begin(); it!=n.end(); ++it)
+  for(CConstMap<QCheckBox*, CDefaultLink::LinkType>::const_iterator it = n.begin(); it!=n.end(); ++it)
     if(it->first->isChecked())
       validTypes.insert(it->second);
   
-  validTypes.insert(CEdgeParameters::UNKNOWN);
+  validTypes.insert(CDefaultLink::UNKNOWN);
   
   m_form.m_routes->updateModel(m_comboBoxCity.find(m_form.m_from->currentText())->second,
                                m_comboBoxCity.find(m_form.m_dest->currentText())->second,
@@ -75,5 +77,11 @@ void CNewCargoDialog::itemActivated(int index)
 }
 
 
+void CNewCargoDialog::accepted()
+{
+  CUser &user = CUserCookie::getInstance().getUser();  
+  user.addCargo(m_form.m_routes->currentPath());
+  QDialog::accepted();
+}
 
 /* ===[ End of file $Source: /cvs/decisions/templates/template.cpp,v $ ]=== */

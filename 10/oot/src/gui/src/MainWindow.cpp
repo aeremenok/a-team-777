@@ -15,6 +15,8 @@
 #include "LoginDialog.h"
 #include "NewCargoDialog.h"
 #include "GraphWidget.h"
+#include "DockWidget.h"
+#include "RoutesView.h"
 
 CMainWindow::CMainWindow(QWidget * parent, Qt::WindowFlags f): QMainWindow(parent,f)
 {
@@ -23,6 +25,9 @@ CMainWindow::CMainWindow(QWidget * parent, Qt::WindowFlags f): QMainWindow(paren
   w->setGraph(CDeliveryNetwork::getInstance().getContainer());
   setCentralWidget(w);
   connect(m_form.m_newCargo,SIGNAL(triggered()),SLOT(addCargo()));
+
+  CDockWidget<CRoutesView> *dock = new CDockWidget<CRoutesView>(this);
+  addDockWidget(Qt::RightDockWidgetArea, dock);
 
 }
 

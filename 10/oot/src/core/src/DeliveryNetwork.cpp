@@ -47,17 +47,17 @@ const CDeliveryNetwork::Graph::edge& CDeliveryNetwork::getEdge(const CCity& from
 //\todo вставить исключение "ребро не нашел"
 }
 
-void CDeliveryNetwork::addRoute(const CCity& from, const CCity& to, CEdgeParameters::LinkType type, unsigned long cost, unsigned long time)
+void CDeliveryNetwork::addRoute(const CCity& from, const CCity& to, CDefaultLink *link)
 {
   CDeliveryNetwork::Graph::pair p(from,to);
   
   CEdgeParameters parameters;
-  parameters.addLink(CEdgeParameters::CLink(type,cost,time));
+  parameters.addLink(link);
 
   if(isEdgeAvail(from,to))
   {
     parameters = getEdge(from,to).cost;
-    parameters.addLink(CEdgeParameters::CLink(type,cost,time));
+    parameters.addLink(link);
   }
   m_graph.add(p,parameters);
 }

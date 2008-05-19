@@ -26,6 +26,19 @@
 #define foreach BOOST_FOREACH
 #endif
 
+// Serialization
+#include <boost/serialization/nvp.hpp>
+#include <boost/serialization/utility.hpp>
+#include <boost/serialization/list.hpp>
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/version.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <boost/archive/tmpdir.hpp>
+#include <boost/archive/xml_iarchive.hpp>
+#include <boost/archive/xml_oarchive.hpp>
+
+#include <boost/serialization/export.hpp>	// must be in the end of serializatrion headers list
+
 /*!
  * \brief путь
  */
@@ -35,14 +48,23 @@ class CPath
   typedef VertexType vertex;
   
   std::list<vertex>  vertices_list; //!< список вершин
-  std::list<LinkType>    link_list; //!< список типов перевозки между вершинами
+  std::list<LinkType*>    link_list; //!< список типов перевозки между вершинами
+
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_NVP(vertices_list);
+    ar & BOOST_SERIALIZATION_NVP(link_list);
+  }
+
 public:
-  typedef typename std::list<LinkType> Linklist;
+  typedef typename std::list<LinkType*> Linklist;
   typedef typename std::list<VertexType> Vertexlist;
-  typedef typename std::list<VertexType>::iterator vertex_iterator;
-  typedef typename std::list<VertexType>::const_iterator vertex_const_iterator;
-  typedef typename std::list<LinkType>::iterator link_iterator;
-  typedef typename std::list<LinkType>::const_iterator link_const_iterator;
+  typedef typename Vertexlist::iterator vertex_iterator;
+  typedef typename Vertexlist::const_iterator vertex_const_iterator;
+  typedef typename Linklist::iterator link_iterator;
+  typedef typename Linklist::const_iterator link_const_iterator;
 
   vertex_iterator vertex_begin() { return vertices_list.begin(); }
   vertex_iterator vertex_end() { return vertices_list.end(); }
@@ -78,7 +100,13 @@ public:
     return vertices_list.front();
   }
 
-  void push_back(const vertex& v, const LinkType& c)
+  void push_back(const vertex& v, const LinkType *c)
+  {
+    vertices_list.push_back(v);
+    link_list.push_back(c);
+  }
+  
+  void push_back(const vertex& v, LinkType *c)
   {
     vertices_list.push_back(v);
     link_list.push_back(c);
@@ -93,8 +121,8 @@ public:
   unsigned long getCost() const
   {
     unsigned long cost=0;
-    for(typename std::list<LinkType>::const_iterator it=link_list.begin();it!=link_list.end();++it)
-      cost += it->getCost();
+    for(typename std::list<LinkType*>::const_iterator it=link_list.begin();it!=link_list.end();++it)
+      cost += (*it)->getCost();
     return cost;
   }
   
@@ -157,6 +185,18 @@ public:
       return vertex_pair.first != other.vertex_pair.first &&
              vertex_pair.second != other.vertex_pair.second;
     }
+
+  private: 
+    edge()
+    {}
+    
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version)
+    {
+      ar & BOOST_SERIALIZATION_NVP(vertex_pair);
+      ar & BOOST_SERIALIZATION_NVP(cost);
+    }
   };
   
 private:
@@ -165,6 +205,15 @@ private:
    */
   std::list<edge>        edges;  //!< набор ребер
   std::list<vertex>      vertices; //!< набор вершин
+  
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_NVP(edges);
+    ar & BOOST_SERIALIZATION_NVP(vertices);
+  }
+
 public:
   CGraph()
   {
@@ -338,7 +387,7 @@ public:
     {
       owner = v.owner;
       node = v.node;
-      adjacent_edge = std::auto_ptr<std::list<edge> >(new std::list<edge>(*v.adjacent_edge));
+      adjacent_edge.reset(new std::list<edge>(*v.adjacent_edge));
     }
 
     vertex_iterator(_Owner* pOwner, _NodePtr _node) : owner(pOwner), node(_node)

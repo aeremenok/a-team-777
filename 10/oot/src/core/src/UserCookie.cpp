@@ -10,17 +10,61 @@
  *
  * ------------------------------------------------------------------------ */
 
+#include <fstream>
 #include "UserCookie.h"
 
 CUserCookie& CUserCookie::getInstance()
 {
   static CUserCookie cookie;
+
+
   return cookie;
 }
 
+CUserCookie::CUserCookie()
+{
+  std::ifstream	ifs("test.xml");
+  boost::archive::xml_iarchive iarchive(ifs);
+
+  try	
+  {
+    iarchive >> boost::serialization::make_nvp("UserCookie", *this);
+  }
+  catch(...)
+  {
+  }
+  ifs.close();
+}
+
+CUserCookie::~CUserCookie()
+{
+  std::ofstream	ofs("test.xml");
+  boost::archive::xml_oarchive oarchive(ofs);
+  
+  try	
+  {
+    oarchive << boost::serialization::make_nvp("UserCookie", *this);
+  }
+  catch(...)
+  {
+  }
+  ofs.close();
+
+}
 const CUser& CUserCookie::getUser() const
 {
-  return m_user;
+  for(std::list<CUser>::const_iterator i=m_user.begin();i!=m_user.end();++i)
+    if(i->getType() == m_current)
+      return *i;
+  throw 5;
+}
+
+CUser& CUserCookie::getUser()
+{
+  for(std::list<CUser>::iterator i=m_user.begin();i!=m_user.end();++i)
+    if(i->getType() == m_current)
+      return *i;
+  throw 5;
 }
 
 bool CUserCookie::findUser(const std::string& name, const std::string &password)
@@ -29,23 +73,35 @@ bool CUserCookie::findUser(const std::string& name, const std::string &password)
   // но это все в теории.... (:
   if(name=="client"&&password=="client")
   {
-    m_user=CUser("Клиент",CUser::CLIENT);
+    m_current = CUser::CLIENT;
+    for(std::list<CUser>::iterator i=m_user.begin();i!=m_user.end();++i)
+      if(i->getType() == m_current)
+        return true;
+    m_user.push_back(CUser("client",CUser::CLIENT));
     return true;
   }
 
   if(name=="seller"&&password=="seller")
   {
-    m_user=CUser("Продавец",CUser::SELLER);
+    m_current = CUser::SELLER;
+    for(std::list<CUser>::iterator i=m_user.begin();i!=m_user.end();++i)
+      if(i->getType() == m_current)
+        return true;
+    m_user.push_back(CUser("seller",CUser::SELLER));
     return true;
   }
 
   if(name=="manager"&&password=="manager")
   {
-    m_user=CUser("Менеджер-консультант",CUser::MANAGER);
+    m_current = CUser::MANAGER;
+    for(std::list<CUser>::iterator i=m_user.begin();i!=m_user.end();++i)
+      if(i->getType() == m_current)
+        return true;
+    m_user.push_back(CUser("manager",CUser::MANAGER));
     return true;
   }
   
-  m_user=CUser();
+  m_current = CUser::UNKNOWN;
   return false;
 }
 

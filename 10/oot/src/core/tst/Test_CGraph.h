@@ -28,6 +28,7 @@ namespace Test
     CPPUNIT_TEST(testEmptyString);
     CPPUNIT_TEST(testAddVertexEdges);
     CPPUNIT_TEST(testRemoveVertices);
+    CPPUNIT_TEST(testSerialize);
 
     CPPUNIT_TEST_SUITE_END();
     
@@ -102,7 +103,38 @@ namespace Test
       l.push_back(2);
       CPPUNIT_ASSERT(l.size()==4);
     }
+    
+    void testSerialize()
+    {
+    	
+      std::ofstream	ofs("test.xml");
+      boost::archive::xml_oarchive oarchive(ofs);
+      CGraph<int,int> savedGraph;
+      try	
+      {
+        oarchive << boost::serialization::make_nvp("Graph", savedGraph);
+      }
+      catch(...){
+        CPPUNIT_ASSERT(false);
+      }
+      ofs.close();
 
+      std::ifstream	ifs("test.xml");
+      boost::archive::xml_iarchive iarchive(ifs);
+
+      CGraph<int,int> loadedGraph;
+
+      try	
+      {
+        iarchive >> boost::serialization::make_nvp("Graph", loadedGraph);
+      }
+      catch(...){
+        CPPUNIT_ASSERT(false);
+      }
+
+      ifs.close();
+
+    }
   public:
     void setUp()
     {

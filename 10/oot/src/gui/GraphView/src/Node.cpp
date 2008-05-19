@@ -3,6 +3,7 @@
 #include <QtGui/QPainter>
 #include <QtGui/QStyleOption>
 
+#include <iostream>
 #include "Edge.h"
 #include "Node.h"
 #include "GraphWidget.h"
@@ -45,8 +46,8 @@ void Node::calculateForces()
         qreal dy = line.dy();
         double l = 2.0 * (dx * dx + dy * dy);
         if (l > 0) {
-            xvel += (dx * 150.0) / l;
-            yvel += (dy * 150.0) / l;
+            xvel += (dx * 300.0) / l;
+            yvel += (dy * 300.0) / l;
         }
     }
 
@@ -66,6 +67,7 @@ void Node::calculateForces()
         xvel = yvel = 0;
 
     QRectF sceneRect = scene()->sceneRect();
+
     newPos = pos() + QPointF(xvel, yvel);
     newPos.setX(qMin(qMax(newPos.x(), sceneRect.left() + 10), sceneRect.right() - 10));
     newPos.setY(qMin(qMax(newPos.y(), sceneRect.top() + 10), sceneRect.bottom() - 10));

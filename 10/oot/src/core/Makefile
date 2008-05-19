@@ -8,11 +8,12 @@ ROOT ?= ..
 TARGET ?= core
 
 SRCS = Graph.cpp User.cpp UserCookie.cpp City.cpp EdgeParameters.cpp DeliveryNetwork.cpp \
-       AccessibleCitySearch.cpp PossibleRoutes.cpp
+       AccessibleCitySearch.cpp PossibleRoutes.cpp AircraftLink.cpp ShipLink.cpp TrainLink.cpp \
+       TruckLink.cpp
 
 
 test_SRCS := TestSuite_core.cpp
-test_LDADD += -lcppunit
+test_LDADD += -lcppunit -lboost_serialization
 
 default: lib
 
