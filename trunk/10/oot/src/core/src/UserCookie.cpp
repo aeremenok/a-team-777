@@ -10,53 +10,56 @@
  *
  * ------------------------------------------------------------------------ */
 
+#include <unistd.h>
+#include <iostream>
 #include <fstream>
 #include "UserCookie.h"
+
 
 CUserCookie& CUserCookie::getInstance()
 {
   static CUserCookie cookie;
-
-
   return cookie;
 }
 
 CUserCookie::CUserCookie()
 {
-  std::ifstream	ifs("test.xml");
-  boost::archive::xml_iarchive iarchive(ifs);
 
   try	
   {
-    iarchive >> boost::serialization::make_nvp("UserCookie", *this);
+    std::ifstream	ifs("test.xml");
+    boost::archive::xml_iarchive iarchive(ifs);
+    //iarchive >> boost::serialization::make_nvp("UserCookie", *this);
+    ifs.close();
   }
   catch(...)
-  {
+  { 
   }
-  ifs.close();
 }
 
 CUserCookie::~CUserCookie()
 {
   std::ofstream	ofs("test.xml");
   boost::archive::xml_oarchive oarchive(ofs);
-  
   try	
   {
     oarchive << boost::serialization::make_nvp("UserCookie", *this);
+    ofs.flush();
   }
   catch(...)
   {
   }
   ofs.close();
-
 }
+  
+static CUser unknownUser("unknown", CUser::UNKNOWN);
+
 const CUser& CUserCookie::getUser() const
 {
   for(std::list<CUser>::const_iterator i=m_user.begin();i!=m_user.end();++i)
     if(i->getType() == m_current)
       return *i;
-  throw 5;
+  return unknownUser;
 }
 
 CUser& CUserCookie::getUser()
@@ -64,7 +67,7 @@ CUser& CUserCookie::getUser()
   for(std::list<CUser>::iterator i=m_user.begin();i!=m_user.end();++i)
     if(i->getType() == m_current)
       return *i;
-  throw 5;
+  return unknownUser;
 }
 
 bool CUserCookie::findUser(const std::string& name, const std::string &password)

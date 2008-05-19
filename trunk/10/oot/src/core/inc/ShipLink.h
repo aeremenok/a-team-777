@@ -14,7 +14,7 @@
 #ifndef _CShipLink_H_2C04E306_B068_4D17_BAE7_A34828E9A266_INCLUDED_
 #define _CShipLink_H_2C04E306_B068_4D17_BAE7_A34828E9A266_INCLUDED_
 
-#include "EdgeParameters.h"
+#include "DefaultLink.h"
 
 /*!
  * \brief

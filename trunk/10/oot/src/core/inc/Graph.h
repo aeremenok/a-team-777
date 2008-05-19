@@ -39,6 +39,13 @@
 
 #include <boost/serialization/export.hpp>	// must be in the end of serializatrion headers list
 
+#include "DefaultLink.h"
+#include "AircraftLink.h"
+#include "ShipLink.h"
+#include "TrainLink.h"
+#include "TruckLink.h"
+#include "City.h"
+
 /*!
  * \brief путь
  */
@@ -138,6 +145,19 @@ public:
 
 };
 
+template<>
+template<class Archive>
+void CPath<CCity, CDefaultLink>::serialize(Archive & ar, const unsigned int version)
+{
+    ar.register_type(static_cast<CStupidLink *>(NULL));
+    ar.register_type(static_cast<CDefaultLink *>(NULL));
+    ar.register_type(static_cast<CAircraftLink *>(NULL));
+    ar.register_type(static_cast<CS7Link *>(NULL));
+    ar.register_type(static_cast<CPulkovoLink *>(NULL));
+    ar.register_type(static_cast<CAeroflotLink *>(NULL));
+    ar & BOOST_SERIALIZATION_NVP(vertices_list);
+    ar & BOOST_SERIALIZATION_NVP(link_list);
+}
 
 /*!
  * \brief граф

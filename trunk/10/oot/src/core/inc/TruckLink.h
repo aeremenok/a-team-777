@@ -14,7 +14,7 @@
 #ifndef _CTruckLink_H_50B3E148_419E_495D_A2E6_428B2FE917B7_INCLUDED_
 #define _CTruckLink_H_50B3E148_419E_495D_A2E6_428B2FE917B7_INCLUDED_
 
-#include "EdgeParameters.h"
+#include "DefaultLink.h"
 
 class CTruckLink: public CDefaultLink
 {

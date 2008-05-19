@@ -11,6 +11,7 @@
 #include <cppunit/ui/text/TestRunner.h>
 
 #include "Test_CGraph.h"
+#include "Test_Serialization.h"
 
 int main()
 {

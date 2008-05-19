@@ -15,13 +15,25 @@
 #define _CAircraftLink_H_69991021_ED52_4A8B_81CB_F525E04509D5_INCLUDED_
 
 
-#include "EdgeParameters.h"
+#include "DefaultLink.h"
 
 /*!
  * \brief Воздушная трасса
  */
 class CAircraftLink: public CDefaultLink
 {
+  
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(CDefaultLink);
+  }
+protected:
+
+  CAircraftLink()
+  {
+  }
   
 public:
   CAircraftLink(unsigned long cost, unsigned long time);
@@ -36,6 +48,13 @@ public:
 
 class CS7Link: public CAircraftLink
 {
+
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(CAircraftLink);
+  }
 
 public:
   CS7Link(unsigned long cost, unsigned long time);
@@ -54,8 +73,16 @@ public:
 
 class CPulkovoLink: public CAircraftLink
 {
-
+  
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(CAircraftLink);
+  }
 public:
+  CPulkovoLink()
+  {}
   CPulkovoLink(unsigned long cost, unsigned long time);
 
   std::string getDescription() const;
