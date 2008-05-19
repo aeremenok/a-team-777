@@ -1,5 +1,10 @@
-// Mozg.cpp : main source file for Mozg.exe
-//
+// **************************************************************************
+//! \file   Mozg.cpp
+//! \brief  main source file for Mozg.exe
+//! \author Bessonov A.V.
+//! \date   17.May.2008 - 19.May.2008
+// **************************************************************************
+
 
 #include "stdafx.h"
 #include "MainDlg.h"
@@ -25,7 +30,8 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 	dlgMain->ShowWindow(nCmdShow);
 
    //! Создаем объкт контролирующий ход игры
-   Game::Controller* g_control = new Game::Controller(dlgMain);
+   Game::Controller* g_control = Game::Controller::Instance(dlgMain);
+   //Game::Controller* g_control = new Game::Controller(dlgMain);
 
 	int nRet = theLoop.Run();
 

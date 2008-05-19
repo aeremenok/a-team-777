@@ -2,7 +2,7 @@
 //! \file   Controller.cpp
 //! \brief  Реализация класса для управления игрой
 //! \author Bessonov A.V.
-//! \date   17.May.2008 - 17.May.2008
+//! \date   17.May.2008 - 19.May.2008
 // **************************************************************************
 
 // ==========================================================================
@@ -20,8 +20,6 @@ Controller::Controller(CMainDlg* dlg)
 {
    playersList = new ListOfPlayers;
    netStruc = new tdata::Data;
-   //! Задаем контоллер игры для окна
-   mainDlg->setControl(this);
 }
 
 Controller::~Controller()
@@ -120,6 +118,15 @@ void Controller::makeStep(int hole)
       mainDlg->setTip("Поздравляем " + playersList->getActivePlayer()->getName() 
                                       + " с победой в игре Мозгодолбалка!");
    }
+}
+
+Controller* Controller::_instance = 0;
+
+Controller* Controller::Instance(CMainDlg* dlg)
+{
+   if (_instance == 0)
+      _instance = new Controller(dlg);
+   return _instance;
 }
 } //end of namespace Game
 // ==========================================================================

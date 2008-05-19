@@ -116,10 +116,7 @@ public:
    //! Функция для деактивации элемента меню СОЗДАТЬ ИГРУ
    void ActivateNew(bool act = true);
    
-   void setControl(Controller *newControl); //!< Замещает контроллер игры 
    void setTip(std::string tip) ;//!< Функция устанавливающая подсказку
-private:
-   Controller *control; //!< Контроллер игры
 };
 }
 // ==========================================================================
