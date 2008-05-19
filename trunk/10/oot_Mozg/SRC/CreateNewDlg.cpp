@@ -23,12 +23,23 @@ LRESULT CCreateNewDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*l
    ud.SetRange32(2,6); 
    //! Задаем значение по умолчанию для количества игроков
    m_nPlayersNumber = 6;
+   
+   DoDataExchange(DDX_LOAD);
+
    m_strPlayers.push_back("Player1"); 
    m_strPlayers.push_back("Player2");
    m_strPlayers.push_back("Player3");
    m_strPlayers.push_back("Player4");
    m_strPlayers.push_back("Player5");
    m_strPlayers.push_back("Player6");
+   
+   GetDlgItem(IDC_EDIT_PLAYER_1).SetWindowText(m_strPlayers[0].c_str());
+   GetDlgItem(IDC_EDIT_PLAYER_2).SetWindowText(m_strPlayers[1].c_str());
+   GetDlgItem(IDC_EDIT_PLAYER_3).SetWindowText(m_strPlayers[2].c_str());
+   GetDlgItem(IDC_EDIT_PLAYER_4).SetWindowText(m_strPlayers[3].c_str());
+   GetDlgItem(IDC_EDIT_PLAYER_5).SetWindowText(m_strPlayers[4].c_str());
+   GetDlgItem(IDC_EDIT_PLAYER_6).SetWindowText(m_strPlayers[5].c_str());
+
    DoDataExchange(DDX_LOAD);
 
    return TRUE;
@@ -39,6 +50,12 @@ LRESULT CCreateNewDlg::OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 }
 LRESULT CCreateNewDlg::OnOK(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
+   m_strPlayers[0] = GetControlText(GetDlgItem(IDC_EDIT_PLAYER_1));
+   m_strPlayers[1] = GetControlText(GetDlgItem(IDC_EDIT_PLAYER_2));
+   m_strPlayers[2] = GetControlText(GetDlgItem(IDC_EDIT_PLAYER_3));
+   m_strPlayers[3] = GetControlText(GetDlgItem(IDC_EDIT_PLAYER_4));
+   m_strPlayers[4] = GetControlText(GetDlgItem(IDC_EDIT_PLAYER_5));
+   m_strPlayers[5] = GetControlText(GetDlgItem(IDC_EDIT_PLAYER_6));
    EndDialog(IDOK);
    return 0;
 }
@@ -74,9 +91,8 @@ LRESULT CCreateNewDlg::OnBnClickedRadioNetworkGame(WORD /*wNotifyCode*/, WORD /*
    return 0;
 }
 
-LRESULT CCreateNewDlg::OnDeltaposSpinPlayerNumber(int /*idCtrl*/, LPNMHDR pNMHDR, BOOL& /*bHandled*/)
+LRESULT CCreateNewDlg::OnChangeNumPlayers(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
-   LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
    //! Обновляем переменную m_nPlayersNumber после нажатия пользователем на
    //! счетчик
    DoDataExchange(DDX_SAVE);
@@ -115,6 +131,25 @@ LRESULT CCreateNewDlg::OnDeltaposSpinPlayerNumber(int /*idCtrl*/, LPNMHDR pNMHDR
       ledit.EnableWindow(FALSE);
    case 6:
       break;
+   }
+   //! Служит для активации кнопки НАЧАТЬ, если одно из полей имен игров
+   //! было пустым и мы его деактивировали
+   BOOL tmp = FALSE;
+   OnPlayerChanged(NULL, NULL, NULL, tmp);
+   return 0;
+}
+LRESULT CCreateNewDlg::OnPlayerChanged(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+   DoDataExchange(DDX_SAVE);
+
+   GetDlgItem(IDOK).EnableWindow(TRUE);
+
+   //! Если ничего не введено в поле имени игрока, то деактивуруется
+   //! кнопка ОК
+   for (int i = 0; i < m_nPlayersNumber; i++)
+   {
+      if(GetControlText(GetDlgItem(IDC_EDIT_PLAYER_1 + i)) == std::string(""))
+         GetDlgItem(IDOK).EnableWindow(FALSE);
    }
    return 0;
 }

@@ -24,17 +24,18 @@ public:
    BEGIN_MSG_MAP(CCreateNewDlg)
       MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
       MESSAGE_HANDLER(WM_DESTROY, OnClose)
-      //COMMAND_HANDLER(IDC_EDIT_PLAYER_NUMBER, EN_CHANGE, OnPlayerNumChanged)
-
+      MESSAGE_HANDLER(WM_VSCROLL, OnChangeNumPlayers)
+    
       COMMAND_HANDLER(IDOK, BN_CLICKED, OnOK)
       COMMAND_HANDLER(IDCANCEL, BN_CLICKED, OnCancel)
       COMMAND_HANDLER(IDC_RADIO_LOCAL_GAME, BN_CLICKED, OnBnClickedRadioLocalGame)
       COMMAND_HANDLER(IDC_RADIO_NETWORK_GAME, BN_CLICKED, OnBnClickedRadioNetworkGame)
-      NOTIFY_HANDLER(IDC_SPIN_PLAYER_NUMBER, UDN_DELTAPOS, OnDeltaposSpinPlayerNumber)
+
+      COMMAND_RANGE_CODE_HANDLER(IDC_EDIT_PLAYER_1, IDC_EDIT_PLAYER_6, EN_CHANGE, OnPlayerChanged)
    END_MSG_MAP();
    
    BEGIN_DDX_MAP(CCreateNewDlg)
-      //DDX_INT(IDC_EDIT_PLAYER_NUMBER, m_nPlayersNumber)
+      DDX_INT(IDC_EDIT_PLAYER_NUMBER, m_nPlayersNumber)
       //DDX_TEXT(IDC_EDIT_PLAYER_1, m_strPlayer1)
       /*DDX_TEXT(IDC_EDIT_PLAYER_2, m_strPlayer2)
       DDX_TEXT(IDC_EDIT_PLAYER_3, m_strPlayer3)
@@ -50,25 +51,18 @@ public:
 
    LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
    LRESULT OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
+   LRESULT OnChangeNumPlayers(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 
    LRESULT OnOK(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
    LRESULT OnCancel(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-
    LRESULT OnBnClickedRadioLocalGame(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
    LRESULT OnBnClickedRadioNetworkGame(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-   LRESULT OnDeltaposSpinPlayerNumber(int /*idCtrl*/, LPNMHDR pNMHDR, BOOL& /*bHandled*/);
-   //LRESULT OnPlayerNumChanged(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+   LRESULT OnPlayerChanged(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 public:
    //! Количество игроков, задаваемое пользователем в окне
    int m_nPlayersNumber;
    
    std::vector<std::string> m_strPlayers;
-   //ATL::CComBSTR m_strPlayer1; //!< Имя первого игрока
-   //LPTSTR m_strPlayer2; //!< Имя второго игрока
-   //LPTSTR m_strPlayer3; //!< Имя третьего игрока
-   //LPTSTR m_strPlayer4; //!< Имя четвертого игрока
-   //LPTSTR m_strPlayer5; //!< Имя пятого игрока
-   //LPTSTR m_strPlayer6; //!< Имя шестого игрока
 };
 }
 // ==========================================================================
