@@ -3,6 +3,8 @@ package ru.spb.etu;
 import org.apache.bcel.Constants;
 import org.apache.bcel.generic.ClassGen;
 
+import java.util.ArrayList;
+
 public class Parser {
 	static final int _EOF = 0;
 	static final int _realNumber = 1;
@@ -32,11 +34,6 @@ public class Parser {
 		Token x = scanner.Peek();
 		return (x.kind == i);
 	}
-	
-    String idValue()
-    {
-        return "todo";
-    }
 /*--------------------------------------------------------------------------*/
 
 
@@ -97,8 +94,10 @@ public class Parser {
 	
 	String  identifier() {
 		String  id;
-		id = idValue(); 
 		Expect(8);
+		id = t.val;
+		System.out.println(t.val);
+		
 		return id;
 	}
 
@@ -132,41 +131,50 @@ public class Parser {
 
 	void interfaceDeclaration() {
 		Expect(3);
-		interfaceName = identifier();
+		String interfaceName = identifier();
 		if (la.kind == 10) {
 			Get();
-			superInterfaceName = identifier();
+			String superInterfaceName = identifier();
 		}
 		interfaceBody();
 	}
 
 	void classDeclaration() {
 		int modifier = Constants.ACC_PUBLIC; 
-		int fMod = 0; 
-		int sMod = 0; 
 		if (la.kind == 14) {
-			fMod = finalAccess();
+			int fMod = finalAccess();
+			modifier |= fMod;
 		}
-		modifier |= fMod;
 		if (la.kind == 13) {
-			sMod = staticAccess();
+			int sMod = staticAccess();
+			modifier |= sMod;
 		}
-		modifier |= sMod;
 		Expect(9);
-		ClassGen classGen;
-		className = identifier();
+		String className = identifier();
+		String superName = "java.lang.Object";
 		if (la.kind == 10) {
 			Get();
 			superName = identifier();
 		}
+		ArrayList<String> interfaces = null;
 		if (la.kind == 11) {
 			Get();
-			interfaceName = identifier();
+			interfaces = new ArrayList<String>();
+			String interfaceName = identifier();
+			interfaces.add(interfaceName);
 			while (la.kind == 12) {
 				Get();
 				interfaceName = identifier();
+				interfaces.add(interfaceName);
 			}
 		}
+		ClassGen classGen = new ClassGen(
+		   className, 
+		   superName, 
+		   className+".class", 
+		   modifier,
+		   interfaces==null ? null : interfaces.toArray( new String[interfaces.size()] ) );
+		
 		classBody();
 	}
 
@@ -191,7 +199,7 @@ public class Parser {
 				accessSpecifier();
 			}
 			if (next(_openRoundBracket)) {
-				someThing = identifier();
+				String someThing = identifier();
 				Expect(4);
 				if (StartOf(3)) {
 					formalParameterList();
@@ -204,17 +212,17 @@ public class Parser {
 				Expect(7);
 			} else if (StartOf(5)) {
 				if (la.kind == 14) {
-					fMod = finalAccess();
+					int fMod = finalAccess();
 				}
 				if (la.kind == 13) {
-					sMod = staticAccess();
+					int sMod = staticAccess();
 				}
 				if (StartOf(6)) {
 					type();
 				} else if (la.kind == 8) {
-					someThing = identifier();
+					String someThing = identifier();
 				} else SynErr(69);
-				someThing = identifier();
+				String someThing = identifier();
 				if (la.kind == 4) {
 					Get();
 					if (StartOf(3)) {
@@ -245,17 +253,17 @@ public class Parser {
 				accessSpecifier();
 			}
 			if (la.kind == 14) {
-				fMod = finalAccess();
+				int fMod = finalAccess();
 			}
 			if (la.kind == 13) {
-				sMod = staticAccess();
+				int sMod = staticAccess();
 			}
 			if (StartOf(6)) {
 				type();
 			} else if (la.kind == 8) {
-				someThing = identifier();
+				String someThing = identifier();
 			} else SynErr(72);
-			someThing = identifier();
+			String someThing = identifier();
 			Expect(4);
 			if (StartOf(3)) {
 				formalParameterList();
@@ -312,17 +320,17 @@ public class Parser {
 		if (StartOf(6)) {
 			type();
 		} else if (la.kind == 8) {
-			varName = identifier();
+			String param = identifier();
 		} else SynErr(74);
-		varName = identifier();
+		String param = identifier();
 		while (la.kind == 12) {
 			Get();
 			if (StartOf(6)) {
 				type();
 			} else if (la.kind == 8) {
-				varName = identifier();
+				param = identifier();
 			} else SynErr(75);
-			varName = identifier();
+			param = identifier();
 		}
 	}
 
@@ -400,7 +408,7 @@ public class Parser {
 		}
 		case 18: case 19: case 20: case 21: case 22: case 23: case 24: case 25: case 26: {
 			type();
-			someThing = identifier();
+			String someThing = identifier();
 			if (la.kind == 27) {
 				Get();
 				expression();
@@ -417,7 +425,7 @@ public class Parser {
 			break;
 		}
 		case 8: {
-			someThing = identifier();
+			String someThing = identifier();
 			if (la.kind == 4) {
 				Get();
 				if (StartOf(7)) {
@@ -472,7 +480,7 @@ public class Parser {
 			Get();
 			while (la.kind == 34) {
 				Get();
-				someThing = identifier();
+				String someThing = identifier();
 			}
 			Expect(4);
 			if (StartOf(7)) {
@@ -497,7 +505,7 @@ public class Parser {
 	void expressionName() {
 		if (la.kind == 8 || la.kind == 35) {
 			if (la.kind == 8) {
-				someThing = identifier();
+				String someThing = identifier();
 			} else {
 				Get();
 			}
@@ -514,7 +522,7 @@ public class Parser {
 			}
 			while (la.kind == 34) {
 				Get();
-				someThing = identifier();
+				String someThing = identifier();
 				if (la.kind == 4) {
 					Get();
 					if (StartOf(7)) {
