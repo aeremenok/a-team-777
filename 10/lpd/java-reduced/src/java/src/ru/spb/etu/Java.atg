@@ -1,6 +1,8 @@
 import org.apache.bcel.Constants;
 import org.apache.bcel.generic.ClassGen;
 
+import java.util.ArrayList;
+
 COMPILER CompilationUnit
 
 // Функция возвращает токен, следующий за текущим (заглядывает вперед)
@@ -10,11 +12,6 @@ boolean next(int i)
 		Token x = scanner.Peek();
 		return (x.kind == i);
 	}
-	
-    String idValue()
-    {
-        return "todo";
-    }
 /*--------------------------------------------------------------------------*/
 CHARACTERS
   letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
@@ -51,8 +48,11 @@ PRODUCTIONS
 /*----------------------------------identifier----------------------------------*/
 identifier<out String id>
 = 
-(. id = idValue(); .)
 id
+(. 
+    id = t.val;
+    System.out.println(t.val);
+ .)
 .
 /*----------------------------------CompilationUnit----------------------------------*/
 CompilationUnit = 
@@ -66,18 +66,27 @@ typeDeclaration =
 /*----------------------------------classDeclaration----------------------------------*/
 classDeclaration =  
     (. int modifier = Constants.ACC_PUBLIC; .)
-    (. int fMod = 0; .)
-    (. int sMod = 0; .)
-	[finalAccess<out fMod>]    (.modifier |= fMod;.)
-	[staticAccess<out sMod>]   (.modifier |= sMod;.)
-	"class"                    (.ClassGen classGen;.)
-	identifier<out className>
+	[finalAccess<out int fMod>     (.modifier |= fMod;.)]    
+	[staticAccess<out int sMod>    (.modifier |= sMod;.)]   
+	"class"
+	identifier<out String className>
+	(.String superName = "java.lang.Object";.)
 	["extends" identifier<out superName>]
-	["implements" 
-	identifier<out interfaceName>
+	(.ArrayList<String> interfaces = null;.)
+	["implements"
+	(.interfaces = new ArrayList<String>();.) 
+	identifier<out String interfaceName> (.interfaces.add(interfaceName);.)
 	 {',' 
-	 identifier<out interfaceName>
+	 identifier<out interfaceName>  (.interfaces.add(interfaceName);.)
 	 }]
+	(.
+	   ClassGen classGen = new ClassGen(
+	       className, 
+	       superName, 
+	       className+".class", 
+	       modifier,
+	       interfaces==null ? null : interfaces.toArray( new String[interfaces.size()] ) );
+	 .)
 	classBody
 .
 /*----------------------------------staticAccess----------------------------------*/
@@ -93,9 +102,9 @@ finalAccess<out int modifier>
 /*----------------------------------interfaceDeclaration----------------------------------*/
 interfaceDeclaration =  //todo
 	"interface"
-	identifier<out interfaceName>
+	identifier<out String interfaceName>
    ["extends" 
-   identifier<out superInterfaceName>
+   identifier<out String superInterfaceName>
    ]
 	interfaceBody
 .
@@ -110,9 +119,12 @@ type =
 /*----------------------------------formalParameterList----------------------------------*/
 formalParameterList =  //todo
 	(type | 
-	identifier<out varName>
-	) identifier<out varName>
-	{',' (type | identifier<out varName>) identifier<out varName>}
+	identifier<out String param>
+	) identifier<out String param>
+	{',' (type | 
+	identifier<out param>) 
+	identifier<out param>
+	}
 .
 /*----------------------------------classBody----------------------------------*/
 classBody =
@@ -120,19 +132,19 @@ classBody =
 	{
 		[accessSpecifier]
 		((IF(next(_openRoundBracket))
-			identifier<out someThing> //todo
+			identifier<out String someThing> //todo
 			openRoundBracket [formalParameterList] closeRoundBracket 
 				openCurlyBracket {statement} closeCurlyBracket
 		)
 		|
 		(
-		[finalAccess<out fMod>]
-		[staticAccess<out sMod>]
+		[finalAccess<out int fMod>]
+		[staticAccess<out int sMod>]
 		(IF(next(_identifier))
 			(type | 
-			identifier<out someThing> //todo
+			identifier<out String someThing> //todo
 			)
-			identifier<out someThing> //todo
+			identifier<out String someThing> //todo
 			(
 				(
 					openRoundBracket [formalParameterList] closeRoundBracket 
@@ -152,39 +164,123 @@ classBody =
 /*----------------------------------statement----------------------------------*/
 statement =	
 	(
-		("if" openRoundBracket expression closeRoundBracket 
-			((openCurlyBracket {statement} closeCurlyBracket) | statement)
-			["else" ((openCurlyBracket {statement} closeCurlyBracket) | statement)]
+		(
+		  "if" openRoundBracket expression closeRoundBracket 
+		  (
+		      (
+		          openCurlyBracket 
+		          {
+		              statement
+		          }
+		          closeCurlyBracket
+		      )
+		      |
+		      statement
+		  )
+	      [
+	           "else"
+	           (
+	               (
+	                   openCurlyBracket
+	                   {statement}
+	                   closeCurlyBracket
+	               )
+	               |
+	               statement
+	           )
+	      ]
 		)
-		|("while" openRoundBracket expression closeRoundBracket 
-			((openCurlyBracket {statement} closeCurlyBracket) | statement))
-		|("return" [expression] ';')
-		|("new" expressionName openRoundBracket [expression] closeRoundBracket)
-		|(openCurlyBracket {statement} closeCurlyBracket)
-		|(type 
-		identifier<out someThing> //todo
-		 ['=' expression]
-			{',' 
-			identifier<out someThing> //todo
-			 ['=' expression]} ';')
-		|(
-		identifier<out someThing> //todo
-		 ['('[expression {',' expression}]')'] 
-		   {'.' 
-		   identifier<out someThing> //todo
-		    ['('[expression {',' expression}]')']}
-			((
-			identifier<out someThing> //todo
-			 ['=' expression] {',' 
-			identifier<out someThing> //todo
-			 ['=' expression]} ';')
-			|/*(openRoundBracket [expression {',' expression}] closeRoundBracket */';'/*)*/
-			|(assignmentOperator expression ';')
-			))
-		|("super" {'.' 
-		identifier<out someThing> //todo
-		} 
-			openRoundBracket [expression {',' expression}] closeRoundBracket ';')
+		|
+		(
+		  "while" openRoundBracket expression closeRoundBracket 
+		  (
+		      (
+		          openCurlyBracket
+		          {statement}
+		          closeCurlyBracket
+		      )
+		      |
+		      statement
+		  )
+		)
+		|
+		("return"[expression]';')
+		|
+		(
+		  "new" expressionName openRoundBracket [expression] closeRoundBracket
+		)
+		|
+		(
+		  openCurlyBracket
+		  {statement}
+		  closeCurlyBracket
+		)
+		|
+		(
+		  type identifier<out String someThing> //todo
+		  ['=' expression]
+		  {
+		      ',' identifier<out someThing> //todo
+			  ['=' expression]
+	      }
+	      ';'
+	    )
+		|
+		(
+            identifier<out String someThing> //todo
+		    [
+		      '('
+		      [
+		          expression
+		          {
+		              ','
+		              expression
+		          }
+		      ]
+		      ')'
+		    ] 
+		    {
+		      '.' 
+		      identifier<out someThing> //todo
+		      ['('[expression 
+		      {
+		          ',' expression}]')']
+		      }
+			  (
+			     (
+			         identifier<out someThing> //todo
+			         ['=' expression] 
+			         {
+			             ','identifier<out someThing> //todo
+			             ['=' expression]
+			         }
+			         ';'
+			     )
+			     |
+			     ';'
+			     |
+			     (
+			         assignmentOperator expression ';'
+			     )
+			  )
+	   )
+	   |
+	   (
+	       "super"
+		    {
+		      '.'
+		      identifier<out String someThing> //todo
+		    } 
+			openRoundBracket 
+			[
+			     expression 
+			     {
+			         ',' expression
+			     }
+			]
+			closeRoundBracket 
+			';'
+	   )
 	)
 .
 
@@ -193,12 +289,12 @@ interfaceBody =
 	'{'
 	{
 		[accessSpecifier]
-		[finalAccess<out fMod>]
-		[staticAccess<out sMod>]
+		[finalAccess<out int fMod>]
+		[staticAccess<out int sMod>]
 		(type | 
-		identifier<out someThing> //todo
+		identifier<out String someThing> //todo
 		)
-		identifier<out someThing> //todo	
+		identifier<out String someThing> //todo	
 		openRoundBracket [formalParameterList] closeRoundBracket ';'
 	}
 	'}'
@@ -254,10 +350,10 @@ unaryExpression =
 /*----------------------------------expressionName----------------------------------*/
 expressionName =
 	(((
-	identifier<out someThing> //todo
+	identifier<out String someThing> //todo
 	 | "super") ['('[expression {',' expression}]')'] 
 	   {'.' 
-	   identifier<out someThing> //todo
+	   identifier<out String someThing> //todo
 	   ['('[expression {',' expression}]')']}) | (realNumber)|(string))
 .
 /*----------------------------------assignmentOperator----------------------------------*/

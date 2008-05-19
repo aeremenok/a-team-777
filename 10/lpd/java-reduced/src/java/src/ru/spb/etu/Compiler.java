@@ -25,6 +25,14 @@ public class Compiler
     implements
         Constants
 {
+    private static final String STRIPE = "======================";
+
+    public static void info(
+        String info )
+    {
+        System.out.println( STRIPE + info + STRIPE );
+    }
+
     /**
      * @param args
      */
@@ -36,14 +44,14 @@ public class Compiler
             File file = new File( args[0] );
             FileInputStream fileInputStream = new FileInputStream( file );
             Scanner scanner = new Scanner( fileInputStream );
-            System.out.println( "scanning" );
+            info( "scanning" );
             scanner.Scan();
 
-            Parser parser = new MyParser( scanner );
-            System.out.println( "parsing" );
+            Parser parser = new Parser( scanner );
+            info( "parsing" );
             parser.Parse();
 
-            createApacheClass( args[0] );
+            // createApacheClass( args[0] );
         }
         catch ( Exception e )
         {
@@ -162,5 +170,4 @@ public class Compiler
         // ----------------------------------- example
         classGen.getJavaClass().dump( classFileName );
     }
-
 }
