@@ -24,13 +24,16 @@ extern CAppModule _Module;
 #include <atlctrls.h>
 #include <atldlgs.h>
 #include <atlddx.h>
+#include <atlgdi.h>
 
 #include <string>
+#include <algorithm>
 
 #include <new>
 
 #include "resource.h"
 #include "tools.h"
+#include "Controller.h"
 
 // Правильное подключение манифеста (контролы в стиле XP)
 #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")

@@ -208,6 +208,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SRC\DrawWnd.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\SRC\ListOfPlayers.cpp"
 				>
 			</File>
@@ -270,6 +274,10 @@
 			</File>
 			<File
 				RelativePath=".\INC\Data.h"
+				>
+			</File>
+			<File
+				RelativePath=".\INC\DrawWnd.h"
 				>
 			</File>
 			<File

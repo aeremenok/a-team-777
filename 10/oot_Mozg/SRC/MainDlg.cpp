@@ -9,6 +9,7 @@
 #include "MainDlg.h"
 #include "aboutdlg.h"
 #include "CreateNewDlg.h"
+
 namespace Game
 {
 // ===========================================================================
@@ -120,7 +121,7 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 
    UIAddChildWindowContainer(m_hWnd);
 
-   //=========================================================================
+   //========================================================================
    // ÑÎÇÄÀÒÜ ÑÏÈÑÎÊ ÊÀĞÒÈÍÎÊ ÄËß ÒÓËÁÀĞÀ
    m_images.CreateFromImage(IDB_MAINTOOLBAR, 24, 0, RGB(255, 255, 255),
                             IMAGE_BITMAP, LR_CREATEDIBSECTION);
@@ -146,7 +147,19 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
    ScreenToClient(&tbrect);
    m_tbar.MoveWindow(&tbrect);
 
-   //=========================================================================
+   //========================================================================
+   // ÂÑÒĞÎÈÒÜ ÎÊÍÎ ĞÈÑÎÂÀÍÈß
+   RECT rect;
+   ::GetWindowRect(GetDlgItem(IDC_CANVAS), &rect);
+   ::DestroyWindow(GetDlgItem(IDC_CANVAS));
+
+   m_drawWnd.Create(m_hWnd, &rect);
+
+   // ÏÎÄÂÈÍÓÒÜ ÍÀ ÌÅÑÒÎ
+   ScreenToClient(&rect);
+   m_drawWnd.MoveWindow(&rect);
+
+   // =======================================================================
    
    //! Äåàêòèâèğóåì êíîïêè è ıëåìåíòû ìåíş
    ActivateButtons(FALSE);
@@ -285,37 +298,37 @@ void CMainDlg::CloseDialog(int nVal)
 
 LRESULT CMainDlg::OnBnClickedButtonHole1(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-   Game::Controller::Instance()->makeStep(1);
+   Game::Controller::Instance()->makeStep(0);
    return 0;
 }
 
 LRESULT CMainDlg::OnBnClickedButtonHole2(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-   Game::Controller::Instance()->makeStep(2);
+   Game::Controller::Instance()->makeStep(1);
    return 0;
 }
 
 LRESULT CMainDlg::OnBnClickedButtonHole3(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-   Game::Controller::Instance()->makeStep(3);
+   Game::Controller::Instance()->makeStep(2);
    return 0;
 }
 
 LRESULT CMainDlg::OnBnClickedButtonHole4(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-   Game::Controller::Instance()->makeStep(4);
+   Game::Controller::Instance()->makeStep(3);
    return 0;
 }
 
 LRESULT CMainDlg::OnBnClickedButtonHole5(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-   Game::Controller::Instance()->makeStep(5);
+   Game::Controller::Instance()->makeStep(4);
    return 0;
 }
 
 LRESULT CMainDlg::OnBnClickedButtonHole6(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-   Game::Controller::Instance()->makeStep(6);
+   Game::Controller::Instance()->makeStep(5);
    return 0;
 }
 

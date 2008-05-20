@@ -18,7 +18,7 @@ namespace Game
 {
 class CMainDlg;
 //!	Класс управляет работой программы
-class Controller 
+class Controller : public iface::iDrawable
 {
       //! Закрываем конструктор согласно паттерну Singleton
       //! Чтобы случайно не создать вторую копию
@@ -26,6 +26,12 @@ class Controller
       
   public:
      ~Controller();
+
+     //! Перерисовать
+     virtual void Redraw() const;
+
+     //! Вывести изображение
+     virtual void Draw(CPaintDC& dc);
 
       //! Создает структуру для игры
       //void createNetwork (int newNumberOfHoles, int newNumberOfCell);

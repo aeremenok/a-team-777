@@ -7,8 +7,6 @@
 
 
 #include "stdafx.h"
-#include "MainDlg.h"
-#include "Controller.h"
 
 CAppModule _Module;
 

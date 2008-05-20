@@ -7,7 +7,6 @@
 
 // ==========================================================================
 #include "stdafx.h"
-#include "Controller.h"
 #include "MainPlayer.h"
 #include "SlavePlayer.h"
 #include <fstream>
@@ -28,6 +27,18 @@ Controller::~Controller()
 {
    delete playersList;
    delete netStruc;
+}
+
+// ==========================================================================
+void Controller::Redraw() const
+{
+   mainDlg->GetDrawWnd().Invalidate();
+}
+
+// ==========================================================================
+void Controller::Draw(CPaintDC& dc)
+{
+   netStruc->Draw(dc);
 }
 
 //void Controller::createNetwork (int newNumberOfHoles, int newNumberOfCell)
