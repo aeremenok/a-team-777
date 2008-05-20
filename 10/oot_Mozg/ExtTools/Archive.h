@@ -28,13 +28,27 @@ namespace ser   // Сериализация
       // --------------------------------------------------------------------
       /* Запись ведется сессиями. Каждая сессия состоит из цепочки записей.
          Размер записей может быть любой.
-         Работа с данными осуществляется через спец. интерфейсы для чтения, 
-         записи и свопа.
+         Работа с данными осуществляется через специальные интерфейсы
+         для чтения и записи.
       */
 
       // --------------------------------------------------------------------
       //! Удалить сессию, начиная с указанной записи
       bool erase(int id);
+
+      //! Вывести архив в поток
+      template<class charT, class traits>
+      void PutIntoStream(std::basic_istream<charT, traits>& strm)
+      {
+         strm << Index;
+      }
+
+      //! Прочитать архив из потока
+      template<class charT, class traits>
+      void GetFromStream(std::basic_istream<charT, traits>& strm)
+      {
+         strm >> Index;
+      }
 
       void clear();
    protected:
@@ -107,7 +121,7 @@ namespace ser   // Сериализация
          return *this;
       }
 
-      writer& operator<<(const std::tstring& s)
+      writer& operator<<(const std::string& s)
       {
          *this << s.size();
          CHECK ( m_archive.append(m_next, s.size()+1, reinterpret_cast<const uchar*>(s.c_str()), &m_next) );
@@ -151,7 +165,7 @@ namespace ser   // Сериализация
          return *this;
       }
 
-      reader& operator>>(std::tstring& s)
+      reader& operator>>(std::string& s)
       {
          int sz;
          *this >> sz;
