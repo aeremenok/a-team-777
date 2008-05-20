@@ -1,6 +1,7 @@
 import org.apache.bcel.Constants;
 import org.apache.bcel.generic.ClassGen;
 import org.apache.bcel.generic.MethodGen;
+import org.apache.bcel.generic.FieldGen;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.InstructionList;
@@ -43,7 +44,32 @@ boolean next(int i)
     {
         System.out.println(msg);        
     }
+    
+    class CodeWrapper
+    {
+        InstructionList il;
+        ClassGen        classGen;
 
+        public CodeWrapper(
+            ClassGen classGen,
+            InstructionList il
+        )
+        {
+            this.il = il;
+            this.classGen = classGen;
+        }
+
+        public InstructionList getIl()
+        {
+            return il;
+        }
+
+        public ClassGen getClassGen()
+        {
+            return classGen;
+        }
+    }
+    
     public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
     public HashMap<String, ObjectType> objectTypes = new HashMap<String, ObjectType>();
 /*--------------------------------------------------------------------------*/
@@ -160,6 +186,7 @@ CompilationUnit =
 /*----------------------------------typeDeclaration----------------------------------*/
 typeDeclaration =
     (. int specifier = 0;.)
+    // xxx здесь не распознаютс€ default %)
 	[accessSpecifier<out specifier>]
 	(
 		interfaceDeclaration<specifier> 
@@ -233,11 +260,9 @@ interfaceDeclaration<int modifier> =
 /*----------------------------------accessSpecifier----------------------------------*/
 accessSpecifier<out int specifier> =
 	(
-	"public"       (.specifier = Constants.ACC_PUBLIC;.)
-	| 
-	"protected"    (.specifier = Constants.ACC_PROTECTED;.)
-	| 
-	"private"      (.specifier = Constants.ACC_PRIVATE;.)
+		   "public"       (.specifier = Constants.ACC_PUBLIC;.)
+		|  "protected"    (.specifier = Constants.ACC_PROTECTED;.)
+		|  "private"      (.specifier = Constants.ACC_PRIVATE;.)
 	)
 	(.specifier = 0;.)
 .
@@ -245,23 +270,15 @@ accessSpecifier<out int specifier> =
 type<out Type typeLiteral> =
     (.typeLiteral = null;.)
 	(
-	   "byte"      (.typeLiteral = Type.BYTE;.)
-	   | 
-	   "short"     (.typeLiteral = Type.SHORT;.)
-	   | 
-	   "int"       (.typeLiteral = Type.INT;.)
-	   | 
-	   "char"      (.typeLiteral = Type.CHAR;.)
-	   | 
-	   "float"     (.typeLiteral = Type.FLOAT;.)
-	   | 
-	   "boolean"   (.typeLiteral = Type.BOOLEAN;.)
-	   | 
-	   "void"      (.typeLiteral = Type.VOID;.)
-	   |
-	   "String"    (.typeLiteral = new ObjectType("java.lang.String");.)
-	   |
-	   "Vector"    (.typeLiteral = new ObjectType("java.util.Vector");.)
+	       "byte"      (.typeLiteral = Type.BYTE;.)
+	   |   "short"     (.typeLiteral = Type.SHORT;.)
+	   |   "int"       (.typeLiteral = Type.INT;.)
+	   |   "char"      (.typeLiteral = Type.CHAR;.)
+	   |   "float"     (.typeLiteral = Type.FLOAT;.)
+	   |   "boolean"   (.typeLiteral = Type.BOOLEAN;.)
+	   |   "void"      (.typeLiteral = Type.VOID;.)
+	   |   "String"    (.typeLiteral = new ObjectType("java.lang.String");.)
+	   |   "Vector"    (.typeLiteral = new ObjectType("java.util.Vector");.)
 	)
 .
 /*----------------------------------formalParameterList----------------------------------*/
@@ -275,12 +292,12 @@ formalParameterList<Args args> =
         | 
         identifier<out String typeName>  
         (.
-         typeLiteral = objectTypes.get(typeName);
-         if(typeLiteral==null)
-         {   
-             typeLiteral = new ObjectType(typeName);
-             objectTypes.put(typeName, (ObjectType)typeLiteral);
-         }
+	         typeLiteral = objectTypes.get(typeName);
+	         if(typeLiteral==null)
+	         {   
+	             typeLiteral = new ObjectType(typeName);
+	             objectTypes.put(typeName, (ObjectType)typeLiteral);
+	         }
         .)
     )
     (.types.add(typeLiteral);.)
@@ -337,9 +354,10 @@ classBody<ClassGen classGen> =
 						      il,
 						      classGen.getConstantPool()
 						  );
-                          log("method "+methodName+" created");						  
+                          log("method "+methodName+" created");
+                          CodeWrapper cw = new CodeWrapper(classGen, il);						  
 			        .) 
-			        openCurlyBracket {Statement} closeCurlyBracket
+			        Statement<cw>
 		    )
             |
             (   // это обычный член класса
@@ -358,16 +376,41 @@ classBody<ClassGen classGen> =
                      }
                     .)
                 )
-	            identifier<out String someThing>
+	            identifier<out String member>
                 (
                     ( // это метод
                         (.Args args = new Args();.)
-                        openRoundBracket [formalParameterList<args>] closeRoundBracket 
-                        Statement
+                        openRoundBracket [formalParameterList<args>] closeRoundBracket
+                        (.
+                            InstructionList il = new InstructionList();
+                            MethodGen methodGen = new MethodGen(
+						      modifier,
+						      typeLiteral,
+						      args.argTypes,
+						      args.argNames,
+						      member,
+						      classGen.getClassName(),
+						      il,
+						      classGen.getConstantPool()
+                            );
+                            log("method "+member+" created");
+                            CodeWrapper cw = new CodeWrapper(classGen, il);
+                        .) 
+                        Statement<cw>
 		            )
                     |
                     ( // это атрибут
-                        ['=' Expression ] ';'
+                        (.
+                            FieldGen fieldGen = new FieldGen(
+                                modifier,
+                                typeLiteral,
+                                member,
+                                classGen.getConstantPool()
+                            );                            
+                        .)
+                        // запрещаем инициализировать пол€ сразу, т.к. это требует не€вного создани€ к-ра
+                        // пусть польз-ль сам пишет к-р и делает там, что хочет =)
+                        ';'
                     )
 	            )
             )
@@ -395,12 +438,12 @@ interfaceBody<ClassGen classGen> =
 			| 
 			identifier<out String typeName>  
 			(.
-			 typeLiteral = objectTypes.get(typeName);
-			 if(typeLiteral==null)
-			 {   // todo что-то делать с импортами
-			     typeLiteral = new ObjectType(typeName);
-			     objectTypes.put(typeName, (ObjectType)typeLiteral);
-			 }
+				 typeLiteral = objectTypes.get(typeName);
+				 if(typeLiteral==null)
+				 {
+				     typeLiteral = new ObjectType(typeName);
+				     objectTypes.put(typeName, (ObjectType)typeLiteral);
+				 }
 			.)
 		)
 		identifier<out String methodName>	
@@ -426,87 +469,86 @@ interfaceBody<ClassGen classGen> =
  *---------------------------- Statements -----------------------------------*
  *---------------------------------------------------------------------------*/
 // инструкци€
-Statement                           
+Statement<CodeWrapper cw>
 =
-  Block (.log("block");.)
-| "if" ParExpression Statement [ "else" Statement ]
-| "while" ParExpression Statement
-| "return" [ Expression ] ";"
+  Block<cw>
+| "if" ParExpression<cw> Statement<cw> [ "else" Statement<cw> ]
+| "while" ParExpression<cw> Statement<cw>
+| "return" [ Expression<cw> ] ";"
 | "break;"
 | "continue;"
 | ";"
-| Expression ';'  
+| Expression<cw> ';'  
 .
 /*---------------------------------------------------------------------------*/
 // блок кода
-Block
-= "{" { BlockStatement } "}"
+Block<CodeWrapper cw>
+= "{" { BlockStatement<cw> } "}"
 .
 /*---------------------------------------------------------------------------*/
 // код состоит из объ€влений и инструкций
-BlockStatement
+BlockStatement<CodeWrapper cw>
 =
-LocalVariableDeclaration ";"
+LocalVariableDeclaration<cw> ";"
 |
-Statement
+Statement<cw>
 .
 /*---------------------------------------------------------------------------*/
 // объ€вление переменной
-LocalVariableDeclaration
+LocalVariableDeclaration<CodeWrapper cw>
 = 
 [ "final" ] type<out Type typeLiteral> identifier<out String varName> 
-["=" Expression] 
+["=" Expression<cw>] 
 .
 /*---------------------------------------------------------------------------*
  *---------------------------- Expressions ----------------------------------*
  *---------------------------------------------------------------------------*/
-Expression
+Expression<CodeWrapper cw>
 = 
 // лева€ часть
-Expression1
+Expression1<cw>
 // м.б. много присвоений 
 {
-    AssignmentOperator Expression1 
+    AssignmentOperator Expression1<cw>
 }
 .
 /*---------------------------------------------------------------------------*/
-Expression1
+Expression1<CodeWrapper cw>
 = 
-(.log("expr");.)
 // получение объекта
-Expression2
+Expression2<cw>
 // действи€ с ним
-[ Expression1Rest ]
+[ Expression1Rest<cw> ]
 .
 /*---------------------------------------------------------------------------*/
-Expression1Rest       
+Expression1Rest<CodeWrapper cw>       
 =
 // бинарна€ операци€ с выражением
-Infixop Expression2
+Infixop Expression2<cw>
 
 // еще бинарные операции с выражением
 {
-    Infixop Expression2
+    Infixop Expression2<cw>
 }
 .
 /*---------------------------------------------------------------------------*/
-Expression2               
+Expression2<CodeWrapper cw>              
 =
     // единичный объект
-    [Primary]
+    [Primary<cw>]
     // последовательность вызовов к объекту 
     {
-        Selector
+        Selector<cw>
     }
 .
 /*---------------------------------------------------------------------------*/
-Primary
+Primary<CodeWrapper cw>
 =
-    "(" Expression ")"
-|   "this" [Arguments]
-|   "super" SuperSuffix
+    "(" Expression<cw> ")"
+|   "this" [Arguments<cw>]
+|   "super" SuperSuffix<cw>
 |    Literal
-|   "new" Creator
+|   "new" Creator<cw>
 // еще вызовы
 |
 (
@@ -515,25 +557,25 @@ Primary
         '.'
         identifier<out accessor>
     }
-    [Arguments]
+    [Arguments<cw>]
 )
 .
 /*---------------------------------------------------------------------------*/
 // аргументы вызовов
-Arguments                           
+Arguments<CodeWrapper cw>
 =
 // в скобках - пусто, одно или несколько выражений
-"(" [ Expression { "," Expression } ] ")"
+"(" [ Expression<cw> { "," Expression<cw> } ] ")"
 .
 /*---------------------------------------------------------------------------*/
 // вызов метода предка
-SuperSuffix
+SuperSuffix<CodeWrapper cw>
 =
 // конструктор
-Arguments
+Arguments<cw>
 | 
 // другой метод
-'.' identifier<out String accessor>[Arguments ]  
+'.' identifier<out String accessor>[Arguments<cw>]  
 .
 /*---------------------------------------------------------------------------*/
 // квалифицированное им€
@@ -559,21 +601,21 @@ Literal
 .
 /*---------------------------------------------------------------------------*/
 // вызов конструктора
-Creator
+Creator<CodeWrapper cw>
 = 
-    Qualident Arguments
+    Qualident Arguments<cw>
 .
 /*---------------------------------------------------------------------------*/
 // вызов метода
-Selector
+Selector<CodeWrapper cw>
 = 
-"." identifier<out String accessor> [Arguments]
+"." identifier<out String accessor> [Arguments<cw>]
 .
 /*---------------------------------------------------------------------------*/
 // выражение в скобках
-ParExpression                         
+ParExpression<CodeWrapper cw>                         
 =
-"(" Expression ")"
+"(" Expression<cw> ")"
 .
 /*---------------------------------------------------------------------------*/
 // присвоение
