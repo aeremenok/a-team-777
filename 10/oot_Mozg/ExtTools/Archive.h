@@ -38,16 +38,18 @@ namespace ser   // Сериализация
 
       //! Вывести архив в поток
       template<class charT, class traits>
-      void PutIntoStream(std::basic_istream<charT, traits>& strm)
+      void PutIntoStream(std::basic_ostream<charT, traits>& strm) const
       {
-         strm << Index;
+         strm << Record.nElem << separ << Data.nElem << separ 
+            << Index.size() ;
       }
 
       //! Прочитать архив из потока
       template<class charT, class traits>
       void GetFromStream(std::basic_istream<charT, traits>& strm)
       {
-         strm >> Index;
+         size_t size = 0;
+         strm >> Record.nElem >> Data.nElem >> size;
       }
 
       void clear();
