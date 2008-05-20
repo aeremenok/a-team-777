@@ -174,10 +174,22 @@ classDeclaration<int modifier> =
 	"class"
 	identifier<out String className>
 	(.String superName = "java.lang.Object";.)
-	["extends" identifier<out superName>]
+	[
+	   "extends" identifier<out superName>
+	   // проверка типов
+	   (.
+	       if(superName.equals(className)) SemErr("cannot self-inherit");
+	       objectTypes.put(superName, new ObjectType(superName));
+	   .)
+	]
 	(.String interfaceName = null;.)
-	["implements"
-		identifier<out interfaceName> 
+	[
+	   "implements"identifier<out interfaceName>
+	   // проверка типов
+	   (.
+	       if(interfaceName.equals(className)) SemErr("cannot self-inherit");
+	       objectTypes.put(superName, new ObjectType(superName));
+	   .)
 	]
 	(.
 	   ClassGen classGen = new ClassGen(
@@ -197,10 +209,16 @@ interfaceDeclaration<int modifier> =
 	(. modifier |= Constants.ACC_INTERFACE | Constants.ACC_ABSTRACT; .) 
 	identifier<out String interfaceName>
 	(.String superInterfaceName = null;.)
-    ["extends" 
-        identifier<out superInterfaceName>
+    [
+        "extends" identifier<out superInterfaceName>
+       // проверка типов
+       (.
+            if(superInterfaceName.equals(interfaceName)) SemErr("cannot self-inherit");
+            objectTypes.put(superInterfaceName, new ObjectType(superInterfaceName));
+       .)        
     ]
 	(.
+	
 	   ClassGen classGen = new ClassGen(
 	       interfaceName, 
 	       "java.lang.Object", 
