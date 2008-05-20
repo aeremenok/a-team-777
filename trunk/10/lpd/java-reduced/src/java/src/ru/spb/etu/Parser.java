@@ -194,6 +194,9 @@ public class Parser {
 		if (la.kind == 13) {
 			Get();
 			superInterfaceName = identifier();
+			if(superInterfaceName.equals(interfaceName)) SemErr("cannot self-inherit");
+			objectTypes.put(superInterfaceName, new ObjectType(superInterfaceName));
+			
 		}
 		ClassGen classGen = new ClassGen(
 		   interfaceName, 
@@ -222,11 +225,17 @@ public class Parser {
 		if (la.kind == 13) {
 			Get();
 			superName = identifier();
+			if(superName.equals(className)) SemErr("cannot self-inherit");
+			objectTypes.put(superName, new ObjectType(superName));
+			
 		}
 		String interfaceName = null;
 		if (la.kind == 14) {
 			Get();
 			interfaceName = identifier();
+			if(interfaceName.equals(className)) SemErr("cannot self-inherit");
+			objectTypes.put(superName, new ObjectType(superName));
+			
 		}
 		ClassGen classGen = new ClassGen(
 		   className, 

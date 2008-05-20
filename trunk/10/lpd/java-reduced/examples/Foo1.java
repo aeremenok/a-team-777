@@ -1,6 +1,6 @@
+private class Bar{}
 
-
-public class Foo extends Fufel
+public class Foo extends Bar
 {
   
   public final static boolean a;
