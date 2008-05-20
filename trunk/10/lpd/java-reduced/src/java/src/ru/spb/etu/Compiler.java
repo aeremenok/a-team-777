@@ -5,11 +5,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Constants;
+import org.apache.bcel.classfile.Method;
 import org.apache.bcel.generic.ALOAD;
 import org.apache.bcel.generic.ASTORE;
 import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.ClassGen;
 import org.apache.bcel.generic.ConstantPoolGen;
+import org.apache.bcel.generic.FieldGen;
 import org.apache.bcel.generic.GOTO;
 import org.apache.bcel.generic.InstructionConstants;
 import org.apache.bcel.generic.InstructionFactory;
@@ -96,7 +98,6 @@ public class Compiler
         // ----------------------------------- example
         ClassGen classGen = new ClassGen( className, "java.lang.Object", classFileName, ACC_PUBLIC | ACC_SUPER, null );
 
-
         ConstantPoolGen cp = classGen.getConstantPool(); // cg creates constant pool
         InstructionList il = new InstructionList();
 
@@ -106,6 +107,10 @@ public class Compiler
                                       new ArrayType( Type.STRING, 1 ) }, new String[] { "argv" }, // arg names
                                       "main", className, // method, class
                                       il, cp );
+
+        FieldGen fieldGen;
+        getMethod( classGen, "<init>" );
+
         InstructionFactory factory = new InstructionFactory( classGen );
 
         ObjectType i_stream = new ObjectType( "java.io.InputStream" );
@@ -175,5 +180,15 @@ public class Compiler
 
         // ----------------------------------- example
         classGen.getJavaClass().dump( classFileName );
+    }
+
+    private static void getMethod(
+        ClassGen classGen,
+        String name )
+    {
+        Method[] methods = classGen.getMethods();
+        for ( Method method : methods )
+            if ( method.getName().equals( name ) )
+                break;
     }
 }
