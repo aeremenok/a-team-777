@@ -19,6 +19,12 @@ boolean next(int i)
 		return (peek.kind == i);
 	}
 	
+    // созданные классы
+    public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
+    // подключенные классы
+    public HashMap<String, ObjectType> objectTypes = new HashMap<String, ObjectType>();
+    
+	// проверка после компиляции - все ли упомянутые классы подключены
 	void checkTypes()
     {
         for ( String typeName : objectTypes.keySet() )
@@ -34,17 +40,20 @@ boolean next(int i)
         }
     }
     
+    // обертка формальных параметров
     public class Args
     {
         Type[] argTypes = null;
         String[] argNames = null;
     }
     
+    // логгер
     public void log(String msg)
     {
         System.out.println(msg);        
     }
     
+    // обертка параметров кода (передается по ссылке всем инструкциям и выражениям. можно дополнить чем-нибудь еще)
     class CodeWrapper
     {
         InstructionList il;
@@ -70,8 +79,6 @@ boolean next(int i)
         }
     }
     
-    public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
-    public HashMap<String, ObjectType> objectTypes = new HashMap<String, ObjectType>();
 /*--------------------------------------------------------------------------*/
 CHARACTERS
   tab           = '\u0009'. /*  9 = tabulator */
