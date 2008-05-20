@@ -1,7 +1,11 @@
 import org.apache.bcel.Constants;
 import org.apache.bcel.generic.ClassGen;
+import org.apache.bcel.generic.MethodGen;
+import org.apache.bcel.generic.Type;
+import org.apache.bcel.generic.ObjectType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 COMPILER CompilationUnit
 
@@ -9,9 +13,33 @@ COMPILER CompilationUnit
 boolean next(int i)
 	{
 		scanner.ResetPeek();
-		Token x = scanner.Peek();
-		return (x.kind == i);
+		Token peek = scanner.Peek();
+		return (peek.kind == i);
 	}
+	
+	void checkTypes()
+    {
+        for ( String typeName : objectTypes.keySet() )
+        {
+            if (
+                !typeName.equals("String") && 
+                !typeName.equals("Vector") &&
+                !classes.keySet().contains( typeName ) 
+                )
+            {
+                SemErr( "type " + typeName + " not found" );
+            }
+        }
+    }
+    
+    public class Args
+    {
+        Type[] argTypes = null;
+        String[] argNames = null;
+    }
+	
+    public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
+    public HashMap<String, ObjectType> objectTypes = new HashMap<String, ObjectType>();
 /*--------------------------------------------------------------------------*/
 CHARACTERS
   letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
@@ -31,12 +59,11 @@ CHARACTERS
 TOKENS
 	realNumber =             ['-']  [digit { digit }  dot]  digit { digit } ["e-" digit {digit}] .
 	string = '"' {stringCh} '"'.
-	interface =		"interface".
+	id = letter { letter | digit }.
 	openRoundBracket = '('.
 	closeRoundBracket = ')'.
 	openCurlyBracket = '{'.
 	closeCurlyBracket = '}'.
-	id = letter { letter | digit }.
 
 COMMENTS FROM "/*" TO "*/" NESTED
 COMMENTS FROM "//" TO cr lf
@@ -45,49 +72,15 @@ IGNORE cr + lf + tab
 
 PRODUCTIONS
 
+/*--------------------------------------------------------------------*/
 /*----------------------------------identifier----------------------------------*/
-identifier<out String id>
+identifier<out String value>
 = 
 id
 (. 
-    id = t.val;
+    value = t.val;
     System.out.println(t.val);
  .)
-.
-/*----------------------------------CompilationUnit----------------------------------*/
-CompilationUnit = 
-	typeDeclaration {typeDeclaration}
-.
-/*----------------------------------typeDeclaration----------------------------------*/
-typeDeclaration =
-	[accessSpecifier]
-	(interfaceDeclaration | classDeclaration)
-.
-/*----------------------------------classDeclaration----------------------------------*/
-classDeclaration =  
-    (. int modifier = Constants.ACC_PUBLIC; .)
-	[finalAccess<out int fMod>     (.modifier |= fMod;.)]    
-	[staticAccess<out int sMod>    (.modifier |= sMod;.)]   
-	"class"
-	identifier<out String className>
-	(.String superName = "java.lang.Object";.)
-	["extends" identifier<out superName>]
-	(.ArrayList<String> interfaces = null;.)
-	["implements"
-	(.interfaces = new ArrayList<String>();.) 
-	identifier<out String interfaceName> (.interfaces.add(interfaceName);.)
-	 {',' 
-	 identifier<out interfaceName>  (.interfaces.add(interfaceName);.)
-	 }]
-	(.
-	   ClassGen classGen = new ClassGen(
-	       className, 
-	       superName, 
-	       className+".class", 
-	       modifier,
-	       interfaces==null ? null : interfaces.toArray( new String[interfaces.size()] ) );
-	 .)
-	classBody
 .
 /*----------------------------------staticAccess----------------------------------*/
 staticAccess<out int modifier> 
@@ -99,41 +92,153 @@ finalAccess<out int modifier>
 =
  "final" (.modifier = Constants.ACC_FINAL;.)
 .
+/*----------------------------------CompilationUnit----------------------------------*/
+CompilationUnit = 
+	typeDeclaration {typeDeclaration}
+	(.checkTypes();.)
+.
+/*----------------------------------typeDeclaration----------------------------------*/
+typeDeclaration =
+    (. int specifier = 0;.)
+	[accessSpecifier<out specifier>]
+	(
+		interfaceDeclaration<specifier> 
+		|
+		classDeclaration<specifier>
+	)
+.
+/*----------------------------------classDeclaration----------------------------------*/
+classDeclaration<int modifier> =  
+	[finalAccess<out int fMod>     (.modifier |= fMod;.)]    
+	[staticAccess<out int sMod>    (.modifier |= sMod;.)]   
+	"class"
+	identifier<out String className>
+	(.String superName = "java.lang.Object";.)
+	["extends" identifier<out superName>]
+	(.String interfaceName = null;.)
+	["implements"
+		identifier<out interfaceName> 
+		(.
+		   ClassGen classGen = new ClassGen(
+		       className, 
+		       superName, 
+		       className+".class", 
+		       modifier,
+		       interfaceName==null ? null : new String[]{interfaceName} );
+		   classes.put(interfaceName, classGen);
+		.)
+	]
+	classBody
+.
 /*----------------------------------interfaceDeclaration----------------------------------*/
-interfaceDeclaration =  //todo
+interfaceDeclaration<int modifier> =
 	"interface"
+	(. modifier |= Constants.ACC_INTERFACE | Constants.ACC_ABSTRACT; .) 
 	identifier<out String interfaceName>
-   ["extends" 
-   identifier<out String superInterfaceName>
-   ]
-	interfaceBody
+	(.String superInterfaceName = null;.)
+    ["extends" 
+        identifier<out superInterfaceName>
+    ]
+	(.
+	   ClassGen classGen = new ClassGen(
+	       interfaceName, 
+	       "java.lang.Object", 
+	       interfaceName+".class", 
+	       modifier,
+	       superInterfaceName==null ? null : new String[]{superInterfaceName} );
+	   classes.put(interfaceName, classGen);
+	.)   
+	interfaceBody<classGen>
 .
 /*----------------------------------accessSpecifier----------------------------------*/
-accessSpecifier =
-	("public" | "protected" | "private" )
+accessSpecifier<out int specifier> =
+	(
+	"public"       (.specifier = Constants.ACC_PUBLIC;.)
+	| 
+	"protected"    (.specifier = Constants.ACC_PROTECTED;.)
+	| 
+	"private"      (.specifier = Constants.ACC_PRIVATE;.)
+	)
+	(.specifier = 0;.)
 .
 /*----------------------------------type----------------------------------*/
-type =
-	("byte" | "short" | "int" | "long" | "char"| "float" | "double" | "bool" | "void")
+type<out Type typeLiteral> =
+    (.typeLiteral = null;.)
+	(
+	   "byte"      (.typeLiteral = Type.BYTE;.)
+	   | 
+	   "short"     (.typeLiteral = Type.SHORT;.)
+	   | 
+	   "int"       (.typeLiteral = Type.INT;.)
+	   | 
+	   "char"      (.typeLiteral = Type.CHAR;.)
+	   | 
+	   "float"     (.typeLiteral = Type.FLOAT;.)
+	   | 
+	   "boolean"   (.typeLiteral = Type.BOOLEAN;.)
+	   | 
+	   "void"      (.typeLiteral = Type.VOID;.)
+	   |
+	   "String"    (.typeLiteral = new ObjectType("java.lang.String");.)
+	   |
+	   "Vector"    (.typeLiteral = new ObjectType("java.util.Vector");.)
+	)
 .
 /*----------------------------------formalParameterList----------------------------------*/
-formalParameterList =  //todo
-	(type | 
+formalParameterList<Args args> =
+    (.ArrayList<Type> types = new ArrayList<Type>();.)  
+    (.ArrayList<String> names = new ArrayList<String>();.)
+      
+    (.Type typeLiteral = null;.)
+    (
+        type<out typeLiteral>       
+        | 
+        identifier<out String typeName>  
+        (.
+         typeLiteral = objectTypes.get(typeName);
+         if(typeLiteral==null)
+         {   
+             typeLiteral = new ObjectType(typeName);
+             objectTypes.put(typeName, (ObjectType)typeLiteral);
+         }
+        .)
+    )
+    (.types.add(typeLiteral);.)
 	identifier<out String param>
-	) identifier<out String param>
-	{',' (type | 
-	identifier<out param>) 
-	identifier<out param>
+	(.names.add(param);.)
+	{
+        ',' 
+	    (
+	        type<out typeLiteral>       
+	        | 
+	        identifier<out String typeName>  
+	        (.
+	         typeLiteral = objectTypes.get(typeName);
+	         if(typeLiteral==null)
+	         { 
+	             typeLiteral = new ObjectType(typeName);
+	             objectTypes.put(typeName, (ObjectType)typeLiteral);
+	         }
+	        .)
+	    )
+	   (.types.add(typeLiteral);.) 
+	   identifier<out param>
+	   (.names.add(param);.)
 	}
+	(.
+	   args.argTypes = types.toArray(new Type[types.size()]);
+	   args.argNames = names.toArray(new String[names.size()]);
+	.)
 .
 /*----------------------------------classBody----------------------------------*/
 classBody =
 	'{'
 	{
-		[accessSpecifier]
+		[accessSpecifier<out int specifier>]
 		((IF(next(_openRoundBracket))
 			identifier<out String someThing> //todo
-			openRoundBracket [formalParameterList] closeRoundBracket 
+			(.Args args = new Args();.)
+			openRoundBracket [formalParameterList<args>] closeRoundBracket 
 				openCurlyBracket {statement} closeCurlyBracket
 		)
 		|
@@ -141,13 +246,17 @@ classBody =
 		[finalAccess<out int fMod>]
 		[staticAccess<out int sMod>]
 		(IF(next(_identifier))
-			(type | 
-			identifier<out String someThing> //todo
+		    (.String typeName = "void";.)
+			(
+			 type<out Type typeLiteral>
+			 | 
+			 identifier<out typeName>
 			)
 			identifier<out String someThing> //todo
 			(
 				(
-					openRoundBracket [formalParameterList] closeRoundBracket 
+				    (.Args args = new Args();.)
+					openRoundBracket [formalParameterList<args>] closeRoundBracket 
 						openCurlyBracket {statement} closeCurlyBracket
 				)
 			|
@@ -217,7 +326,7 @@ statement =
 		)
 		|
 		(
-		  type identifier<out String someThing> //todo
+		  type<out Type typeLiteral> identifier<out String someThing> //todo
 		  ['=' expression]
 		  {
 		      ',' identifier<out someThing> //todo
@@ -285,17 +394,48 @@ statement =
 .
 
 /*----------------------------------interfaceBody----------------------------------*/
-interfaceBody =
+interfaceBody<ClassGen classGen> =
 	'{'
 	{
-		[accessSpecifier]
-		[finalAccess<out int fMod>]
-		[staticAccess<out int sMod>]
-		(type | 
-		identifier<out String someThing> //todo
+	   (.int modifier = 0;.)
+		[accessSpecifier<out modifier>
+		  (.     
+		      if (modifier == Constants.ACC_PRIVATE || modifier == Constants.ACC_PROTECTED)
+                SemErr("interface memebers ought to be public or default");
+              modifier = Constants.ACC_PUBLIC;
+          .)
+		]
+		[finalAccess<out int fMod>    (.modifier |= fMod;.)]
+		[staticAccess<out int sMod>   (.modifier |= sMod;.)]
+		(.Type typeLiteral = null;.)
+		(
+			type<out typeLiteral>       
+			| 
+			identifier<out String typeName>  
+			(.
+			 typeLiteral = objectTypes.get(typeName);
+			 if(typeLiteral==null)
+			 {   // todo что-то делать с импортами
+			     typeLiteral = new ObjectType(typeName);
+			     objectTypes.put(typeName, (ObjectType)typeLiteral);
+			 }
+			.)
 		)
-		identifier<out String someThing> //todo	
-		openRoundBracket [formalParameterList] closeRoundBracket ';'
+		identifier<out String methodName>	
+		(.Args args = new Args();.)
+		openRoundBracket [formalParameterList<args>] closeRoundBracket ';'
+		(.
+		  MethodGen methodGen = new MethodGen(
+		      modifier,
+              typeLiteral,
+              args.argTypes,
+              args.argNames,
+              methodName,
+              classGen.getClassName(),
+              null, // instructions list
+              classGen.getConstantPool()
+		  );
+		.)
 	}
 	'}'
 .
