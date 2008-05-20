@@ -38,33 +38,137 @@ boolean next(int i)
         Type[] argTypes = null;
         String[] argNames = null;
     }
+
+	// '.' ident
+	/*
+	boolean dotAndIdent() 
+	{
+        return la.kind == _dot && peek(1).kind == _ident;
+	}
+	*/
+
+	class ExprKind
+	{
+	    static final int NONE     = 0;
+	    static final int CONDEXPR = 17;
+	    static final int APPLY    = 25;
+	    static final int NEWCLASS = 26;
+	    static final int NEWARRAY = 27;
+	    static final int PARENS   = 28;
+	    static final int ASSIGN   = 29;
+	    static final int TYPECAST = 30;
+	    static final int TYPETEST = 31;
+	    static final int SELECT   = 33;
+	    static final int IDENT    = 34;
+	    static final int LITERAL  = 35;
+	    static final int POS      = 41;
+	    static final int NEG      = 42;
+	    static final int NOT      = 43;
+	    static final int COMPL    = 44;
+	    static final int PREINC   = 45;
+	    static final int PREDEC   = 46;
+	    static final int POSTINC  = 47;
+	    static final int POSTDEC  = 48;
+	    static final int BINARY   = 50;
+	}
+	
+	class ExprInfo
+	{
+	    private int    kind = ExprKind.NONE;
+	    private Parser parser;
+	
+	    public ExprInfo(
+	        Parser parser )
+	    {
+	        this.parser = parser;
+	    }
+	
+	    public int getKind()
+	    {
+	        return kind;
+	    }
+	
+	    public void setKind(
+	        int k )
+	    {
+	        kind = k;
+	    }
+	
+	    public void checkExprStat()
+	    {
+	        if ( kind != ExprKind.APPLY && kind != ExprKind.NEWCLASS && kind != ExprKind.ASSIGN &&
+	             kind != ExprKind.PREINC && kind != ExprKind.PREDEC && kind != ExprKind.POSTINC && kind != ExprKind.POSTDEC )
+	        {
+	            SemErr( "not a statement" + " (" + kind + ")" );
+	        }
+	    }
+	}
 	
     public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
     public HashMap<String, ObjectType> objectTypes = new HashMap<String, ObjectType>();
 /*--------------------------------------------------------------------------*/
 CHARACTERS
-  letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
-  digit = "0123456789".
-  cr  = '\r'.
-  lf  = '\n'.
-  tab = '\t'.
-  dot = '.'.
-  stringCh  = ANY - '"' - cr - lf. 
-/* спец символы
-   stringCh  = ANY - '"' - '\\' - cr - lf.
-   printable =  '\u0020' .. '\u007e'.
-   string  = '"' { stringCh | '\\' printable } '"'.
-*/
+  tab           = '\u0009'. /*  9 = tabulator */
+  lf            = '\u000a'. /* 10 = line feed */
+  cr            = '\u000d'. /* 13 = carriage return */
+  
+  zero          = '0'.
+  zeroToThree   = zero + "123" .
+  octalDigit    = zero + "1234567" . 
+  nonZeroDigit  = "123456789".
+  digit         = '0' + nonZeroDigit .
+  hexDigit      = digit + "ABCDEFabcdef" .
+  letter        = 'A' .. 'Z' + 'a' .. 'z' + '_' + '$'.
 
+  char          = ANY - "'" - '\\' - cr - lf.
+  stringChar    = ANY - "\"" - '\\' - cr - lf. 
 
 TOKENS
-	realNumber =             ['-']  [digit { digit }  dot]  digit { digit } ["e-" digit {digit}] .
-	string = '"' {stringCh} '"'.
-	id = letter { letter | digit }.
-	openRoundBracket = '('.
-	closeRoundBracket = ')'.
-	openCurlyBracket = '{'.
-	closeCurlyBracket = '}'.
+	id                 = letter { letter | digit }.
+	openRoundBracket   = '('.
+	closeRoundBracket  = ')'.
+	openCurlyBracket   = '{'.
+	closeCurlyBracket  = '}'.
+	
+	  /*-------------------------------------------------------------------------*/
+  intLit = 
+  (  zero | nonZeroDigit { digit }
+  | ( "0x" | "0X" ) hexDigit { hexDigit }
+  | '0' octalDigit { octalDigit }
+  ) [ "l" | "L" ].
+  /*-------------------------------------------------------------------------*/
+  floatLit =
+    "." digit {digit} 
+    [("e" | "E") ["+" | "-"] digit {digit}] 
+    [ "F" | "f" | "D" | "d" ]
+  | digit {digit} 
+    ( "." {digit} 
+      [("e" | "E" ) ["+" | "-"] digit {digit} ] 
+      [ "F" | "f" | "D" | "d" ]
+    | ("e" | "E") ["+" | "-"] digit {digit}
+      [ "F" | "f" | "D" | "d" ]
+    | "F" | "f" | "D" | "d"
+    ).  
+  /*-------------------------------------------------------------------------*/
+  charLit = 
+    "'" ( char
+        | "\\" ( "b" | "t" | "n" | "f" | "r" | "\"" | "\'" | "\\"
+               | "u" { "u" } hexDigit hexDigit hexDigit hexDigit
+               | zeroToThree [ octalDigit ] [ octalDigit ]
+               | octalDigit [ octalDigit ]
+               )
+        ) 
+    "'".
+  /*-------------------------------------------------------------------------*/
+  stringLit = 
+    "\"" { stringChar
+         | "\\" ( "b" | "t" | "n" | "f" | "r" | "\"" | "\'" | "\\"
+                | "u" { "u" } hexDigit hexDigit hexDigit hexDigit
+                | zeroToThree [ octalDigit ] [ octalDigit ]
+                | octalDigit [ octalDigit ]
+                )
+         } 
+    "\"".
 
 COMMENTS FROM "/*" TO "*/" NESTED
 COMMENTS FROM "//" TO cr lf
@@ -272,7 +376,7 @@ classBody<ClassGen classGen> =
 						      classGen.getConstantPool()
 						  );
 			        .) 
-			        openCurlyBracket {statement} closeCurlyBracket
+			        openCurlyBracket {Statement} closeCurlyBracket
                     
 		    )
             |
@@ -289,11 +393,11 @@ classBody<ClassGen classGen> =
                     (
                         (.Args args = new Args();.)
                         openRoundBracket [formalParameterList<args>] closeRoundBracket 
-                        openCurlyBracket {statement} closeCurlyBracket
+                        openCurlyBracket {Statement} closeCurlyBracket
 		            )
                     |
                     (
-                        ['=' expression] ';'
+                        ['=' (. ExprInfo dummy = new ExprInfo(this); .) Expression<dummy> ] ';'
                     )
 	            )
             )
@@ -301,129 +405,6 @@ classBody<ClassGen classGen> =
 	}
 	'}'
 .
-/*----------------------------------statement----------------------------------*/
-statement =	
-	(
-		(
-		  "if" openRoundBracket expression closeRoundBracket 
-		  (
-		      (
-		          openCurlyBracket 
-		          {
-		              statement
-		          }
-		          closeCurlyBracket
-		      )
-		      |
-		      statement
-		  )
-	      [
-	           "else"
-	           (
-	               (
-	                   openCurlyBracket
-	                   {statement}
-	                   closeCurlyBracket
-	               )
-	               |
-	               statement
-	           )
-	      ]
-		)
-		|
-		(
-		  "while" openRoundBracket expression closeRoundBracket 
-		  (
-		      (
-		          openCurlyBracket
-		          {statement}
-		          closeCurlyBracket
-		      )
-		      |
-		      statement
-		  )
-		)
-		|
-		("return"[expression]';')
-		|
-		(
-		  "new" expressionName openRoundBracket [expression] closeRoundBracket
-		)
-		|
-		(
-		  openCurlyBracket
-		  {statement}
-		  closeCurlyBracket
-		)
-		|
-		(
-		  type<out Type typeLiteral> identifier<out String someThing> //todo
-		  ['=' expression]
-		  {
-		      ',' identifier<out someThing> //todo
-			  ['=' expression]
-	      }
-	      ';'
-	    )
-		|
-		(
-            identifier<out String someThing> //todo
-		    [
-		      '('
-		      [
-		          expression
-		          {
-		              ','
-		              expression
-		          }
-		      ]
-		      ')'
-		    ] 
-		    {
-		      '.' 
-		      identifier<out someThing> //todo
-		      ['('[expression 
-		      {
-		          ',' expression}]')']
-		      }
-			  (
-			     (
-			         identifier<out someThing> //todo
-			         ['=' expression] 
-			         {
-			             ','identifier<out someThing> //todo
-			             ['=' expression]
-			         }
-			         ';'
-			     )
-			     |
-			     ';'
-			     |
-			     (
-			         assignmentOperator expression ';'
-			     )
-			  )
-	   )
-	   |
-	   (
-	       "super"
-		    {
-		      '.'
-		      identifier<out String someThing> //todo
-		    } 
-			openRoundBracket 
-			[
-			     expression 
-			     {
-			         ',' expression
-			     }
-			]
-			closeRoundBracket 
-			';'
-	   )
-	)
-.
-
 /*----------------------------------interfaceBody----------------------------------*/
 interfaceBody<ClassGen classGen> =
 	'{'
@@ -470,65 +451,225 @@ interfaceBody<ClassGen classGen> =
 	}
 	'}'
 .
-/*----------------------------------expression----------------------------------*/
-expression =
-	conditionalOrExpression 
+/*---------------------------------------------------------------------------*
+ *---------------------------- Statements -----------------------------------*
+ *---------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------*/
+
+Statement                           (. ExprInfo dummy = new ExprInfo(this); .) 
+= Block
+| "if" ParExpression Statement [ "else" Statement ]
+| "while" ParExpression Statement
+| "return" [ Expression<dummy> ] ";"
+| "break;"
+| "continue;"
+| ";"
+| StatementExpression ';'
 .
-/*----------------------------------conditionalOrExpression----------------------------------*/
-conditionalOrExpression =
-	conditionalAndExpression {"||" conditionalOrExpression}
+
+/*---------------------------------------------------------------------------*/
+
+Block
+= "{" { BlockStatement } "}"
 .
-/*----------------------------------conditionalAndExpression----------------------------------*/
-conditionalAndExpression =
-	inclusiveOrExpression {"&&" conditionalAndExpression}
+
+/*---------------------------------------------------------------------------*/
+
+BlockStatement
+=
+LocalVariableDeclaration ";"
+|
+Statement
 .
-/*----------------------------------inclusiveOrExpression----------------------------------*/
-inclusiveOrExpression =
-	exclusiveOrExpression {'|' inclusiveOrExpression}
+
+/*---------------------------------------------------------------------------*/
+
+LocalVariableDeclaration
+= [ "final" ] type<out Type typeLiteral> identifier<out String varName>  
 .
-/*----------------------------------exclusiveOrExpression----------------------------------*/
-exclusiveOrExpression =
-	andExpression {'^' exclusiveOrExpression}
+
+
+/*---------------------------------------------------------------------------*/
+
+StatementExpression                   (. ExprInfo info = new ExprInfo(this); .)
+= Expression<info>                    (. info.checkExprStat();               .) 
 .
-/*----------------------------------andExpression----------------------------------*/
-andExpression =
-	equalityExpression {'&' andExpression}
+
+/*---------------------------------------------------------------------------*
+ *---------------------------- Expressions ----------------------------------*
+ *---------------------------------------------------------------------------*/
+
+Expression<ExprInfo info>
+= Expression1<info> 
+  {                                    (. ExprInfo dummy = new ExprInfo(this); 
+                                          info.setKind(ExprKind.ASSIGN);    .)
+    AssignmentOperator Expression1<dummy> 
+  }
 .
-/*----------------------------------equalityExpression----------------------------------*/
-equalityExpression =
-	relationalExpression {("==" | "!=") equalityExpression}
+
+/*---------------------------------------------------------------------------*/
+
+Expression1<ExprInfo info>
+= Expression2<info> [                   (. info.setKind(ExprKind.CONDEXPR); .) 
+  ConditionalExpr ]
 .
-/*----------------------------------relationalExpression----------------------------------*/
-relationalExpression =
-	shiftExpression {("<" | ">" | "<=" | ">=") relationalExpression}
+
+/*---------------------------------------------------------------------------*/
+
+ConditionalExpr                      (. ExprInfo dummy = new ExprInfo(this); .) 
+= "?" Expression<dummy> ":" Expression1<dummy>
 .
-/*----------------------------------shiftExpression----------------------------------*/
-shiftExpression =
-	additiveExpression {("<<" | ">>" | "<<<" ) shiftExpression}
+
+/*---------------------------------------------------------------------------*/
+
+Expression2<ExprInfo info>
+= Expression3<info> [ Expression2Rest<info> ]
 .
-/*----------------------------------additiveExpression----------------------------------*/
-additiveExpression =
-	multiplicativeExpression {('+' | '-' ) additiveExpression}
+
+/*---------------------------------------------------------------------------*/
+
+Expression2Rest<ExprInfo info>      (. ExprInfo dummy = new ExprInfo(this); .) 
+= Infixop Expression3<dummy> { Infixop Expression3<dummy> }
+                                    (. info.setKind(ExprKind.BINARY);       .) 
 .
-/*----------------------------------multiplicativeExpression----------------------------------*/
-multiplicativeExpression =
-	unaryExpression {('*' | '/' | '%' ) multiplicativeExpression}
+
+/*---------------------------------------------------------------------------*/
+
+Expression3<ExprInfo info>               (. int pre = ExprKind.NONE;        .)
+=
+  Primary<info> 
+  {
+    Selector<info>
+  }
+  (. if (pre != ExprKind.NONE) info.setKind(pre); .)
 .
-/*----------------------------------unaryExpression----------------------------------*/
-unaryExpression =
-	expressionName {('*' | '/' | '%' ) unaryExpression}
+
+/*---------------------------------------------------------------------------*/
+
+Primary<ExprInfo info>
+= "(" Expression<info> ")"               (. info.setKind(ExprKind.PARENS);  .)
+| "this"                                 (. info.setKind(ExprKind.IDENT);   .)
+  ArgumentsOpt<info>
+| "super" SuperSuffix<info>
+| Literal                                (. info.setKind(ExprKind.LITERAL); .)
+| "new" Creator<info>
+|
+identifier<out String accessor>
+{
+    '.'
+    identifier<out accessor>
+} (. info.setKind(ExprKind.IDENT);   .)
 .
-/*----------------------------------expressionName----------------------------------*/
-expressionName =
-	(((
-	identifier<out String someThing> //todo
-	 | "super") ['('[expression {',' expression}]')'] 
-	   {'.' 
-	   identifier<out String someThing> //todo
-	   ['('[expression {',' expression}]')']}) | (realNumber)|(string))
+
+/*---------------------------------------------------------------------------*/
+
+ArgumentsOpt<ExprInfo info>
+= [                                       (. info.setKind(ExprKind.APPLY);  .)
+    Arguments ]
 .
-/*----------------------------------assignmentOperator----------------------------------*/
-assignmentOperator =
-	("=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|=")
+
+/*---------------------------------------------------------------------------*/
+
+Arguments                           (. ExprInfo dummy = new ExprInfo(this); .) 
+= "(" [ Expression<dummy> { "," Expression<dummy> } ] ")"
 .
+
+/*---------------------------------------------------------------------------*/
+
+SuperSuffix<ExprInfo info>
+= Arguments                                (. info.setKind(ExprKind.APPLY); .)
+| '.' identifier<out String accessor>                                (. info.setKind(ExprKind.IDENT); .)
+  ArgumentsOpt<info>  
+.
+
+/*---------------------------------------------------------------------------*/
+Qualident
+= 
+identifier<out String accessor>
+{
+    '.'
+    identifier<out accessor>
+}
+.
+
+/*---------------------------------------------------------------------------*/
+Literal
+= 
+intLit
+| floatLit
+| charLit
+| stringLit
+| "true" | "false"
+| "null"
+.
+
+/*---------------------------------------------------------------------------*/
+
+Creator<ExprInfo info>
+= 
+    Qualident 
+    ClassCreatorRest                    (. info.setKind(ExprKind.NEWCLASS); .)
+.
+
+/*---------------------------------------------------------------------------*/
+
+ClassCreatorRest
+= Arguments
+.
+
+/*---------------------------------------------------------------------------*/
+
+Selector<ExprInfo info>             (. ExprInfo dummy = new ExprInfo(this); .) 
+= 
+"."
+identifier<out String accessor> ArgumentsOpt<info>
+
+.
+
+/*---------------------------------------------------------------------------*/
+
+ParExpression                        (. ExprInfo dummy = new ExprInfo(this); .) 
+= "(" Expression<dummy> ")"
+.
+
+/*---------------------------------------------------------------------------*/
+
+AssignmentOperator
+= "="
+| "+="
+| "-="
+| "*="
+| "/="
+| "&="
+| "|="
+| "^="
+| "%="
+| "<<="
+| ">>="
+| ">>>="
+.
+
+/*---------------------------------------------------------------------------*/
+
+Infixop
+= "||"
+| "&&"
+| "^"
+| "=="
+| "!="
+| "<"
+| ">"
+| "<="
+| ">="
+| "+"
+| "-"
+| "*"
+| "/"
+| "%"
+.
+
+
+/*---------------------------------------------------------------------------*/
+
 END CompilationUnit.
