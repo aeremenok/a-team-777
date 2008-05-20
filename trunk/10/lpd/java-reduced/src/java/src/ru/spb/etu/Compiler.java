@@ -21,6 +21,11 @@ import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.PUSH;
 import org.apache.bcel.generic.Type;
 
+interface IFoo
+{
+    void bar();
+}
+
 public class Compiler
     implements
         Constants
