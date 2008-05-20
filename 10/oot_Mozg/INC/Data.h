@@ -24,6 +24,7 @@ namespace tdata //!< namespace Data
       virtual ~Data();
       
       //********************* интерфейс iNetworkStruct **********************
+      virtual void generate (int newIDofGame);
       virtual void generate (int newNumberOfHoles, int newNumberOfCell);
       virtual bool makeStep (int numberOfHole);	
       virtual void clean ();

@@ -23,6 +23,10 @@ namespace tdata //!< Namespace tdata
    }
 
    //********************* интерфейс iNetworkStruct **********************
+   void Data::generate (int newIDofGame)
+   {
+
+   }
    void Data::generate (int newNumberOfHoles, int newNumberOfCell)
    {
 

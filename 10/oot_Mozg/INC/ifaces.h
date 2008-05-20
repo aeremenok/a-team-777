@@ -45,6 +45,10 @@ namespace iface   //!< Общие интерфейсы, используемы в программе
    class iNetworkStruct 
    {
    public:
+
+      //! Выберается структура на основе ID
+      virtual void generate (int newIDofGame) =0;
+
       //! Генериться новая внутренняя структура на основе заданных параметров
       virtual void generate (int newNumberOfHoles, int newNumberOfCell) =0;
 
