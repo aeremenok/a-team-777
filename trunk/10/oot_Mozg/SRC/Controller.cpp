@@ -120,6 +120,17 @@ void Controller::makeStep(int hole)
    }
 }
 
+void Controller::reset()
+{
+   //! Делаем активным главного игрока
+   while (!playersList->getActivePlayer()->ifMain())
+      playersList->goNext();
+
+   //! Очищаем структуру сети
+   netStruc->clean();
+}
+
+//! Инициализация статической переменной
 Controller* Controller::_instance = 0;
 
 Controller* Controller::Instance(CMainDlg* dlg)
@@ -128,5 +139,6 @@ Controller* Controller::Instance(CMainDlg* dlg)
       _instance = new Controller(dlg);
    return _instance;
 }
+
 } //end of namespace Game
 // ==========================================================================

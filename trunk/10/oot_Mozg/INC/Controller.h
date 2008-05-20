@@ -46,6 +46,9 @@ class Controller
       //! Изменяет состояние игры
       void setActive(bool newState) {active = newState;};
 
+      //! Востанавливает начальное состояние игры
+      //! Делает текущим главного игрока и опустошает структуру
+      void reset();
 
       //! Если объект уже создан, возвращает ссылку, иначе создает объект
       static Controller* Instance(CMainDlg* dlg = 0);
