@@ -2,7 +2,7 @@
 //! \file   Controller.cpp
 //! \brief  Реализация класса для управления игрой
 //! \author Bessonov A.V.
-//! \date   17.May.2008 - 19.May.2008
+//! \date   17.May.2008 - 20.May.2008
 // **************************************************************************
 
 // ==========================================================================
@@ -10,6 +10,8 @@
 #include "Controller.h"
 #include "MainPlayer.h"
 #include "SlavePlayer.h"
+#include <fstream>
+#include "tools.h"
 
 namespace Game
 {
@@ -141,10 +143,25 @@ void Controller::Save(std::string strName) const
    int idPlayers = playersList->PutIntoArchive(arch);
    int idStruct  = netStruc->PutIntoArchive(arch);
 
+
+   std::ofstream os(strName.c_str());
+
+   os << idPlayers << separ << idStruct << separ << arch;
+   os.close();
 }
 
 bool Controller::Open(std::string strName)
 {
+   //! Удаляем старую информацию
+   delete playersList;
+   playersList = new ListOfPlayers;
+
+   //! Создаем архив для считывания данных
+   ser::Archive arch;
+   /************************************************************************/
+   /*                  TODO: Считывание из файла в архив                   */
+   /************************************************************************/
+
    return true;
 }
 
