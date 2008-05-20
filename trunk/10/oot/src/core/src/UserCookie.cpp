@@ -25,16 +25,17 @@ CUserCookie& CUserCookie::getInstance()
 CUserCookie::CUserCookie()
 {
 
+  std::ifstream	ifs("test.xml");
+  boost::archive::xml_iarchive iarchive(ifs);
   try	
   {
-    std::ifstream	ifs("test.xml");
-    boost::archive::xml_iarchive iarchive(ifs);
-    //iarchive >> boost::serialization::make_nvp("UserCookie", *this);
-    ifs.close();
+    iarchive >> boost::serialization::make_nvp("UserCookie", *this);
   }
   catch(...)
   { 
   }
+  ifs.close();
+  m_current = CUser::UNKNOWN;
 }
 
 CUserCookie::~CUserCookie()
@@ -80,6 +81,7 @@ bool CUserCookie::findUser(const std::string& name, const std::string &password)
     for(std::list<CUser>::iterator i=m_user.begin();i!=m_user.end();++i)
       if(i->getType() == m_current)
         return true;
+      
     m_user.push_back(CUser("client",CUser::CLIENT));
     return true;
   }

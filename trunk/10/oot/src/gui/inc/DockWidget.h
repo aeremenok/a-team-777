@@ -30,7 +30,12 @@ public:
     setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
   }
   
-  T getWidget() const
+  const T& getWidget() const
+  {
+    return m_form;
+  }
+  
+  T& getWidget()
   {
     return m_form;
   }

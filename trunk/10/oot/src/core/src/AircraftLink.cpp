@@ -12,6 +12,11 @@
 
 #include "AircraftLink.h"
 
+CAircraftLink::CAircraftLink(): CDefaultLink(CDefaultLink::AIRLINES,0,0)
+{
+
+}
+
 CAircraftLink::CAircraftLink(unsigned long cost, unsigned long time):CDefaultLink(CDefaultLink::AIRLINES,cost,time)
 {
 
@@ -20,6 +25,11 @@ CAircraftLink::CAircraftLink(unsigned long cost, unsigned long time):CDefaultLin
 std::string CAircraftLink::getDescription() const
 {
   return "неизвестный авиаперевозчик";
+}
+
+CS7Link::CS7Link():CAircraftLink(0,0)
+{
+
 }
 
 CS7Link::CS7Link(unsigned long cost, unsigned long time):CAircraftLink(cost,time)
@@ -31,6 +41,11 @@ std::string CS7Link::getDescription() const
   return "S7";
 }
 
+CAeroflotLink::CAeroflotLink():CAircraftLink(0,0)
+{
+
+}
+
 CAeroflotLink::CAeroflotLink(unsigned long cost, unsigned long time):CAircraftLink(cost,time)
 {
 }
@@ -38,6 +53,11 @@ CAeroflotLink::CAeroflotLink(unsigned long cost, unsigned long time):CAircraftLi
 std::string CAeroflotLink::getDescription() const
 {
   return "Аэрофлот";
+}
+
+CPulkovoLink::CPulkovoLink():CAircraftLink(0,0)
+{
+
 }
 
 CPulkovoLink::CPulkovoLink(unsigned long cost, unsigned long time):CAircraftLink(cost,time)

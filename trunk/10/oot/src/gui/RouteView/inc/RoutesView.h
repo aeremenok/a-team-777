@@ -29,9 +29,6 @@ class CRoutesView: public QWidget
 {
   Q_OBJECT
 
-  CRoutesView(const CRoutesView& obj);
-  CRoutesView& operator=(const CRoutesView& obj);
-  
   Ui::CRoutesView m_form;
   
   QStandardItemModel m_model;

@@ -14,58 +14,12 @@ GraphWidget::GraphWidget(QWidget * parent): QGraphicsView(parent), timerId(0)
 {
     QGraphicsScene *scene = new QGraphicsScene(this);
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-    scene->setSceneRect(-800, -800, 800, 800);
+    scene->setSceneRect(-1000, -1000, 1000, 1000);
     setScene(scene);
     setCacheMode(CacheBackground);
     setRenderHint(QPainter::Antialiasing);
     setTransformationAnchor(AnchorUnderMouse);
     setResizeAnchor(AnchorViewCenter);
-
-/*
-    Node *node1 = new Node(this);
-    Node *node2 = new Node(this);
-    Node *node3 = new Node(this);
-    Node *node4 = new Node(this);
-    centerNode = new Node(this);
-    Node *node6 = new Node(this);
-    Node *node7 = new Node(this);
-    Node *node8 = new Node(this);
-    Node *node9 = new Node(this);
-    scene->addItem(node1);
-    scene->addItem(node2);
-    scene->addItem(node3);
-    scene->addItem(node4);
-    scene->addItem(centerNode);
-    scene->addItem(node6);
-    scene->addItem(node7);
-    scene->addItem(node8);
-    scene->addItem(node9);
-    scene->addItem(new Edge(node1, node2));
- scene->addItem(new Edge(node2, node3));
-    scene->addItem(new Edge(node2, centerNode));
-    scene->addItem(new Edge(node3, node6));
-    scene->addItem(new Edge(node4, node1));
-    scene->addItem(new Edge(node4, centerNode));
-    scene->addItem(new Edge(centerNode, node6));
-    scene->addItem(new Edge(centerNode, node8));
-    scene->addItem(new Edge(node6, node9));
-    scene->addItem(new Edge(node7, node4));
-    scene->addItem(new Edge(node8, node7));
-    scene->addItem(new Edge(node9, node8));
-
-    node1->setPos(-50, -50);
-    node2->setPos(0, -50);
-    node3->setPos(50, -50);
-    node4->setPos(-50, 0);
-    centerNode->setPos(0, 0);
-    node6->setPos(50, 0);
-    node7->setPos(-50, 50);
-    node8->setPos(0, 50);
-    node9->setPos(50, 50);
-
-    scale(0.8, 0.8);
-    setMinimumSize(400, 400);
-*/
 }
 
 void GraphWidget::setGraph(CGraph<CCity, CEdgeParameters> graph)
@@ -76,11 +30,11 @@ void GraphWidget::setGraph(CGraph<CCity, CEdgeParameters> graph)
   size_t i=0;
   for(Super::vertex_iterator v=graph.vertex_begin();v!=graph.vertex_end(); ++v)
   {
-    Node *n = new Node(this);
+    Node *n = new Node(this, *v);
     nodes.insert(std::pair<CCity,Node*>(*v,n));
     scene()->addItem(n);
 
-    n->setPos(-400+ 100*cos(i*M_PI/180),-400+100*sin(i*M_PI/180));
+    n->setPos(-500 + 300*cos(i*M_PI/180),-500 + 300*sin(i*M_PI/180));
 
     i += 360/graph.vertices_count();
   }
@@ -92,7 +46,7 @@ void GraphWidget::setGraph(CGraph<CCity, CEdgeParameters> graph)
   }
 
   centerNode = nodes.begin()->second;
-  
+//  centerNode->setSticky(true);
   scale(0.8, 0.8);
   setMinimumSize(400, 400);
 }

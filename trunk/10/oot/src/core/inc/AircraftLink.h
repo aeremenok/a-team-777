@@ -29,13 +29,11 @@ class CAircraftLink: public CDefaultLink
   {
     ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(CDefaultLink);
   }
-protected:
 
-  CAircraftLink()
-  {
-  }
-  
 public:
+
+  CAircraftLink();
+
   CAircraftLink(unsigned long cost, unsigned long time);
   
   virtual std::string getDescription() const;
@@ -57,6 +55,8 @@ class CS7Link: public CAircraftLink
   }
 
 public:
+  CS7Link();
+
   CS7Link(unsigned long cost, unsigned long time);
 
   std::string getDescription() const;
@@ -66,6 +66,8 @@ class CAeroflotLink: public CAircraftLink
 {
 
 public:
+  CAeroflotLink();
+
   CAeroflotLink(unsigned long cost, unsigned long time);
 
   std::string getDescription() const;
@@ -81,8 +83,8 @@ class CPulkovoLink: public CAircraftLink
     ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(CAircraftLink);
   }
 public:
-  CPulkovoLink()
-  {}
+  CPulkovoLink();
+
   CPulkovoLink(unsigned long cost, unsigned long time);
 
   std::string getDescription() const;

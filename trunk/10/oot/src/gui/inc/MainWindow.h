@@ -16,6 +16,8 @@
 
 #include <QtGui/QMainWindow>
 #include "ui_MainWindow.h"
+#include "DockWidget.h"
+#include "RoutesView.h"
 
 /*!
  * \brief
@@ -29,6 +31,8 @@ class CMainWindow: public QMainWindow
   CMainWindow& operator=(const CMainWindow& obj);
  
   Ui::CMainWindow m_form;
+  
+  CDockWidget<CRoutesView> * m_dock;
 protected:
   virtual void showEvent(QShowEvent *event);
 
