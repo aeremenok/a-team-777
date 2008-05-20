@@ -67,68 +67,6 @@ public class Parser {
         System.out.println(msg);        
     }
 
-	class ExprKind
-	{
-	    static final int NONE     = 0;
-	    static final int CONDEXPR = 17;
-	    static final int APPLY    = 25;
-	    static final int NEWCLASS = 26;
-	    static final int NEWARRAY = 27;
-	    static final int PARENS   = 28;
-	    static final int ASSIGN   = 29;
-	    static final int TYPECAST = 30;
-	    static final int TYPETEST = 31;
-	    static final int SELECT   = 33;
-	    static final int IDENT    = 34;
-	    static final int LITERAL  = 35;
-	    static final int POS      = 41;
-	    static final int NEG      = 42;
-	    static final int NOT      = 43;
-	    static final int COMPL    = 44;
-	    static final int PREINC   = 45;
-	    static final int PREDEC   = 46;
-	    static final int POSTINC  = 47;
-	    static final int POSTDEC  = 48;
-	    static final int BINARY   = 50;
-	}
-	
-	class ExprInfo
-	{
-	    private int    kind = ExprKind.NONE;
-	
-	    public ExprInfo(
-	        Parser parser )
-	    {
-	    }
-	
-	    public int getKind()
-	    {
-	        return kind;
-	    }
-	
-	    public void setKind(
-	        int k )
-	    {
-	        kind = k;
-	    }
-	
-	    public void checkExprStat()
-	    {
-	        if ( 
-	               kind != ExprKind.APPLY && 
-	               kind != ExprKind.NEWCLASS && 
-	               kind != ExprKind.ASSIGN &&
-	               kind != ExprKind.PREINC && 
-	               kind != ExprKind.PREDEC && 
-	               kind != ExprKind.POSTINC && 
-	               kind != ExprKind.POSTDEC 
-	           )
-	        {
-	            SemErr( "not a statement (" + kind + ")" );
-	        }
-	    }
-	}
-	
     public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
     public HashMap<String, ObjectType> objectTypes = new HashMap<String, ObjectType>();
 /*--------------------------------------------------------------------------*/
@@ -370,8 +308,7 @@ public class Parser {
 				} else if (la.kind == 29 || la.kind == 30) {
 					if (la.kind == 29) {
 						Get();
-						ExprInfo dummy = new ExprInfo(this); 
-						Expression(dummy);
+						Expression();
 					}
 					Expect(30);
 				} else SynErr(69);
@@ -548,10 +485,9 @@ public class Parser {
 			ParExpression();
 			Statement();
 		} else if (la.kind == 34) {
-			ExprInfo dummy = new ExprInfo(this); 
 			Get();
 			if (StartOf(6)) {
-				Expression(dummy);
+				Expression();
 			}
 			Expect(30);
 		} else if (la.kind == 35) {
@@ -561,19 +497,16 @@ public class Parser {
 		} else if (la.kind == 30) {
 			Get();
 		} else if (StartOf(6)) {
-			StatementExpression();
+			Expression();
 			Expect(30);
 		} else SynErr(75);
 	}
 
-	void Expression(ExprInfo info) {
-		Expression1(info);
+	void Expression() {
+		Expression1();
 		while (StartOf(7)) {
-			ExprInfo dummy = new ExprInfo(this); 
-			info.setKind(ExprKind.ASSIGN);
-			
 			AssignmentOperator();
-			Expression1(dummy);
+			Expression1();
 		}
 	}
 
@@ -586,16 +519,9 @@ public class Parser {
 	}
 
 	void ParExpression() {
-		ExprInfo dummy = new ExprInfo(this); 
 		Expect(2);
-		Expression(dummy);
+		Expression();
 		Expect(3);
-	}
-
-	void StatementExpression() {
-		ExprInfo info = new ExprInfo(this); 
-		Expression(info);
-		info.checkExprStat(); 
 	}
 
 	void BlockStatement() {
@@ -615,16 +541,15 @@ public class Parser {
 		String varName = identifier();
 		if (la.kind == 29) {
 			Get();
-			ExprInfo info = new ExprInfo(this); 
-			Expression(info);
+			Expression();
 		}
 	}
 
-	void Expression1(ExprInfo info) {
+	void Expression1() {
 		log("expr");
-		Expression2(info);
+		Expression2();
 		if (StartOf(10)) {
-			Expression1Rest(info);
+			Expression1Rest();
 		}
 	}
 
@@ -670,24 +595,22 @@ public class Parser {
 		}
 	}
 
-	void Expression2(ExprInfo info) {
+	void Expression2() {
 		if (StartOf(11)) {
-			Primary(info);
+			Primary();
 		}
 		while (la.kind == 40) {
-			Selector(info);
+			Selector();
 		}
 	}
 
-	void Expression1Rest(ExprInfo info) {
-		ExprInfo dummy = new ExprInfo(this); 
+	void Expression1Rest() {
 		Infixop();
-		Expression2(dummy);
+		Expression2();
 		while (StartOf(10)) {
 			Infixop();
-			Expression2(dummy);
+			Expression2();
 		}
-		info.setKind(ExprKind.BINARY);
 	}
 
 	void Infixop() {
@@ -752,18 +675,16 @@ public class Parser {
 		}
 	}
 
-	void Primary(ExprInfo info) {
+	void Primary() {
 		switch (la.kind) {
 		case 2: {
 			Get();
-			Expression(info);
+			Expression();
 			Expect(3);
-			info.setKind(ExprKind.PARENS);
 			break;
 		}
 		case 37: {
 			Get();
-			info.setKind(ExprKind.IDENT);
 			if (la.kind == 2) {
 				Arguments();
 			}
@@ -771,22 +692,20 @@ public class Parser {
 		}
 		case 38: {
 			Get();
-			SuperSuffix(info);
+			SuperSuffix();
 			break;
 		}
 		case 6: case 7: case 8: case 9: case 41: case 42: case 43: {
 			Literal();
-			info.setKind(ExprKind.LITERAL);
 			break;
 		}
 		case 39: {
 			Get();
-			Creator(info);
+			Creator();
 			break;
 		}
 		case 1: {
 			String accessor = identifier();
-			info.setKind(ExprKind.IDENT);
 			while (la.kind == 40) {
 				Get();
 				accessor = identifier();
@@ -800,7 +719,7 @@ public class Parser {
 		}
 	}
 
-	void Selector(ExprInfo info) {
+	void Selector() {
 		Expect(40);
 		String accessor = identifier();
 		if (la.kind == 2) {
@@ -809,32 +728,24 @@ public class Parser {
 	}
 
 	void Arguments() {
-		log("args");
-		ExprInfo dummy = new ExprInfo(this); 
-		
 		Expect(2);
 		if (StartOf(12)) {
-			log("expr1");
-			Expression(dummy);
+			Expression();
 			while (la.kind == 28) {
 				Get();
-				log("expr2");
-				Expression(dummy);
+				Expression();
 			}
 		}
 		Expect(3);
 	}
 
-	void SuperSuffix(ExprInfo info) {
+	void SuperSuffix() {
 		if (la.kind == 2) {
 			Arguments();
-			info.setKind(ExprKind.APPLY); 
 		} else if (la.kind == 40) {
 			Get();
 			String accessor = identifier();
-			info.setKind(ExprKind.IDENT); 
 			if (la.kind == 2) {
-				info.setKind(ExprKind.APPLY);
 				Arguments();
 			}
 		} else SynErr(80);
@@ -875,10 +786,9 @@ public class Parser {
 		log("lit="+t.val);
 	}
 
-	void Creator(ExprInfo info) {
+	void Creator() {
 		Qualident();
 		Arguments();
-		info.setKind(ExprKind.NEWCLASS); 
 	}
 
 	void Qualident() {

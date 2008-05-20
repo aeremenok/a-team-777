@@ -44,68 +44,6 @@ boolean next(int i)
         System.out.println(msg);        
     }
 
-	class ExprKind
-	{
-	    static final int NONE     = 0;
-	    static final int CONDEXPR = 17;
-	    static final int APPLY    = 25;
-	    static final int NEWCLASS = 26;
-	    static final int NEWARRAY = 27;
-	    static final int PARENS   = 28;
-	    static final int ASSIGN   = 29;
-	    static final int TYPECAST = 30;
-	    static final int TYPETEST = 31;
-	    static final int SELECT   = 33;
-	    static final int IDENT    = 34;
-	    static final int LITERAL  = 35;
-	    static final int POS      = 41;
-	    static final int NEG      = 42;
-	    static final int NOT      = 43;
-	    static final int COMPL    = 44;
-	    static final int PREINC   = 45;
-	    static final int PREDEC   = 46;
-	    static final int POSTINC  = 47;
-	    static final int POSTDEC  = 48;
-	    static final int BINARY   = 50;
-	}
-	
-	class ExprInfo
-	{
-	    private int    kind = ExprKind.NONE;
-	
-	    public ExprInfo(
-	        Parser parser )
-	    {
-	    }
-	
-	    public int getKind()
-	    {
-	        return kind;
-	    }
-	
-	    public void setKind(
-	        int k )
-	    {
-	        kind = k;
-	    }
-	
-	    public void checkExprStat()
-	    {
-	        if ( 
-	               kind != ExprKind.APPLY && 
-	               kind != ExprKind.NEWCLASS && 
-	               kind != ExprKind.ASSIGN &&
-	               kind != ExprKind.PREINC && 
-	               kind != ExprKind.PREDEC && 
-	               kind != ExprKind.POSTINC && 
-	               kind != ExprKind.POSTDEC 
-	           )
-	        {
-	            SemErr( "not a statement (" + kind + ")" );
-	        }
-	    }
-	}
-	
     public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
     public HashMap<String, ObjectType> objectTypes = new HashMap<String, ObjectType>();
 /*--------------------------------------------------------------------------*/
@@ -411,7 +349,7 @@ classBody<ClassGen classGen> =
 		            )
                     |
                     ( // это атрибут
-                        ['=' (. ExprInfo dummy = new ExprInfo(this); .) Expression<dummy> ] ';'
+                        ['=' Expression ] ';'
                     )
 	            )
             )
@@ -475,11 +413,11 @@ Statement
   Block (.log("block");.)
 | "if" ParExpression Statement [ "else" Statement ]
 | "while" ParExpression Statement
-| (. ExprInfo dummy = new ExprInfo(this); .) "return" [ Expression<dummy> ] ";"
+| "return" [ Expression ] ";"
 | "break;"
 | "continue;"
 | ";"
-| StatementExpression ';'  
+| Expression ';'  
 .
 /*---------------------------------------------------------------------------*/
 // блок кода
@@ -499,84 +437,62 @@ Statement
 LocalVariableDeclaration
 = 
 [ "final" ] type<out Type typeLiteral> identifier<out String varName> 
-["="(. ExprInfo info = new ExprInfo(this); .) Expression<info>] 
-.
-/*---------------------------------------------------------------------------*/
-// инструкция - выражение
-StatementExpression                   
-= 
-(. ExprInfo info = new ExprInfo(this); .)
-Expression<info>
-(. info.checkExprStat(); .)                     
+["=" Expression] 
 .
 /*---------------------------------------------------------------------------*
  *---------------------------- Expressions ----------------------------------*
  *---------------------------------------------------------------------------*/
-Expression<ExprInfo info>
+Expression
 = 
 // левая часть
-Expression1<info>
+Expression1
 // м.б. много присвоений 
 {
-    (.
-	    ExprInfo dummy = new ExprInfo(this); 
-	    info.setKind(ExprKind.ASSIGN);
-    .)
-    AssignmentOperator Expression1<dummy> 
+    AssignmentOperator Expression1 
 }
 .
 /*---------------------------------------------------------------------------*/
-Expression1<ExprInfo info>
+Expression1
 = 
 (.log("expr");.)
 // получение объекта
-Expression2<info>
+Expression2
 // действия с ним
-[ Expression1Rest<info> ]
+[ Expression1Rest ]
 .
 /*---------------------------------------------------------------------------*/
-Expression1Rest<ExprInfo info>       
+Expression1Rest       
 =
 // бинарная операция с выражением
-(. ExprInfo dummy = new ExprInfo(this); .)
-Infixop Expression2<dummy>
+Infixop Expression2
 
 // еще бинарные операции с выражением
 {
-    Infixop Expression2<dummy>
+    Infixop Expression2
 }
-(. info.setKind(ExprKind.BINARY);.)
 .
 /*---------------------------------------------------------------------------*/
-Expression2<ExprInfo info>               
+Expression2               
 =
     // единичный объект
-    [Primary<info>]
+    [Primary]
     // последовательность вызовов к объекту 
     {
-        Selector<info>
+        Selector
     }
 .
 /*---------------------------------------------------------------------------*/
-Primary<ExprInfo info>
+Primary
 =
-    "(" Expression<info> ")"
-    (. info.setKind(ExprKind.PARENS);.)
-|   "this"
-    (. info.setKind(ExprKind.IDENT);.)
-    [Arguments]
-|   "super" SuperSuffix<info>
-
+    "(" Expression ")"
+|   "this" [Arguments]
+|   "super" SuperSuffix
 |    Literal
-     (.info.setKind(ExprKind.LITERAL);.)
-
-|   "new" Creator<info>
-
-// еще вызвовы
+|   "new" Creator
+// еще вызовы
 |
 (
     identifier<out String accessor>
-    (.info.setKind(ExprKind.IDENT);.)
     {
         '.'
         identifier<out accessor>
@@ -588,27 +504,18 @@ Primary<ExprInfo info>
 // аргументы вызовов
 Arguments                           
 =
-(. 
-    log("args");
-    ExprInfo dummy = new ExprInfo(this); 
-.)
 // в скобках - пусто, одно или несколько выражений
-"(" [ (.log("expr1");.) 
-Expression<dummy> { "," (.log("expr2");.)
- Expression<dummy> } ] ")"
+"(" [ Expression { "," Expression } ] ")"
 .
 /*---------------------------------------------------------------------------*/
 // вызов метода предка
-SuperSuffix<ExprInfo info>
+SuperSuffix
 =
 // конструктор
 Arguments
-(. info.setKind(ExprKind.APPLY); .)
 | 
-// другие методы
-'.' identifier<out String accessor>
-(. info.setKind(ExprKind.IDENT); .)
-[(. info.setKind(ExprKind.APPLY);.)Arguments ]  
+// другой метод
+'.' identifier<out String accessor>[Arguments ]  
 .
 /*---------------------------------------------------------------------------*/
 // квалифицированное имя
@@ -634,24 +541,21 @@ Literal
 .
 /*---------------------------------------------------------------------------*/
 // вызов конструктора
-Creator<ExprInfo info>
+Creator
 = 
     Qualident Arguments
-    (. info.setKind(ExprKind.NEWCLASS); .)
 .
 /*---------------------------------------------------------------------------*/
 // вызов метода
-Selector<ExprInfo info>
+Selector
 = 
-"."
-identifier<out String accessor> [Arguments]
+"." identifier<out String accessor> [Arguments]
 .
 /*---------------------------------------------------------------------------*/
 // выражение в скобках
 ParExpression                         
 =
-(. ExprInfo dummy = new ExprInfo(this); .)
-"(" Expression<dummy> ")"
+"(" Expression ")"
 .
 /*---------------------------------------------------------------------------*/
 // присвоение
