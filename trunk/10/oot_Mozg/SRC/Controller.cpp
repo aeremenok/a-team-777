@@ -125,14 +125,14 @@ void Controller::makeStep(int hole)
          mainDlg->ActivateNew(FALSE);
       }
    }else 
-   {  //! Больше некуда кидать, игра закончина
+   {  //! Больше некуда кидать, игра закончена
       //! Деактивируем кнопки и элемент меню сохранить
       mainDlg->ActivateButtons(FALSE);
       mainDlg->ActivateSave(FALSE);
        mainDlg->ActivateClose(TRUE);
        mainDlg->ActivateReset(TRUE);
        mainDlg->ActivateOpen(TRUE);
-      //! Выводим сообщение, о победители
+      //! Выводим сообщение, о победителе
       mainDlg->setTip("Поздравляем " + 
                        playersList->getActivePlayer()->getName() +
                        " с победой в игре Мозгодолбалка!");
