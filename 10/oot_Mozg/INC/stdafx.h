@@ -25,6 +25,8 @@ extern CAppModule _Module;
 
 #include <string>
 
+#include <new>
+
 #include "resource.h"
 #include "tools.h"
 
