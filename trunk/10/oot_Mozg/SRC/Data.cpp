@@ -202,12 +202,13 @@ void Data::Redraw() const
 }
 
 //********************* интерфейс iSerializable ***********************
-bool Data::PutIntoFile(std::string& filename)
+int Data::PutIntoArchive(ser::Archive& archive)
 {
-   return true;
+   return 0;
 }
-bool Data::GetFromFile(std::string& filename)
+
+void Data::GetFromArchive(const ser::Archive& archive, int id)
 {
-   return true;
+   return;
 }
 // ==========================================================================

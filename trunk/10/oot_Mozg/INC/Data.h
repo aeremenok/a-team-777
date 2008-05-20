@@ -35,8 +35,8 @@ namespace tdata //!< namespace Data
       virtual void Redraw() const;
 
       //********************* интерфейс iSerializable ***********************
-      virtual bool PutIntoFile(std::string& filename);
-      virtual bool GetFromFile(std::string& filename);
+      virtual int PutIntoArchive(ser::Archive& archive);
+      virtual void GetFromArchive(const ser::Archive& archive, int id);
 
    };
 
