@@ -30,13 +30,34 @@ namespace tdata //!< namespace Data
       virtual void clean ();
 
       //********************* интерфейс iDrawable ***************************
-      virtual void SetHdc(HDC hDC);
-      virtual void GetHdc(HDC hDC);
       virtual void Redraw() const;
+      virtual void Draw(CPaintDC& dc);
 
       //********************* интерфейс iSerializable ***********************
       virtual int PutIntoArchive(ser::Archive& archive);
       virtual void GetFromArchive(ser::Archive& archive, int id);
+
+   private:
+      // ~~~~~~~~~~~~~~~~~~~~~~~~~~ РИСОВАНИЕ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      //! Залить фон
+      void DrawBackground(CPaintDC& dc) const;
+      //! Вычислить область для рисования
+      RECT CalcDrawingRect(CPaintDC& dc) const;
+      //! Рассчитать координаты позиций и переходов
+      void CalcVertexes(const RECT& rect);
+      //! Нарисовать позиции
+      void DrawPositions(CPaintDC& dc) const;
+      //! Нарисовать переходы
+      void DrawTransitions(CPaintDC& dc) const;
+      //! Нарисовать входные ребра переходов
+      void DrawTransitionsInput(CPaintDC& dc) const;
+      //! Нарисовать выходные ребра переходов
+      void DrawTransitionsOutput(CPaintDC& dc) const;
+
+      typedef std::vector<POINT> POINTS;
+      POINTS m_posDots;                //!< Координаты позиций
+      POINTS  m_trDots;                //!< Координаты переходов
+      long   m_objSize;                //!< Размер объекта (диаметр / ширина)
 
    };
 

@@ -9,6 +9,7 @@
 #define __MAINDLG_H
 
 #include "Controller.h"
+#include "DrawWnd.h"
 
 // ==========================================================================
 namespace Game
@@ -29,6 +30,11 @@ public:
 	{
 		return FALSE;
 	}
+
+   CDrawWnd& GetDrawWnd()
+   {
+      return m_drawWnd;
+   }
 
    // -----------------------------------------------------------------------
    //!                                 КОМАНДЫ
@@ -89,9 +95,11 @@ private:
         };
    static TBBUTTON tbButtons[TBAR_BTN_NUM]; //!< Кнопки тулбара
    static LPTSTR  tbToolTips[TBAR_BTN_NUM]; //!< Тултипы для кнопок
-   //-------------------------------------------------------------------------
+   //------------------------------------------------------------------------
    CImageList    m_images;         //!< Список картинок для тулбара
    CToolBarCtrl    m_tbar;         //!< Тулбар
+   // -----------------------------------------------------------------------
+   CDrawWnd     m_drawWnd;         //!< Окно рисования
 
 public:
    LRESULT OnBnClickedButtonHole1(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);

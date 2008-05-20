@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by d:\Univer\ннрпон\Mozg\Mozg.rc
+// Used by e:\UNIVER\ннр\Mozg\Mozg.rc
 //
 #define IDD_ABOUTBOX                    100
 #define IDR_MAINFRAME                   128
@@ -32,6 +32,7 @@
 #define IDC_STATIC_PLAYER_5             1019
 #define IDC_STATIC_PLAYER_6             1020
 #define IDC_STATIC_STATUS               1021
+#define IDC_CANVAS                      1023
 
 // Next default values for new objects
 // 
@@ -39,7 +40,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        203
 #define _APS_NEXT_COMMAND_VALUE         32775
-#define _APS_NEXT_CONTROL_VALUE         1023
+#define _APS_NEXT_CONTROL_VALUE         1024
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

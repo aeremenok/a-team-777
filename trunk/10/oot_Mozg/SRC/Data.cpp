@@ -169,7 +169,7 @@ bool Data::makeStep (int numberOfHole)
       return true;
 
    SetToken(numberOfHole, true);
-   bool maxReached = FireAllTransitions();
+   bool maxReached = FireAllTransitions(this);
 
    // TODO: Реакция на срабатывание макс. числа переходов
 
@@ -188,17 +188,34 @@ void Data::clean ()
 }
 
 //********************* интерфейс iDrawable ***************************
-void Data::SetHdc(HDC hDC)
-{
-
-}
-void Data::GetHdc(HDC hDC)
-{
-
-}
 void Data::Redraw() const
 {
+   Game::Controller::Instance()->Redraw();
+}
 
+void Data::Draw(CPaintDC& dc)
+{
+   // НАРИСОВАТЬ ФОН
+   DrawBackground(dc);
+
+   if ( GetPositionsNumber() <= 0 || GetTransitionsNumber() <= 0 )
+      return;
+
+   // ВЫЧИСЛИТЬ ПРЯМОУГОЛЬНИК РИСОВАНИЯ
+   RECT rect = CalcDrawingRect(dc);
+
+   // РАССЧИТАТЬ КООРДИНАТЫ ПОЗИЦИЙ И ПЕРЕХОДОВ
+   CalcVertexes(rect);
+
+   // ОТОБРАЗИТЬ ПОЗИЦИИ
+   DrawPositions(dc);
+
+   // ОТОБРАЗИТЬ ПЕРЕХОДЫ
+   DrawTransitions(dc);
+
+   // ОТОБРАЗИТЬ РЕБРА
+   DrawTransitionsInput(dc);
+   DrawTransitionsOutput(dc);
 }
 
 //********************* интерфейс iSerializable ***********************
@@ -211,4 +228,111 @@ void Data::GetFromArchive(ser::Archive& archive, int id)
 {
    return;
 }
+
+// ==========================================================================
+void Data::DrawBackground(CPaintDC& dc) const
+{
+   CBrush oldbrush = dc.GetCurrentBrush();
+   dc.SelectStockBrush(WHITE_BRUSH);
+   RECT clirect;
+   ::GetClientRect(dc.m_hWnd, &clirect);
+   dc.Rectangle(&clirect);
+   dc.SelectBrush(oldbrush);
+}
+
+// ==========================================================================
+RECT Data::CalcDrawingRect(CPaintDC& dc) const
+{
+   // ПОЛУЧИТЬ КЛИЕНТСКУЮ ОБЛАСТЬ ОКНА
+   RECT clirect;
+   ::GetClientRect(dc.m_hWnd, &clirect);
+
+   // ВВЕСТИ НЕБОЛЬШОЙ ОТСТУП
+   clirect.top += 8;
+   clirect.bottom -= 8;
+   clirect.left += 8;
+   clirect.right -= 8;
+
+   return clirect;
+}
+
+// ==========================================================================
+void Data::CalcVertexes(const RECT& rect)
+{
+   // ЧИСЛО "СТРОК" ОБЪЕКТОВ
+   int rows = 0;
+   int posNum = GetPositionsNumber(),
+       trNum  = GetTransitionsNumber();
+   
+   int i = posNum,   // ОСТАВШИЕСЯ ПОЗИЦИИ
+       j = 6,        // КОЛИЧЕСТВО ПОЗИЦИЙ В ТЕКУЩЕЙ СТРОКЕ
+       sign = -1;    // НАПРАВЛЕНИЕ ДВИЖЕНИЯ ПО СТРУКТУРЕ СЕТИ
+   /* Направление - ориентация вершины тек. треугольника - вверх(+) или вниз(-)
+      Работаем со следующей структурой сети:
+
+      * * * * * *
+       - - - - -
+        * * * *
+         - - -                   *  -- позиция
+          * *                    -  -- переход
+           -
+          * *
+         - - -
+        * * * *
+       - - - - -
+      * * * * * *
+       - - - - -
+        * * * *
+         - - -
+          * *
+           -
+          * *
+         - - -
+        * * * *
+       - - - - -
+      * * * * * *
+
+   */
+   while ( i > 0 )
+   {
+      // ЕСЛИ ДОШЛИ ДО ГРАНИЦЫ, ПОМЕНЯТЬ НАПРАВЛЕНИЕ
+      if ( j == 0 || j > 6 )
+      {
+         sign *= -1;
+         if ( j == 0 )
+            j = 2;
+         else
+            j = 4;
+      }
+      
+      i -= j;
+      rows += 2;     // СРАЗУ УЧИТЫВАЕМ ПЕРЕХОДЫ      
+
+      // ИЗМЕНИТЬ КОЛ-ВО ПОЗИЦИЙ В ОЧЕРЕДНОЙ СТРОКЕ      
+      j = j + sign*2;
+   }
+
+   /* В rows - количество строк в структуре + 1 */
+}
+
+// ==========================================================================
+void Data::DrawPositions(CPaintDC& dc) const
+{
+}
+
+// ==========================================================================
+void Data::DrawTransitions(CPaintDC& dc) const
+{
+}
+
+// ==========================================================================
+void Data::DrawTransitionsInput(CPaintDC& dc) const
+{
+}
+
+// ==========================================================================
+void Data::DrawTransitionsOutput(CPaintDC& dc) const
+{
+}
+
 // ==========================================================================

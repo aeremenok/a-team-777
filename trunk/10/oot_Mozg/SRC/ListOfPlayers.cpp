@@ -9,9 +9,7 @@
 #include "stdafx.h"
 #include "ListOfPlayers.h"
 #include "MainPlayer.h"
-#include "SlavePlayer.h"
-#include <algorithm>
- 
+#include "SlavePlayer.h" 
 
 // ==========================================================================
 namespace Game

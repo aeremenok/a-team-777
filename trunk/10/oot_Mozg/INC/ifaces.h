@@ -18,14 +18,11 @@ namespace iface   //!< Общие интерфейсы, используемы в программе
    class iDrawable
    {
    public:
-      //! Задать контекст рисования
-      virtual void SetHdc(HDC hDC) = 0;
-
-      //! Получить текущий контекст рисования
-      virtual void GetHdc(HDC hDC) = 0;
-
       //! Перерисовать
       virtual void Redraw() const = 0;
+
+      //! Вывести изображение
+      virtual void Draw(CPaintDC& dc) = 0;
 
       virtual ~iDrawable() {};
    };
