@@ -39,14 +39,6 @@ boolean next(int i)
         String[] argNames = null;
     }
 
-	// '.' ident
-	/*
-	boolean dotAndIdent() 
-	{
-        return la.kind == _dot && peek(1).kind == _ident;
-	}
-	*/
-
 	class ExprKind
 	{
 	    static final int NONE     = 0;
@@ -113,11 +105,11 @@ CHARACTERS
   cr            = '\u000d'. /* 13 = carriage return */
   
   zero          = '0'.
-  zeroToThree   = zero + "123" .
-  octalDigit    = zero + "1234567" . 
+  zeroToThree   = zero + "123".
+  octalDigit    = zero + "1234567". 
   nonZeroDigit  = "123456789".
-  digit         = '0' + nonZeroDigit .
-  hexDigit      = digit + "ABCDEFabcdef" .
+  digit         = '0' + nonZeroDigit.
+  hexDigit      = digit + "ABCDEFabcdef".
   letter        = 'A' .. 'Z' + 'a' .. 'z' + '_' + '$'.
 
   char          = ANY - "'" - '\\' - cr - lf.
@@ -130,45 +122,61 @@ TOKENS
 	openCurlyBracket   = '{'.
 	closeCurlyBracket  = '}'.
 	
-	  /*-------------------------------------------------------------------------*/
-  intLit = 
-  (  zero | nonZeroDigit { digit }
-  | ( "0x" | "0X" ) hexDigit { hexDigit }
-  | '0' octalDigit { octalDigit }
-  ) [ "l" | "L" ].
-  /*-------------------------------------------------------------------------*/
-  floatLit =
-    "." digit {digit} 
-    [("e" | "E") ["+" | "-"] digit {digit}] 
-    [ "F" | "f" | "D" | "d" ]
-  | digit {digit} 
-    ( "." {digit} 
-      [("e" | "E" ) ["+" | "-"] digit {digit} ] 
-      [ "F" | "f" | "D" | "d" ]
-    | ("e" | "E") ["+" | "-"] digit {digit}
-      [ "F" | "f" | "D" | "d" ]
-    | "F" | "f" | "D" | "d"
-    ).  
-  /*-------------------------------------------------------------------------*/
-  charLit = 
-    "'" ( char
-        | "\\" ( "b" | "t" | "n" | "f" | "r" | "\"" | "\'" | "\\"
-               | "u" { "u" } hexDigit hexDigit hexDigit hexDigit
-               | zeroToThree [ octalDigit ] [ octalDigit ]
-               | octalDigit [ octalDigit ]
-               )
+    /*-------------------------------------------------------------------------*/
+    intLit = 
+	    ( 
+	          zero
+	        | nonZeroDigit { digit }
+	        | ( "0x" | "0X" ) hexDigit { hexDigit }
+	        | '0' octalDigit { octalDigit }
+	    ) [ "l" | "L" ].
+    /*-------------------------------------------------------------------------*/
+    floatLit =
+        "." digit {digit} 
+        [ ("e" | "E") ["+" | "-"] digit {digit} ] 
+        [ "F" | "f" | "D" | "d" ]
+        | digit {digit} 
+        (
+            "." {digit} 
+            [("e" | "E" ) ["+" | "-"] digit {digit} ] [ "F" | "f" | "D" | "d" ]
+            |
+            ("e" | "E") ["+" | "-"] digit {digit} [ "F" | "f" | "D" | "d" ]
+            |
+            "F" | "f" | "D" | "d"
+        ).  
+    /*-------------------------------------------------------------------------*/
+    charLit = 
+        "'"
+        (
+            char
+            |
+            "\\"
+            (
+                "b" | "t" | "n" | "f" | "r" | "\"" | "\'" | "\\" | "u" { "u" }
+                hexDigit hexDigit hexDigit hexDigit
+                | 
+                zeroToThree [ octalDigit ] [ octalDigit ]
+                |
+                octalDigit [ octalDigit ]
+            )
         ) 
-    "'".
-  /*-------------------------------------------------------------------------*/
-  stringLit = 
-    "\"" { stringChar
-         | "\\" ( "b" | "t" | "n" | "f" | "r" | "\"" | "\'" | "\\"
-                | "u" { "u" } hexDigit hexDigit hexDigit hexDigit
-                | zeroToThree [ octalDigit ] [ octalDigit ]
-                | octalDigit [ octalDigit ]
-                )
+        "'".
+    /*-------------------------------------------------------------------------*/
+    stringLit = 
+        "\""
+        {
+            stringChar
+            | "\\" 
+            (
+                "b" | "t" | "n" | "f" | "r" | "\"" | "\'" | "\\" | "u" { "u" }
+                 hexDigit hexDigit hexDigit hexDigit
+                |
+                zeroToThree [ octalDigit ] [ octalDigit ]
+                |
+                octalDigit [ octalDigit ]
+            )
          } 
-    "\"".
+        "\"".
 
 COMMENTS FROM "/*" TO "*/" NESTED
 COMMENTS FROM "//" TO cr lf
@@ -317,12 +325,12 @@ formalParameterList<Args args> =
 	        | 
 	        identifier<out String typeName>  
 	        (.
-	         typeLiteral = objectTypes.get(typeName);
-	         if(typeLiteral==null)
-	         { 
-	             typeLiteral = new ObjectType(typeName);
-	             objectTypes.put(typeName, (ObjectType)typeLiteral);
-	         }
+				 typeLiteral = objectTypes.get(typeName);
+				 if(typeLiteral==null)
+				 { 
+				     typeLiteral = new ObjectType(typeName);
+				     objectTypes.put(typeName, (ObjectType)typeLiteral);
+				 }
 	        .)
 	    )
 	   (.types.add(typeLiteral);.) 
@@ -451,139 +459,145 @@ interfaceBody<ClassGen classGen> =
 	}
 	'}'
 .
+
 /*---------------------------------------------------------------------------*
  *---------------------------- Statements -----------------------------------*
  *---------------------------------------------------------------------------*/
-
-/*---------------------------------------------------------------------------*/
-
-Statement                           (. ExprInfo dummy = new ExprInfo(this); .) 
-= Block
+// инструкци€
+Statement                           
+=
+  Block
 | "if" ParExpression Statement [ "else" Statement ]
 | "while" ParExpression Statement
-| "return" [ Expression<dummy> ] ";"
+| (. ExprInfo dummy = new ExprInfo(this); .) "return" [ Expression<dummy> ] ";"
 | "break;"
 | "continue;"
 | ";"
 | StatementExpression ';'
 .
-
 /*---------------------------------------------------------------------------*/
-
+// блок кода
 Block
 = "{" { BlockStatement } "}"
 .
-
 /*---------------------------------------------------------------------------*/
-
+// код состоит из объ€влений и инструкций
 BlockStatement
 =
 LocalVariableDeclaration ";"
 |
 Statement
 .
-
 /*---------------------------------------------------------------------------*/
-
+// объ€вление переменной
 LocalVariableDeclaration
-= [ "final" ] type<out Type typeLiteral> identifier<out String varName>  
+= 
+[ "final" ] type<out Type typeLiteral> identifier<out String varName>  
 .
-
-
 /*---------------------------------------------------------------------------*/
-
-StatementExpression                   (. ExprInfo info = new ExprInfo(this); .)
-= Expression<info>                    (. info.checkExprStat();               .) 
+// инструкци€ - выражение
+StatementExpression                   
+= 
+(. ExprInfo info = new ExprInfo(this); .)
+Expression<info> (. info.checkExprStat(); .)                     
 .
-
 /*---------------------------------------------------------------------------*
  *---------------------------- Expressions ----------------------------------*
  *---------------------------------------------------------------------------*/
-
 Expression<ExprInfo info>
-= Expression1<info> 
-  {                                    (. ExprInfo dummy = new ExprInfo(this); 
-                                          info.setKind(ExprKind.ASSIGN);    .)
+= 
+// лева€ часть
+Expression1<info>
+// м.б. много присвоений 
+{
+    (.
+	    ExprInfo dummy = new ExprInfo(this); 
+	    info.setKind(ExprKind.ASSIGN);
+    .)
     AssignmentOperator Expression1<dummy> 
-  }
+}
 .
-
 /*---------------------------------------------------------------------------*/
-
 Expression1<ExprInfo info>
-= Expression2<info> [                   (. info.setKind(ExprKind.CONDEXPR); .) 
-  ConditionalExpr ]
+= 
+// получение объекта
+Expression2<info>
+// действи€ с ним
+[ Expression1Rest<info> ]
 .
-
 /*---------------------------------------------------------------------------*/
-
-ConditionalExpr                      (. ExprInfo dummy = new ExprInfo(this); .) 
-= "?" Expression<dummy> ":" Expression1<dummy>
-.
-
-/*---------------------------------------------------------------------------*/
-
-Expression2<ExprInfo info>
-= Expression3<info> [ Expression2Rest<info> ]
-.
-
-/*---------------------------------------------------------------------------*/
-
-Expression2Rest<ExprInfo info>      (. ExprInfo dummy = new ExprInfo(this); .) 
-= Infixop Expression3<dummy> { Infixop Expression3<dummy> }
-                                    (. info.setKind(ExprKind.BINARY);       .) 
-.
-
-/*---------------------------------------------------------------------------*/
-
-Expression3<ExprInfo info>               (. int pre = ExprKind.NONE;        .)
+Expression1Rest<ExprInfo info>       
 =
-  Primary<info> 
-  {
-    Selector<info>
-  }
-  (. if (pre != ExprKind.NONE) info.setKind(pre); .)
+// бинарна€ операци€ с выражением
+(. ExprInfo dummy = new ExprInfo(this); .)
+Infixop Expression2<dummy>
+
+// еще бинарные операции с выражением
+{
+    Infixop Expression2<dummy>
+}
+(. info.setKind(ExprKind.BINARY);.)
 .
-
 /*---------------------------------------------------------------------------*/
-
+Expression2<ExprInfo info>               
+=
+    (. int pre = ExprKind.NONE;.)
+    // единичный объект
+    Primary<info>
+    // последовательность вызовов к объекту 
+    {
+        Selector<info>
+    }
+    (. if (pre != ExprKind.NONE) info.setKind(pre);.)
+.
+/*---------------------------------------------------------------------------*/
 Primary<ExprInfo info>
-= "(" Expression<info> ")"               (. info.setKind(ExprKind.PARENS);  .)
-| "this"                                 (. info.setKind(ExprKind.IDENT);   .)
-  ArgumentsOpt<info>
+=
+"(" Expression<info> ")"
+(. info.setKind(ExprKind.PARENS);.)
+
+| "this"
+(. info.setKind(ExprKind.IDENT);.)
+[Arguments]
 | "super" SuperSuffix<info>
-| Literal                                (. info.setKind(ExprKind.LITERAL); .)
+
+| Literal
+(. info.setKind(ExprKind.LITERAL); .)
+
 | "new" Creator<info>
+
+// еще вызвовы
 |
 identifier<out String accessor>
 {
     '.'
     identifier<out accessor>
-} (. info.setKind(ExprKind.IDENT);   .)
+}
+(. info.setKind(ExprKind.IDENT);.)
 .
-
 /*---------------------------------------------------------------------------*/
-
-ArgumentsOpt<ExprInfo info>
-= [                                       (. info.setKind(ExprKind.APPLY);  .)
-    Arguments ]
+// аргументы вызовов
+Arguments                           
+=
+(. ExprInfo dummy = new ExprInfo(this); .)
+// в скобках - пусто, одно или несколько выражений
+"(" [ Expression<dummy> { "," Expression<dummy> } ] ")"
 .
-
 /*---------------------------------------------------------------------------*/
-
-Arguments                           (. ExprInfo dummy = new ExprInfo(this); .) 
-= "(" [ Expression<dummy> { "," Expression<dummy> } ] ")"
-.
-
-/*---------------------------------------------------------------------------*/
-
+// вызов метода предка
 SuperSuffix<ExprInfo info>
-= Arguments                                (. info.setKind(ExprKind.APPLY); .)
-| '.' identifier<out String accessor>                                (. info.setKind(ExprKind.IDENT); .)
-  ArgumentsOpt<info>  
+=
+// конструктор
+Arguments
+(. info.setKind(ExprKind.APPLY); .)
+| 
+// другие методы
+'.' identifier<out String accessor>
+(. info.setKind(ExprKind.IDENT); .)
+[(. info.setKind(ExprKind.APPLY);.)Arguments ]  
 .
-
 /*---------------------------------------------------------------------------*/
+// квалифицированное им€
 Qualident
 = 
 identifier<out String accessor>
@@ -592,51 +606,43 @@ identifier<out String accessor>
     identifier<out accessor>
 }
 .
-
 /*---------------------------------------------------------------------------*/
+// литерал =)
 Literal
 = 
-intLit
+  intLit
 | floatLit
 | charLit
 | stringLit
 | "true" | "false"
 | "null"
 .
-
 /*---------------------------------------------------------------------------*/
-
+// вызов конструктора
 Creator<ExprInfo info>
 = 
-    Qualident 
-    ClassCreatorRest                    (. info.setKind(ExprKind.NEWCLASS); .)
+    Qualident Arguments
+    (. info.setKind(ExprKind.NEWCLASS); .)
 .
-
 /*---------------------------------------------------------------------------*/
-
-ClassCreatorRest
-= Arguments
-.
-
-/*---------------------------------------------------------------------------*/
-
-Selector<ExprInfo info>             (. ExprInfo dummy = new ExprInfo(this); .) 
+// вызов метода
+Selector<ExprInfo info>
 = 
 "."
-identifier<out String accessor> ArgumentsOpt<info>
-
+identifier<out String accessor> [Arguments]
 .
-
 /*---------------------------------------------------------------------------*/
-
-ParExpression                        (. ExprInfo dummy = new ExprInfo(this); .) 
-= "(" Expression<dummy> ")"
+// выражение в скобках
+ParExpression                         
+=
+(. ExprInfo dummy = new ExprInfo(this); .)
+"(" Expression<dummy> ")"
 .
-
 /*---------------------------------------------------------------------------*/
-
+// присвоение
 AssignmentOperator
-= "="
+= 
+  "="
 | "+="
 | "-="
 | "*="
@@ -645,15 +651,12 @@ AssignmentOperator
 | "|="
 | "^="
 | "%="
-| "<<="
-| ">>="
-| ">>>="
 .
-
 /*---------------------------------------------------------------------------*/
-
+// бинарна€ операци€
 Infixop
-= "||"
+= 
+  "||"
 | "&&"
 | "^"
 | "=="
@@ -668,8 +671,5 @@ Infixop
 | "/"
 | "%"
 .
-
-
 /*---------------------------------------------------------------------------*/
-
 END CompilationUnit.
