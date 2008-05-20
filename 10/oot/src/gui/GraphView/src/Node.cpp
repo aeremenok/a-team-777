@@ -8,8 +8,8 @@
 #include "Node.h"
 #include "GraphWidget.h"
 
-Node::Node(GraphWidget *graphWidget)
-    : graph(graphWidget)
+Node::Node(GraphWidget *graphWidget, const CCity& city)
+    : graph(graphWidget), m_city(city), m_sticky(false)
 {
     setFlag(ItemIsMovable);
     setZValue(1);
@@ -67,8 +67,11 @@ void Node::calculateForces()
         xvel = yvel = 0;
 
     QRectF sceneRect = scene()->sceneRect();
-
-    newPos = pos() + QPointF(xvel, yvel);
+    
+    if(!m_sticky)
+      newPos = pos() + QPointF(xvel, yvel);
+    else
+      newPos = pos();
     newPos.setX(qMin(qMax(newPos.x(), sceneRect.left() + 10), sceneRect.right() - 10));
     newPos.setY(qMin(qMax(newPos.y(), sceneRect.top() + 10), sceneRect.bottom() - 10));
 }
@@ -84,9 +87,9 @@ bool Node::advance()
 
 QRectF Node::boundingRect() const
 {
-    qreal adjust = 2;
-    return QRectF(-10 - adjust, -10 - adjust,
-                  23 + adjust, 23 + adjust);
+    qreal adjust = 10;
+    return QRectF(-20 - adjust, -30 - adjust,
+                  140 + adjust, 40 + adjust);
 }
 
 QPainterPath Node::shape() const
@@ -115,6 +118,15 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->setBrush(gradient);
     painter->setPen(QPen(Qt::black, 0));
     painter->drawEllipse(-10, -10, 20, 20);
+
+    QRectF textRect(-20, -35, 140, 30);
+    QString message(QObject::tr(m_city.getName().c_str()));
+    QFont font = painter->font();
+    font.setBold(true);
+    font.setPointSize(8);
+    painter->setFont(font);
+    painter->setPen(Qt::blue);
+    painter->drawText(textRect, message);
 }
 
 QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value)
@@ -142,4 +154,9 @@ void Node::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mouseReleaseEvent(event);
+}
+
+void Node::setSticky(bool f)
+{
+  m_sticky = f;
 }

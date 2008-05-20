@@ -15,8 +15,7 @@
 #include "LoginDialog.h"
 #include "NewCargoDialog.h"
 #include "GraphWidget.h"
-#include "DockWidget.h"
-#include "RoutesView.h"
+#include "UserCookie.h"
 
 CMainWindow::CMainWindow(QWidget * parent, Qt::WindowFlags f): QMainWindow(parent,f)
 {
@@ -25,9 +24,8 @@ CMainWindow::CMainWindow(QWidget * parent, Qt::WindowFlags f): QMainWindow(paren
   w->setGraph(CDeliveryNetwork::getInstance().getContainer());
   setCentralWidget(w);
   connect(m_form.m_newCargo,SIGNAL(triggered()),SLOT(addCargo()));
-
-  CDockWidget<CRoutesView> *dock = new CDockWidget<CRoutesView>(this);
-  addDockWidget(Qt::RightDockWidgetArea, dock);
+  m_dock = new CDockWidget<CRoutesView>(this);
+  addDockWidget(Qt::RightDockWidgetArea, m_dock);
 
 }
 
@@ -40,6 +38,7 @@ void CMainWindow::showEvent(QShowEvent *event)
     CLoginDialog dialog(this);
     if(dialog.exec()==QDialog::Rejected)
       exit(0);
+    m_dock->getWidget().updateModel(CUserCookie::getInstance().getUser());
   }
 }
 
@@ -48,6 +47,7 @@ void CMainWindow::addCargo()
 {
   CNewCargoDialog dialog(this);
   dialog.exec();
+  m_dock->getWidget().updateModel(CUserCookie::getInstance().getUser());
 }
 
 /* ===[ End of file $Source: /cvs/decisions/templates/template.cpp,v $ ]=== */
