@@ -75,6 +75,11 @@ LRESULT CCreateNewDlg::OnBnClickedRadioLocalGame(WORD /*wNotifyCode*/, WORD /*wI
    ATLASSERT(::IsWindow(button.m_hWnd));
    button.EnableWindow(TRUE);
 
+   //! Служит для активации кнопки НАЧАТЬ, если одно из полей имен игров
+   //! было пустым и мы его деактивировали
+   BOOL tmp = FALSE;
+   OnPlayerChanged(NULL, NULL, NULL, tmp);
+
    return 0;
 }
 
@@ -87,7 +92,12 @@ LRESULT CCreateNewDlg::OnBnClickedRadioNetworkGame(WORD /*wNotifyCode*/, WORD /*
    CButton button = GetDlgItem(IDOK);
    ATLASSERT(::IsWindow(button.m_hWnd));
    button.EnableWindow(FALSE);
-   
+
+   //! Служит для активации кнопки НАЧАТЬ, если одно из полей имен игров
+   //! было пустым и мы его деактивировали
+   BOOL tmp = FALSE;
+   OnPlayerChanged(NULL, NULL, NULL, tmp);
+
    return 0;
 }
 
@@ -142,7 +152,10 @@ LRESULT CCreateNewDlg::OnPlayerChanged(WORD /*wNotifyCode*/, WORD /*wID*/, HWND 
 {
    DoDataExchange(DDX_SAVE);
 
-   GetDlgItem(IDOK).EnableWindow(TRUE);
+   if (!IsDlgButtonChecked (IDC_RADIO_NETWORK_GAME))
+   {
+      GetDlgItem(IDOK).EnableWindow(TRUE);
+   }
 
    //! Если ничего не введено в поле имени игрока, то деактивуруется
    //! кнопка ОК
