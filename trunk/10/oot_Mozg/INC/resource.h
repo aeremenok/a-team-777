@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by e:\UNIVER\ннр\Mozg\Mozg.rc
+// Used by d:\Univer\ннрпон\Mozg\Mozg.rc
 //
 #define IDD_ABOUTBOX                    100
 #define IDR_MAINFRAME                   128
@@ -14,7 +14,7 @@
 #define IDC_BUTTON_HOLE2                1005
 #define IDC_RADIO_NETWORK_GAME          1005
 #define IDC_BUTTON_HOLE5                1006
-#define IDC_COMBO1                      1006
+#define IDC_COMBO_STRUCT_NUMBER         1006
 #define IDC_BUTTON_HOLE4                1007
 #define IDC_SPIN_PLAYER_NUMBER          1007
 #define IDC_BUTTON_HOLE6                1008

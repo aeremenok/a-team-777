@@ -40,6 +40,13 @@ LRESULT CCreateNewDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*l
    GetDlgItem(IDC_EDIT_PLAYER_5).SetWindowText(m_strPlayers[4].c_str());
    GetDlgItem(IDC_EDIT_PLAYER_6).SetWindowText(m_strPlayers[5].c_str());
 
+   //! Заполнение выпадающего списка
+   CComboBox cb = GetDlgItem(IDC_COMBO_STRUCT_NUMBER);
+   ATLASSERT(::IsWindow(cb.m_hWnd));
+   cb.AddString("Новичек");
+   cb.AddString("Мировой класс");
+   cb.SetCurSel(0);
+   
    DoDataExchange(DDX_LOAD);
 
    return TRUE;
