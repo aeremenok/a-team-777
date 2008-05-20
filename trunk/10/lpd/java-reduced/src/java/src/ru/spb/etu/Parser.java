@@ -61,6 +61,11 @@ public class Parser {
         Type[] argTypes = null;
         String[] argNames = null;
     }
+    
+    public void log(String msg)
+    {
+        System.out.println(msg);        
+    }
 
 	class ExprKind
 	{
@@ -90,12 +95,10 @@ public class Parser {
 	class ExprInfo
 	{
 	    private int    kind = ExprKind.NONE;
-	    private Parser parser;
 	
 	    public ExprInfo(
 	        Parser parser )
 	    {
-	        this.parser = parser;
 	    }
 	
 	    public int getKind()
@@ -111,10 +114,17 @@ public class Parser {
 	
 	    public void checkExprStat()
 	    {
-	        if ( kind != ExprKind.APPLY && kind != ExprKind.NEWCLASS && kind != ExprKind.ASSIGN &&
-	             kind != ExprKind.PREINC && kind != ExprKind.PREDEC && kind != ExprKind.POSTINC && kind != ExprKind.POSTDEC )
+	        if ( 
+	               kind != ExprKind.APPLY && 
+	               kind != ExprKind.NEWCLASS && 
+	               kind != ExprKind.ASSIGN &&
+	               kind != ExprKind.PREINC && 
+	               kind != ExprKind.PREDEC && 
+	               kind != ExprKind.POSTINC && 
+	               kind != ExprKind.POSTDEC 
+	           )
 	        {
-	            SemErr( "not a statement" + " (" + kind + ")" );
+	            SemErr( "not a statement (" + kind + ")" );
 	        }
 	    }
 	}
@@ -183,7 +193,7 @@ public class Parser {
 		String  value;
 		Expect(1);
 		value = t.val;
-		System.out.println(t.val);
+		log("id="+t.val);
 		
 		return value;
 	}
@@ -254,6 +264,7 @@ public class Parser {
 		   modifier,
 		   superInterfaceName==null ? null : new String[]{superInterfaceName} );
 		classes.put(interfaceName, classGen);
+		log("interface "+interfaceName+" created");
 		
 		interfaceBody(classGen);
 	}
@@ -285,7 +296,8 @@ public class Parser {
 		   className+".class", 
 		   modifier,
 		   interfaceName==null ? null : new String[]{interfaceName} );
-		classes.put(interfaceName, classGen);
+		classes.put(className, classGen);
+		log("class "+className+" created");
 		
 		classBody(classGen);
 	}
@@ -306,63 +318,55 @@ public class Parser {
 				modifier |= sMod;
 			}
 			if (next(_openRoundBracket)) {
-				Type typeLiteral = null;
-				if (StartOf(3)) {
-					typeLiteral = type();
-				} else if (la.kind == 1) {
-					String typeName = identifier();
-					typeLiteral = objectTypes.get(typeName);
-					if(typeLiteral==null)
-					{   // todo ???-?? ?????? ? ?????????
-					    typeLiteral = new ObjectType(typeName);
-					    objectTypes.put(typeName, (ObjectType)typeLiteral);
-					}
-					
-				} else SynErr(69);
 				String methodName = identifier();
 				Args args = new Args();
 				Expect(2);
-				if (StartOf(4)) {
+				if (StartOf(3)) {
 					formalParameterList(args);
 				}
 				Expect(3);
 				InstructionList il = new InstructionList();
 				MethodGen methodGen = new MethodGen(
 				    modifier,
-				    typeLiteral,
+				    new ObjectType(classGen.getClassName()), // todo ?????????
 				    args.argTypes,
 				    args.argNames,
-				    methodName,
+				    "<init>",
 				    classGen.getClassName(),
 				    il,
 				    classGen.getConstantPool()
 				);
+				                  log("method "+methodName+" created");						  
 				   
 				Expect(4);
-				while (StartOf(5)) {
+				while (StartOf(4)) {
 					Statement();
 				}
 				Expect(5);
-			} else if (StartOf(4)) {
-				String typeName = "void";
-				if (StartOf(3)) {
-					Type typeLiteral = type();
+			} else if (StartOf(3)) {
+				Type typeLiteral = null;
+				if (StartOf(5)) {
+					typeLiteral = type();
 				} else {
-					typeName = identifier();
+					String typeName = identifier();
+					typeLiteral = objectTypes.get(typeName);
+					if(typeLiteral==null)
+					{
+					    typeLiteral = new ObjectType(typeName);
+					    objectTypes.put(typeName, (ObjectType)typeLiteral);
+					    log("added type "+typeName);
+					}
+					
 				}
 				String someThing = identifier();
 				if (la.kind == 2) {
 					Args args = new Args();
 					Get();
-					if (StartOf(4)) {
+					if (StartOf(3)) {
 						formalParameterList(args);
 					}
 					Expect(3);
-					Expect(4);
-					while (StartOf(5)) {
-						Statement();
-					}
-					Expect(5);
+					Statement();
 				} else if (la.kind == 29 || la.kind == 30) {
 					if (la.kind == 29) {
 						Get();
@@ -370,8 +374,8 @@ public class Parser {
 						Expression(dummy);
 					}
 					Expect(30);
-				} else SynErr(70);
-			} else SynErr(71);
+				} else SynErr(69);
+			} else SynErr(70);
 		}
 		Expect(5);
 	}
@@ -396,7 +400,7 @@ public class Parser {
 				modifier |= sMod;
 			}
 			Type typeLiteral = null;
-			if (StartOf(3)) {
+			if (StartOf(5)) {
 				typeLiteral = type();
 			} else if (la.kind == 1) {
 				String typeName = identifier();
@@ -407,11 +411,11 @@ public class Parser {
 				    objectTypes.put(typeName, (ObjectType)typeLiteral);
 				}
 				
-			} else SynErr(72);
+			} else SynErr(71);
 			String methodName = identifier();
 			Args args = new Args();
 			Expect(2);
-			if (StartOf(4)) {
+			if (StartOf(3)) {
 				formalParameterList(args);
 			}
 			Expect(3);
@@ -480,7 +484,7 @@ public class Parser {
 			typeLiteral = new ObjectType("java.util.Vector");
 			break;
 		}
-		default: SynErr(73); break;
+		default: SynErr(72); break;
 		}
 		return typeLiteral;
 	}
@@ -489,7 +493,7 @@ public class Parser {
 		ArrayList<Type> types = new ArrayList<Type>();
 		ArrayList<String> names = new ArrayList<String>();
 		Type typeLiteral = null;
-		if (StartOf(3)) {
+		if (StartOf(5)) {
 			typeLiteral = type();
 		} else if (la.kind == 1) {
 			String typeName = identifier();
@@ -500,13 +504,13 @@ public class Parser {
 			    objectTypes.put(typeName, (ObjectType)typeLiteral);
 			}
 			
-		} else SynErr(74);
+		} else SynErr(73);
 		types.add(typeLiteral);
 		String param = identifier();
 		names.add(param);
 		while (la.kind == 28) {
 			Get();
-			if (StartOf(3)) {
+			if (StartOf(5)) {
 				typeLiteral = type();
 			} else if (la.kind == 1) {
 				String typeName = identifier();
@@ -517,7 +521,7 @@ public class Parser {
 				    objectTypes.put(typeName, (ObjectType)typeLiteral);
 				}
 				    
-			} else SynErr(75);
+			} else SynErr(74);
 			types.add(typeLiteral);
 			param = identifier();
 			names.add(param);
@@ -528,12 +532,10 @@ public class Parser {
 	}
 
 	void Statement() {
-		switch (la.kind) {
-		case 4: {
+		if (la.kind == 4) {
 			Block();
-			break;
-		}
-		case 31: {
+			log("block");
+		} else if (la.kind == 31) {
 			Get();
 			ParExpression();
 			Statement();
@@ -541,42 +543,27 @@ public class Parser {
 				Get();
 				Statement();
 			}
-			break;
-		}
-		case 33: {
+		} else if (la.kind == 33) {
 			Get();
 			ParExpression();
 			Statement();
-			break;
-		}
-		case 34: {
+		} else if (la.kind == 34) {
 			ExprInfo dummy = new ExprInfo(this); 
 			Get();
 			if (StartOf(6)) {
 				Expression(dummy);
 			}
 			Expect(30);
-			break;
-		}
-		case 35: {
+		} else if (la.kind == 35) {
 			Get();
-			break;
-		}
-		case 36: {
+		} else if (la.kind == 36) {
 			Get();
-			break;
-		}
-		case 30: {
+		} else if (la.kind == 30) {
 			Get();
-			break;
-		}
-		case 1: case 2: case 6: case 7: case 8: case 9: case 37: case 38: case 39: case 41: case 42: case 43: {
+		} else if (StartOf(6)) {
 			StatementExpression();
 			Expect(30);
-			break;
-		}
-		default: SynErr(76); break;
-		}
+		} else SynErr(75);
 	}
 
 	void Expression(ExprInfo info) {
@@ -615,9 +602,9 @@ public class Parser {
 		if (StartOf(9)) {
 			LocalVariableDeclaration();
 			Expect(30);
-		} else if (StartOf(5)) {
+		} else if (StartOf(4)) {
 			Statement();
-		} else SynErr(77);
+		} else SynErr(76);
 	}
 
 	void LocalVariableDeclaration() {
@@ -626,9 +613,15 @@ public class Parser {
 		}
 		Type typeLiteral = type();
 		String varName = identifier();
+		if (la.kind == 29) {
+			Get();
+			ExprInfo info = new ExprInfo(this); 
+			Expression(info);
+		}
 	}
 
 	void Expression1(ExprInfo info) {
+		log("expr");
 		Expression2(info);
 		if (StartOf(10)) {
 			Expression1Rest(info);
@@ -673,17 +666,17 @@ public class Parser {
 			Get();
 			break;
 		}
-		default: SynErr(78); break;
+		default: SynErr(77); break;
 		}
 	}
 
 	void Expression2(ExprInfo info) {
-		int pre = ExprKind.NONE;
-		Primary(info);
+		if (StartOf(11)) {
+			Primary(info);
+		}
 		while (la.kind == 40) {
 			Selector(info);
 		}
-		if (pre != ExprKind.NONE) info.setKind(pre);
 	}
 
 	void Expression1Rest(ExprInfo info) {
@@ -755,7 +748,7 @@ public class Parser {
 			Get();
 			break;
 		}
-		default: SynErr(79); break;
+		default: SynErr(78); break;
 		}
 	}
 
@@ -783,7 +776,7 @@ public class Parser {
 		}
 		case 6: case 7: case 8: case 9: case 41: case 42: case 43: {
 			Literal();
-			info.setKind(ExprKind.LITERAL); 
+			info.setKind(ExprKind.LITERAL);
 			break;
 		}
 		case 39: {
@@ -793,14 +786,17 @@ public class Parser {
 		}
 		case 1: {
 			String accessor = identifier();
+			info.setKind(ExprKind.IDENT);
 			while (la.kind == 40) {
 				Get();
 				accessor = identifier();
 			}
-			info.setKind(ExprKind.IDENT);
+			if (la.kind == 2) {
+				Arguments();
+			}
 			break;
 		}
-		default: SynErr(80); break;
+		default: SynErr(79); break;
 		}
 	}
 
@@ -813,12 +809,16 @@ public class Parser {
 	}
 
 	void Arguments() {
+		log("args");
 		ExprInfo dummy = new ExprInfo(this); 
+		
 		Expect(2);
-		if (StartOf(6)) {
+		if (StartOf(12)) {
+			log("expr1");
 			Expression(dummy);
 			while (la.kind == 28) {
 				Get();
+				log("expr2");
 				Expression(dummy);
 			}
 		}
@@ -837,7 +837,7 @@ public class Parser {
 				info.setKind(ExprKind.APPLY);
 				Arguments();
 			}
-		} else SynErr(81);
+		} else SynErr(80);
 	}
 
 	void Literal() {
@@ -870,8 +870,9 @@ public class Parser {
 			Get();
 			break;
 		}
-		default: SynErr(82); break;
+		default: SynErr(81); break;
 		}
+		log("lit="+t.val);
 	}
 
 	void Creator(ExprInfo info) {
@@ -903,14 +904,16 @@ public class Parser {
 		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,x,x,x, x,x,x,x, x,x,T,T, T,x,x,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,T,x,x, x,x,x,x, x,x,T,T, x,x,x,x, T,T,T,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,T,x, T,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, x,T,T,T, T,T,T,T, x,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,T,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, x,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,T,T,x, T,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, x,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,x,x},
+		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,T,T,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,x, x,x,x,x, x,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,x,x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,T,x, T,x,T,T, T,T,x,T, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, x,x,T,T, x,T,T,T, T,T,T,T, x,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,T,T,x, T,x,T,T, T,T,x,T, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, x,T,T,T, x,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,x,x},
 		{x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,T,T, T,T,T,T, T,T,x,x}
+		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,T,T, T,T,T,T, T,T,x,x},
+		{x,T,T,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, x,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,T,T,T, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,x,x}
 
 	};
 } // end Parser
@@ -1006,18 +1009,17 @@ class Errors {
 			case 68: s = "invalid accessSpecifier"; break;
 			case 69: s = "invalid classBody"; break;
 			case 70: s = "invalid classBody"; break;
-			case 71: s = "invalid classBody"; break;
-			case 72: s = "invalid interfaceBody"; break;
-			case 73: s = "invalid type"; break;
+			case 71: s = "invalid interfaceBody"; break;
+			case 72: s = "invalid type"; break;
+			case 73: s = "invalid formalParameterList"; break;
 			case 74: s = "invalid formalParameterList"; break;
-			case 75: s = "invalid formalParameterList"; break;
-			case 76: s = "invalid Statement"; break;
-			case 77: s = "invalid BlockStatement"; break;
-			case 78: s = "invalid AssignmentOperator"; break;
-			case 79: s = "invalid Infixop"; break;
-			case 80: s = "invalid Primary"; break;
-			case 81: s = "invalid SuperSuffix"; break;
-			case 82: s = "invalid Literal"; break;
+			case 75: s = "invalid Statement"; break;
+			case 76: s = "invalid BlockStatement"; break;
+			case 77: s = "invalid AssignmentOperator"; break;
+			case 78: s = "invalid Infixop"; break;
+			case 79: s = "invalid Primary"; break;
+			case 80: s = "invalid SuperSuffix"; break;
+			case 81: s = "invalid Literal"; break;
 			default: s = "error " + n; break;
 		}
 		printMsg(line, col, s);

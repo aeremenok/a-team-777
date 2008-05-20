@@ -96,6 +96,7 @@ public class Compiler
         // ----------------------------------- example
         ClassGen classGen = new ClassGen( className, "java.lang.Object", classFileName, ACC_PUBLIC | ACC_SUPER, null );
 
+
         ConstantPoolGen cp = classGen.getConstantPool(); // cg creates constant pool
         InstructionList il = new InstructionList();
 
