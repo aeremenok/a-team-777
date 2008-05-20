@@ -13,145 +13,275 @@ inline PetriNet<MT>::PetriNet(TRANSITION maxFired)
    : m_maxFired(maxFired), m_positions(0), m_transitions(0) {}
 
 // ==========================================================================
-// Очистить содержимое
+//                            ОЧИСТИТЬ СОДЕРЖИМОЕ
 template <typename MT>
 inline void PetriNet<MT>::Clear()
 {
+   m_positions = 0;
+   m_transitions = 0;
+   m_Input.clear();
+   m_Output.clear();
+   m_Marking.clear();
 }
 
 // ==========================================================================
-// Задать число позиций
+//                           ЗАДАТЬ ЧИСЛО ПОЗИЦИЙ
 template <typename MT>
 inline void PetriNet<MT>::SetPositionsNumber(POSITION number)
 {
+   // ЕСЛИ ЧИСЛО ПОЗИЦИЙ ПРЕЖНЕЕ, НИЧЕГО НЕ ДЕЛАТЬ
+   if ( GetPositionsNumber() == number )
+      return;
+
+   // ТАК КАК МЕНЯЕТСЯ ЧИСЛО ПОЗИЦИЙ, СБРОСИТЬ ВСЕ СВЯЗАННЫЕ ДАННЫЕ
+   m_Input.clear();
+   m_Output.clear();
+   m_Marking.clear();
+
+   m_positions = number;
+   m_Marking.resize(number, false);
+   m_Input.resize(GetTransitionsNumber());
+   m_Output.resize(GetTransitionsNumber());
 }
 
 // ==========================================================================
-// Задать число переходов
+//                        ЗАДАТЬ ЧИСЛО ПЕРЕХОДОВ
 template <typename MT>
 inline void PetriNet<MT>::SetTransitionsNumber(TRANSITION number)
 {
+   // ЕСЛИ ЧИСЛО ПЕРЕХОДОВ ПРЕЖНЕЕ, НИЧЕГО НЕ ДЕЛАТЬ
+   if ( GetTransitionsNumber() == number )
+      return;
+
+   // ТАК КАК МЕНЯЕТСЯ ЧИСЛО ПЕРЕХОДОВ, СБРОСИТЬ ВСЕ СВЯЗАННЫЕ ДАННЫЕ
+   m_Input.clear();
+   m_Output.clear();
+
+   m_transitions = number;
+   m_Input.resize(number);
+   m_Output.resize(number);
 }
 
 // ==========================================================================
-// Добавить позицию во входную функцию перехода
-// \param tr - переход
-// \param pos - добавляемая позиция
+//             ДОБАВИТЬ ПОЗИЦИЮ ВО ВХОДНУЮ ФУНКЦИЮ ПЕРЕХОДА
 template <typename MT>
 inline void PetriNet<MT>::AddPositionToInput(TRANSITION tr, POSITION pos)
 {
+   if ( tr >= 0 && tr < GetTransitionsNumber() )
+      // СВЯЗИ КРАТНОСТИ > 1 НЕ ЗАПРЕЩЕНЫ, ПОЭТОМУ НЕ ПРОВЕРЯЕМ НАЛИЧИЕ ПОЗИЦИИ
+      m_Input[tr].push_back(pos);
 }
 
 // ==========================================================================
-// Добавить позицию в выходную функцию перехода
-// \param tr - переход
-// \param pos - добавляемая позиция
+//              ДОБАВИТЬ ПОЗИЦИЮ В ВЫХОДНУЮ ФУНКЦИЮ ПЕРЕХОДА
 template <typename MT>
 inline void PetriNet<MT>::AddPositionToOutput(TRANSITION tr, POSITION pos)
 {
+   if ( tr >= 0 && tr < GetTransitionsNumber() )
+      // СВЯЗИ КРАТНОСТИ > 1 НЕ ЗАПРЕЩЕНЫ, ПОЭТОМУ НЕ ПРОВЕРЯЕМ НАЛИЧИЕ ПОЗИЦИИ
+      m_Output[tr].push_back(pos);
 }
 
 // ==========================================================================
-// Изменить маркировку
+//                         ИЗМЕНИТЬ МАРКИРОВКУ
 template <typename MT>
 inline void PetriNet<MT>::SetMarking(const std::vector<MT>& marking)
 {
+   if ( marking.size() == m_Marking.size() )
+      m_Marking = marking;
 }
 
 // ==========================================================================
-// Изменить наличие фишки(ек) в позиции
-// \return true - если добавление произошло, false - иначе
+//                      СБРОСИТЬ МАРКИРОВКУ НА ПУСТУЮ
+template <typename MT>
+inline void PetriNet<MT>::ResetMarking()
+{
+   m_Marking.assign(GetPositionsNumber(), false);
+}
+
+// ==========================================================================
+//                ИЗМЕНИТЬ НАЛИЧИЕ ФИШКИ(ЕК) В ПОЗИЦИИ
 template <typename MT>
 inline bool PetriNet<MT>::SetToken(POSITION pos, MT token)
 {
+   if ( pos >= 0 && pos < GetPositionsNumber() )
+      // ДОБАВЛЯЕМ ФИШКУ И ПОЗИЦИЯ НЕДОСТУПНА
+      if ( token && !IsPositionAvailable(pos) )
+         return false;
+      else
+      {
+         m_Marking[pos] = token;
+         return true;
+      }
+
+   return false;
 }
 
 // ==========================================================================
-// Запустить все допустимые срабатывания переходов
-// \param drawable - указатель на объект, реализующий интерфейс рисования
-// \return true - если все допустимые переходы сработали
-// \return false - если сработало максимально допустимое кол-во переходов
+//           ЗАПУСТИТЬ ВСЕ ДОПУСТИМЫЕ СРАБАТЫВАНИЯ ПЕРЕХОДОВ
 template <typename MT>
 inline bool PetriNet<MT>::FireAllTransitions(iface::iDrawable* drawable = NULL)
 {
+   itransition itF = GetTransitions();    // Исходный итератор
+   TRANSITION fired = 0;                  // Кол-во сработавших переходов
+
+   itransition it = itF;
+   while ( !it.end() && (fired < m_maxFired) )
+      // ПЕРЕХОД АКТИВЕН
+      if ( IsTransitionActive(it.transition()) )
+      {
+         // ЗАПУСТИТЬ СРАБАТЫВАНИЕ
+         FireTransition(it.transition());
+         // УВЕЛИЧИТЬ СЧЕТЧИК
+         fired++;
+         // ВЕРНУТСЯ В НАЧАЛО ОБХОДА
+         it = itF;
+         // ВЫЗВАТЬ ПЕРЕРИСОВКУ
+         if ( drawable != NULL )
+            drawable->Redraw();
+      }
+      // ПЕРЕХОД НЕАКТИВЕН
+      else
+         ++it;
+
+   if ( fired == m_maxFired )
+      return false;
+   else
+      return true;
 }
 
 // ==========================================================================
-// Проверить, можно ли добавить фишку в позицию
-template <typename MT>
-inline bool PetriNet<MT>::IsPositionAvailable(POSITION pos) const
+//             ПРОВЕРИТЬ, МОЖНО ЛИ ДОБАВИТЬ ФИШКУ В ПОЗИЦИЮ
+/* Так как поведение зависит от типа маркировки, функция
+   специфицируется отдельно для булевого и числовых типов */
+inline bool PetriNet<bool>::IsPositionAvailable(POSITION pos) const
 {
+   if ( pos >= 0 && pos < GetPositionsNumber() )
+      if ( m_Marking[pos] )
+         return false;
+      else
+         return true;
+
+   return false;
 }
 
 // ==========================================================================
-// Проверить, активен ли переход
-template <typename MT>
-inline bool PetriNet<MT>::IsTransitionActive(TRANSITION tr) const
+//                     ПРОВЕРИТЬ, АКТИВЕН ЛИ ПЕРЕХОД
+/* Так как поведение зависит от типа маркировки, функция
+   специфицируется отдельно для булевого и числовых типов */
+inline bool PetriNet<bool>::IsTransitionActive(TRANSITION tr) const
 {
+   if ( tr < 0 || tr >= GetTransitionsNumber() )
+      return false;
+
+   bool ret = true;
+
+   // ПРОВЕРИТЬ, ЧТО ВО ВСЕХ ВХОДНЫХ ПОЗИЦИЯХ ЕСТЬ ФИШКИ
+   itransition_input input = GetTransitionInput(tr);
+   for ( ; !input.end(); ++input )
+      ret = ret && m_Marking[input.position()];
+
+   // ПРОВЕРИТЬ, ЧТО СРЕДИ ВЫХОДНЫХ ПОЗИЦИЙ ЕСТЬ ХОТЬ ОДНА СВОБОДНАЯ
+   itransition_output output = GetTransitionOutput(tr);
+   for ( ; !output.end(); ++output )
+      ret = ret && !m_Marking[output.position()];
+
+   return ret;
 }
 
 // ==========================================================================
-// Получить количество позиций
+//                        ПОЛУЧИТЬ КОЛИЧЕСТВО ПОЗИЦИЙ
 template <typename MT>
 inline POSITION PetriNet<MT>::GetPositionsNumber() const
 {
+   return m_positions;
 }
 
 // ==========================================================================
-// Получить количество переходов
+//                     ПОЛУЧИТЬ КОЛИЧЕСТВО ПЕРЕХОДОВ
 template <typename MT>
 inline TRANSITION PetriNet<MT>::GetTransitionsNumber() const
 {
+   return m_transitions;
 }
 
 // ==========================================================================
-// Получить текущую маркировку
+//                      ПОЛУЧИТЬ ТЕКУЩУЮ МАРКИРОВКУ
 template <typename MT>
 inline const std::vector<MT>& PetriNet<MT>::GetCurrentMarking() const
 {
+   return m_Marking;
 }
 
 // ==========================================================================
-// Поулчить максимально допустимое для срабатывания число переходов
-// в рамках одного запуска сети
 template <typename MT>
 inline TRANSITION PetriNet<MT>::GetMaxFired() const
 {
+   return m_maxFired;
 }
 
 // ==========================================================================
-// Получить итератор для обхода позиций
+//                 ПОЛУЧИТЬ ИТЕРАТОР ДЛЯ ОБХОДА ПОЗИЦИЙ
 template <typename MT>
 inline position_iterator<MT> PetriNet<MT>::GetPositions() const
 {
+   if ( GetPositionsNumber() > 0 )
+      return iposition(this, 0);
+   else
+      return iposition();
 }
 
 // ==========================================================================
-// Получить итератор для обхода переходов
+//                ПОЛУЧИТЬ ИТЕРАТОР ДЛЯ ОБХОДА ПЕРЕХОДОВ
 template <typename MT>
 inline transition_iterator<MT> PetriNet<MT>::GetTransitions() const
 {
+   if ( GetTransitionsNumber() > 0 )
+      return itransition(this, 0);
+   else
+      return itransition();
 }
 
 // ==========================================================================
-// Получить итератор для обхода входных позиций перехода
+//           ПОЛУЧИТЬ ИТЕРАТОР ДЛЯ ОБХОДА ВХОДНЫХ ПОЗИЦИЙ ПЕРЕХОДА
 template <typename MT>
 inline transition_input_it<MT> PetriNet<MT>::GetTransitionInput(TRANSITION tr) const
 {
+   if ( tr >= 0 && tr < GetTransitionsNumber() )
+      return itransition_input(this, tr);
+   else
+      return itransition_input();
 }
 
 // ==========================================================================
-// Получить итератор для обхода выходных позиций перехода
+//          ПОЛУЧИТЬ ИТЕРАТОР ДЛЯ ОБХОДА ВЫХОДНЫХ ПОЗИЦИЙ ПЕРЕХОДА
 template <typename MT>
 inline transition_output_it<MT> PetriNet<MT>::GetTransitionOutput(TRANSITION tr) const
 {
+   if ( tr >= 0 && tr < GetTransitionsNumber() )
+      return itransition_output(this, tr);
+   else
+      return itransition_output();
 }
 
 // ==========================================================================
-// Запустить срабатывание заданного перехода
-template <typename MT>
-inline void PetriNet<MT>::FireTransition(TRANSITION tr)
+//               ЗАПУСТИТЬ СРАБАТЫВАНИЕ ЗАДАННОГО ПЕРЕХОДА
+/* Так как поведение зависит от типа маркировки, функция
+   специфицируется отдельно для булевого и числовых типов */
+inline void PetriNet<bool>::FireTransition(TRANSITION tr)
 {
+   if ( !IsTransitionActive(tr) )
+      return;
+
+   // ЗАБАРАТЬ ФИШКИ ИЗ ВХОДНЫХ ПОЗИЦИЙ
+   itransition_input input = GetTransitionInput(tr);
+   for ( ; !input.end(); ++input )
+      SetToken(input.position(), false);
+
+   // ПЕРКИНУТЬ В ВЫХОДНЫЕ
+   itransition_output output = GetTransitionOutput(tr);
+   for ( ; !output.end(); ++output )
+      SetToken(output.position(), true);
 }
 
 // ==========================================================================
@@ -203,7 +333,8 @@ inline POSITION position_iterator<MT>::position() const
 }
 
 template <typename MT>
-inline position_iterator<MT>::position_iterator(const PetriNet<MT>* net, POSITION id);
+inline position_iterator<MT>::position_iterator(const PetriNet<MT>* net, POSITION id)
+   : m_net(net), m_pos(id) {}
 
 // ==========================================================================
 // TRANSITION_ITERATOR
@@ -292,10 +423,10 @@ inline transition_input_it<MT>& transition_input_it<MT>::operator++()
 {
    if ( !end() )
    {
-      IOFunc::iterator it = 
-         std::find(m_net->m_Input[tr].begin(), m_net->m_Input[tr].end(), m_pos);
+      IOFunc::const_iterator it = 
+         std::find(m_net->m_Input[m_tr].begin(), m_net->m_Input[m_tr].end(), m_pos);
       it++;
-      if ( it != m_net->m_Input[tr].end() )
+      if ( it != m_net->m_Input[m_tr].end() )
          m_pos = *it;
       else
          m_pos = NONE;
@@ -355,10 +486,10 @@ inline transition_output_it<MT>& transition_output_it<MT>::operator++()
 {
    if ( !end() )
    {
-      IOFunc::iterator it = 
-         std::find(m_net->m_Output[tr].begin(), m_net->m_Output[tr].end(), m_pos);
+      IOFunc::const_iterator it = 
+         std::find(m_net->m_Output[m_tr].begin(), m_net->m_Output[m_tr].end(), m_pos);
       it++;
-      if ( it != m_net->m_Output[tr].end() )
+      if ( it != m_net->m_Output[m_tr].end() )
          m_pos = *it;
       else
          m_pos = NONE;

@@ -10,6 +10,7 @@
 
 #include "ifaces.h"
 #include <vector>
+#include <algorithm>
 
 // ==========================================================================
 namespace tdata //!< Template Data
@@ -77,6 +78,9 @@ namespace tdata //!< Template Data
 
       //! Изменить маркировку
       void SetMarking(const std::vector<MarkingType>& marking);
+
+      //! Сбросить маркировку на пустую
+      void ResetMarking();
 
       //! Изменить наличие фишки(ек) в позиции
       //! \return true - если добавление произошло, false - иначе
