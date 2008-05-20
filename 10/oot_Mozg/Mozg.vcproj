@@ -49,7 +49,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\SRC;.\INC"
+				AdditionalIncludeDirectories=".\INC;.\ExtTools"
 				PreprocessorDefinitions="WIN32;_WINDOWS;STRICT;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\SRC;.\INC"
+				AdditionalIncludeDirectories=".\INC;.\ExtTools"
 				PreprocessorDefinitions="WIN32;_WINDOWS;STRICT;NDEBUG"
 				ExceptionHandling="1"
 				RuntimeLibrary="0"
@@ -333,6 +333,54 @@
 				RelativePath=".\Mozg.rc"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="ExtTools"
+			>
+			<Filter
+				Name="INC"
+				>
+				<File
+					RelativePath=".\ExtTools\Archive.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ExtTools\COMMDEF.H"
+					>
+				</File>
+				<File
+					RelativePath=".\ExtTools\COMTEMPL.H"
+					>
+				</File>
+				<File
+					RelativePath=".\ExtTools\excptns.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ExtTools\MARRAY.H"
+					>
+				</File>
+				<File
+					RelativePath=".\ExtTools\NELEM.H"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="SRC"
+				>
+				<File
+					RelativePath=".\ExtTools\Archive.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ExtTools\commdef.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ExtTools\MARRAY.CPP"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

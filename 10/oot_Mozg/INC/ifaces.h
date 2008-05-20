@@ -8,6 +8,8 @@
 #ifndef __IFACES_H
 #define __IFACES_H
 
+#include "Archive.h"
+
 // ==========================================================================
 namespace iface   //!< Общие интерфейсы, используемы в программе
 {
@@ -34,10 +36,12 @@ namespace iface   //!< Общие интерфейсы, используемы в программе
    {
    public:
       //! Записать данные в файл
-      virtual bool PutIntoFile(std::string& filename) = 0;
+      //! \return идентификатор цепочки записей в архиве
+      virtual int PutIntoArchive(ser::Archive& archive) = 0;
 
       //! Получить данные из файла
-      virtual bool GetFromFile(std::string& filename) = 0;
+      //! \param id - идентификатор цепочки записей в архиве
+      virtual void GetFromArchive(const ser::Archive& archive, int id) = 0;
 
       virtual ~iSerializable() {};
 
