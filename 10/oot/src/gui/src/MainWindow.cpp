@@ -26,6 +26,7 @@ CMainWindow::CMainWindow(QWidget * parent, Qt::WindowFlags f): QMainWindow(paren
   connect(m_form.m_newCargo,SIGNAL(triggered()),SLOT(addCargo()));
   m_dock = new CDockWidget<CRoutesView>(this);
   addDockWidget(Qt::RightDockWidgetArea, m_dock);
+  connect(&m_dock->getWidget(), SIGNAL(selectPath(CPath<CCity,CDefaultLink>)),w , SLOT(selectPath(CPath<CCity,CDefaultLink>)));
 
 }
 

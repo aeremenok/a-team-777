@@ -21,9 +21,15 @@
  */
 class CShipLink: public CDefaultLink
 {
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(CDefaultLink);
+  }
   
 public:
-  CShipLink(unsigned long cost, unsigned long time);
+  CShipLink(unsigned long cost=0, unsigned long time=0);
   
   virtual std::string getDescription() const;
 
@@ -34,9 +40,16 @@ public:
 
 class CLimcoLink: public CShipLink
 {
+  
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(CShipLink);
+  }
 
 public:
-  CLimcoLink(unsigned long cost, unsigned long time);
+  CLimcoLink(unsigned long cost=0, unsigned long time=0);
   
   std::string getDescription() const;
 
@@ -44,9 +57,15 @@ public:
 
 class CAlfaLink: public CShipLink
 {
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(CShipLink);
+  }
 
 public:
-  CAlfaLink(unsigned long cost, unsigned long time);
+  CAlfaLink(unsigned long cost=0, unsigned long time=0);
   
   std::string getDescription() const;
 

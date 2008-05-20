@@ -25,13 +25,14 @@ GraphWidget::GraphWidget(QWidget * parent): QGraphicsView(parent), timerId(0)
 void GraphWidget::setGraph(CGraph<CCity, CEdgeParameters> graph)
 {
   typedef CGraph<CCity, CEdgeParameters> Super;
-  std::map<CCity, Node*> nodes;
+  m_nodes.clear();
+  m_edges.clear();
 
   size_t i=0;
   for(Super::vertex_iterator v=graph.vertex_begin();v!=graph.vertex_end(); ++v)
   {
     Node *n = new Node(this, *v);
-    nodes.insert(std::pair<CCity,Node*>(*v,n));
+    m_nodes.insert(std::pair<CCity,Node*>(*v,n));
     scene()->addItem(n);
 
     n->setPos(-500 + 300*cos(i*M_PI/180),-500 + 300*sin(i*M_PI/180));
@@ -41,11 +42,12 @@ void GraphWidget::setGraph(CGraph<CCity, CEdgeParameters> graph)
   
   for(Super::edge_iterator v=graph.edge_begin();v!=graph.edge_end(); ++v)
   {
-    Edge *e = new Edge(nodes.find(v->vertex_pair.first)->second, nodes.find(v->vertex_pair.second)->second);
+    Edge *e = new Edge(m_nodes.find(v->vertex_pair.first)->second, m_nodes.find(v->vertex_pair.second)->second);
     scene()->addItem(e);
+    m_edges.insert(std::pair<Super::pair ,Edge*>(v->vertex_pair,e));
   }
 
-  centerNode = nodes.begin()->second;
+  centerNode = m_nodes.begin()->second;
 //  centerNode->setSticky(true);
   scale(0.8, 0.8);
   setMinimumSize(400, 400);
@@ -129,9 +131,9 @@ void GraphWidget::drawBackground(QPainter *painter, const QRectF &rect)
     QRectF rightShadow(sceneRect.right(), sceneRect.top() + 5, 5, sceneRect.height());
     QRectF bottomShadow(sceneRect.left() + 5, sceneRect.bottom(), sceneRect.width(), 5);
     if (rightShadow.intersects(rect) || rightShadow.contains(rect))
-	painter->fillRect(rightShadow, Qt::darkGray);
+    	painter->fillRect(rightShadow, Qt::darkGray);
     if (bottomShadow.intersects(rect) || bottomShadow.contains(rect))
-	painter->fillRect(bottomShadow, Qt::darkGray);
+    	painter->fillRect(bottomShadow, Qt::darkGray);
 
     // Fill
     QLinearGradient gradient(sceneRect.topLeft(), sceneRect.bottomRight());
@@ -140,21 +142,6 @@ void GraphWidget::drawBackground(QPainter *painter, const QRectF &rect)
     painter->fillRect(rect.intersect(sceneRect), gradient);
     painter->setBrush(Qt::NoBrush);
     painter->drawRect(sceneRect);
-
-    // Text
-//    QRectF textRect(sceneRect.left() + 4, sceneRect.top() + 4,
-//                    sceneRect.width() - 4, sceneRect.height() - 4);
-//    QString message(tr("Click and drag the nodes around, and zoom with the mouse "
-//                       "wheel or the '+' and '-' keys"));
-    
-//    QFont font = painter->font();
-//    font.setBold(true);
-  //  font.setPointSize(14);
-    //painter->setFont(font);
-//    painter->setPen(Qt::lightGray);
-//    painter->drawText(textRect.translated(2, 2), message);
-//    painter->setPen(Qt::black);
-//    painter->drawText(textRect, message);
 }
 
 void GraphWidget::scaleView(qreal scaleFactor)
@@ -164,4 +151,19 @@ void GraphWidget::scaleView(qreal scaleFactor)
         return;
 
     scale(scaleFactor, scaleFactor);
+}
+
+void GraphWidget::selectPath(CPath<CCity, CDefaultLink> path)
+{
+  for(std::map<CGraph<CCity, CEdgeParameters>::pair, Edge*>::iterator it=m_edges.begin(); it!=m_edges.end(); ++it)
+    it->second->setActive(false);
+
+  typedef CPath<CCity, CDefaultLink> Super;
+  Super::vertex_iterator next=path.vertex_begin();++next;
+  for(Super::vertex_iterator it=path.vertex_begin();next!=path.vertex_end();++it,next++)
+  {
+    m_edges.find(std::pair<CCity,CCity>(*it,*next))->second->setActive(true); 
+  }
+
+  update();
 }
