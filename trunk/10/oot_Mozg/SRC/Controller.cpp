@@ -28,24 +28,24 @@ Controller::~Controller()
    delete netStruc;
 }
 
-void Controller::createNetwork (int newNumberOfHoles, int newNumberOfCell)
-{
-}
-
-bool Controller::restoreNetwork ()
-{
-	return 0;
-}
-
-bool Controller::restorePlayers ()
-{
-	return 0;
-}
-
-bool Controller::restoreGame (std::string destanation)
-{
-	return 0;
-}
+//void Controller::createNetwork (int newNumberOfHoles, int newNumberOfCell)
+//{
+//}
+//
+//bool Controller::restoreNetwork ()
+//{
+//	return 0;
+//}
+//
+//bool Controller::restorePlayers ()
+//{
+//	return 0;
+//}
+//
+//bool Controller::restoreGame (std::string destanation)
+//{
+//	return 0;
+//}
 void Controller::initialize (std::list<std::string>& names, int nStr)
 {
    //! Проверяем была игра активна
@@ -77,13 +77,14 @@ void Controller::initialize (std::list<std::string>& names, int nStr)
       itr++;
    }
 
-   /************************************************************************/
-   /*                     //! TODO: Создаем структуру                      */
-   /************************************************************************/
+   
+   //! Создается новая структура по ID
    netStruc = new tdata::Data;
+   netStruc->generate(nStr);
 
    //! Установить в статусе подсказку, что ходит первый игрок
-   mainDlg->setTip("Ход игрока " + playersList->getActivePlayer()->getName());
+   mainDlg->setTip("Ход игрока " + 
+                     playersList->getActivePlayer()->getName());
 }
 void Controller::makeStep(int hole)
 {
@@ -92,7 +93,8 @@ void Controller::makeStep(int hole)
       netStruc->Redraw();     //!< Перерисовываем сеть Перти
       playersList->goNext();  //!< Перешли к следующему игроку
       //! Сменили подсказку
-      mainDlg->setTip("Ход игрока " + playersList->getActivePlayer()->getName());
+      mainDlg->setTip("Ход игрока " + 
+                        playersList->getActivePlayer()->getName());
       if (playersList->getActivePlayer()->ifMain())
       {
          mainDlg->ActivateOpen(TRUE);
@@ -115,9 +117,11 @@ void Controller::makeStep(int hole)
       mainDlg->ActivateButtons(FALSE);
       mainDlg->ActivateSave(FALSE);
       //! Выводим сообщение, о победители
-      mainDlg->setTip("Поздравляем " + playersList->getActivePlayer()->getName() 
-                                      + " с победой в игре Мозгодолбалка!");
+      mainDlg->setTip("Поздравляем " + 
+                       playersList->getActivePlayer()->getName() +
+                       " с победой в игре Мозгодолбалка!");
    }
+
 }
 
 void Controller::reset()

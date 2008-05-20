@@ -28,10 +28,10 @@ class Controller
      ~Controller();
 
       //! Создает структуру для игры
-      void createNetwork (int newNumberOfHoles, int newNumberOfCell);
+      //void createNetwork (int newNumberOfHoles, int newNumberOfCell);
 
       //! Восстанавливает игру из файла
-	   bool restoreGame (std::string destanation);
+	   //bool restoreGame (std::string destanation);
       
       //! Запускае начальную инициализацию или перазапускает текущую
       //! Создает список игроков и структуру
@@ -56,10 +56,10 @@ class Controller
   private:
     
       //! Восстанавливает структуру сети при загрузке игры из файла
-      bool restoreNetwork ();
+      //bool restoreNetwork ();
 
       //! Восстанавливает список игроков при загрузке игры
-      bool restorePlayers ();
+      //bool restorePlayers ();
    
   private: 
       ListOfPlayers        *playersList;     //!< Список игроков
