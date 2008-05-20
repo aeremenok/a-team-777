@@ -21,7 +21,7 @@ namespace tdata //!< namespace Data
    {
    public:
       Data();
-      virtual ~Data();
+      virtual ~Data() {};
       
       //********************* интерфейс iNetworkStruct **********************
       virtual void generate (int newIDofGame);
