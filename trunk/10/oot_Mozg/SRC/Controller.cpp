@@ -134,6 +134,20 @@ void Controller::reset()
    netStruc->clean();
 }
 
+void Controller::Save(std::string strName) const
+{
+   //! Создаем архив для записи данных
+   ser::Archive arch;
+   int idPlayers = playersList->PutIntoArchive(arch);
+   int idStruct  = netStruc->PutIntoArchive(arch);
+
+}
+
+bool Controller::Open(std::string strName)
+{
+   return true;
+}
+
 //! Инициализация статической переменной
 Controller* Controller::_instance = 0;
 

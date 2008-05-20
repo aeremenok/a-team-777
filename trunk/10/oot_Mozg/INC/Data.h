@@ -36,7 +36,7 @@ namespace tdata //!< namespace Data
 
       //********************* интерфейс iSerializable ***********************
       virtual int PutIntoArchive(ser::Archive& archive);
-      virtual void GetFromArchive(const ser::Archive& archive, int id);
+      virtual void GetFromArchive(ser::Archive& archive, int id);
 
    };
 

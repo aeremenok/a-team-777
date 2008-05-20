@@ -50,6 +50,13 @@ class Controller
       //! Делает текущим главного игрока и опустошает структуру
       void reset();
 
+      //! Сохраняет список игроков и структуру в файл strName
+      void Save(std::string strName) const;
+
+      //! Восстанавливает список игроков и структуру из файла strName
+      //! \return true, если архив корректно прочитался
+      bool Open(std::string strName);
+
       //! Если объект уже создан, возвращает ссылку, иначе создает объект
       static Controller* Instance(CMainDlg* dlg = 0);
 

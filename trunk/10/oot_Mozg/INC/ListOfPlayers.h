@@ -9,13 +9,15 @@
 #define __LISTOFPLAYERS_H
 
 #include "Player.h"
+#include "ifaces.h"
 #include <list>
 //#include <functional>
 
 // ==========================================================================
 namespace Game
 {
-class ListOfPlayers 
+class ListOfPlayers
+   :public iface::iSerializable 
 {
   public:
       ListOfPlayers(int max = 6);
@@ -37,7 +39,16 @@ class ListOfPlayers
 
       //! Преход к следующему игроку по списку.
       void goNext ();
-  
+
+      //********************* интерфейс iSerializable ***********************
+      //! Записать данные в файл
+      //! \return идентификатор цепочки записей в архиве
+      virtual int PutIntoArchive(ser::Archive& archive);
+
+      //! Получить данные из файла
+      //! \param id - идентификатор цепочки записей в архиве
+      virtual void GetFromArchive(ser::Archive& archive, int id);
+
   private:
      // ~~~~~~~~~~~~~~~~~~~~~~~~ Предикат поиска имени ~~~~~~~~~~~~~~~~~~~~~~
      class FindName_eq
