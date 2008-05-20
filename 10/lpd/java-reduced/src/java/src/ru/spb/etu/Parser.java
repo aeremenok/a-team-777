@@ -5,6 +5,7 @@ import org.apache.bcel.generic.ClassGen;
 import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.InstructionList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -218,60 +219,88 @@ public class Parser {
 		if (la.kind == 12) {
 			Get();
 			interfaceName = identifier();
-			ClassGen classGen = new ClassGen(
-			   className, 
-			   superName, 
-			   className+".class", 
-			   modifier,
-			   interfaceName==null ? null : new String[]{interfaceName} );
-			classes.put(interfaceName, classGen);
-			
 		}
-		classBody();
+		ClassGen classGen = new ClassGen(
+		   className, 
+		   superName, 
+		   className+".class", 
+		   modifier,
+		   interfaceName==null ? null : new String[]{interfaceName} );
+		classes.put(interfaceName, classGen);
+		
+		classBody(classGen);
 	}
 
-	void classBody() {
+	void classBody(ClassGen classGen) {
 		Expect(6);
 		while (StartOf(2)) {
+			int modifier = 0;
 			if (la.kind == 14 || la.kind == 15 || la.kind == 16) {
-				int specifier = accessSpecifier();
+				modifier = accessSpecifier();
+			}
+			if (la.kind == 9) {
+				int fMod = finalAccess();
+				modifier |= fMod;
+			}
+			if (la.kind == 8) {
+				int sMod = staticAccess();
+				modifier |= sMod;
 			}
 			if (next(_openRoundBracket)) {
-				String someThing = identifier();
+				Type typeLiteral = null;
+				if (StartOf(3)) {
+					typeLiteral = type();
+				} else if (la.kind == 3) {
+					String typeName = identifier();
+					typeLiteral = objectTypes.get(typeName);
+					if(typeLiteral==null)
+					{   // todo ???-?? ?????? ? ?????????
+					    typeLiteral = new ObjectType(typeName);
+					    objectTypes.put(typeName, (ObjectType)typeLiteral);
+					}
+					
+				} else SynErr(69);
+				String methodName = identifier();
 				Args args = new Args();
 				Expect(4);
-				if (StartOf(3)) {
+				if (StartOf(4)) {
 					formalParameterList(args);
 				}
 				Expect(5);
+				InstructionList il = new InstructionList();
+				MethodGen methodGen = new MethodGen(
+				    modifier,
+				    typeLiteral,
+				    args.argTypes,
+				    args.argNames,
+				    methodName,
+				    classGen.getClassName(),
+				    il,
+				    classGen.getConstantPool()
+				);
+				   
 				Expect(6);
-				while (StartOf(4)) {
+				while (StartOf(5)) {
 					statement();
 				}
 				Expect(7);
-			} else if (StartOf(5)) {
-				if (la.kind == 9) {
-					int fMod = finalAccess();
-				}
-				if (la.kind == 8) {
-					int sMod = staticAccess();
-				}
+			} else if (StartOf(4)) {
 				String typeName = "void";
-				if (StartOf(6)) {
+				if (StartOf(3)) {
 					Type typeLiteral = type();
-				} else if (la.kind == 3) {
+				} else {
 					typeName = identifier();
-				} else SynErr(69);
+				}
 				String someThing = identifier();
 				if (la.kind == 4) {
 					Args args = new Args();
 					Get();
-					if (StartOf(3)) {
+					if (StartOf(4)) {
 						formalParameterList(args);
 					}
 					Expect(5);
 					Expect(6);
-					while (StartOf(4)) {
+					while (StartOf(5)) {
 						statement();
 					}
 					Expect(7);
@@ -307,7 +336,7 @@ public class Parser {
 				modifier |= sMod;
 			}
 			Type typeLiteral = null;
-			if (StartOf(6)) {
+			if (StartOf(3)) {
 				typeLiteral = type();
 			} else if (la.kind == 3) {
 				String typeName = identifier();
@@ -322,7 +351,7 @@ public class Parser {
 			String methodName = identifier();
 			Args args = new Args();
 			Expect(4);
-			if (StartOf(3)) {
+			if (StartOf(4)) {
 				formalParameterList(args);
 			}
 			Expect(5);
@@ -400,7 +429,7 @@ public class Parser {
 		ArrayList<Type> types = new ArrayList<Type>();
 		ArrayList<String> names = new ArrayList<String>();
 		Type typeLiteral = null;
-		if (StartOf(6)) {
+		if (StartOf(3)) {
 			typeLiteral = type();
 		} else if (la.kind == 3) {
 			String typeName = identifier();
@@ -417,7 +446,7 @@ public class Parser {
 		names.add(param);
 		while (la.kind == 26) {
 			Get();
-			if (StartOf(6)) {
+			if (StartOf(3)) {
 				typeLiteral = type();
 			} else if (la.kind == 3) {
 				String typeName = identifier();
@@ -447,22 +476,22 @@ public class Parser {
 			Expect(5);
 			if (la.kind == 6) {
 				Get();
-				while (StartOf(4)) {
+				while (StartOf(5)) {
 					statement();
 				}
 				Expect(7);
-			} else if (StartOf(4)) {
+			} else if (StartOf(5)) {
 				statement();
 			} else SynErr(76);
 			if (la.kind == 30) {
 				Get();
 				if (la.kind == 6) {
 					Get();
-					while (StartOf(4)) {
+					while (StartOf(5)) {
 						statement();
 					}
 					Expect(7);
-				} else if (StartOf(4)) {
+				} else if (StartOf(5)) {
 					statement();
 				} else SynErr(77);
 			}
@@ -475,18 +504,18 @@ public class Parser {
 			Expect(5);
 			if (la.kind == 6) {
 				Get();
-				while (StartOf(4)) {
+				while (StartOf(5)) {
 					statement();
 				}
 				Expect(7);
-			} else if (StartOf(4)) {
+			} else if (StartOf(5)) {
 				statement();
 			} else SynErr(78);
 			break;
 		}
 		case 32: {
 			Get();
-			if (StartOf(7)) {
+			if (StartOf(6)) {
 				expression();
 			}
 			Expect(28);
@@ -496,7 +525,7 @@ public class Parser {
 			Get();
 			expressionName();
 			Expect(4);
-			if (StartOf(7)) {
+			if (StartOf(6)) {
 				expression();
 			}
 			Expect(5);
@@ -504,7 +533,7 @@ public class Parser {
 		}
 		case 6: {
 			Get();
-			while (StartOf(4)) {
+			while (StartOf(5)) {
 				statement();
 			}
 			Expect(7);
@@ -532,7 +561,7 @@ public class Parser {
 			String someThing = identifier();
 			if (la.kind == 4) {
 				Get();
-				if (StartOf(7)) {
+				if (StartOf(6)) {
 					expression();
 					while (la.kind == 26) {
 						Get();
@@ -546,7 +575,7 @@ public class Parser {
 				someThing = identifier();
 				if (la.kind == 4) {
 					Get();
-					if (StartOf(7)) {
+					if (StartOf(6)) {
 						expression();
 						while (la.kind == 26) {
 							Get();
@@ -573,7 +602,7 @@ public class Parser {
 				Expect(28);
 			} else if (la.kind == 28) {
 				Get();
-			} else if (StartOf(8)) {
+			} else if (StartOf(7)) {
 				assignmentOperator();
 				expression();
 				Expect(28);
@@ -587,7 +616,7 @@ public class Parser {
 				String someThing = identifier();
 			}
 			Expect(4);
-			if (StartOf(7)) {
+			if (StartOf(6)) {
 				expression();
 				while (la.kind == 26) {
 					Get();
@@ -615,7 +644,7 @@ public class Parser {
 			}
 			if (la.kind == 4) {
 				Get();
-				if (StartOf(7)) {
+				if (StartOf(6)) {
 					expression();
 					while (la.kind == 26) {
 						Get();
@@ -629,7 +658,7 @@ public class Parser {
 				String someThing = identifier();
 				if (la.kind == 4) {
 					Get();
-					if (StartOf(7)) {
+					if (StartOf(6)) {
 						expression();
 						while (la.kind == 26) {
 							Get();
@@ -754,7 +783,7 @@ public class Parser {
 
 	void relationalExpression() {
 		shiftExpression();
-		while (StartOf(9)) {
+		while (StartOf(8)) {
 			if (la.kind == 43) {
 				Get();
 			} else if (la.kind == 44) {
@@ -837,10 +866,9 @@ public class Parser {
 		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,x,x,x, x,x,x,x, T,T,T,x, x,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,x,x,T, x,x,x,x, T,T,x,x, x,x,T,T, T,T,T,T, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,x,x,T, x,x,T,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,T,x,x, x,T,x,T, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,x,x,T, x,x,x,x, T,T,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, T,T,x,x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x}

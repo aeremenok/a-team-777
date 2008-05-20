@@ -3,6 +3,7 @@ import org.apache.bcel.generic.ClassGen;
 import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.InstructionList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,7 +73,6 @@ IGNORE cr + lf + tab
 
 PRODUCTIONS
 
-/*--------------------------------------------------------------------*/
 /*----------------------------------identifier----------------------------------*/
 identifier<out String value>
 = 
@@ -118,17 +118,17 @@ classDeclaration<int modifier> =
 	(.String interfaceName = null;.)
 	["implements"
 		identifier<out interfaceName> 
-		(.
-		   ClassGen classGen = new ClassGen(
-		       className, 
-		       superName, 
-		       className+".class", 
-		       modifier,
-		       interfaceName==null ? null : new String[]{interfaceName} );
-		   classes.put(interfaceName, classGen);
-		.)
 	]
-	classBody
+	(.
+	   ClassGen classGen = new ClassGen(
+	       className, 
+	       superName, 
+	       className+".class", 
+	       modifier,
+	       interfaceName==null ? null : new String[]{interfaceName} );
+	   classes.put(interfaceName, classGen);
+	.)
+	classBody<classGen>
 .
 /*----------------------------------interfaceDeclaration----------------------------------*/
 interfaceDeclaration<int modifier> =
@@ -231,41 +231,72 @@ formalParameterList<Args args> =
 	.)
 .
 /*----------------------------------classBody----------------------------------*/
-classBody =
+classBody<ClassGen classGen> =
 	'{'
 	{
-		[accessSpecifier<out int specifier>]
-		((IF(next(_openRoundBracket))
-			identifier<out String someThing> //todo
-			(.Args args = new Args();.)
-			openRoundBracket [formalParameterList<args>] closeRoundBracket 
-				openCurlyBracket {statement} closeCurlyBracket
-		)
-		|
+	    (.int modifier = 0;.)
+		[accessSpecifier<out modifier>]
+        [finalAccess<out int fMod>      (.modifier |= fMod;.)]
+        [staticAccess<out int sMod>     (.modifier |= sMod;.)]
 		(
-		[finalAccess<out int fMod>]
-		[staticAccess<out int sMod>]
-		(IF(next(_identifier))
-		    (.String typeName = "void";.)
-			(
-			 type<out Type typeLiteral>
-			 | 
-			 identifier<out typeName>
-			)
-			identifier<out String someThing> //todo
-			(
-				(
-				    (.Args args = new Args();.)
-					openRoundBracket [formalParameterList<args>] closeRoundBracket 
-						openCurlyBracket {statement} closeCurlyBracket
-				)
-			|
-				(
-					['=' expression] ';'
-				)
-			)
-		)
-		)
+            (
+                IF(next(_openRoundBracket))
+                // это метод
+			        (.Type typeLiteral = null;.)
+			        (
+			            type<out typeLiteral>       
+			            | 
+			            identifier<out String typeName>  
+			            (.
+			             typeLiteral = objectTypes.get(typeName);
+			             if(typeLiteral==null)
+			             {   // todo что-то делать с импортами
+			                 typeLiteral = new ObjectType(typeName);
+			                 objectTypes.put(typeName, (ObjectType)typeLiteral);
+			             }
+			            .)
+			        )
+			        identifier<out String methodName>   
+			        (.Args args = new Args();.)
+			        openRoundBracket [formalParameterList<args>] closeRoundBracket
+			        (.
+                          InstructionList il = new InstructionList();
+						  MethodGen methodGen = new MethodGen(
+						      modifier,
+						      typeLiteral,
+						      args.argTypes,
+						      args.argNames,
+						      methodName,
+						      classGen.getClassName(),
+						      il,
+						      classGen.getConstantPool()
+						  );
+			        .) 
+			        openCurlyBracket {statement} closeCurlyBracket
+                    
+		    )
+            |
+            (
+                // это атрибут
+                (.String typeName = "void";.)
+                (
+                    type<out Type typeLiteral>
+                    | 
+                    identifier<out typeName>
+                )
+	            identifier<out String someThing> //todo
+                (
+                    (
+                        (.Args args = new Args();.)
+                        openRoundBracket [formalParameterList<args>] closeRoundBracket 
+                        openCurlyBracket {statement} closeCurlyBracket
+		            )
+                    |
+                    (
+                        ['=' expression] ';'
+                    )
+	            )
+            )
 		)
 	}
 	'}'
