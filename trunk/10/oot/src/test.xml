@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="4">
+<UserCookie class_id="0" tracking_level="0" version="0">
+	<m_user class_id="1" tracking_level="0" version="0">
+		<count>1</count>
+		<item_version>0</item_version>
+		<item class_id="2" tracking_level="0" version="0">
+			<m_name>client</m_name>
+			<m_type>0</m_type>
+			<m_cargo class_id="3" tracking_level="0" version="0">
+				<count>6</count>
+				<item_version>0</item_version>
+				<item class_id="4" tracking_level="0" version="0">
+					<vertices_list class_id="11" tracking_level="0" version="0">
+						<count>2</count>
+						<item_version>0</item_version>
+						<item class_id="12" tracking_level="0" version="0">
+							<m_name>Санкт-Петербург</m_name>
+							<m_people>9000</m_people>
+						</item>
+						<item>
+							<m_name>Новгород</m_name>
+							<m_people>1000</m_people>
+						</item>
+					</vertices_list>
+					<link_list class_id="13" tracking_level="0" version="0">
+						<count>2</count>
+						<item_version>0</item_version>
+						<item class_id="6" tracking_level="1" version="0" object_id="_0">
+							<m_type>4</m_type>
+							<m_cost>0</m_cost>
+							<m_time>0</m_time>
+						</item>
+						<item class_id="9" tracking_level="1" version="0" object_id="_1">
+							<CAircraftLink class_id="7" tracking_level="1" version="0" object_id="_2">
+								<CDefaultLink object_id="_3">
+									<m_type>0</m_type>
+									<m_cost>100</m_cost>
+									<m_time>1</m_time>
+								</CDefaultLink>
+							</CAircraftLink>
+						</item>
+					</link_list>
+				</item>
+				<item>
+					<vertices_list>
+						<count>2</count>
+						<item_version>0</item_version>
+						<item>
+							<m_name>Санкт-Петербург</m_name>
+							<m_people>9000</m_people>
+						</item>
+						<item>
+							<m_name>Москва</m_name>
+							<m_people>10000</m_people>
+						</item>
+					</vertices_list>
+					<link_list>
+						<count>2</count>
+						<item_version>0</item_version>
+						<item class_id_reference="6" object_id="_4">
+							<m_type>4</m_type>
+							<m_cost>0</m_cost>
+							<m_time>0</m_time>
+						</item>
+						<item class_id_reference="9" object_id="_5">
+							<CAircraftLink object_id="_6">
+								<CDefaultLink object_id="_7">
+									<m_type>0</m_type>
+									<m_cost>100</m_cost>
+									<m_time>1</m_time>
+								</CDefaultLink>
+							</CAircraftLink>
+						</item>
+					</link_list>
+				</item>
+				<item>
+					<vertices_list>
+						<count>2</count>
+						<item_version>0</item_version>
+						<item>
+							<m_name>Санкт-Петербург</m_name>
+							<m_people>9000</m_people>
+						</item>
+						<item>
+							<m_name>Москва</m_name>
+							<m_people>10000</m_people>
+						</item>
+					</vertices_list>
+					<link_list>
+						<count>2</count>
+						<item_version>0</item_version>
+						<item class_id_reference="6" object_id="_8">
+							<m_type>4</m_type>
+							<m_cost>0</m_cost>
+							<m_time>0</m_time>
+						</item>
+						<item class_id_reference="9" object_id="_9">
+							<CAircraftLink object_id="_10">
+								<CDefaultLink object_id="_11">
+									<m_type>0</m_type>
+									<m_cost>100</m_cost>
+									<m_time>1</m_time>
+								</CDefaultLink>
+							</CAircraftLink>
+						</item>
+					</link_list>
+				</item>
+				<item>
+					<vertices_list>
+						<count>2</count>
+						<item_version>0</item_version>
+						<item>
+							<m_name>Йошкар-Ола</m_name>
+							<m_people>1000</m_people>
+						</item>
+						<item>
+							<m_name>Воркута</m_name>
+							<m_people>1000</m_people>
+						</item>
+					</vertices_list>
+					<link_list>
+						<count>2</count>
+						<item_version>0</item_version>
+						<item class_id_reference="6" object_id="_12">
+							<m_type>4</m_type>
+							<m_cost>0</m_cost>
+							<m_time>0</m_time>
+						</item>
+						<item class_id_reference="9" object_id="_13">
+							<CAircraftLink object_id="_14">
+								<CDefaultLink object_id="_15">
+									<m_type>0</m_type>
+									<m_cost>100</m_cost>
+									<m_time>1</m_time>
+								</CDefaultLink>
+							</CAircraftLink>
+						</item>
+					</link_list>
+				</item>
+				<item>
+					<vertices_list>
+						<count>2</count>
+						<item_version>0</item_version>
+						<item>
+							<m_name>Якутск</m_name>
+							<m_people>1000</m_people>
+						</item>
+						<item>
+							<m_name>Воркута</m_name>
+							<m_people>1000</m_people>
+						</item>
+					</vertices_list>
+					<link_list>
+						<count>2</count>
+						<item_version>0</item_version>
+						<item class_id_reference="6" object_id="_16">
+							<m_type>4</m_type>
+							<m_cost>0</m_cost>
+							<m_time>0</m_time>
+						</item>
+						<item class_id_reference="9" object_id="_17">
+							<CAircraftLink object_id="_18">
+								<CDefaultLink object_id="_19">
+									<m_type>0</m_type>
+									<m_cost>100</m_cost>
+									<m_time>1</m_time>
+								</CDefaultLink>
+							</CAircraftLink>
+						</item>
+					</link_list>
+				</item>
+				<item>
+					<vertices_list>
+						<count>5</count>
+						<item_version>0</item_version>
+						<item>
+							<m_name>Санкт-Петербург</m_name>
+							<m_people>9000</m_people>
+						</item>
+						<item>
+							<m_name>Якутск</m_name>
+							<m_people>1000</m_people>
+						</item>
+						<item>
+							<m_name>Москва</m_name>
+							<m_people>10000</m_people>
+						</item>
+						<item>
+							<m_name>Владивосток</m_name>
+							<m_people>1000</m_people>
+						</item>
+						<item>
+							<m_name>Воркута</m_name>
+							<m_people>1000</m_people>
+						</item>
+					</vertices_list>
+					<link_list>
+						<count>5</count>
+						<item_version>0</item_version>
+						<item class_id_reference="6" object_id="_20">
+							<m_type>4</m_type>
+							<m_cost>0</m_cost>
+							<m_time>0</m_time>
+						</item>
+						<item class_id_reference="9" object_id="_21">
+							<CAircraftLink object_id="_22">
+								<CDefaultLink object_id="_23">
+									<m_type>0</m_type>
+									<m_cost>100</m_cost>
+									<m_time>1</m_time>
+								</CDefaultLink>
+							</CAircraftLink>
+						</item>
+						<item class_id_reference="9" object_id="_24">
+							<CAircraftLink object_id="_25">
+								<CDefaultLink object_id="_26">
+									<m_type>0</m_type>
+									<m_cost>100</m_cost>
+									<m_time>1</m_time>
+								</CDefaultLink>
+							</CAircraftLink>
+						</item>
+						<item class_id_reference="9" object_id="_27">
+							<CAircraftLink object_id="_28">
+								<CDefaultLink object_id="_29">
+									<m_type>0</m_type>
+									<m_cost>100</m_cost>
+									<m_time>1</m_time>
+								</CDefaultLink>
+							</CAircraftLink>
+						</item>
+						<item class_id_reference="9" object_id="_30">
+							<CAircraftLink object_id="_31">
+								<CDefaultLink object_id="_32">
+									<m_type>0</m_type>
+									<m_cost>100</m_cost>
+									<m_time>1</m_time>
+								</CDefaultLink>
+							</CAircraftLink>
+						</item>
+					</link_list>
+				</item>
+			</m_cargo>
+		</item>
+	</m_user>
+	<m_current>0</m_current>
+</UserCookie>
