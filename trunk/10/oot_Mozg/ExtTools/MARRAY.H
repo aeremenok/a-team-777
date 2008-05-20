@@ -20,41 +20,6 @@
 
 namespace FSG  // FreeStyle Group
 {
-//! \todo Удалить ИСКЛЮЧЕНИЯ, ГЕНЕРИРУЕМЫЕ МОБИЛЬНЫМИ МАССИВАМИ из Marray.h
-/*
-// ==========================================================================
-//             ИСКЛЮЧЕНИЯ, ГЕНЕРИРУЕМЫЕ МОБИЛЬНЫМИ МАССИВАМИ
-enum
-   {
-   ERR_MA_MEMORY = ERR_GENERIC+1,   // не хватает физ. памяти
-   ERR_MA_ALLOC,                    // не хватает адресного пространства
-   ERR_MA_2LARGE,                   // слишком большой размер
-   ERR_MA_0SIZE,                    // обращение к массиву 0-го размера
-   ERR_MA_INDEX,                    // неверный индекс
-   };
-
-class FSG_CMMN_CLASS MA_EXCEPTION: public EXCEPTION
- {
-public:
- enum
-    {
-    OUT_OF_MEMORY,    // недостаточно памяти
-    TOO_LARGE,        // слишком большой размер (> 32767 для типа short)
-    ZERO_SIZE,        // обращение к массиву 0-й длины
-    WRONG_INDEX,      // индекс за пределами массива
-    };
-
- MA_EXCEPTION(long erc, int n, int sz, int i, bool autodel = true);
- virtual ~MA_EXCEPTION()   {};
- virtual bool GetErrorMessage(char* text, int len) const;
- virtual int ReportError(lpcstr caption) const;
-protected:
- int  nElem;    // кол-во элементов в массиве
- int  szElem;   // размер одного элемента
- int  index;    // индекс элемента
- };
-*/
-
 //===========================================================================
 //                БАЗОВЫЙ КЛАСС СЕМЕЙСТВА МОБИЛЬНЫХ МАССИВОВ 
 //---------------------------------------------------------------------------
