@@ -19,8 +19,15 @@
 class CTruckLink: public CDefaultLink
 {
   
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(CDefaultLink);
+  }
+  
 public:
-  CTruckLink(unsigned long cost, unsigned long time);
+  CTruckLink(unsigned long cost=0, unsigned long time=0);
   
   virtual std::string getDescription() const;
 
@@ -31,16 +38,28 @@ public:
 
 class CCargoLink: public CTruckLink
 {
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(CTruckLink);
+  }
 public:
-  CCargoLink(unsigned long cost, unsigned long time);
+  CCargoLink(unsigned long cost=0, unsigned long time=0);
   
   std::string getDescription() const;
 };
 
 class CVasjaLink: public CTruckLink
 {
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(CTruckLink);
+  }
 public:
-  CVasjaLink(unsigned long cost, unsigned long time);
+  CVasjaLink(unsigned long cost=0, unsigned long time=0);
   
   std::string getDescription() const;
 };

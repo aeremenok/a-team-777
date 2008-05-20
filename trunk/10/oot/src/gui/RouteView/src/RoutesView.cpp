@@ -40,9 +40,13 @@ void CRoutesView::parse(const CDeliveryNetwork::Path path)
   
   QList<QStandardItem*> list;
   QStandardItem* a = new QStandardItem(QObject::tr(m_pair.first.getName().c_str()));
+  a->setEditable(false);
   QStandardItem* b = new QStandardItem(QObject::tr(m_pair.second.getName().c_str()));
+  b->setEditable(false);
   QStandardItem* c = new QStandardItem(QObject::tr(getFriendlyName(m_link.getType())));
+  c->setEditable(false);
   QStandardItem* d = new QStandardItem(QString("%1").arg(m_link.getCost()));
+  d->setEditable(false);
   list.push_back(a);
   list.push_back(b);
   list.push_back(c);
@@ -64,9 +68,17 @@ void CRoutesView::parse(const CDeliveryNetwork::Path path)
 
     QList<QStandardItem*> list;
     QStandardItem* e = new QStandardItem(QObject::tr(it->getName().c_str()));
+    e->setEditable(false);
+    e->setSelectable(false);
     QStandardItem* f = new QStandardItem(QObject::tr(next->getName().c_str()));
-    QStandardItem* g = new QStandardItem(QObject::tr(getFriendlyName((*link)->getType())));
+    f->setEditable(false);
+    f->setSelectable(false);
+    QStandardItem* g = new QStandardItem(QObject::tr((*link)->getDescription().c_str()));
+    g->setEditable(false);
+    g->setSelectable(false);
     QStandardItem* h = new QStandardItem(QString("%1").arg((*link)->getCost()));
+    h->setEditable(false);
+    h->setSelectable(false);
     list.push_back(e);
     list.push_back(f);
     list.push_back(g);
@@ -85,6 +97,8 @@ CRoutesView::CRoutesView(QWidget *parent, Qt::WindowFlags f): QWidget(parent, f)
 {
   m_form.setupUi(this);
   m_form.m_view->setModel(&m_model);
+
+  connect(m_form.m_view, SIGNAL(clicked(const QModelIndex&)), SLOT(clickedItem(const QModelIndex&)));
 }
 
 bool CRoutesView::isValid(const CDeliveryNetwork::Path& path, const std::set<CDefaultLink::LinkType>& validTypes)
@@ -108,7 +122,7 @@ void CRoutesView::updateModel(const CCity& from, const CCity& to, const std::set
   item= new QStandardItem(QObject::tr("Пункт назначения"));
   m_model.setHorizontalHeaderItem(1,item);
 
-  item = new QStandardItem(QObject::tr("Вид транспорта"));
+  item = new QStandardItem(QObject::tr("Грузоперевозчик"));
   m_model.setHorizontalHeaderItem(2,item);
 
   item =  new QStandardItem(QObject::tr("Стоимость"));
@@ -132,7 +146,7 @@ void CRoutesView::updateModel(const CUser& user)
   m_model.setColumnCount(4);
   m_model.setHorizontalHeaderItem(0, new QStandardItem(QObject::tr("Пункт отправления")));
   m_model.setHorizontalHeaderItem(1, new QStandardItem(QObject::tr("Пункт назначения")));
-  m_model.setHorizontalHeaderItem(2, new QStandardItem(QObject::tr("Вид транспорта")));
+  m_model.setHorizontalHeaderItem(2, new QStandardItem(QObject::tr("Грузоперевозчик")));
   m_model.setHorizontalHeaderItem(3, new QStandardItem(QObject::tr("Стоимость")));
   for(CUser::path_const_iterator it=user.begin(); it!=user.end(); ++it)
   {
@@ -143,6 +157,11 @@ void CRoutesView::updateModel(const CUser& user)
 CPath<CCity, CDefaultLink> CRoutesView::currentPath() const
 {
   return m_path.find(m_model.itemFromIndex(m_form.m_view->currentIndex()))->second;
+}
+
+void CRoutesView::clickedItem(const QModelIndex& current)
+{
+  emit selectPath(m_path.find(m_model.itemFromIndex(current))->second); 
 }
 
 /* ===[ End of file $Source: /cvs/decisions/templates/template.cpp,v $ ]=== */

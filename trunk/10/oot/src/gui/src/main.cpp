@@ -89,6 +89,7 @@ int main(int argc, char *argv[])
   net.addRoute(b,p, new CPulkovoLink(100,1));
   net.addRoute(h,r, new CPulkovoLink(100,1));
   net.addRoute(d,m, new CPulkovoLink(100,1));
+  net.addRoute(b,a, new CPulkovoLink(100,1));
   int indx,opt; 
 
   const char *pConfig=NULL;

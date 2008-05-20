@@ -39,6 +39,10 @@ class CRoutesView: public QWidget
   
   void parse(CDeliveryNetwork::Path path);
 
+private slots:
+  
+  void clickedItem(const QModelIndex&);
+
 public:
   CRoutesView(QWidget * parent = 0, Qt::WindowFlags f = 0);
 
@@ -47,6 +51,10 @@ public:
   void updateModel(const CUser& user);
 
   CPath<CCity, CDefaultLink> currentPath() const;
+
+signals:
+
+  void selectPath(CPath<CCity, CDefaultLink>);
 };//class CRoutesView
 
 #endif //_CRoutesView_H_2BC4B721_E1C3_4FEB_9D91_88D7EAD9CEF8_INCLUDED_

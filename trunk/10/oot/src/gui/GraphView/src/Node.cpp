@@ -89,7 +89,7 @@ QRectF Node::boundingRect() const
 {
     qreal adjust = 10;
     return QRectF(-20 - adjust, -30 - adjust,
-                  140 + adjust, 40 + adjust);
+                  140 + adjust, 50 + adjust);
 }
 
 QPainterPath Node::shape() const
