@@ -4,7 +4,7 @@
 //! \author Bessonov A.V.
 //! \date   17.May.2008 - 17.May.2008
 //! \author Lysenko A.A.
-//! \date   20.May.2008 - 20.May.2008
+//! \date   20.May.2008 - 21.May.2008
 // **************************************************************************
 
 #include "stdafx.h"
@@ -207,15 +207,15 @@ void Data::Draw(CPaintDC& dc)
    // ÐÀÑÑ×ÈÒÀÒÜ ÊÎÎÐÄÈÍÀÒÛ ÏÎÇÈÖÈÉ È ÏÅÐÅÕÎÄÎÂ
    CalcVertexes(rect);
 
+   // ÎÒÎÁÐÀÇÈÒÜ ÐÅÁÐÀ
+   DrawTransitionsInput(dc);
+   DrawTransitionsOutput(dc);
+
    // ÎÒÎÁÐÀÇÈÒÜ ÏÎÇÈÖÈÈ
    DrawPositions(dc);
 
    // ÎÒÎÁÐÀÇÈÒÜ ÏÅÐÅÕÎÄÛ
    DrawTransitions(dc);
-
-   // ÎÒÎÁÐÀÇÈÒÜ ÐÅÁÐÀ
-   DrawTransitionsInput(dc);
-   DrawTransitionsOutput(dc);
 }
 
 //********************* èíòåðôåéñ iSerializable ***********************
@@ -260,9 +260,12 @@ RECT Data::CalcDrawingRect(CPaintDC& dc) const
 void Data::CalcVertexes(const RECT& rect)
 {
    // ×ÈÑËÎ "ÑÒÐÎÊ" ÎÁÚÅÊÒÎÂ
+   POINT zero = {0, 0};
    int rows = 0;
-   int posNum = GetPositionsNumber(),
-       trNum  = GetTransitionsNumber();
+   POSITION posNum = GetPositionsNumber();
+   TRANSITION trNum  = GetTransitionsNumber();
+   m_posDots.resize(posNum, zero);
+   m_trDots.resize(trNum, zero);
    
    int i = posNum,   // ÎÑÒÀÂØÈÅÑß ÏÎÇÈÖÈÈ
        j = 6,        // ÊÎËÈ×ÅÑÒÂÎ ÏÎÇÈÖÈÉ Â ÒÅÊÓÙÅÉ ÑÒÐÎÊÅ
@@ -313,6 +316,81 @@ void Data::CalcVertexes(const RECT& rect)
    }
 
    /* Â rows - êîëè÷åñòâî ñòðîê â ñòðóêòóðå + 1 */
+
+   int nRowsBetween = 2;      // ×ÈÑËÎ "ÑÒÐÎÊ" ÌÅÆÄÓ ÎÁÚÅÊÒÀÌÈ
+   int nRows = (rows - 2) * nRowsBetween + rows + 1;
+   /*          ñòðîêè ìåæäó             îáúåêòû   âåðõíÿÿ ãðàíèöà */
+
+   // ÐÀÇÌÅÐ ÎÁÚÅÊÒÀ - ÂÛÑÎÒÀ ÑÒÐÎÊÈ
+   m_objSize = (rect.bottom - rect.top) / nRows;
+
+   // 7 ÑÒÎËÁÖÎÂ (2 ÊÐÀÉÍÈÕ È 5 ÌÅÆÄÓ ÎÁÚÅÊÒÀÌÈ)
+   int nColumnWidth = (rect.right - rect.left) / 7;
+
+   // ÊÎÎÐÄÈÍÀÒÛ ÏÎÇÈÖÈÉ
+   POINT posStart = {rect.left + nColumnWidth, rect.top + m_objSize + m_objSize / 2};
+   int curRow = 0;
+   i = posNum;
+   j = 6;
+   sign = -1;
+   while ( i > 0 )
+   {
+      // ÅÑËÈ ÄÎØËÈ ÄÎ ÃÐÀÍÈÖÛ, ÏÎÌÅÍßÒÜ ÍÀÏÐÀÂËÅÍÈÅ
+      if ( j == 0 || j > 6 )
+      {
+         sign *= -1;
+         if ( j == 0 )
+            j = 2;
+         else
+            j = 4;
+      }
+      
+      POSITION firstInRow = posNum - i;
+      m_posDots[firstInRow].y = posStart.y + m_objSize * (curRow*(nRowsBetween + 1));
+      m_posDots[firstInRow].x = posStart.x + nColumnWidth * ((6 - j) / 2);
+
+      for (int k = 1; (k < j) && (firstInRow + k < posNum); ++k )
+      {
+         m_posDots[firstInRow + k].y = m_posDots[firstInRow].y;
+         m_posDots[firstInRow + k].x = m_posDots[firstInRow].x + nColumnWidth * k;
+      }
+
+      // ÂÛ×ÈÑËÈÒÜ ÊÎË-ÂÎ ÏÎÇÈÖÈÉ Â Î×ÅÐÅÄÍÎÉ ÑÒÐÎÊÅ È ÏÅÐÅÉÒÈ ÄÀËÜØÅ
+      i -= j;
+      curRow += 2;
+      j = j + sign*2;
+   }
+
+   // ÊÎÎÐÄÈÍÀÒÛ ÏÅÐÅÕÎÄÎÂ
+   POINT trStart = {posStart.x + nColumnWidth / 2, posStart.y + m_objSize*(nRowsBetween + 1)};
+   curRow = 0; // ÒÅÊÓÙÈÉ ÐßÄ ÏÅÐÅÕÎÄÎÂ, À ÍÅ ÂÎÁÙÅÌ
+   i = trNum;
+   j = 5;
+   sign = -1;
+   while ( i > 0 )
+   {
+      // ÅÑËÈ ÄÎØËÈ ÄÎ ÃÐÀÍÈÖÛ, ÏÎÌÅÍßÒÜ ÍÀÏÐÀÂËÅÍÈÅ
+      if ( j == 0 || j > 5 )
+      {
+         sign *= -1;
+         j = 3;
+      }
+
+      TRANSITION firstInRow = trNum - i;
+      m_trDots[firstInRow].y = trStart.y + m_objSize * (curRow*(nRowsBetween + 1));
+      m_trDots[firstInRow].x = trStart.x + nColumnWidth * ((5 - j) / 2);
+
+      for (int k = 1; (k < j) && (firstInRow + k < trNum); ++k )
+      {
+         m_trDots[firstInRow + k].y = m_trDots[firstInRow].y;
+         m_trDots[firstInRow + k].x = m_trDots[firstInRow].x + nColumnWidth * k;
+      }
+
+      // ÂÛ×ÈÑËÈÒÜ ÊÎË-ÂÎ ÏÎÇÈÖÈÉ Â Î×ÅÐÅÄÍÎÉ ÑÒÐÎÊÅ È ÏÅÐÅÉÒÈ ÄÀËÜØÅ
+      i -= j;
+      curRow += 2;
+      j = j + sign*2;
+   }
 }
 
 // ==========================================================================
