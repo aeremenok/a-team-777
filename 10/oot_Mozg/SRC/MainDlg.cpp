@@ -222,10 +222,41 @@ LRESULT CMainDlg::OnNew(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& 
 }
 LRESULT CMainDlg::OnOpen(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
+   // -------------------- Вызвать диалог открытия файла --------------------
+   // НАСТРОИТЬ ФИЛЬТР И ФЛАГИ
+   DWORD flags =  OFN_ENABLESIZING | OFN_EXPLORER |
+      OFN_HIDEREADONLY | OFN_LONGNAMES;
+   //! Задаем фильтр для файлов
+   char szFilter[] = "Мозгодолбалки (*.mzg)\0*.mzg\0Все файлы (*.*)\0*.*\0\0";
+   CFileDialog fileDlg(TRUE, "mzg", NULL, flags, szFilter);
+
+   if (fileDlg.DoModal() == IDCANCEL)
+   {
+      return 0;
+   }
+   //! Восстановление из файла
+   Controller::Instance()->Open(fileDlg.m_ofn.lpstrFile);
+
    return 0;
 }
 LRESULT CMainDlg::OnSave(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
+   // -------------------- Вызвать диалог открытия файла --------------------
+   // НАСТРОИТЬ ФИЛЬТР И ФЛАГИ
+   DWORD flags =  OFN_ENABLESIZING | OFN_EXPLORER |
+      OFN_HIDEREADONLY | OFN_LONGNAMES;
+   //! Задаем фильтр для файлов
+   char szFilter[] = "Мозгодолбалки (*.mzg)\0*.mzg\0Все файлы (*.*)\0*.*\0\0";
+   CFileDialog fileDlg(FALSE, "mzg", NULL, flags, szFilter);
+
+   if (fileDlg.DoModal() == IDCANCEL)
+   {
+      return 0;
+   }
+
+   //! Сохраняет в файл
+   Controller::Instance()->Save(fileDlg.m_ofn.lpstrFile);
+
    return 0;
 }
 LRESULT CMainDlg::OnReset(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)

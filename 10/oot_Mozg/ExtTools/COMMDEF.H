@@ -136,18 +136,6 @@ template <class T> class ALG_EXCHANGE
  ALG_EXCHANGE& operator= (const ALG_EXCHANGE&);      // оператор присваивания
  };
 
-//----------------- предупреждения и сообщения об ошибках -------------------
-
-//void Beep (unsigned milliseconds = 300, unsigned frequency = 1000);
-FSG_CMMN_CLASS void __cdecl WARNING (lpcstr format,...);
-FSG_CMMN_CLASS void __cdecl GOERROR (lpcstr format,...);
-FSG_CMMN_CLASS void __cdecl TOOLS_printInfo (void);
-FSG_CMMN_CLASS void __cdecl WARNLOG (lpcstr format,...);
-FSG_CMMN_CLASS void __cdecl ERRLOG  (lpcstr format,...);
-
-extern FSG_CMMN_CLASS const char* const TOOLS_ERROR_MESSAGE[];
-extern int IsLanguageRussian;           // диалог по-русски
-
 }; // namespace FSG
 
 // ==========================================================================
@@ -199,12 +187,13 @@ inline bool DisplayAssertMsg(LPCTSTR statement, int line, LPCTSTR fname)
                _asm { int 3 }\
             }\
          }
-#define CHECK(STATEMENT)                                   \
-              {                                            \
-              if (!(STATEMENT))                            \
-              FSG::WARNING (FSG::TOOLS_ERROR_MESSAGE[2],   \
-                          #STATEMENT, __LINE__, __FILE__); \
-              }
+#define CHECK(STATEMENT)\
+         {\
+            if (!(STATEMENT) && DisplayAssertMsg(#STATEMENT, __LINE__, __FILE__) )\
+            {\
+               _asm { int 3 }\
+            }\
+         }
 
 #define DLINE(x) x
 // --------------------------------------------------------------------------

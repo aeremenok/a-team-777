@@ -207,7 +207,7 @@ int Data::PutIntoArchive(ser::Archive& archive)
    return 0;
 }
 
-void Data::GetFromArchive(const ser::Archive& archive, int id)
+void Data::GetFromArchive(ser::Archive& archive, int id)
 {
    return;
 }

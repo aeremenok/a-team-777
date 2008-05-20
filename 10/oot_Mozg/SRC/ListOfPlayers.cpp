@@ -8,6 +8,8 @@
 
 #include "stdafx.h"
 #include "ListOfPlayers.h"
+#include "MainPlayer.h"
+#include "SlavePlayer.h"
 #include <algorithm>
  
 
@@ -107,6 +109,62 @@ void ListOfPlayers::goNext ()
    //! переходим к первому
    if (++currPlayer == listPl.end())
       currPlayer == listPl.begin();
+}
+int ListOfPlayers::PutIntoArchive(ser::Archive& archive)
+{
+   //! Создаем writter, через который будем писать данные
+   ser::writer wr(archive);
+   //! Получаем номер текущего игрока, нумерация с единицы
+   std::list<Player*>::const_iterator curr = listPl.begin();
+   int i = 1;
+   while (curr != currPlayer)
+   {
+      i++;
+      curr++;
+   }
+   //! Записываем количество игроков и номер активного
+   wr << getCountOfPlayers() << i;
+   
+   //! Записываем имена в архив
+   for (curr = listPl.begin(); curr != listPl.end(); curr++)
+   {
+      wr << (*curr)->getName();
+   }
+   return wr.id();
+}
+
+void ListOfPlayers::GetFromArchive(ser::Archive& archive, int id)
+{
+   //! Создаем reader, из которого будем читать данные
+   ser::reader rd(archive, id);
+   int numPl;        //!< Количество игроков
+   int numActivePl;  //!< Активный игрок
+   //! Заносим данные в переменные
+   rd >> numPl >> numActivePl;
+
+   if (numPl == 0)   //! Файл не содержит ни одного игрока. Неверная 
+      return;        //! структура файла
+
+   std::string name; //!< Для считывания имен
+   rd >> name;       //!< Считываем имя главного игрока 
+   Player* pl = new MainPlayer;
+   pl->setName(name);
+   addPlayer(pl);  //!< Добавляем главного игрока первым
+
+   //! Добавляем остальных игроков
+   for (int i = 1; i < numPl ; i++)
+   {
+      rd >> name;
+      pl = new SlavePlayer;
+      pl->setName(name);
+      addPlayer(pl);
+   }
+
+   //! Устанавливаем текущего игрока
+   for (int i = 1; i < numActivePl; i++)
+   {
+      goNext();
+   }
 }
 
 }//end of namespace Game

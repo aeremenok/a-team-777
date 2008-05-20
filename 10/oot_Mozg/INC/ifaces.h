@@ -41,7 +41,7 @@ namespace iface   //!< Общие интерфейсы, используемы в программе
 
       //! Получить данные из файла
       //! \param id - идентификатор цепочки записей в архиве
-      virtual void GetFromArchive(const ser::Archive& archive, int id) = 0;
+      virtual void GetFromArchive(ser::Archive& archive, int id) = 0;
 
       virtual ~iSerializable() {};
 
