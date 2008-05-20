@@ -47,7 +47,16 @@ bool ListOfPlayers::addPlayer (Player* player)
       return false;
    
    //! Добавляем игрока
-   listPl.push_back(player);
+   try
+   {
+      listPl.push_back(player);
+   }
+   catch (std::bad_alloc&)
+   {
+      ::MessageBox(0,"Недостаточно памяти", "Error", MB_OK | MB_ICONERROR);
+      currPlayer = listPl.begin();
+      return false;
+   }
    currPlayer = listPl.begin();
    return true;
 }
