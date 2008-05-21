@@ -1,11 +1,22 @@
 import org.apache.bcel.Constants;
+
 import org.apache.bcel.generic.ClassGen;
 import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.FieldGen;
+import org.apache.bcel.generic.LocalVariableGen;
+
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.ArrayType;
+
 import org.apache.bcel.generic.InstructionList;
+import org.apache.bcel.generic.InstructionConstants;
+import org.apache.bcel.generic.InstructionFactory;
+
+import org.apache.bcel.generic.StoreInstruction;
+import org.apache.bcel.generic.ASTORE;
+import org.apache.bcel.generic.FSTORE;
+import org.apache.bcel.generic.ISTORE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,24 +72,17 @@ boolean next(int i)
     {
         InstructionList il;
         ClassGen        classGen;
+        MethodGen       methodGen;
 
         public CodeWrapper(
             ClassGen classGen,
-            InstructionList il
+            InstructionList il,
+            MethodGen methodGen
         )
         {
             this.il = il;
             this.classGen = classGen;
-        }
-
-        public InstructionList getIl()
-        {
-            return il;
-        }
-
-        public ClassGen getClassGen()
-        {
-            return classGen;
+            this.methodGen = methodGen; 
         }
     }
     
@@ -292,7 +296,6 @@ type<out Type typeLiteral> =
 	   |   ("byte"      (.typeLiteral = Type.BYTE;.))
 	   |   ("short"     (.typeLiteral = Type.SHORT;.))
 	   |   ("int"       (.typeLiteral = Type.INT;.))
-	   |   ("char"      (.typeLiteral = Type.CHAR;.))
 	   |   ("float"     (.typeLiteral = Type.FLOAT;.))
 	   |   ("void"      (.typeLiteral = Type.VOID;.))
 	   |   ("String"    (.typeLiteral = new ObjectType("java.lang.String");.))
@@ -371,7 +374,7 @@ classBody<ClassGen classGen> =
 						      classGen.getConstantPool()
 						  );
                           log("method "+methodName+" created");
-                          CodeWrapper cw = new CodeWrapper(classGen, il);						  
+                          CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);						  
 			        .) 
 			        Statement<cw>
 		    )
@@ -422,7 +425,7 @@ classBody<ClassGen classGen> =
 						      classGen.getConstantPool()
                             );
                             log("method "+member+" created");
-                            CodeWrapper cw = new CodeWrapper(classGen, il);
+                            CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);
                         .) 
                         Statement<cw>
 		            )
@@ -525,8 +528,53 @@ Statement<cw>
 // объ€вление переменной
 LocalVariableDeclaration<CodeWrapper cw>
 = 
-[ "final" ] type<out Type typeLiteral> identifier<out String varName> 
-["=" Expression<cw>] 
+(.
+    InstructionFactory factory = new InstructionFactory( cw.classGen );
+    Type typeLiteral = null;
+.)
+(
+    ( type<out typeLiteral> (..))       
+    | 
+    identifier<out String typeName>  
+    (.
+         typeLiteral = objectTypes.get(typeName);
+         if(typeLiteral==null)
+         {
+             typeLiteral = new ObjectType(typeName);
+             objectTypes.put(typeName, (ObjectType)typeLiteral);
+         }
+         cw.il.append( factory.createNew( typeLiteral.getSignature() ) );
+    .)
+)
+identifier<out String varName>
+(.
+    // todo проверка, не объ€влена ли ранее
+    LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null);
+    cw.il.append( InstructionConstants.DUP ); 
+.)
+["=" Expression<cw> // здесь нам остав€т результат на верхушке стека. мы его сохран€ем в переменную 
+(.
+    StoreInstruction store = null;
+    
+    int name = lg.getIndex();
+    if (typeLiteral.equals(Type.VOID))
+        SemErr("void variables are not allowed");
+    else if (
+        typeLiteral.equals(Type.INT) ||
+        typeLiteral.equals(Type.BYTE) ||
+        typeLiteral.equals(Type.SHORT)
+        )
+        store = new ISTORE( name );
+    else if ( typeLiteral.equals(Type.FLOAT) )
+        store = new FSTORE( name );
+    else if ( typeLiteral instanceof ObjectType )
+        store = new ASTORE( name );
+    else
+        SemErr("unknown type "+typeLiteral.getSignature());
+     
+    lg.setStart( cw.il.append( store ) );
+.)
+] 
 .
 /*---------------------------------------------------------------------------*
  *---------------------------- Expressions ----------------------------------*

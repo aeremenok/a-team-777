@@ -11,7 +11,6 @@ import org.apache.bcel.generic.ASTORE;
 import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.ClassGen;
 import org.apache.bcel.generic.ConstantPoolGen;
-import org.apache.bcel.generic.FieldGen;
 import org.apache.bcel.generic.GOTO;
 import org.apache.bcel.generic.InstructionConstants;
 import org.apache.bcel.generic.InstructionFactory;
@@ -23,9 +22,19 @@ import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.PUSH;
 import org.apache.bcel.generic.Type;
 
-interface IFoo
+class Foo
 {
-    void bar();
+    int b;
+
+    public Foo()
+    {
+        b = 7;
+    }
+
+    public void name()
+    {
+        int a = 5 + b;
+    }
 }
 
 public class Compiler
@@ -111,9 +120,6 @@ public class Compiler
                                       new ArrayType( Type.STRING, 1 ) }, new String[] { "argv" }, // arg names
                                       "main", className, // method, class
                                       il, cp );
-
-        FieldGen fieldGen;
-        getMethod( classGen, "<init>" );
 
         InstructionFactory factory = new InstructionFactory( classGen );
 
