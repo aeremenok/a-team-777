@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT student (male, birthdate?, icq?, skype?, jabber?)>
+<!ATTLIST student
+	mail CDATA #REQUIRED
+	name CDATA #REQUIRED
+>
+<!ELEMENT skype (#PCDATA)>
+<!ELEMENT male (#PCDATA)>
+<!ELEMENT jabber (#PCDATA)>
+<!ELEMENT icq (#PCDATA)>
+<!ELEMENT groups ((group*))>
+<!ELEMENT group ((student*))>
+<!ATTLIST group
+	name (3382 | 3351 | 3305) #REQUIRED
+>
+<!ELEMENT birthdate (#PCDATA)>

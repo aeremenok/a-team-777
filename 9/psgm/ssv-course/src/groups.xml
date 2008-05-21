@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE groups SYSTEM "groups.dtd">
+<?xml-stylesheet type="text/xsl" href="groups.xsl"?>
+<groups>
+    <group name="3305">
+        <student name="Свириденко С.В." mail="ssv@3352.spb.ru">
+            <male>1</male>
+            <birthdate>08.12.1986</birthdate>
+            <icq>666</icq>
+            <skype>skype666</skype>
+        </student>
+        <student name="Лысенко А.А." mail="laa@3352.spb.ru">
+            <male>1</male>
+            <birthdate>11.05.1986</birthdate>
+            <jabber>laa@jabber.net</jabber>
+        </student>
+        <student name="Баранова Н.Н." mail="bnn@3352.spb.ru">
+            <male>0</male>
+        </student>
+        <student name="Тан Чжи Юй" mail="tzy@3352.spb.ru">
+            <male>0</male>
+            <birthdate>03.01.1984</birthdate>
+            <jabber>tzy@jabber.org</jabber>
+        </student>
+        <student name="Синдимво Д." mail="sd@3352.spb.ru">
+            <male>0</male>
+            <birthdate>21.03.1980</birthdate>
+            <jabber>sd@jabber.apple.com</jabber>
+        </student>
+        <student name="Нимубона Жусти" mail="nj@3352.spb.ru">
+            <male>1</male>
+            <jabber>nj@jabber.ibm.net</jabber>
+        </student>
+        <student name="Муленга М." mail="mm@3352.spb.ru">
+            <male>1</male>
+            <birthdate>07.03.1982</birthdate>
+            <jabber>mm@jabber.dell.net</jabber>
+        </student>
+        <student name="Кабиндигири Р." mail="kr@3352.spb.ru">
+            <male>0</male>
+            <birthdate>12.08.1981</birthdate>
+            <jabber>kr@jabber.xerox.com</jabber>
+        </student>
+        <student name="Аль-Сухили Е.Х." mail="aeh@3352.spb.ru">
+            <male>1</male>
+            <birthdate>05.01.1982</birthdate>
+            <jabber>aeh@jabber.hp.com</jabber>
+        </student>
+        <student name="Аль-Рахми Р." mail="ar@3352.spb.ru">
+            <male>1</male>
+            <birthdate>06.06.1984</birthdate>
+            <jabber>ar@jabber.canon.com</jabber>
+        </student>
+        <student name="Абдулраб А." mail="aa@3352.spb.ru">
+            <male>1</male>
+            <jabber>aa@jabber.intel.com</jabber>
+        </student>
+        <student name="Айзенберг М." mail="am@3352.spb.ru">
+            <male>1</male>
+            <birthdate>06.05.1985</birthdate>
+            <jabber>am@jabber.amd.com</jabber>
+        </student>
+        <student name="Шафиева Е.А." mail="sea@3352.spb.ru">
+            <male>0</male>
+            <birthdate>22.07.1986</birthdate>
+            <jabber>sea@jabber.ati.com</jabber>
+        </student>
+        <student name="Чепас А.С." mail="cas@3352.spb.ru">
+            <male>1</male>
+            <birthdate>27.02.1986</birthdate>
+            <jabber>case@jabber.nvidia.com</jabber>
+        </student>
+        <student name="Соколов И.С." mail="sis@3352.spb.ru">
+            <male>1</male>
+            <birthdate>25.08.1986</birthdate>
+            <jabber>sis@jabber.sis.com</jabber>
+        </student>
+        <student name="Рудакова А.А." mail="raa@3352.spb.ru">
+            <male>0</male>
+            <birthdate>11.08.1986</birthdate>
+            <jabber>raa@jabber.acer.com</jabber>
+        </student>
+        <student name="Мещеряков А." mail="mea@3352.spb.ru">
+            <male>1</male>
+            <birthdate>28.04.1986</birthdate>
+            <jabber>mea@jabber.asus.com</jabber>
+        </student>
+        <student name="Крупицкий М.В." mail="kmv@3352.spb.ru">
+            <male>1</male>
+            <birthdate>11.07.1986</birthdate>
+            <jabber>kmv@jabber.abit.com</jabber>
+        </student>
+        <student name="Коваленко Н.Ю." mail="kny@3352.spb.ru">
+            <male>1</male>
+            <birthdate>09.10.1987</birthdate>
+            <jabber>kny@jabber.benq.com</jabber>
+        </student>
+        <student name="Кирилова И.Н." mail="kin@3352.spb.ru">
+            <male>0</male>
+            <birthdate>30.06.1986</birthdate>
+            <jabber>kin@jabber.compaq.com</jabber>
+        </student>
+        <student name="Капарков В.Д." mail="kvd@3352.spb.ru">
+            <male>1</male>
+            <birthdate>15.07.1986</birthdate>
+            <jabber>kvd@jabber.ecs.com</jabber>
+        </student>
+        <student name="Калишенко Е.Л." mail="kel@3352.spb.ru">
+            <male>1</male>
+            <birthdate>10.01.1987</birthdate>
+            <jabber>kel@jabber.epox.com</jabber>
+        </student>
+        <student name="Зубарев П.С." mail="zps@3352.spb.ru">
+            <male>1</male>
+            <birthdate>21.07.1986</birthdate>
+            <jabber>zps@one.day.penguins.will.conquer.this.world.org</jabber>
+        </student>
+        <student name="Заречнев М.А." mail="zma@3352.spb.ru">
+            <male>1</male>
+            <birthdate>20.09.1985</birthdate>
+            <jabber>zma@jabber.foxconn.com</jabber>
+        </student>
+        <student name="Бессонов А.В." mail="bav@3352.spb.ru">
+            <male>1</male>
+            <birthdate>26.05.1986</birthdate>
+            <jabber>bav@jabber.fujitsu-siemens.com</jabber>
+        </student>
+        <student name="Бахвалова Ю.С." mail="bys@3352.spb.ru">
+            <male>0</male>
+            <birthdate>02.12.1985</birthdate>
+            <jabber>bys@jabber.gainward.com</jabber>
+        </student>
+    </group>
+    <group name="3382">
+        <student name="Худяков Я.Д." mail="hyd@3352.spb.ru">
+            <male>1</male>
+            <icq>777</icq>
+        </student>
+    </group>
+    <group name="3351">
+        <student name="Скрипникова А.С." mail="sas@3352.spb.ru">
+            <male>0</male>
+            <birthdate>10.03.1986</birthdate>
+            <icq>888</icq>
+        </student>
+        <student name="Ерёменок А.В." mail="eav@3352.spb.ru">
+            <male>1</male>
+            <icq>999</icq>
+            <skype>skype999</skype>
+            <jabber>eav@jabber.ru</jabber>
+        </student>
+        <student name="Эмман П.А." mail="epa@3352.spb.ru">
+            <male>1</male>
+            <birthdate>15.12.1986</birthdate>
+            <icq>555</icq>
+        </student>
+    </group>
+</groups>

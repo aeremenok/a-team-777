@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE about SYSTEM "about.dtd">
+<?xml-stylesheet type="text/xsl" href="about.xsl"?>
+<about>
+	<photo>
+        pics/about.png
+    </photo>
+	<name>
+        Свириденко С.В.
+    </name>
+	<description>
+        Студент группы 3305
+    </description>
+</about>
