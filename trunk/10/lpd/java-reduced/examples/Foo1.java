@@ -1,9 +1,9 @@
 public class Foo1 extends Bar
 {
-  public final byte a;
+  public byte a;
   public Foo1() {
 	super.helloWorld(7!=6, true, "ava");
-	a = 0;
+	int ba = 0;
   }
   public void main()
   {
