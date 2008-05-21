@@ -109,6 +109,8 @@ TOKENS
 	closeRoundBracket  = ')'.
 	openCurlyBracket   = '{'.
 	closeCurlyBracket  = '}'.
+	dot                = '.'.
+	isequal            = '='.
 	
     /*-------------------------------------------------------------------------*/
     intLit = 
@@ -359,7 +361,6 @@ classBody<ClassGen classGen> =
             (
                 IF(next(_openRoundBracket))
                 // это конструктор
-                (.log("con");.)
 			        identifier<out String methodName>   
 			        (.Args args = new Args();.)
 			        openRoundBracket [formalParameterList<args>] closeRoundBracket
@@ -398,7 +399,6 @@ classBody<ClassGen classGen> =
                      }
                     .)
                 )
-                (.log("method");.)
 	            identifier<out String member>
                 (
                     ( // это метод
@@ -585,40 +585,38 @@ identifier<out String varName>
  *---------------------------------------------------------------------------*/
 Expression<CodeWrapper cw>
 = 
-( lval<cw> AssignmentOperator<cw> (rval<cw> | lval<cw>) )
-|
-rval<cw>
-.
-/*---------------------------------lval--------------------------------------*/
-lval<CodeWrapper cw>
-=
-(.log("lval");.)
-identifier<out String varName>
-| Selector<cw>
-.
-/*---------------------------------lval--------------------------------------*/
-rval<CodeWrapper cw>
-=
-(.log("rval");.)
  "new" Creator<cw>
 | Literal
-| "(" (lval<cw> | rval<cw> ) Infixop ( lval<cw> | rval<cw>) ")"
-| Selector<cw>
+| "(" Expression<cw> Infixop Expression<cw> ")"
+|
+( // операции с объектами
+    (
+        IF(next(_dot))
+            ( "this" | "super" | identifier<out String objVarName>) "."
+            Selector<cw>
+    )
+    |
+    (Selector<cw>)
+)
 .
 /*---------------------------------------------------------------------------*/
 Selector<CodeWrapper cw>
 =
-( "this" | "super" | identifier<out String objVarName>) "."
 (
+    IF(next(_openRoundBracket))
+    // вызов
+       (identifier<out String method> Arguments<cw>) 
+)
+|
+( // иначе - присвоение левой части - значения
     (
-        IF(next(_openRoundBracket))
-            identifier<out String field> 
-            Arguments<cw>
+        IF(next(_isequal))
+            identifier<out String field> AssignmentOperator<cw> Expression<cw>
     )
     |
-    (
+    (   // иначе - взятие значения
         identifier<out String field>
-    )
+    ) 
 )
 .
 /*---------------------------------------------------------------------------*/
