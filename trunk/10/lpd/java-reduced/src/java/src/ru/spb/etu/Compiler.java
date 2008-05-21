@@ -55,7 +55,11 @@ public class Compiler
             scanner.Scan();
 
             Parser parser = new Parser( scanner );
+
+            Parser.filePath = file.getParent();
+            System.out.println( Parser.filePath );
             info( "parsing" );
+
             parser.Parse();
 
             // createApacheClass( args[0] );
@@ -188,7 +192,11 @@ public class Compiler
     {
         Method[] methods = classGen.getMethods();
         for ( Method method : methods )
+        {
             if ( method.getName().equals( name ) )
+            {
                 break;
+            }
+        }
     }
 }

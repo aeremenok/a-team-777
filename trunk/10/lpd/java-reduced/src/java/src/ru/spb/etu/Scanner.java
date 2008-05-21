@@ -399,12 +399,12 @@ public class Scanner {
 		else if (lit.compareTo("public") == 0) t.kind = 16;
 		else if (lit.compareTo("protected") == 0) t.kind = 17;
 		else if (lit.compareTo("private") == 0) t.kind = 18;
-		else if (lit.compareTo("byte") == 0) t.kind = 19;
-		else if (lit.compareTo("short") == 0) t.kind = 20;
-		else if (lit.compareTo("int") == 0) t.kind = 21;
-		else if (lit.compareTo("char") == 0) t.kind = 22;
-		else if (lit.compareTo("float") == 0) t.kind = 23;
-		else if (lit.compareTo("boolean") == 0) t.kind = 24;
+		else if (lit.compareTo("boolean") == 0) t.kind = 19;
+		else if (lit.compareTo("byte") == 0) t.kind = 20;
+		else if (lit.compareTo("short") == 0) t.kind = 21;
+		else if (lit.compareTo("int") == 0) t.kind = 22;
+		else if (lit.compareTo("char") == 0) t.kind = 23;
+		else if (lit.compareTo("float") == 0) t.kind = 24;
 		else if (lit.compareTo("void") == 0) t.kind = 25;
 		else if (lit.compareTo("String") == 0) t.kind = 26;
 		else if (lit.compareTo("Vector") == 0) t.kind = 27;

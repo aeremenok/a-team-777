@@ -6,6 +6,7 @@ import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.FieldGen;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.InstructionList;
 
 import java.util.ArrayList;
@@ -41,6 +42,8 @@ public class Parser {
 		Token peek = scanner.Peek();
 		return (peek.kind == i);
 	}
+    // ???? ? ???????????? ???????
+    public static String filePath;
 	
     // ????????? ??????
     public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
@@ -73,7 +76,7 @@ public class Parser {
     // ??????
     public void log(String msg)
     {
-        System.out.println(msg);        
+        System.err.println(msg);        
     }
     
     // ??????? ?????????? ???? (?????????? ?? ?????? ???? ??????????? ? ??????????. ????? ????????? ???-?????? ???)
@@ -198,7 +201,7 @@ public class Parser {
 		}
 		if (la.kind == 15) {
 			interfaceDeclaration(specifier);
-		} else if (la.kind == 10 || la.kind == 11 || la.kind == 12) {
+		} else if (la.kind == 12) {
 			classDeclaration(specifier);
 		} else SynErr(67);
 	}
@@ -241,17 +244,13 @@ public class Parser {
 		log("interface "+interfaceName+" created");
 		
 		interfaceBody(classGen);
+		try{
+		   classGen.getJavaClass().dump( filePath+"/"+interfaceName+".class" );
+		}catch(Exception e){e.printStackTrace();}
+		
 	}
 
 	void classDeclaration(int modifier) {
-		if (la.kind == 11) {
-			int fMod = finalAccess();
-			modifier |= fMod;
-		}
-		if (la.kind == 10) {
-			int sMod = staticAccess();
-			modifier |= sMod;
-		}
 		Expect(12);
 		String className = identifier();
 		String superName = "java.lang.Object";
@@ -280,6 +279,10 @@ public class Parser {
 		log("class "+className+" created");
 		
 		classBody(classGen);
+		try{
+		   classGen.getJavaClass().dump( filePath+"/"+className+".class" );
+		}catch(Exception e){e.printStackTrace();}
+		
 	}
 
 	void classBody(ClassGen classGen) {
@@ -288,14 +291,6 @@ public class Parser {
 			int modifier = 0;
 			if (la.kind == 16 || la.kind == 17 || la.kind == 18) {
 				modifier = accessSpecifier();
-			}
-			if (la.kind == 11) {
-				int fMod = finalAccess();
-				modifier |= fMod;
-			}
-			if (la.kind == 10) {
-				int sMod = staticAccess();
-				modifier |= sMod;
 			}
 			if (next(_openRoundBracket)) {
 				String methodName = identifier();
@@ -320,11 +315,15 @@ public class Parser {
 				                  CodeWrapper cw = new CodeWrapper(classGen, il);						  
 				   
 				Statement(cw);
-			} else if (StartOf(3)) {
+			} else if (StartOf(4)) {
+				if (la.kind == 11) {
+					int fMod = finalAccess();
+					modifier |= fMod;
+				}
 				Type typeLiteral = null;
-				if (StartOf(4)) {
+				if (StartOf(5)) {
 					typeLiteral = type();
-				} else {
+				} else if (la.kind == 1) {
 					String typeName = identifier();
 					typeLiteral = objectTypes.get(typeName);
 					if(typeLiteral==null)
@@ -334,7 +333,7 @@ public class Parser {
 					    log("added type "+typeName);
 					}
 					
-				}
+				} else SynErr(69);
 				String member = identifier();
 				if (la.kind == 2) {
 					Args args = new Args();
@@ -343,6 +342,17 @@ public class Parser {
 						formalParameterList(args);
 					}
 					Expect(3);
+					if (member.equals("main")) // ??? "main"
+					{
+					    if ( args.argTypes != null ) SemErr("too many args in main");
+					    if ( !typeLiteral.equals(Type.VOID) ) SemErr("main cannot return a value. type must be \"void\"");
+					                                
+					    modifier |= Constants.ACC_STATIC;
+					    args.argTypes = new Type[]{ new ArrayType( Type.STRING, 1 ) };
+					    args.argNames = new String[] { "argv" };
+					    
+					} // todo ???????? ?.?. 1 ????????
+					
 					InstructionList il = new InstructionList();
 					MethodGen methodGen = new MethodGen(
 					modifier,
@@ -367,15 +377,15 @@ public class Parser {
 					);                            
 					
 					Get();
-				} else SynErr(69);
-			} else SynErr(70);
+				} else SynErr(70);
+			} else SynErr(71);
 		}
 		Expect(5);
 	}
 
 	void interfaceBody(ClassGen classGen) {
 		Expect(4);
-		while (StartOf(2)) {
+		while (StartOf(6)) {
 			int modifier = 0;
 			if (la.kind == 16 || la.kind == 17 || la.kind == 18) {
 				modifier = accessSpecifier();
@@ -393,7 +403,7 @@ public class Parser {
 				modifier |= sMod;
 			}
 			Type typeLiteral = null;
-			if (StartOf(4)) {
+			if (StartOf(5)) {
 				typeLiteral = type();
 			} else if (la.kind == 1) {
 				String typeName = identifier();
@@ -404,7 +414,7 @@ public class Parser {
 				    objectTypes.put(typeName, (ObjectType)typeLiteral);
 				}
 				
-			} else SynErr(71);
+			} else SynErr(72);
 			String methodName = identifier();
 			Args args = new Args();
 			Expect(2);
@@ -434,32 +444,32 @@ public class Parser {
 		switch (la.kind) {
 		case 19: {
 			Get();
-			typeLiteral = Type.BYTE;
+			typeLiteral = Type.BOOLEAN;
 			break;
 		}
 		case 20: {
 			Get();
-			typeLiteral = Type.SHORT;
+			typeLiteral = Type.BYTE;
 			break;
 		}
 		case 21: {
 			Get();
-			typeLiteral = Type.INT;
+			typeLiteral = Type.SHORT;
 			break;
 		}
 		case 22: {
 			Get();
-			typeLiteral = Type.CHAR;
+			typeLiteral = Type.INT;
 			break;
 		}
 		case 23: {
 			Get();
-			typeLiteral = Type.FLOAT;
+			typeLiteral = Type.CHAR;
 			break;
 		}
 		case 24: {
 			Get();
-			typeLiteral = Type.BOOLEAN;
+			typeLiteral = Type.FLOAT;
 			break;
 		}
 		case 25: {
@@ -477,7 +487,7 @@ public class Parser {
 			typeLiteral = new ObjectType("java.util.Vector");
 			break;
 		}
-		default: SynErr(72); break;
+		default: SynErr(73); break;
 		}
 		return typeLiteral;
 	}
@@ -486,7 +496,7 @@ public class Parser {
 		ArrayList<Type> types = new ArrayList<Type>();
 		ArrayList<String> names = new ArrayList<String>();
 		Type typeLiteral = null;
-		if (StartOf(4)) {
+		if (StartOf(5)) {
 			typeLiteral = type();
 		} else if (la.kind == 1) {
 			String typeName = identifier();
@@ -497,13 +507,13 @@ public class Parser {
 			    objectTypes.put(typeName, (ObjectType)typeLiteral);
 			}
 			
-		} else SynErr(73);
+		} else SynErr(74);
 		types.add(typeLiteral);
 		String param = identifier();
 		names.add(param);
 		while (la.kind == 28) {
 			Get();
-			if (StartOf(4)) {
+			if (StartOf(5)) {
 				typeLiteral = type();
 			} else if (la.kind == 1) {
 				String typeName = identifier();
@@ -514,7 +524,7 @@ public class Parser {
 				    objectTypes.put(typeName, (ObjectType)typeLiteral);
 				}
 				    
-			} else SynErr(74);
+			} else SynErr(75);
 			types.add(typeLiteral);
 			param = identifier();
 			names.add(param);
@@ -541,7 +551,7 @@ public class Parser {
 			Statement(cw);
 		} else if (la.kind == 33) {
 			Get();
-			if (StartOf(5)) {
+			if (StartOf(7)) {
 				Expression(cw);
 			}
 			Expect(29);
@@ -551,15 +561,15 @@ public class Parser {
 			Get();
 		} else if (la.kind == 29) {
 			Get();
-		} else if (StartOf(5)) {
+		} else if (StartOf(7)) {
 			Expression(cw);
 			Expect(29);
-		} else SynErr(75);
+		} else SynErr(76);
 	}
 
 	void Block(CodeWrapper cw) {
 		Expect(4);
-		while (StartOf(6)) {
+		while (StartOf(8)) {
 			BlockStatement(cw);
 		}
 		Expect(5);
@@ -573,19 +583,19 @@ public class Parser {
 
 	void Expression(CodeWrapper cw) {
 		Expression1(cw);
-		while (StartOf(7)) {
+		while (StartOf(9)) {
 			AssignmentOperator();
 			Expression1(cw);
 		}
 	}
 
 	void BlockStatement(CodeWrapper cw) {
-		if (StartOf(8)) {
+		if (StartOf(10)) {
 			LocalVariableDeclaration(cw);
 			Expect(29);
-		} else if (StartOf(9)) {
+		} else if (StartOf(11)) {
 			Statement(cw);
-		} else SynErr(76);
+		} else SynErr(77);
 	}
 
 	void LocalVariableDeclaration(CodeWrapper cw) {
@@ -602,7 +612,7 @@ public class Parser {
 
 	void Expression1(CodeWrapper cw) {
 		Expression2(cw);
-		if (StartOf(10)) {
+		if (StartOf(12)) {
 			Expression1Rest(cw);
 		}
 	}
@@ -645,12 +655,12 @@ public class Parser {
 			Get();
 			break;
 		}
-		default: SynErr(77); break;
+		default: SynErr(78); break;
 		}
 	}
 
 	void Expression2(CodeWrapper cw) {
-		if (StartOf(11)) {
+		if (StartOf(13)) {
 			Primary(cw);
 		}
 		while (la.kind == 40) {
@@ -661,7 +671,7 @@ public class Parser {
 	void Expression1Rest(CodeWrapper cw) {
 		Infixop();
 		Expression2(cw);
-		while (StartOf(10)) {
+		while (StartOf(12)) {
 			Infixop();
 			Expression2(cw);
 		}
@@ -725,7 +735,7 @@ public class Parser {
 			Get();
 			break;
 		}
-		default: SynErr(78); break;
+		default: SynErr(79); break;
 		}
 	}
 
@@ -769,7 +779,7 @@ public class Parser {
 			}
 			break;
 		}
-		default: SynErr(79); break;
+		default: SynErr(80); break;
 		}
 	}
 
@@ -783,7 +793,7 @@ public class Parser {
 
 	void Arguments(CodeWrapper cw) {
 		Expect(2);
-		if (StartOf(12)) {
+		if (StartOf(14)) {
 			Expression(cw);
 			while (la.kind == 28) {
 				Get();
@@ -802,7 +812,7 @@ public class Parser {
 			if (la.kind == 2) {
 				Arguments(cw);
 			}
-		} else SynErr(80);
+		} else SynErr(81);
 	}
 
 	void Literal() {
@@ -835,7 +845,7 @@ public class Parser {
 			Get();
 			break;
 		}
-		default: SynErr(81); break;
+		default: SynErr(82); break;
 		}
 		log("lit="+t.val);
 	}
@@ -866,10 +876,12 @@ public class Parser {
 
 	private boolean[][] set = {
 		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,x,x,x, x,x,x,x, x,x,T,T, T,x,x,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,x,x,x, x,x,T,T, x,x,x,x, T,T,T,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,T,x,x, x,x,x,x, x,x,x,T, x,x,x,x, T,T,T,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,T,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
+		{x,T,x,x, x,x,x,x, x,x,T,T, x,x,x,x, T,T,T,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
 		{x,T,T,x, x,x,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,x,x, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,x,x},
 		{x,T,T,x, T,x,T,T, T,T,x,T, x,x,x,x, x,x,x,T, T,T,T,T, T,T,T,T, x,T,T,x, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T, T,T,x,x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,x,x,x, x,x,x,x, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
@@ -921,12 +933,12 @@ class Errors {
 			case 16: s = "\"public\" expected"; break;
 			case 17: s = "\"protected\" expected"; break;
 			case 18: s = "\"private\" expected"; break;
-			case 19: s = "\"byte\" expected"; break;
-			case 20: s = "\"short\" expected"; break;
-			case 21: s = "\"int\" expected"; break;
-			case 22: s = "\"char\" expected"; break;
-			case 23: s = "\"float\" expected"; break;
-			case 24: s = "\"boolean\" expected"; break;
+			case 19: s = "\"boolean\" expected"; break;
+			case 20: s = "\"byte\" expected"; break;
+			case 21: s = "\"short\" expected"; break;
+			case 22: s = "\"int\" expected"; break;
+			case 23: s = "\"char\" expected"; break;
+			case 24: s = "\"float\" expected"; break;
 			case 25: s = "\"void\" expected"; break;
 			case 26: s = "\"String\" expected"; break;
 			case 27: s = "\"Vector\" expected"; break;
@@ -973,17 +985,18 @@ class Errors {
 			case 68: s = "invalid accessSpecifier"; break;
 			case 69: s = "invalid classBody"; break;
 			case 70: s = "invalid classBody"; break;
-			case 71: s = "invalid interfaceBody"; break;
-			case 72: s = "invalid type"; break;
-			case 73: s = "invalid formalParameterList"; break;
+			case 71: s = "invalid classBody"; break;
+			case 72: s = "invalid interfaceBody"; break;
+			case 73: s = "invalid type"; break;
 			case 74: s = "invalid formalParameterList"; break;
-			case 75: s = "invalid Statement"; break;
-			case 76: s = "invalid BlockStatement"; break;
-			case 77: s = "invalid AssignmentOperator"; break;
-			case 78: s = "invalid Infixop"; break;
-			case 79: s = "invalid Primary"; break;
-			case 80: s = "invalid SuperSuffix"; break;
-			case 81: s = "invalid Literal"; break;
+			case 75: s = "invalid formalParameterList"; break;
+			case 76: s = "invalid Statement"; break;
+			case 77: s = "invalid BlockStatement"; break;
+			case 78: s = "invalid AssignmentOperator"; break;
+			case 79: s = "invalid Infixop"; break;
+			case 80: s = "invalid Primary"; break;
+			case 81: s = "invalid SuperSuffix"; break;
+			case 82: s = "invalid Literal"; break;
 			default: s = "error " + n; break;
 		}
 		printMsg(line, col, s);
