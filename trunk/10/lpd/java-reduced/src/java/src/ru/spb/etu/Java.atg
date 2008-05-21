@@ -507,13 +507,13 @@ interfaceBody<ClassGen classGen> =
 Statement<CodeWrapper cw>
 =
   Block<cw>
-| "if" ParExpression<cw> Statement<cw> [ "else" Statement<cw> ]
-| "while" ParExpression<cw> Statement<cw>
-| "return" [ Expression<cw> ] ";"
+| "if" ParExpression<out Type exprType, cw> Statement<cw> [ "else" Statement<cw> ]
+| "while" ParExpression<out Type exprType, cw> Statement<cw>
+| "return" [ Expression<out Type exprType, cw> ] ";"
 | "break;"
 | "continue;"
 | ";"
-| Expression<cw> ';'  
+| Expression<out Type exprType, cw> ';'  
 .
 /*---------------------------------------------------------------------------*/
 // блок кода
@@ -556,8 +556,9 @@ identifier<out String varName>
     LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null);
     cw.il.append( InstructionConstants.DUP ); 
 .)
-["=" (.log("init");.) Expression<cw> // здесь нам оставят результат на верхушке стека. мы его сохраняем в переменную 
+["=" (.log("init");.) Expression<out Type exprType, cw> // здесь нам оставят результат на верхушке стека. мы его сохраняем в переменную 
 (.
+    // todo проверить совместимость exprType с typeLiteral   
     StoreInstruction store = null;
     
     int name = lg.getIndex();
@@ -583,76 +584,129 @@ identifier<out String varName>
 /*---------------------------------------------------------------------------*
  *---------------------------- Expressions ----------------------------------*
  *---------------------------------------------------------------------------*/
-Expression<CodeWrapper cw>
+Expression<out Type exprType, CodeWrapper cw>
+// цель - оставить что-то на верхушке стека
 = 
- "new" Creator<cw>
-| Literal
-| "(" Expression<cw> Infixop Expression<cw> ")"
-|
-( // операции с объектами
-    (
-        IF(next(_dot))
-            ( "this" | "super" | identifier<out String objVarName>) "."
-            Selector<cw>
-    )
+(.exprType = null;.)
+(
+    "new" Creator<out exprType, cw>
+    | Literal<out exprType>
     |
-    (Selector<cw>)
+        "(" Expression<out exprType, cw> // todo 
+        Infixop 
+        Expression<out exprType, cw> ")"
+
+    |
+    ( // операции с объектами
+        (
+            IF(next(_dot))
+                ( "this" | "super" | identifier<out String objVarName>) "."
+                Selector<out exprType, cw>
+        )
+        |
+        (Selector<out exprType, cw>)
+    )
 )
 .
 /*---------------------------------------------------------------------------*/
-Selector<CodeWrapper cw>
+Selector<out Type selType, CodeWrapper cw>
 =
+(.selType = null;.)
 (
-    IF(next(_openRoundBracket))
-    // вызов
-       (identifier<out String method> Arguments<cw>) 
+	(
+	    IF(next(_openRoundBracket))
+	    // вызов
+	        rval<out selType, cw>
+	)
+	|
+	( // иначе - присвоение левой части - значения
+	    lval<out selType, cw>
+	)
 )
-|
-( // иначе - присвоение левой части - значения
-    (
-        IF(next(_isequal))
-            identifier<out String field> AssignmentOperator<cw> Expression<cw>
-    )
-    |
-    (   // иначе - взятие значения
-        identifier<out String field>
-    ) 
+.
+/*---------------------------------------------------------------------------*/
+rval<out Type selType, CodeWrapper cw>
+=
+    identifier<out String method>
+    (.selType = null;.) 
+    // todo selType = возвращаемый методом тип
+    Arguments<out Type[] argTypes, cw>
+.
+/*---------------------------------------------------------------------------*/
+lval<out Type selType, CodeWrapper cw>
+=
+(.selType = null;.)
+(
+	(
+	    IF(next(_isequal))
+	        identifier<out String var>
+	        (.selType = null;.)
+	        // todo selType = тип переменной     
+	        AssignmentOperator<cw> 
+	        Expression<out Type exprType, cw>
+	)
+	|
+	( // иначе - взятие значения
+	    identifier<out String var>
+	    (.selType = null;.)
+	    // todo selType = тип переменной
+	)
 )
 .
 /*---------------------------------------------------------------------------*/
 // аргументы вызовов
-Arguments<CodeWrapper cw>
+Arguments<out Type[] argTypes, CodeWrapper cw>
+// задача аргументов - лечь в стек, чтобы их принял метод
 =
-// в скобках - пусто, одно или несколько выражений
-"(" [ Expression<cw> { "," Expression<cw> } ] ")"
+(.ArrayList<Type> types = new ArrayList<Type>();.)
+"(" [ 
+    Expression<out Type exprType, cw>       (.types.add(exprType);.)
+    {
+        "," Expression<out exprType, cw>    (.types.add(exprType);.)
+    }
+] ")"
+(.argTypes = types.toArray(new Type[types.size()]);.)
 .
 /*---------------------------------------------------------------------------*/
 // литерал =)
-Literal
-= 
-  (intLit
-| floatLit
-| charLit
-| stringLit
-| "true" | "false"
-| "null")
+Literal<out Type exprType>
+= (.exprType = null;.)
+  ( // todo положить в стек
+  intLit            (.exprType = Type.INT;.)
+| floatLit          (.exprType = Type.FLOAT;.)
+| stringLit         (.exprType = new ObjectType("java.lang.String");.)
+| "true"            (.exprType = Type.BOOLEAN;.)
+| "false"           (.exprType = Type.BOOLEAN;.)
+| "null"            (.exprType = Type.NULL;.)
+)
 (.log("lit="+t.val);.)
 .
 /*---------------------------------------------------------------------------*/
 // вызов конструктора
-Creator<CodeWrapper cw>
+Creator<out Type createdType, CodeWrapper cw>
 = 
-    identifier<out String className> Arguments<cw>
+identifier<out String className> Arguments<out Type[] argTypes, cw>
+(.  // в стеке лежат значения аргументов, вызываем метод
+    InstructionFactory factory = new InstructionFactory( cw.classGen );
+    cw.il.append( factory.createInvoke(
+        className,
+        "<init>",
+        Type.VOID,
+        argTypes, 
+        Constants.INVOKESPECIAL 
+    ) );
+    // todo проверка
+    createdType = new ObjectType(className);
+.)
 .
 /*---------------------------------------------------------------------------*/
 // выражение в скобках
-ParExpression<CodeWrapper cw>                         
+ParExpression<out Type exprType, CodeWrapper cw>                         
 =
-"(" Expression<cw> ")"
+"(" Expression<out exprType, cw> ")"
 .
 /*---------------------------------------------------------------------------*/
 // присвоение
-
 AssignmentOperator<CodeWrapper cw>
 = 
 (.log("assgmnt");.)
