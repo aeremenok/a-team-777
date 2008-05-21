@@ -126,7 +126,7 @@ namespace tdata //!< Template Data
       //! Запустить срабатывание заданного перехода
       void FireTransition(TRANSITION tr);
 
-   private:
+   protected:
       POSITION                 m_positions;  //!< Позиции
       TRANSITION               m_transitions;//!< Переходы
       std::vector<IOFunc>      m_Input;      //!< Множество входных функций
