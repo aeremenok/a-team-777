@@ -254,7 +254,7 @@ LRESULT CMainDlg::OnSave(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL&
    // -------------------- Вызвать диалог открытия файла --------------------
    // НАСТРОИТЬ ФИЛЬТР И ФЛАГИ
    DWORD flags =  OFN_ENABLESIZING | OFN_EXPLORER |
-      OFN_HIDEREADONLY | OFN_LONGNAMES;
+                  OFN_HIDEREADONLY | OFN_LONGNAMES;
    //! Задаем фильтр для файлов
    char szFilter[] = "Мозгодолбалки (*.mzg)\0*.mzg\0Все файлы (*.*)\0*.*\0\0";
    CFileDialog fileDlg(FALSE, "mzg", NULL, flags, szFilter);
