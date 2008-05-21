@@ -1,28 +1,33 @@
-private class Bar{}
-
-public class Foo extends Bar
+public class Foo1 extends Bar
 {
-  
-  public final static boolean a;
-  public Foo() {}
-  public static Foo main(
-        int args, String argv )
+  public final byte a;
+  public Foo1() {
+	super.helloWorld(7!=6, true, "ava");
+	a = 0;
+  }
+  public void main()
   {
     int a = 6;
     int b = 4;
-    add(6>=5,zzz);
+    add(6>=5,a);
     b = 966;
-    super.helloWorld(7!=6, st, "ava");
+    
     if(a > 5) 
     {
-        boolean b = 5==Foo4.Hello("GOOD");
-        return;
+        boolean c = 5==super.Hello("GOOD");
     }
-    return 6<=3;
+    
     {
-        System.out.println( c );
-        return 7==4;
+        System.out.println( b );
     }
   }
         // todo что-то вызвать
+}
+
+class Bar{
+int Hello(String str){
+	return 0;
+}
+void helloWorld(boolean b, boolean c, String a){ }
+void add(boolean b, int a){}
 }

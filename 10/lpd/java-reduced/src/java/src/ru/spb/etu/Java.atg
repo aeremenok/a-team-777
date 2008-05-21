@@ -4,6 +4,7 @@ import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.FieldGen;
 import org.apache.bcel.generic.Type;
 import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.InstructionList;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ boolean next(int i)
 		Token peek = scanner.Peek();
 		return (peek.kind == i);
 	}
+    // путь к генерируемым классам
+    public static String filePath;
 	
     // созданные классы
     public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
@@ -50,7 +53,7 @@ boolean next(int i)
     // логгер
     public void log(String msg)
     {
-        System.out.println(msg);        
+        System.err.println(msg);        
     }
     
     // обертка параметров кода (передается по ссылке всем инструкциям и выражениям. можно дополнить чем-нибудь еще)
@@ -203,8 +206,6 @@ typeDeclaration =
 .
 /*----------------------------------classDeclaration----------------------------------*/
 classDeclaration<int modifier> =  
-	[finalAccess<out int fMod>     (.modifier |= fMod;.)]    
-	[staticAccess<out int sMod>    (.modifier |= sMod;.)]   
 	"class"
 	identifier<out String className>
 	(.String superName = "java.lang.Object";.)
@@ -236,6 +237,11 @@ classDeclaration<int modifier> =
 	   log("class "+className+" created");
 	.)
 	classBody<classGen>
+    (.
+       try{
+           classGen.getJavaClass().dump( filePath+"/"+className+".class" );
+       }catch(Exception e){e.printStackTrace();}
+    .)
 .
 /*----------------------------------interfaceDeclaration----------------------------------*/
 interfaceDeclaration<int modifier> =
@@ -263,6 +269,11 @@ interfaceDeclaration<int modifier> =
 	   log("interface "+interfaceName+" created");
 	.)   
 	interfaceBody<classGen>
+	(.
+	   try{
+	       classGen.getJavaClass().dump( filePath+"/"+interfaceName+".class" );
+	   }catch(Exception e){e.printStackTrace();}
+	.)
 .
 /*----------------------------------accessSpecifier----------------------------------*/
 accessSpecifier<out int specifier> =
@@ -277,15 +288,15 @@ accessSpecifier<out int specifier> =
 type<out Type typeLiteral> =
     (.typeLiteral = null;.)
 	(
-	       "byte"      (.typeLiteral = Type.BYTE;.)
-	   |   "short"     (.typeLiteral = Type.SHORT;.)
-	   |   "int"       (.typeLiteral = Type.INT;.)
-	   |   "char"      (.typeLiteral = Type.CHAR;.)
-	   |   "float"     (.typeLiteral = Type.FLOAT;.)
-	   |   "boolean"   (.typeLiteral = Type.BOOLEAN;.)
-	   |   "void"      (.typeLiteral = Type.VOID;.)
-	   |   "String"    (.typeLiteral = new ObjectType("java.lang.String");.)
-	   |   "Vector"    (.typeLiteral = new ObjectType("java.util.Vector");.)
+	       ("boolean"   (.typeLiteral = Type.BOOLEAN;.))
+	   |   ("byte"      (.typeLiteral = Type.BYTE;.))
+	   |   ("short"     (.typeLiteral = Type.SHORT;.))
+	   |   ("int"       (.typeLiteral = Type.INT;.))
+	   |   ("char"      (.typeLiteral = Type.CHAR;.))
+	   |   ("float"     (.typeLiteral = Type.FLOAT;.))
+	   |   ("void"      (.typeLiteral = Type.VOID;.))
+	   |   ("String"    (.typeLiteral = new ObjectType("java.lang.String");.))
+	   |   ("Vector"    (.typeLiteral = new ObjectType("java.util.Vector");.))
 	)
 .
 /*----------------------------------formalParameterList----------------------------------*/
@@ -340,8 +351,6 @@ classBody<ClassGen classGen> =
 	{
 	    (.int modifier = 0;.)
 		[accessSpecifier<out modifier>]
-        [finalAccess<out int fMod>      (.modifier |= fMod;.)]
-        [staticAccess<out int sMod>     (.modifier |= sMod;.)]
 		(
             (
                 IF(next(_openRoundBracket))
@@ -368,6 +377,7 @@ classBody<ClassGen classGen> =
 		    )
             |
             (   // это обычный член класса
+                [finalAccess<out int fMod>      (.modifier |= fMod;.)]
                 (.Type typeLiteral = null;.)
                 (
                     type<out typeLiteral>       
@@ -389,6 +399,17 @@ classBody<ClassGen classGen> =
                         (.Args args = new Args();.)
                         openRoundBracket [formalParameterList<args>] closeRoundBracket
                         (.
+                            if (member.equals("main")) // наш "main"
+                            {
+                                if ( args.argTypes != null ) SemErr("too many args in main");
+                                if ( !typeLiteral.equals(Type.VOID) ) SemErr("main cannot return a value. type must be \"void\"");
+                                                            
+                                modifier |= Constants.ACC_STATIC;
+                                args.argTypes = new Type[]{ new ArrayType( Type.STRING, 1 ) };
+                                args.argNames = new String[] { "argv" };
+                                
+                            } // todo передать х.б. 1 параметр
+                            
                             InstructionList il = new InstructionList();
                             MethodGen methodGen = new MethodGen(
 						      modifier,
