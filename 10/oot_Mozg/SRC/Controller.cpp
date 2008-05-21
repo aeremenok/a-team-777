@@ -108,6 +108,15 @@ void Controller::makeStep(int hole)
       //! Сменили подсказку
       mainDlg->setTip("Ход игрока " + 
                         playersList->getActivePlayer()->getName());
+      /*for (int i = 0; i < 6; i++)
+      {
+         if (netStruc->IsPositionAvailable(i))
+         {
+            CButton button = mainDlg->GetDlgItem(IDC_BUTTON_HOLE1 + i);
+            ATLASSERT(::IsWindow(button.m_hWnd));
+            button.EnableWindow(FALSE);
+         }
+      }*/
       if (playersList->getActivePlayer()->ifMain())
       {
          mainDlg->ActivateOpen(TRUE);
@@ -147,7 +156,11 @@ void Controller::reset()
       playersList->goNext();
 
    //! Очищаем структуру сети
+   //delete netStruc;
+   //netStruc = new Data
    netStruc->clean();
+   netStruc->generate(0);
+   netStruc->Redraw();
 }
 
 void Controller::Save(std::string strName) const

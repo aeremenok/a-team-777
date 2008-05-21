@@ -226,7 +226,8 @@ LRESULT CMainDlg::OnNew(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& 
          ActivateSave(FALSE);
          ActivateReset(FALSE);
       }  
-   }   
+   } 
+   Game::Controller::Instance()->Redraw();
    return 0;
 }
 LRESULT CMainDlg::OnOpen(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
@@ -271,6 +272,7 @@ LRESULT CMainDlg::OnSave(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL&
 LRESULT CMainDlg::OnReset(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
    Controller::Instance()->reset();
+   ActivateButtons(TRUE);
    return 0;
 }
 LRESULT CMainDlg::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
