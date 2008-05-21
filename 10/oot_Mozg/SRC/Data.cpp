@@ -230,12 +230,58 @@ void Data::Draw(CPaintDC& dc)
 //********************* интерфейс iSerializable ***********************
 int Data::PutIntoArchive(ser::Archive& archive)
 {
-   return 0;
+   ser::writer wr(archive);
+
+   wr << GetPositionsNumber() << GetTransitionsNumber();
+
+   for ( TRANSITION t = 0; t < GetTransitionsNumber(); t++ )
+   {
+      POSITION szi = m_Input[t].size();
+      wr << szi;
+      for ( POSITION pi = 0; pi < szi; pi++ )
+         wr << m_Input[t][pi];
+
+      POSITION szo = m_Output[t].size();
+      wr << szo;
+      for ( POSITION po = 0; po < szo; po++ )
+         wr << m_Output[t][po];
+   }
+
+   for ( POSITION p = 0; p < GetPositionsNumber(); p++ )
+      wr << m_Marking[p];
+
+   return wr.id();
 }
 
 void Data::GetFromArchive(ser::Archive& archive, int id)
 {
-   return;
+   ser::reader rd(archive, id);
+
+   POSITION poss = 0;
+   TRANSITION trs = 0;
+   
+   rd >> poss >> trs;
+
+   SetPositionsNumber(poss);
+   SetTransitionsNumber(trs);
+
+   for ( TRANSITION t = 0; t < trs; t++ )
+   {
+      POSITION szi = 0;
+      rd >> szi;
+      m_Input[t].resize(szi, NONE);
+      for ( POSITION pi = 0; pi < szi; pi++ )
+         rd >> m_Input[t][pi];
+
+      POSITION szo = 0;
+      rd >> szo;
+      m_Output[t].resize(szo, NONE);
+      for ( POSITION po = 0; po < szo; po++ )
+         rd >> m_Output[t][po];
+   }
+
+   for ( POSITION p = 0; p < poss; p++ )
+      rd >> m_Marking[p];
 }
 
 // ==========================================================================
