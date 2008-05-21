@@ -520,9 +520,9 @@ Block<CodeWrapper cw>
 // код состоит из объ€влений и инструкций
 BlockStatement<CodeWrapper cw>
 =
-LocalVariableDeclaration<cw> ";"
-|
 Statement<cw>
+|
+(LocalVariableDeclaration<cw> ";")
 .
 /*---------------------------------------------------------------------------*/
 // объ€вление переменной
@@ -533,7 +533,7 @@ LocalVariableDeclaration<CodeWrapper cw>
     Type typeLiteral = null;
 .)
 (
-    ( type<out typeLiteral> (..))       
+    type<out typeLiteral>       
     | 
     identifier<out String typeName>  
     (.
@@ -552,7 +552,7 @@ identifier<out String varName>
     LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null);
     cw.il.append( InstructionConstants.DUP ); 
 .)
-["=" Expression<cw> // здесь нам остав€т результат на верхушке стека. мы его сохран€ем в переменную 
+["=" (.log("init");.) Expression<cw> // здесь нам остав€т результат на верхушке стека. мы его сохран€ем в переменную 
 (.
     StoreInstruction store = null;
     
@@ -582,11 +582,9 @@ identifier<out String varName>
 Expression<CodeWrapper cw>
 = 
 // лева€ часть
-Expression1<cw>
-// м.б. много присвоений 
-{
-    AssignmentOperator Expression1<cw>
-}
+Expression2<cw>
+// м.б. присвоение 
+[ AssignmentOperator Expression1<cw> ]
 .
 /*---------------------------------------------------------------------------*/
 Expression1<CodeWrapper cw>
@@ -608,6 +606,7 @@ Infixop Expression2<cw>
 }
 .
 /*---------------------------------------------------------------------------*/
+// м.б. левой частью
 Expression2<CodeWrapper cw>              
 =
     // единичный объект
@@ -695,36 +694,41 @@ ParExpression<CodeWrapper cw>
 .
 /*---------------------------------------------------------------------------*/
 // присвоение
+
 AssignmentOperator
 = 
-  "="
-| "+="
-| "-="
-| "*="
-| "/="
-| "&="
-| "|="
-| "^="
-| "%="
+(.log("assgmnt");.)
+  ("=" )
+/*
+//todo при наличии времени реализовать упрощЄнные присвоени€, указанные ниже
+| ("+=")
+| ("-=")
+| ("*=")
+| ("/=")
+| ("&=")
+| ("|=")
+| ("^=")
+| ("%=")
+*/
 .
 /*---------------------------------------------------------------------------*/
 // бинарна€ операци€
 Infixop
 = 
-  "||"
-| "&&"
-| "^"
-| "=="
-| "!="
-| "<"
-| ">"
-| "<="
-| ">="
-| "+"
-| "-"
-| "*"
-| "/"
-| "%"
+  ("||")
+| ("&&")
+| ("^")
+| ("==")
+| ("!=")
+| ("<")
+| (">")
+| ("<=")
+| (">=")
+| ("+")
+| ("-")
+| ("*")
+| ("/")
+| ("%")
 .
 /*---------------------------------------------------------------------------*/
 END CompilationUnit.
