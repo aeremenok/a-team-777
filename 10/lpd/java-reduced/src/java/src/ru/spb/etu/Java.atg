@@ -180,6 +180,7 @@ id
 (. 
     value = t.val;
     log("id="+t.val);
+    if (value.equals("new")) SemErr("\"new\" is not a valid id");
  .)
 .
 /*----------------------------------staticAccess----------------------------------*/
@@ -358,6 +359,7 @@ classBody<ClassGen classGen> =
             (
                 IF(next(_openRoundBracket))
                 // это конструктор
+                (.log("con");.)
 			        identifier<out String methodName>   
 			        (.Args args = new Args();.)
 			        openRoundBracket [formalParameterList<args>] closeRoundBracket
@@ -396,6 +398,7 @@ classBody<ClassGen classGen> =
                      }
                     .)
                 )
+                (.log("method");.)
 	            identifier<out String member>
                 (
                     ( // это метод
@@ -477,6 +480,7 @@ interfaceBody<ClassGen classGen> =
 				 }
 			.)
 		)
+		(.log("abstr method");.)
 		identifier<out String methodName>	
 		(.Args args = new Args();.)
 		openRoundBracket [formalParameterList<args>] closeRoundBracket ';'
@@ -581,58 +585,40 @@ identifier<out String varName>
  *---------------------------------------------------------------------------*/
 Expression<CodeWrapper cw>
 = 
-// левая часть
-Expression2<cw>
-// м.б. присвоение 
-[ AssignmentOperator Expression1<cw> ]
-.
-/*---------------------------------------------------------------------------*/
-Expression1<CodeWrapper cw>
-= 
-// получение объекта
-Expression2<cw>
-// действия с ним
-[ Expression1Rest<cw> ]
-.
-/*---------------------------------------------------------------------------*/
-Expression1Rest<CodeWrapper cw>       
-=
-// бинарная операция с выражением
-Infixop Expression2<cw>
-
-// еще бинарные операции с выражением
-{
-    Infixop Expression2<cw>
-}
-.
-/*---------------------------------------------------------------------------*/
-// м.б. левой частью
-Expression2<CodeWrapper cw>              
-=
-    // единичный объект
-    [Primary<cw>]
-    // последовательность вызовов к объекту 
-    {
-        Selector<cw>
-    }
-.
-/*---------------------------------------------------------------------------*/
-Primary<CodeWrapper cw>
-=
-    "(" Expression<cw> ")"
-|   "this" [Arguments<cw>]
-|   "super" SuperSuffix<cw>
-|    Literal
-|   "new" Creator<cw>
-// еще вызовы
+( lval<cw> AssignmentOperator<cw> (rval<cw> | lval<cw>) )
 |
+rval<cw>
+.
+/*---------------------------------lval--------------------------------------*/
+lval<CodeWrapper cw>
+=
+(.log("lval");.)
+identifier<out String varName>
+| Selector<cw>
+.
+/*---------------------------------lval--------------------------------------*/
+rval<CodeWrapper cw>
+=
+(.log("rval");.)
+ "new" Creator<cw>
+| Literal
+| "(" (lval<cw> | rval<cw> ) Infixop ( lval<cw> | rval<cw>) ")"
+| Selector<cw>
+.
+/*---------------------------------------------------------------------------*/
+Selector<CodeWrapper cw>
+=
+( "this" | "super" | identifier<out String objVarName>) "."
 (
-    identifier<out String accessor>
-    {
-        '.'
-        identifier<out accessor>
-    }
-    [Arguments<cw>]
+    (
+        IF(next(_openRoundBracket))
+            identifier<out String field> 
+            Arguments<cw>
+    )
+    |
+    (
+        identifier<out String field>
+    )
 )
 .
 /*---------------------------------------------------------------------------*/
@@ -641,26 +627,6 @@ Arguments<CodeWrapper cw>
 =
 // в скобках - пусто, одно или несколько выражений
 "(" [ Expression<cw> { "," Expression<cw> } ] ")"
-.
-/*---------------------------------------------------------------------------*/
-// вызов метода предка
-SuperSuffix<CodeWrapper cw>
-=
-// конструктор
-Arguments<cw>
-| 
-// другой метод
-'.' identifier<out String accessor>[Arguments<cw>]  
-.
-/*---------------------------------------------------------------------------*/
-// квалифицированное имя
-Qualident
-= 
-identifier<out String accessor>
-{
-    '.'
-    identifier<out accessor>
-}
 .
 /*---------------------------------------------------------------------------*/
 // литерал =)
@@ -678,13 +644,7 @@ Literal
 // вызов конструктора
 Creator<CodeWrapper cw>
 = 
-    Qualident Arguments<cw>
-.
-/*---------------------------------------------------------------------------*/
-// вызов метода
-Selector<CodeWrapper cw>
-= 
-"." identifier<out String accessor> [Arguments<cw>]
+    identifier<out String className> Arguments<cw>
 .
 /*---------------------------------------------------------------------------*/
 // выражение в скобках
@@ -695,10 +655,10 @@ ParExpression<CodeWrapper cw>
 /*---------------------------------------------------------------------------*/
 // присвоение
 
-AssignmentOperator
+AssignmentOperator<CodeWrapper cw>
 = 
 (.log("assgmnt");.)
-  ("=" )
+  ("=" (..))
 /*
 //todo при наличии времени реализовать упрощённые присвоения, указанные ниже
 | ("+=")

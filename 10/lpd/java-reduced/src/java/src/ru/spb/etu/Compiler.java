@@ -22,19 +22,30 @@ import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.PUSH;
 import org.apache.bcel.generic.Type;
 
+class Bar
+    extends Foo
+{
+
+    public Bar()
+    {
+        this.i = 6;
+    }
+
+}
+
 class Foo
 {
-    int b;
-
     public Foo()
     {
-        b = 7;
     }
 
     public void name()
     {
-        int a = 5 + b;
+        Object a = new Object();
+        a = new Integer( 1 );
     }
+
+    int i = 0;
 }
 
 public class Compiler
