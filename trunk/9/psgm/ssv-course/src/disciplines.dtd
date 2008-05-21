@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT disciplines (discipline*)>
+<!ELEMENT discipline (lector, labs, course, exam)>
+<!ATTLIST discipline
+	fname CDATA #REQUIRED
+	name CDATA #REQUIRED
+>
+<!ELEMENT lector (#PCDATA)>
+<!ELEMENT labs (#PCDATA)>
+<!ELEMENT course (#PCDATA)>
+<!ELEMENT exam (#PCDATA)>

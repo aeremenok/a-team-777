@@ -1,0 +1,29 @@
+﻿<html>
+	<head>
+		<!-- <link rel="stylesheet" href="style.css" type="text/css"/>   -->
+		<title>Списки групп</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script language="JavaScript">
+			
+			function transform(xmlURL, xslURL)
+			{			
+				var xml = new ActiveXObject("MSXML.DOMDocument"); 			
+				xml.load(xmlURL);
+				
+				var xsl = new ActiveXObject("MSXML.DOMDocument"); 
+				xsl.load(xslURL);
+				
+				return xml.transformNode(xsl);
+			}
+			
+			function show(body)
+			{
+				document.body.innerHTML = body;
+			}
+
+		</script>
+	</head>
+    
+	<body onLoad="show(transform( 'groups.xml', 'groups.xsl'))">
+	</body>
+</html>

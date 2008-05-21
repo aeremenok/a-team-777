@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE disciplines SYSTEM "disciplines.dtd">
+<?xml-stylesheet type="text/xsl" href="disciplines.xsl"?>
+<disciplines>
+	<discipline name="ООТРПО" fname="Объектно-Ориентированные Технологии Разработки Программного Обеспечения">
+		<lector>Спицын</lector>
+		<labs>1</labs>
+		<course>0</course>
+		<exam>1</exam>
+	</discipline>
+	<discipline name="ООЯИС" fname="Объектно-Ориентированные Языки И Среды">
+		<lector>Голубев</lector>
+		<labs>1</labs>
+		<course>1</course>
+		<exam>0</exam>
+	</discipline>
+	<discipline name="ПСГМ" fname="Программные Средства Гипермедиа">
+		<lector>Кречман</lector>
+		<labs>0</labs>
+		<course>1</course>
+		<exam>1</exam>
+	</discipline>
+	<discipline name="ИМИ" fname="История И Методология Информатики">
+		<lector>Первицкий</lector>
+		<labs>0</labs>
+		<course>1</course>
+		<exam>0</exam>
+	</discipline>
+	<discipline name="КМИЛ" fname="Компьютерные Методы Идентификации Личности">
+		<lector>Кухарев</lector>
+		<labs>1</labs>
+		<course>1</course>
+		<exam>1</exam>
+	</discipline>
+    <discipline name="Война" fname="Факультет военного обучения">
+		<lector>Всеволодов</lector>
+		<labs>0</labs>
+		<course>0</course>
+		<exam>1</exam>
+	</discipline>
+    <discipline name="СТ" fname="Сетевые технологии">
+		<lector>Яновский</lector>
+		<labs>1</labs>
+		<course>1</course>
+		<exam>1</exam>
+	</discipline>
+    <discipline name="АПВС" fname="Анализ Производительности Вычислительных Систем">
+		<lector>Кирьянчиков</lector>
+		<labs>1</labs>
+		<course>0</course>
+		<exam>1</exam>
+	</discipline>
+    <discipline name="Моделирование" fname="Моделирование">
+		<lector>Романцев</lector>
+		<labs>1</labs>
+		<course>0</course>
+		<exam>1</exam>
+	</discipline>
+    <discipline name="СИИ" fname="Системы Искусственного Интеллекта">
+		<lector>Кафтасьев</lector>
+		<labs>1</labs>
+		<course>0</course>
+		<exam>1</exam>
+	</discipline>
+    <discipline name="ЧМВ" fname="Человеко-Машинное Взаимодействие">
+		<lector>Первицкий</lector>
+		<labs>0</labs>
+		<course>1</course>
+		<exam>1</exam>
+	</discipline>
+    <discipline name="СРВ" fname="Системы Реального Времени">
+		<lector>Селеджи</lector>
+		<labs>1</labs>
+		<course>0</course>
+		<exam>1</exam>
+	</discipline>
+    <discipline name="Иностранный язык" fname="Иностранный язык">
+		<lector>Гонтарева</lector>
+		<labs>0</labs>
+		<course>0</course>
+		<exam>0</exam>
+	</discipline>
+    <discipline name="ПРПИ" fname="Процесс разработки программных изделий">
+		<lector>Опалёва</lector>
+		<labs>0</labs>
+		<course>1</course>
+		<exam>1</exam>
+	</discipline>
+    <discipline name="ФККИБП" fname="Формирование Корпоративной Культуры И Бренда Предприятия">
+		<lector>Строгецкая</lector>
+		<labs>1</labs>
+		<course>0</course>
+		<exam>0</exam>
+	</discipline>
+</disciplines>
