@@ -545,7 +545,7 @@ public class Parser {
 		}
 		case 31: {
 			Get();
-			ParExpression(cw);
+			Type exprType = ParExpression(cw);
 			Statement(cw);
 			if (la.kind == 32) {
 				Get();
@@ -555,14 +555,14 @@ public class Parser {
 		}
 		case 33: {
 			Get();
-			ParExpression(cw);
+			Type exprType = ParExpression(cw);
 			Statement(cw);
 			break;
 		}
 		case 34: {
 			Get();
 			if (StartOf(7)) {
-				Expression(cw);
+				Type exprType = Expression(cw);
 			}
 			Expect(30);
 			break;
@@ -579,8 +579,8 @@ public class Parser {
 			Get();
 			break;
 		}
-		case 1: case 2: case 8: case 9: case 10: case 11: case 37: case 38: case 39: case 40: case 41: case 42: {
-			Expression(cw);
+		case 1: case 2: case 8: case 9: case 11: case 37: case 38: case 39: case 40: case 41: case 42: {
+			Type exprType = Expression(cw);
 			Expect(30);
 			break;
 		}
@@ -596,23 +596,27 @@ public class Parser {
 		Expect(5);
 	}
 
-	void ParExpression(CodeWrapper cw) {
+	Type  ParExpression(CodeWrapper cw) {
+		Type  exprType;
 		Expect(2);
-		Expression(cw);
+		exprType = Expression(cw);
 		Expect(3);
+		return exprType;
 	}
 
-	void Expression(CodeWrapper cw) {
+	Type  Expression(CodeWrapper cw) {
+		Type  exprType;
+		exprType = null;
 		if (la.kind == 37) {
 			Get();
-			Creator(cw);
+			exprType = Creator(cw);
 		} else if (StartOf(9)) {
-			Literal();
+			exprType = Literal();
 		} else if (la.kind == 2) {
 			Get();
-			Expression(cw);
+			exprType = Expression(cw);
 			Infixop();
-			Expression(cw);
+			exprType = Expression(cw);
 			Expect(3);
 		} else if (la.kind == 1 || la.kind == 38 || la.kind == 39) {
 			if (next(_dot)) {
@@ -624,11 +628,12 @@ public class Parser {
 					String objVarName = identifier();
 				} else SynErr(68);
 				Expect(6);
-				Selector(cw);
+				exprType = Selector(cw);
 			} else {
-				Selector(cw);
+				exprType = Selector(cw);
 			}
 		} else SynErr(69);
+		return exprType;
 	}
 
 	void BlockStatement(CodeWrapper cw) {
@@ -664,7 +669,7 @@ public class Parser {
 		if (la.kind == 7) {
 			Get();
 			log("init");
-			Expression(cw);
+			Type exprType = Expression(cw);
 			StoreInstruction store = null;
 			
 			int name = lg.getIndex();
@@ -688,44 +693,62 @@ public class Parser {
 		}
 	}
 
-	void Creator(CodeWrapper cw) {
+	Type  Creator(CodeWrapper cw) {
+		Type  createdType;
 		String className = identifier();
-		Arguments(cw);
+		Type[] argTypes = Arguments(cw);
+		InstructionFactory factory = new InstructionFactory( cw.classGen );
+		cw.il.append( factory.createInvoke(
+		    className,
+		    "<init>",
+		    Type.VOID,
+		    argTypes, 
+		    Constants.INVOKESPECIAL 
+		) );
+		// todo ????????
+		createdType = new ObjectType(className);
+		
+		return createdType;
 	}
 
-	void Literal() {
+	Type  Literal() {
+		Type  exprType;
+		exprType = null;
 		switch (la.kind) {
 		case 8: {
 			Get();
+			exprType = Type.INT;
 			break;
 		}
 		case 9: {
 			Get();
-			break;
-		}
-		case 10: {
-			Get();
+			exprType = Type.FLOAT;
 			break;
 		}
 		case 11: {
 			Get();
+			exprType = new ObjectType("java.lang.String");
 			break;
 		}
 		case 40: {
 			Get();
+			exprType = Type.BOOLEAN;
 			break;
 		}
 		case 41: {
 			Get();
+			exprType = Type.BOOLEAN;
 			break;
 		}
 		case 42: {
 			Get();
+			exprType = Type.NULL;
 			break;
 		}
 		default: SynErr(72); break;
 		}
 		log("lit="+t.val);
+		return exprType;
 	}
 
 	void Infixop() {
@@ -790,31 +813,56 @@ public class Parser {
 		}
 	}
 
-	void Selector(CodeWrapper cw) {
+	Type  Selector(CodeWrapper cw) {
+		Type  selType;
+		selType = null;
 		if (next(_openRoundBracket)) {
-			String method = identifier();
-			Arguments(cw);
+			selType = rval(cw);
 		} else if (la.kind == 1) {
-			if (next(_isequal)) {
-				String field = identifier();
-				AssignmentOperator(cw);
-				Expression(cw);
-			} else {
-				String field = identifier();
-			}
+			selType = lval(cw);
 		} else SynErr(74);
+		return selType;
 	}
 
-	void Arguments(CodeWrapper cw) {
+	Type  rval(CodeWrapper cw) {
+		Type  selType;
+		String method = identifier();
+		selType = null;
+		Type[] argTypes = Arguments(cw);
+		return selType;
+	}
+
+	Type  lval(CodeWrapper cw) {
+		Type  selType;
+		selType = null;
+		if (next(_isequal)) {
+			String var = identifier();
+			selType = null;
+			AssignmentOperator(cw);
+			Type exprType = Expression(cw);
+		} else if (la.kind == 1) {
+			String var = identifier();
+			selType = null;
+		} else SynErr(75);
+		return selType;
+	}
+
+	Type[]  Arguments(CodeWrapper cw) {
+		Type[]  argTypes;
+		ArrayList<Type> types = new ArrayList<Type>();
 		Expect(2);
 		if (StartOf(7)) {
-			Expression(cw);
+			Type exprType = Expression(cw);
+			types.add(exprType);
 			while (la.kind == 29) {
 				Get();
-				Expression(cw);
+				exprType = Expression(cw);
+				types.add(exprType);
 			}
 		}
 		Expect(3);
+		argTypes = types.toArray(new Type[types.size()]);
+		return argTypes;
 	}
 
 	void AssignmentOperator(CodeWrapper cw) {
@@ -842,10 +890,10 @@ public class Parser {
 		{x,T,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
 		{x,T,x,x, x,x,x,x, x,x,x,x, T,T,x,x, x,x,T,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
-		{x,T,T,x, x,x,x,x, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
-		{x,T,T,x, T,x,x,x, T,T,T,T, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,x,T,T, x,T,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
-		{x,x,x,x, x,x,x,x, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
-		{x,T,T,x, T,x,x,x, T,T,T,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, x,T,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x}
+		{x,T,T,x, x,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
+		{x,T,T,x, T,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,x,T,T, x,T,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
+		{x,x,x,x, x,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
+		{x,T,T,x, T,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, x,T,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x}
 
 	};
 } // end Parser
@@ -945,6 +993,7 @@ class Errors {
 			case 72: s = "invalid Literal"; break;
 			case 73: s = "invalid Infixop"; break;
 			case 74: s = "invalid Selector"; break;
+			case 75: s = "invalid lval"; break;
 			default: s = "error " + n; break;
 		}
 		printMsg(line, col, s);
