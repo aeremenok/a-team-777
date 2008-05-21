@@ -170,10 +170,15 @@ void Controller::Save(std::string strName) const
    int idPlayers = playersList->PutIntoArchive(arch);
    int idStruct  = netStruc->PutIntoArchive(arch);
 
-
    std::ofstream os(strName.c_str());
+   if ( os.bad() )
+   {
+      ::MessageBox(NULL, "FILE NOT OPEN", "Error", MB_ICONERROR | MB_OK );
+      return;
+   }
 
    os << idPlayers << separ << idStruct << separ << arch;
+   os.flush();
    os.close();
 }
 
