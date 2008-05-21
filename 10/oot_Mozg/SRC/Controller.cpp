@@ -190,10 +190,23 @@ bool Controller::Open(std::string strName)
 
    //! —оздаем архив дл€ считывани€ данных
    ser::Archive arch;
-   /************************************************************************/
-   /*                  TODO: —читывание из файла в архив                   */
-   /************************************************************************/
+   
+   int idPlayers;
+   int idStruct;
 
+   std::ifstream is(strName.c_str());
+   if ( is.bad() )
+   {
+      ::MessageBox(NULL, "FILE NOT OPEN", "Error", MB_ICONERROR | MB_OK );
+      return false;
+   }
+   
+   is >> idPlayers >> idStruct >> arch;
+
+   playersList->GetFromArchive(arch, idPlayers);
+   netStruc->GetFromArchive(arch, idStruct);
+   Redraw();
+   is.close();
    return true;
 }
 
