@@ -41,6 +41,7 @@ LRESULT CCreateNewDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*l
    GetDlgItem(IDC_EDIT_PLAYER_6).SetWindowText(m_strPlayers[5].c_str());
 
    //! Заполнение выпадающего списка
+   m_nStructId = 0;
    CComboBox cb = GetDlgItem(IDC_COMBO_STRUCT_NUMBER);
    ATLASSERT(::IsWindow(cb.m_hWnd));
    cb.AddString("Новичек");
@@ -63,6 +64,10 @@ LRESULT CCreateNewDlg::OnOK(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/
    m_strPlayers[3] = GetControlText(GetDlgItem(IDC_EDIT_PLAYER_4));
    m_strPlayers[4] = GetControlText(GetDlgItem(IDC_EDIT_PLAYER_5));
    m_strPlayers[5] = GetControlText(GetDlgItem(IDC_EDIT_PLAYER_6));
+
+   CComboBox cb = GetDlgItem(IDC_COMBO_STRUCT_NUMBER);
+   ATLASSERT(::IsWindow(cb.m_hWnd));
+   m_nStructId = cb.GetCurSel();
    EndDialog(IDOK);
    return 0;
 }

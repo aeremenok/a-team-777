@@ -62,6 +62,9 @@ public:
    //! Количество игроков, задаваемое пользователем в окне
    int m_nPlayersNumber;
    
+   //! Идентификатор выбранной структуры данных
+   int m_nStructId;
+   
    std::vector<std::string> m_strPlayers;
 };
 }

@@ -13,6 +13,15 @@
 using namespace tdata;
 
 // ==========================================================================
+#define CLR_POSITION            RGB(68, 230, 60)   //!< Öâåò ïîçèöèè
+#define CLR_TRANSITION_ACTIVE   RGB(254, 38, 33)   //!< Öâåò àêòèâíîãî ïåðåõîäà
+#define CLR_TRANSITION_INACTIVE RGB(119, 196, 215) //!< Öâåò íåàêòèâíîãî ïåðåõîäà
+#define CLR_INPUT               RGB(28, 22, 248)   //!< Öâåò ðåáåð âõîäíîé ôóíêöèè
+#define CLR_OUTPUT              RGB(12, 236, 6)    //!< Öâåò ðåáåð âûõîäíîé ôóíêöèè
+#define CLR_TOKEN               RGB(0, 0, 0)       //!< Öâåò ôèøêè
+#define CLR_PEN                 RGB(0, 0, 0)       //!< Öâåò ïåðà
+
+// ==========================================================================
 Data::Data() {}
 
 // ==========================================================================
@@ -317,7 +326,7 @@ void Data::CalcVertexes(const RECT& rect)
 
    /* Â rows - êîëè÷åñòâî ñòðîê â ñòðóêòóðå + 1 */
 
-   int nRowsBetween = 2;      // ×ÈÑËÎ "ÑÒÐÎÊ" ÌÅÆÄÓ ÎÁÚÅÊÒÀÌÈ
+   int nRowsBetween = 1;      // ×ÈÑËÎ "ÑÒÐÎÊ" ÌÅÆÄÓ ÎÁÚÅÊÒÀÌÈ
    int nRows = (rows - 2) * nRowsBetween + rows + 1;
    /*          ñòðîêè ìåæäó             îáúåêòû   âåðõíÿÿ ãðàíèöà */
 
@@ -370,7 +379,7 @@ void Data::CalcVertexes(const RECT& rect)
    while ( i > 0 )
    {
       // ÅÑËÈ ÄÎØËÈ ÄÎ ÃÐÀÍÈÖÛ, ÏÎÌÅÍßÒÜ ÍÀÏÐÀÂËÅÍÈÅ
-      if ( j == 0 || j > 5 )
+      if ( j < 0 || j > 5 )
       {
          sign *= -1;
          j = 3;
@@ -396,21 +405,106 @@ void Data::CalcVertexes(const RECT& rect)
 // ==========================================================================
 void Data::DrawPositions(CPaintDC& dc) const
 {
+   CPen pen;
+   pen.CreatePen(PS_SOLID, 0, CLR_PEN);
+   CBrush brushPos, brushTkn;
+   brushPos.CreateSolidBrush(CLR_POSITION);
+   brushTkn.CreateSolidBrush(CLR_TOKEN);
+
+   HPEN oldPen = dc.SelectPen(pen);
+   HBRUSH oldBrush = dc.SelectBrush(brushPos);
+
+   for ( iposition it = GetPositions(); !it.end(); ++it )
+   {
+      RECT posRect;
+      posRect.left = m_posDots[it.position()].x - m_objSize / 2;
+      posRect.right = m_posDots[it.position()].x + m_objSize / 2;
+      posRect.top = m_posDots[it.position()].y - m_objSize / 2;
+      posRect.bottom = m_posDots[it.position()].y + m_objSize / 2;
+
+      RECT tknRect;
+      tknRect.left = m_posDots[it.position()].x - m_objSize / 4;
+      tknRect.right = m_posDots[it.position()].x + m_objSize / 4;
+      tknRect.top = m_posDots[it.position()].y - m_objSize / 4;
+      tknRect.bottom = m_posDots[it.position()].y + m_objSize / 4;
+
+      dc.Ellipse(&posRect);
+      if ( !IsPositionAvailable(it.position()) )
+      {
+         dc.SelectBrush(brushTkn);
+         dc.Ellipse(&tknRect);
+         dc.SelectBrush(brushPos);
+      }
+   }
+
+   dc.SelectPen(oldPen);
+   dc.SelectBrush(oldBrush);
 }
 
 // ==========================================================================
 void Data::DrawTransitions(CPaintDC& dc) const
 {
+   CPen pen;
+   pen.CreatePen(PS_SOLID, 0, CLR_PEN);
+   CBrush brushAct, brushTr;
+   brushAct.CreateSolidBrush(CLR_TRANSITION_ACTIVE);
+   brushTr.CreateSolidBrush(CLR_TRANSITION_INACTIVE);
+
+   HPEN oldPen = dc.SelectPen(pen);
+   HBRUSH oldBrush = dc.SelectBrush(brushTr);
+
+   for ( itransition it = GetTransitions(); !it.end(); ++it )
+   {
+      RECT trRect;
+      trRect.left = m_trDots[it.transition()].x - m_objSize / 2;
+      trRect.right = m_trDots[it.transition()].x + m_objSize / 2;
+      trRect.top = m_trDots[it.transition()].y - m_objSize / 4;
+      trRect.bottom = m_trDots[it.transition()].y + m_objSize / 4;
+
+      if ( IsTransitionActive(it.transition()) )
+         dc.SelectBrush(brushAct);
+      else
+         dc.SelectBrush(brushTr);
+
+      dc.Rectangle(&trRect);
+   }
+
+   dc.SelectPen(oldPen);
+   dc.SelectBrush(oldBrush);
 }
 
 // ==========================================================================
 void Data::DrawTransitionsInput(CPaintDC& dc) const
 {
+   CPen inputPen;
+   inputPen.CreatePen(PS_SOLID, 2, CLR_INPUT);
+   HPEN oldPen = dc.SelectPen(inputPen);
+
+   for ( itransition it = GetTransitions(); !it.end(); ++it )
+      for ( itransition_input inp = GetTransitionInput(it.transition()); !inp.end(); ++inp )
+      {
+         dc.MoveTo(m_trDots[it.transition()]);
+         dc.LineTo(m_posDots[inp.position()]);
+      }
+
+   dc.SelectPen(oldPen);
 }
 
 // ==========================================================================
 void Data::DrawTransitionsOutput(CPaintDC& dc) const
 {
+   CPen outputPen;
+   outputPen.CreatePen(PS_SOLID, 2, CLR_OUTPUT);
+   HPEN oldPen = dc.SelectPen(outputPen);
+
+   for ( itransition it = GetTransitions(); !it.end(); ++it )
+      for ( itransition_output outp = GetTransitionOutput(it.transition()); !outp.end(); ++outp )
+      {
+         dc.MoveTo(m_trDots[it.transition()]);
+         dc.LineTo(m_posDots[outp.position()]);
+      }
+
+      dc.SelectPen(oldPen);
 }
 
 // ==========================================================================

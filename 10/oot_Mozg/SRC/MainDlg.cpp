@@ -207,12 +207,8 @@ LRESULT CMainDlg::OnNew(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& 
          names.push_back(dlg.m_strPlayers[i]); 
       }
 
-      //! Считываем структуру игры и передаем ее 
-      CComboBox cb = GetDlgItem(IDC_COMBO_STRUCT_NUMBER);
-      ATLASSERT(::IsWindow(cb.m_hWnd));
-      cb.GetCurSel();
       //! Вызов инициализации
-      Game::Controller::Instance()->initialize(names, cb.GetCurSel());
+      Game::Controller::Instance()->initialize(names, dlg.m_nStructId);
       
    }else
    { //! Произошла отмена, проверяем была ли игра активной ранее
