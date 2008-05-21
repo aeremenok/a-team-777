@@ -18,6 +18,8 @@ import org.apache.bcel.generic.ASTORE;
 import org.apache.bcel.generic.FSTORE;
 import org.apache.bcel.generic.ISTORE;
 
+import org.apache.bcel.classfile.Method;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -86,6 +88,17 @@ boolean next(int i)
         }
     }
     
+    // поиск
+    public Method getMethod(
+        String name,
+        ClassGen classGen )
+    {
+        for ( Method method : classGen.getMethods() )
+            if ( method.getName().equals( name ) )
+                return method;
+        SemErr("no such method "+name);
+        return null;
+    }
 /*--------------------------------------------------------------------------*/
 CHARACTERS
   tab           = '\u0009'. /*  9 = tabulator */
@@ -241,6 +254,8 @@ classDeclaration<int modifier> =
 	       modifier,
 	       interfaceName==null ? null : new String[]{interfaceName} );
 	   classes.put(className, classGen);
+	   // todo пусть будет =)
+	   classGen.addEmptyConstructor( Constants.ACC_PUBLIC );
 	   log("class "+className+" created");
 	.)
 	classBody<classGen>
@@ -380,6 +395,13 @@ classBody<ClassGen classGen> =
                           CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);						  
 			        .) 
 			        Statement<cw>
+			        (.
+			            if (cw.il.getLength()==0)
+                            cw.il.append( InstructionConstants.RETURN );
+                            
+                        cw.methodGen.setMaxStack();
+                        classGen.addMethod(cw.methodGen.getMethod());
+                    .)
 		    )
             |
             (   // это обычный член класса
@@ -431,6 +453,13 @@ classBody<ClassGen classGen> =
                             CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);
                         .) 
                         Statement<cw>
+                        (.
+                            if (cw.il.getLength()==0)
+                                cw.il.append( InstructionConstants.RETURN );
+
+                            cw.methodGen.setMaxStack();
+                            classGen.addMethod(cw.methodGen.getMethod());
+                        .)
 		            )
                     |
                     ( // это атрибут
@@ -548,13 +577,13 @@ LocalVariableDeclaration<CodeWrapper cw>
              objectTypes.put(typeName, (ObjectType)typeLiteral);
          }
          cw.il.append( factory.createNew( typeLiteral.getSignature() ) );
+         cw.il.append( InstructionConstants.DUP ); 
     .)
 )
 identifier<out String varName>
 (.
     // todo проверка, не объявлена ли ранее
     LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null);
-    cw.il.append( InstructionConstants.DUP ); 
 .)
 ["=" (.log("init");.) Expression<out Type exprType, cw> // здесь нам оставят результат на верхушке стека. мы его сохраняем в переменную 
 (.
@@ -597,45 +626,65 @@ Expression<out Type exprType, CodeWrapper cw>
         Expression<out exprType, cw> ")"
 
     |
+    (.String className= cw.classGen.getClassName();.)
     ( // операции с объектами
         (
             IF(next(_dot))
-                ( "this" | "super" | identifier<out String objVarName>) "."
-                Selector<out exprType, cw>
+                (
+                    "this"  
+                  | "super" (.className = cw.classGen.getSuperclassName();.)
+                  | identifier<out String objVarName>
+                  (.
+                    // todo получить тип переменной или поля
+                  .)
+                ) "."
+                Selector<out exprType, cw, className> // todo выдать имя класса
         )
         |
-        (Selector<out exprType, cw>)
+        (Selector<out exprType, cw, className>) // todo здесь имя текущего класса. локальные переменные перекрывают поля 
     )
 )
 .
 /*---------------------------------------------------------------------------*/
-Selector<out Type selType, CodeWrapper cw>
+Selector<out Type selType, CodeWrapper cw, String className>
 =
 (.selType = null;.)
 (
 	(
 	    IF(next(_openRoundBracket))
 	    // вызов
-	        rval<out selType, cw>
+	        call<out selType, cw, className>
 	)
 	|
 	( // иначе - присвоение левой части - значения
-	    lval<out selType, cw>
+	    var<out selType, cw, className>
 	)
 )
 .
 /*---------------------------------------------------------------------------*/
-rval<out Type selType, CodeWrapper cw>
+call<out Type selType, CodeWrapper cw, String className>
 =
     identifier<out String method>
     (.selType = null;.) 
     // todo selType = возвращаемый методом тип
     Arguments<out Type[] argTypes, cw>
+	(.  // в стеке лежат значения аргументов, вызываем метод
+	    InstructionFactory factory = new InstructionFactory( cw.classGen );
+	    cw.il.append( factory.createInvoke(
+	        className,
+	        method,
+	        getMethod(method, cw.classGen).getReturnType(),
+	        // todo запомнить, если метод не найден
+	        argTypes, 
+	        Constants.INVOKEVIRTUAL 
+	    ) );
+	.)
 .
 /*---------------------------------------------------------------------------*/
-lval<out Type selType, CodeWrapper cw>
+var<out Type selType, CodeWrapper cw, String className>
 =
 (.selType = null;.)
+// todo получить переменную или поле
 (
 	(
 	    IF(next(_isequal))

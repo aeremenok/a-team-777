@@ -20,6 +20,8 @@ import org.apache.bcel.generic.ASTORE;
 import org.apache.bcel.generic.FSTORE;
 import org.apache.bcel.generic.ISTORE;
 
+import org.apache.bcel.classfile.Method;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -111,6 +113,17 @@ public class Parser {
         }
     }
     
+    // ?????
+    public Method getMethod(
+        String name,
+        ClassGen classGen )
+    {
+        for ( Method method : classGen.getMethods() )
+            if ( method.getName().equals( name ) )
+                return method;
+        SemErr("no such method "+name);
+        return null;
+    }
 /*--------------------------------------------------------------------------*/
 
 
@@ -283,6 +296,8 @@ public class Parser {
 		   modifier,
 		   interfaceName==null ? null : new String[]{interfaceName} );
 		classes.put(className, classGen);
+		// todo ????? ????? =)
+		classGen.addEmptyConstructor( Constants.ACC_PUBLIC );
 		log("class "+className+" created");
 		
 		classBody(classGen);
@@ -322,6 +337,12 @@ public class Parser {
 				                  CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);						  
 				   
 				Statement(cw);
+				if (cw.il.getLength()==0)
+				            cw.il.append( InstructionConstants.RETURN );
+				            
+				        cw.methodGen.setMaxStack();
+				        classGen.addMethod(cw.methodGen.getMethod());
+				    
 			} else if (StartOf(4)) {
 				if (la.kind == 13) {
 					int fMod = finalAccess();
@@ -375,6 +396,11 @@ public class Parser {
 					                CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);
 					            
 					Statement(cw);
+					if (cw.il.getLength()==0)
+					   cw.il.append( InstructionConstants.RETURN );
+					 cw.methodGen.setMaxStack();
+					classGen.addMethod(cw.methodGen.getMethod());
+					
 				} else if (la.kind == 30) {
 					FieldGen fieldGen = new FieldGen(
 					   modifier,
@@ -619,18 +645,21 @@ public class Parser {
 			exprType = Expression(cw);
 			Expect(3);
 		} else if (la.kind == 1 || la.kind == 38 || la.kind == 39) {
+			String className= cw.classGen.getClassName();
 			if (next(_dot)) {
 				if (la.kind == 38) {
 					Get();
 				} else if (la.kind == 39) {
 					Get();
+					className = cw.classGen.getSuperclassName();
 				} else if (la.kind == 1) {
 					String objVarName = identifier();
+					
 				} else SynErr(68);
 				Expect(6);
-				exprType = Selector(cw);
+				exprType = Selector(cw, className);
 			} else {
-				exprType = Selector(cw);
+				exprType = Selector(cw, className);
 			}
 		} else SynErr(69);
 		return exprType;
@@ -660,11 +689,11 @@ public class Parser {
 			    objectTypes.put(typeName, (ObjectType)typeLiteral);
 			}
 			cw.il.append( factory.createNew( typeLiteral.getSignature() ) );
+			cw.il.append( InstructionConstants.DUP ); 
 			
 		} else SynErr(71);
 		String varName = identifier();
 		LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null);
-		cw.il.append( InstructionConstants.DUP ); 
 		
 		if (la.kind == 7) {
 			Get();
@@ -813,26 +842,36 @@ public class Parser {
 		}
 	}
 
-	Type  Selector(CodeWrapper cw) {
+	Type  Selector(CodeWrapper cw, String className) {
 		Type  selType;
 		selType = null;
 		if (next(_openRoundBracket)) {
-			selType = rval(cw);
+			selType = call(cw, className);
 		} else if (la.kind == 1) {
-			selType = lval(cw);
+			selType = var(cw, className);
 		} else SynErr(74);
 		return selType;
 	}
 
-	Type  rval(CodeWrapper cw) {
+	Type  call(CodeWrapper cw, String className) {
 		Type  selType;
 		String method = identifier();
 		selType = null;
 		Type[] argTypes = Arguments(cw);
+		InstructionFactory factory = new InstructionFactory( cw.classGen );
+		cw.il.append( factory.createInvoke(
+		    className,
+		    method,
+		    getMethod(method, cw.classGen).getReturnType(),
+		    // todo ?????????, ???? ????? ?? ??????
+		    argTypes, 
+		    Constants.INVOKEVIRTUAL 
+		) );
+		
 		return selType;
 	}
 
-	Type  lval(CodeWrapper cw) {
+	Type  var(CodeWrapper cw, String className) {
 		Type  selType;
 		selType = null;
 		if (next(_isequal)) {
@@ -993,7 +1032,7 @@ class Errors {
 			case 72: s = "invalid Literal"; break;
 			case 73: s = "invalid Infixop"; break;
 			case 74: s = "invalid Selector"; break;
-			case 75: s = "invalid lval"; break;
+			case 75: s = "invalid var"; break;
 			default: s = "error " + n; break;
 		}
 		printMsg(line, col, s);
