@@ -33,6 +33,7 @@ extern CAppModule _Module;
 
 #include "resource.h"
 #include "tools.h"
+#include "exceptions.h"
 #include "Controller.h"
 
 // Правильное подключение манифеста (контролы в стиле XP)

@@ -182,11 +182,12 @@ inline bool PetriNet<bool>::IsTransitionActive(TRANSITION tr) const
       ret = ret && m_Marking[input.position()];
 
    // опнбепхрэ, врн япедх бшундмшу онгхжхи еярэ унрэ ндмю ябнандмюъ
+   bool out_ready = false;
    itransition_output output = GetTransitionOutput(tr);
    for ( ; !output.end(); ++output )
-      ret = ret && !m_Marking[output.position()];
+      out_ready = out_ready || !m_Marking[output.position()];
 
-   return ret;
+   return ret && out_ready;
 }
 
 // ==========================================================================

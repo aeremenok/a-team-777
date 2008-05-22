@@ -281,6 +281,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\INC\exceptions.h"
+				>
+			</File>
+			<File
 				RelativePath=".\INC\ifaces.h"
 				>
 			</File>

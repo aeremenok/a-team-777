@@ -106,7 +106,7 @@ void ListOfPlayers::goNext ()
    //! В противном случае переходим к следующему, если вышли за последнего,
    //! переходим к первому
    if (++currPlayer == listPl.end())
-      currPlayer == listPl.begin();
+      currPlayer = listPl.begin();
 }
 int ListOfPlayers::PutIntoArchive(ser::Archive& archive)
 {
