@@ -48,18 +48,22 @@ namespace iface   //!< ќбщие интерфейсы, используемы в программе
    public:
 
       //! ¬ыбираетс€ структура на основе ID
-      virtual void generate (int newIDofGame) =0;
+      virtual void generate (int newIDofGame) = 0;
 
       //! √енеритьс€ нова€ внутренн€€ структура на основе заданных параметров
-      virtual void generate (int newNumberOfHoles, int newNumberOfCell) =0;
+      virtual void generate (int newNumberOfHoles, int newNumberOfCell) = 0;
 
       //!  идает шарик в дырку. ≈сли больше некуда кидать возвращает false
       //! в противном true
-      //! numberOfHole - номер дырки, в которую кидаетс€ шарик.
-      virtual bool makeStep (int numberOfHole) =0;	
+      //! numberOfHole - номер дырки, в которую кидаетс€ шарик
+      virtual bool makeStep (int numberOfHole) = 0;
 
-      //! ќчистить структуру от фишек.
-      virtual void clean () =0;
+      //! ѕроверить, заблокирована ли позици€
+      //! \param i - идентификатор доступной пользователю позиции ([0..5])
+      virtual bool isPositionBlocked(int i) const = 0;
+
+      //! ќчистить структуру от фишек
+      virtual void clean () = 0;
 
       virtual ~iNetworkStruct(){}
    };

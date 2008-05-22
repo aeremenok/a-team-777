@@ -9,13 +9,13 @@
 #define IDD_DIALOG_CREATE_NEW           202
 #define IDC_TOOLBAR_MAIN                1002
 #define IDC_BUTTON_HOLE1                1003
-#define IDC_BUTTON_HOLE3                1004
+#define IDC_BUTTON_HOLE2                1004
 #define IDC_RADIO_LOCAL_GAME            1004
-#define IDC_BUTTON_HOLE2                1005
+#define IDC_BUTTON_HOLE3                1005
 #define IDC_RADIO_NETWORK_GAME          1005
-#define IDC_BUTTON_HOLE5                1006
+#define IDC_BUTTON_HOLE4                1006
 #define IDC_COMBO_STRUCT_NUMBER         1006
-#define IDC_BUTTON_HOLE4                1007
+#define IDC_BUTTON_HOLE5                1007
 #define IDC_SPIN_PLAYER_NUMBER          1007
 #define IDC_BUTTON_HOLE6                1008
 #define IDC_EDIT_PLAYER_NUMBER          1008
