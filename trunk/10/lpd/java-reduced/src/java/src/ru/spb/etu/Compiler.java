@@ -3,6 +3,7 @@ package ru.spb.etu;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.Method;
@@ -132,6 +133,7 @@ public class Compiler
                                       "main", className, // method, class
                                       il, cp );
 
+        Arrays arrays;
         InstructionFactory factory = new InstructionFactory( classGen );
 
         ObjectType i_stream = new ObjectType( "java.io.InputStream" );
@@ -177,6 +179,7 @@ public class Compiler
         InstructionHandle ih =
                                il.append( factory.createFieldAccess( "java.lang.System", "out", p_stream,
                                                                      Constants.GETSTATIC ) );
+
         g.setTarget( ih );
 
         il.append( factory.createNew( Type.STRINGBUFFER ) );
