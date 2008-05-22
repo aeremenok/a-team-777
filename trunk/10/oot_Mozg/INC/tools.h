@@ -20,6 +20,7 @@ inline std::string GetControlText(HWND control)
    return &buf[0];
 }
 
+// ==========================================================================
 //! Манипулятор
 template<class charT, class traits>
    inline std::basic_ostream<charT, traits>&
@@ -29,6 +30,7 @@ template<class charT, class traits>
       return strm;
    }
 
+// ==========================================================================
 //! Переопределенный оператор для ser::Archive
 template<class charT, class traits>
    inline std::basic_ostream<charT, traits>&
@@ -39,6 +41,7 @@ template<class charT, class traits>
       return strm;
    }
 
+// ==========================================================================
 //! Переопределенный оператор для ser::Archive
    template<class charT, class traits>
    inline std::basic_istream<charT, traits>&
