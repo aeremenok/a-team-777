@@ -2,24 +2,21 @@ public class Foo1{
     int i;
     void bar(){}
     
-    void foo()
+    void foo(boolean c)
     {
-        int a;
-        a = 0;
-        i = 888;
-        this.i = 0;
-        Foo1 foo = new Foo1();
-        a = (1 + ( 2 - this.i));
-        this.bar();
-        System.out.print("sdfasdf");
-        // this.foo() = 0; ошибка        
+        int i = 0;
+        while(c){
+            System.out.println(i);
+            i = (i + 1);
+        }
+
     }
 
     //public static void main(String[] args){ new Foo1().main(); }
     public void main()
     {
         Foo1 foo = new Foo1();
-        foo.foo();
+        foo.foo(true);
     }
 
 }
