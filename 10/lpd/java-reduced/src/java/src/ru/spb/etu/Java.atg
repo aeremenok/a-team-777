@@ -19,6 +19,7 @@ import org.apache.bcel.generic.FSTORE;
 import org.apache.bcel.generic.ISTORE;
 
 import org.apache.bcel.classfile.Method;
+import org.apache.bcel.classfile.Field;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,24 +39,6 @@ boolean next(int i)
 	
     // созданные классы
     public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
-    // подключенные классы
-    public HashMap<String, ObjectType> objectTypes = new HashMap<String, ObjectType>();
-    
-	// проверка после компил€ции - все ли упом€нутые классы подключены
-	void checkTypes()
-    {
-        for ( String typeName : objectTypes.keySet() )
-        {
-            if (
-                !typeName.equals("String") && 
-                !typeName.equals("Vector") &&
-                !classes.keySet().contains( typeName ) 
-                )
-            {
-                SemErr( "type " + typeName + " not found" );
-            }
-        }
-    }
     
     // обертка формальных параметров
     public class Args
@@ -107,8 +90,18 @@ boolean next(int i)
     public LocalVariableGen getVarGen(
         String name,
         MethodGen methodGen )
-    {    
+    {   
         for ( LocalVariableGen var : methodGen.getLocalVariables() )
+			if ( var.getName().equals( name ) )
+			    return var;
+        return null;
+    }
+    
+    public Field getFieldGen(
+        String name,
+        ClassGen classGen )
+    {   
+        for ( Field var : classGen.getFields() )
 			if ( var.getName().equals( name ) )
 			    return var;
         return null;
@@ -225,7 +218,6 @@ finalAccess<out int modifier>
 /*----------------------------------CompilationUnit----------------------------------*/
 CompilationUnit = 
 	typeDeclaration {typeDeclaration}
-	(.checkTypes();.)
 .
 /*----------------------------------typeDeclaration----------------------------------*/
 typeDeclaration =
@@ -248,7 +240,8 @@ classDeclaration<int modifier> =
 	   // проверка типов
 	   (.
 	       if(superName.equals(className)) SemErr("cannot self-inherit");
-	       objectTypes.put(superName, new ObjectType(superName));
+	       if (classes.get(superName)==null)
+	           SemErr("no such type "+superName);
 	   .)
 	]
 	(.String interfaceName = null;.)
@@ -257,7 +250,8 @@ classDeclaration<int modifier> =
 	   // проверка типов
 	   (.
 	       if(interfaceName.equals(className)) SemErr("cannot self-inherit");
-	       objectTypes.put(superName, new ObjectType(superName));
+           if (classes.get(superName)==null)
+               SemErr("no such type "+superName);
 	   .)
 	]
 	(.
@@ -295,7 +289,8 @@ interfaceDeclaration<int modifier> =
        // проверка типов
        (.
             if(superInterfaceName.equals(interfaceName)) SemErr("cannot self-inherit");
-            objectTypes.put(superInterfaceName, new ObjectType(superInterfaceName));
+           if (classes.get(superInterfaceName)==null)
+               SemErr("no such type "+superInterfaceName);
        .)        
     ]
 	(.
@@ -353,12 +348,10 @@ formalParameterList<Args args> =
         | 
         identifier<out String typeName>  
         (.
-	         typeLiteral = objectTypes.get(typeName);
-	         if(typeLiteral==null)
-	         {   
-	             typeLiteral = new ObjectType(typeName);
-	             objectTypes.put(typeName, (ObjectType)typeLiteral);
-	         }
+           if (classes.get(typeName)==null)
+               SemErr("no such type "+typeName);
+           else
+               typeLiteral = new ObjectType(typeName);               
         .)
     )
     (.types.add(typeLiteral);.)
@@ -371,12 +364,10 @@ formalParameterList<Args args> =
 	        | 
 	        identifier<out String typeName>  
 	        (.
-				 typeLiteral = objectTypes.get(typeName);
-				 if(typeLiteral==null)
-				 { 
-				     typeLiteral = new ObjectType(typeName);
-				     objectTypes.put(typeName, (ObjectType)typeLiteral);
-				 }
+	           if (classes.get(typeName)==null)
+	               SemErr("no such type "+typeName);
+	           else
+	               typeLiteral = new ObjectType(typeName);	        
 	        .)
 	    )
 	   (.types.add(typeLiteral);.) 
@@ -439,13 +430,10 @@ classBody<ClassGen classGen> =
                     | 
                     identifier<out String typeName>  
                     (.
-                     typeLiteral = objectTypes.get(typeName);
-                     if(typeLiteral==null)
-                     {
-                         typeLiteral = new ObjectType(typeName);
-                         objectTypes.put(typeName, (ObjectType)typeLiteral);
-                         log("added type "+typeName);
-                     }
+			           if (classes.get(typeName)==null)
+			               SemErr("no such type "+typeName);
+			           else
+			             typeLiteral = new ObjectType(typeName);
                     .)
                 )
 	            identifier<out String member>
@@ -495,7 +483,6 @@ classBody<ClassGen classGen> =
                     |
                     ( // это атрибут
                         (.
-                            // todo проверить, не объ€влен ли ранее
                             FieldGen fieldGen = new FieldGen(
                                 modifier,
                                 typeLiteral,
@@ -537,12 +524,10 @@ interfaceBody<ClassGen classGen> =
 			| 
 			identifier<out String typeName>  
 			(.
-				 typeLiteral = objectTypes.get(typeName);
-				 if(typeLiteral==null)
-				 {
-				     typeLiteral = new ObjectType(typeName);
-				     objectTypes.put(typeName, (ObjectType)typeLiteral);
-				 }
+	           if (classes.get(typeName)==null)
+	               SemErr("no such type "+typeName);
+	           else
+	               typeLiteral = new ObjectType(typeName);
 			.)
 		)
 		(.log("abstr method");.)
@@ -589,9 +574,14 @@ Block<CodeWrapper cw>
 // код состоит из объ€влений и инструкций
 BlockStatement<CodeWrapper cw>
 =
-Statement<cw>
+(
+    IF(next(_id))
+        LocalVariableDeclaration<cw> ";"
+)
 |
-(LocalVariableDeclaration<cw> ";")
+(
+    Statement<cw>
+)
 .
 /*---------------------------------------------------------------------------*/
 // объ€вление переменной
@@ -606,26 +596,30 @@ LocalVariableDeclaration<CodeWrapper cw>
     | 
     identifier<out String typeName>  
     (.
-         typeLiteral = objectTypes.get(typeName);
-         if(typeLiteral==null)
-         {
-             typeLiteral = new ObjectType(typeName);
-             objectTypes.put(typeName, (ObjectType)typeLiteral);
-         }
-         cw.il.append( factory.createNew( typeLiteral.getSignature() ) );
-         cw.il.append( InstructionConstants.DUP ); 
+        if (classes.get(typeName)==null)
+            SemErr("no such type "+typeName);
+		else
+		{
+		    typeLiteral = new ObjectType(typeName);            
+    
+			cw.il.append( factory.createNew( typeLiteral.getSignature() ) );
+			cw.il.append( InstructionConstants.DUP );
+        } 
     .)
 )
 identifier<out String varName>
 (.
-    if (getVarGen(varName, cw.methodGen)==null)
+    if (getVarGen(varName, cw.methodGen)!=null)
+        SemErr("duplicate local variable "+varName);
+    else if (typeLiteral!=null)
     {
         LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null);
 .)
 ["=" (.log("init");.) Expression<out Type exprType, cw> // здесь нам остав€т результат на верхушке стека. мы его сохран€ем в переменную 
 (.
-	    // todo проверить совместимость exprType с typeLiteral
-	    if (exprType.equals(typeLiteral))
+	    if (!typeLiteral.equals(exprType))
+	       SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
+	    else 
 	    {   
 		    StoreInstruction store = null;
 		    
@@ -648,11 +642,7 @@ identifier<out String varName>
 		     
 		    lg.setStart( cw.il.append( store ) );
 	    }
-	    else
-	       SemErr("incompatible types: expected "+typeLiteral+", got "+exprType); 
     }
-    else
-        SemErr("duplicate local variable "+varName);
 .)
 ] 
 .
@@ -670,7 +660,6 @@ Expression<out Type exprType, CodeWrapper cw>
         ( "(" Expression<out exprType, cw> // todo 
         Infixop 
         Expression<out exprType, cw> ")" )
-
     |
     (.String className= cw.classGen.getClassName();.)
     ( // операции с объектами
@@ -681,13 +670,21 @@ Expression<out Type exprType, CodeWrapper cw>
                   | "super" (.className = cw.classGen.getSuperclassName();.)
                   | identifier<out String objVarName>
                   (.
+                    LocalVariableGen lg = getVarGen(objVarName, cw.methodGen);
+                    if (lg==null)
+                    {
+                        SemErr("no such variable "+objVarName);
+                    }
+                    else
+                        className = lg.getType().toString();
+                    log("className="+className);
                     // todo получить тип переменной или пол€
                   .)
                 ) "."
-                Selector<out exprType, cw, className> // todo выдать им€ класса
+                Selector<out exprType, cw, className>
         )
         |
-        (Selector<out exprType, cw, className>) // todo здесь им€ текущего класса. локальные переменные перекрывают пол€ 
+        (Selector<out exprType, cw, className>) 
     )
 )
 .
@@ -748,7 +745,20 @@ var<out Type selType, CodeWrapper cw, String className>
 	|
 	( // иначе - вз€тие значени€
 	    identifier<out String var>
-	    (.selType = null;.)
+	    (.
+	       selType = null;
+	       LocalVariableGen lg = getVarGen(var, cw.methodGen);
+	       if (lg==null)
+	       {
+	           Field fg = getFieldGen(var, cw.classGen);
+	           if( fg == null )
+	               SemErr("no such variable or field "+var);
+	           else
+	               selType = fg.getType();
+	       }
+	       else
+	           selType = lg.getType();
+	    .)
 	    // todo selType = тип переменной
 	)
 )

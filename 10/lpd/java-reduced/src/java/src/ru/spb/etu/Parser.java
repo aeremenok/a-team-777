@@ -21,6 +21,7 @@ import org.apache.bcel.generic.FSTORE;
 import org.apache.bcel.generic.ISTORE;
 
 import org.apache.bcel.classfile.Method;
+import org.apache.bcel.classfile.Field;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,24 +64,6 @@ public class Parser {
 	
     // ????????? ??????
     public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
-    // ???????????? ??????
-    public HashMap<String, ObjectType> objectTypes = new HashMap<String, ObjectType>();
-    
-	// ???????? ????? ?????????? - ??? ?? ?????????? ?????? ??????????
-	void checkTypes()
-    {
-        for ( String typeName : objectTypes.keySet() )
-        {
-            if (
-                !typeName.equals("String") && 
-                !typeName.equals("Vector") &&
-                !classes.keySet().contains( typeName ) 
-                )
-            {
-                SemErr( "type " + typeName + " not found" );
-            }
-        }
-    }
     
     // ??????? ?????????? ??????????
     public class Args
@@ -132,8 +115,18 @@ public class Parser {
     public LocalVariableGen getVarGen(
         String name,
         MethodGen methodGen )
-    {    
+    {   
         for ( LocalVariableGen var : methodGen.getLocalVariables() )
+			if ( var.getName().equals( name ) )
+			    return var;
+        return null;
+    }
+    
+    public Field getFieldGen(
+        String name,
+        ClassGen classGen )
+    {   
+        for ( Field var : classGen.getFields() )
 			if ( var.getName().equals( name ) )
 			    return var;
         return null;
@@ -225,7 +218,6 @@ public class Parser {
 		while (StartOf(1)) {
 			typeDeclaration();
 		}
-		checkTypes();
 	}
 
 	void typeDeclaration() {
@@ -265,7 +257,8 @@ public class Parser {
 			Get();
 			superInterfaceName = identifier();
 			if(superInterfaceName.equals(interfaceName)) SemErr("cannot self-inherit");
-			objectTypes.put(superInterfaceName, new ObjectType(superInterfaceName));
+			if (classes.get(superInterfaceName)==null)
+			    SemErr("no such type "+superInterfaceName);
 			
 		}
 		ClassGen classGen = new ClassGen(
@@ -295,7 +288,8 @@ public class Parser {
 			Get();
 			superName = identifier();
 			if(superName.equals(className)) SemErr("cannot self-inherit");
-			objectTypes.put(superName, new ObjectType(superName));
+			if (classes.get(superName)==null)
+			    SemErr("no such type "+superName);
 			
 		}
 		String interfaceName = null;
@@ -303,7 +297,8 @@ public class Parser {
 			Get();
 			interfaceName = identifier();
 			if(interfaceName.equals(className)) SemErr("cannot self-inherit");
-			objectTypes.put(superName, new ObjectType(superName));
+			  if (classes.get(superName)==null)
+			      SemErr("no such type "+superName);
 			
 		}
 		ClassGen classGen = new ClassGen(
@@ -380,14 +375,11 @@ public class Parser {
 					typeLiteral = type();
 				} else if (la.kind == 1) {
 					String typeName = identifier();
-					typeLiteral = objectTypes.get(typeName);
-					if(typeLiteral==null)
-					{
-					    typeLiteral = new ObjectType(typeName);
-					    objectTypes.put(typeName, (ObjectType)typeLiteral);
-					    log("added type "+typeName);
-					}
-					
+					if (classes.get(typeName)==null)
+					   SemErr("no such type "+typeName);
+					else
+					  typeLiteral = new ObjectType(typeName);
+					      
 				} else SynErr(60);
 				String member = identifier();
 				if (la.kind == 2) {
@@ -475,12 +467,10 @@ public class Parser {
 				typeLiteral = type();
 			} else if (la.kind == 1) {
 				String typeName = identifier();
-				typeLiteral = objectTypes.get(typeName);
-				if(typeLiteral==null)
-				{
+				if (classes.get(typeName)==null)
+				   SemErr("no such type "+typeName);
+				else
 				    typeLiteral = new ObjectType(typeName);
-				    objectTypes.put(typeName, (ObjectType)typeLiteral);
-				}
 				
 			} else SynErr(63);
 			log("abstr method");
@@ -564,12 +554,10 @@ public class Parser {
 			typeLiteral = type();
 		} else if (la.kind == 1) {
 			String typeName = identifier();
-			typeLiteral = objectTypes.get(typeName);
-			if(typeLiteral==null)
-			{   
-			    typeLiteral = new ObjectType(typeName);
-			    objectTypes.put(typeName, (ObjectType)typeLiteral);
-			}
+			if (classes.get(typeName)==null)
+			   SemErr("no such type "+typeName);
+			else
+			    typeLiteral = new ObjectType(typeName);               
 			
 		} else SynErr(65);
 		types.add(typeLiteral);
@@ -581,13 +569,11 @@ public class Parser {
 				typeLiteral = type();
 			} else if (la.kind == 1) {
 				String typeName = identifier();
-				typeLiteral = objectTypes.get(typeName);
-				if(typeLiteral==null)
-				{ 
-				    typeLiteral = new ObjectType(typeName);
-				    objectTypes.put(typeName, (ObjectType)typeLiteral);
-				}
-				    
+				if (classes.get(typeName)==null)
+				   SemErr("no such type "+typeName);
+				else
+				    typeLiteral = new ObjectType(typeName);	        
+				
 			} else SynErr(66);
 			types.add(typeLiteral);
 			param = identifier();
@@ -689,6 +675,15 @@ public class Parser {
 					className = cw.classGen.getSuperclassName();
 				} else if (la.kind == 1) {
 					String objVarName = identifier();
+					LocalVariableGen lg = getVarGen(objVarName, cw.methodGen);
+					if (lg==null)
+					{
+					    SemErr("no such variable "+objVarName);
+					}
+					else
+					    className = lg.getType().toString();
+					log("className="+className);
+					// todo ???????? ??? ?????????? ??? ????
 					
 				} else SynErr(68);
 				Expect(6);
@@ -701,11 +696,11 @@ public class Parser {
 	}
 
 	void BlockStatement(CodeWrapper cw) {
-		if (StartOf(10)) {
-			Statement(cw);
-		} else if (StartOf(3)) {
+		if (next(_id)) {
 			LocalVariableDeclaration(cw);
 			Expect(30);
+		} else if (StartOf(10)) {
+			Statement(cw);
 		} else SynErr(70);
 	}
 
@@ -717,18 +712,21 @@ public class Parser {
 			typeLiteral = type();
 		} else if (la.kind == 1) {
 			String typeName = identifier();
-			typeLiteral = objectTypes.get(typeName);
-			if(typeLiteral==null)
+			if (classes.get(typeName)==null)
+			   SemErr("no such type "+typeName);
+			else
 			{
-			    typeLiteral = new ObjectType(typeName);
-			    objectTypes.put(typeName, (ObjectType)typeLiteral);
-			}
-			cw.il.append( factory.createNew( typeLiteral.getSignature() ) );
-			cw.il.append( InstructionConstants.DUP ); 
-			
+			    typeLiteral = new ObjectType(typeName);            
+			  
+				cw.il.append( factory.createNew( typeLiteral.getSignature() ) );
+				cw.il.append( InstructionConstants.DUP );
+			      } 
+			  
 		} else SynErr(71);
 		String varName = identifier();
-		if (getVarGen(varName, cw.methodGen)==null)
+		if (getVarGen(varName, cw.methodGen)!=null)
+		   SemErr("duplicate local variable "+varName);
+		else if (typeLiteral!=null)
 		{
 		    LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null);
 		
@@ -736,7 +734,9 @@ public class Parser {
 			Get();
 			log("init");
 			Type exprType = Expression(cw);
-			if (exprType.equals(typeLiteral))
+			if (!typeLiteral.equals(exprType))
+			  SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
+			else 
 			{   
 			 StoreInstruction store = null;
 			 
@@ -759,11 +759,7 @@ public class Parser {
 			  
 			 lg.setStart( cw.il.append( store ) );
 			}
-			else
-			   SemErr("incompatible types: expected "+typeLiteral+", got "+exprType); 
 			}
-			else
-			    SemErr("duplicate local variable "+varName);
 			
 		}
 	}
@@ -933,6 +929,18 @@ public class Parser {
 		} else if (la.kind == 1) {
 			String var = identifier();
 			selType = null;
+			LocalVariableGen lg = getVarGen(var, cw.methodGen);
+			if (lg==null)
+			{
+			    Field fg = getFieldGen(var, cw.classGen);
+			    if( fg == null )
+			        SemErr("no such variable or field "+var);
+			    else
+			        selType = fg.getType();
+			}
+			else
+			    selType = lg.getType();
+			
 		} else SynErr(75);
 		return selType;
 	}
