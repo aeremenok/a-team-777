@@ -25,8 +25,10 @@ import org.apache.bcel.generic.Type;
 
 class Foo
 {
+    int a;
+
     public Foo(
-        int a,
+
         int c )
     {
         int b = a % c;

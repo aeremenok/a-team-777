@@ -13,6 +13,11 @@ import org.apache.bcel.generic.InstructionList;
 import org.apache.bcel.generic.InstructionConstants;
 import org.apache.bcel.generic.InstructionFactory;
 
+import org.apache.bcel.generic.Instruction;
+import org.apache.bcel.generic.ALOAD;
+import org.apache.bcel.generic.FLOAD;
+import org.apache.bcel.generic.ILOAD;
+
 import org.apache.bcel.generic.StoreInstruction;
 import org.apache.bcel.generic.ASTORE;
 import org.apache.bcel.generic.FSTORE;
@@ -675,7 +680,7 @@ Expression<out Type exprType, CodeWrapper cw>
                 SemErr("operand types mismatch "+exprType+" != "+exprTypeRight);
             else
             {
-                
+                cw.il.append(instr);
             }
         .)
         )
@@ -766,6 +771,7 @@ var<out Type selType, CodeWrapper cw, String className>
 	    identifier<out String var>
 	    (.
 	       selType = null;
+	       int index = -1;
 	       LocalVariableGen lg = getVarGen(var, cw.methodGen);
 	       if (lg==null)
 	       {
@@ -773,10 +779,32 @@ var<out Type selType, CodeWrapper cw, String className>
 	           if( fg == null )
 	               SemErr("no such variable or field "+var);
 	           else
+	           {
 	               selType = fg.getType();
+	               InstructionFactory factory = new InstructionFactory( cw.classGen );
+	               cw.il.append(
+	                   factory.createFieldAccess( className, fg.getName(), selType, Constants.GETFIELD )
+                   );    
+	           }
 	       }
 	       else
+	       {
 	           selType = lg.getType();
+	           Instruction instr = null;
+	           if (
+	               selType.equals(Type.INT) ||
+	               selType.equals(Type.BOOLEAN)
+	           )
+	               instr = new ILOAD(lg.getIndex());
+	           else if (selType.equals(Type.FLOAT))
+	               instr = new FLOAD(lg.getIndex());
+	           else if (selType instanceof ObjectType)
+	               instr = new ALOAD(lg.getIndex());
+	           else
+	               SemErr("unexpected variable type"+selType);
+	               
+	           cw.il.append(instr);
+	       }
 	    .)
 	    // todo selType = тип переменной
 	)
@@ -952,7 +980,6 @@ Relational<out ArithmeticInstruction instr, Type exprType>
       .)
 )
 | ("!=")
-
 | ("<")
 | (">")
 | ("<=")
