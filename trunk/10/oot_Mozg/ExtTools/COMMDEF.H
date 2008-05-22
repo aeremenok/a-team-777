@@ -187,13 +187,6 @@ inline bool DisplayAssertMsg(LPCTSTR statement, int line, LPCTSTR fname)
                _asm { int 3 }\
             }\
          }
-#define CHECK(STATEMENT)\
-         {\
-            if (!(STATEMENT) && DisplayAssertMsg(#STATEMENT, __LINE__, __FILE__) )\
-            {\
-               _asm { int 3 }\
-            }\
-         }
 
 #define DLINE(x) x
 // --------------------------------------------------------------------------
@@ -224,16 +217,5 @@ inline bool DisplayAssertMsg(LPCTSTR statement, int line, LPCTSTR fname)
    }
 #endif // BUILD_RELEASE_VERSION
 // ==========================================================================
-
-#if defined(PROFILE_ON) && !defined(PROFILE_OFF)
-   #include "profile.h"
-#else
-   #define PROFILE_STOP
-   #define PROFILE(X)
-   #define PROFILE_TIME_OUT(X)
-   #define PROFILE_FAST_FUNC(X)
-   #define PROFILE_INLINE_FUNC(X)
-   #define EDIT_PROFILE(X)
-#endif
 
 #endif//ndef __COMMDEF_H

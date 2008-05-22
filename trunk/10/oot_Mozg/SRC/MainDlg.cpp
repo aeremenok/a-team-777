@@ -185,7 +185,7 @@ LRESULT CMainDlg::OnToolTipInfo(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/)
 {   
    TOOLTIPTEXT& ttt = *reinterpret_cast<LPTOOLTIPTEXT>(pnmh);
    ttt.hinst    = NULL; // NULL, так как lpszText - адрес строки тултипа
-   ttt.lpszText = tbToolTips[idCtrl];
+   ttt.lpszText = tbToolTips[idCtrl - (WM_USER + 1)];
    
    return 0;
 }

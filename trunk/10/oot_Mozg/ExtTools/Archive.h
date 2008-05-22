@@ -47,30 +47,6 @@ namespace ser   // Сериализация
          strm << (int)Data.nElem << separ;
          noskipws(strm);
          strm.write((const char*)&(Data[0]), Data.nElem);
-         std::vector<char> buf(Data.nElem + 1, '\0');
-         ::memcpy((void*)&(Data[0]), &(buf[0]), Data.nElem);
-
-         /*strm << Record.nElem << separ;
-         strm.write((const char*)FSG::constant(Record), Record.nElem * Record.sizeElem());
-         strm << separ << Data.nElem << separ;
-         strm.write((const char*)FSG::constant(Data), Data.nElem * Data.sizeElem());
-         strm << separ << Index.size() << separ;
-         for ( INDEX::const_iterator it = Index.begin(); it != Index.end(); ++it )
-            strm << it->first << separ << it->second << separ;*/
-
-
-         /*strm << Record.nElem << separ;
-         for ( int i = 0; i < Record.nElem; i++ )
-            strm << Record[i].next << separ << Record[i].offset << separ << Record[i].size << separ;
-
-         strm << Data.nElem << std::endl;
-         for ( int i = 0; i < Data.nElem; i++ )
-            //strm << Data[i] << separ;
-            strm << Data[i];
-         
-         strm << std::endl << Index.size() << separ;
-         for ( INDEX::const_iterator it = Index.begin(); it != Index.end(); ++it )
-            strm << it->first << separ << it->second << separ;*/
       }
 
       //! Прочитать архив из потока
@@ -95,59 +71,6 @@ namespace ser   // Сериализация
          char tmp;
          strm.read(&tmp, 1);         
          strm.read((char*)&(Data[0]), Data.nElem);
-         //strm._Read_s((char*)&(Data[0]), Data.nElem, Data.nElem);
-
-         /*int nElem = 0;
-         strm >> nElem;
-         Record.nElem = nElem;
-         strm.read((char*)FSG::constant(Record), Record.nElem * Record.sizeElem());
-         //strm._Read_s((char*)FSG::constant(Record), Record.nElem * Record.sizeElem() / 4, Record.nElem * Record.sizeElem() / 4);
-         if ( strm.eof() )
-            ::MessageBox(NULL, "", "", MB_OK);
-         strm >> nElem;
-         Data.nElem = nElem;
-         strm.read((char*)FSG::constant(Data), Data.nElem * Data.sizeElem());
-         size_t mapSize = 0;
-         strm >> mapSize;
-         for ( size_t i = 0; i < mapSize; i++ )
-         {
-            size_t key = 0;
-            int val = 0;
-            strm >> key >> val;
-            Index.insert( std::make_pair(key, val) );
-         }*/
-
-
-         /*int nElem = 0;
-         strm >> nElem;
-         for ( int i = 0; i < nElem; i++ )
-         {
-            RECORD tmp;
-            strm >> tmp.next >> tmp.offset >> tmp.size;
-            Record << tmp;
-         }
-         CONFIRM ( Record.nElem == nElem );
-
-         strm >> nElem;
-         std::noskipws(strm);
-         for ( int i = 0; i < nElem; i++ )
-         {
-            uchar tmp;
-            strm >> tmp;
-            Data << tmp;
-         }
-         CONFIRM ( Data.nElem == nElem );
-         
-         std::skipws(strm);         
-         size_t mapSize = 0;
-         strm >> mapSize;
-         for ( size_t i = 0; i < mapSize; i++ )
-         {
-            size_t key = 0;
-            int val = 0;
-            strm >> key >> val;
-            Index.insert( std::make_pair(key, val) );
-         }*/
       }
 
       void clear();
@@ -216,7 +139,7 @@ namespace ser   // Сериализация
          if (m_head < 0)
             m_next = m_head = m_archive.write( sizeof(T), ptr );
          else
-            CHECK( m_archive.append(m_next, sizeof(T), ptr, &m_next) );
+            m_archive.append(m_next, sizeof(T), ptr, &m_next);
 
          return *this;
       }
@@ -224,7 +147,7 @@ namespace ser   // Сериализация
       writer& operator<<(const std::string& s)
       {
          *this << s.size();
-         CHECK ( m_archive.append(m_next, s.size()+1, reinterpret_cast<const uchar*>(s.c_str()), &m_next) );
+         m_archive.append(m_next, s.size()+1, reinterpret_cast<const uchar*>(s.c_str()), &m_next);
          return *this;
       }
 
@@ -234,7 +157,7 @@ namespace ser   // Сериализация
          if (m_head < 0)
             m_next = m_head = m_archive.write( sizeof(T), ptr );
          else
-            CHECK( m_archive.append(m_next, sizeof(T), ptr, &m_next) );
+            m_archive.append(m_next, sizeof(T), ptr, &m_next);
 
          return *this;
       }
@@ -245,7 +168,7 @@ namespace ser   // Сериализация
          if (m_head < 0)
             m_next = m_head = m_archive.write( sizeof(T) * num, ptr );
          else
-            CHECK( m_archive.append(m_next, sizeof(T) * num, ptr, &m_next) );
+            m_archive.append(m_next, sizeof(T) * num, ptr, &m_next);
          return *this;
       }
    private:
@@ -261,7 +184,7 @@ namespace ser   // Сериализация
       template<typename T> reader& operator>>(T& obj)
       {
          CONFIRM(m_next >= 0);
-         CHECK( m_archive.read(m_next, sizeof(T), reinterpret_cast<uchar*>(&obj), &m_next ) );
+         m_archive.read(m_next, sizeof(T), reinterpret_cast<uchar*>(&obj), &m_next );
          return *this;
       }
 
@@ -272,7 +195,7 @@ namespace ser   // Сериализация
          CONFIRM(0 <= sz);
          CONFIRM(m_next >= 0);
          std::vector<TCHAR> buf(sz+1, '\0');
-         CHECK ( m_archive.read(m_next, sz+1, reinterpret_cast<uchar*>(&buf[0]), &m_next) );
+         m_archive.read(m_next, sz+1, reinterpret_cast<uchar*>(&buf[0]), &m_next);
          if ( sz >= 0 )
             s = &buf[0];
          return *this;
@@ -281,14 +204,14 @@ namespace ser   // Сериализация
       template<typename T> reader& read(T& obj)
       {
          CONFIRM(m_next >= 0);
-         CHECK( m_archive.read(m_next, sizeof(T), reinterpret_cast<uchar*>(&obj), &m_next ) );
+         m_archive.read(m_next, sizeof(T), reinterpret_cast<uchar*>(&obj), &m_next );
          return *this;
       }
 
       template<typename T> reader& reads(T* obj, size_t num)
       {
          CONFIRM(m_next >= 0);
-         CHECK( m_archive.read(m_next, sizeof(T)*num, reinterpret_cast<uchar*>(obj), &m_next ) );
+         m_archive.read(m_next, sizeof(T)*num, reinterpret_cast<uchar*>(obj), &m_next );
          return *this;
       }
    private:
