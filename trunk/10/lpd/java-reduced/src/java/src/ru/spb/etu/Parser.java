@@ -604,17 +604,20 @@ public class Parser {
 			GOTO g = new GOTO(null); cw.last = cw.il.append(g);
 			if (la.kind == 26) {
 				Get();
-				InstructionHandle elseH = cw.il.append(new NOP()); ifeq.setTarget(elseH);
+				ifeq.setTarget( cw.il.append(new NOP()) );
 				Statement(cw);
 			}
-			InstructionHandle elseEndH = cw.last = cw.il.append(new NOP()); g.setTarget(elseEndH);
+			InstructionHandle elseEndH = cw.il.append(new NOP()); 
+			g.setTarget(elseEndH);
+			if (ifeq.getTarget()==null) ifeq.setTarget(elseEndH);
+			
 			break;
 		}
 		case 27: {
 			Get();
 			Type exprType = ParExpression(cw);
+			InstructionHandle begin = cw.last; // ?????????????? ????????? todo ????????? ?? ???????? 
 			IFEQ ifeq = new IFEQ(null);
-			InstructionHandle begin = cw.last; 
 			cw.il.append(ifeq);
 			
 			Statement(cw);
@@ -830,8 +833,6 @@ public class Parser {
 			     SemErr("void variables are not allowed");
 			 else if (
 			     typeLiteral.equals(Type.INT) ||
-			     typeLiteral.equals(Type.BYTE) ||
-			     typeLiteral.equals(Type.SHORT) ||
 			     typeLiteral.equals(Type.BOOLEAN)
 			     )
 			     store = new ISTORE( name );
@@ -1083,8 +1084,6 @@ public class Parser {
 			         SemErr("void variables are not allowed");
 			     else if (
 			         selType.equals(Type.INT) ||
-			         selType.equals(Type.BYTE) ||
-			         selType.equals(Type.SHORT) ||
 			         selType.equals(Type.BOOLEAN)
 			         )
 			         store = new ISTORE( name );
