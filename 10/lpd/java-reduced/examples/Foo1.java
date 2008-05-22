@@ -7,7 +7,7 @@ public class Foo1{
         a = 0;
         i = 888;
         this.i = 0;
-        Foo1 foo = new Foo1();
+        Foo1 foo = null;
         a = (1 + ( 2 * this.i));
         this.foo();
         System.out.print("");

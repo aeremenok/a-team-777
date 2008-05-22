@@ -21,6 +21,8 @@ import org.apache.bcel.generic.ALOAD;
 import org.apache.bcel.generic.FLOAD;
 import org.apache.bcel.generic.ILOAD;
 
+import org.apache.bcel.generic.ACONST_NULL;
+
 import org.apache.bcel.generic.StoreInstruction;
 import org.apache.bcel.generic.ASTORE;
 import org.apache.bcel.generic.FSTORE;
@@ -812,7 +814,7 @@ public class Parser {
 			Get();
 			log("init");
 			Type exprType = Expression(cw);
-			if (!typeLiteral.equals(exprType))
+			if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) )
 			  SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
 			else 
 			{   
@@ -881,44 +883,32 @@ public class Parser {
 	Type  Literal(CodeWrapper cw) {
 		Type  exprType;
 		exprType = null;
-		switch (la.kind) {
-		case 8: {
+		if (StartOf(9)) {
+			Object value = null;
+			InstructionFactory factory = new InstructionFactory( cw.classGen );
+			log("lit="+la.val);
+			
+			if (la.kind == 8) {
+				Get();
+				exprType = Type.INT; value = new Integer(t.val);
+			} else if (la.kind == 9) {
+				Get();
+				exprType = Type.FLOAT; value = new Float(t.val);
+			} else if (la.kind == 11) {
+				Get();
+				exprType = new ObjectType("java.lang.String"); value = t.val;
+			} else if (la.kind == 38) {
+				Get();
+				exprType = Type.BOOLEAN; value = new Boolean(t.val);
+			} else {
+				Get();
+				exprType = Type.BOOLEAN; value = new Boolean(t.val);
+				cw.il.append( factory.createConstant( t.val )); 
+			}
+		} else if (la.kind == 40) {
 			Get();
-			exprType = Type.INT;
-			break;
-		}
-		case 9: {
-			Get();
-			exprType = Type.FLOAT;
-			break;
-		}
-		case 11: {
-			Get();
-			exprType = new ObjectType("java.lang.String");
-			break;
-		}
-		case 38: {
-			Get();
-			exprType = Type.BOOLEAN;
-			break;
-		}
-		case 39: {
-			Get();
-			exprType = Type.BOOLEAN;
-			break;
-		}
-		case 40: {
-			Get();
-			exprType = Type.NULL;
-			break;
-		}
-		default: SynErr(62); break;
-		}
-		log("lit="+t.val);
-		  // ?????? ? ????
-		InstructionFactory factory = new InstructionFactory( cw.classGen );
-		cw.il.append(factory.createConstant( t.val ));
-		
+			exprType = Type.NULL; cw.il.append( new ACONST_NULL());
+		} else SynErr(62);
 		return exprType;
 	}
 
@@ -1069,7 +1059,7 @@ public class Parser {
 			
 			AssignmentOperator(cw);
 			Type exprType = Expression(cw);
-			if (!selType.equals(exprType))
+			if (!selType.equals(exprType) && !exprType.equals(Type.NULL))
 			  SemErr("incompatible types: expected "+selType+", got "+exprType);
 			else 
 			{   
@@ -1169,7 +1159,8 @@ public class Parser {
 		{x,T,x,x, x,x,x,x, x,x,x,x, T,T,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
 		{x,T,T,x, x,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
 		{x,T,T,x, T,x,x,x, T,T,x,T, x,x,x,x, x,x,x,T, T,T,T,T, T,x,T,T, x,T,T,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
-		{x,T,T,x, T,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, x,T,T,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x}
+		{x,T,T,x, T,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, x,T,T,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
+		{x,x,x,x, x,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, x,x,x,x, x,x,x,x, x,x}
 
 	};
 } // end Parser
