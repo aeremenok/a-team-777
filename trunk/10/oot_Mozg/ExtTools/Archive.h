@@ -53,24 +53,48 @@ namespace ser   // Сериализация
       template<class charT, class traits>
       void GetFromStream(std::basic_istream<charT, traits>& strm)
       {
+         if ( strm.eof() )
+         {
+            excptns::SerRestoreException e(excptns::SerRestoreException::ERR_CODE_NOTENOUGHDATA);
+            throw e;
+         }
+
          int nElem = 0;
          strm >> nElem;
          for ( int i = 0; i < nElem; i++ )
          {
+            if ( strm.eof() )
+            {
+               excptns::SerRestoreException e(excptns::SerRestoreException::ERR_CODE_NOTENOUGHDATA);
+               throw e;
+            }
+
             int next, offset, size;
             strm >> next >> offset >> size;
             RECORD tmp;
             tmp.next = next; tmp.offset = offset; tmp.size = size;
             Record << tmp;
          }
-         CONFIRM ( Record.nElem == nElem );
+         
+         if ( Record.nElem != nElem )
+         {
+            excptns::SerRestoreException e(excptns::SerRestoreException::ERR_CODE_NOTVALID);
+            throw e;
+         }
 
          strm >> nElem;
          Data.setNElem(nElem);
+         if ( strm.eof() )
+         {
+            excptns::SerRestoreException e(excptns::SerRestoreException::ERR_CODE_NOTENOUGHDATA);
+            throw e;
+         }
+
          noskipws(strm);
          char tmp;
          strm.read(&tmp, 1);         
          strm.read((char*)&(Data[0]), Data.nElem);
+         skipws(strm);
       }
 
       void clear();

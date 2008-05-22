@@ -246,7 +246,6 @@ LRESULT CMainDlg::OnOpen(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL&
    }
    //! Восстановление из файла
    Controller::Instance()->Open(fileDlg.m_ofn.lpstrFile);
-   ActivateButtons(TRUE);
 
    return 0;
 }
