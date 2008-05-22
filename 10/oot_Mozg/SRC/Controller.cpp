@@ -182,7 +182,6 @@ void Controller::Save(std::string strName) const
    }
 
    os << nStructNum << separ << idPlayers << separ << idStruct << separ << arch;
-   os.flush();
    os.close();
 }
 
@@ -197,15 +196,55 @@ bool Controller::Open(std::string strName)
    
    int idPlayers;
    int idStruct;
-
-   std::ifstream is(strName.c_str());
-   if ( is.bad() )
-   {
-      ::MessageBox(NULL, "FILE NOT OPEN", "Error", MB_ICONERROR | MB_OK );
-      return false;
-   }
    
-   is >> nStructNum >> idPlayers >> idStruct >> arch;
+   std::ifstream is(strName.c_str());
+   try
+   {
+      if ( is.bad() )
+      {
+         excptns::SerRestoreException e(excptns::SerRestoreException::ERR_CODE_NOFILE);
+         throw e;
+      }
+
+      is >> nStructNum >> idPlayers >> idStruct >> arch;
+      is.peek();
+      if ( !is.eof() )
+      {
+         excptns::SerRestoreException e(excptns::SerRestoreException::ERR_CODE_MOREDATA);
+         throw e;
+      }
+   }
+   catch (excptns::SerRestoreException& e)
+   {
+      bool ret = true;
+      switch ( e.getCode() )
+      {
+      case excptns::SerRestoreException::ERR_CODE_NONE:
+         ::MessageBox(NULL, "Неопознанная ошибка", "Чтение файла", MB_OK | MB_ICONERROR);
+         ret = false;
+         break;
+      case excptns::SerRestoreException::ERR_CODE_NOFILE:
+         ::MessageBox(NULL, "Указнный файл не найден", "Чтение файла", MB_OK | MB_ICONERROR);
+      	break;
+      case excptns::SerRestoreException::ERR_CODE_NOTENOUGHDATA:
+         ::MessageBox(NULL, "Файл поврежден: недостаточно данных", "Чтение файла", MB_OK | MB_ICONERROR);
+         break;
+      case excptns::SerRestoreException::ERR_CODE_NOTVALID:
+         ::MessageBox(NULL, "Файл поврежден: данные искажены", "Чтение файла", MB_OK | MB_ICONERROR);
+         break;
+      case excptns::SerRestoreException::ERR_CODE_MOREDATA:
+         int res = ::MessageBox(NULL, "В файле обнаружены несанкционированные изменения.\n \
+Возможно искажение данных. Продолжить чтение?", "Чтение файла", MB_YESNO | MB_ICONINFORMATION);
+         ret = (res == IDYES) ? false : true;
+         break;
+      }
+
+      if ( ret )
+      {
+         is.close();
+         return false;      
+      }
+   }
 
    playersList->GetFromArchive(arch, idPlayers);
    netStruc->GetFromArchive(arch, idStruct);
