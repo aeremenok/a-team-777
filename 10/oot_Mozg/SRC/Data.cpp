@@ -248,7 +248,10 @@ int Data::PutIntoArchive(ser::Archive& archive)
    }
 
    for ( POSITION p = 0; p < GetPositionsNumber(); p++ )
-      wr << m_Marking[p];
+   {
+      bool val = m_Marking[p];
+      wr << val;
+   }
 
    return wr.id();
 }
@@ -281,7 +284,11 @@ void Data::GetFromArchive(ser::Archive& archive, int id)
    }
 
    for ( POSITION p = 0; p < poss; p++ )
-      rd >> m_Marking[p];
+   {
+      bool val = false;
+      rd >> val;
+      m_Marking[p] = val;
+   }
 }
 
 // ==========================================================================
