@@ -40,13 +40,37 @@ namespace ser   // Сериализация
       template<class charT, class traits>
       void PutIntoStream(std::basic_ostream<charT, traits>& strm) const
       {
-         strm << Record.nElem << separ;
+         strm << (int)Record.nElem << separ;
+         for ( int i = 0; i < Record.nElem; i++ )
+            strm << Record[i].next << separ << Record[i].offset << separ << (int)Record[i].size << separ;
+
+         strm << (int)Data.nElem << separ;
+         noskipws(strm);
+         strm.write((const char*)&(Data[0]), Data.nElem);
+         std::vector<char> buf(Data.nElem + 1, '\0');
+         ::memcpy((void*)&(Data[0]), &(buf[0]), Data.nElem);
+
+         /*strm << Record.nElem << separ;
          strm.write((const char*)FSG::constant(Record), Record.nElem * Record.sizeElem());
          strm << separ << Data.nElem << separ;
          strm.write((const char*)FSG::constant(Data), Data.nElem * Data.sizeElem());
          strm << separ << Index.size() << separ;
          for ( INDEX::const_iterator it = Index.begin(); it != Index.end(); ++it )
-            strm << it->first << separ << it->second << separ;
+            strm << it->first << separ << it->second << separ;*/
+
+
+         /*strm << Record.nElem << separ;
+         for ( int i = 0; i < Record.nElem; i++ )
+            strm << Record[i].next << separ << Record[i].offset << separ << Record[i].size << separ;
+
+         strm << Data.nElem << std::endl;
+         for ( int i = 0; i < Data.nElem; i++ )
+            //strm << Data[i] << separ;
+            strm << Data[i];
+         
+         strm << std::endl << Index.size() << separ;
+         for ( INDEX::const_iterator it = Index.begin(); it != Index.end(); ++it )
+            strm << it->first << separ << it->second << separ;*/
       }
 
       //! Прочитать архив из потока
@@ -55,8 +79,31 @@ namespace ser   // Сериализация
       {
          int nElem = 0;
          strm >> nElem;
+         for ( int i = 0; i < nElem; i++ )
+         {
+            int next, offset, size;
+            strm >> next >> offset >> size;
+            RECORD tmp;
+            tmp.next = next; tmp.offset = offset; tmp.size = size;
+            Record << tmp;
+         }
+         CONFIRM ( Record.nElem == nElem );
+
+         strm >> nElem;
+         Data.setNElem(nElem);
+         noskipws(strm);
+         char tmp;
+         strm.read(&tmp, 1);         
+         strm.read((char*)&(Data[0]), Data.nElem);
+         //strm._Read_s((char*)&(Data[0]), Data.nElem, Data.nElem);
+
+         /*int nElem = 0;
+         strm >> nElem;
          Record.nElem = nElem;
          strm.read((char*)FSG::constant(Record), Record.nElem * Record.sizeElem());
+         //strm._Read_s((char*)FSG::constant(Record), Record.nElem * Record.sizeElem() / 4, Record.nElem * Record.sizeElem() / 4);
+         if ( strm.eof() )
+            ::MessageBox(NULL, "", "", MB_OK);
          strm >> nElem;
          Data.nElem = nElem;
          strm.read((char*)FSG::constant(Data), Data.nElem * Data.sizeElem());
@@ -68,7 +115,39 @@ namespace ser   // Сериализация
             int val = 0;
             strm >> key >> val;
             Index.insert( std::make_pair(key, val) );
+         }*/
+
+
+         /*int nElem = 0;
+         strm >> nElem;
+         for ( int i = 0; i < nElem; i++ )
+         {
+            RECORD tmp;
+            strm >> tmp.next >> tmp.offset >> tmp.size;
+            Record << tmp;
          }
+         CONFIRM ( Record.nElem == nElem );
+
+         strm >> nElem;
+         std::noskipws(strm);
+         for ( int i = 0; i < nElem; i++ )
+         {
+            uchar tmp;
+            strm >> tmp;
+            Data << tmp;
+         }
+         CONFIRM ( Data.nElem == nElem );
+         
+         std::skipws(strm);         
+         size_t mapSize = 0;
+         strm >> mapSize;
+         for ( size_t i = 0; i < mapSize; i++ )
+         {
+            size_t key = 0;
+            int val = 0;
+            strm >> key >> val;
+            Index.insert( std::make_pair(key, val) );
+         }*/
       }
 
       void clear();
