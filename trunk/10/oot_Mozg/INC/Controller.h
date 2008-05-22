@@ -32,12 +32,6 @@ class Controller : public iface::iDrawable
 
      //! Вывести изображение
      virtual void Draw(CPaintDC& dc);
-
-      //! Создает структуру для игры
-      //void createNetwork (int newNumberOfHoles, int newNumberOfCell);
-
-      //! Восстанавливает игру из файла
-	   //bool restoreGame (std::string destanation);
       
       //! Запускае начальную инициализацию или перазапускает текущую
       //! Создает список игроков и структуру
@@ -65,14 +59,6 @@ class Controller : public iface::iDrawable
 
       //! Если объект уже создан, возвращает ссылку, иначе создает объект
       static Controller* Instance(CMainDlg* dlg = 0);
-
-  private:
-    
-      //! Восстанавливает структуру сети при загрузке игры из файла
-      //bool restoreNetwork ();
-
-      //! Восстанавливает список игроков при загрузке игры
-      //bool restorePlayers ();
    
   private: 
       ListOfPlayers        *playersList;     //!< Список игроков
@@ -81,6 +67,8 @@ class Controller : public iface::iDrawable
       bool                 active;           //!< Если true, то игра активна
 
       static Controller* _instance; //!< Единственный объект в программе
+
+      int nStructNum; //!< Номер выбранной структуры
 };
    
 } //end of namespace Game
