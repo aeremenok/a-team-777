@@ -669,7 +669,64 @@ Expression<out Type exprType, CodeWrapper cw>
 = 
 (.exprType = null;.)
 (
-    ( "new" Creator<out exprType, cw> )
+      ( "System.out.println" Arguments<out Type[] argTypes, cw> 
+        (.  // stringLit уже в стеке
+            log("sout");
+            if(argTypes.length==1)
+            {
+		        InstructionFactory factory = new InstructionFactory( cw.classGen );
+		        cw.il.append( 
+		            factory.createFieldAccess(
+		                "java.lang.System", 
+		                "out", 
+		                new ObjectType( "java.io.PrintStream" ),
+		                Constants.GETSTATIC
+		            )
+		        );
+		        cw.il.append(
+		            factory.createInvoke( 
+		                "java.io.PrintStream", 
+		                "println", 
+		                Type.VOID, 
+		                argTypes,
+		                Constants.INVOKEVIRTUAL
+		            )
+		        );
+            }
+            else
+                SemErr("sysout requires 1 parameter");
+        .)
+      )
+      |
+      ( "System.out.print" Arguments<out Type[] argTypes, cw> 
+        (.  // stringLit уже в стеке
+            log("sout");
+            if(argTypes.length==1)
+            {
+                InstructionFactory factory = new InstructionFactory( cw.classGen );
+                cw.il.append( 
+                    factory.createFieldAccess(
+                        "java.lang.System", 
+                        "out", 
+                        new ObjectType( "java.io.PrintStream" ),
+                        Constants.GETSTATIC
+                    )
+                );
+                cw.il.append(
+                    factory.createInvoke( 
+                        "java.io.PrintStream", 
+                        "print", 
+                        Type.VOID, 
+                        argTypes,
+                        Constants.INVOKEVIRTUAL
+                    )
+                );
+            }
+            else
+                SemErr("sysout requires 1 parameter");
+        .)
+      )      
+    | ( "new" Creator<out exprType, cw> )
     | Literal<out exprType, cw>
     |
         ( "(" Expression<out exprType, cw>  
@@ -768,47 +825,50 @@ var<out Type selType, CodeWrapper cw, String className>
 	)
 	|
 	( // иначе - взятие значения
-	    identifier<out String var>
-	    (.
-	       selType = null;
-	       int index = -1;
-	       LocalVariableGen lg = getVarGen(var, cw.methodGen);
-	       if (lg==null)
-	       {
-	           Field fg = getFieldGen(var, cw.classGen);
-	           if( fg == null )
-	               SemErr("no such variable or field "+var);
-	           else
-	           {
-	               selType = fg.getType();
-	               InstructionFactory factory = new InstructionFactory( cw.classGen );
-	               cw.il.append(
-	                   factory.createFieldAccess( className, fg.getName(), selType, Constants.GETFIELD )
-                   );    
-	           }
-	       }
-	       else
-	       {
-	           selType = lg.getType();
-	           Instruction instr = null;
-	           if (
-	               selType.equals(Type.INT) ||
-	               selType.equals(Type.BOOLEAN)
-	           )
-	               instr = new ILOAD(lg.getIndex());
-	           else if (selType.equals(Type.FLOAT))
-	               instr = new FLOAD(lg.getIndex());
-	           else if (selType instanceof ObjectType)
-	               instr = new ALOAD(lg.getIndex());
-	           else
-	               SemErr("unexpected variable type"+selType);
-	               
-	           cw.il.append(instr);
-	       }
-	    .)
-	    // todo selType = тип переменной
+        access<out selType, cw, className>
 	)
 )
+.
+access<out Type selType, CodeWrapper cw, String className>
+=
+        identifier<out String var>
+        (.
+           selType = null;
+           int index = -1;
+           LocalVariableGen lg = getVarGen(var, cw.methodGen);
+           if (lg==null)
+           {
+               Field fg = getFieldGen(var, cw.classGen);
+               if( fg == null )
+                   SemErr("no such variable or field "+var);
+               else
+               {
+                   selType = fg.getType();
+                   InstructionFactory factory = new InstructionFactory( cw.classGen );
+                   cw.il.append(
+                       factory.createFieldAccess( className, fg.getName(), selType, Constants.GETFIELD )
+                   );    
+               }
+           }
+           else
+           {
+               selType = lg.getType();
+               Instruction instr = null;
+               if (
+                   selType.equals(Type.INT) ||
+                   selType.equals(Type.BOOLEAN)
+               )
+                   instr = new ILOAD(lg.getIndex());
+               else if (selType.equals(Type.FLOAT))
+                   instr = new FLOAD(lg.getIndex());
+               else if (selType instanceof ObjectType)
+                   instr = new ALOAD(lg.getIndex());
+               else
+                   SemErr("unexpected variable type"+selType);
+                   
+               cw.il.append(instr);
+           }
+        .)
 .
 /*---------------------------------------------------------------------------*/
 // аргументы вызовов

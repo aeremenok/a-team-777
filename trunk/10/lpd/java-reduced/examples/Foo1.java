@@ -8,6 +8,7 @@ public class Foo1{
         Foo1 foo = new Foo1();
         a = (1 + ( 2 * this.i));
         this.foo();
+        System.out.print("");
         // this.foo() = 0; ошибка
     }
 
