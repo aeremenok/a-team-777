@@ -15,6 +15,11 @@ import org.apache.bcel.generic.InstructionList;
 import org.apache.bcel.generic.InstructionConstants;
 import org.apache.bcel.generic.InstructionFactory;
 
+import org.apache.bcel.generic.Instruction;
+import org.apache.bcel.generic.ALOAD;
+import org.apache.bcel.generic.FLOAD;
+import org.apache.bcel.generic.ILOAD;
+
 import org.apache.bcel.generic.StoreInstruction;
 import org.apache.bcel.generic.ASTORE;
 import org.apache.bcel.generic.FSTORE;
@@ -665,7 +670,7 @@ public class Parser {
 			   SemErr("operand types mismatch "+exprType+" != "+exprTypeRight);
 			else
 			{
-			    
+			    cw.il.append(instr);
 			}
 			
 		} else if (la.kind == 1 || la.kind == 34 || la.kind == 35) {
@@ -955,6 +960,7 @@ public class Parser {
 		} else if (la.kind == 1) {
 			String var = identifier();
 			selType = null;
+			int index = -1;
 			LocalVariableGen lg = getVarGen(var, cw.methodGen);
 			if (lg==null)
 			{
@@ -962,10 +968,32 @@ public class Parser {
 			    if( fg == null )
 			        SemErr("no such variable or field "+var);
 			    else
+			    {
 			        selType = fg.getType();
+			        InstructionFactory factory = new InstructionFactory( cw.classGen );
+			        cw.il.append(
+			            factory.createFieldAccess( className, fg.getName(), selType, Constants.GETFIELD )
+			           );    
+			    }
 			}
 			else
+			{
 			    selType = lg.getType();
+			    Instruction instr = null;
+			    if (
+			        selType.equals(Type.INT) ||
+			        selType.equals(Type.BOOLEAN)
+			    )
+			        instr = new ILOAD(lg.getIndex());
+			    else if (selType.equals(Type.FLOAT))
+			        instr = new FLOAD(lg.getIndex());
+			    else if (selType instanceof ObjectType)
+			        instr = new ALOAD(lg.getIndex());
+			    else
+			        SemErr("unexpected variable type"+selType);
+			        
+			    cw.il.append(instr);
+			}
 			
 		} else SynErr(63);
 		return selType;
