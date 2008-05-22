@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsl.xsl"?>
+<person  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schema.xsd">
+	<portalid>3</portalid>
+	<id>1</id>
+	<name>Pavel</name>
+	<surname>Emman</surname>
+	<birthdate>1985-12-15</birthdate>
+	<regdate>2008-05-12</regdate>
+	<about>about about about</about>
+	<contacts>
+		<cellphone>+79217938792</cellphone>
+		<homephone>4477062</homephone>
+		<icq>203676365</icq>
+		<skype>pavelmmn</skype>
+		<email>epa.spb@gmail.com</email>
+		<adress>
+			<city>SPb</city>
+			<street>Harodnaya</street>
+			<home>82</home>
+			<building>2</building>
+			<flat>71</flat>
+		</adress>
+	</contacts>
+	<hobbies>
+		<hobby>swimming</hobby>
+		<hobby>Table tennis</hobby>
+		<hobby>music</hobby>
+	</hobbies>
+	<fotos>
+		<foto id="1" path="img\1.gif" comment="first picture"/>
+		<foto id="1" path="img\2.gif" comment="second picture"/>
+		<foto id="2" path="img\3.gif" comment="third picture"/>
+		<foto id="1" path="img\4.gif" comment="forth picture"/>
+		<foto id="2" path="img\5.gif" comment="fifth picture"/>
+		<foto id="2" path="img\6.gif" comment="on more comment for picture"/>
+		<foto id="2" path="img\1.gif" comment="comments picture"/>
+		<foto id="2" path="img\2.gif" comment="comments picture"/>
+		<foto id="2" path="img\3.gif" comment="comments picture"/>
+		<foto id="2" path="img\4.gif" comment="comments picture"/>
+		
+	</fotos>
+</person>
