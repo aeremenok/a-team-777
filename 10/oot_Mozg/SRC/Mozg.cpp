@@ -7,11 +7,25 @@
 
 
 #include "stdafx.h"
+#include <new.h>
 
 CAppModule _Module;
 
+// ==========================================================================
+int Mozg_new_handler( size_t )
+{
+   CONFIRM(!"нОЕПЮРНП new БЕПМСК NULL!!!");
+   throw std::bad_alloc();
+   return 0;
+}
+
+// ==========================================================================
 int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 {
+   // апняюрэ хяйкчвемхе, еякх new бепмск NULL
+   _set_new_handler( Mozg_new_handler );
+   _set_new_mode(1); // рн фе, дкъ malloc
+
 	CMessageLoop theLoop;
 	_Module.AddMessageLoop(&theLoop);
 

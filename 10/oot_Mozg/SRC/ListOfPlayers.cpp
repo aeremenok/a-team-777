@@ -38,13 +38,23 @@ bool ListOfPlayers::addPlayer (Player* player)
    //! Проверяет, что в списке меньше чем  maxPlayers и добавляет нового
    //! Если игроков меньше возвращает false
    if(getCountOfPlayers () == maxPlayers) // Больше добавлять нельзя
+   {
+      excptns::PlayerListException e(excptns::PlayerListException::ERR_CODE_MAXCOUNT);
+      throw e;
+
       return false;
+   }
 
    //! Если игрок с такми именем уже есть в списке возвращает false
    std::list<Player*>::const_iterator itr = find_if(listPl.begin(), listPl.end(), 
       FindName_eq(player->getName()));
-   if(itr != listPl.end()) // Такой игрок уже есть в списке 
+   if( itr != listPl.end() ) // Такой игрок уже есть в списке 
+   {
+      excptns::PlayerListException e(player->getName().c_str());
+      throw e;
+
       return false;
+   }
    
    //! Добавляем игрока
    try
@@ -53,8 +63,10 @@ bool ListOfPlayers::addPlayer (Player* player)
    }
    catch (std::bad_alloc&)
    {
-      ::MessageBox(0,"Недостаточно памяти", "Error", MB_OK | MB_ICONERROR);
       currPlayer = listPl.begin();
+      excptns::PlayerListException e(excptns::PlayerListException::ERR_CODE_NOMEMORY);
+      throw e;
+      
       return false;
    }
    currPlayer = listPl.begin();

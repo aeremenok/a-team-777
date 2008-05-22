@@ -59,6 +59,39 @@ private:
    errCode code;                 //!< Код ошибки
 };
 
+// ==========================================================================
+//! Исключение, генеририруемое при ошибках в работе списка игроков
+class PlayerListException
+{
+public:
+   enum errCode                  //!< Коды ошибок
+   {
+      ERR_CODE_NONE = -1,        //!< Неопределенная ошибка
+      ERR_CODE_NOMEMORY,         //!< Недостаточно памяти
+      ERR_CODE_NAMECONFLICT,     //!< Игрок с таким именем уже существует
+      ERR_CODE_MAXCOUNT          //!< Достигнуто максимальное число игроков
+   };
+
+   PlayerListException() : code(ERR_CODE_NONE), name("") {};
+   PlayerListException(errCode cd) : code(cd), name("") {};
+   PlayerListException(LPCSTR str) : code(ERR_CODE_NAMECONFLICT), name(str) {};
+   PlayerListException(const PlayerListException& e) : code(e.code), name(e.name) {};  
+
+   errCode getCode() const
+   {
+      return code;
+   }
+
+   LPCSTR getName() const
+   {
+      return name.c_str();
+   }
+
+private:
+   errCode code;                 //!< Код ошибки
+   std::string name;             //!< Ошибочное имя
+};
+
 } // endof namespace excptns
 // ==========================================================================
 #endif // __EXCEPTIONS_H
