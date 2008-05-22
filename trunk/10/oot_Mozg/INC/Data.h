@@ -28,7 +28,8 @@ namespace tdata //!< namespace Data
       //********************* интерфейс iNetworkStruct **********************
       virtual void generate (int newIDofGame);
       virtual void generate (int newNumberOfHoles, int newNumberOfCell);
-      virtual bool makeStep (int numberOfHole);	
+      virtual bool makeStep (int numberOfHole);
+      virtual bool isPositionBlocked(int i) const;
       virtual void clean ();
 
       //********************* интерфейс iDrawable ***************************
