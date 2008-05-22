@@ -191,6 +191,13 @@ bool Data::makeStep (int numberOfHole)
 }
 
 // ==========================================================================
+bool Data::isPositionBlocked(int i) const
+{
+   CONFIRM ( i >= 0 && i < 6 );
+   return !IsPositionAvailable(i);
+}
+
+// ==========================================================================
 void Data::clean ()
 {
    PetriNet<bool>::Clear();
