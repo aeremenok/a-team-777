@@ -162,7 +162,7 @@ public:
 
 // Необходимо для VC.NET но не работает в VC 6
 template <class type, class typeindex> 
-friend const type* constant (MA<type, typeindex>& x); // конст.указ. на первый элемент
+friend type* constant (const MA<type, typeindex>& x); // конст.указ. на первый элемент
 
  inline const type& last (void) const          // ссылка на последний элемент
     {
@@ -264,13 +264,13 @@ private:                                             //       ЗАПРЕЩЕНЫ
  };
 
 template <class type, class typeindex> 
-inline const type* constant (MA<type, typeindex>& x) // конст.указ. на первый элемент
+inline type* constant (const MA<type, typeindex>& x) // конст.указ. на первый элемент
 {
 #ifdef  DEBUG
 	if (x.nElem.n <= 0)  x.ZeroError();
 #endif
 
-return (const type*)(x.body);
+return (type*)(x.body);
 }
 
 }  // end of namespace FSG
