@@ -146,6 +146,7 @@ void Data::generate (int newIDofGame)
       AddPositionToOutput(6, 11);
       // 8-й переход
       AddPositionToOutput(7, 11);
+      AddPositionToOutput(7, 4);
       // 9-й переход
       AddPositionToOutput(8, 12);
       AddPositionToOutput(8, 13);
@@ -180,12 +181,16 @@ bool Data::makeStep (int numberOfHole)
    SetToken(numberOfHole, true);
    bool maxReached = FireAllTransitions(this);
 
-   // TODO: Реакция на срабатывание макс. числа переходов
-
    // ПРОВЕРИТЬ ВОЗМОЖНОСТЬ СЛЕДУЮЩЕГО ХОДА
    bool ret = false;
    for ( iposition ip = GetPositions(); !ip.end() && ip.position() < 6; ++ip )
       ret = ret || IsPositionAvailable(ip.position());
+
+   if ( !maxReached )
+   {
+      excptns::MaxFiredException e(!ret);
+      throw e;
+   }
 
    return ret;
 }

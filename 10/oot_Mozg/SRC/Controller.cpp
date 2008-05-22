@@ -85,47 +85,72 @@ void Controller::initialize (std::list<std::string>& names, int nStr)
 }
 void Controller::makeStep(int hole)
 {
-   if (netStruc->makeStep(hole))
+   try
    {
-      netStruc->Redraw();     //!< Перерисовываем сеть Перти
-      playersList->goNext();  //!< Перешли к следующему игроку
-      
-      //! Делаем неактивными кнопки, если нельзя кинуть фишку в их отверстие
-      deActivateButtons();
+      if ( netStruc->makeStep(hole) )
+      {
+         Redraw();               //!< Перерисовываем сеть Перти
+         playersList->goNext();  //!< Перешли к следующему игроку
+         deActivateButtons();
 
-      if (playersList->getActivePlayer()->ifMain())
+         if (playersList->getActivePlayer()->ifMain())
+         {
+            mainDlg->ActivateOpen(TRUE);
+            mainDlg->ActivateSave(TRUE);
+            mainDlg->ActivateReset(TRUE);
+            mainDlg->ActivateClose(TRUE);
+            mainDlg->ActivateNew(TRUE);  
+         } 
+         else
+         {
+            mainDlg->ActivateOpen(FALSE);
+            mainDlg->ActivateSave(FALSE);
+            mainDlg->ActivateReset(FALSE);
+            mainDlg->ActivateClose(FALSE);
+            mainDlg->ActivateNew(FALSE);
+         }
+      }
+      else 
       {
-         mainDlg->ActivateOpen(TRUE);
-         mainDlg->ActivateSave(TRUE);
-         mainDlg->ActivateReset(TRUE);
-         mainDlg->ActivateClose(TRUE);
-         mainDlg->ActivateNew(TRUE);  
-      } 
-      else
-      {
-         mainDlg->ActivateOpen(FALSE);
+         //! Больше некуда кидать, игра закончена
+         //! Деактивируем кнопки и элемент меню сохранить
+         mainDlg->ActivateButtons(FALSE);
          mainDlg->ActivateSave(FALSE);
-         mainDlg->ActivateReset(FALSE);
-         mainDlg->ActivateClose(FALSE);
-         mainDlg->ActivateNew(FALSE);
+         mainDlg->ActivateClose(TRUE);
+         mainDlg->ActivateReset(TRUE);
+         mainDlg->ActivateOpen(TRUE);
+         //! Выводим сообщение, о победителе
+         mainDlg->setTip("Поздравляем " + 
+                          playersList->getActivePlayer()->getName() +
+                         " с победой в игре Мозгодолбалка!");
+         Redraw();
       }
    }
-   else 
+   catch (excptns::MaxFiredException& e)
    {
-      //! Больше некуда кидать, игра закончена
-      //! Деактивируем кнопки и элемент меню сохранить
-      mainDlg->ActivateButtons(FALSE);
-      mainDlg->ActivateSave(FALSE);
-      mainDlg->ActivateClose(TRUE);
-      mainDlg->ActivateReset(TRUE);
-      mainDlg->ActivateOpen(TRUE);
-      //! Выводим сообщение, о победителе
-      mainDlg->setTip("Поздравляем " + 
-                      playersList->getActivePlayer()->getName() +
-                      " с победой в игре Мозгодолбалка!");
-      Redraw();
-   }
+      Redraw();               //!< Перерисовываем сеть Перти
+      playersList->goNext();  //!< Перешли к следующему игроку
+      deActivateButtons();
 
+      if ( e.isEndOfGame() )
+      {
+         //! Больше некуда кидать, игра закончена
+         //! Деактивируем кнопки и элемент меню сохранить
+         mainDlg->ActivateButtons(FALSE);
+         mainDlg->ActivateSave(FALSE);
+         mainDlg->ActivateClose(TRUE);
+         mainDlg->ActivateReset(TRUE);
+         mainDlg->ActivateOpen(TRUE);
+         //! Выводим сообщение, о победителе
+         mainDlg->setTip("Поздравляем " + 
+                         playersList->getActivePlayer()->getName() +
+                         " с победой в игре Мозгодолбалка!");
+      }
+      else
+         ::MessageBox(NULL, "На предыдущем шаге обнаружено зацикливание сетевой \
+структуры.\nРекомендуется начать игру с использованием другой сетевой структуры.",
+                      "Игра возможно бесконечна!", MB_OK | MB_ICONINFORMATION);
+   }
 }
 
 void Controller::reset()
@@ -205,7 +230,7 @@ void Controller::deActivateButtons()
 {
    //! Сменили подсказку
    mainDlg->setTip("Ход игрока " + 
-      playersList->getActivePlayer()->getName());
+                   playersList->getActivePlayer()->getName());
    mainDlg->ActivateButtons(TRUE);
    for (int i = 0; i < 6; i++)
       if ( netStruc->isPositionBlocked(i) )
