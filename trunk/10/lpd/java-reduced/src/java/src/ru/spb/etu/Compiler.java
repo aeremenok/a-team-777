@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.apache.bcel.Constants;
+import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.generic.ALOAD;
 import org.apache.bcel.generic.ASTORE;
@@ -161,6 +162,8 @@ public class Compiler
         InstructionHandle try_start =
                                       il.append( factory.createFieldAccess( "java.lang.System", "out", p_stream,
                                                                             Constants.GETSTATIC ) );
+
+        Field f;
 
         il.append( new PUSH( cp, "Please enter your name> " ) );
         il.append( factory.createInvoke( "java.io.PrintStream", "print", Type.VOID, new Type[] { Type.STRING },
