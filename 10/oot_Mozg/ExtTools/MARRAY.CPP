@@ -162,7 +162,6 @@ void FSG::MARRAY::freeSeg(void)
 //---------------------------------------------------------------------------
 void FSG::MARRAY::ins (uint i, uint n)
  {
- PROFILE_FAST_FUNC ("MARRAY:ins");
  CONFIRM (int(n) > 0);                            // вставка не пуста
 
  setNElem (nElem.n + n);                          // УВЕЛИЧИТЬ ДЛИНУ
@@ -181,8 +180,6 @@ void FSG::MARRAY::ins (uint i, uint n)
 //---------------------------------------------------------------------------
 void FSG::MARRAY::del (uint i, uint n)
  {
- PROFILE_FAST_FUNC ("MARRAY:del");
-
  if (n == 0)
     return;
 
