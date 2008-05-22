@@ -3,7 +3,6 @@ package ru.spb.etu;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.Field;
@@ -24,30 +23,14 @@ import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.PUSH;
 import org.apache.bcel.generic.Type;
 
-class Bar
-    extends Foo
-{
-
-    public Bar()
-    {
-        this.i = 6;
-    }
-
-}
-
 class Foo
 {
-    public Foo()
+    public Foo(
+        int a,
+        int c )
     {
+        int b = a % c;
     }
-
-    public void name()
-    {
-        Object a = new Object();
-        a = new Integer( 1 );
-    }
-
-    int i = 0;
 }
 
 public class Compiler
@@ -134,7 +117,6 @@ public class Compiler
                                       "main", className, // method, class
                                       il, cp );
 
-        Arrays arrays;
         InstructionFactory factory = new InstructionFactory( classGen );
 
         ObjectType i_stream = new ObjectType( "java.io.InputStream" );
@@ -142,6 +124,7 @@ public class Compiler
 
         il.append( factory.createNew( "java.io.BufferedReader" ) );
         il.append( InstructionConstants.DUP ); // Use predefined constant
+        factory.createConstant( p_stream );
         il.append( factory.createNew( "java.io.InputStreamReader" ) );
         il.append( InstructionConstants.DUP );
         il.append( factory.createFieldAccess( "java.lang.System", "in", i_stream, Constants.GETSTATIC ) );
