@@ -565,21 +565,26 @@ Statement<CodeWrapper cw>
   Block<cw>
 | "if" 
     ParExpression<out Type exprType, cw> 
-    (. // todo
+    (. 
 	   IFEQ ifeq = new IFEQ(null);
 	   cw.last = cw.il.append(ifeq);
     .) 
-    Statement<cw> (.GOTO g = new GOTO(null); cw.last = cw.il.append(g);.) 
+    Statement<cw>       (.GOTO g = new GOTO(null); cw.last = cw.il.append(g);.) 
     [ 
-        "else"          (.InstructionHandle elseH = cw.il.append(new NOP()); ifeq.setTarget(elseH);.) 
-        Statement<cw>   
-    ] (.InstructionHandle elseEndH = cw.last = cw.il.append(new NOP()); g.setTarget(elseEndH);.)
+        "else"          (.ifeq.setTarget( cw.il.append(new NOP()) );.) 
+        Statement<cw>      
+    ] 
+    (. 
+        InstructionHandle elseEndH = cw.il.append(new NOP()); 
+        g.setTarget(elseEndH);
+        if (ifeq.getTarget()==null) ifeq.setTarget(elseEndH);
+     .)
 
 | "while"
 	ParExpression<out Type exprType, cw> 
     (.
+       InstructionHandle begin = cw.last; // перевычисление выражения todo проверить со сложными 
        IFEQ ifeq = new IFEQ(null);
-       InstructionHandle begin = cw.last; 
        cw.il.append(ifeq);
     .) 
 	Statement<cw> 
@@ -654,8 +659,6 @@ identifier<out String varName>
 		        SemErr("void variables are not allowed");
 		    else if (
 		        typeLiteral.equals(Type.INT) ||
-		        typeLiteral.equals(Type.BYTE) ||
-		        typeLiteral.equals(Type.SHORT) ||
 		        typeLiteral.equals(Type.BOOLEAN)
 		        )
 		        store = new ISTORE( name );
@@ -873,8 +876,6 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 			                SemErr("void variables are not allowed");
 			            else if (
 			                selType.equals(Type.INT) ||
-			                selType.equals(Type.BYTE) ||
-			                selType.equals(Type.SHORT) ||
 			                selType.equals(Type.BOOLEAN)
 			                )
 			                store = new ISTORE( name );

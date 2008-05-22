@@ -4,10 +4,14 @@ public class Foo1{
     
     void foo(boolean c)
     {
-        int i = 0;
-        while(c){
+        float i = 0.11;
+        if(!c){
             System.out.println(i);
-            i = (i + 1);
+            i = (i + 0.1);
+        }
+        else
+        {
+            System.out.println("6325645asdhfdsha");
         }
 
     }
