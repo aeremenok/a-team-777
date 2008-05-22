@@ -45,6 +45,7 @@ template<class charT, class traits>
       operator >> (std::basic_istream<charT, traits>& strm, 
       ser::Archive& arch)
    {
+      arch.GetFromStream<charT, traits>(strm);
       return strm;
    }
 

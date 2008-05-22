@@ -41,9 +41,9 @@ namespace ser   // Сериализация
       void PutIntoStream(std::basic_ostream<charT, traits>& strm) const
       {
          strm << Record.nElem << separ;
-         strm.write((const char*)&Record[0], Record.nElem * Record.sizeElem());
+         strm.write((const char*)FSG::constant(Record), Record.nElem * Record.sizeElem());
          strm << separ << Data.nElem << separ;
-         strm.write((const char*)&Data[0], Data.nElem * Data.sizeElem());
+         strm.write((const char*)FSG::constant(Data), Data.nElem * Data.sizeElem());
          strm << separ << Index.size() << separ;
          for ( INDEX::const_iterator it = Index.begin(); it != Index.end(); ++it )
             strm << it->first << separ << it->second << separ;
@@ -53,16 +53,19 @@ namespace ser   // Сериализация
       template<class charT, class traits>
       void GetFromStream(std::basic_istream<charT, traits>& strm)
       {
-         strm >> Record.nElem;
-         strm.read((const char*)&Record[0], Record.nElem * Record.sizeElem());
-         strm >> Data.nElem;
-         strm.read((const char*)&Data[0], Data.nElem * Data.sizeElem());
+         int nElem = 0;
+         strm >> nElem;
+         Record.nElem = nElem;
+         strm.read((char*)FSG::constant(Record), Record.nElem * Record.sizeElem());
+         strm >> nElem;
+         Data.nElem = nElem;
+         strm.read((char*)FSG::constant(Data), Data.nElem * Data.sizeElem());
          size_t mapSize = 0;
          strm >> mapSize;
-         for ( int i = 0; i < mapSize; i++ )
+         for ( size_t i = 0; i < mapSize; i++ )
          {
-            INDEX::key_type key = 0;
-            INDEX::value_type val = 0;
+            size_t key = 0;
+            int val = 0;
             strm >> key >> val;
             Index.insert( std::make_pair(key, val) );
          }
