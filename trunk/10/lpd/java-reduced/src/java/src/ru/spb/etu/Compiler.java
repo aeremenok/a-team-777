@@ -24,13 +24,10 @@ import org.apache.bcel.generic.Type;
 
 class Foo
 {
-    int a;
-
     public Foo(
-
         int c )
     {
-        int b = a % c;
+        Boolean boolean1 = null;
     }
 }
 

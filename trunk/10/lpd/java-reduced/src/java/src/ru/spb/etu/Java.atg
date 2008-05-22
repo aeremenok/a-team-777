@@ -19,6 +19,8 @@ import org.apache.bcel.generic.ALOAD;
 import org.apache.bcel.generic.FLOAD;
 import org.apache.bcel.generic.ILOAD;
 
+import org.apache.bcel.generic.ACONST_NULL;
+
 import org.apache.bcel.generic.StoreInstruction;
 import org.apache.bcel.generic.ASTORE;
 import org.apache.bcel.generic.FSTORE;
@@ -633,7 +635,7 @@ identifier<out String varName>
 .)
 ["=" (.log("init");.) Expression<out Type exprType, cw> // здесь нам оставят результат на верхушке стека. мы его сохраняем в переменную 
 (.
-	    if (!typeLiteral.equals(exprType))
+	    if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) )
 	       SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
 	    else 
 	    {   
@@ -847,7 +849,7 @@ var<out Type selType, CodeWrapper cw, String className>
 	        AssignmentOperator<cw> 
 	        Expression<out Type exprType, cw>
 			(.
-		        if (!selType.equals(exprType))
+		        if (!selType.equals(exprType) && !exprType.equals(Type.NULL))
 		           SemErr("incompatible types: expected "+selType+", got "+exprType);
 		        else 
 		        {   
@@ -939,22 +941,22 @@ Arguments<out Type[] argTypes, CodeWrapper cw>
 .
 /*---------------------------------------------------------------------------*/
 // литерал =)
-Literal<out Type exprType, CodeWrapper cw>
-= (.exprType = null;.)
-  ( 
-  intLit            (.exprType = Type.INT;.)
-| floatLit          (.exprType = Type.FLOAT;.)
-| stringLit         (.exprType = new ObjectType("java.lang.String");.)
-| "true"            (.exprType = Type.BOOLEAN;.)
-| "false"           (.exprType = Type.BOOLEAN;.)
-| "null"            (.exprType = Type.NULL;.)
-)
+Literal<out Type exprType, CodeWrapper cw> (.exprType = null;.)
+= 
 (.
-	log("lit="+t.val);
-    // кладем в стек
+    Object value = null;
 	InstructionFactory factory = new InstructionFactory( cw.classGen );
-	cw.il.append(factory.createConstant( t.val ));
+	log("lit="+la.val);
 .)
+( 
+	  intLit            (.exprType = Type.INT; value = new Integer(t.val);.)
+	| floatLit          (.exprType = Type.FLOAT; value = new Float(t.val);.)
+	| stringLit         (.exprType = new ObjectType("java.lang.String"); value = t.val;.)
+	| "true"            (.exprType = Type.BOOLEAN; value = new Boolean(t.val);.)
+	| "false"           (.exprType = Type.BOOLEAN; value = new Boolean(t.val);.)
+	(. cw.il.append( factory.createConstant( t.val )); .)
+)
+| "null"            (.exprType = Type.NULL; cw.il.append( new ACONST_NULL());.)
 .
 /*---------------------------------------------------------------------------*/
 // вызов конструктора
