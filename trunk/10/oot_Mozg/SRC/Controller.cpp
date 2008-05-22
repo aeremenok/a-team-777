@@ -92,15 +92,15 @@ void Controller::makeStep(int hole)
       //! Сменили подсказку
       mainDlg->setTip("Ход игрока " + 
                         playersList->getActivePlayer()->getName());
-      /*for (int i = 0; i < 6; i++)
-      {
-         if (netStruc->IsPositionAvailable(i))
+      mainDlg->ActivateButtons(TRUE);
+      for (int i = 0; i < 6; i++)
+         if ( netStruc->isPositionBlocked(i) )
          {
             CButton button = mainDlg->GetDlgItem(IDC_BUTTON_HOLE1 + i);
             ATLASSERT(::IsWindow(button.m_hWnd));
             button.EnableWindow(FALSE);
          }
-      }*/
+
       if (playersList->getActivePlayer()->ifMain())
       {
          mainDlg->ActivateOpen(TRUE);
@@ -117,18 +117,21 @@ void Controller::makeStep(int hole)
          mainDlg->ActivateClose(FALSE);
          mainDlg->ActivateNew(FALSE);
       }
-   }else 
-   {  //! Больше некуда кидать, игра закончена
+   }
+   else 
+   {
+      //! Больше некуда кидать, игра закончена
       //! Деактивируем кнопки и элемент меню сохранить
       mainDlg->ActivateButtons(FALSE);
       mainDlg->ActivateSave(FALSE);
-       mainDlg->ActivateClose(TRUE);
-       mainDlg->ActivateReset(TRUE);
-       mainDlg->ActivateOpen(TRUE);
+      mainDlg->ActivateClose(TRUE);
+      mainDlg->ActivateReset(TRUE);
+      mainDlg->ActivateOpen(TRUE);
       //! Выводим сообщение, о победителе
       mainDlg->setTip("Поздравляем " + 
-                       playersList->getActivePlayer()->getName() +
-                       " с победой в игре Мозгодолбалка!");
+                      playersList->getActivePlayer()->getName() +
+                      " с победой в игре Мозгодолбалка!");
+      Redraw();
    }
 
 }
