@@ -3,8 +3,10 @@ public class Foo1{
     void foo(){}
 
     public void main(){
-        int a = 0;
-        //this.i = 0;
+        int a;
+        a = 0;
+        i = 888;
+        this.i = 0;
         Foo1 foo = new Foo1();
         a = (1 + ( 2 * this.i));
         this.foo();

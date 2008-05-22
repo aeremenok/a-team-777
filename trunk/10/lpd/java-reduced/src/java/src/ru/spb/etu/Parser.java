@@ -14,6 +14,7 @@ import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.InstructionList;
 import org.apache.bcel.generic.InstructionConstants;
 import org.apache.bcel.generic.InstructionFactory;
+import org.apache.bcel.generic.InstructionHandle;
 
 import org.apache.bcel.generic.Instruction;
 import org.apache.bcel.generic.ALOAD;
@@ -758,7 +759,6 @@ public class Parser {
 					else
 					    className = lg.getType().toString();
 					log("className="+className);
-					// todo ???????? ??? ?????????? ??? ????
 					
 				} else SynErr(58);
 				Expect(6);
@@ -915,6 +915,7 @@ public class Parser {
 		default: SynErr(62); break;
 		}
 		log("lit="+t.val);
+		  // ?????? ? ????
 		InstructionFactory factory = new InstructionFactory( cw.classGen );
 		cw.il.append(factory.createConstant( t.val ));
 		
@@ -1042,9 +1043,60 @@ public class Parser {
 		selType = null;
 		if (next(_isequal)) {
 			String var = identifier();
-			selType = null;
+			int name = -1;
+			  
+			     LocalVariableGen lg = getVarGen(var, cw.methodGen);
+			  if (lg==null)
+			  {
+			      Field fg = getFieldGen(var, cw.classGen);
+			      if( fg == null )
+			          SemErr("no such variable or field "+var);
+			      else
+			      { // ??? ????
+			          selType = fg.getType();
+			          InstructionFactory factory = new InstructionFactory( cw.classGen );
+			          cw.il.append(
+			              factory.createFieldAccess( className, fg.getName(), selType, Constants.GETFIELD )
+			          );
+			       name = fg.getNameIndex();
+			      }
+			  }
+			  else
+			  {    // ??? ??????????
+			      selType = lg.getType();
+			   name = lg.getIndex();
+			  }
+			
 			AssignmentOperator(cw);
 			Type exprType = Expression(cw);
+			if (!selType.equals(exprType))
+			  SemErr("incompatible types: expected "+selType+", got "+exprType);
+			else 
+			{   
+			    StoreInstruction store = null;
+			    
+			    if (selType.equals(Type.VOID))
+			        SemErr("void variables are not allowed");
+			    else if (
+			        selType.equals(Type.INT) ||
+			        selType.equals(Type.BYTE) ||
+			        selType.equals(Type.SHORT) ||
+			        selType.equals(Type.BOOLEAN)
+			        )
+			        store = new ISTORE( name );
+			    else if ( selType.equals(Type.FLOAT) )
+			        store = new FSTORE( name );
+			    else if ( selType instanceof ObjectType )
+			        store = new ASTORE( name );
+			    else
+			        SemErr("unknown type "+selType);
+			    
+			    InstructionHandle ih = cw.il.append( store );
+			    if (lg!=null && lg.getStart()==null)
+			      // ?????????? ??? ?? ???????????????? 
+			      lg.setStart( ih );
+			}
+			
 		} else if (la.kind == 1) {
 			selType = access(cw, className);
 		} else SynErr(65);
@@ -1054,14 +1106,12 @@ public class Parser {
 	void AssignmentOperator(CodeWrapper cw) {
 		log("assgmnt");
 		Expect(7);
-		
 	}
 
 	Type  access(CodeWrapper cw, String className) {
 		Type  selType;
 		String var = identifier();
 		selType = null;
-		int index = -1;
 		LocalVariableGen lg = getVarGen(var, cw.methodGen);
 		if (lg==null)
 		{
@@ -1069,7 +1119,7 @@ public class Parser {
 		    if( fg == null )
 		        SemErr("no such variable or field "+var);
 		    else
-		    {
+		    { // ??? ????
 		        selType = fg.getType();
 		        InstructionFactory factory = new InstructionFactory( cw.classGen );
 		        cw.il.append(
@@ -1078,7 +1128,7 @@ public class Parser {
 		    }
 		}
 		else
-		{
+		{    // ??? ??????????
 		    selType = lg.getType();
 		    Instruction instr = null;
 		    if (

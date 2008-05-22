@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.apache.bcel.Constants;
-import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.generic.ALOAD;
 import org.apache.bcel.generic.ASTORE;
@@ -93,8 +92,6 @@ public class Compiler
       System.out.println("Hello, " + name);
     }
     }
-    
-
      */
 
     private static void createApacheClass(
@@ -148,8 +145,6 @@ public class Compiler
                                       il.append( factory.createFieldAccess( "java.lang.System", "out", p_stream,
                                                                             Constants.GETSTATIC ) );
 
-        Field f;
-
         il.append( new PUSH( cp, "Please enter your name> " ) );
         il.append( factory.createInvoke( "java.io.PrintStream", "print", Type.VOID, new Type[] { Type.STRING },
                                          Constants.INVOKEVIRTUAL ) );
@@ -201,11 +196,7 @@ public class Compiler
     {
         Method[] methods = classGen.getMethods();
         for ( Method method : methods )
-        {
             if ( method.getName().equals( name ) )
-            {
                 break;
-            }
-        }
     }
 }
