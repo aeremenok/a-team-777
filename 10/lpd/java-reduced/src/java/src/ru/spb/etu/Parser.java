@@ -59,7 +59,7 @@ public class Parser {
 	static final int _floatLit = 9;
 	static final int _charLit = 10;
 	static final int _stringLit = 11;
-	static final int maxT = 46;
+	static final int maxT = 48;
 
 	static final boolean T = true;
 	static final boolean x = false;
@@ -248,7 +248,7 @@ public class Parser {
 			interfaceDeclaration(specifier);
 		} else if (la.kind == 14) {
 			classDeclaration(specifier);
-		} else SynErr(47);
+		} else SynErr(49);
 	}
 
 	int  accessSpecifier() {
@@ -391,7 +391,7 @@ public class Parser {
 					else
 					  typeLiteral = new ObjectType(typeName);
 					      
-				} else SynErr(48);
+				} else SynErr(50);
 				String member = identifier();
 				if (la.kind == 2) {
 					Args args = new Args();
@@ -448,8 +448,8 @@ public class Parser {
 					    classGen.addField( fieldGen.getField() );                         
 					
 					Get();
-				} else SynErr(49);
-			} else SynErr(50);
+				} else SynErr(51);
+			} else SynErr(52);
 		}
 		Expect(5);
 	}
@@ -483,7 +483,7 @@ public class Parser {
 				else
 				    typeLiteral = new ObjectType(typeName);
 				
-			} else SynErr(51);
+			} else SynErr(53);
 			log("abstr method");
 			String methodName = identifier();
 			Args args = new Args();
@@ -542,7 +542,7 @@ public class Parser {
 			typeLiteral = new ObjectType("java.util.Vector");
 			break;
 		}
-		default: SynErr(52); break;
+		default: SynErr(54); break;
 		}
 		return typeLiteral;
 	}
@@ -560,7 +560,7 @@ public class Parser {
 			else
 			    typeLiteral = new ObjectType(typeName);               
 			
-		} else SynErr(53);
+		} else SynErr(55);
 		types.add(typeLiteral);
 		String param = identifier();
 		names.add(param);
@@ -575,7 +575,7 @@ public class Parser {
 				else
 				    typeLiteral = new ObjectType(typeName);	        
 				
-			} else SynErr(54);
+			} else SynErr(56);
 			types.add(typeLiteral);
 			param = identifier();
 			names.add(param);
@@ -627,12 +627,12 @@ public class Parser {
 			Get();
 			break;
 		}
-		case 1: case 2: case 8: case 9: case 11: case 33: case 34: case 35: case 36: case 37: case 38: {
+		case 1: case 2: case 8: case 9: case 11: case 33: case 34: case 35: case 36: case 37: case 38: case 39: case 40: {
 			Type exprType = Expression(cw);
 			Expect(26);
 			break;
 		}
-		default: SynErr(55); break;
+		default: SynErr(57); break;
 		}
 	}
 
@@ -655,12 +655,77 @@ public class Parser {
 	Type  Expression(CodeWrapper cw) {
 		Type  exprType;
 		exprType = null;
-		if (la.kind == 33) {
+		switch (la.kind) {
+		case 33: {
+			Get();
+			Type[] argTypes = Arguments(cw);
+			log("sout");
+			if(argTypes.length==1)
+			{
+			InstructionFactory factory = new InstructionFactory( cw.classGen );
+			cw.il.append( 
+			    factory.createFieldAccess(
+			        "java.lang.System", 
+			        "out", 
+			        new ObjectType( "java.io.PrintStream" ),
+			        Constants.GETSTATIC
+			    )
+			);
+			cw.il.append(
+			    factory.createInvoke( 
+			        "java.io.PrintStream", 
+			        "println", 
+			        Type.VOID, 
+			        argTypes,
+			        Constants.INVOKEVIRTUAL
+			    )
+			);
+			  }
+			  else
+			      SemErr("sysout requires 1 parameter");
+			
+			break;
+		}
+		case 34: {
+			Get();
+			Type[] argTypes = Arguments(cw);
+			log("sout");
+			if(argTypes.length==1)
+			{
+			    InstructionFactory factory = new InstructionFactory( cw.classGen );
+			    cw.il.append( 
+			        factory.createFieldAccess(
+			            "java.lang.System", 
+			            "out", 
+			            new ObjectType( "java.io.PrintStream" ),
+			            Constants.GETSTATIC
+			        )
+			    );
+			    cw.il.append(
+			        factory.createInvoke( 
+			            "java.io.PrintStream", 
+			            "print", 
+			            Type.VOID, 
+			            argTypes,
+			            Constants.INVOKEVIRTUAL
+			        )
+			    );
+			}
+			else
+			    SemErr("sysout requires 1 parameter");
+			
+			break;
+		}
+		case 35: {
 			Get();
 			exprType = Creator(cw);
-		} else if (StartOf(8)) {
+			break;
+		}
+		case 8: case 9: case 11: case 38: case 39: case 40: {
 			exprType = Literal(cw);
-		} else if (la.kind == 2) {
+			break;
+		}
+		case 2: {
 			Get();
 			exprType = Expression(cw);
 			ArithmeticInstruction instr = Infixop(exprType);
@@ -673,12 +738,14 @@ public class Parser {
 			    cw.il.append(instr);
 			}
 			
-		} else if (la.kind == 1 || la.kind == 34 || la.kind == 35) {
+			break;
+		}
+		case 1: case 36: case 37: {
 			String className= cw.classGen.getClassName();
 			if (next(_dot)) {
-				if (la.kind == 34) {
+				if (la.kind == 36) {
 					Get();
-				} else if (la.kind == 35) {
+				} else if (la.kind == 37) {
 					Get();
 					className = cw.classGen.getSuperclassName();
 				} else if (la.kind == 1) {
@@ -693,13 +760,16 @@ public class Parser {
 					log("className="+className);
 					// todo ???????? ??? ?????????? ??? ????
 					
-				} else SynErr(56);
+				} else SynErr(58);
 				Expect(6);
 				exprType = Selector(cw, className);
 			} else {
 				exprType = Selector(cw, className);
 			}
-		} else SynErr(57);
+			break;
+		}
+		default: SynErr(59); break;
+		}
 		return exprType;
 	}
 
@@ -707,9 +777,9 @@ public class Parser {
 		if (next(_id)) {
 			LocalVariableDeclaration(cw);
 			Expect(26);
-		} else if (StartOf(9)) {
+		} else if (StartOf(8)) {
 			Statement(cw);
-		} else SynErr(58);
+		} else SynErr(60);
 	}
 
 	void LocalVariableDeclaration(CodeWrapper cw) {
@@ -730,7 +800,7 @@ public class Parser {
 				cw.il.append( InstructionConstants.DUP );
 			      } 
 			  
-		} else SynErr(59);
+		} else SynErr(61);
 		String varName = identifier();
 		if (getVarGen(varName, cw.methodGen)!=null)
 		   SemErr("duplicate local variable "+varName);
@@ -772,6 +842,24 @@ public class Parser {
 		}
 	}
 
+	Type[]  Arguments(CodeWrapper cw) {
+		Type[]  argTypes;
+		ArrayList<Type> types = new ArrayList<Type>();
+		Expect(2);
+		if (StartOf(6)) {
+			Type exprType = Expression(cw);
+			types.add(exprType);
+			while (la.kind == 25) {
+				Get();
+				exprType = Expression(cw);
+				types.add(exprType);
+			}
+		}
+		Expect(3);
+		argTypes = types.toArray(new Type[types.size()]);
+		return argTypes;
+	}
+
 	Type  Creator(CodeWrapper cw) {
 		Type  createdType;
 		String className = identifier();
@@ -809,22 +897,22 @@ public class Parser {
 			exprType = new ObjectType("java.lang.String");
 			break;
 		}
-		case 36: {
-			Get();
-			exprType = Type.BOOLEAN;
-			break;
-		}
-		case 37: {
-			Get();
-			exprType = Type.BOOLEAN;
-			break;
-		}
 		case 38: {
+			Get();
+			exprType = Type.BOOLEAN;
+			break;
+		}
+		case 39: {
+			Get();
+			exprType = Type.BOOLEAN;
+			break;
+		}
+		case 40: {
 			Get();
 			exprType = Type.NULL;
 			break;
 		}
-		default: SynErr(60); break;
+		default: SynErr(62); break;
 		}
 		log("lit="+t.val);
 		InstructionFactory factory = new InstructionFactory( cw.classGen );
@@ -837,7 +925,7 @@ public class Parser {
 		ArithmeticInstruction  instr;
 		instr = null;
 		switch (la.kind) {
-		case 39: {
+		case 41: {
 			Get();
 			if (exprType.equals(Type.BOOLEAN))
 			  instr = new IOR();
@@ -846,7 +934,7 @@ public class Parser {
 			
 			break;
 		}
-		case 40: {
+		case 42: {
 			Get();
 			if (exprType.equals(Type.BOOLEAN))
 			  instr = new IAND();
@@ -855,7 +943,7 @@ public class Parser {
 			
 			break;
 		}
-		case 41: {
+		case 43: {
 			Get();
 			if (exprType.equals(Type.INT))
 			  instr = new IADD();
@@ -866,7 +954,7 @@ public class Parser {
 			
 			break;
 		}
-		case 42: {
+		case 44: {
 			Get();
 			if (exprType.equals(Type.INT))
 			  instr = new ISUB();
@@ -877,7 +965,7 @@ public class Parser {
 			
 			break;
 		}
-		case 43: {
+		case 45: {
 			Get();
 			if (exprType.equals(Type.INT))
 			  instr = new IMUL();
@@ -888,7 +976,7 @@ public class Parser {
 			
 			break;
 		}
-		case 44: {
+		case 46: {
 			Get();
 			if (exprType.equals(Type.INT))
 			  instr = new IDIV();
@@ -899,7 +987,7 @@ public class Parser {
 			
 			break;
 		}
-		case 45: {
+		case 47: {
 			Get();
 			if (exprType.equals(Type.INT))
 			  instr = new IREM();
@@ -910,7 +998,7 @@ public class Parser {
 			
 			break;
 		}
-		default: SynErr(61); break;
+		default: SynErr(63); break;
 		}
 		return instr;
 	}
@@ -922,7 +1010,7 @@ public class Parser {
 			selType = call(cw, className);
 		} else if (la.kind == 1) {
 			selType = var(cw, className);
-		} else SynErr(62);
+		} else SynErr(64);
 		return selType;
 	}
 
@@ -958,69 +1046,57 @@ public class Parser {
 			AssignmentOperator(cw);
 			Type exprType = Expression(cw);
 		} else if (la.kind == 1) {
-			String var = identifier();
-			selType = null;
-			int index = -1;
-			LocalVariableGen lg = getVarGen(var, cw.methodGen);
-			if (lg==null)
-			{
-			    Field fg = getFieldGen(var, cw.classGen);
-			    if( fg == null )
-			        SemErr("no such variable or field "+var);
-			    else
-			    {
-			        selType = fg.getType();
-			        InstructionFactory factory = new InstructionFactory( cw.classGen );
-			        cw.il.append(
-			            factory.createFieldAccess( className, fg.getName(), selType, Constants.GETFIELD )
-			           );    
-			    }
-			}
-			else
-			{
-			    selType = lg.getType();
-			    Instruction instr = null;
-			    if (
-			        selType.equals(Type.INT) ||
-			        selType.equals(Type.BOOLEAN)
-			    )
-			        instr = new ILOAD(lg.getIndex());
-			    else if (selType.equals(Type.FLOAT))
-			        instr = new FLOAD(lg.getIndex());
-			    else if (selType instanceof ObjectType)
-			        instr = new ALOAD(lg.getIndex());
-			    else
-			        SemErr("unexpected variable type"+selType);
-			        
-			    cw.il.append(instr);
-			}
-			
-		} else SynErr(63);
+			selType = access(cw, className);
+		} else SynErr(65);
 		return selType;
-	}
-
-	Type[]  Arguments(CodeWrapper cw) {
-		Type[]  argTypes;
-		ArrayList<Type> types = new ArrayList<Type>();
-		Expect(2);
-		if (StartOf(6)) {
-			Type exprType = Expression(cw);
-			types.add(exprType);
-			while (la.kind == 25) {
-				Get();
-				exprType = Expression(cw);
-				types.add(exprType);
-			}
-		}
-		Expect(3);
-		argTypes = types.toArray(new Type[types.size()]);
-		return argTypes;
 	}
 
 	void AssignmentOperator(CodeWrapper cw) {
 		log("assgmnt");
 		Expect(7);
 		
+	}
+
+	Type  access(CodeWrapper cw, String className) {
+		Type  selType;
+		String var = identifier();
+		selType = null;
+		int index = -1;
+		LocalVariableGen lg = getVarGen(var, cw.methodGen);
+		if (lg==null)
+		{
+		    Field fg = getFieldGen(var, cw.classGen);
+		    if( fg == null )
+		        SemErr("no such variable or field "+var);
+		    else
+		    {
+		        selType = fg.getType();
+		        InstructionFactory factory = new InstructionFactory( cw.classGen );
+		        cw.il.append(
+		            factory.createFieldAccess( className, fg.getName(), selType, Constants.GETFIELD )
+		        );    
+		    }
+		}
+		else
+		{
+		    selType = lg.getType();
+		    Instruction instr = null;
+		    if (
+		        selType.equals(Type.INT) ||
+		        selType.equals(Type.BOOLEAN)
+		    )
+		        instr = new ILOAD(lg.getIndex());
+		    else if (selType.equals(Type.FLOAT))
+		        instr = new FLOAD(lg.getIndex());
+		    else if (selType instanceof ObjectType)
+		        instr = new ALOAD(lg.getIndex());
+		    else
+		        SemErr("unexpected variable type"+selType);
+		        
+		    cw.il.append(instr);
+		}
+		
+		return selType;
 	}
 
 
@@ -1035,16 +1111,15 @@ public class Parser {
 	}
 
 	private boolean[][] set = {
-		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,x,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,x,x, x,x,x,x, x,x,x,x, T,T,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x},
-		{x,T,T,x, x,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x},
-		{x,T,T,x, T,x,x,x, T,T,x,T, x,x,x,x, x,x,x,T, T,T,T,T, T,x,T,T, x,T,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x},
-		{x,x,x,x, x,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x},
-		{x,T,T,x, T,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, x,T,T,T, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x}
+		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
+		{x,T,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
+		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
+		{x,T,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,x,x,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
+		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
+		{x,T,x,x, x,x,x,x, x,x,x,x, T,T,x,x, x,x,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
+		{x,T,T,x, x,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
+		{x,T,T,x, T,x,x,x, T,T,x,T, x,x,x,x, x,x,x,T, T,T,T,T, T,x,T,T, x,T,T,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
+		{x,T,T,x, T,x,x,x, T,T,x,T, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, x,T,T,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x}
 
 	};
 } // end Parser
@@ -1102,37 +1177,39 @@ class Errors {
 			case 30: s = "\"return\" expected"; break;
 			case 31: s = "\"break;\" expected"; break;
 			case 32: s = "\"continue;\" expected"; break;
-			case 33: s = "\"new\" expected"; break;
-			case 34: s = "\"this\" expected"; break;
-			case 35: s = "\"super\" expected"; break;
-			case 36: s = "\"true\" expected"; break;
-			case 37: s = "\"false\" expected"; break;
-			case 38: s = "\"null\" expected"; break;
-			case 39: s = "\"||\" expected"; break;
-			case 40: s = "\"&&\" expected"; break;
-			case 41: s = "\"+\" expected"; break;
-			case 42: s = "\"-\" expected"; break;
-			case 43: s = "\"*\" expected"; break;
-			case 44: s = "\"/\" expected"; break;
-			case 45: s = "\"%\" expected"; break;
-			case 46: s = "??? expected"; break;
-			case 47: s = "invalid typeDeclaration"; break;
-			case 48: s = "invalid classBody"; break;
-			case 49: s = "invalid classBody"; break;
+			case 33: s = "\"System.out.println\" expected"; break;
+			case 34: s = "\"System.out.print\" expected"; break;
+			case 35: s = "\"new\" expected"; break;
+			case 36: s = "\"this\" expected"; break;
+			case 37: s = "\"super\" expected"; break;
+			case 38: s = "\"true\" expected"; break;
+			case 39: s = "\"false\" expected"; break;
+			case 40: s = "\"null\" expected"; break;
+			case 41: s = "\"||\" expected"; break;
+			case 42: s = "\"&&\" expected"; break;
+			case 43: s = "\"+\" expected"; break;
+			case 44: s = "\"-\" expected"; break;
+			case 45: s = "\"*\" expected"; break;
+			case 46: s = "\"/\" expected"; break;
+			case 47: s = "\"%\" expected"; break;
+			case 48: s = "??? expected"; break;
+			case 49: s = "invalid typeDeclaration"; break;
 			case 50: s = "invalid classBody"; break;
-			case 51: s = "invalid interfaceBody"; break;
-			case 52: s = "invalid type"; break;
-			case 53: s = "invalid formalParameterList"; break;
-			case 54: s = "invalid formalParameterList"; break;
-			case 55: s = "invalid Statement"; break;
-			case 56: s = "invalid Expression"; break;
-			case 57: s = "invalid Expression"; break;
-			case 58: s = "invalid BlockStatement"; break;
-			case 59: s = "invalid LocalVariableDeclaration"; break;
-			case 60: s = "invalid Literal"; break;
-			case 61: s = "invalid Infixop"; break;
-			case 62: s = "invalid Selector"; break;
-			case 63: s = "invalid var"; break;
+			case 51: s = "invalid classBody"; break;
+			case 52: s = "invalid classBody"; break;
+			case 53: s = "invalid interfaceBody"; break;
+			case 54: s = "invalid type"; break;
+			case 55: s = "invalid formalParameterList"; break;
+			case 56: s = "invalid formalParameterList"; break;
+			case 57: s = "invalid Statement"; break;
+			case 58: s = "invalid Expression"; break;
+			case 59: s = "invalid Expression"; break;
+			case 60: s = "invalid BlockStatement"; break;
+			case 61: s = "invalid LocalVariableDeclaration"; break;
+			case 62: s = "invalid Literal"; break;
+			case 63: s = "invalid Infixop"; break;
+			case 64: s = "invalid Selector"; break;
+			case 65: s = "invalid var"; break;
 			default: s = "error " + n; break;
 		}
 		printMsg(line, col, s);

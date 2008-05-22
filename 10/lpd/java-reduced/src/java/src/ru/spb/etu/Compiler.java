@@ -165,7 +165,8 @@ public class Compiler
         mg.addExceptionHandler( try_start, try_end, handler, new ObjectType( "java.io.IOException" ) );
 
         InstructionHandle ih =
-                               il.append( factory.createFieldAccess( "java.lang.System", "out", p_stream,
+                               il.append( factory.createFieldAccess( "java.lang.System", "out",
+                                                                     new ObjectType( "java.io.PrintStream" ),
                                                                      Constants.GETSTATIC ) );
 
         g.setTarget( ih );
