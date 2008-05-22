@@ -24,6 +24,7 @@ import org.apache.bcel.classfile.Method;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Arrays;
 
 public class Parser {
 	static final int _EOF = 0;
@@ -116,12 +117,25 @@ public class Parser {
     // ?????
     public Method getMethod(
         String name,
+        Type[] argTypes,
         ClassGen classGen )
     {
         for ( Method method : classGen.getMethods() )
-            if ( method.getName().equals( name ) )
+            if ( 
+                method.getName().equals( name ) &&
+                Arrays.deepEquals( method.getArgumentTypes(), argTypes ) 
+                )
                 return method;
-        SemErr("no such method "+name);
+        return null;
+    }
+
+    public LocalVariableGen getVarGen(
+        String name,
+        MethodGen methodGen )
+    {    
+        for ( LocalVariableGen var : methodGen.getLocalVariables() )
+			if ( var.getName().equals( name ) )
+			    return var;
         return null;
     }
 /*--------------------------------------------------------------------------*/
@@ -260,7 +274,10 @@ public class Parser {
 		   interfaceName+".class", 
 		   modifier,
 		   superInterfaceName==null ? null : new String[]{superInterfaceName} );
-		classes.put(interfaceName, classGen);
+		  if (classes.get(interfaceName)==null)	       
+		   classes.put(interfaceName, classGen);
+		else
+		    SemErr("duplicate interface "+interfaceName);
 		log("interface "+interfaceName+" created");
 		
 		interfaceBody(classGen);
@@ -295,7 +312,12 @@ public class Parser {
 		   className+".class", 
 		   modifier,
 		   interfaceName==null ? null : new String[]{interfaceName} );
-		classes.put(className, classGen);
+		   
+		if (classes.get(className)==null)           
+		       classes.put(className, classGen);
+		   else
+		       SemErr("duplicate class "+className);
+		       
 		// todo ????? ????? =)
 		classGen.addEmptyConstructor( Constants.ACC_PUBLIC );
 		log("class "+className+" created");
@@ -322,27 +344,32 @@ public class Parser {
 					formalParameterList(args);
 				}
 				Expect(3);
-				InstructionList il = new InstructionList();
-				MethodGen methodGen = new MethodGen(
-				    modifier,
-				    new ObjectType(classGen.getClassName()), // todo ?????????
-				    args.argTypes,
-				    args.argNames,
-				    "<init>",
-				    classGen.getClassName(),
-				    il,
-				    classGen.getConstantPool()
-				);
-				                  log("method "+methodName+" created");
-				                  CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);						  
-				   
+				if (getMethod(methodName, args.argTypes, classGen)==null)
+				{
+					InstructionList il = new InstructionList();
+					MethodGen methodGen = new MethodGen(
+						modifier,
+						new ObjectType(classGen.getClassName()), // todo ?????????
+						args.argTypes,
+						args.argNames,
+						"<init>",
+						classGen.getClassName(),
+						il,
+						classGen.getConstantPool()
+					);
+					log("method "+methodName+" created");
+					CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);						  
+				     
 				Statement(cw);
 				if (cw.il.getLength()==0)
-				            cw.il.append( InstructionConstants.RETURN );
-				            
-				        cw.methodGen.setMaxStack();
-				        classGen.addMethod(cw.methodGen.getMethod());
-				    
+				   cw.il.append( InstructionConstants.RETURN );
+				   
+				cw.methodGen.setMaxStack();
+				classGen.addMethod(cw.methodGen.getMethod());
+				}
+				                  else
+				                      SemErr("duplicate constructor "+methodName); 
+				              
 			} else if (StartOf(4)) {
 				if (la.kind == 13) {
 					int fMod = finalAccess();
@@ -370,36 +397,40 @@ public class Parser {
 						formalParameterList(args);
 					}
 					Expect(3);
-					if (member.equals("main")) // ??? "main"
+					if (getMethod(member, args.argTypes, classGen)==null)
 					{
-					    if ( args.argTypes != null ) SemErr("too many args in main");
-					    if ( !typeLiteral.equals(Type.VOID) ) SemErr("main cannot return a value. type must be \"void\"");
-					                                
-					    modifier |= Constants.ACC_STATIC;
-					    args.argTypes = new Type[]{ new ArrayType( Type.STRING, 1 ) };
-					    args.argNames = new String[] { "argv" };
-					    
-					} // todo ???????? ?.?. 1 ????????
+					 if (member.equals("main")) // ??? "main"
+					 {
+					     if ( args.argTypes != null ) SemErr("too many args in main");
+					     if ( !typeLiteral.equals(Type.VOID) ) SemErr("main cannot return a value. type must be \"void\"");
+					                                 
+					     modifier |= Constants.ACC_STATIC;
+					     args.argTypes = new Type[]{ new ArrayType( Type.STRING, 1 ) };
+					     args.argNames = new String[] { "argv" };
+					 } // todo ???????? ?.?. 1 ????????
 					
-					InstructionList il = new InstructionList();
+					    InstructionList il = new InstructionList();
 					MethodGen methodGen = new MethodGen(
-					modifier,
-					typeLiteral,
-					args.argTypes,
-					args.argNames,
-					member,
-					classGen.getClassName(),
-					il,
-					classGen.getConstantPool()
-					                );
-					                log("method "+member+" created");
-					                CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);
-					            
+						modifier,
+						typeLiteral,
+						args.argTypes,
+						args.argNames,
+						member,
+						classGen.getClassName(),
+						il,
+						classGen.getConstantPool()
+					);
+					                     log("method "+member+" created");
+					                     CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);
+					                
 					Statement(cw);
-					if (cw.il.getLength()==0)
+					if (cw.il.getLength()==0 || typeLiteral.equals(Type.VOID) )                            
 					   cw.il.append( InstructionConstants.RETURN );
 					 cw.methodGen.setMaxStack();
 					classGen.addMethod(cw.methodGen.getMethod());
+					}
+					else
+					    SemErr("duplicate method "+member);
 					
 				} else if (la.kind == 30) {
 					FieldGen fieldGen = new FieldGen(
@@ -407,7 +438,11 @@ public class Parser {
 					   typeLiteral,
 					   member,
 					   classGen.getConstantPool()
-					);                            
+					); 
+					if ( Arrays.asList(classGen.getFields()).contains(fieldGen.getField()) )
+					    SemErr("duplicate field "+member);
+					else  
+					    classGen.addField( fieldGen.getField() );                         
 					
 					Get();
 				} else SynErr(61);
@@ -693,31 +728,42 @@ public class Parser {
 			
 		} else SynErr(71);
 		String varName = identifier();
-		LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null);
+		if (getVarGen(varName, cw.methodGen)==null)
+		{
+		    LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null);
 		
 		if (la.kind == 7) {
 			Get();
 			log("init");
 			Type exprType = Expression(cw);
-			StoreInstruction store = null;
-			
-			int name = lg.getIndex();
-			if (typeLiteral.equals(Type.VOID))
-			    SemErr("void variables are not allowed");
-			else if (
-			    typeLiteral.equals(Type.INT) ||
-			    typeLiteral.equals(Type.BYTE) ||
-			    typeLiteral.equals(Type.SHORT)
-			    )
-			    store = new ISTORE( name );
-			else if ( typeLiteral.equals(Type.FLOAT) )
-			    store = new FSTORE( name );
-			else if ( typeLiteral instanceof ObjectType )
-			    store = new ASTORE( name );
-			else
-			    SemErr("unknown type "+typeLiteral.getSignature());
+			if (exprType.equals(typeLiteral))
+			{   
+			 StoreInstruction store = null;
 			 
-			lg.setStart( cw.il.append( store ) );
+			 int name = lg.getIndex();
+			 if (typeLiteral.equals(Type.VOID))
+			     SemErr("void variables are not allowed");
+			 else if (
+			     typeLiteral.equals(Type.INT) ||
+			     typeLiteral.equals(Type.BYTE) ||
+			     typeLiteral.equals(Type.SHORT) ||
+			     typeLiteral.equals(Type.BOOLEAN)
+			     )
+			     store = new ISTORE( name );
+			 else if ( typeLiteral.equals(Type.FLOAT) )
+			     store = new FSTORE( name );
+			 else if ( typeLiteral instanceof ObjectType )
+			     store = new ASTORE( name );
+			 else
+			     SemErr("unknown type "+typeLiteral);
+			  
+			 lg.setStart( cw.il.append( store ) );
+			}
+			else
+			   SemErr("incompatible types: expected "+typeLiteral+", got "+exprType); 
+			}
+			else
+			    SemErr("duplicate local variable "+varName);
 			
 		}
 	}
@@ -859,14 +905,19 @@ public class Parser {
 		selType = null;
 		Type[] argTypes = Arguments(cw);
 		InstructionFactory factory = new InstructionFactory( cw.classGen );
-		cw.il.append( factory.createInvoke(
-		    className,
-		    method,
-		    getMethod(method, cw.classGen).getReturnType(),
-		    // todo ?????????, ???? ????? ?? ??????
-		    argTypes, 
-		    Constants.INVOKEVIRTUAL 
-		) );
+		
+		Method m = getMethod(method, argTypes, cw.classGen);
+		if (m==null)
+		   SemErr("no such method "+method);
+		else
+		 cw.il.append( factory.createInvoke(
+		     className,
+		     method,
+		     m.getReturnType(),
+		     // todo ?????????, ???? ????? ?? ??????
+		     argTypes, 
+		     Constants.INVOKEVIRTUAL 
+		 ) );
 		
 		return selType;
 	}
