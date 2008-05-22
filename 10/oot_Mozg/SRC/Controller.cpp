@@ -41,24 +41,6 @@ void Controller::Draw(CPaintDC& dc)
    netStruc->Draw(dc);
 }
 
-//void Controller::createNetwork (int newNumberOfHoles, int newNumberOfCell)
-//{
-//}
-//
-//bool Controller::restoreNetwork ()
-//{
-//	return 0;
-//}
-//
-//bool Controller::restorePlayers ()
-//{
-//	return 0;
-//}
-//
-//bool Controller::restoreGame (std::string destanation)
-//{
-//	return 0;
-//}
 void Controller::initialize (std::list<std::string>& names, int nStr)
 {
    //! Проверяем была игра активна
@@ -94,6 +76,8 @@ void Controller::initialize (std::list<std::string>& names, int nStr)
    //! Создается новая структура по ID
    netStruc = new tdata::Data;
    netStruc->generate(nStr);
+
+   nStructNum = nStr;
 
    //! Установить в статусе подсказку, что ходит первый игрок
    mainDlg->setTip("Ход игрока " + 
@@ -159,7 +143,7 @@ void Controller::reset()
    //delete netStruc;
    //netStruc = new Data
    netStruc->clean();
-   netStruc->generate(0);
+   netStruc->generate(nStructNum);
    netStruc->Redraw();
 }
 
@@ -177,7 +161,7 @@ void Controller::Save(std::string strName) const
       return;
    }
 
-   os << idPlayers << separ << idStruct << separ << arch;
+   os << nStructNum << separ << idPlayers << separ << idStruct << separ << arch;
    os.flush();
    os.close();
 }
@@ -201,12 +185,20 @@ bool Controller::Open(std::string strName)
       return false;
    }
    
-   is >> idPlayers >> idStruct >> arch;
+   is >> nStructNum >> idPlayers >> idStruct >> arch;
 
    playersList->GetFromArchive(arch, idPlayers);
    netStruc->GetFromArchive(arch, idStruct);
    Redraw();
    is.close();
+
+   mainDlg->setTip("Ход игрока " + 
+      playersList->getActivePlayer()->getName());
+   mainDlg->ActivateNew();
+   mainDlg->ActivateSave();
+   mainDlg->ActivateOpen();
+   mainDlg->ActivateClose();
+   mainDlg->ActivateReset();
    return true;
 }
 
