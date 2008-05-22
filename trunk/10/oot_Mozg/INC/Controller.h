@@ -57,6 +57,9 @@ class Controller : public iface::iDrawable
       //! \return true, если архив корректно прочитался
       bool Open(std::string strName);
 
+      //! Деактивирует кнопки для дырок, в которые нельзя кинуть фишки
+      void deActivateButtons();
+
       //! Если объект уже создан, возвращает ссылку, иначе создает объект
       static Controller* Instance(CMainDlg* dlg = 0);
    

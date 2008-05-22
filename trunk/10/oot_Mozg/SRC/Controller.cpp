@@ -2,7 +2,7 @@
 //! \file   Controller.cpp
 //! \brief  Реализация класса для управления игрой
 //! \author Bessonov A.V.
-//! \date   17.May.2008 - 20.May.2008
+//! \date   17.May.2008 - 22.May.2008
 // **************************************************************************
 
 // ==========================================================================
@@ -89,17 +89,9 @@ void Controller::makeStep(int hole)
    {
       netStruc->Redraw();     //!< Перерисовываем сеть Перти
       playersList->goNext();  //!< Перешли к следующему игроку
-      //! Сменили подсказку
-      mainDlg->setTip("Ход игрока " + 
-                        playersList->getActivePlayer()->getName());
-      mainDlg->ActivateButtons(TRUE);
-      for (int i = 0; i < 6; i++)
-         if ( netStruc->isPositionBlocked(i) )
-         {
-            CButton button = mainDlg->GetDlgItem(IDC_BUTTON_HOLE1 + i);
-            ATLASSERT(::IsWindow(button.m_hWnd));
-            button.EnableWindow(FALSE);
-         }
+      
+      //! Делаем неактивными кнопки, если нельзя кинуть фишку в их отверстие
+      deActivateButtons();
 
       if (playersList->getActivePlayer()->ifMain())
       {
@@ -143,10 +135,10 @@ void Controller::reset()
       playersList->goNext();
 
    //! Очищаем структуру сети
-   //delete netStruc;
-   //netStruc = new Data
    netStruc->clean();
    netStruc->generate(nStructNum);
+   //! Делаем неактивными кнопки, если нельзя кинуть фишку в их отверстие
+   deActivateButtons();
    netStruc->Redraw();
 }
 
@@ -202,7 +194,26 @@ bool Controller::Open(std::string strName)
    mainDlg->ActivateOpen();
    mainDlg->ActivateClose();
    mainDlg->ActivateReset();
+
+   //! Делаем неактивными кнопки, если нельзя кинуть фишку в их отверстие
+   deActivateButtons();
+
    return true;
+}
+
+void Controller::deActivateButtons()
+{
+   //! Сменили подсказку
+   mainDlg->setTip("Ход игрока " + 
+      playersList->getActivePlayer()->getName());
+   mainDlg->ActivateButtons(TRUE);
+   for (int i = 0; i < 6; i++)
+      if ( netStruc->isPositionBlocked(i) )
+      {
+         CButton button = mainDlg->GetDlgItem(IDC_BUTTON_HOLE1 + i);
+         ATLASSERT(::IsWindow(button.m_hWnd));
+         button.EnableWindow(FALSE);
+      }
 }
 
 //! Инициализация статической переменной
