@@ -203,7 +203,7 @@ bool Data::isPositionBlocked(int i) const
 }
 
 // ==========================================================================
-void Data::clean ()
+void Data::clear ()
 {
    PetriNet<bool>::Clear();
 }

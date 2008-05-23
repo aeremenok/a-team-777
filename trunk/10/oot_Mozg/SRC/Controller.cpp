@@ -239,7 +239,7 @@ void Controller::reset()
       playersList->goNext();
 
    //! Очищаем структуру сети
-   netStruc->clean();
+   netStruc->clear();
    netStruc->generate(nStructNum);
    //! Делаем неактивными кнопки, если нельзя кинуть фишку в их отверстие
    deActivateButtons();

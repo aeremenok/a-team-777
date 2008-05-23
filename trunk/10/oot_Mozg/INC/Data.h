@@ -30,7 +30,7 @@ namespace tdata //!< namespace Data
       virtual void generate (int newNumberOfHoles, int newNumberOfCell);
       virtual bool makeStep (int numberOfHole);
       virtual bool isPositionBlocked(int i) const;
-      virtual void clean ();
+      virtual void clear ();
 
       //********************* интерфейс iDrawable ***************************
       virtual void Redraw() const;

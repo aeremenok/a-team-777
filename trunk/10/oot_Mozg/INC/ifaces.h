@@ -63,7 +63,7 @@ namespace iface   //!< Общие интерфейсы, используемы в программе
       virtual bool isPositionBlocked(int i) const = 0;
 
       //! Очистить структуру от фишек
-      virtual void clean () = 0;
+      virtual void clear () = 0;
 
       virtual ~iNetworkStruct(){}
    };
