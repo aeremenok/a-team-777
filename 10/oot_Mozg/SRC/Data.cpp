@@ -146,7 +146,7 @@ void Data::generate (int newIDofGame)
       AddPositionToOutput(6, 11);
       // 8-й переход
       AddPositionToOutput(7, 11);
-      AddPositionToOutput(7, 4);
+      // AddPositionToOutput(7, 4);
       // 9-й переход
       AddPositionToOutput(8, 12);
       AddPositionToOutput(8, 13);
