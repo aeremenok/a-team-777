@@ -6,8 +6,7 @@
 #include "MainWindow.h"
 
 #include "DeliveryNetwork.h"
-
-#include "AircraftLink.h"
+#include "Exception.h"
 
 void printUsage()
 {
@@ -23,7 +22,6 @@ int main(int argc, char *argv[])
     {0}
   };
   
-  CDeliveryNetwork &net = CDeliveryNetwork::getInstance();
   int indx,opt; 
 
   const char *pConfig=NULL;
@@ -53,6 +51,14 @@ int main(int argc, char *argv[])
   
   mainFrame.showMaximized();
   
-  return app.exec();
+  try
+  {
+    app.exec();
+  }
+  catch(const CException&x)
+  {
+    std::cerr << x;
+  }
+  return 0;    
 }; 
 
