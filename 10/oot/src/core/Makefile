@@ -9,7 +9,7 @@ TARGET ?= core
 
 SRCS = Graph.cpp User.cpp UserCookie.cpp City.cpp EdgeParameters.cpp DeliveryNetwork.cpp \
        AccessibleCitySearch.cpp PossibleRoutes.cpp AircraftLink.cpp ShipLink.cpp TrainLink.cpp \
-       TruckLink.cpp DefaultLink.cpp
+       TruckLink.cpp DefaultLink.cpp Exception.h Trace.h
 
 
 test_SRCS := TestSuite_core.cpp

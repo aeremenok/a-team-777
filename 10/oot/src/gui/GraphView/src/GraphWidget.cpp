@@ -1,3 +1,4 @@
+#include <iostream>
 #include "GraphWidget.h"
 #include "Edge.h"
 #include "Node.h"
@@ -160,14 +161,27 @@ void GraphWidget::scaleView(qreal scaleFactor)
 void GraphWidget::selectPath(CPath<CCity, CDefaultLink> path)
 {
   for(std::map<CGraph<CCity, CEdgeParameters>::pair, Edge*>::iterator it=m_edges.begin(); it!=m_edges.end(); ++it)
+  {
     it->second->setActive(false);
-
+    it->second->update();
+  }
   typedef CPath<CCity, CDefaultLink> Super;
   Super::vertex_iterator next=path.vertex_begin();++next;
   for(Super::vertex_iterator it=path.vertex_begin();next!=path.vertex_end();++it,next++)
   {
     m_edges.find(std::pair<CCity,CCity>(*it,*next))->second->setActive(true); 
+    m_edges.find(std::pair<CCity,CCity>(*it,*next))->second->update(); 
   }
 
   update();
+}
+
+void GraphWidget::setFreeze(bool fl)
+{
+  for(std::map<CCity, Node*>::iterator it=m_nodes.begin(); it!=m_nodes.end();++it)
+  {
+    it->second->setSticky(fl);
+  }
+  if(!fl)
+    centerNode->moveBy(1, 0);
 }

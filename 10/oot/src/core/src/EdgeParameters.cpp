@@ -8,7 +8,7 @@
  * ------------------------------------------------------------------------ */
 
 #include "EdgeParameters.h"
-
+#include "Exception.h"
 CEdgeParameters::CEdgeParameters()
 {
 }
@@ -37,7 +37,7 @@ const CDefaultLink* CEdgeParameters::getLink(CDefaultLink::LinkType type) const
     if(m_links[it]->getType()==type)
       return m_links[it];
   
-  throw;
+  NOT_IMPLEMENTED("ОШИБКА! Запрошено не существующее ребро");
 }
 
 const CDefaultLink* CEdgeParameters::getLink(size_t index) const

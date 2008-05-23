@@ -6,11 +6,21 @@
  * PROJ: oot
  *
  * ------------------------------------------------------------------------ */
-
+#include <fstream>
 #include "DeliveryNetwork.h"
-
+#include "Exception.h"
 CDeliveryNetwork::CDeliveryNetwork()
 {
+  std::ifstream	ifs("map.xml");
+  boost::archive::xml_iarchive iarchive(ifs);
+  try	
+  {
+    iarchive >> boost::serialization::make_nvp("Map", *this);
+  }
+  catch(...)
+  { 
+  }
+  ifs.close();
 }
 
 std::set<CCity> CDeliveryNetwork::getCitys() const
@@ -44,7 +54,7 @@ const CDeliveryNetwork::Graph::edge& CDeliveryNetwork::getEdge(const CCity& from
     if((*it)==edge)
       return *it;
 
-//\todo вставить исключение "ребро не нашел"
+  NOT_IMPLEMENTED("ребро не нашел");
 }
 
 void CDeliveryNetwork::addRoute(const CCity& from, const CCity& to, CDefaultLink *link)
@@ -74,11 +84,21 @@ const CCity& CDeliveryNetwork::getCity(const std::string& name)
     if(it->getName() == name)
       return *it;
 
-  throw 5;
+  NOT_IMPLEMENTED("Запрошен не существующий город");
 }
 
 CDeliveryNetwork::~CDeliveryNetwork()
 {
-
+  std::ofstream	ofs("map.xml");
+  boost::archive::xml_oarchive oarchive(ofs);
+  try	
+  {
+    oarchive << boost::serialization::make_nvp("Map", *this);
+    ofs.flush();
+  }
+  catch(...)
+  {
+  }
+  ofs.close();
 }
 /* ===[ End of file $Source: /cvs/decisions/templates/template.cpp,v $ ]=== */
