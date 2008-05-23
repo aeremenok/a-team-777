@@ -58,14 +58,21 @@ public:
    LRESULT OnBnClickedRadioLocalGame(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
    LRESULT OnBnClickedRadioNetworkGame(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
    LRESULT OnPlayerChanged(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+
+   int GetStructId()
+   {
+      return m_nStructId;
+   }
+
 public:
    //! Количество игроков, задаваемое пользователем в окне
    int m_nPlayersNumber;
    
+   std::vector<std::string> m_strPlayers;
+
+private:
    //! Идентификатор выбранной структуры данных
    int m_nStructId;
-   
-   std::vector<std::string> m_strPlayers;
 };
 }
 // ==========================================================================

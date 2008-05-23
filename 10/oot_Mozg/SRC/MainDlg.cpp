@@ -208,7 +208,7 @@ LRESULT CMainDlg::OnNew(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& 
       }
 
       //! Вызов инициализации
-      Game::Controller::Instance()->initialize(names, dlg.m_nStructId);
+      Game::Controller::Instance()->initialize(names, dlg.GetStructId());
       
    }else
    { //! Произошла отмена, проверяем была ли игра активной ранее
