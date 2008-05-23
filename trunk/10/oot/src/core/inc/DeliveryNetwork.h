@@ -44,6 +44,12 @@ private:
    */
   void findPossiblesRoutes(const CCity& destination, Path& current, std::list<Path> &res);
 
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version)
+  {
+    ar & BOOST_SERIALIZATION_NVP(m_graph);
+  }
 public:
 
   const Graph& getContainer() const

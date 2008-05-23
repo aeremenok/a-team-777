@@ -32,6 +32,7 @@ CMainWindow::CMainWindow(QWidget * parent, Qt::WindowFlags f): QMainWindow(paren
 
   connect(m_form.add_city,SIGNAL(triggered()),SLOT(addCity()));
   connect(m_form.add_route,SIGNAL(triggered()),SLOT(addRoute()));
+  connect(m_form.freeze,SIGNAL(toggled(bool)),w,SLOT(setFreeze(bool)));
 }
 
 

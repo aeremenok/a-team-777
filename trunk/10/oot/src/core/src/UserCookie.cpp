@@ -25,7 +25,7 @@ CUserCookie& CUserCookie::getInstance()
 CUserCookie::CUserCookie()
 {
 
-  std::ifstream	ifs("test.xml");
+  std::ifstream	ifs("user.xml");
   boost::archive::xml_iarchive iarchive(ifs);
   try	
   {
@@ -40,7 +40,7 @@ CUserCookie::CUserCookie()
 
 CUserCookie::~CUserCookie()
 {
-  std::ofstream	ofs("test.xml");
+  std::ofstream	ofs("user.xml");
   boost::archive::xml_oarchive oarchive(ofs);
   try	
   {

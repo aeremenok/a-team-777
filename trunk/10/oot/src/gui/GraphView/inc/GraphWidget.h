@@ -23,7 +23,8 @@ public:
 public slots:
 
     void selectPath(CPath<CCity, CDefaultLink>);
-
+    
+    void setFreeze(bool fl);
 protected:
     void keyPressEvent(QKeyEvent *event);
     void timerEvent(QTimerEvent *event);

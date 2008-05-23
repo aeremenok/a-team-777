@@ -29,6 +29,8 @@
     <addaction name="m_newCargo" />
     <addaction name="add_city" />
     <addaction name="add_route" />
+    <addaction name="separator" />
+    <addaction name="freeze" />
    </widget>
    <addaction name="menu" />
   </widget>
@@ -46,6 +48,17 @@
   <action name="add_route" >
    <property name="text" >
     <string>Добавить новый маршрут</string>
+   </property>
+  </action>
+  <action name="freeze" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>false</bool>
+   </property>
+   <property name="text" >
+    <string>Зафиксировать карту</string>
    </property>
   </action>
  </widget>

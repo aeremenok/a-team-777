@@ -27,8 +27,6 @@ public:
    * \return stm после вывода
    */
   virtual std::ostream& outToStream(std::ostream& stm) const=0;
-
-  virtual std::istream& inFromStream(std::istream& stm) const=0;
 }; // class IStreamable
 
 /*!
@@ -37,11 +35,6 @@ public:
 inline std::ostream& operator << (std::ostream& stm,const IStreamable& obj)
 {
   return obj.outToStream(stm);
-}
-
-inline std::istream& operator >> (std::istream& stm, const IStreamable& obj)
-{
-  return obj.inFromStream(stm);
 }
 
 #endif //_CStreamable_H_1BBACD52_4FAC_4F9B_9C15_4AFE84F1D35F_INCLUDED_
