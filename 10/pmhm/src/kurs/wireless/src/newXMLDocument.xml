@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : newXMLDocument.xml
+    Created on : 23 Май 2008 г., 12:36
+    Author     : eav
+    Description:
+        Purpose of the document follows.
+-->
+
+<ns1:site  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns:ns1='null'
+   xsi:schemaLocation='null technologies.xsd'>
+
+</ns1:site>
