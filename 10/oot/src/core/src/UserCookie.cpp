@@ -25,32 +25,32 @@ CUserCookie& CUserCookie::getInstance()
 CUserCookie::CUserCookie()
 {
 
-  std::ifstream	ifs("user.xml");
-  boost::archive::xml_iarchive iarchive(ifs);
   try	
   {
+    std::ifstream	ifs("user.xml");
+    boost::archive::xml_iarchive iarchive(ifs);
     iarchive >> boost::serialization::make_nvp("UserCookie", *this);
+    ifs.close();
   }
   catch(...)
   { 
   }
-  ifs.close();
   m_current = CUser::UNKNOWN;
 }
 
 CUserCookie::~CUserCookie()
 {
-  std::ofstream	ofs("user.xml");
-  boost::archive::xml_oarchive oarchive(ofs);
   try	
   {
+    std::ofstream	ofs("user.xml");
+    boost::archive::xml_oarchive oarchive(ofs);
     oarchive << boost::serialization::make_nvp("UserCookie", *this);
     ofs.flush();
+    ofs.close();
   }
   catch(...)
   {
   }
-  ofs.close();
 }
   
 static CUser unknownUser("unknown", CUser::UNKNOWN);

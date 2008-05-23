@@ -239,6 +239,21 @@ private:
   template<class Archive>
   void serialize(Archive & ar, const unsigned int version)
   {
+    ar.register_type(static_cast<CStupidLink *>(NULL));
+    ar.register_type(static_cast<CDefaultLink *>(NULL));
+    ar.register_type(static_cast<CAircraftLink *>(NULL));
+    ar.register_type(static_cast<CS7Link *>(NULL));
+    ar.register_type(static_cast<CPulkovoLink *>(NULL));
+    ar.register_type(static_cast<CAeroflotLink *>(NULL));
+    ar.register_type(static_cast<CShipLink *>(NULL));
+    ar.register_type(static_cast<CLimcoLink *>(NULL));
+    ar.register_type(static_cast<CAlfaLink *>(NULL));
+    ar.register_type(static_cast<CTrainLink *>(NULL));
+    ar.register_type(static_cast<CRZDLink *>(NULL));
+    ar.register_type(static_cast<CASDLink *>(NULL));
+    ar.register_type(static_cast<CTruckLink *>(NULL));
+    ar.register_type(static_cast<CCargoLink *>(NULL));
+    ar.register_type(static_cast<CVasjaLink *>(NULL));
     ar & BOOST_SERIALIZATION_NVP(edges);
     ar & BOOST_SERIALIZATION_NVP(vertices);
   }

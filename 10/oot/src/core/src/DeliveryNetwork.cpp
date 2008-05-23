@@ -11,16 +11,16 @@
 #include "Exception.h"
 CDeliveryNetwork::CDeliveryNetwork()
 {
-  std::ifstream	ifs("map.xml");
-  boost::archive::xml_iarchive iarchive(ifs);
   try	
   {
+    std::ifstream	ifs("map.xml");
+    boost::archive::xml_iarchive iarchive(ifs);
     iarchive >> boost::serialization::make_nvp("Map", *this);
+    ifs.close();
   }
   catch(...)
   { 
   }
-  ifs.close();
 }
 
 std::set<CCity> CDeliveryNetwork::getCitys() const

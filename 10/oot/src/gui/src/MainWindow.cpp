@@ -45,9 +45,17 @@ void CMainWindow::showEvent(QShowEvent *event)
     if(dialog.exec()==QDialog::Rejected)
       exit(0);
     m_dock->getWidget().updateModel(CUserCookie::getInstance().getUser());
+    initGui(CUserCookie::getInstance().getUser());
   }
+
 }
 
+void CMainWindow::initGui(const CUser& user)
+{
+  m_form.add_city->setVisible(user.getType()==CUser::MANAGER);
+  m_form.add_route->setVisible(user.getType()==CUser::MANAGER);
+  m_form.m_newCargo->setVisible(user.getType()==CUser::CLIENT);
+}
 
 void CMainWindow::addCargo()
 {

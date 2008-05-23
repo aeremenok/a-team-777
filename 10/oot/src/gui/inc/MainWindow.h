@@ -35,7 +35,8 @@ class CMainWindow: public QMainWindow
   CDockWidget<CRoutesView> * m_dock;
 protected:
   virtual void showEvent(QShowEvent *event);
-
+  
+  void initGui(const CUser& user);
 protected slots:
   void addCargo();
   void addCity();

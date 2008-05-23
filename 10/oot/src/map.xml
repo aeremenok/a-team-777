@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="4">
+<Map class_id="0" tracking_level="0" version="0">
+	<m_graph class_id="1" tracking_level="0" version="0">
+		<edges class_id="17" tracking_level="0" version="0">
+			<count>1</count>
+			<item_version>0</item_version>
+			<item class_id="18" tracking_level="0" version="0">
+				<vertex_pair class_id="19" tracking_level="0" version="0">
+					<first class_id="20" tracking_level="0" version="0">
+						<m_name>q3we</m_name>
+						<m_people>0</m_people>
+					</first>
+					<second>
+						<m_name>regfd</m_name>
+						<m_people>0</m_people>
+					</second>
+				</vertex_pair>
+				<cost class_id="21" tracking_level="0" version="0">
+					<m_links class_id="22" tracking_level="0" version="0">
+						<count>1</count>
+						<item_version>0</item_version>
+						<item class_id="6" tracking_level="1" version="0" object_id="_0">
+							<CAircraftLink class_id="4" tracking_level="1" version="0" object_id="_1">
+								<CDefaultLink class_id="3" tracking_level="1" version="0" object_id="_2">
+									<m_type>0</m_type>
+									<m_cost>0</m_cost>
+									<m_time>0</m_time>
+								</CDefaultLink>
+							</CAircraftLink>
+						</item>
+					</m_links>
+				</cost>
+			</item>
+		</edges>
+		<vertices class_id="23" tracking_level="0" version="0">
+			<count>2</count>
+			<item_version>0</item_version>
+			<item>
+				<m_name>q3we</m_name>
+				<m_people>0</m_people>
+			</item>
+			<item>
+				<m_name>regfd</m_name>
+				<m_people>0</m_people>
+			</item>
+		</vertices>
+	</m_graph>
+</Map>
