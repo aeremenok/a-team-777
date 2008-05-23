@@ -65,7 +65,7 @@ public class Parser {
 	static final int _intLit = 8;
 	static final int _floatLit = 9;
 	static final int _stringLit = 10;
-	static final int maxT = 44;
+	static final int maxT = 43;
 
 	static final boolean T = true;
 	static final boolean x = false;
@@ -225,46 +225,39 @@ public class Parser {
 		return value;
 	}
 
-	int  finalAccess() {
-		int  modifier;
-		Expect(11);
-		modifier = Constants.ACC_FINAL;
-		return modifier;
-	}
-
 	void CompilationUnit() {
 		typeDeclaration();
-		while (la.kind == 12 || la.kind == 15 || la.kind == 16) {
+		while (la.kind == 11 || la.kind == 14 || la.kind == 15) {
 			typeDeclaration();
 		}
 	}
 
 	void typeDeclaration() {
 		int specifier = 0;
-		if (la.kind == 16) {
+		if (la.kind == 15) {
 			specifier = accessSpecifier();
 		}
-		if (la.kind == 15) {
+		if (la.kind == 14) {
 			interfaceDeclaration(specifier);
-		} else if (la.kind == 12) {
+		} else if (la.kind == 11) {
 			classDeclaration(specifier);
-		} else SynErr(45);
+		} else SynErr(44);
 	}
 
 	int  accessSpecifier() {
 		int  specifier;
 		specifier = 0;
-		Expect(16);
+		Expect(15);
 		specifier = Constants.ACC_PUBLIC;
 		return specifier;
 	}
 
 	void interfaceDeclaration(int modifier) {
-		Expect(15);
+		Expect(14);
 		modifier |= Constants.ACC_INTERFACE | Constants.ACC_ABSTRACT; 
 		String interfaceName = identifier();
 		String superInterfaceName = null;
-		if (la.kind == 13) {
+		if (la.kind == 12) {
 			Get();
 			superInterfaceName = identifier();
 			if(superInterfaceName.equals(interfaceName)) SemErr("cannot self-inherit");
@@ -292,10 +285,10 @@ public class Parser {
 	}
 
 	void classDeclaration(int modifier) {
-		Expect(12);
+		Expect(11);
 		String className = identifier();
 		String superName = "java.lang.Object";
-		if (la.kind == 13) {
+		if (la.kind == 12) {
 			Get();
 			superName = identifier();
 			if(superName.equals(className)) SemErr("cannot self-inherit");
@@ -304,7 +297,7 @@ public class Parser {
 			
 		}
 		String interfaceName = null;
-		if (la.kind == 14) {
+		if (la.kind == 13) {
 			Get();
 			interfaceName = identifier();
 			if(interfaceName.equals(className)) SemErr("cannot self-inherit");
@@ -339,7 +332,7 @@ public class Parser {
 		Expect(4);
 		while (StartOf(1)) {
 			int modifier = 0;
-			if (la.kind == 16) {
+			if (la.kind == 15) {
 				modifier = accessSpecifier();
 			}
 			if (next(_openRoundBracket)) {
@@ -382,22 +375,18 @@ public class Parser {
 				                      SemErr("duplicate constructor "+methodName);
 				                 } 
 				             
-			} else if (StartOf(3)) {
-				if (la.kind == 11) {
-					int fMod = finalAccess();
-					modifier |= fMod;
-				}
+			} else if (StartOf(2)) {
 				Type typeLiteral = null;
-				if (StartOf(4)) {
+				if (StartOf(3)) {
 					typeLiteral = type();
-				} else if (la.kind == 1) {
+				} else {
 					String typeName = identifier();
 					if (classes.get(typeName)==null)
 					   SemErr("no such type "+typeName);
 					else
 					  typeLiteral = new ObjectType(typeName);
 					      
-				} else SynErr(46);
+				}
 				String member = identifier();
 				if (la.kind == 2) {
 					Args args = new Args();
@@ -441,7 +430,7 @@ public class Parser {
 					else
 					    SemErr("duplicate method "+member);
 					
-				} else if (la.kind == 24) {
+				} else if (la.kind == 23) {
 					FieldGen fieldGen = new FieldGen(
 					   modifier,
 					   typeLiteral,
@@ -454,8 +443,8 @@ public class Parser {
 					    classGen.addField( fieldGen.getField() );                         
 					
 					Get();
-				} else SynErr(47);
-			} else SynErr(48);
+				} else SynErr(45);
+			} else SynErr(46);
 		}
 		Expect(5);
 	}
@@ -464,19 +453,15 @@ public class Parser {
 		Expect(4);
 		while (StartOf(1)) {
 			int modifier = 0;
-			if (la.kind == 16) {
+			if (la.kind == 15) {
 				modifier = accessSpecifier();
 				if (modifier == Constants.ACC_PRIVATE || modifier == Constants.ACC_PROTECTED)
 				       SemErr("interface memebers ought to be public or default");
 				     modifier = Constants.ACC_PUBLIC;
 				 
 			}
-			if (la.kind == 11) {
-				int fMod = finalAccess();
-				modifier |= fMod;
-			}
 			Type typeLiteral = null;
-			if (StartOf(4)) {
+			if (StartOf(3)) {
 				typeLiteral = type();
 			} else if (la.kind == 1) {
 				String typeName = identifier();
@@ -485,7 +470,7 @@ public class Parser {
 				else
 				    typeLiteral = new ObjectType(typeName);
 				
-			} else SynErr(49);
+			} else SynErr(47);
 			log("abstr method");
 			String methodName = identifier();
 			Args args = new Args();
@@ -494,9 +479,9 @@ public class Parser {
 				formalParameterList(args);
 			}
 			Expect(3);
-			Expect(24);
+			Expect(23);
 			MethodGen methodGen = new MethodGen(
-			   modifier,
+			   modifier | Constants.ACC_ABSTRACT,
 			         typeLiteral,
 			         args.argTypes,
 			         args.argNames,
@@ -514,37 +499,37 @@ public class Parser {
 		Type  typeLiteral;
 		typeLiteral = null;
 		switch (la.kind) {
-		case 17: {
+		case 16: {
 			Get();
 			typeLiteral = Type.BOOLEAN;
 			break;
 		}
-		case 18: {
+		case 17: {
 			Get();
 			typeLiteral = Type.INT;
 			break;
 		}
-		case 19: {
+		case 18: {
 			Get();
 			typeLiteral = Type.FLOAT;
 			break;
 		}
-		case 20: {
+		case 19: {
 			Get();
 			typeLiteral = Type.VOID;
 			break;
 		}
-		case 21: {
+		case 20: {
 			Get();
 			typeLiteral = new ObjectType("java.lang.String");
 			break;
 		}
-		case 22: {
+		case 21: {
 			Get();
 			typeLiteral = new ObjectType("java.util.Vector");
 			break;
 		}
-		default: SynErr(50); break;
+		default: SynErr(48); break;
 		}
 		return typeLiteral;
 	}
@@ -554,7 +539,7 @@ public class Parser {
 		ArrayList<String> names = new ArrayList<String>();
 		Type typeLiteral = null;
 		
-		if (StartOf(4)) {
+		if (StartOf(3)) {
 			typeLiteral = type();
 		} else if (la.kind == 1) {
 			String typeName = identifier();
@@ -563,13 +548,13 @@ public class Parser {
 			else
 			    typeLiteral = new ObjectType(typeName);               
 			
-		} else SynErr(51);
+		} else SynErr(49);
 		types.add(typeLiteral);
 		String param = identifier();
 		names.add(param);
-		while (la.kind == 23) {
+		while (la.kind == 22) {
 			Get();
-			if (StartOf(4)) {
+			if (StartOf(3)) {
 				typeLiteral = type();
 			} else if (la.kind == 1) {
 				String typeName = identifier();
@@ -578,7 +563,7 @@ public class Parser {
 				else
 				    typeLiteral = new ObjectType(typeName);	        
 				
-			} else SynErr(52);
+			} else SynErr(50);
 			types.add(typeLiteral);
 			param = identifier();
 			names.add(param);
@@ -594,7 +579,7 @@ public class Parser {
 			Block(cw);
 			break;
 		}
-		case 25: {
+		case 24: {
 			Get();
 			Type exprType = ParExpression(cw);
 			IFEQ ifeq = new IFEQ(null);
@@ -602,7 +587,7 @@ public class Parser {
 			
 			Statement(cw);
 			GOTO g = new GOTO(null); cw.last = cw.il.append(g);
-			if (la.kind == 26) {
+			if (la.kind == 25) {
 				Get();
 				ifeq.setTarget( cw.il.append(new NOP()) );
 				Statement(cw);
@@ -613,7 +598,7 @@ public class Parser {
 			
 			break;
 		}
-		case 27: {
+		case 26: {
 			Get();
 			Type exprType = ParExpression(cw);
 			InstructionHandle begin = cw.last; // ?????????????? ????????? todo ????????? ?? ???????? 
@@ -626,31 +611,31 @@ public class Parser {
 			
 			break;
 		}
-		case 28: {
+		case 27: {
 			Get();
-			if (StartOf(5)) {
+			if (StartOf(4)) {
 				Type exprType = Expression(cw);
 				cw.last = cw.il.append( InstructionConstants.RETURN );
 			}
-			Expect(24);
+			Expect(23);
 			break;
 		}
-		case 24: {
+		case 23: {
 			Get();
 			break;
 		}
-		case 1: case 2: case 8: case 9: case 10: case 29: case 30: case 31: case 32: case 33: case 34: case 35: case 36: {
+		case 1: case 2: case 8: case 9: case 10: case 28: case 29: case 30: case 31: case 32: case 33: case 34: case 35: {
 			Type exprType = Expression(cw);
-			Expect(24);
+			Expect(23);
 			break;
 		}
-		default: SynErr(53); break;
+		default: SynErr(51); break;
 		}
 	}
 
 	void Block(CodeWrapper cw) {
 		Expect(4);
-		while (StartOf(6)) {
+		while (StartOf(5)) {
 			BlockStatement(cw);
 		}
 		Expect(5);
@@ -668,7 +653,7 @@ public class Parser {
 		Type  exprType;
 		exprType = null;
 		switch (la.kind) {
-		case 29: {
+		case 28: {
 			Get();
 			log("sout");
 			InstructionFactory factory = new InstructionFactory( cw.classGen );
@@ -695,7 +680,7 @@ public class Parser {
 			
 			break;
 		}
-		case 30: {
+		case 29: {
 			Get();
 			log("sout");
 			InstructionFactory factory = new InstructionFactory( cw.classGen );
@@ -724,12 +709,12 @@ public class Parser {
 			
 			break;
 		}
-		case 31: {
+		case 30: {
 			Get();
 			exprType = Creator(cw);
 			break;
 		}
-		case 8: case 9: case 10: case 34: case 35: case 36: {
+		case 8: case 9: case 10: case 33: case 34: case 35: {
 			exprType = Literal(cw);
 			break;
 		}
@@ -748,15 +733,15 @@ public class Parser {
 			
 			break;
 		}
-		case 1: case 32: case 33: {
+		case 1: case 31: case 32: {
 			String className= cw.classGen.getClassName();
 			int objIndex = -1;
 			
 			if (next(_dot)) {
-				if (la.kind == 32) {
+				if (la.kind == 31) {
 					Get();
 					objIndex = 0;
-				} else if (la.kind == 33) {
+				} else if (la.kind == 32) {
 					Get();
 					objIndex = 0; className = cw.classGen.getSuperclassName();
 				} else if (la.kind == 1) {
@@ -770,7 +755,7 @@ public class Parser {
 					
 					objIndex = lg.getIndex();
 					
-				} else SynErr(54);
+				} else SynErr(52);
 				Expect(6);
 				exprType = Selector(cw, className, objIndex);
 			} else {
@@ -778,7 +763,7 @@ public class Parser {
 			}
 			break;
 		}
-		default: SynErr(55); break;
+		default: SynErr(53); break;
 		}
 		return exprType;
 	}
@@ -786,17 +771,17 @@ public class Parser {
 	void BlockStatement(CodeWrapper cw) {
 		if (next(_id)) {
 			LocalVariableDeclaration(cw);
-			Expect(24);
-		} else if (StartOf(7)) {
+			Expect(23);
+		} else if (StartOf(6)) {
 			Statement(cw);
-		} else SynErr(56);
+		} else SynErr(54);
 	}
 
 	void LocalVariableDeclaration(CodeWrapper cw) {
 		InstructionFactory factory = new InstructionFactory( cw.classGen );
 		Type typeLiteral = null;
 		
-		if (StartOf(4)) {
+		if (StartOf(3)) {
 			typeLiteral = type();
 		} else if (la.kind == 1) {
 			String typeName = identifier();
@@ -810,7 +795,7 @@ public class Parser {
 				cw.last = cw.il.append( InstructionConstants.DUP );
 			      } 
 			  
-		} else SynErr(57);
+		} else SynErr(55);
 		String varName = identifier();
 		if (getVarGen(varName, cw.methodGen)!=null)
 		   SemErr("duplicate local variable "+varName);
@@ -854,10 +839,10 @@ public class Parser {
 		Type[]  argTypes;
 		ArrayList<Type> types = new ArrayList<Type>();
 		Expect(2);
-		if (StartOf(5)) {
+		if (StartOf(4)) {
 			Type exprType = Expression(cw);
 			types.add(exprType);
-			while (la.kind == 23) {
+			while (la.kind == 22) {
 				Get();
 				exprType = Expression(cw);
 				types.add(exprType);
@@ -870,7 +855,13 @@ public class Parser {
 
 	Type  Creator(CodeWrapper cw) {
 		Type  createdType;
-		String className = identifier();
+		String className=null;
+		if (la.kind == 21) {
+			Get();
+			className="java.util.Vector";
+		} else if (la.kind == 1) {
+			className = identifier();
+		} else SynErr(56);
 		Type[] argTypes = Arguments(cw);
 		if (classes.get(className)==null)
 		{
@@ -896,7 +887,7 @@ public class Parser {
 	Type  Literal(CodeWrapper cw) {
 		Type  exprType;
 		exprType = null;
-		if (StartOf(8)) {
+		if (StartOf(7)) {
 			Object value = null;
 			InstructionFactory factory = new InstructionFactory( cw.classGen );
 			log("lit="+la.val);
@@ -907,10 +898,10 @@ public class Parser {
 			} else if (la.kind == 9) {
 				Get();
 				exprType = Type.FLOAT; value = new Float(t.val);
-			} else if (la.kind == 34) {
+			} else if (la.kind == 33) {
 				Get();
 				exprType = Type.BOOLEAN; value = new Boolean(t.val);
-			} else if (la.kind == 35) {
+			} else if (la.kind == 34) {
 				Get();
 				exprType = Type.BOOLEAN; value = new Boolean(t.val);
 			} else {
@@ -918,10 +909,10 @@ public class Parser {
 				exprType = new ObjectType("java.lang.String"); value = t.val.substring(1, t.val.length()-1);
 			}
 			cw.last = cw.il.append( factory.createConstant( value )); 
-		} else if (la.kind == 36) {
+		} else if (la.kind == 35) {
 			Get();
 			exprType = Type.NULL; cw.last = cw.il.append( new ACONST_NULL());
-		} else SynErr(58);
+		} else SynErr(57);
 		return exprType;
 	}
 
@@ -929,7 +920,7 @@ public class Parser {
 		ArithmeticInstruction  instr;
 		instr = null;
 		switch (la.kind) {
-		case 37: {
+		case 36: {
 			Get();
 			if (exprType.equals(Type.BOOLEAN))
 			  instr = new IOR();
@@ -938,7 +929,7 @@ public class Parser {
 			
 			break;
 		}
-		case 38: {
+		case 37: {
 			Get();
 			if (exprType.equals(Type.BOOLEAN))
 			  instr = new IAND();
@@ -947,7 +938,7 @@ public class Parser {
 			
 			break;
 		}
-		case 39: {
+		case 38: {
 			Get();
 			if (exprType.equals(Type.INT))
 			  instr = new IADD();
@@ -958,7 +949,7 @@ public class Parser {
 			
 			break;
 		}
-		case 40: {
+		case 39: {
 			Get();
 			if (exprType.equals(Type.INT))
 			  instr = new ISUB();
@@ -969,7 +960,7 @@ public class Parser {
 			
 			break;
 		}
-		case 41: {
+		case 40: {
 			Get();
 			if (exprType.equals(Type.INT))
 			  instr = new IMUL();
@@ -980,7 +971,7 @@ public class Parser {
 			
 			break;
 		}
-		case 42: {
+		case 41: {
 			Get();
 			if (exprType.equals(Type.INT))
 			  instr = new IDIV();
@@ -991,7 +982,7 @@ public class Parser {
 			
 			break;
 		}
-		case 43: {
+		case 42: {
 			Get();
 			if (exprType.equals(Type.INT))
 			  instr = new IREM();
@@ -1002,7 +993,7 @@ public class Parser {
 			
 			break;
 		}
-		default: SynErr(59); break;
+		default: SynErr(58); break;
 		}
 		return instr;
 	}
@@ -1015,7 +1006,7 @@ public class Parser {
 			selType = call(cw, className);
 		} else if (la.kind == 1) {
 			selType = var(cw, className, objIndex);
-		} else SynErr(60);
+		} else SynErr(59);
 		return selType;
 	}
 
@@ -1026,7 +1017,9 @@ public class Parser {
 		Type[] argTypes = Arguments(cw);
 		InstructionFactory factory = new InstructionFactory( cw.classGen );
 		
-		Method m = getMethod(method, argTypes, cw.classGen);
+		Method m = getMethod(method, argTypes, cw.classGen  
+		// todo ????? ??? ?? ???? ??? ???????????
+		);
 		if (m==null)
 		   SemErr("no such method "+method);
 		else
@@ -1105,7 +1098,7 @@ public class Parser {
 			
 		} else if (la.kind == 1) {
 			selType = access(cw, className);
-		} else SynErr(61);
+		} else SynErr(60);
 		return selType;
 	}
 
@@ -1167,15 +1160,14 @@ public class Parser {
 	}
 
 	private boolean[][] set = {
-		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
-		{x,T,x,x, x,x,x,x, x,x,x,T, x,x,x,x, T,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
-		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
-		{x,T,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
-		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
-		{x,T,T,x, x,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
-		{x,T,T,x, T,x,x,x, T,T,T,x, x,x,x,x, x,T,T,T, T,T,T,x, T,T,x,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
-		{x,T,T,x, T,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,x,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
-		{x,x,x,x, x,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, x,x,x,x, x,x,x,x, x,x}
+		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x},
+		{x,T,T,x, x,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x},
+		{x,T,T,x, T,x,x,x, T,T,T,x, x,x,x,x, T,T,T,T, T,T,x,T, T,x,T,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x},
+		{x,T,T,x, T,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,T, T,x,T,T, T,T,T,T, T,T,T,T, x,x,x,x, x,x,x,x, x},
+		{x,x,x,x, x,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,x, x,x,x,x, x,x,x,x, x}
 
 	};
 } // end Parser
@@ -1211,57 +1203,56 @@ class Errors {
 			case 8: s = "intLit expected"; break;
 			case 9: s = "floatLit expected"; break;
 			case 10: s = "stringLit expected"; break;
-			case 11: s = "\"final\" expected"; break;
-			case 12: s = "\"class\" expected"; break;
-			case 13: s = "\"extends\" expected"; break;
-			case 14: s = "\"implements\" expected"; break;
-			case 15: s = "\"interface\" expected"; break;
-			case 16: s = "\"public\" expected"; break;
-			case 17: s = "\"boolean\" expected"; break;
-			case 18: s = "\"int\" expected"; break;
-			case 19: s = "\"float\" expected"; break;
-			case 20: s = "\"void\" expected"; break;
-			case 21: s = "\"String\" expected"; break;
-			case 22: s = "\"Vector\" expected"; break;
-			case 23: s = "\",\" expected"; break;
-			case 24: s = "\";\" expected"; break;
-			case 25: s = "\"if\" expected"; break;
-			case 26: s = "\"else\" expected"; break;
-			case 27: s = "\"while\" expected"; break;
-			case 28: s = "\"return\" expected"; break;
-			case 29: s = "\"System.out.println\" expected"; break;
-			case 30: s = "\"System.out.print\" expected"; break;
-			case 31: s = "\"new\" expected"; break;
-			case 32: s = "\"this\" expected"; break;
-			case 33: s = "\"super\" expected"; break;
-			case 34: s = "\"true\" expected"; break;
-			case 35: s = "\"false\" expected"; break;
-			case 36: s = "\"null\" expected"; break;
-			case 37: s = "\"||\" expected"; break;
-			case 38: s = "\"&&\" expected"; break;
-			case 39: s = "\"+\" expected"; break;
-			case 40: s = "\"-\" expected"; break;
-			case 41: s = "\"*\" expected"; break;
-			case 42: s = "\"/\" expected"; break;
-			case 43: s = "\"%\" expected"; break;
-			case 44: s = "??? expected"; break;
-			case 45: s = "invalid typeDeclaration"; break;
+			case 11: s = "\"class\" expected"; break;
+			case 12: s = "\"extends\" expected"; break;
+			case 13: s = "\"implements\" expected"; break;
+			case 14: s = "\"interface\" expected"; break;
+			case 15: s = "\"public\" expected"; break;
+			case 16: s = "\"boolean\" expected"; break;
+			case 17: s = "\"int\" expected"; break;
+			case 18: s = "\"float\" expected"; break;
+			case 19: s = "\"void\" expected"; break;
+			case 20: s = "\"String\" expected"; break;
+			case 21: s = "\"Vector\" expected"; break;
+			case 22: s = "\",\" expected"; break;
+			case 23: s = "\";\" expected"; break;
+			case 24: s = "\"if\" expected"; break;
+			case 25: s = "\"else\" expected"; break;
+			case 26: s = "\"while\" expected"; break;
+			case 27: s = "\"return\" expected"; break;
+			case 28: s = "\"System.out.println\" expected"; break;
+			case 29: s = "\"System.out.print\" expected"; break;
+			case 30: s = "\"new\" expected"; break;
+			case 31: s = "\"this\" expected"; break;
+			case 32: s = "\"super\" expected"; break;
+			case 33: s = "\"true\" expected"; break;
+			case 34: s = "\"false\" expected"; break;
+			case 35: s = "\"null\" expected"; break;
+			case 36: s = "\"||\" expected"; break;
+			case 37: s = "\"&&\" expected"; break;
+			case 38: s = "\"+\" expected"; break;
+			case 39: s = "\"-\" expected"; break;
+			case 40: s = "\"*\" expected"; break;
+			case 41: s = "\"/\" expected"; break;
+			case 42: s = "\"%\" expected"; break;
+			case 43: s = "??? expected"; break;
+			case 44: s = "invalid typeDeclaration"; break;
+			case 45: s = "invalid classBody"; break;
 			case 46: s = "invalid classBody"; break;
-			case 47: s = "invalid classBody"; break;
-			case 48: s = "invalid classBody"; break;
-			case 49: s = "invalid interfaceBody"; break;
-			case 50: s = "invalid type"; break;
-			case 51: s = "invalid formalParameterList"; break;
-			case 52: s = "invalid formalParameterList"; break;
-			case 53: s = "invalid Statement"; break;
-			case 54: s = "invalid Expression"; break;
-			case 55: s = "invalid Expression"; break;
-			case 56: s = "invalid BlockStatement"; break;
-			case 57: s = "invalid LocalVariableDeclaration"; break;
-			case 58: s = "invalid Literal"; break;
-			case 59: s = "invalid Infixop"; break;
-			case 60: s = "invalid Selector"; break;
-			case 61: s = "invalid var"; break;
+			case 47: s = "invalid interfaceBody"; break;
+			case 48: s = "invalid type"; break;
+			case 49: s = "invalid formalParameterList"; break;
+			case 50: s = "invalid formalParameterList"; break;
+			case 51: s = "invalid Statement"; break;
+			case 52: s = "invalid Expression"; break;
+			case 53: s = "invalid Expression"; break;
+			case 54: s = "invalid BlockStatement"; break;
+			case 55: s = "invalid LocalVariableDeclaration"; break;
+			case 56: s = "invalid Creator"; break;
+			case 57: s = "invalid Literal"; break;
+			case 58: s = "invalid Infixop"; break;
+			case 59: s = "invalid Selector"; break;
+			case 60: s = "invalid var"; break;
 			default: s = "error " + n; break;
 		}
 		printMsg(line, col, s);

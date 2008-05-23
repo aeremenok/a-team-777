@@ -146,6 +146,7 @@ CHARACTERS
   digit         = '0' + nonZeroDigit.
   hexDigit      = digit + "ABCDEFabcdef".
   letter        = 'A' .. 'Z' + 'a' .. 'z' + '_' + '$'.
+  new           = "new".
 
   char          = ANY - "'" - '\\' - cr - lf.
   stringChar    = ANY - "\"" - '\\' - cr - lf. 
@@ -214,11 +215,6 @@ id
     log("id="+t.val);
     if (value.equals("new")) SemErr("\"new\" is not a valid id");
  .)
-.
-/*----------------------------------finalAccess----------------------------------*/
-finalAccess<out int modifier>
-=
- "final" (.modifier = Constants.ACC_FINAL;.)
 .
 /*----------------------------------CompilationUnit----------------------------------*/
 CompilationUnit = 
@@ -430,7 +426,6 @@ classBody<ClassGen classGen> =
 		    )
             |
             (   // это обычный член класса
-                [finalAccess<out int fMod>      (.modifier |= fMod;.)]
                 (.Type typeLiteral = null;.)
                 (
                     type<out typeLiteral>       
@@ -523,7 +518,6 @@ interfaceBody<ClassGen classGen> =
               modifier = Constants.ACC_PUBLIC;
           .)
 		]
-		[finalAccess<out int fMod>    (.modifier |= fMod;.)]
 		(.Type typeLiteral = null;.)
 		(
 			type<out typeLiteral>       
@@ -542,7 +536,7 @@ interfaceBody<ClassGen classGen> =
 		openRoundBracket [formalParameterList<args>] closeRoundBracket ';'
 		(.
 		  MethodGen methodGen = new MethodGen(
-		      modifier,
+		      modifier | Constants.ACC_ABSTRACT,
               typeLiteral,
               args.argTypes,
               args.argNames,
@@ -814,7 +808,9 @@ call<out Type selType, CodeWrapper cw, String className>
 	(.  // в стеке лежат значения аргументов, вызываем метод
 	    InstructionFactory factory = new InstructionFactory( cw.classGen );
 	    
-	    Method m = getMethod(method, argTypes, cw.classGen);
+	    Method m = getMethod(method, argTypes, cw.classGen  
+	    // todo здесь мог бы быть ваш полиморфизм
+	    );
 	    if (m==null)
 	       SemErr("no such method "+method);
 	    else
@@ -979,7 +975,8 @@ Literal<out Type exprType, CodeWrapper cw> (.exprType = null;.)
 // вызов конструктора
 Creator<out Type createdType, CodeWrapper cw>
 = 
-identifier<out String className> Arguments<out Type[] argTypes, cw>
+(.String className=null;.)
+("Vector" (.className="java.util.Vector";.)| identifier<out className>) Arguments<out Type[] argTypes, cw>
 (.  // в стеке лежат значения аргументов, вызываем метод
     if (classes.get(className)==null)
     {
