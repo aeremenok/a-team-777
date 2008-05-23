@@ -196,6 +196,10 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
+				RelativePath=".\SRC\Archive.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\SRC\Controller.cpp"
 				>
 			</File>
@@ -262,6 +266,10 @@
 			>
 			<File
 				RelativePath=".\INC\AboutDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\INC\Archive.h"
 				>
 			</File>
 			<File
@@ -353,10 +361,6 @@
 				Name="INC"
 				>
 				<File
-					RelativePath=".\ExtTools\Archive.h"
-					>
-				</File>
-				<File
 					RelativePath=".\ExtTools\COMMDEF.H"
 					>
 				</File>
@@ -380,10 +384,6 @@
 			<Filter
 				Name="SRC"
 				>
-				<File
-					RelativePath=".\ExtTools\Archive.cpp"
-					>
-				</File>
 				<File
 					RelativePath=".\ExtTools\commdef.cpp"
 					>
