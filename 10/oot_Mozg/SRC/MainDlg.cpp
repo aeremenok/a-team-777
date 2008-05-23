@@ -273,6 +273,11 @@ LRESULT CMainDlg::OnReset(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL
 {
    Controller::Instance()->reset();
    ActivateButtons(TRUE);
+   ActivateSave(TRUE);
+   ActivateReset(TRUE);
+   ActivateOpen(TRUE);
+   ActivateNew(TRUE);
+   ActivateClose(TRUE);
    return 0;
 }
 LRESULT CMainDlg::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
