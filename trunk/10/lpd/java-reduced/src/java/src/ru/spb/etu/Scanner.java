@@ -246,8 +246,8 @@ class StartStates {
 public class Scanner {
 	static final char EOL = '\n';
 	static final int  eofSym = 0;
-	static final int maxT = 44;
-	static final int noSym = 44;
+	static final int maxT = 43;
+	static final int noSym = 43;
 
 
 	public Buffer buffer; // scanner buffer
@@ -384,28 +384,27 @@ public class Scanner {
 	
 	void CheckLiteral() {
 		String lit = t.val;
-		if (lit.compareTo("final") == 0) t.kind = 11;
-		else if (lit.compareTo("class") == 0) t.kind = 12;
-		else if (lit.compareTo("extends") == 0) t.kind = 13;
-		else if (lit.compareTo("implements") == 0) t.kind = 14;
-		else if (lit.compareTo("interface") == 0) t.kind = 15;
-		else if (lit.compareTo("public") == 0) t.kind = 16;
-		else if (lit.compareTo("boolean") == 0) t.kind = 17;
-		else if (lit.compareTo("int") == 0) t.kind = 18;
-		else if (lit.compareTo("float") == 0) t.kind = 19;
-		else if (lit.compareTo("void") == 0) t.kind = 20;
-		else if (lit.compareTo("String") == 0) t.kind = 21;
-		else if (lit.compareTo("Vector") == 0) t.kind = 22;
-		else if (lit.compareTo("if") == 0) t.kind = 25;
-		else if (lit.compareTo("else") == 0) t.kind = 26;
-		else if (lit.compareTo("while") == 0) t.kind = 27;
-		else if (lit.compareTo("return") == 0) t.kind = 28;
-		else if (lit.compareTo("new") == 0) t.kind = 31;
-		else if (lit.compareTo("this") == 0) t.kind = 32;
-		else if (lit.compareTo("super") == 0) t.kind = 33;
-		else if (lit.compareTo("true") == 0) t.kind = 34;
-		else if (lit.compareTo("false") == 0) t.kind = 35;
-		else if (lit.compareTo("null") == 0) t.kind = 36;
+		if (lit.compareTo("class") == 0) t.kind = 11;
+		else if (lit.compareTo("extends") == 0) t.kind = 12;
+		else if (lit.compareTo("implements") == 0) t.kind = 13;
+		else if (lit.compareTo("interface") == 0) t.kind = 14;
+		else if (lit.compareTo("public") == 0) t.kind = 15;
+		else if (lit.compareTo("boolean") == 0) t.kind = 16;
+		else if (lit.compareTo("int") == 0) t.kind = 17;
+		else if (lit.compareTo("float") == 0) t.kind = 18;
+		else if (lit.compareTo("void") == 0) t.kind = 19;
+		else if (lit.compareTo("String") == 0) t.kind = 20;
+		else if (lit.compareTo("Vector") == 0) t.kind = 21;
+		else if (lit.compareTo("if") == 0) t.kind = 24;
+		else if (lit.compareTo("else") == 0) t.kind = 25;
+		else if (lit.compareTo("while") == 0) t.kind = 26;
+		else if (lit.compareTo("return") == 0) t.kind = 27;
+		else if (lit.compareTo("new") == 0) t.kind = 30;
+		else if (lit.compareTo("this") == 0) t.kind = 31;
+		else if (lit.compareTo("super") == 0) t.kind = 32;
+		else if (lit.compareTo("true") == 0) t.kind = 33;
+		else if (lit.compareTo("false") == 0) t.kind = 34;
+		else if (lit.compareTo("null") == 0) t.kind = 35;
 	}
 
 	Token NextToken() {
@@ -573,34 +572,34 @@ public class Scanner {
 					else if (ch == 'D' || ch == 'F' || ch == 'd' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 22; break;}
 					else {t.kind = 8; done = true; break;}
 				case 37:
-					{t.kind = 23; done = true; break;}
+					{t.kind = 22; done = true; break;}
 				case 38:
-					{t.kind = 24; done = true; break;}
+					{t.kind = 23; done = true; break;}
 				case 39:
 					if (ch == 'n') {tval[tlen++] = (char)ch; NextCh(); state = 40; break;}
 					else {t.kind = noSym; done = true; break;}
 				case 40:
-					{t.kind = 29; done = true; break;}
+					{t.kind = 28; done = true; break;}
 				case 41:
 					if (ch == '|') {tval[tlen++] = (char)ch; NextCh(); state = 42; break;}
 					else {t.kind = noSym; done = true; break;}
 				case 42:
-					{t.kind = 37; done = true; break;}
+					{t.kind = 36; done = true; break;}
 				case 43:
 					if (ch == '&') {tval[tlen++] = (char)ch; NextCh(); state = 44; break;}
 					else {t.kind = noSym; done = true; break;}
 				case 44:
-					{t.kind = 38; done = true; break;}
+					{t.kind = 37; done = true; break;}
 				case 45:
-					{t.kind = 39; done = true; break;}
+					{t.kind = 38; done = true; break;}
 				case 46:
-					{t.kind = 40; done = true; break;}
+					{t.kind = 39; done = true; break;}
 				case 47:
-					{t.kind = 41; done = true; break;}
+					{t.kind = 40; done = true; break;}
 				case 48:
-					{t.kind = 42; done = true; break;}
+					{t.kind = 41; done = true; break;}
 				case 49:
-					{t.kind = 43; done = true; break;}
+					{t.kind = 42; done = true; break;}
 				case 50:
 					if (ch == '$' || ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z' || ch == '_' || ch >= 'a' && ch <= 'x' || ch == 'z') {tval[tlen++] = (char)ch; NextCh(); state = 1; break;}
 					else if (ch == 'y') {tval[tlen++] = (char)ch; NextCh(); state = 51; break;}
@@ -654,7 +653,7 @@ public class Scanner {
 					else {t.kind = noSym; done = true; break;}
 				case 65:
 					if (ch == 'l') {tval[tlen++] = (char)ch; NextCh(); state = 39; break;}
-					else {t.kind = 30; done = true; break;}
+					else {t.kind = 29; done = true; break;}
 
 			}
 		}
