@@ -56,6 +56,8 @@ public:
    */
   std::set<CCity> getCitys() const;
 
+  const CCity& getCity(const std::string& name);
+
   /*!
    * \brief получить список достижимых городов
    */

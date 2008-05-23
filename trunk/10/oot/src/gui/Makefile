@@ -3,7 +3,7 @@
 MAKE_FLAGS += recursive qt4 
 
 SUBUI = ${SUBDIRS}
-SUBDIRS = LoginDialog NewCargoDialog RouteView GraphView
+SUBDIRS = LoginDialog NewCargoDialog RouteView GraphView NewCityDialog NewRouteDialog
 
 ROOT ?= ..
 

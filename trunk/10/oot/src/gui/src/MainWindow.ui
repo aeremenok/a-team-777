@@ -27,6 +27,8 @@
      <string>Операции</string>
     </property>
     <addaction name="m_newCargo" />
+    <addaction name="add_city" />
+    <addaction name="add_route" />
    </widget>
    <addaction name="menu" />
   </widget>
@@ -34,6 +36,16 @@
   <action name="m_newCargo" >
    <property name="text" >
     <string>Добавить заказ</string>
+   </property>
+  </action>
+  <action name="add_city" >
+   <property name="text" >
+    <string>Добавить город</string>
+   </property>
+  </action>
+  <action name="add_route" >
+   <property name="text" >
+    <string>Добавить новый маршрут</string>
    </property>
   </action>
  </widget>
