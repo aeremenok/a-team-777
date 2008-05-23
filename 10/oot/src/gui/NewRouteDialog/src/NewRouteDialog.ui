@@ -21,7 +21,7 @@
     </widget>
    </item>
    <item row="0" column="1" >
-    <widget class="QComboBox" name="comboBox" />
+    <widget class="QComboBox" name="m_source" />
    </item>
    <item row="1" column="0" >
     <widget class="QLabel" name="label_2" >
@@ -31,7 +31,7 @@
     </widget>
    </item>
    <item row="1" column="1" >
-    <widget class="QComboBox" name="comboBox_2" />
+    <widget class="QComboBox" name="m_dest" />
    </item>
    <item row="2" column="0" >
     <widget class="QLabel" name="label_3" >
@@ -41,17 +41,45 @@
     </widget>
    </item>
    <item row="2" column="1" >
-    <widget class="QComboBox" name="comboBox_3" />
+    <widget class="QComboBox" name="m_linkType" >
+     <item>
+      <property name="text" >
+       <string>Авиатранспорт</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Железнодорожный транспорт</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Дорожный транспорт</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Морской  транспорт</string>
+      </property>
+     </item>
+    </widget>
    </item>
    <item row="3" column="0" >
-    <widget class="QLabel" name="label_4" >
+    <widget class="QLabel" name="m_linkLabel" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
      <property name="text" >
       <string>Перевозчик:</string>
      </property>
     </widget>
    </item>
    <item row="3" column="1" >
-    <widget class="QComboBox" name="comboBox_4" />
+    <widget class="QComboBox" name="m_link" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+    </widget>
    </item>
    <item row="4" column="0" >
     <widget class="QLabel" name="label_5" >
@@ -61,7 +89,11 @@
     </widget>
    </item>
    <item row="4" column="1" >
-    <widget class="QSpinBox" name="spinBox" />
+    <widget class="QSpinBox" name="m_cost" >
+     <property name="maximum" >
+      <number>99999</number>
+     </property>
+    </widget>
    </item>
    <item row="5" column="0" colspan="2" >
     <widget class="QDialogButtonBox" name="buttonBox" >

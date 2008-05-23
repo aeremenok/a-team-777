@@ -38,6 +38,8 @@ protected:
 
 protected slots:
   void addCargo();
+  void addCity();
+  void addRoute();
 public:
   CMainWindow(QWidget * parent = 0, Qt::WindowFlags f = 0);
   

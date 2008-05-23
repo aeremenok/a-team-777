@@ -25,31 +25,35 @@ GraphWidget::GraphWidget(QWidget * parent): QGraphicsView(parent), timerId(0)
 void GraphWidget::setGraph(CGraph<CCity, CEdgeParameters> graph)
 {
   typedef CGraph<CCity, CEdgeParameters> Super;
-  m_nodes.clear();
-  m_edges.clear();
+//  m_nodes.clear();
+//  m_edges.clear();
 
   size_t i=0;
   for(Super::vertex_iterator v=graph.vertex_begin();v!=graph.vertex_end(); ++v)
   {
-    Node *n = new Node(this, *v);
-    m_nodes.insert(std::pair<CCity,Node*>(*v,n));
-    scene()->addItem(n);
+    if(m_nodes.count(*v)==0)
+    {
+      Node *n = new Node(this, *v);
+      m_nodes.insert(std::pair<CCity,Node*>(*v,n));
+      scene()->addItem(n);  
 
-    n->setPos(-500 + 300*cos(i*M_PI/180),-500 + 300*sin(i*M_PI/180));
-
+      n->setPos(-500 + 300*cos(i*M_PI/180),-500 + 300*sin(i*M_PI/180));
+    }
     i += 360/graph.vertices_count();
   }
   
   for(Super::edge_iterator v=graph.edge_begin();v!=graph.edge_end(); ++v)
   {
-    Edge *e = new Edge(m_nodes.find(v->vertex_pair.first)->second, m_nodes.find(v->vertex_pair.second)->second);
-    scene()->addItem(e);
-    m_edges.insert(std::pair<Super::pair ,Edge*>(v->vertex_pair,e));
+    if(m_edges.count(v->vertex_pair)==0)
+    {
+      Edge *e = new Edge(m_nodes.find(v->vertex_pair.first)->second, m_nodes.find(v->vertex_pair.second)->second);
+      scene()->addItem(e);
+      m_edges.insert(std::pair<Super::pair ,Edge*>(v->vertex_pair,e));
+    }
   }
 
   centerNode = m_nodes.begin()->second;
 //  centerNode->setSticky(true);
-  scale(0.8, 0.8);
   setMinimumSize(400, 400);
 }
 

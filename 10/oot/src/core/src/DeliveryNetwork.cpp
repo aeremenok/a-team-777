@@ -68,6 +68,15 @@ CDeliveryNetwork& CDeliveryNetwork::getInstance()
   return w;
 }
 
+const CCity& CDeliveryNetwork::getCity(const std::string& name) 
+{
+  for(CDeliveryNetwork::Graph::vertex_iterator it=m_graph.vertex_begin();it!=m_graph.vertex_end();++it)
+    if(it->getName() == name)
+      return *it;
+
+  throw 5;
+}
+
 CDeliveryNetwork::~CDeliveryNetwork()
 {
 
