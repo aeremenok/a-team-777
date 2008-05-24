@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : site.xml
+    Created on : 25 Май 2008 г., 2:36
+    Author     : eav
+    Description:
+        Purpose of the document follows.
+-->
+
+<ns1:site  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns:ns1='http://xml.netbeans.org/schema/tech'
+   xsi:schemaLocation='http://xml.netbeans.org/schema/tech tech.xsd'>
+        <ns1:about misc="">
+                <ns1:author first_name="" last_name="" birth="" place="">
+                        <ns1:school number="" description=""></ns1:school>
+                    </ns1:author>
+                <ns1:author first_name="" last_name="" birth="" place="">
+                        <ns1:school number="" description=""></ns1:school>
+                    </ns1:author>
+                <ns1:author first_name="" last_name="" birth="" place="">
+                        <ns1:school number="" description=""></ns1:school>
+                    </ns1:author>
+            </ns1:about>
+        <ns1:articles>
+                <ns1:article title="" created="" author="" content=""></ns1:article>
+                <ns1:article title="" created="" author="" content=""></ns1:article>
+                <ns1:article title="" created="" author="" content=""></ns1:article>
+            </ns1:articles>
+        <ns1:standards>
+                <ns1:standard name="" created="" description="">
+                        <ns1:impl name="" created="" description=""></ns1:impl>
+                    </ns1:standard>
+                <ns1:standard name="" created="" description="">
+                        <ns1:impl name="" created="" description=""></ns1:impl>
+                    </ns1:standard>
+                <ns1:standard name="" created="" description="">
+                        <ns1:impl name="" created="" description=""></ns1:impl>
+                    </ns1:standard>
+            </ns1:standards>
+        <ns1:devices>
+                <ns1:device name="" vendor=""></ns1:device>
+                <ns1:device name="" vendor=""></ns1:device>
+                <ns1:device name="" vendor=""></ns1:device>
+            </ns1:devices>
+
+</ns1:site>
