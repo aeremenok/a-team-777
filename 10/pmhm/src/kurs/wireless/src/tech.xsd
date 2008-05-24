@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://xml.netbeans.org/schema/tech"
+            xmlns:tns="http://xml.netbeans.org/schema/tech"
+            elementFormDefault="qualified">
+    <xsd:complexType name="person">
+        <xsd:sequence>
+            <xsd:element name="school" type="tns:school"/>
+        </xsd:sequence>
+        <xsd:attribute name="first_name" type="xsd:string" use="required"/>
+        <xsd:attribute name="last_name" type="xsd:string"/>
+        <xsd:attribute name="birth" type="xsd:date"/>
+        <xsd:attribute name="place" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="school">
+        <xsd:attribute name="number" type="xsd:int"/>
+        <xsd:attribute name="description" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="article">
+        <xsd:attribute name="title" type="xsd:string" use="required"/>
+        <xsd:attribute name="created" type="xsd:date"/>
+        <xsd:attribute name="author" type="xsd:string"/>
+        <xsd:attribute name="content" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="impl">
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="created" type="xsd:date"/>
+        <xsd:attribute name="description" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="device">
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="vendor" type="xsd:string" use="required"/>
+        <xsd:attribute name="description" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:element name="site">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="about">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="author" maxOccurs="unbounded" type="tns:person"/>
+                        </xsd:sequence>
+                        <xsd:attribute name="misc" type="xsd:string"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="articles">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="article" type="tns:article" maxOccurs="unbounded" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="standards">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="standard" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="impl" type="tns:impl"/>
+                                    </xsd:sequence>
+                                    <xsd:attribute name="name" type="xsd:string" use="required"/>
+                                    <xsd:attribute name="created" type="xsd:date"/>
+                                    <xsd:attribute name="description" type="xsd:string"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="devices">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="device" type="tns:device" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
