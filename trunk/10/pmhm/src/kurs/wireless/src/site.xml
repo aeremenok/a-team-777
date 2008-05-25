@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?xml-stylesheet type="text/xsl" href="articles.xsl"?>
 <!--
     Document   : site.xml
     Created on : 25 Май 2008 г., 13:05
@@ -113,17 +112,21 @@
     </standards>
     
     <devices>
-        <device name="" vendor="">
+        <device name="телефон SPH-M8200" vendor="Samsung">
             <implements name="IEEE 802.16e">
                 <description/>
             </implements>
-            <description>sdfhjsh</description>
+            <description>
+                выполнен в форм-факторе "моноблок" и стилизованный под коммуникатор
+            </description>
         </device>
-        <device name="" vendor="">
+        <device name="USB-модемы SPH-H1300 и SWT-200K" vendor="Samsung">
             <implements name="IEEE 802.16e">
                 <description/>
             </implements>
-            <description>sdfasd</description>
+            <description>
+                USB-модемы SPH-H1300 и SWT-200K, обеспечивающие беспроводное соединение по технологии WiMAX, там, где WiFi отсутствует.
+            </description>
         </device>
     </devices>
 </site>
