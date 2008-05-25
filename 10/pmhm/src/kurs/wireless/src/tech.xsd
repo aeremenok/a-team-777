@@ -6,32 +6,56 @@
     <xsd:complexType name="person">
         <xsd:sequence>
             <xsd:element name="school" type="tns:school"/>
+            <xsd:element name="university" type="tns:university"/>
         </xsd:sequence>
         <xsd:attribute name="first_name" type="xsd:string" use="required"/>
         <xsd:attribute name="last_name" type="xsd:string"/>
         <xsd:attribute name="birth" type="xsd:date"/>
         <xsd:attribute name="place" type="xsd:string"/>
     </xsd:complexType>
+    
     <xsd:complexType name="school">
+        <xsd:sequence>
+            <xsd:element name="description" type="xsd:string"/>
+        </xsd:sequence>
         <xsd:attribute name="number" type="xsd:int"/>
-        <xsd:attribute name="description" type="xsd:string"/>
     </xsd:complexType>
+    
+    <xsd:complexType name="university">
+        <xsd:sequence>
+            <xsd:element name="description" type="xsd:string"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string"/>
+        <xsd:attribute name="accepted" type="xsd:date"/>
+        <xsd:attribute name="graduated" type="xsd:date"/>
+    </xsd:complexType>
+    
     <xsd:complexType name="article">
+        <xsd:sequence>
+            <xsd:element name="content" type="xsd:string"/>
+        </xsd:sequence>        
         <xsd:attribute name="title" type="xsd:string" use="required"/>
         <xsd:attribute name="created" type="xsd:date"/>
         <xsd:attribute name="author" type="xsd:string"/>
-        <xsd:attribute name="content" type="xsd:string"/>
     </xsd:complexType>
+    
     <xsd:complexType name="impl">
+        <xsd:sequence>
+            <xsd:element name="description" type="xsd:string"/>
+        </xsd:sequence>
         <xsd:attribute name="name" type="xsd:string" use="required"/>
         <xsd:attribute name="created" type="xsd:date"/>
-        <xsd:attribute name="description" type="xsd:string"/>
     </xsd:complexType>
+    
     <xsd:complexType name="device">
+        <xsd:sequence>
+            <xsd:element name="implements" type="tns:impl"/>
+            <xsd:element name="description" type="xsd:string"/>
+        </xsd:sequence>
         <xsd:attribute name="name" type="xsd:string" use="required"/>
         <xsd:attribute name="vendor" type="xsd:string" use="required"/>
-        <xsd:attribute name="description" type="xsd:string"/>
     </xsd:complexType>
+    
     <xsd:element name="site">
         <xsd:complexType>
             <xsd:sequence>
@@ -39,8 +63,8 @@
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element name="author" maxOccurs="unbounded" type="tns:person"/>
+                            <xsd:element name="description" type="xsd:string"/>
                         </xsd:sequence>
-                        <xsd:attribute name="misc" type="xsd:string"/>
                     </xsd:complexType>
                 </xsd:element>
                 <xsd:element name="articles">
@@ -56,11 +80,11 @@
                             <xsd:element name="standard" maxOccurs="unbounded">
                                 <xsd:complexType>
                                     <xsd:sequence>
-                                        <xsd:element name="impl" type="tns:impl"/>
+                                        <xsd:element name="impl" type="tns:impl" maxOccurs="unbounded"/>
+                                        <xsd:element name="description" type="xsd:string"/>
                                     </xsd:sequence>
                                     <xsd:attribute name="name" type="xsd:string" use="required"/>
                                     <xsd:attribute name="created" type="xsd:date"/>
-                                    <xsd:attribute name="description" type="xsd:string"/>
                                 </xsd:complexType>
                             </xsd:element>
                         </xsd:sequence>

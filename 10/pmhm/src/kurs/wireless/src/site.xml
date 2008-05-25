@@ -2,46 +2,128 @@
 
 <!--
     Document   : site.xml
-    Created on : 25 Май 2008 г., 2:36
+    Created on : 25 Май 2008 г., 13:05
     Author     : eav
     Description:
-        Purpose of the document follows.
+        Это учебная работа по курсу ПСГМ.
 -->
-
 <ns1:site  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
    xmlns:ns1='http://xml.netbeans.org/schema/tech'
    xsi:schemaLocation='http://xml.netbeans.org/schema/tech tech.xsd'>
-        <ns1:about misc="">
-                <ns1:author first_name="" last_name="" birth="" place="">
-                        <ns1:school number="" description=""></ns1:school>
-                    </ns1:author>
-                <ns1:author first_name="" last_name="" birth="" place="">
-                        <ns1:school number="" description=""></ns1:school>
-                    </ns1:author>
-                <ns1:author first_name="" last_name="" birth="" place="">
-                        <ns1:school number="" description=""></ns1:school>
-                    </ns1:author>
-            </ns1:about>
-        <ns1:articles>
-                <ns1:article title="" created="" author="" content=""></ns1:article>
-                <ns1:article title="" created="" author="" content=""></ns1:article>
-                <ns1:article title="" created="" author="" content=""></ns1:article>
-            </ns1:articles>
-        <ns1:standards>
-                <ns1:standard name="" created="" description="">
-                        <ns1:impl name="" created="" description=""></ns1:impl>
-                    </ns1:standard>
-                <ns1:standard name="" created="" description="">
-                        <ns1:impl name="" created="" description=""></ns1:impl>
-                    </ns1:standard>
-                <ns1:standard name="" created="" description="">
-                        <ns1:impl name="" created="" description=""></ns1:impl>
-                    </ns1:standard>
-            </ns1:standards>
-        <ns1:devices>
-                <ns1:device name="" vendor=""></ns1:device>
-                <ns1:device name="" vendor=""></ns1:device>
-                <ns1:device name="" vendor=""></ns1:device>
-            </ns1:devices>
-
+       
+    <ns1:about>
+        <ns1:author first_name="Андрей" last_name="Ерёменок" birth="1986-06-05" place="Ленинград">
+            <ns1:school number="144">
+                <ns1:description>
+                    Гимназия Калининского района
+                </ns1:description>
+            </ns1:school>
+            <ns1:university name="ЛЭТИ" accepted="2003-08-31" graduated="2009-02-18">
+                <ns1:description>
+                    Санкт-Петербургский Государственный Электротехнический Университет
+                </ns1:description>
+             </ns1:university>
+        </ns1:author>
+        <ns1:description>
+            Это учебная работа по курсу ПСГМ.
+        </ns1:description>
+    </ns1:about>
+    
+    <ns1:articles>
+        <ns1:article title="WiMAX: беспроводная магистраль в будущее" created="2005-11-15" author="Владимир Романченко">
+            <ns1:content>
+                Вначале был кабель. Нет, не так. В начале, конечно же, было слово, а затем дело, в результате чего появились компьютеры и другая электроника – от суперкластеров до мобильников. Затем появилась необходимость взаимодействия между всей этой электроникой. Так возник этот самый кабель, то есть, первые проводные интерфейсы. Затем, по мере развития технологий, и беспроводные. Оставляя за рамками этой заметки длительное и местами героическое прошлое проводных сетей, перейдем к самому интересному – ситуации нынешней и ближайшим беспроводным перспективам.
+                Первыми робкими шагами по созданию беспроводных сетей стали возникновения отдельных точек доступа Wi-Fi с подключением к мощным магистральным "проводным" сетям, например, к оптоволоконным. В дальнейшем появился новый класс провайдеров, развернувших множественные коммерческие сети, в результате чего всего лишь за несколько лет сети Wi-Fi выросли в серьезные инфраструктуры - корпоративные и публичные. К настоящему моменту многие отели, аэропорты и вокзалы мира обладают покрытием Wi-Fi сетями, а в некоторых странах таким образом обеспечивается покрытие целых микрорайонов.
+                ...
+            </ns1:content>
+        </ns1:article>
+        
+        <ns1:article title="Беспроводные сети. Стандарты" created="2003-01-20" author="Сергей Колесников">
+            <ns1:content>
+                Различных спецификаций стандартов беспроводных сетей семейства 802.1x существует великое множество (для обозначения одних только разновидностей стандарта 802.11 используются практически все буквы английского алфавита). Тем не менее, все они подразделяются на четыре большие категории WPAN, WLAN, WMAN, WWAN. Предлагаю рассмотреть каждую категорию подробнее.
+                ...
+            </ns1:content>
+        </ns1:article>
+        
+        <ns1:article title="Технология Wireless USB" created="2007-12-12" author="Владимир Романченко">
+            <ns1:content>
+                Этой публикацией мы завершаем цикл статей, посвящённых долгому пути разработки, становления и прихода к массовому покупателю технологии Wireless USB. Относительно давно – по крайней мере, по сравнению со скоростями развития других компьютерных технологий, стандарт Wireless USB был представлен в качестве рабочего проекта; затем начали обновляться бета-версии его спецификаций, о чём подробно был изложено в наших публикациях, датированных ещё 2005 годом:
+                ...
+            </ns1:content>
+        </ns1:article>
+    </ns1:articles>
+    
+    <ns1:standards>
+        <ns1:standard name="IEEE 802.15" created="2002-01-01">
+            <ns1:impl name="Bluetooth IEEE 802.15.1" created="2002-01-01">
+                <ns1:description>
+                    Это стандарт передачи данных на малое расстояние (обычно десятки метров) и с низкой скоростью (до 2-3МБит/с на сегодня).
+                </ns1:description>
+            </ns1:impl>
+            
+            <ns1:impl name="ZigBee IEEE 802.15.4" created="2002-01-01">
+                <ns1:description>
+                    Это стандарт передачи данных на малые расстояния(10 до 75 м), с очень низкой скоростью (250 кбит/с), низкой стоимостью (1-3$/устройство) и низким энергопотреблением (нА в пассивном режиме) оборудования.
+                </ns1:description>
+            </ns1:impl>
+            
+            <ns1:description>
+                WPAN
+                Беспроводная сеть, предназначенная для организации беспроводной связи между различного типа устройствами на ограниченной площади (например, в рамках квартиры, офисного рабочего места).            
+            </ns1:description>
+        </ns1:standard>
+        
+        <ns1:standard name="IEEE 802.11 (Wi-Fi)" created="1997-01-01">
+            <ns1:impl name="IEEE 802.11a" created="1997-01-01">
+                <ns1:description>
+                    Cтандарт беспроводных локальных сетей (WLAN), функционирующих в частотном диапазоне 5 ГГц (диапазон ISM). 
+                    Беспроводные локальные сети стандарта IEEE 802.11a обеспечивают скорость передачи данных до 54 Мбит/с, что примерно в пять раз быстрее сетей стандарта IEEE 802.11b.
+                </ns1:description>
+            </ns1:impl>
+            
+            <ns1:impl name="IEEE 802.11n" created="2007-01-01">
+                <ns1:description>
+                    В основе - технология MIMO(Multiple Input, Multiple Output). Она повышает скорость передачи данных, используя феномен многолучевого распространения радиоволн. Он возникает, когда между ТД и клиентским устройством много разных путей передачи радиосигнала. Передавая по ним разные потоки данных (пространственное мультиплексирование), можно повысить эффективную пропускную способность соединения. Причем, чем больше потоков используется, тем она выше. Для передачи каждого потока нужно задействовать отдельную пару антенн, расположенных на обоих концах соединения.
+                </ns1:description>
+            </ns1:impl>
+            
+            <ns1:description>
+                WLAN
+                Беспроводная сеть соединяющая два и более устройства на коротком расстоянии – 30-150 метров, как в офисе так и дома. Wi-Fi – это доминирующий стандарт WLAN.
+            </ns1:description>
+        </ns1:standard>
+        
+        <ns1:standard name="IEEE 802.16" created="2001-01-01">
+            <ns1:impl name="IEEE 802.16a" created="2001-01-01">
+                <ns1:description>
+                    Стационарный доступ
+                </ns1:description>
+            </ns1:impl>
+            
+            <ns1:impl name="IEEE 802.16e" created="2005-01-01">
+                <ns1:description>
+                    Мобильность
+                </ns1:description>
+            </ns1:impl>
+            
+            <ns1:description>
+                Беспроводные сети масштаба города. Предоставляют широкополосный доступ к сети через радиоканал. Стандарт поддерживает топологию point-to-multipoint, технологии frequency-division duplex (FDD) и time-division duplex (TDD), с поддержкой quality of service (QoS). Возможна передача звука и видео.
+            </ns1:description>
+        </ns1:standard>
+    </ns1:standards>
+    
+    <ns1:devices>
+        <ns1:device name="" vendor="">
+            <ns1:implements name="IEEE 802.16e">
+                <ns1:description/>
+            </ns1:implements>
+            <ns1:description>sdfhjsh</ns1:description>
+        </ns1:device>
+        <ns1:device name="" vendor="">
+            <ns1:implements name="IEEE 802.16e">
+                <ns1:description/>
+            </ns1:implements>
+            <ns1:description>sdfasd</ns1:description>
+        </ns1:device>
+    </ns1:devices>
 </ns1:site>
