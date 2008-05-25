@@ -92,7 +92,9 @@ public class LightTraversalPanel
     public void onSuccess(
         Object arg0 )
     {
-        // getCurrentEntity().setId( (Integer) arg0 );
+        Integer integer = (Integer) arg0;
+        if ( integer.intValue() > 0 )
+            getMasterpiece().setId( integer );
         listBox.removeStyleName( "error" );
     }
 }
