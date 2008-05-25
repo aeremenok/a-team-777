@@ -171,7 +171,7 @@ public class TraversalPanel
             {
                 entities.remove( listBox.getSelectedIndex() );
                 listBox.removeItem( listBox.getSelectedIndex() );
-                listBox.setSelectedIndex( listBox.getItemCount() );
+                listBox.setSelectedIndex( listBox.getItemCount() - 1 );
 
                 if ( entities.size() == 0 )
                 {
