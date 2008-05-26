@@ -83,7 +83,7 @@ boolean next(int i)
     class CodeWrapper
     {
         InstructionList il;
-        InstructionHandle last; // дл€ ветвлений
+        InstructionHandle last; // дл€ ветвлений todo переопределить
         ClassGen        classGen;
         MethodGen       methodGen;
 
@@ -149,6 +149,68 @@ boolean next(int i)
        }        
        return false;
     }
+    
+    public Instruction getStoreInstruction(Type type, int index)
+    {
+        Instruction instr = null;
+       if (type.equals(Type.VOID))
+            SemErr("invalid variable type void");
+       else if ( type.equals(Type.INT) ||
+            type.equals(Type.BOOLEAN) )
+           instr = new ISTORE(index);
+       else if (type.equals(Type.FLOAT))
+           instr = new FSTORE(index);
+       else if (type instanceof ObjectType)
+           instr = new ASTORE(index);
+       else
+           SemErr("unexpected variable type"+type);
+       return instr;    
+    }
+    
+    public Instruction getLoadInstruction(
+        Type type,
+        int index )
+    {
+        Instruction instr = null;
+       if (type.equals(Type.VOID))
+            SemErr("invalid variable type void");
+	   else if ( type.equals(Type.INT) ||
+	        type.equals(Type.BOOLEAN) )
+	       instr = new ILOAD(index);
+	   else if (type.equals(Type.FLOAT))
+	       instr = new FLOAD(index);
+	   else if (type instanceof ObjectType)
+	       instr = new ALOAD(index);
+	   else
+	       SemErr("unexpected variable type"+type);
+       return instr;
+    }
+    
+    public void preparePrintStream(CodeWrapper cw)
+    {
+        InstructionFactory factory = new InstructionFactory( cw.classGen );
+        cw.last = cw.il.append( factory.createFieldAccess(
+                    "java.lang.System", 
+                    "out", 
+                    new ObjectType( "java.io.PrintStream" ),
+                    Constants.GETSTATIC
+                ) );    
+    }
+    
+    public void callPrintMethod(CodeWrapper cw, String method, Type[] argTypes)
+    {
+        InstructionFactory factory = new InstructionFactory( cw.classGen );
+        if(argTypes.length==1) {
+                cw.last = cw.il.append( factory.createInvoke( 
+                        "java.io.PrintStream", 
+                        "println", 
+                        Type.VOID, 
+                        argTypes,
+                        Constants.INVOKEVIRTUAL
+                    ) );
+        } else SemErr("sysout requires 1 parameter");    
+    }
+    
 /*--------------------------------------------------------------------------*/
 CHARACTERS
   tab           = '\u0009'. /*  9 = tabulator */
@@ -219,11 +281,9 @@ PRODUCTIONS
 identifier<out String value>
 = 
 id
-(. 
-    value = t.val;
+(.  value = t.val;
     log("id="+t.val);
-    if (value.equals("new")) SemErr("\"new\" is not a valid id");
- .)
+    if (value.equals("new")) SemErr("\"new\" is not a valid id"); .)
 .
 /*----------------------------------CompilationUnit----------------------------------*/
 CompilationUnit = 
@@ -349,14 +409,11 @@ classBody<ClassGen classGen> =
                 IF(next(_openRoundBracket))
                 // это конструктор
 			        identifier<out String methodName>   
-			        (.
-                        if (!methodName.equals(classGen.getClassName())) SemErr("wrong constructor name "+methodName);
+			        (.  if (!methodName.equals(classGen.getClassName())) SemErr("wrong constructor name "+methodName);
                         else {
-                            Args args = new Args();
-                    .)
+                            Args args = new Args(); .)
 			        openRoundBracket [formalParameterList<args>] closeRoundBracket
-			        (.
-							if (getMethod(methodName, args.argTypes, classGen)==null) {
+			        (.   	if (getMethod(methodName, args.argTypes, classGen)==null) {
 								InstructionList il = new InstructionList();
 								MethodGen methodGen = new MethodGen(
 									modifier,
@@ -372,15 +429,13 @@ classBody<ClassGen classGen> =
 								CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);						  
 			        .) 
 			        Statement<cw>
-			        (.
-								if (cw.il.getLength()==0) 
+			        (.       	if (cw.il.getLength()==0) 
 								    cw.last = cw.il.append( InstructionConstants.RETURN );
 								    
 								cw.methodGen.setMaxStack();
 								classGen.addMethod(cw.methodGen.getMethod());
 							} else SemErr("duplicate constructor "+methodName);
-                        } 
-                    .)
+                        } .) 
 		    )
             |
             (   // это обычный член класса
@@ -391,8 +446,7 @@ classBody<ClassGen classGen> =
                     ( // это метод
                         (.Args args = new Args();.)
                         openRoundBracket [formalParameterList<args>] closeRoundBracket
-                        (.
-                            if (getMethod(member, args.argTypes, classGen)==null) {
+                        (.  if (getMethod(member, args.argTypes, classGen)==null) {
 	                            if (member.equals("main")) { // наш "main"
 	                                if ( args.argTypes != null ) SemErr("too many args in main");
 	                                if ( !typeLiteral.equals(Type.VOID) ) SemErr("main cannot return a value. type must be \"void\"");
@@ -511,14 +565,9 @@ Block<CodeWrapper cw>
 // код состоит из объ€влений и инструкций
 BlockStatement<CodeWrapper cw>
 =
-(
-    IF(next(_id))
-        LocalVariableDeclaration<cw> ";"
-)
-|
-(
-    Statement<cw>
-)
+    (   IF(next(_id))
+            LocalVariableDeclaration<cw> ";" )
+|   (   Statement<cw> )
 .
 /*---------------------------------------------------------------------------*/
 // объ€вление переменной
@@ -540,26 +589,10 @@ identifier<out String varName>
         LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null); .)
 ["=" Expression<out Type exprType, cw> // здесь нам остав€т результат на верхушке стека. мы его сохран€ем в переменную 
 (.      log("init");
-	    if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) )
+	    if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) ) // todo полиморфизм
 	        SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
 	    else {   
-			StoreInstruction store = null;
-			    
-			int name = lg.getIndex();
-			if (typeLiteral.equals(Type.VOID))
-			    SemErr("void variables are not allowed");
-			else if (
-			    typeLiteral.equals(Type.INT) ||
-			    typeLiteral.equals(Type.BOOLEAN)
-			    )
-			    store = new ISTORE( name );
-			else if ( typeLiteral.equals(Type.FLOAT) )
-			    store = new FSTORE( name );
-			else if ( typeLiteral instanceof ObjectType )
-			    store = new ASTORE( name );
-			else
-			    SemErr("unknown type "+typeLiteral);
-			 
+			Instruction store = getStoreInstruction(typeLiteral, lg.getIndex());
 			lg.setStart( cw.last = cw.il.append( store ) );
 		}
     }.) ] 
@@ -572,47 +605,10 @@ Expression<out Type exprType, CodeWrapper cw>
 = 
 (.exprType = null;.)
 (       // заглушки
-      ( "System.out.println"
-        (.  InstructionFactory factory = new InstructionFactory( cw.classGen );
-	        cw.last = cw.il.append( factory.createFieldAccess(
-	                "java.lang.System", 
-	                "out", 
-	                new ObjectType( "java.io.PrintStream" ),
-	                Constants.GETSTATIC
-	            ) ); .)
-        Arguments<out Type[] argTypes, cw> 
-        (.  if(argTypes.length==1) {
-		        cw.last = cw.il.append( factory.createInvoke( 
-		                "java.io.PrintStream", 
-		                "println", 
-		                Type.VOID, 
-		                argTypes,
-		                Constants.INVOKEVIRTUAL
-		            ) );
-            } else SemErr("sysout requires 1 parameter");
-        .) )
-      | ( "System.out.print"
-        (.  InstructionFactory factory = new InstructionFactory( cw.classGen );
-            cw.last = cw.il.append( 
-                factory.createFieldAccess(
-                    "java.lang.System", 
-                    "out", 
-                    new ObjectType( "java.io.PrintStream" ),
-                    Constants.GETSTATIC
-                )
-            ); .)
-        Arguments<out Type[] argTypes, cw> 
-        (.  if(argTypes.length==1) {
-                cw.last = cw.il.append( factory.createInvoke(
-                        "java.io.PrintStream", 
-                        "print", 
-                        Type.VOID, 
-                        argTypes,
-                        Constants.INVOKEVIRTUAL
-                    ) );
-            } else SemErr("sysout requires 1 parameter");
-        .)
-      )      
+      ( "System.out.println" (.preparePrintStream(cw);.)
+         Arguments<out Type[] argTypes, cw> (.  callPrintMethod(cw, "println", argTypes); .) )
+    | ( "System.out.print" (.preparePrintStream(cw);.)
+         Arguments<out Type[] argTypes, cw> (.  callPrintMethod(cw, "print", argTypes); .) )     
     | ( "new" Creator<out exprType, cw> )
     | Literal<out exprType, cw>
     | ( '(' Expression<out exprType, cw>  
@@ -722,23 +718,10 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 		        else {
 		            if (lg!=null) {
 		                // todo hashMap
-			            StoreInstruction store = null;
-			            
-			            if (selType.equals(Type.VOID))
-			                SemErr("void variables are not allowed");
-			            else if ( selType.equals(Type.INT) ||
-			                       selType.equals(Type.BOOLEAN) )
-			                store = new ISTORE( name );
-			            else if ( selType.equals(Type.FLOAT) )
-			                store = new FSTORE( name );
-			            else if ( selType instanceof ObjectType )
-			                store = new ASTORE( name );
-			            else
-			                SemErr("unknown type "+selType);
-			            
-			            InstructionHandle ih = cw.last = cw.il.append( store );
+			            Instruction store = getStoreInstruction(selType, lg.getIndex());
+			            cw.last = cw.il.append( store );
 			            if (lg.getStart()==null) // переменна€ еще не инициализирована
-                            lg.setStart( ih );
+                            lg.setStart( cw.last );
 		            } else if (fg!=null)
                                 cw.last = cw.il.append( factory.createFieldAccess( 
                                                                     className, 
@@ -774,18 +757,7 @@ identifier<out String var>
        }
    } else { // это переменна€
        selType = lg.getType();
-       Instruction instr = null;
-       // todo hashMap
-       if ( selType.equals(Type.INT) ||
-            selType.equals(Type.BOOLEAN) )
-           instr = new ILOAD(lg.getIndex());
-       else if (selType.equals(Type.FLOAT))
-           instr = new FLOAD(lg.getIndex());
-       else if (selType instanceof ObjectType)
-           instr = new ALOAD(lg.getIndex());
-       else
-           SemErr("unexpected variable type"+selType);
-           
+       Instruction instr = getLoadInstruction(selType, lg.getIndex());
        cw.last = cw.il.append(instr);
    } .)
 .
@@ -890,23 +862,7 @@ Infixop<out ArithmeticInstruction instr, Type exprType>
 /*
 Relational<out ArithmeticInstruction instr, Type exprType>
 =
-("=="
-      (.
-        if ( 
-            exprType.equals(Type.BOOLEAN) ||
-            exprType.equals(Type.INT)
-            )
-        {
-        
-        }
-        else if (exprType.equals(Type.FLOAT))
-        {
-        
-        }
-        else
-           SemErr("cannot apply == to "+exprType);
-      .)
-)
+  ("==")
 | ("!=")
 | ("<")
 | (">")
