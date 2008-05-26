@@ -40,7 +40,9 @@ import org.apache.bcel.generic.ISUB;
 import org.apache.bcel.generic.IREM;
 import org.apache.bcel.generic.FREM;
 
+import org.apache.bcel.generic.IfInstruction;
 import org.apache.bcel.generic.IFEQ;
+import org.apache.bcel.generic.IFNE;
 import org.apache.bcel.generic.NOP;
 import org.apache.bcel.generic.GOTO;
 
@@ -539,25 +541,25 @@ Statement<CodeWrapper cw>
 =
   Block<cw>
   
-| "if" 
-    ParExpression<out Type exprType, cw> 
-    (. IFEQ ifeq = new IFEQ(null);
-	   cw.il.append(ifeq);.) 
+| "if" '(' (.IfInstruction ifinstr = new IFEQ(null);.)
+           ['!' (.ifinstr = new IFNE(null);.)]
+           Expression<out Type exprType, cw> ')' 
+    (.cw.il.append(ifinstr);.) 
     Statement<cw>       (.GOTO g = new GOTO(null); cw.il.append(g);.) 
-    [   "else"          (.ifeq.setTarget( cw.append(new NOP()) );.) 
+    [   "else"          (.ifinstr.setTarget( cw.append(new NOP()) );.) 
         Statement<cw>  ] 
     (.  InstructionHandle elseEndH = cw.append(new NOP()); 
         g.setTarget(elseEndH);
-        if (ifeq.getTarget()==null) ifeq.setTarget(elseEndH); .)
+        if (ifinstr.getTarget()==null) ifinstr.setTarget(elseEndH); .)
 
-| "while"
-	ParExpression<out Type exprType, cw> 
+| "while" '(' (.IfInstruction ifinstr = new IFEQ(null);.)
+              ['!' (.ifinstr = new IFNE(null);.) ]
+              Expression<out Type exprType, cw> ')' 
     (. InstructionHandle begin = cw.last; // перевычисление выражения todo проверить со сложными 
-       IFEQ ifeq = new IFEQ(null);
-       cw.append(ifeq); .) 
+       cw.append(ifinstr); .) 
 	Statement<cw> 
 	(. GOTO g = new GOTO(begin); cw.append(g);
-	   InstructionHandle end = cw.append(new NOP()); ifeq.setTarget(end); .)
+	   InstructionHandle end = cw.append(new NOP()); ifinstr.setTarget(end); .)
 | "return" [ Expression<out Type exprType, cw> (.cw.append( InstructionConstants.RETURN );.) ] ";"
 | ";"
 | Expression<out Type exprType, cw> ';'  
@@ -810,12 +812,6 @@ Creator<out Type createdType, CodeWrapper cw>
 	    ) );
 	    createdType = new ObjectType(className);
     } .)
-.
-/*---------------------------------------------------------------------------*/
-// выражение в скобках
-ParExpression<out Type exprType, CodeWrapper cw>                         
-=
-"(" Expression<out exprType, cw> ")"
 .
 /*---------------------------------------------------------------------------*/
 // присвоение
