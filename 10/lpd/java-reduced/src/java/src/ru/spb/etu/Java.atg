@@ -67,7 +67,9 @@ boolean next(int i)
     public static String filePath;
 	
     // созданные классы
+    public HashMap<String, ClassGen> types = new HashMap<String, ClassGen>();
     public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
+    public HashMap<String, ClassGen> interfaces = new HashMap<String, ClassGen>();
     
     // обертка формальных параметров
     public class Args
@@ -115,11 +117,17 @@ boolean next(int i)
         ClassGen classGen )
     {
         for ( Method method : classGen.getMethods() )
-            if ( 
-                method.getName().equals( name ) &&
-                Arrays.deepEquals( method.getArgumentTypes(), argTypes ) 
-                )
+            if ( method.getName().equals( name ) && Arrays.deepEquals( method.getArgumentTypes(), argTypes ) )
                 return method;
+        String superclassName = classGen.getSuperclassName();
+        if ( !superclassName.equals( "java.lang.Object" ) // todo включить Object 
+        )
+        {
+            ClassGen superClass = classes.get( superclassName );
+            Method method = getMethod( name, argTypes, superClass );
+            if ( method != null )
+                return method;
+        }
         return null;
     }
 
@@ -144,7 +152,7 @@ boolean next(int i)
     }
     
     public boolean isPresent(String typeName){
-       if (classes.get(typeName)==null){
+       if (types.get(typeName)==null){
            SemErr("no such type "+typeName);
            return true;
        }
@@ -152,7 +160,7 @@ boolean next(int i)
     }
     
     public boolean isDuplicate(String typeName){
-       if (classes.get(typeName)!=null){
+       if (types.get(typeName)!=null){
            SemErr("duplicate type "+typeName);
            return true;
        }        
@@ -313,20 +321,19 @@ typeDeclaration =
 classDeclaration<int modifier> =  
 	"class"
 	identifier<out String className>
+	
 	(.String superName = "java.lang.Object";.)
-	[
-	   "extends" identifier<out superName>
+	[  "extends" identifier<out superName>
 	   // проверка типов
 	   (.  if(superName.equals(className)) SemErr("cannot self-inherit");
-           isPresent(superName);.)
-	]
+           isPresent(superName);.) ]
+           
 	(.String interfaceName = null;.)
-	[
-	   "implements"identifier<out interfaceName>
+	[  "implements"identifier<out interfaceName>
 	   // проверка типов
 	   (.   if(interfaceName.equals(className)) SemErr("cannot self-implement");
-            isPresent(interfaceName);.)
-	]
+            isPresent(interfaceName);.) ]
+            
 	(. ClassGen classGen = new ClassGen(
 	       className, 
 	       superName, 
@@ -334,13 +341,17 @@ classDeclaration<int modifier> =
 	       modifier,
 	       interfaceName==null ? null : new String[]{interfaceName} );
 	       
-	   if (!isDuplicate(className))
+	   if (!isDuplicate(className)){
+           types.put(className, classGen);
            classes.put(className, classGen);
+       }
            
 	   // todo пусть будет =)
 	   classGen.addEmptyConstructor( Constants.ACC_PUBLIC );
 	   log("class "+className+" created");.)
+	   
 	classBody<classGen>
+	
     (. try{
            classGen.getJavaClass().dump( filePath+"/"+className+".class" );
        }catch(Exception e){e.printStackTrace();}.)
@@ -349,6 +360,7 @@ classDeclaration<int modifier> =
 interfaceDeclaration<int modifier> =
 	"interface"
 	identifier<out String interfaceName>
+	
 	(.String superInterfaceName = null;.)
     [  "extends" identifier<out superInterfaceName>
         (.  if(superInterfaceName.equals(interfaceName)) SemErr("cannot self-inherit");
@@ -362,10 +374,14 @@ interfaceDeclaration<int modifier> =
 	       superInterfaceName==null ? null : new String[]{superInterfaceName} 
 	   );
 	       
-       if (!isDuplicate(interfaceName))	       
-	       classes.put(interfaceName, classGen);
-	   log("interface "+interfaceName+" created");.)   
+       if (!isDuplicate(interfaceName)){	       
+	       types.put(interfaceName, classGen);
+	       interfaces.put(interfaceName, classGen);
+	   }
+	   log("interface "+interfaceName+" created");.)
+	      
 	interfaceBody<classGen>
+	
 	(. try{
 	       classGen.getJavaClass().dump( filePath+"/"+interfaceName+".class" );
 	   }catch(Exception e){e.printStackTrace();}.)
@@ -391,7 +407,7 @@ basicType<out Type typeLiteral> =
 /*----------------------------------type----------------------------------*/
 type<out Type typeLiteral> (.typeLiteral=null;.) = 
     basicType<out typeLiteral>       
-|   identifier<out String typeName> (.if(!isPresent(typeName)) {typeLiteral = new ObjectType(typeName);}.)
+|   identifier<out String typeName> (.if(!isPresent(typeName)) typeLiteral = new ObjectType(typeName);.)
 .
 /*----------------------------------formalParameterList----------------------------------*/
 formalParameterList<Args args> =
@@ -435,8 +451,7 @@ classBody<ClassGen classGen> =
 									classGen.getConstantPool()
 								);
 								log("method "+methodName+" created");
-								CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);						  
-			        .) 
+								CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);	.) 
 			        Statement<cw>
 			        (.       	if (cw.il.getLength()==0) 
 								    cw.append( InstructionConstants.RETURN );
@@ -671,14 +686,12 @@ Selector<out Type selType, CodeWrapper cw, String className, int objIndex>
 (
 	(
 	    IF(next(_openRoundBracket))
-	       // вызов
+	       // забрасываем в стек this и вызываем метод
 	       (.cw.append(new ALOAD(objIndex));.)
 	       call<out selType, cw, className>
 	)
 	|
-	( // иначе - присвоение левой части - значения
-	    var<out selType, cw, className, objIndex>
-	)
+	( var<out selType, cw, className, objIndex> ) // иначе - присвоение левой части - значения
 )
 .
 /*---------------------------------------------------------------------------*/
@@ -690,8 +703,7 @@ call<out Type selType, CodeWrapper cw, String className>
 	(.  // в стеке лежат значения аргументов, вызываем метод
 	    InstructionFactory factory = new InstructionFactory( cw.classGen );
 	    
-	    Method m = getMethod(method, argTypes, cw.classGen // todo здесь мог бы быть ваш полиморфизм  
-	                           );
+	    Method m = getMethod(method, argTypes, types.get(className) );
 	    if (m==null) SemErr("no such method "+method);
 	    else {
 	        selType = m.getReturnType();
@@ -700,7 +712,9 @@ call<out Type selType, CodeWrapper cw, String className>
 		        method,
 		        selType,
 		        argTypes, 
-		        Constants.INVOKEVIRTUAL 
+		        (cw.classGen.getClassName().equals(className))?
+                        Constants.INVOKEVIRTUAL:
+                        Constants.INVOKESPECIAL 
 		    ) );
 		} .)
 .
@@ -713,22 +727,18 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 	    IF(next(_isequal))
 	        identifier<out String var>
 	        (. // куда сохранять
-		       int name = -1;
 	           Field fg = null;
                LocalVariableGen lg = getVarGen(var, cw.methodGen);
 	           if (lg==null) {
-	               fg = getFieldGen(var, classes.get(className));
+	               fg = getFieldGen(var, types.get(className));
 	               if( fg == null ) SemErr("no such variable or field "+var);
 	               else  { // это поле
 	                   selType = fg.getType();
 	                   cw.append(new ALOAD(objIndex));
 	               }
 	           }
-	           else
-	           {    // это переменная
-	               selType = lg.getType();
-		           name = lg.getIndex();
-	           } .)
+	           else selType = lg.getType();  // это переменная
+	        .)
 	        AssignmentOperator<cw> 
 	        Expression<out Type exprType, cw>
 			(.  InstructionFactory factory = new InstructionFactory( cw.classGen );
@@ -743,16 +753,14 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
                             lg.setStart( cw.last );
 		            } else if (fg!=null)
                                 cw.append( factory.createFieldAccess( 
-                                                                    className, 
-                                                                    fg.getName(), 
-                                                                    selType, 
-                                                                    Constants.PUTFIELD ) );
+                                                        className, 
+                                                        fg.getName(), 
+                                                        selType, 
+                                                        Constants.PUTFIELD ) );
 		         }.)
 	)
 	|
-	( // иначе - взятие значения
-        access<out selType, cw, className>
-	)
+	( access<out selType, cw, className> ) // иначе - взятие значения
 )
 .
 /*---------------------------------------------------------------------------*/
@@ -795,8 +803,7 @@ Literal<out Type exprType, CodeWrapper cw> (.exprType = null;.)
 (.  Object value = null;
 	InstructionFactory factory = new InstructionFactory( cw.classGen );
 	log("lit="+la.val); .)
-( 
-	  intLit            (.exprType = Type.INT; value = new Integer(t.val);.)
+( 	  intLit            (.exprType = Type.INT; value = new Integer(t.val);.)
 	| floatLit          (.exprType = Type.FLOAT; value = new Float(t.val);.)
 	| "true"            (.exprType = Type.BOOLEAN; value = new Boolean(t.val);.)
 	| "false"           (.exprType = Type.BOOLEAN; value = new Boolean(t.val);.)
