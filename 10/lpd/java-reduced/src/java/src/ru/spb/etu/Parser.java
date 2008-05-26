@@ -45,6 +45,7 @@ import org.apache.bcel.generic.FREM;
 import org.apache.bcel.generic.IfInstruction;
 import org.apache.bcel.generic.IFEQ;
 import org.apache.bcel.generic.IFNE;
+import org.apache.bcel.generic.ICONST;
 import org.apache.bcel.generic.NOP;
 import org.apache.bcel.generic.GOTO;
 
@@ -661,7 +662,7 @@ public class Parser {
 			Get();
 			break;
 		}
-		case 1: case 2: case 8: case 9: case 10: case 29: case 30: case 31: case 32: case 33: case 34: case 35: case 36: {
+		case 1: case 2: case 8: case 9: case 10: case 25: case 29: case 30: case 31: case 32: case 33: case 34: case 35: case 36: {
 			Type exprType = Expression(cw);
 			Expect(23);
 			break;
@@ -703,6 +704,21 @@ public class Parser {
 		}
 		case 8: case 9: case 10: case 34: case 35: case 36: {
 			exprType = Literal(cw);
+			break;
+		}
+		case 25: {
+			Get();
+			exprType = Expression(cw);
+			if (!exprType.equals(Type.BOOLEAN)) SemErr("cannot negate non-boolean expression");
+			 IfInstruction ifinstr = new IFNE(null);
+			     cw.il.append(ifinstr);
+			     cw.il.append(new ICONST(1));
+			     GOTO g = new GOTO(null);
+			     cw.il.append(g);
+			 ifinstr.setTarget(
+			     cw.il.append( new ICONST(0) ) 
+			     );
+			 g.setTarget( cw.il.append(new NOP()) ); 
 			break;
 		}
 		case 2: {
@@ -1045,9 +1061,9 @@ public class Parser {
 		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
 		{x,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
 		{x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, T,T,T,T, T,T,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x},
-		{x,T,T,x, x,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
-		{x,T,T,x, T,x,x,x, T,T,T,x, x,x,x,x, T,T,T,T, T,T,x,T, T,x,x,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
-		{x,T,T,x, T,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,T, T,x,x,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
+		{x,T,T,x, x,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,T,x,x, x,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
+		{x,T,T,x, T,x,x,x, T,T,T,x, x,x,x,x, T,T,T,T, T,T,x,T, T,T,x,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
+		{x,T,T,x, T,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,T, T,T,x,T, T,T,T,T, T,T,T,T, T,x,x,x, x,x,x,x, x,x},
 		{x,x,x,x, x,x,x,x, T,T,T,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,T,T, x,x,x,x, x,x,x,x, x,x}
 
 	};
