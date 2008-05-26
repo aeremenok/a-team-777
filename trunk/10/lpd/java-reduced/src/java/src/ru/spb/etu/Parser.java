@@ -107,7 +107,7 @@ public class Parser {
     class CodeWrapper
     {
         InstructionList il;
-        InstructionHandle last; // ??? ????????? todo ??????????????
+        InstructionHandle last; // ??? ?????????
         ClassGen        classGen;
         MethodGen       methodGen;
 
@@ -120,6 +120,12 @@ public class Parser {
             this.il = il;
             this.classGen = classGen;
             this.methodGen = methodGen; 
+        }
+        
+        public InstructionHandle append(Instruction instr)
+        {
+            last = il.append(instr);
+            return last;
         }
     }
     
@@ -213,7 +219,7 @@ public class Parser {
     public void preparePrintStream(CodeWrapper cw)
     {
         InstructionFactory factory = new InstructionFactory( cw.classGen );
-        cw.last = cw.il.append( factory.createFieldAccess(
+        cw.append( factory.createFieldAccess(
                     "java.lang.System", 
                     "out", 
                     new ObjectType( "java.io.PrintStream" ),
@@ -225,7 +231,7 @@ public class Parser {
     {
         InstructionFactory factory = new InstructionFactory( cw.classGen );
         if(argTypes.length==1) {
-                cw.last = cw.il.append( factory.createInvoke( 
+                cw.append( factory.createInvoke( 
                         "java.io.PrintStream", 
                         "println", 
                         Type.VOID, 
@@ -426,7 +432,7 @@ public class Parser {
 				   
 				Statement(cw);
 				if (cw.il.getLength()==0) 
-				cw.last = cw.il.append( InstructionConstants.RETURN );
+				cw.append( InstructionConstants.RETURN );
 				
 				cw.methodGen.setMaxStack();
 				classGen.addMethod(cw.methodGen.getMethod());
@@ -469,8 +475,8 @@ public class Parser {
 					                
 					Statement(cw);
 					if (cw.il.getLength()==0 || typeLiteral.equals(Type.VOID) )                            
-					cw.last = cw.il.append( InstructionConstants.RETURN );
-					  cw.methodGen.setMaxStack();
+					   cw.append( InstructionConstants.RETURN );
+					 cw.methodGen.setMaxStack();
 					classGen.addMethod(cw.methodGen.getMethod());
 					} else SemErr("duplicate method "+member); 
 				} else if (la.kind == 23) {
@@ -604,15 +610,15 @@ public class Parser {
 			Get();
 			Type exprType = ParExpression(cw);
 			IFEQ ifeq = new IFEQ(null);
-			cw.last = cw.il.append(ifeq);
+			cw.il.append(ifeq);
 			Statement(cw);
-			GOTO g = new GOTO(null); cw.last = cw.il.append(g);
+			GOTO g = new GOTO(null); cw.il.append(g);
 			if (la.kind == 25) {
 				Get();
-				ifeq.setTarget( cw.il.append(new NOP()) );
+				ifeq.setTarget( cw.append(new NOP()) );
 				Statement(cw);
 			}
-			InstructionHandle elseEndH = cw.il.append(new NOP()); 
+			InstructionHandle elseEndH = cw.append(new NOP()); 
 			g.setTarget(elseEndH);
 			if (ifeq.getTarget()==null) ifeq.setTarget(elseEndH); 
 			break;
@@ -622,17 +628,17 @@ public class Parser {
 			Type exprType = ParExpression(cw);
 			InstructionHandle begin = cw.last; // ?????????????? ????????? todo ????????? ?? ???????? 
 			IFEQ ifeq = new IFEQ(null);
-			cw.il.append(ifeq); 
+			cw.append(ifeq); 
 			Statement(cw);
-			GOTO g = new GOTO(begin); cw.last = cw.il.append(g);
-			InstructionHandle end = cw.last = cw.il.append(new NOP()); ifeq.setTarget(end); 
+			GOTO g = new GOTO(begin); cw.append(g);
+			InstructionHandle end = cw.append(new NOP()); ifeq.setTarget(end); 
 			break;
 		}
 		case 27: {
 			Get();
 			if (StartOf(4)) {
 				Type exprType = Expression(cw);
-				cw.last = cw.il.append( InstructionConstants.RETURN );
+				cw.append( InstructionConstants.RETURN );
 			}
 			Expect(23);
 			break;
@@ -702,7 +708,7 @@ public class Parser {
 			if (exprType == null || !exprType.equals(exprTypeRight))
 			   SemErr("operand types mismatch "+exprType+" != "+exprTypeRight);
 			else
-			    cw.last = cw.il.append(instr);
+			    cw.append(instr);
 			break;
 		}
 		case 1: case 31: case 32: {
@@ -752,8 +758,8 @@ public class Parser {
 		Type typeLiteral = null; 
 		typeLiteral = type();
 		if (typeLiteral instanceof ObjectType){
-		    cw.last = cw.il.append( factory.createNew( typeLiteral.toString() ) );
-		 cw.last = cw.il.append( InstructionConstants.DUP );
+		    cw.append( factory.createNew( typeLiteral.toString() ) );
+		 cw.append( InstructionConstants.DUP );
 		}
 		String varName = identifier();
 		if (getVarGen(varName, cw.methodGen)!=null)
@@ -769,7 +775,7 @@ public class Parser {
 			    SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
 			else {   
 			Instruction store = getStoreInstruction(typeLiteral, lg.getIndex());
-			lg.setStart( cw.last = cw.il.append( store ) );
+			lg.setStart( cw.append( store ) );
 			}
 			  }
 		}
@@ -807,7 +813,7 @@ public class Parser {
 		   createdType = null;
 		else {
 		 InstructionFactory factory = new InstructionFactory( cw.classGen );
-		 cw.last = cw.il.append( factory.createInvoke(
+		 cw.append( factory.createInvoke(
 		     className,
 		     "<init>",
 		     Type.VOID,
@@ -842,10 +848,10 @@ public class Parser {
 				Get();
 				exprType = new ObjectType("java.lang.String"); value = t.val.substring(1, t.val.length()-1);
 			}
-			cw.last = cw.il.append( factory.createConstant( value )); 
+			cw.append( factory.createConstant( value )); 
 		} else if (la.kind == 35) {
 			Get();
-			exprType = Type.NULL; cw.last = cw.il.append( new ACONST_NULL());
+			exprType = Type.NULL; cw.append( new ACONST_NULL());
 		} else SynErr(54);
 		return exprType;
 	}
@@ -910,7 +916,7 @@ public class Parser {
 		Type  selType;
 		selType = null;
 		if (next(_openRoundBracket)) {
-			cw.last = cw.il.append(new ALOAD(objIndex));
+			cw.append(new ALOAD(objIndex));
 			selType = call(cw, className);
 		} else if (la.kind == 1) {
 			selType = var(cw, className, objIndex);
@@ -930,7 +936,7 @@ public class Parser {
 		if (m==null) SemErr("no such method "+method);
 		else {
 		    selType = m.getReturnType();
-		 cw.last = cw.il.append( factory.createInvoke(
+		 cw.append( factory.createInvoke(
 		     className,
 		     method,
 		     selType,
@@ -951,11 +957,10 @@ public class Parser {
 			     LocalVariableGen lg = getVarGen(var, cw.methodGen);
 			  if (lg==null) {
 			      fg = getFieldGen(var, classes.get(className));
-			      if( fg == null )
-			          SemErr("no such variable or field "+var);
+			      if( fg == null ) SemErr("no such variable or field "+var);
 			      else  { // ??? ????
 			          selType = fg.getType();
-			          cw.last = cw.il.append(new ALOAD(objIndex));
+			          cw.append(new ALOAD(objIndex));
 			      }
 			  }
 			  else
@@ -972,11 +977,11 @@ public class Parser {
 			      if (lg!=null) {
 			          // todo hashMap
 			       Instruction store = getStoreInstruction(selType, lg.getIndex());
-			       cw.last = cw.il.append( store );
+			       cw.append( store );
 			       if (lg.getStart()==null) // ?????????? ??? ?? ????????????????
 			                    lg.setStart( cw.last );
 			      } else if (fg!=null)
-			                        cw.last = cw.il.append( factory.createFieldAccess( 
+			                        cw.append( factory.createFieldAccess( 
 			                                                            className, 
 			                                                            fg.getName(), 
 			                                                            selType, 
@@ -1004,8 +1009,7 @@ public class Parser {
 		    else { // ??? ????
 		        selType = fg.getType();
 		        InstructionFactory factory = new InstructionFactory( cw.classGen );
-		        cw.last = cw.il.append(
-		            factory.createFieldAccess( 
+		        cw.append( factory.createFieldAccess( 
 		                     className, 
 		                     fg.getName(), 
 		                     selType, 
@@ -1014,7 +1018,7 @@ public class Parser {
 		} else { // ??? ??????????
 		    selType = lg.getType();
 		    Instruction instr = getLoadInstruction(selType, lg.getIndex());
-		    cw.last = cw.il.append(instr);
+		    cw.append(instr);
 		} 
 		return selType;
 	}

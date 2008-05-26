@@ -83,7 +83,7 @@ boolean next(int i)
     class CodeWrapper
     {
         InstructionList il;
-        InstructionHandle last; // для ветвлений todo переопределить
+        InstructionHandle last; // для ветвлений
         ClassGen        classGen;
         MethodGen       methodGen;
 
@@ -96,6 +96,12 @@ boolean next(int i)
             this.il = il;
             this.classGen = classGen;
             this.methodGen = methodGen; 
+        }
+        
+        public InstructionHandle append(Instruction instr)
+        {
+            last = il.append(instr);
+            return last;
         }
     }
     
@@ -189,7 +195,7 @@ boolean next(int i)
     public void preparePrintStream(CodeWrapper cw)
     {
         InstructionFactory factory = new InstructionFactory( cw.classGen );
-        cw.last = cw.il.append( factory.createFieldAccess(
+        cw.append( factory.createFieldAccess(
                     "java.lang.System", 
                     "out", 
                     new ObjectType( "java.io.PrintStream" ),
@@ -201,7 +207,7 @@ boolean next(int i)
     {
         InstructionFactory factory = new InstructionFactory( cw.classGen );
         if(argTypes.length==1) {
-                cw.last = cw.il.append( factory.createInvoke( 
+                cw.append( factory.createInvoke( 
                         "java.io.PrintStream", 
                         "println", 
                         Type.VOID, 
@@ -430,7 +436,7 @@ classBody<ClassGen classGen> =
 			        .) 
 			        Statement<cw>
 			        (.       	if (cw.il.getLength()==0) 
-								    cw.last = cw.il.append( InstructionConstants.RETURN );
+								    cw.append( InstructionConstants.RETURN );
 								    
 								cw.methodGen.setMaxStack();
 								classGen.addMethod(cw.methodGen.getMethod());
@@ -472,7 +478,7 @@ classBody<ClassGen classGen> =
                         .) 
                         Statement<cw>
                         (.      if (cw.il.getLength()==0 || typeLiteral.equals(Type.VOID) )                            
-                                cw.last = cw.il.append( InstructionConstants.RETURN );
+                                    cw.append( InstructionConstants.RETURN );
 
                                 cw.methodGen.setMaxStack();
                                 classGen.addMethod(cw.methodGen.getMethod());
@@ -536,11 +542,11 @@ Statement<CodeWrapper cw>
 | "if" 
     ParExpression<out Type exprType, cw> 
     (. IFEQ ifeq = new IFEQ(null);
-	   cw.last = cw.il.append(ifeq);.) 
-    Statement<cw>       (.GOTO g = new GOTO(null); cw.last = cw.il.append(g);.) 
-    [   "else"          (.ifeq.setTarget( cw.il.append(new NOP()) );.) 
+	   cw.il.append(ifeq);.) 
+    Statement<cw>       (.GOTO g = new GOTO(null); cw.il.append(g);.) 
+    [   "else"          (.ifeq.setTarget( cw.append(new NOP()) );.) 
         Statement<cw>  ] 
-    (.  InstructionHandle elseEndH = cw.il.append(new NOP()); 
+    (.  InstructionHandle elseEndH = cw.append(new NOP()); 
         g.setTarget(elseEndH);
         if (ifeq.getTarget()==null) ifeq.setTarget(elseEndH); .)
 
@@ -548,11 +554,11 @@ Statement<CodeWrapper cw>
 	ParExpression<out Type exprType, cw> 
     (. InstructionHandle begin = cw.last; // перевычисление выражения todo проверить со сложными 
        IFEQ ifeq = new IFEQ(null);
-       cw.il.append(ifeq); .) 
+       cw.append(ifeq); .) 
 	Statement<cw> 
-	(. GOTO g = new GOTO(begin); cw.last = cw.il.append(g);
-	   InstructionHandle end = cw.last = cw.il.append(new NOP()); ifeq.setTarget(end); .)
-| "return" [ Expression<out Type exprType, cw> (.cw.last = cw.il.append( InstructionConstants.RETURN );.) ] ";"
+	(. GOTO g = new GOTO(begin); cw.append(g);
+	   InstructionHandle end = cw.append(new NOP()); ifeq.setTarget(end); .)
+| "return" [ Expression<out Type exprType, cw> (.cw.append( InstructionConstants.RETURN );.) ] ";"
 | ";"
 | Expression<out Type exprType, cw> ';'  
 .
@@ -577,8 +583,8 @@ LocalVariableDeclaration<CodeWrapper cw>
     Type typeLiteral = null; .)
 (   type<out typeLiteral>  
     (. if (typeLiteral instanceof ObjectType){
-            cw.last = cw.il.append( factory.createNew( typeLiteral.toString() ) );
-	        cw.last = cw.il.append( InstructionConstants.DUP );
+            cw.append( factory.createNew( typeLiteral.toString() ) );
+	        cw.append( InstructionConstants.DUP );
 	   }.) )
 identifier<out String varName>
 (.
@@ -593,7 +599,7 @@ identifier<out String varName>
 	        SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
 	    else {   
 			Instruction store = getStoreInstruction(typeLiteral, lg.getIndex());
-			lg.setStart( cw.last = cw.il.append( store ) );
+			lg.setStart( cw.append( store ) );
 		}
     }.) ] 
 .
@@ -617,7 +623,7 @@ Expression<out Type exprType, CodeWrapper cw>
         (.  if (exprType == null || !exprType.equals(exprTypeRight))
                 SemErr("operand types mismatch "+exprType+" != "+exprTypeRight);
             else
-                cw.last = cw.il.append(instr);.) )
+                cw.append(instr);.) )
     |
     (. String className= cw.classGen.getClassName();
        int objIndex = -1;.)
@@ -652,7 +658,7 @@ Selector<out Type selType, CodeWrapper cw, String className, int objIndex>
 	(
 	    IF(next(_openRoundBracket))
 	       // вызов
-	       (.cw.last = cw.il.append(new ALOAD(objIndex));.)
+	       (.cw.append(new ALOAD(objIndex));.)
 	       call<out selType, cw, className>
 	)
 	|
@@ -675,7 +681,7 @@ call<out Type selType, CodeWrapper cw, String className>
 	    if (m==null) SemErr("no such method "+method);
 	    else {
 	        selType = m.getReturnType();
-		    cw.last = cw.il.append( factory.createInvoke(
+		    cw.append( factory.createInvoke(
 		        className,
 		        method,
 		        selType,
@@ -698,11 +704,10 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
                LocalVariableGen lg = getVarGen(var, cw.methodGen);
 	           if (lg==null) {
 	               fg = getFieldGen(var, classes.get(className));
-	               if( fg == null )
-	                   SemErr("no such variable or field "+var);
+	               if( fg == null ) SemErr("no such variable or field "+var);
 	               else  { // это поле
 	                   selType = fg.getType();
-	                   cw.last = cw.il.append(new ALOAD(objIndex));
+	                   cw.append(new ALOAD(objIndex));
 	               }
 	           }
 	           else
@@ -719,11 +724,11 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 		            if (lg!=null) {
 		                // todo hashMap
 			            Instruction store = getStoreInstruction(selType, lg.getIndex());
-			            cw.last = cw.il.append( store );
+			            cw.append( store );
 			            if (lg.getStart()==null) // переменная еще не инициализирована
                             lg.setStart( cw.last );
 		            } else if (fg!=null)
-                                cw.last = cw.il.append( factory.createFieldAccess( 
+                                cw.append( factory.createFieldAccess( 
                                                                     className, 
                                                                     fg.getName(), 
                                                                     selType, 
@@ -748,8 +753,7 @@ identifier<out String var>
        else { // это поле
            selType = fg.getType();
            InstructionFactory factory = new InstructionFactory( cw.classGen );
-           cw.last = cw.il.append(
-               factory.createFieldAccess( 
+           cw.append( factory.createFieldAccess( 
                         className, 
                         fg.getName(), 
                         selType, 
@@ -758,7 +762,7 @@ identifier<out String var>
    } else { // это переменная
        selType = lg.getType();
        Instruction instr = getLoadInstruction(selType, lg.getIndex());
-       cw.last = cw.il.append(instr);
+       cw.append(instr);
    } .)
 .
 /*---------------------------------------------------------------------------*/
@@ -783,8 +787,8 @@ Literal<out Type exprType, CodeWrapper cw> (.exprType = null;.)
 	| "true"            (.exprType = Type.BOOLEAN; value = new Boolean(t.val);.)
 	| "false"           (.exprType = Type.BOOLEAN; value = new Boolean(t.val);.)
     | stringLit         (.exprType = new ObjectType("java.lang.String"); value = t.val.substring(1, t.val.length()-1);.)
-) (. cw.last = cw.il.append( factory.createConstant( value )); .)
-| "null"            (.exprType = Type.NULL; cw.last = cw.il.append( new ACONST_NULL());.)
+) (. cw.append( factory.createConstant( value )); .)
+| "null"            (.exprType = Type.NULL; cw.append( new ACONST_NULL());.)
 .
 /*---------------------------------------------------------------------------*/
 // вызов конструктора
@@ -797,7 +801,7 @@ Creator<out Type createdType, CodeWrapper cw>
         createdType = null;
     else {
 	    InstructionFactory factory = new InstructionFactory( cw.classGen );
-	    cw.last = cw.il.append( factory.createInvoke(
+	    cw.append( factory.createInvoke(
 	        className,
 	        "<init>",
 	        Type.VOID,
