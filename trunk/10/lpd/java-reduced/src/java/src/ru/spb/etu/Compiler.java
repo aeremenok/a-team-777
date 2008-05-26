@@ -22,15 +22,6 @@ import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.PUSH;
 import org.apache.bcel.generic.Type;
 
-class Foo
-{
-    public Foo(
-        int c )
-    {
-        Boolean boolean1 = null;
-    }
-}
-
 public class Compiler
     implements
         Constants
@@ -57,7 +48,7 @@ public class Compiler
             info( "scanning" );
             scanner.Scan();
 
-            Parser parser = new Parser( scanner );
+            Parser parser = new MyParser( scanner );
 
             Parser.filePath = file.getParent();
             System.out.println( args[0] );
@@ -70,6 +61,40 @@ public class Compiler
         catch ( Exception e )
         {
             e.printStackTrace();
+        }
+    }
+
+    static class MyParser
+        extends Parser
+    {
+        public MyParser(
+            Scanner scanner )
+        {
+            super( scanner );
+        }
+
+        @Override
+        void SynErr(
+            int n )
+        {
+            if ( errDist >= minErrDist )
+            {
+                errors.SynErr( la.line, la.col, n );
+                System.out.println( "current token: " + t.val + "\tnext token: " + la.val );
+            }
+            errDist = 0;
+        }
+
+        @Override
+        public void SemErr(
+            String msg )
+        {
+            if ( errDist >= minErrDist )
+            {
+                errors.SemErr( t.line, t.col, msg );
+                System.out.println( "current token: " + t.val + "\tnext token: " + la.val );
+            }
+            errDist = 0;
         }
     }
 
@@ -185,19 +210,5 @@ public class Compiler
 
         // ----------------------------------- example
         classGen.getJavaClass().dump( classFileName );
-    }
-
-    private static void getMethod(
-        ClassGen classGen,
-        String name )
-    {
-        Method[] methods = classGen.getMethods();
-        for ( Method method : methods )
-        {
-            if ( method.getName().equals( name ) )
-            {
-                break;
-            }
-        }
     }
 }
