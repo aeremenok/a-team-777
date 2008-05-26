@@ -33,6 +33,32 @@ public class Compiler
         System.out.println( STRIPE + info + STRIPE );
     }
 
+    class MyClassGen
+        extends ClassGen
+        implements
+            Constants
+    {
+        public MyClassGen(
+            String class_name,
+            String super_class_name )
+        {
+            super( class_name, super_class_name, null, ACC_PUBLIC | ACC_SUPER, null );
+        }
+
+        public void createMethod(
+            String methodName,
+            Type retType,
+            Type[] argTypes,
+            String[] argNames )
+        {
+            MethodGen methodGen =
+                                  new MethodGen( ACC_PUBLIC, retType, argTypes, argNames, methodName, getClassName(),
+                                                 new InstructionList(), getConstantPool() );
+            addMethod( methodGen.getMethod() );
+            methodGen.setModifiers( getModifiers() | ACC_NATIVE );
+        }
+    }
+
     /**
      * @param args
      */
@@ -48,7 +74,6 @@ public class Compiler
             scanner.Scan();
 
             Parser parser = new MyParser( scanner );
-
             Parser.filePath = file.getParent();
             System.out.println( args[0] );
             info( "parsing" );

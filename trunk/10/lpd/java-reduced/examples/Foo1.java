@@ -1,26 +1,27 @@
-public class Foo1{
-    int i;
-    void bar(){}
-    
-    void foo(boolean c)
-    {
-        float i = 0.11;
-        if(!c){
-            System.out.println(i);
-            i = (i + 0.1);
-        }
-        else
-        {
-            System.out.println("6325645asdhfdsha");
-        }
+public 
+class Bar{
+    void bar(){
+        System.out.println("asdfas");
+    }    
+}
 
+public class Foo1 extends Bar{
+    void bar(){
+        super.bar();//System.out.println("78978454");
+    }    
+    
+    void foo(boolean d)
+    {
     }
 
     //public static void main(String[] args){ new Foo1().main(); }
+    
     public void main()
     {
-        Foo1 foo = new Foo1();
-        foo.foo(true);
+        Foo1 foo1 = new Foo1();
+        Foo1 foo2 = foo1;
+        boolean b = foo1.equals(foo2);
+        System.out.println(b);
     }
 
 }

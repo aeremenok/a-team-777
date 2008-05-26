@@ -67,9 +67,9 @@ boolean next(int i)
     public static String filePath;
 	
     // созданные классы
-    public HashMap<String, ClassGen> types = new HashMap<String, ClassGen>();
-    public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
-    public HashMap<String, ClassGen> interfaces = new HashMap<String, ClassGen>();
+    public static HashMap<String, ClassGen> types = new HashMap<String, ClassGen>();
+    public static HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
+    public static HashMap<String, ClassGen> interfaces = new HashMap<String, ClassGen>();
     
     // обертка формальных параметров
     public class Args
@@ -87,10 +87,10 @@ boolean next(int i)
     // обертка параметров кода (передается по ссылке всем инструкциям и выражениям. можно дополнить чем-нибудь еще)
     class CodeWrapper
     {
-        InstructionList il;
-        InstructionHandle last; // для ветвлений
-        ClassGen        classGen;
-        MethodGen       methodGen;
+        InstructionList     il;
+        InstructionHandle   last; // для ветвлений
+        ClassGen            classGen;
+        MethodGen           methodGen;
 
         public CodeWrapper(
             ClassGen classGen,
@@ -111,22 +111,37 @@ boolean next(int i)
     }
     
     // поиск
-    public Method getMethod(
+    class MethodParams
+    {
+        Method method;
+        String className;
+
+        public MethodParams(
+            Method method,
+            String className )
+        {
+            super();
+            this.method = method;
+            this.className = className;
+        }
+    }
+
+    public MethodParams getMethod(
         String name,
         Type[] argTypes,
         ClassGen classGen )
     {
         for ( Method method : classGen.getMethods() )
-            if ( method.getName().equals( name ) && Arrays.deepEquals( method.getArgumentTypes(), argTypes ) )
-                return method;
+            if ( method.getName().equals( name ) && deepInstanceOf( method.getArgumentTypes(), argTypes ) )
+                return new MethodParams( method, classGen.getClassName() );
+                
         String superclassName = classGen.getSuperclassName();
-        if ( !superclassName.equals( "java.lang.Object" ) // todo включить Object 
-        )
+        if ( !superclassName.equals( "<null>" ) )
         {
             ClassGen superClass = classes.get( superclassName );
-            Method method = getMethod( name, argTypes, superClass );
-            if ( method != null )
-                return method;
+            MethodParams mp = getMethod( name, argTypes, superClass );
+            if ( mp != null )
+                return mp;
         }
         return null;
     }
@@ -228,6 +243,117 @@ boolean next(int i)
         } else SemErr("sysout requires 1 parameter");    
     }
     
+    
+    static class MyClassGen
+        extends ClassGen
+        implements
+            Constants
+    {
+        public MyClassGen(
+            String class_name,
+            String super_class_name )
+        {
+            super( class_name, super_class_name, null, ACC_PUBLIC | ACC_SUPER, null );
+        }
+
+        public MethodGen createMethod(
+            String methodName,
+            Type retType,
+            Type[] argTypes,
+            String[] argNames )
+        {
+            InstructionList il = new InstructionList();
+            MethodGen methodGen =
+                                  new MethodGen( ACC_PUBLIC, retType, argTypes, argNames, methodName, getClassName(),
+                                                 il, getConstantPool() );
+            il.append(InstructionConstants.RETURN);
+            methodGen.setMaxStack();
+            addMethod( methodGen.getMethod() );
+            return methodGen;
+        }
+    }
+    
+    static{
+        MyClassGen vector = new MyClassGen("java.util.Vector", "java.lang.Object");
+        classes.put("java.util.Vector", vector);
+        types.put("java.util.Vector", vector);
+        vector.createMethod("<init>", Type.VOID, null, null );
+        vector.createMethod("add", Type.INT, new Type[]{Type.OBJECT}, new String[]{"e"} );
+        vector.createMethod("get", Type.OBJECT, new Type[]{Type.INT}, new String[]{"index"} );
+        vector.createMethod("size", Type.INT, new Type[]{}, new String[]{} );
+        vector.createMethod("indexOf", Type.INT, new Type[]{Type.OBJECT}, new String[]{"o"} );
+        
+        MyClassGen string = new MyClassGen("java.lang.String", "java.lang.Object");
+        classes.put("java.lang.String", string);
+        types.put("java.lang.String", string);
+        // todo методов пока не надо        
+
+        MyClassGen object = new MyClassGen("java.lang.Object", "<null>");
+        classes.put("java.lang.Object", object);
+        types.put("java.lang.Object", object);
+        object.createMethod("<init>", Type.VOID, new Type[]{}, new String[]{} );
+        object.createMethod("equals", Type.BOOLEAN, new Type[]{Type.OBJECT}, new String[]{"obj"} );        
+        MethodGen m = object.createMethod("hashCode", Type.INT, new Type[]{}, new String[]{} );
+        m.setModifiers( m.getModifiers() | Constants.ACC_NATIVE | Constants.ACC_FINAL );
+    }
+    
+    public boolean instance_of(
+        Type ancestor,
+        Type child )
+    {
+        // todo if ( ancestor.toString().equals( "java.lang.String" ) )
+        // return false;
+        if ( ancestor.equals( Type.OBJECT ) )
+            return true;
+
+        if ( ancestor.equals( child ) )
+            return true;
+
+        if ( ancestor instanceof ObjectType )
+        {
+            ObjectType objAncestor = (ObjectType) ancestor;
+            if ( child instanceof ObjectType )
+            {
+                ObjectType objChild = (ObjectType) child;
+                if ( objAncestor.getClassName().equals( objChild.getClassName() ) )
+                    return true;
+            }
+            else
+                return false;
+        }
+        else
+            return false;
+
+        return instance_of( ancestor, superType( child ) );
+    }
+
+    public Type superType(
+        Type type )
+    {
+        ClassGen classGen = types.get( type.toString() );
+        return new ObjectType( classGen.getSuperclassName() );
+    }
+    
+    public boolean deepInstanceOf(
+        Type[] types1,
+        Type[] types2 )
+    {
+        if (types1 == null || types2 == null)
+            return false;
+        if ( types1 == types2 )
+            return true;
+        if ( types1.length != types2.length )
+            return false;
+        
+        boolean res = true;
+        int i = 0;
+        while ( res && i < types1.length )
+        {
+            res &= instance_of( types1[i], types2[i] );
+            i++;
+        }
+        return res;
+    }
 /*--------------------------------------------------------------------------*/
 CHARACTERS
   tab           = '\u0009'. /*  9 = tabulator */
@@ -703,13 +829,13 @@ call<out Type selType, CodeWrapper cw, String className>
 	(.  // в стеке лежат значения аргументов, вызываем метод
 	    InstructionFactory factory = new InstructionFactory( cw.classGen );
 	    
-	    Method m = getMethod(method, argTypes, types.get(className) );
-	    if (m==null) SemErr("no such method "+method);
+	    MethodParams mp = getMethod(method, argTypes, types.get(className) );
+	    if (mp==null) SemErr("no such method "+method);
 	    else {
-	        selType = m.getReturnType();
+	        selType = mp.method.getReturnType();
 		    cw.append( factory.createInvoke(
-		        className,
-		        method,
+		        mp.className,
+		        mp.method.getName(),
 		        selType,
 		        argTypes, 
 		        (cw.classGen.getClassName().equals(className))?
