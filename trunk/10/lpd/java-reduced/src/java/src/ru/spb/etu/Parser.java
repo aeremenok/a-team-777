@@ -91,7 +91,9 @@ public class Parser {
     public static String filePath;
 	
     // ????????? ??????
+    public HashMap<String, ClassGen> types = new HashMap<String, ClassGen>();
     public HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
+    public HashMap<String, ClassGen> interfaces = new HashMap<String, ClassGen>();
     
     // ??????? ?????????? ??????????
     public class Args
@@ -139,11 +141,17 @@ public class Parser {
         ClassGen classGen )
     {
         for ( Method method : classGen.getMethods() )
-            if ( 
-                method.getName().equals( name ) &&
-                Arrays.deepEquals( method.getArgumentTypes(), argTypes ) 
-                )
+            if ( method.getName().equals( name ) && Arrays.deepEquals( method.getArgumentTypes(), argTypes ) )
                 return method;
+        String superclassName = classGen.getSuperclassName();
+        if ( !superclassName.equals( "java.lang.Object" ) // todo ???????? Object 
+        )
+        {
+            ClassGen superClass = classes.get( superclassName );
+            Method method = getMethod( name, argTypes, superClass );
+            if ( method != null )
+                return method;
+        }
         return null;
     }
 
@@ -168,7 +176,7 @@ public class Parser {
     }
     
     public boolean isPresent(String typeName){
-       if (classes.get(typeName)==null){
+       if (types.get(typeName)==null){
            SemErr("no such type "+typeName);
            return true;
        }
@@ -176,7 +184,7 @@ public class Parser {
     }
     
     public boolean isDuplicate(String typeName){
-       if (classes.get(typeName)!=null){
+       if (types.get(typeName)!=null){
            SemErr("duplicate type "+typeName);
            return true;
        }        
@@ -356,8 +364,10 @@ public class Parser {
 		   superInterfaceName==null ? null : new String[]{superInterfaceName} 
 		);
 		    
-		   if (!isDuplicate(interfaceName))	       
-		    classes.put(interfaceName, classGen);
+		   if (!isDuplicate(interfaceName)){	       
+		    types.put(interfaceName, classGen);
+		    interfaces.put(interfaceName, classGen);
+		}
 		log("interface "+interfaceName+" created");
 		interfaceBody(classGen);
 		try{
@@ -389,8 +399,10 @@ public class Parser {
 		   modifier,
 		   interfaceName==null ? null : new String[]{interfaceName} );
 		   
-		if (!isDuplicate(className))
+		if (!isDuplicate(className)){
+		       types.put(className, classGen);
 		       classes.put(className, classGen);
+		   }
 		       
 		// todo ????? ????? =)
 		classGen.addEmptyConstructor( Constants.ACC_PUBLIC );
@@ -431,8 +443,7 @@ public class Parser {
 					classGen.getConstantPool()
 				);
 				log("method "+methodName+" created");
-				CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);						  
-				   
+				CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);	
 				Statement(cw);
 				if (cw.il.getLength()==0) 
 				cw.append( InstructionConstants.RETURN );
@@ -579,7 +590,7 @@ public class Parser {
 			typeLiteral = basicType();
 		} else if (la.kind == 1) {
 			String typeName = identifier();
-			if(!isPresent(typeName)) {typeLiteral = new ObjectType(typeName);}
+			if(!isPresent(typeName)) typeLiteral = new ObjectType(typeName);
 		} else SynErr(49);
 		return typeLiteral;
 	}
@@ -953,8 +964,7 @@ public class Parser {
 		Type[] argTypes = Arguments(cw);
 		InstructionFactory factory = new InstructionFactory( cw.classGen );
 		
-		Method m = getMethod(method, argTypes, cw.classGen // todo ????? ??? ?? ???? ??? ???????????  
-		                       );
+		Method m = getMethod(method, argTypes, types.get(className) );
 		if (m==null) SemErr("no such method "+method);
 		else {
 		    selType = m.getReturnType();
@@ -963,7 +973,9 @@ public class Parser {
 		     method,
 		     selType,
 		     argTypes, 
-		     Constants.INVOKEVIRTUAL 
+		     (cw.classGen.getClassName().equals(className))?
+		                   Constants.INVOKEVIRTUAL:
+		                   Constants.INVOKESPECIAL 
 		 ) );
 		} 
 		return selType;
@@ -974,22 +986,18 @@ public class Parser {
 		selType = null;
 		if (next(_isequal)) {
 			String var = identifier();
-			int name = -1;
-			  Field fg = null;
-			     LocalVariableGen lg = getVarGen(var, cw.methodGen);
-			  if (lg==null) {
-			      fg = getFieldGen(var, classes.get(className));
-			      if( fg == null ) SemErr("no such variable or field "+var);
-			      else  { // ??? ????
-			          selType = fg.getType();
-			          cw.append(new ALOAD(objIndex));
-			      }
-			  }
-			  else
-			  {    // ??? ??????????
-			      selType = lg.getType();
-			   name = lg.getIndex();
-			  } 
+			Field fg = null;
+			  LocalVariableGen lg = getVarGen(var, cw.methodGen);
+			if (lg==null) {
+			    fg = getFieldGen(var, types.get(className));
+			    if( fg == null ) SemErr("no such variable or field "+var);
+			    else  { // ??? ????
+			        selType = fg.getType();
+			        cw.append(new ALOAD(objIndex));
+			    }
+			}
+			else selType = lg.getType();  // ??? ??????????
+			
 			AssignmentOperator(cw);
 			Type exprType = Expression(cw);
 			InstructionFactory factory = new InstructionFactory( cw.classGen );
@@ -1004,10 +1012,10 @@ public class Parser {
 			                    lg.setStart( cw.last );
 			      } else if (fg!=null)
 			                        cw.append( factory.createFieldAccess( 
-			                                                            className, 
-			                                                            fg.getName(), 
-			                                                            selType, 
-			                                                            Constants.PUTFIELD ) );
+			                                                className, 
+			                                                fg.getName(), 
+			                                                selType, 
+			                                                Constants.PUTFIELD ) );
 			   }
 		} else if (la.kind == 1) {
 			selType = access(cw, className);
