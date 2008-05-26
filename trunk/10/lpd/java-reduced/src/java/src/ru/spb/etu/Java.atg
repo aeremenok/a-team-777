@@ -133,6 +133,22 @@ boolean next(int i)
 			    return var;
         return null;
     }
+    
+    public boolean isPresent(String typeName){
+       if (classes.get(typeName)==null){
+           SemErr("no such type "+typeName);
+           return true;
+       }
+       return false;
+    }
+    
+    public boolean isDuplicate(String typeName){
+       if (classes.get(typeName)!=null){
+           SemErr("duplicate type "+typeName);
+           return true;
+       }        
+       return false;
+    }
 /*--------------------------------------------------------------------------*/
 CHARACTERS
   tab           = '\u0009'. /*  9 = tabulator */
@@ -176,28 +192,21 @@ TOKENS
         | digit {digit} 
         (
             "." {digit} 
-            [("e" | "E" ) ["+" | "-"] digit {digit} ] [ "F" | "f" | "D" | "d" ]
-            |
-            ("e" | "E") ["+" | "-"] digit {digit} [ "F" | "f" | "D" | "d" ]
-            |
-            "F" | "f" | "D" | "d"
+              [("e" | "E" ) ["+" | "-"] digit {digit} ] [ "F" | "f" | "D" | "d" ]
+            | ("e" | "E") ["+" | "-"] digit {digit} [ "F" | "f" | "D" | "d" ]
+            | "F" | "f" | "D" | "d"
         ).  
     /*-------------------------------------------------------------------------*/
     stringLit = 
-        "\""
-        {
+        "\"" {
             stringChar
-            | "\\" 
-            (
-                "b" | "t" | "n" | "f" | "r" | "\"" | "\'" | "\\" | "u" { "u" }
-                 hexDigit hexDigit hexDigit hexDigit
-                |
-                zeroToThree [ octalDigit ] [ octalDigit ]
-                |
-                octalDigit [ octalDigit ]
+            | "\\" (
+                  "b" | "t" | "n" | "f" | "r" | "\"" | "\'" | "\\" | "u" { "u" }
+                  hexDigit hexDigit hexDigit hexDigit
+                | zeroToThree [ octalDigit ] [ octalDigit ]
+                | octalDigit [ octalDigit ]
             )
-         } 
-        "\"".
+         } "\"".
 
 COMMENTS FROM "/*" TO "*/" NESTED
 COMMENTS FROM "//" TO cr lf
@@ -239,89 +248,67 @@ classDeclaration<int modifier> =
 	[
 	   "extends" identifier<out superName>
 	   // проверка типов
-	   (.
-	       if(superName.equals(className)) SemErr("cannot self-inherit");
-	       if (classes.get(superName)==null)
-	           SemErr("no such type "+superName);
-	   .)
+	   (.  if(superName.equals(className)) SemErr("cannot self-inherit");
+           isPresent(superName);.)
 	]
 	(.String interfaceName = null;.)
 	[
 	   "implements"identifier<out interfaceName>
 	   // проверка типов
-	   (.
-	       if(interfaceName.equals(className)) SemErr("cannot self-inherit");
-           if (classes.get(superName)==null)
-               SemErr("no such type "+superName);
-	   .)
+	   (.   if(interfaceName.equals(className)) SemErr("cannot self-implement");
+            isPresent(interfaceName);.)
 	]
-	(.
-	   ClassGen classGen = new ClassGen(
+	(. ClassGen classGen = new ClassGen(
 	       className, 
 	       superName, 
 	       className+".class", 
 	       modifier,
 	       interfaceName==null ? null : new String[]{interfaceName} );
 	       
-	   if (classes.get(className)==null)           
+	   if (!isDuplicate(className))
            classes.put(className, classGen);
-       else
-           SemErr("duplicate class "+className);
            
 	   // todo пусть будет =)
 	   classGen.addEmptyConstructor( Constants.ACC_PUBLIC );
-	   log("class "+className+" created");
-	.)
+	   log("class "+className+" created");.)
 	classBody<classGen>
-    (.
-       try{
+    (. try{
            classGen.getJavaClass().dump( filePath+"/"+className+".class" );
-       }catch(Exception e){e.printStackTrace();}
-    .)
+       }catch(Exception e){e.printStackTrace();}.)
 .
 /*----------------------------------interfaceDeclaration----------------------------------*/
 interfaceDeclaration<int modifier> =
 	"interface"
-	(. modifier |= Constants.ACC_INTERFACE | Constants.ACC_ABSTRACT; .) 
 	identifier<out String interfaceName>
 	(.String superInterfaceName = null;.)
-    [
-        "extends" identifier<out superInterfaceName>
-       // проверка типов
-       (.
-            if(superInterfaceName.equals(interfaceName)) SemErr("cannot self-inherit");
-           if (classes.get(superInterfaceName)==null)
-               SemErr("no such type "+superInterfaceName);
-       .)        
-    ]
-	(.
-	
-	   ClassGen classGen = new ClassGen(
+    [  "extends" identifier<out superInterfaceName>
+        (.  if(superInterfaceName.equals(interfaceName)) SemErr("cannot self-inherit");
+            isPresent(superInterfaceName);.) ]
+            
+	(. ClassGen classGen = new ClassGen(
 	       interfaceName, 
 	       "java.lang.Object", 
 	       interfaceName+".class", 
-	       modifier,
-	       superInterfaceName==null ? null : new String[]{superInterfaceName} );
-       if (classes.get(interfaceName)==null)	       
+	       Constants.ACC_INTERFACE | Constants.ACC_ABSTRACT,
+	       superInterfaceName==null ? null : new String[]{superInterfaceName} 
+	   );
+	       
+       if (!isDuplicate(interfaceName))	       
 	       classes.put(interfaceName, classGen);
-	   else
-	       SemErr("duplicate interface "+interfaceName);
-	   log("interface "+interfaceName+" created");
-	.)   
+	   log("interface "+interfaceName+" created");.)   
 	interfaceBody<classGen>
-	(.
-	   try{
+	(. try{
 	       classGen.getJavaClass().dump( filePath+"/"+interfaceName+".class" );
-	   }catch(Exception e){e.printStackTrace();}
-	.)
+	   }catch(Exception e){e.printStackTrace();}.)
 .
 /*----------------------------------accessSpecifier----------------------------------*/
 accessSpecifier<out int specifier> =
 	(.specifier = 0;.)
+	// todo добавить остальные
 "public"       (.specifier = Constants.ACC_PUBLIC;.)
 .
-/*----------------------------------type----------------------------------*/
-type<out Type typeLiteral> =
+/*----------------------------------basicType----------------------------------*/
+basicType<out Type typeLiteral> =
     (.typeLiteral = null;.)
 	(
 	       ("boolean"   (.typeLiteral = Type.BOOLEAN;.))
@@ -332,48 +319,24 @@ type<out Type typeLiteral> =
 	   |   ("Vector"    (.typeLiteral = new ObjectType("java.util.Vector");.))
 	)
 .
+/*----------------------------------type----------------------------------*/
+type<out Type typeLiteral> (.typeLiteral=null;.) = 
+    basicType<out typeLiteral>       
+|   identifier<out String typeName> (.if(!isPresent(typeName)) {typeLiteral = new ObjectType(typeName);}.)
+.
 /*----------------------------------formalParameterList----------------------------------*/
 formalParameterList<Args args> =
-    (.
-        ArrayList<Type> types = new ArrayList<Type>();  
+    (.  ArrayList<Type> types = new ArrayList<Type>();  
         ArrayList<String> names = new ArrayList<String>();
-        Type typeLiteral = null;
-    .)
-    (
-        type<out typeLiteral>       
-        | 
-        identifier<out String typeName>  
-        (.
-           if (classes.get(typeName)==null)
-               SemErr("no such type "+typeName);
-           else
-               typeLiteral = new ObjectType(typeName);               
-        .)
-    )
-    (.types.add(typeLiteral);.)
-	identifier<out String param>
-	(.names.add(param);.)
-	{
-        ',' 
-	    (
-	        type<out typeLiteral>       
-	        | 
-	        identifier<out String typeName>  
-	        (.
-	           if (classes.get(typeName)==null)
-	               SemErr("no such type "+typeName);
-	           else
-	               typeLiteral = new ObjectType(typeName);	        
-	        .)
-	    )
-	   (.types.add(typeLiteral);.) 
-	   identifier<out param>
-	   (.names.add(param);.)
+        Type typeLiteral=null;.)
+    type<out typeLiteral>           (.types.add(typeLiteral);.)
+	identifier<out String param>    (.names.add(param);.)
+	{   ',' 
+        type<out typeLiteral>   (.types.add(typeLiteral);.) 
+        identifier<out param>   (.names.add(param);.)
 	}
-	(.
-	   args.argTypes = types.toArray(new Type[types.size()]);
-	   args.argNames = names.toArray(new String[names.size()]);
-	.)
+	(. args.argTypes = types.toArray(new Type[types.size()]);
+	   args.argNames = names.toArray(new String[names.size()]);.)
 .
 /*----------------------------------classBody----------------------------------*/
 classBody<ClassGen classGen> =
@@ -387,16 +350,13 @@ classBody<ClassGen classGen> =
                 // это конструктор
 			        identifier<out String methodName>   
 			        (.
-                        if (!methodName.equals(classGen.getClassName()))
-                            SemErr("wrong constructor name "+methodName);
-                        else
-                        {
+                        if (!methodName.equals(classGen.getClassName())) SemErr("wrong constructor name "+methodName);
+                        else {
                             Args args = new Args();
                     .)
 			        openRoundBracket [formalParameterList<args>] closeRoundBracket
 			        (.
-							if (getMethod(methodName, args.argTypes, classGen)==null)
-							{
+							if (getMethod(methodName, args.argTypes, classGen)==null) {
 								InstructionList il = new InstructionList();
 								MethodGen methodGen = new MethodGen(
 									modifier,
@@ -413,41 +373,27 @@ classBody<ClassGen classGen> =
 			        .) 
 			        Statement<cw>
 			        (.
-								if (cw.il.getLength()==0)
+								if (cw.il.getLength()==0) 
 								    cw.last = cw.il.append( InstructionConstants.RETURN );
 								    
 								cw.methodGen.setMaxStack();
 								classGen.addMethod(cw.methodGen.getMethod());
-							}
-	                        else
-	                            SemErr("duplicate constructor "+methodName);
+							} else SemErr("duplicate constructor "+methodName);
                         } 
                     .)
 		    )
             |
             (   // это обычный член класса
                 (.Type typeLiteral = null;.)
-                (
-                    type<out typeLiteral>       
-                    | 
-                    identifier<out String typeName>  
-                    (.
-			           if (classes.get(typeName)==null)
-			               SemErr("no such type "+typeName);
-			           else
-			             typeLiteral = new ObjectType(typeName);
-                    .)
-                )
+                type<out typeLiteral>
 	            identifier<out String member>
                 (
                     ( // это метод
                         (.Args args = new Args();.)
                         openRoundBracket [formalParameterList<args>] closeRoundBracket
                         (.
-                            if (getMethod(member, args.argTypes, classGen)==null)
-                            {
-	                            if (member.equals("main")) // наш "main"
-	                            {
+                            if (getMethod(member, args.argTypes, classGen)==null) {
+	                            if (member.equals("main")) { // наш "main"
 	                                if ( args.argTypes != null ) SemErr("too many args in main");
 	                                if ( !typeLiteral.equals(Type.VOID) ) SemErr("main cannot return a value. type must be \"void\"");
 	                                                            
@@ -471,31 +417,24 @@ classBody<ClassGen classGen> =
 	                            CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);
                         .) 
                         Statement<cw>
-                        (.
-                                if (cw.il.getLength()==0 || typeLiteral.equals(Type.VOID) )                            
-                                    cw.last = cw.il.append( InstructionConstants.RETURN );
+                        (.      if (cw.il.getLength()==0 || typeLiteral.equals(Type.VOID) )                            
+                                cw.last = cw.il.append( InstructionConstants.RETURN );
 
                                 cw.methodGen.setMaxStack();
                                 classGen.addMethod(cw.methodGen.getMethod());
-                            }
-                            else
-                                SemErr("duplicate method "+member);
-                        .)
+                            } else SemErr("duplicate method "+member); .)
 		            )
                     |
                     ( // это атрибут
-                        (.
-                            FieldGen fieldGen = new FieldGen(
+                        (.  FieldGen fieldGen = new FieldGen(
                                 modifier,
                                 typeLiteral,
                                 member,
-                                classGen.getConstantPool()
-                            ); 
+                                classGen.getConstantPool() ); 
                             if ( Arrays.asList(classGen.getFields()).contains(fieldGen.getField()) )
                                 SemErr("duplicate field "+member);
                             else  
-                                classGen.addField( fieldGen.getField() );                         
-                        .)
+                                classGen.addField( fieldGen.getField() ); .)
                         // запрещаем инициализировать поля сразу, т.к. это требует неявного создания к-ра
                         // пусть польз-ль сам пишет к-р и делает там, что хочет =)
                         ';'
@@ -508,34 +447,18 @@ classBody<ClassGen classGen> =
 .
 /*----------------------------------interfaceBody----------------------------------*/
 interfaceBody<ClassGen classGen> =
-	'{'
-	{
-	   (.int modifier = 0;.)
+	'{'{
+        (.int modifier = 0;.)
 		[accessSpecifier<out modifier>
-		  (.     
-		      if (modifier == Constants.ACC_PRIVATE || modifier == Constants.ACC_PROTECTED)
-                SemErr("interface memebers ought to be public or default");
-              modifier = Constants.ACC_PUBLIC;
-          .)
-		]
+			(.if (modifier == Constants.ACC_PRIVATE || modifier == Constants.ACC_PROTECTED)
+	            SemErr("interface memebers ought to be public or default");
+	          modifier = Constants.ACC_PUBLIC;.)]
 		(.Type typeLiteral = null;.)
-		(
-			type<out typeLiteral>       
-			| 
-			identifier<out String typeName>  
-			(.
-	           if (classes.get(typeName)==null)
-	               SemErr("no such type "+typeName);
-	           else
-	               typeLiteral = new ObjectType(typeName);
-			.)
-		)
-		(.log("abstr method");.)
+		type<out typeLiteral>
 		identifier<out String methodName>	
 		(.Args args = new Args();.)
-		openRoundBracket [formalParameterList<args>] closeRoundBracket ';'
-		(.
-		  MethodGen methodGen = new MethodGen(
+		'(' [formalParameterList<args>] ')' ';'
+		(.MethodGen methodGen = new MethodGen(
 		      modifier | Constants.ACC_ABSTRACT,
               typeLiteral,
               args.argTypes,
@@ -544,10 +467,8 @@ interfaceBody<ClassGen classGen> =
               classGen.getClassName(),
               null, // instructions list
               classGen.getConstantPool()
-		  );
-		.)
-	}
-	'}'
+		  );.)
+	}'}'
 .
 
 /*---------------------------------------------------------------------------*
@@ -557,35 +478,26 @@ interfaceBody<ClassGen classGen> =
 Statement<CodeWrapper cw>
 =
   Block<cw>
+  
 | "if" 
     ParExpression<out Type exprType, cw> 
-    (. 
-	   IFEQ ifeq = new IFEQ(null);
-	   cw.last = cw.il.append(ifeq);
-    .) 
+    (. IFEQ ifeq = new IFEQ(null);
+	   cw.last = cw.il.append(ifeq);.) 
     Statement<cw>       (.GOTO g = new GOTO(null); cw.last = cw.il.append(g);.) 
-    [ 
-        "else"          (.ifeq.setTarget( cw.il.append(new NOP()) );.) 
-        Statement<cw>      
-    ] 
-    (. 
-        InstructionHandle elseEndH = cw.il.append(new NOP()); 
+    [   "else"          (.ifeq.setTarget( cw.il.append(new NOP()) );.) 
+        Statement<cw>  ] 
+    (.  InstructionHandle elseEndH = cw.il.append(new NOP()); 
         g.setTarget(elseEndH);
-        if (ifeq.getTarget()==null) ifeq.setTarget(elseEndH);
-     .)
+        if (ifeq.getTarget()==null) ifeq.setTarget(elseEndH); .)
 
 | "while"
 	ParExpression<out Type exprType, cw> 
-    (.
-       InstructionHandle begin = cw.last; // перевычисление выражения todo проверить со сложными 
+    (. InstructionHandle begin = cw.last; // перевычисление выражения todo проверить со сложными 
        IFEQ ifeq = new IFEQ(null);
-       cw.il.append(ifeq);
-    .) 
+       cw.il.append(ifeq); .) 
 	Statement<cw> 
-	(.
-	   GOTO g = new GOTO(begin); cw.last = cw.il.append(g);
-	   InstructionHandle end = cw.last = cw.il.append(new NOP()); ifeq.setTarget(end);
-	.)
+	(. GOTO g = new GOTO(begin); cw.last = cw.il.append(g);
+	   InstructionHandle end = cw.last = cw.il.append(new NOP()); ifeq.setTarget(end); .)
 | "return" [ Expression<out Type exprType, cw> (.cw.last = cw.il.append( InstructionConstants.RETURN );.) ] ";"
 | ";"
 | Expression<out Type exprType, cw> ';'  
@@ -612,62 +524,45 @@ BlockStatement<CodeWrapper cw>
 // объявление переменной
 LocalVariableDeclaration<CodeWrapper cw>
 = 
-(.
-    InstructionFactory factory = new InstructionFactory( cw.classGen );
-    Type typeLiteral = null;
-.)
-(
-    type<out typeLiteral>       
-    | 
-    identifier<out String typeName>  
-    (.
-        if (classes.get(typeName)==null)
-            SemErr("no such type "+typeName);
-		else
-		{
-		    typeLiteral = new ObjectType(typeName);            
-    
-			cw.last = cw.il.append( factory.createNew( typeLiteral.toString() ) );
-			cw.last = cw.il.append( InstructionConstants.DUP );
-        } 
-    .)
-)
+(.  InstructionFactory factory = new InstructionFactory( cw.classGen );
+    Type typeLiteral = null; .)
+(   type<out typeLiteral>  
+    (. if (typeLiteral instanceof ObjectType){
+            cw.last = cw.il.append( factory.createNew( typeLiteral.toString() ) );
+	        cw.last = cw.il.append( InstructionConstants.DUP );
+	   }.) )
 identifier<out String varName>
 (.
     if (getVarGen(varName, cw.methodGen)!=null)
         SemErr("duplicate local variable "+varName);
     else if (typeLiteral!=null)
     {
-        LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null);
-.)
-["=" (.log("init");.) Expression<out Type exprType, cw> // здесь нам оставят результат на верхушке стека. мы его сохраняем в переменную 
-(.
+        LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null); .)
+["=" Expression<out Type exprType, cw> // здесь нам оставят результат на верхушке стека. мы его сохраняем в переменную 
+(.      log("init");
 	    if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) )
-	       SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
-	    else 
-	    {   
-		    StoreInstruction store = null;
-		    
-		    int name = lg.getIndex();
-		    if (typeLiteral.equals(Type.VOID))
-		        SemErr("void variables are not allowed");
-		    else if (
-		        typeLiteral.equals(Type.INT) ||
-		        typeLiteral.equals(Type.BOOLEAN)
-		        )
-		        store = new ISTORE( name );
-		    else if ( typeLiteral.equals(Type.FLOAT) )
-		        store = new FSTORE( name );
-		    else if ( typeLiteral instanceof ObjectType )
-		        store = new ASTORE( name );
-		    else
-		        SemErr("unknown type "+typeLiteral);
-		     
-		    lg.setStart( cw.last = cw.il.append( store ) );
-	    }
-    }
-.)
-] 
+	        SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
+	    else {   
+			StoreInstruction store = null;
+			    
+			int name = lg.getIndex();
+			if (typeLiteral.equals(Type.VOID))
+			    SemErr("void variables are not allowed");
+			else if (
+			    typeLiteral.equals(Type.INT) ||
+			    typeLiteral.equals(Type.BOOLEAN)
+			    )
+			    store = new ISTORE( name );
+			else if ( typeLiteral.equals(Type.FLOAT) )
+			    store = new FSTORE( name );
+			else if ( typeLiteral instanceof ObjectType )
+			    store = new ASTORE( name );
+			else
+			    SemErr("unknown type "+typeLiteral);
+			 
+			lg.setStart( cw.last = cw.il.append( store ) );
+		}
+    }.) ] 
 .
 /*---------------------------------------------------------------------------*
  *---------------------------- Expressions ----------------------------------*
@@ -676,22 +571,17 @@ Expression<out Type exprType, CodeWrapper cw>
 // цель - оставить что-то на верхушке стека
 = 
 (.exprType = null;.)
-(
+(       // заглушки
       ( "System.out.println"
-        (.
-            log("sout");
-	        InstructionFactory factory = new InstructionFactory( cw.classGen );
+        (.  InstructionFactory factory = new InstructionFactory( cw.classGen );
 	        cw.last = cw.il.append( factory.createFieldAccess(
 	                "java.lang.System", 
 	                "out", 
 	                new ObjectType( "java.io.PrintStream" ),
 	                Constants.GETSTATIC
-	            ) );
-        .)
+	            ) ); .)
         Arguments<out Type[] argTypes, cw> 
-        (.  
-            if(argTypes.length==1)
-            {
+        (.  if(argTypes.length==1) {
 		        cw.last = cw.il.append( factory.createInvoke( 
 		                "java.io.PrintStream", 
 		                "println", 
@@ -699,16 +589,10 @@ Expression<out Type exprType, CodeWrapper cw>
 		                argTypes,
 		                Constants.INVOKEVIRTUAL
 		            ) );
-            }
-            else
-                SemErr("sysout requires 1 parameter");
-        .)
-      )
-      |
-      ( "System.out.print"
-        (.
-            log("sout");
-            InstructionFactory factory = new InstructionFactory( cw.classGen );
+            } else SemErr("sysout requires 1 parameter");
+        .) )
+      | ( "System.out.print"
+        (.  InstructionFactory factory = new InstructionFactory( cw.classGen );
             cw.last = cw.il.append( 
                 factory.createFieldAccess(
                     "java.lang.System", 
@@ -716,12 +600,9 @@ Expression<out Type exprType, CodeWrapper cw>
                     new ObjectType( "java.io.PrintStream" ),
                     Constants.GETSTATIC
                 )
-            );
-        .)
+            ); .)
         Arguments<out Type[] argTypes, cw> 
-        (. 
-            if(argTypes.length==1)
-            {
+        (.  if(argTypes.length==1) {
                 cw.last = cw.il.append( factory.createInvoke(
                         "java.io.PrintStream", 
                         "print", 
@@ -729,31 +610,21 @@ Expression<out Type exprType, CodeWrapper cw>
                         argTypes,
                         Constants.INVOKEVIRTUAL
                     ) );
-            }
-            else
-                SemErr("sysout requires 1 parameter");
+            } else SemErr("sysout requires 1 parameter");
         .)
       )      
     | ( "new" Creator<out exprType, cw> )
     | Literal<out exprType, cw>
-    |
-        ( "(" Expression<out exprType, cw>  
-        Infixop<out ArithmeticInstruction instr, exprType> 
-        Expression<out Type exprTypeRight, cw> ")"
-        (.
-            if (exprType == null || !exprType.equals(exprTypeRight))
+    | ( '(' Expression<out exprType, cw>  
+            Infixop<out ArithmeticInstruction instr, exprType> 
+            Expression<out Type exprTypeRight, cw> ')'
+        (.  if (exprType == null || !exprType.equals(exprTypeRight))
                 SemErr("operand types mismatch "+exprType+" != "+exprTypeRight);
             else
-            {
-                cw.last = cw.il.append(instr);
-            }
-        .)
-        )
+                cw.last = cw.il.append(instr);.) )
     |
-    (.
-        String className= cw.classGen.getClassName();
-        int objIndex = -1;
-    .)
+    (. String className= cw.classGen.getClassName();
+       int objIndex = -1;.)
     ( // операции с объектами
         (
             IF(next(_dot))
@@ -761,23 +632,19 @@ Expression<out Type exprType, CodeWrapper cw>
                     "this"  (.objIndex = 0;.)  
                   | "super" (.objIndex = 0; className = cw.classGen.getSuperclassName();.)
                   | identifier<out String objVarName>
-                  (.
-                    LocalVariableGen lg = getVarGen(objVarName, cw.methodGen);
+                  (.LocalVariableGen lg = getVarGen(objVarName, cw.methodGen);
                     if (lg==null)
                         SemErr("no such variable "+objVarName);
                     else
                         className = lg.getType().toString();
                     log("className="+className);
                     
-                    objIndex = lg.getIndex();
-                  .)
+                    objIndex = lg.getIndex();.)
                 ) "."
                 Selector<out exprType, cw, className, objIndex>
         )
         |
-        ( 
-	        Selector<out exprType, cw, className, 0>
-        ) 
+        ( Selector<out exprType, cw, className, 0> ) 
     )
 )
 .
@@ -803,28 +670,23 @@ call<out Type selType, CodeWrapper cw, String className>
 =
     identifier<out String method>
     (.selType = null;.) 
-    // todo selType = возвращаемый методом тип
     Arguments<out Type[] argTypes, cw>
 	(.  // в стеке лежат значения аргументов, вызываем метод
 	    InstructionFactory factory = new InstructionFactory( cw.classGen );
 	    
-	    Method m = getMethod(method, argTypes, cw.classGen  
-	    // todo здесь мог бы быть ваш полиморфизм
-	    );
-	    if (m==null)
-	       SemErr("no such method "+method);
-	    else
-	    {
+	    Method m = getMethod(method, argTypes, cw.classGen // todo здесь мог бы быть ваш полиморфизм  
+	                           );
+	    if (m==null) SemErr("no such method "+method);
+	    else {
+	        selType = m.getReturnType();
 		    cw.last = cw.il.append( factory.createInvoke(
 		        className,
 		        method,
-		        m.getReturnType(),
-		        // todo запомнить, если метод не найден
+		        selType,
 		        argTypes, 
 		        Constants.INVOKEVIRTUAL 
 		    ) );
-		}
-	.)
+		} .)
 .
 /*---------------------------------------------------------------------------*/
 var<out Type selType, CodeWrapper cw, String className, int objIndex>
@@ -834,18 +696,15 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 	(
 	    IF(next(_isequal))
 	        identifier<out String var>
-	        (.
-	           // куда сохранять
+	        (. // куда сохранять
 		       int name = -1;
 	           Field fg = null;
                LocalVariableGen lg = getVarGen(var, cw.methodGen);
-	           if (lg==null)
-	           {
+	           if (lg==null) {
 	               fg = getFieldGen(var, classes.get(className));
 	               if( fg == null )
 	                   SemErr("no such variable or field "+var);
-	               else
-	               { // это поле
+	               else  { // это поле
 	                   selType = fg.getType();
 	                   cw.last = cw.il.append(new ALOAD(objIndex));
 	               }
@@ -854,26 +713,21 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 	           {    // это переменная
 	               selType = lg.getType();
 		           name = lg.getIndex();
-	           }
-	        .)
+	           } .)
 	        AssignmentOperator<cw> 
 	        Expression<out Type exprType, cw>
-			(.
-	            InstructionFactory factory = new InstructionFactory( cw.classGen );
+			(.  InstructionFactory factory = new InstructionFactory( cw.classGen );
 		        if (!selType.equals(exprType) && !exprType.equals(Type.NULL))
 		           SemErr("incompatible types: expected "+selType+", got "+exprType);
-		        else 
-		        {
-		            if (lg!=null)     
-		            {
+		        else {
+		            if (lg!=null) {
+		                // todo hashMap
 			            StoreInstruction store = null;
 			            
 			            if (selType.equals(Type.VOID))
 			                SemErr("void variables are not allowed");
-			            else if (
-			                selType.equals(Type.INT) ||
-			                selType.equals(Type.BOOLEAN)
-			                )
+			            else if ( selType.equals(Type.INT) ||
+			                       selType.equals(Type.BOOLEAN) )
 			                store = new ISTORE( name );
 			            else if ( selType.equals(Type.FLOAT) )
 			                store = new FSTORE( name );
@@ -883,14 +737,15 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 			                SemErr("unknown type "+selType);
 			            
 			            InstructionHandle ih = cw.last = cw.il.append( store );
-			            if (lg.getStart()==null)
-			              // переменная еще не инициализирована 
-			              lg.setStart( ih );
-		            }
-		            else if (fg!=null)
-                       cw.last = cw.il.append( factory.createFieldAccess( className, fg.getName(), selType, Constants.PUTFIELD ) );
-		        }
-			.)
+			            if (lg.getStart()==null) // переменная еще не инициализирована
+                            lg.setStart( ih );
+		            } else if (fg!=null)
+                                cw.last = cw.il.append( factory.createFieldAccess( 
+                                                                    className, 
+                                                                    fg.getName(), 
+                                                                    selType, 
+                                                                    Constants.PUTFIELD ) );
+		         }.)
 	)
 	|
 	( // иначе - взятие значения
@@ -901,67 +756,55 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 /*---------------------------------------------------------------------------*/
 access<out Type selType, CodeWrapper cw, String className>
 =
-        identifier<out String var>
-        (.
-           selType = null;
-           LocalVariableGen lg = getVarGen(var, cw.methodGen);
-           if (lg==null)
-           {
-               Field fg = getFieldGen(var, cw.classGen);
-               if( fg == null )
-                   SemErr("no such variable or field "+var);
-               else
-               { // это поле
-                   selType = fg.getType();
-                   InstructionFactory factory = new InstructionFactory( cw.classGen );
-                   cw.last = cw.il.append(
-                       factory.createFieldAccess( className, fg.getName(), selType, Constants.GETFIELD )
-                   );    
-               }
-           }
-           else
-           {    // это переменная
-               selType = lg.getType();
-               Instruction instr = null;
-               if (
-                   selType.equals(Type.INT) ||
-                   selType.equals(Type.BOOLEAN)
-               )
-                   instr = new ILOAD(lg.getIndex());
-               else if (selType.equals(Type.FLOAT))
-                   instr = new FLOAD(lg.getIndex());
-               else if (selType instanceof ObjectType)
-                   instr = new ALOAD(lg.getIndex());
-               else
-                   SemErr("unexpected variable type"+selType);
-                   
-               cw.last = cw.il.append(instr);
-           }
-        .)
+identifier<out String var>
+(. selType = null;
+   LocalVariableGen lg = getVarGen(var, cw.methodGen);
+   if (lg==null) {
+       Field fg = getFieldGen(var, cw.classGen);
+       if( fg == null ) SemErr("no such variable or field "+var);
+       else { // это поле
+           selType = fg.getType();
+           InstructionFactory factory = new InstructionFactory( cw.classGen );
+           cw.last = cw.il.append(
+               factory.createFieldAccess( 
+                        className, 
+                        fg.getName(), 
+                        selType, 
+                        Constants.GETFIELD ) );    
+       }
+   } else { // это переменная
+       selType = lg.getType();
+       Instruction instr = null;
+       // todo hashMap
+       if ( selType.equals(Type.INT) ||
+            selType.equals(Type.BOOLEAN) )
+           instr = new ILOAD(lg.getIndex());
+       else if (selType.equals(Type.FLOAT))
+           instr = new FLOAD(lg.getIndex());
+       else if (selType instanceof ObjectType)
+           instr = new ALOAD(lg.getIndex());
+       else
+           SemErr("unexpected variable type"+selType);
+           
+       cw.last = cw.il.append(instr);
+   } .)
 .
 /*---------------------------------------------------------------------------*/
-// аргументы вызовов
+// аргументы вызовов. задача аргументов - лечь в стек, чтобы их принял метод
 Arguments<out Type[] argTypes, CodeWrapper cw>
-// задача аргументов - лечь в стек, чтобы их принял метод
 =
 (.ArrayList<Type> types = new ArrayList<Type>();.)
-"(" [ 
-    Expression<out Type exprType, cw>       (.types.add(exprType);.)
-    {
-        "," Expression<out exprType, cw>    (.types.add(exprType);.)
-    }
-] ")"
+'(' [   Expression<out Type exprType, cw>       (.types.add(exprType);.)
+        { ',' Expression<out exprType, cw>      (.types.add(exprType);.) } ] ')'
 (.argTypes = types.toArray(new Type[types.size()]);.)
 .
 /*---------------------------------------------------------------------------*/
-// литерал =)
+// литерал
 Literal<out Type exprType, CodeWrapper cw> (.exprType = null;.)
 = 
-(.
-    Object value = null;
+(.  Object value = null;
 	InstructionFactory factory = new InstructionFactory( cw.classGen );
-	log("lit="+la.val);
-.)
+	log("lit="+la.val); .)
 ( 
 	  intLit            (.exprType = Type.INT; value = new Integer(t.val);.)
 	| floatLit          (.exprType = Type.FLOAT; value = new Float(t.val);.)
@@ -978,13 +821,9 @@ Creator<out Type createdType, CodeWrapper cw>
 (.String className=null;.)
 ("Vector" (.className="java.util.Vector";.)| identifier<out className>) Arguments<out Type[] argTypes, cw>
 (.  // в стеке лежат значения аргументов, вызываем метод
-    if (classes.get(className)==null)
-    {
-        SemErr("no such class "+className);
+    if (isPresent(className))
         createdType = null;
-    }
-    else
-    {
+    else {
 	    InstructionFactory factory = new InstructionFactory( cw.classGen );
 	    cw.last = cw.il.append( factory.createInvoke(
 	        className,
@@ -994,8 +833,7 @@ Creator<out Type createdType, CodeWrapper cw>
 	        Constants.INVOKESPECIAL 
 	    ) );
 	    createdType = new ObjectType(className);
-    }
-.)
+    } .)
 .
 /*---------------------------------------------------------------------------*/
 // выражение в скобках
@@ -1027,72 +865,25 @@ Infixop<out ArithmeticInstruction instr, Type exprType>
 = 
 (.instr = null;.)
 (
-  ("||" 
-	  (.
-	    if (exprType.equals(Type.BOOLEAN))
-	       instr = new IOR();
-	    else
-	       SemErr("cannot apply || to "+exprType);
-	  .)
-  )
-| ("&&"
-      (.
-        if (exprType.equals(Type.BOOLEAN))
-           instr = new IAND();
-        else
-           SemErr("cannot apply && to "+exprType);
-      .)
-)
-| ("+"
-    (.
-        if (exprType.equals(Type.INT))
-           instr = new IADD();
-        else if (exprType.equals(Type.FLOAT) )
-           instr = new FADD();
-        else
-           SemErr("cannot apply + to "+exprType);        
-    .)
-)
-| ("-"
-    (.
-        if (exprType.equals(Type.INT))
-           instr = new ISUB();
-        else if (exprType.equals(Type.FLOAT) )
-           instr = new FSUB();
-        else
-           SemErr("cannot apply - to "+exprType);        
-    .)
-)
-| ("*"
-    (.
-        if (exprType.equals(Type.INT))
-           instr = new IMUL();
-        else if (exprType.equals(Type.FLOAT) )
-           instr = new FMUL();
-        else
-           SemErr("cannot apply * to "+exprType);        
-    .)
-)
-| ("/"
-    (.
-        if (exprType.equals(Type.INT))
-           instr = new IDIV();
-        else if (exprType.equals(Type.FLOAT) )
-           instr = new FDIV();
-        else
-           SemErr("cannot apply / to "+exprType);        
-    .)
-)
-| ("%"
-    (.
-        if (exprType.equals(Type.INT))
-           instr = new IREM();
-        else if (exprType.equals(Type.FLOAT) )
-           instr = new FREM();
-        else
-           SemErr("cannot apply % to "+exprType);        
-    .)
-)
+	  ("||" (. if (exprType.equals(Type.BOOLEAN)) instr = new IOR();
+		       else SemErr("cannot apply || to "+exprType); .) )
+	| ("&&" (. if (exprType.equals(Type.BOOLEAN)) instr = new IAND();
+	           else SemErr("cannot apply && to "+exprType); .) )
+	| ("+"  (. if (exprType.equals(Type.INT)) instr = new IADD();
+	           else if (exprType.equals(Type.FLOAT) ) instr = new FADD();
+	           else SemErr("cannot apply + to "+exprType); .) )
+	| ("-"  (. if (exprType.equals(Type.INT)) instr = new ISUB();
+	           else if (exprType.equals(Type.FLOAT) ) instr = new FSUB();
+	           else SemErr("cannot apply - to "+exprType); .) )
+	| ("*"  (. if (exprType.equals(Type.INT)) instr = new IMUL();
+	           else if (exprType.equals(Type.FLOAT) ) instr = new FMUL();
+	           else SemErr("cannot apply * to "+exprType); .) )
+	| ("/"  (. if (exprType.equals(Type.INT)) instr = new IDIV();
+	           else if (exprType.equals(Type.FLOAT) ) instr = new FDIV();
+	           else SemErr("cannot apply / to "+exprType); .) )
+	| ("%"  (. if (exprType.equals(Type.INT)) instr = new IREM();
+	           else if (exprType.equals(Type.FLOAT) ) instr = new FREM();
+	           else SemErr("cannot apply % to "+exprType); .) )
 )
 .
 /*---------------------------------------------------------------------------*/

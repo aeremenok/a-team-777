@@ -157,6 +157,22 @@ public class Parser {
 			    return var;
         return null;
     }
+    
+    public boolean isPresent(String typeName){
+       if (classes.get(typeName)==null){
+           SemErr("no such type "+typeName);
+           return true;
+       }
+       return false;
+    }
+    
+    public boolean isDuplicate(String typeName){
+       if (classes.get(typeName)!=null){
+           SemErr("duplicate type "+typeName);
+           return true;
+       }        
+       return false;
+    }
 /*--------------------------------------------------------------------------*/
 
 
@@ -254,34 +270,29 @@ public class Parser {
 
 	void interfaceDeclaration(int modifier) {
 		Expect(14);
-		modifier |= Constants.ACC_INTERFACE | Constants.ACC_ABSTRACT; 
 		String interfaceName = identifier();
 		String superInterfaceName = null;
 		if (la.kind == 12) {
 			Get();
 			superInterfaceName = identifier();
 			if(superInterfaceName.equals(interfaceName)) SemErr("cannot self-inherit");
-			if (classes.get(superInterfaceName)==null)
-			    SemErr("no such type "+superInterfaceName);
-			
+			isPresent(superInterfaceName);
 		}
 		ClassGen classGen = new ClassGen(
 		   interfaceName, 
 		   "java.lang.Object", 
 		   interfaceName+".class", 
-		   modifier,
-		   superInterfaceName==null ? null : new String[]{superInterfaceName} );
-		  if (classes.get(interfaceName)==null)	       
-		   classes.put(interfaceName, classGen);
-		else
-		    SemErr("duplicate interface "+interfaceName);
+		   Constants.ACC_INTERFACE | Constants.ACC_ABSTRACT,
+		   superInterfaceName==null ? null : new String[]{superInterfaceName} 
+		);
+		    
+		   if (!isDuplicate(interfaceName))	       
+		    classes.put(interfaceName, classGen);
 		log("interface "+interfaceName+" created");
-		
 		interfaceBody(classGen);
 		try{
 		   classGen.getJavaClass().dump( filePath+"/"+interfaceName+".class" );
 		}catch(Exception e){e.printStackTrace();}
-		
 	}
 
 	void classDeclaration(int modifier) {
@@ -292,18 +303,14 @@ public class Parser {
 			Get();
 			superName = identifier();
 			if(superName.equals(className)) SemErr("cannot self-inherit");
-			if (classes.get(superName)==null)
-			    SemErr("no such type "+superName);
-			
+			  isPresent(superName);
 		}
 		String interfaceName = null;
 		if (la.kind == 13) {
 			Get();
 			interfaceName = identifier();
-			if(interfaceName.equals(className)) SemErr("cannot self-inherit");
-			  if (classes.get(superName)==null)
-			      SemErr("no such type "+superName);
-			
+			if(interfaceName.equals(className)) SemErr("cannot self-implement");
+			  isPresent(interfaceName);
 		}
 		ClassGen classGen = new ClassGen(
 		   className, 
@@ -312,20 +319,16 @@ public class Parser {
 		   modifier,
 		   interfaceName==null ? null : new String[]{interfaceName} );
 		   
-		if (classes.get(className)==null)           
+		if (!isDuplicate(className))
 		       classes.put(className, classGen);
-		   else
-		       SemErr("duplicate class "+className);
 		       
 		// todo ????? ????? =)
 		classGen.addEmptyConstructor( Constants.ACC_PUBLIC );
 		log("class "+className+" created");
-		
 		classBody(classGen);
 		try{
 		   classGen.getJavaClass().dump( filePath+"/"+className+".class" );
 		}catch(Exception e){e.printStackTrace();}
-		
 	}
 
 	void classBody(ClassGen classGen) {
@@ -337,10 +340,8 @@ public class Parser {
 			}
 			if (next(_openRoundBracket)) {
 				String methodName = identifier();
-				if (!methodName.equals(classGen.getClassName()))
-				   SemErr("wrong constructor name "+methodName);
-				else
-				{
+				if (!methodName.equals(classGen.getClassName())) SemErr("wrong constructor name "+methodName);
+				else {
 				    Args args = new Args();
 				
 				Expect(2);
@@ -348,45 +349,33 @@ public class Parser {
 					formalParameterList(args);
 				}
 				Expect(3);
-				if (getMethod(methodName, args.argTypes, classGen)==null)
-				{
-					InstructionList il = new InstructionList();
-					MethodGen methodGen = new MethodGen(
-						modifier,
-						new ObjectType(classGen.getClassName()), // todo ?????????
-						args.argTypes,
-						args.argNames,
-						"<init>",
-						classGen.getClassName(),
-						il,
-						classGen.getConstantPool()
-					);
-					log("method "+methodName+" created");
-					CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);						  
-				    
+				if (getMethod(methodName, args.argTypes, classGen)==null) {
+				InstructionList il = new InstructionList();
+				MethodGen methodGen = new MethodGen(
+					modifier,
+					new ObjectType(classGen.getClassName()), // todo ?????????
+					args.argTypes,
+					args.argNames,
+					"<init>",
+					classGen.getClassName(),
+					il,
+					classGen.getConstantPool()
+				);
+				log("method "+methodName+" created");
+				CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);						  
+				   
 				Statement(cw);
-				if (cw.il.getLength()==0)
+				if (cw.il.getLength()==0) 
 				   cw.last = cw.il.append( InstructionConstants.RETURN );
 				   
 				cw.methodGen.setMaxStack();
 				classGen.addMethod(cw.methodGen.getMethod());
-				}
-				                  else
-				                      SemErr("duplicate constructor "+methodName);
+				} else SemErr("duplicate constructor "+methodName);
 				                 } 
 				             
 			} else if (StartOf(2)) {
 				Type typeLiteral = null;
-				if (StartOf(3)) {
-					typeLiteral = type();
-				} else {
-					String typeName = identifier();
-					if (classes.get(typeName)==null)
-					   SemErr("no such type "+typeName);
-					else
-					  typeLiteral = new ObjectType(typeName);
-					      
-				}
+				typeLiteral = type();
 				String member = identifier();
 				if (la.kind == 2) {
 					Args args = new Args();
@@ -395,19 +384,17 @@ public class Parser {
 						formalParameterList(args);
 					}
 					Expect(3);
-					if (getMethod(member, args.argTypes, classGen)==null)
-					{
-					 if (member.equals("main")) // ??? "main"
-					 {
-					     if ( args.argTypes != null ) SemErr("too many args in main");
-					     if ( !typeLiteral.equals(Type.VOID) ) SemErr("main cannot return a value. type must be \"void\"");
-					                                 
-					     modifier = Constants.ACC_STATIC | Constants.ACC_PUBLIC;
-					     args.argTypes = new Type[]{ new ArrayType( Type.STRING, 1 ) };
-					     args.argNames = new String[] { "argv" };
-					 } // todo ???????? ?.?. 1 ????????
+					if (getMethod(member, args.argTypes, classGen)==null) {
+					if (member.equals("main")) { // ??? "main"
+					    if ( args.argTypes != null ) SemErr("too many args in main");
+					    if ( !typeLiteral.equals(Type.VOID) ) SemErr("main cannot return a value. type must be \"void\"");
+					                                
+					    modifier = Constants.ACC_STATIC | Constants.ACC_PUBLIC;
+					    args.argTypes = new Type[]{ new ArrayType( Type.STRING, 1 ) };
+					    args.argNames = new String[] { "argv" };
+					} // todo ???????? ?.?. 1 ????????
 					
-					    InstructionList il = new InstructionList();
+					   InstructionList il = new InstructionList();
 					MethodGen methodGen = new MethodGen(
 						modifier,
 						typeLiteral,
@@ -423,25 +410,20 @@ public class Parser {
 					                
 					Statement(cw);
 					if (cw.il.getLength()==0 || typeLiteral.equals(Type.VOID) )                            
-					   cw.last = cw.il.append( InstructionConstants.RETURN );
-					 cw.methodGen.setMaxStack();
+					cw.last = cw.il.append( InstructionConstants.RETURN );
+					  cw.methodGen.setMaxStack();
 					classGen.addMethod(cw.methodGen.getMethod());
-					}
-					else
-					    SemErr("duplicate method "+member);
-					
+					} else SemErr("duplicate method "+member); 
 				} else if (la.kind == 23) {
 					FieldGen fieldGen = new FieldGen(
 					   modifier,
 					   typeLiteral,
 					   member,
-					   classGen.getConstantPool()
-					); 
+					   classGen.getConstantPool() ); 
 					if ( Arrays.asList(classGen.getFields()).contains(fieldGen.getField()) )
 					    SemErr("duplicate field "+member);
 					else  
-					    classGen.addField( fieldGen.getField() );                         
-					
+					    classGen.addField( fieldGen.getField() ); 
 					Get();
 				} else SynErr(45);
 			} else SynErr(46);
@@ -458,20 +440,9 @@ public class Parser {
 				if (modifier == Constants.ACC_PRIVATE || modifier == Constants.ACC_PROTECTED)
 				       SemErr("interface memebers ought to be public or default");
 				     modifier = Constants.ACC_PUBLIC;
-				 
 			}
 			Type typeLiteral = null;
-			if (StartOf(3)) {
-				typeLiteral = type();
-			} else if (la.kind == 1) {
-				String typeName = identifier();
-				if (classes.get(typeName)==null)
-				   SemErr("no such type "+typeName);
-				else
-				    typeLiteral = new ObjectType(typeName);
-				
-			} else SynErr(47);
-			log("abstr method");
+			typeLiteral = type();
 			String methodName = identifier();
 			Args args = new Args();
 			Expect(2);
@@ -490,12 +461,11 @@ public class Parser {
 			         null, // instructions list
 			         classGen.getConstantPool()
 			);
-			
 		}
 		Expect(5);
 	}
 
-	Type  type() {
+	Type  basicType() {
 		Type  typeLiteral;
 		typeLiteral = null;
 		switch (la.kind) {
@@ -529,48 +499,40 @@ public class Parser {
 			typeLiteral = new ObjectType("java.util.Vector");
 			break;
 		}
-		default: SynErr(48); break;
+		default: SynErr(47); break;
 		}
+		return typeLiteral;
+	}
+
+	Type  type() {
+		Type  typeLiteral;
+		typeLiteral=null;
+		if (StartOf(3)) {
+			typeLiteral = basicType();
+		} else if (la.kind == 1) {
+			String typeName = identifier();
+			if(!isPresent(typeName)) {typeLiteral = new ObjectType(typeName);}
+		} else SynErr(48);
 		return typeLiteral;
 	}
 
 	void formalParameterList(Args args) {
 		ArrayList<Type> types = new ArrayList<Type>();  
 		ArrayList<String> names = new ArrayList<String>();
-		Type typeLiteral = null;
-		
-		if (StartOf(3)) {
-			typeLiteral = type();
-		} else if (la.kind == 1) {
-			String typeName = identifier();
-			if (classes.get(typeName)==null)
-			   SemErr("no such type "+typeName);
-			else
-			    typeLiteral = new ObjectType(typeName);               
-			
-		} else SynErr(49);
+		Type typeLiteral=null;
+		typeLiteral = type();
 		types.add(typeLiteral);
 		String param = identifier();
 		names.add(param);
 		while (la.kind == 22) {
 			Get();
-			if (StartOf(3)) {
-				typeLiteral = type();
-			} else if (la.kind == 1) {
-				String typeName = identifier();
-				if (classes.get(typeName)==null)
-				   SemErr("no such type "+typeName);
-				else
-				    typeLiteral = new ObjectType(typeName);	        
-				
-			} else SynErr(50);
+			typeLiteral = type();
 			types.add(typeLiteral);
 			param = identifier();
 			names.add(param);
 		}
 		args.argTypes = types.toArray(new Type[types.size()]);
 		args.argNames = names.toArray(new String[names.size()]);
-		
 	}
 
 	void Statement(CodeWrapper cw) {
@@ -584,7 +546,6 @@ public class Parser {
 			Type exprType = ParExpression(cw);
 			IFEQ ifeq = new IFEQ(null);
 			cw.last = cw.il.append(ifeq);
-			
 			Statement(cw);
 			GOTO g = new GOTO(null); cw.last = cw.il.append(g);
 			if (la.kind == 25) {
@@ -594,8 +555,7 @@ public class Parser {
 			}
 			InstructionHandle elseEndH = cw.il.append(new NOP()); 
 			g.setTarget(elseEndH);
-			if (ifeq.getTarget()==null) ifeq.setTarget(elseEndH);
-			
+			if (ifeq.getTarget()==null) ifeq.setTarget(elseEndH); 
 			break;
 		}
 		case 26: {
@@ -603,12 +563,10 @@ public class Parser {
 			Type exprType = ParExpression(cw);
 			InstructionHandle begin = cw.last; // ?????????????? ????????? todo ????????? ?? ???????? 
 			IFEQ ifeq = new IFEQ(null);
-			cw.il.append(ifeq);
-			
+			cw.il.append(ifeq); 
 			Statement(cw);
 			GOTO g = new GOTO(begin); cw.last = cw.il.append(g);
-			InstructionHandle end = cw.last = cw.il.append(new NOP()); ifeq.setTarget(end);
-			
+			InstructionHandle end = cw.last = cw.il.append(new NOP()); ifeq.setTarget(end); 
 			break;
 		}
 		case 27: {
@@ -629,7 +587,7 @@ public class Parser {
 			Expect(23);
 			break;
 		}
-		default: SynErr(51); break;
+		default: SynErr(49); break;
 		}
 	}
 
@@ -655,18 +613,15 @@ public class Parser {
 		switch (la.kind) {
 		case 28: {
 			Get();
-			log("sout");
 			InstructionFactory factory = new InstructionFactory( cw.classGen );
 			cw.last = cw.il.append( factory.createFieldAccess(
 			        "java.lang.System", 
 			        "out", 
 			        new ObjectType( "java.io.PrintStream" ),
 			        Constants.GETSTATIC
-			    ) );
-			
+			    ) ); 
 			Type[] argTypes = Arguments(cw);
-			if(argTypes.length==1)
-			{
+			if(argTypes.length==1) {
 			cw.last = cw.il.append( factory.createInvoke( 
 			        "java.io.PrintStream", 
 			        "println", 
@@ -674,15 +629,12 @@ public class Parser {
 			        argTypes,
 			        Constants.INVOKEVIRTUAL
 			    ) );
-			  }
-			  else
-			      SemErr("sysout requires 1 parameter");
+			  } else SemErr("sysout requires 1 parameter");
 			
 			break;
 		}
 		case 29: {
 			Get();
-			log("sout");
 			InstructionFactory factory = new InstructionFactory( cw.classGen );
 			cw.last = cw.il.append( 
 			    factory.createFieldAccess(
@@ -691,21 +643,17 @@ public class Parser {
 			        new ObjectType( "java.io.PrintStream" ),
 			        Constants.GETSTATIC
 			    )
-			);
-			
+			); 
 			Type[] argTypes = Arguments(cw);
-			if(argTypes.length==1)
-			{
-			    cw.last = cw.il.append( factory.createInvoke(
-			            "java.io.PrintStream", 
-			            "print", 
-			            Type.VOID, 
-			            argTypes,
-			            Constants.INVOKEVIRTUAL
-			        ) );
-			}
-			else
-			    SemErr("sysout requires 1 parameter");
+			if(argTypes.length==1) {
+			   cw.last = cw.il.append( factory.createInvoke(
+			           "java.io.PrintStream", 
+			           "print", 
+			           Type.VOID, 
+			           argTypes,
+			           Constants.INVOKEVIRTUAL
+			       ) );
+			} else SemErr("sysout requires 1 parameter");
 			
 			break;
 		}
@@ -727,16 +675,12 @@ public class Parser {
 			if (exprType == null || !exprType.equals(exprTypeRight))
 			   SemErr("operand types mismatch "+exprType+" != "+exprTypeRight);
 			else
-			{
 			    cw.last = cw.il.append(instr);
-			}
-			
 			break;
 		}
 		case 1: case 31: case 32: {
 			String className= cw.classGen.getClassName();
 			int objIndex = -1;
-			
 			if (next(_dot)) {
 				if (la.kind == 31) {
 					Get();
@@ -754,8 +698,7 @@ public class Parser {
 					log("className="+className);
 					
 					objIndex = lg.getIndex();
-					
-				} else SynErr(52);
+				} else SynErr(50);
 				Expect(6);
 				exprType = Selector(cw, className, objIndex);
 			} else {
@@ -763,7 +706,7 @@ public class Parser {
 			}
 			break;
 		}
-		default: SynErr(53); break;
+		default: SynErr(51); break;
 		}
 		return exprType;
 	}
@@ -774,28 +717,17 @@ public class Parser {
 			Expect(23);
 		} else if (StartOf(6)) {
 			Statement(cw);
-		} else SynErr(54);
+		} else SynErr(52);
 	}
 
 	void LocalVariableDeclaration(CodeWrapper cw) {
 		InstructionFactory factory = new InstructionFactory( cw.classGen );
-		Type typeLiteral = null;
-		
-		if (StartOf(3)) {
-			typeLiteral = type();
-		} else if (la.kind == 1) {
-			String typeName = identifier();
-			if (classes.get(typeName)==null)
-			   SemErr("no such type "+typeName);
-			else
-			{
-			    typeLiteral = new ObjectType(typeName);            
-			  
-				cw.last = cw.il.append( factory.createNew( typeLiteral.toString() ) );
-				cw.last = cw.il.append( InstructionConstants.DUP );
-			      } 
-			  
-		} else SynErr(55);
+		Type typeLiteral = null; 
+		typeLiteral = type();
+		if (typeLiteral instanceof ObjectType){
+		    cw.last = cw.il.append( factory.createNew( typeLiteral.toString() ) );
+		 cw.last = cw.il.append( InstructionConstants.DUP );
+		}
 		String varName = identifier();
 		if (getVarGen(varName, cw.methodGen)!=null)
 		   SemErr("duplicate local variable "+varName);
@@ -805,33 +737,31 @@ public class Parser {
 		
 		if (la.kind == 7) {
 			Get();
-			log("init");
 			Type exprType = Expression(cw);
+			log("init");
 			if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) )
-			  SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
-			else 
-			{   
-			 StoreInstruction store = null;
+			    SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
+			else {   
+			StoreInstruction store = null;
+			    
+			int name = lg.getIndex();
+			if (typeLiteral.equals(Type.VOID))
+			    SemErr("void variables are not allowed");
+			else if (
+			    typeLiteral.equals(Type.INT) ||
+			    typeLiteral.equals(Type.BOOLEAN)
+			    )
+			    store = new ISTORE( name );
+			else if ( typeLiteral.equals(Type.FLOAT) )
+			    store = new FSTORE( name );
+			else if ( typeLiteral instanceof ObjectType )
+			    store = new ASTORE( name );
+			else
+			    SemErr("unknown type "+typeLiteral);
 			 
-			 int name = lg.getIndex();
-			 if (typeLiteral.equals(Type.VOID))
-			     SemErr("void variables are not allowed");
-			 else if (
-			     typeLiteral.equals(Type.INT) ||
-			     typeLiteral.equals(Type.BOOLEAN)
-			     )
-			     store = new ISTORE( name );
-			 else if ( typeLiteral.equals(Type.FLOAT) )
-			     store = new FSTORE( name );
-			 else if ( typeLiteral instanceof ObjectType )
-			     store = new ASTORE( name );
-			 else
-			     SemErr("unknown type "+typeLiteral);
-			  
-			 lg.setStart( cw.last = cw.il.append( store ) );
+			lg.setStart( cw.last = cw.il.append( store ) );
 			}
-			}
-			
+			  }
 		}
 	}
 
@@ -861,15 +791,11 @@ public class Parser {
 			className="java.util.Vector";
 		} else if (la.kind == 1) {
 			className = identifier();
-		} else SynErr(56);
+		} else SynErr(53);
 		Type[] argTypes = Arguments(cw);
-		if (classes.get(className)==null)
-		{
-		    SemErr("no such class "+className);
-		    createdType = null;
-		}
-		else
-		{
+		if (isPresent(className))
+		   createdType = null;
+		else {
 		 InstructionFactory factory = new InstructionFactory( cw.classGen );
 		 cw.last = cw.il.append( factory.createInvoke(
 		     className,
@@ -879,8 +805,7 @@ public class Parser {
 		     Constants.INVOKESPECIAL 
 		 ) );
 		 createdType = new ObjectType(className);
-		}
-		
+		} 
 		return createdType;
 	}
 
@@ -890,8 +815,7 @@ public class Parser {
 		if (StartOf(7)) {
 			Object value = null;
 			InstructionFactory factory = new InstructionFactory( cw.classGen );
-			log("lit="+la.val);
-			
+			log("lit="+la.val); 
 			if (la.kind == 8) {
 				Get();
 				exprType = Type.INT; value = new Integer(t.val);
@@ -912,7 +836,7 @@ public class Parser {
 		} else if (la.kind == 35) {
 			Get();
 			exprType = Type.NULL; cw.last = cw.il.append( new ACONST_NULL());
-		} else SynErr(57);
+		} else SynErr(54);
 		return exprType;
 	}
 
@@ -922,78 +846,52 @@ public class Parser {
 		switch (la.kind) {
 		case 36: {
 			Get();
-			if (exprType.equals(Type.BOOLEAN))
-			  instr = new IOR();
-			else
-			   SemErr("cannot apply || to "+exprType);
-			
+			if (exprType.equals(Type.BOOLEAN)) instr = new IOR();
+			else SemErr("cannot apply || to "+exprType); 
 			break;
 		}
 		case 37: {
 			Get();
-			if (exprType.equals(Type.BOOLEAN))
-			  instr = new IAND();
-			else
-			   SemErr("cannot apply && to "+exprType);
-			
+			if (exprType.equals(Type.BOOLEAN)) instr = new IAND();
+			else SemErr("cannot apply && to "+exprType); 
 			break;
 		}
 		case 38: {
 			Get();
-			if (exprType.equals(Type.INT))
-			  instr = new IADD();
-			else if (exprType.equals(Type.FLOAT) )
-			   instr = new FADD();
-			else
-			   SemErr("cannot apply + to "+exprType);        
-			
+			if (exprType.equals(Type.INT)) instr = new IADD();
+			else if (exprType.equals(Type.FLOAT) ) instr = new FADD();
+			else SemErr("cannot apply + to "+exprType); 
 			break;
 		}
 		case 39: {
 			Get();
-			if (exprType.equals(Type.INT))
-			  instr = new ISUB();
-			else if (exprType.equals(Type.FLOAT) )
-			   instr = new FSUB();
-			else
-			   SemErr("cannot apply - to "+exprType);        
-			
+			if (exprType.equals(Type.INT)) instr = new ISUB();
+			else if (exprType.equals(Type.FLOAT) ) instr = new FSUB();
+			else SemErr("cannot apply - to "+exprType); 
 			break;
 		}
 		case 40: {
 			Get();
-			if (exprType.equals(Type.INT))
-			  instr = new IMUL();
-			else if (exprType.equals(Type.FLOAT) )
-			   instr = new FMUL();
-			else
-			   SemErr("cannot apply * to "+exprType);        
-			
+			if (exprType.equals(Type.INT)) instr = new IMUL();
+			else if (exprType.equals(Type.FLOAT) ) instr = new FMUL();
+			else SemErr("cannot apply * to "+exprType); 
 			break;
 		}
 		case 41: {
 			Get();
-			if (exprType.equals(Type.INT))
-			  instr = new IDIV();
-			else if (exprType.equals(Type.FLOAT) )
-			   instr = new FDIV();
-			else
-			   SemErr("cannot apply / to "+exprType);        
-			
+			if (exprType.equals(Type.INT)) instr = new IDIV();
+			else if (exprType.equals(Type.FLOAT) ) instr = new FDIV();
+			else SemErr("cannot apply / to "+exprType); 
 			break;
 		}
 		case 42: {
 			Get();
-			if (exprType.equals(Type.INT))
-			  instr = new IREM();
-			else if (exprType.equals(Type.FLOAT) )
-			   instr = new FREM();
-			else
-			   SemErr("cannot apply % to "+exprType);        
-			
+			if (exprType.equals(Type.INT)) instr = new IREM();
+			else if (exprType.equals(Type.FLOAT) ) instr = new FREM();
+			else SemErr("cannot apply % to "+exprType); 
 			break;
 		}
-		default: SynErr(58); break;
+		default: SynErr(55); break;
 		}
 		return instr;
 	}
@@ -1006,7 +904,7 @@ public class Parser {
 			selType = call(cw, className);
 		} else if (la.kind == 1) {
 			selType = var(cw, className, objIndex);
-		} else SynErr(59);
+		} else SynErr(56);
 		return selType;
 	}
 
@@ -1017,23 +915,20 @@ public class Parser {
 		Type[] argTypes = Arguments(cw);
 		InstructionFactory factory = new InstructionFactory( cw.classGen );
 		
-		Method m = getMethod(method, argTypes, cw.classGen  
-		// todo ????? ??? ?? ???? ??? ???????????
-		);
+		Method m = getMethod(method, argTypes, cw.classGen // todo ????? ??? ?? ???? ??? ???????????  
+		                       );
 		if (m==null)
 		   SemErr("no such method "+method);
-		else
-		{
+		else {
+		    selType = m.getReturnType();
 		 cw.last = cw.il.append( factory.createInvoke(
 		     className,
 		     method,
 		     m.getReturnType(),
-		     // todo ?????????, ???? ????? ?? ??????
 		     argTypes, 
 		     Constants.INVOKEVIRTUAL 
 		 ) );
-		}
-		
+		} 
 		return selType;
 	}
 
@@ -1045,13 +940,11 @@ public class Parser {
 			int name = -1;
 			  Field fg = null;
 			     LocalVariableGen lg = getVarGen(var, cw.methodGen);
-			  if (lg==null)
-			  {
+			  if (lg==null) {
 			      fg = getFieldGen(var, classes.get(className));
 			      if( fg == null )
 			          SemErr("no such variable or field "+var);
-			      else
-			      { // ??? ????
+			      else  { // ??? ????
 			          selType = fg.getType();
 			          cw.last = cw.il.append(new ALOAD(objIndex));
 			      }
@@ -1060,45 +953,41 @@ public class Parser {
 			  {    // ??? ??????????
 			      selType = lg.getType();
 			   name = lg.getIndex();
-			  }
-			
+			  } 
 			AssignmentOperator(cw);
 			Type exprType = Expression(cw);
 			InstructionFactory factory = new InstructionFactory( cw.classGen );
-			if (!selType.equals(exprType) && !exprType.equals(Type.NULL))
-			   SemErr("incompatible types: expected "+selType+", got "+exprType);
-			else 
-			{
-			    if (lg!=null)     
-			    {
-			     StoreInstruction store = null;
-			     
-			     if (selType.equals(Type.VOID))
-			         SemErr("void variables are not allowed");
-			     else if (
-			         selType.equals(Type.INT) ||
-			         selType.equals(Type.BOOLEAN)
-			         )
-			         store = new ISTORE( name );
-			     else if ( selType.equals(Type.FLOAT) )
-			         store = new FSTORE( name );
-			     else if ( selType instanceof ObjectType )
-			         store = new ASTORE( name );
-			     else
-			         SemErr("unknown type "+selType);
-			     
-			     InstructionHandle ih = cw.last = cw.il.append( store );
-			     if (lg.getStart()==null)
-			       // ?????????? ??? ?? ???????????????? 
-			       lg.setStart( ih );
-			    }
-			    else if (fg!=null)
-			             cw.last = cw.il.append( factory.createFieldAccess( className, fg.getName(), selType, Constants.PUTFIELD ) );
-			}
-			
+			  if (!selType.equals(exprType) && !exprType.equals(Type.NULL))
+			     SemErr("incompatible types: expected "+selType+", got "+exprType);
+			  else {
+			      if (lg!=null) {
+			       StoreInstruction store = null;
+			       
+			       if (selType.equals(Type.VOID))
+			           SemErr("void variables are not allowed");
+			       else if ( selType.equals(Type.INT) ||
+			                  selType.equals(Type.BOOLEAN) )
+			           store = new ISTORE( name );
+			       else if ( selType.equals(Type.FLOAT) )
+			           store = new FSTORE( name );
+			       else if ( selType instanceof ObjectType )
+			           store = new ASTORE( name );
+			       else
+			           SemErr("unknown type "+selType);
+			       
+			       InstructionHandle ih = cw.last = cw.il.append( store );
+			       if (lg.getStart()==null) // ?????????? ??? ?? ????????????????
+			                    lg.setStart( ih );
+			      } else if (fg!=null)
+			                        cw.last = cw.il.append( factory.createFieldAccess( 
+			                                                            className, 
+			                                                            fg.getName(), 
+			                                                            selType, 
+			                                                            Constants.PUTFIELD ) );
+			   }
 		} else if (la.kind == 1) {
 			selType = access(cw, className);
-		} else SynErr(60);
+		} else SynErr(57);
 		return selType;
 	}
 
@@ -1112,28 +1001,24 @@ public class Parser {
 		String var = identifier();
 		selType = null;
 		LocalVariableGen lg = getVarGen(var, cw.methodGen);
-		if (lg==null)
-		{
+		if (lg==null) {
 		    Field fg = getFieldGen(var, cw.classGen);
-		    if( fg == null )
-		        SemErr("no such variable or field "+var);
-		    else
-		    { // ??? ????
+		    if( fg == null ) SemErr("no such variable or field "+var);
+		    else { // ??? ????
 		        selType = fg.getType();
 		        InstructionFactory factory = new InstructionFactory( cw.classGen );
 		        cw.last = cw.il.append(
-		            factory.createFieldAccess( className, fg.getName(), selType, Constants.GETFIELD )
-		        );    
+		            factory.createFieldAccess( 
+		                     className, 
+		                     fg.getName(), 
+		                     selType, 
+		                     Constants.GETFIELD ) );    
 		    }
-		}
-		else
-		{    // ??? ??????????
+		} else { // ??? ??????????
 		    selType = lg.getType();
 		    Instruction instr = null;
-		    if (
-		        selType.equals(Type.INT) ||
-		        selType.equals(Type.BOOLEAN)
-		    )
+		    if ( selType.equals(Type.INT) ||
+		         selType.equals(Type.BOOLEAN) )
 		        instr = new ILOAD(lg.getIndex());
 		    else if (selType.equals(Type.FLOAT))
 		        instr = new FLOAD(lg.getIndex());
@@ -1143,8 +1028,7 @@ public class Parser {
 		        SemErr("unexpected variable type"+selType);
 		        
 		    cw.last = cw.il.append(instr);
-		}
-		
+		} 
 		return selType;
 	}
 
@@ -1239,20 +1123,17 @@ class Errors {
 			case 44: s = "invalid typeDeclaration"; break;
 			case 45: s = "invalid classBody"; break;
 			case 46: s = "invalid classBody"; break;
-			case 47: s = "invalid interfaceBody"; break;
+			case 47: s = "invalid basicType"; break;
 			case 48: s = "invalid type"; break;
-			case 49: s = "invalid formalParameterList"; break;
-			case 50: s = "invalid formalParameterList"; break;
-			case 51: s = "invalid Statement"; break;
-			case 52: s = "invalid Expression"; break;
-			case 53: s = "invalid Expression"; break;
-			case 54: s = "invalid BlockStatement"; break;
-			case 55: s = "invalid LocalVariableDeclaration"; break;
-			case 56: s = "invalid Creator"; break;
-			case 57: s = "invalid Literal"; break;
-			case 58: s = "invalid Infixop"; break;
-			case 59: s = "invalid Selector"; break;
-			case 60: s = "invalid var"; break;
+			case 49: s = "invalid Statement"; break;
+			case 50: s = "invalid Expression"; break;
+			case 51: s = "invalid Expression"; break;
+			case 52: s = "invalid BlockStatement"; break;
+			case 53: s = "invalid Creator"; break;
+			case 54: s = "invalid Literal"; break;
+			case 55: s = "invalid Infixop"; break;
+			case 56: s = "invalid Selector"; break;
+			case 57: s = "invalid var"; break;
 			default: s = "error " + n; break;
 		}
 		printMsg(line, col, s);
