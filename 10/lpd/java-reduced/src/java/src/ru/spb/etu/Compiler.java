@@ -60,7 +60,7 @@ public class Compiler
             Parser parser = new Parser( scanner );
 
             Parser.filePath = file.getParent();
-            System.out.println( Parser.filePath );
+            System.out.println( args[0] );
             info( "parsing" );
 
             parser.Parse();
@@ -193,7 +193,11 @@ public class Compiler
     {
         Method[] methods = classGen.getMethods();
         for ( Method method : methods )
+        {
             if ( method.getName().equals( name ) )
+            {
                 break;
+            }
+        }
     }
 }
