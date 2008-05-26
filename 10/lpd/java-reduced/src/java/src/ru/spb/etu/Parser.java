@@ -107,7 +107,7 @@ public class Parser {
     class CodeWrapper
     {
         InstructionList il;
-        InstructionHandle last; // ??? ?????????
+        InstructionHandle last; // ??? ????????? todo ??????????????
         ClassGen        classGen;
         MethodGen       methodGen;
 
@@ -173,6 +173,68 @@ public class Parser {
        }        
        return false;
     }
+    
+    public Instruction getStoreInstruction(Type type, int index)
+    {
+        Instruction instr = null;
+       if (type.equals(Type.VOID))
+            SemErr("invalid variable type void");
+       else if ( type.equals(Type.INT) ||
+            type.equals(Type.BOOLEAN) )
+           instr = new ISTORE(index);
+       else if (type.equals(Type.FLOAT))
+           instr = new FSTORE(index);
+       else if (type instanceof ObjectType)
+           instr = new ASTORE(index);
+       else
+           SemErr("unexpected variable type"+type);
+       return instr;    
+    }
+    
+    public Instruction getLoadInstruction(
+        Type type,
+        int index )
+    {
+        Instruction instr = null;
+       if (type.equals(Type.VOID))
+            SemErr("invalid variable type void");
+	   else if ( type.equals(Type.INT) ||
+	        type.equals(Type.BOOLEAN) )
+	       instr = new ILOAD(index);
+	   else if (type.equals(Type.FLOAT))
+	       instr = new FLOAD(index);
+	   else if (type instanceof ObjectType)
+	       instr = new ALOAD(index);
+	   else
+	       SemErr("unexpected variable type"+type);
+       return instr;
+    }
+    
+    public void preparePrintStream(CodeWrapper cw)
+    {
+        InstructionFactory factory = new InstructionFactory( cw.classGen );
+        cw.last = cw.il.append( factory.createFieldAccess(
+                    "java.lang.System", 
+                    "out", 
+                    new ObjectType( "java.io.PrintStream" ),
+                    Constants.GETSTATIC
+                ) );    
+    }
+    
+    public void callPrintMethod(CodeWrapper cw, String method, Type[] argTypes)
+    {
+        InstructionFactory factory = new InstructionFactory( cw.classGen );
+        if(argTypes.length==1) {
+                cw.last = cw.il.append( factory.createInvoke( 
+                        "java.io.PrintStream", 
+                        "println", 
+                        Type.VOID, 
+                        argTypes,
+                        Constants.INVOKEVIRTUAL
+                    ) );
+        } else SemErr("sysout requires 1 parameter");    
+    }
+    
 /*--------------------------------------------------------------------------*/
 
 
@@ -236,8 +298,7 @@ public class Parser {
 		Expect(1);
 		value = t.val;
 		log("id="+t.val);
-		if (value.equals("new")) SemErr("\"new\" is not a valid id");
-		
+		if (value.equals("new")) SemErr("\"new\" is not a valid id"); 
 		return value;
 	}
 
@@ -341,9 +402,8 @@ public class Parser {
 			if (next(_openRoundBracket)) {
 				String methodName = identifier();
 				if (!methodName.equals(classGen.getClassName())) SemErr("wrong constructor name "+methodName);
-				else {
-				    Args args = new Args();
-				
+				        else {
+				            Args args = new Args(); 
 				Expect(2);
 				if (StartOf(2)) {
 					formalParameterList(args);
@@ -366,13 +426,12 @@ public class Parser {
 				   
 				Statement(cw);
 				if (cw.il.getLength()==0) 
-				   cw.last = cw.il.append( InstructionConstants.RETURN );
-				   
+				cw.last = cw.il.append( InstructionConstants.RETURN );
+				
 				cw.methodGen.setMaxStack();
 				classGen.addMethod(cw.methodGen.getMethod());
 				} else SemErr("duplicate constructor "+methodName);
 				                 } 
-				             
 			} else if (StartOf(2)) {
 				Type typeLiteral = null;
 				typeLiteral = type();
@@ -613,48 +672,16 @@ public class Parser {
 		switch (la.kind) {
 		case 28: {
 			Get();
-			InstructionFactory factory = new InstructionFactory( cw.classGen );
-			cw.last = cw.il.append( factory.createFieldAccess(
-			        "java.lang.System", 
-			        "out", 
-			        new ObjectType( "java.io.PrintStream" ),
-			        Constants.GETSTATIC
-			    ) ); 
+			preparePrintStream(cw);
 			Type[] argTypes = Arguments(cw);
-			if(argTypes.length==1) {
-			cw.last = cw.il.append( factory.createInvoke( 
-			        "java.io.PrintStream", 
-			        "println", 
-			        Type.VOID, 
-			        argTypes,
-			        Constants.INVOKEVIRTUAL
-			    ) );
-			  } else SemErr("sysout requires 1 parameter");
-			
+			callPrintMethod(cw, "println", argTypes); 
 			break;
 		}
 		case 29: {
 			Get();
-			InstructionFactory factory = new InstructionFactory( cw.classGen );
-			cw.last = cw.il.append( 
-			    factory.createFieldAccess(
-			        "java.lang.System", 
-			        "out", 
-			        new ObjectType( "java.io.PrintStream" ),
-			        Constants.GETSTATIC
-			    )
-			); 
+			preparePrintStream(cw);
 			Type[] argTypes = Arguments(cw);
-			if(argTypes.length==1) {
-			   cw.last = cw.il.append( factory.createInvoke(
-			           "java.io.PrintStream", 
-			           "print", 
-			           Type.VOID, 
-			           argTypes,
-			           Constants.INVOKEVIRTUAL
-			       ) );
-			} else SemErr("sysout requires 1 parameter");
-			
+			callPrintMethod(cw, "print", argTypes); 
 			break;
 		}
 		case 30: {
@@ -733,32 +760,15 @@ public class Parser {
 		   SemErr("duplicate local variable "+varName);
 		else if (typeLiteral!=null)
 		{
-		    LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null);
-		
+		    LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null); 
 		if (la.kind == 7) {
 			Get();
 			Type exprType = Expression(cw);
 			log("init");
-			if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) )
+			if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) ) // todo ???????????
 			    SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
 			else {   
-			StoreInstruction store = null;
-			    
-			int name = lg.getIndex();
-			if (typeLiteral.equals(Type.VOID))
-			    SemErr("void variables are not allowed");
-			else if (
-			    typeLiteral.equals(Type.INT) ||
-			    typeLiteral.equals(Type.BOOLEAN)
-			    )
-			    store = new ISTORE( name );
-			else if ( typeLiteral.equals(Type.FLOAT) )
-			    store = new FSTORE( name );
-			else if ( typeLiteral instanceof ObjectType )
-			    store = new ASTORE( name );
-			else
-			    SemErr("unknown type "+typeLiteral);
-			 
+			Instruction store = getStoreInstruction(typeLiteral, lg.getIndex());
 			lg.setStart( cw.last = cw.il.append( store ) );
 			}
 			  }
@@ -917,14 +927,13 @@ public class Parser {
 		
 		Method m = getMethod(method, argTypes, cw.classGen // todo ????? ??? ?? ???? ??? ???????????  
 		                       );
-		if (m==null)
-		   SemErr("no such method "+method);
+		if (m==null) SemErr("no such method "+method);
 		else {
 		    selType = m.getReturnType();
 		 cw.last = cw.il.append( factory.createInvoke(
 		     className,
 		     method,
-		     m.getReturnType(),
+		     selType,
 		     argTypes, 
 		     Constants.INVOKEVIRTUAL 
 		 ) );
@@ -961,23 +970,11 @@ public class Parser {
 			     SemErr("incompatible types: expected "+selType+", got "+exprType);
 			  else {
 			      if (lg!=null) {
-			       StoreInstruction store = null;
-			       
-			       if (selType.equals(Type.VOID))
-			           SemErr("void variables are not allowed");
-			       else if ( selType.equals(Type.INT) ||
-			                  selType.equals(Type.BOOLEAN) )
-			           store = new ISTORE( name );
-			       else if ( selType.equals(Type.FLOAT) )
-			           store = new FSTORE( name );
-			       else if ( selType instanceof ObjectType )
-			           store = new ASTORE( name );
-			       else
-			           SemErr("unknown type "+selType);
-			       
-			       InstructionHandle ih = cw.last = cw.il.append( store );
+			          // todo hashMap
+			       Instruction store = getStoreInstruction(selType, lg.getIndex());
+			       cw.last = cw.il.append( store );
 			       if (lg.getStart()==null) // ?????????? ??? ?? ????????????????
-			                    lg.setStart( ih );
+			                    lg.setStart( cw.last );
 			      } else if (fg!=null)
 			                        cw.last = cw.il.append( factory.createFieldAccess( 
 			                                                            className, 
@@ -1016,17 +1013,7 @@ public class Parser {
 		    }
 		} else { // ??? ??????????
 		    selType = lg.getType();
-		    Instruction instr = null;
-		    if ( selType.equals(Type.INT) ||
-		         selType.equals(Type.BOOLEAN) )
-		        instr = new ILOAD(lg.getIndex());
-		    else if (selType.equals(Type.FLOAT))
-		        instr = new FLOAD(lg.getIndex());
-		    else if (selType instanceof ObjectType)
-		        instr = new ALOAD(lg.getIndex());
-		    else
-		        SemErr("unexpected variable type"+selType);
-		        
+		    Instruction instr = getLoadInstruction(selType, lg.getIndex());
 		    cw.last = cw.il.append(instr);
 		} 
 		return selType;
