@@ -5,53 +5,67 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.cayenne.DataObjectUtils;
-import org.apache.cayenne.ObjectContext;
 
 import ru.spb.etu.server.model.auto._DbArtist;
 
-public class DbArtist extends _DbArtist {
+public class DbArtist
+    extends _DbArtist
+{
 
-	public static final Integer MASTERPICE_ID_TYPE = 0;
-	public static final Integer PICTURE_ID_TYPE = 1;
-	public static final Integer SCULPTURE_ID_TYPE = 2;
-	
-	
-	public Integer  getId(){
-		return DataObjectUtils.intPKForObject(this);
-	}
-	
-	
+    public static final Integer MASTERPICE_ID_TYPE = 0;
+    public static final Integer PICTURE_ID_TYPE    = 1;
+    public static final Integer SCULPTURE_ID_TYPE  = 2;
 
-   
-   
-	static final String DEFAULT_DATE_FORMAT = "yyyyMMdd";
+    public Integer getId()
+    {
+        return DataObjectUtils.intPKForObject( this );
+    }
+
+    static final String DEFAULT_DATE_FORMAT = "yyyyMMdd";
 
     /**
      * Sets date of birth using a string in format yyyyMMdd.
      */
-    public void setDateOfBirthString(String yearMonthDay) {
-        if (yearMonthDay == null) {
-            setBirthdate(null);
+    public void setDateOfBirthString(
+        String yearMonthDay )
+    {
+        if ( yearMonthDay == null )
+        {
+            setBirthdate( null );
         }
-        else {
-            
+        else
+        {
+
             Date date;
-            try {
-                date = new SimpleDateFormat(DEFAULT_DATE_FORMAT).parse(yearMonthDay);
+            try
+            {
+                date = new SimpleDateFormat( DEFAULT_DATE_FORMAT ).parse( yearMonthDay );
             }
-            catch (ParseException e) {
-                throw new IllegalArgumentException("A date argument must be in format '"
-                        + DEFAULT_DATE_FORMAT
-                        + "': "
-                        + yearMonthDay);
+            catch ( ParseException e )
+            {
+                throw new IllegalArgumentException( "A date argument must be in format '" + DEFAULT_DATE_FORMAT + "': " + yearMonthDay );
             }
 
-            setBirthdate(date);
+            setBirthdate( date );
         }
     }
-	
-	
+
+    /**
+     * Sets date of birth using a string in format yyyyMMdd.
+     */
+    public String getDateOfBirthString()
+    {
+        Date d = getBirthdate();
+        if ( d == null )
+        {
+            return "";
+        }
+        else
+        {
+            String out = new SimpleDateFormat( DEFAULT_DATE_FORMAT ).format( d );
+
+            return out;
+        }
+    }
+
 }
-
-
-
