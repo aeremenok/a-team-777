@@ -117,7 +117,8 @@ public class Parser {
     public ClassGen getType( String name )
     { return impl.getType(name); }
     
-
+    public boolean checkInterfaces( ClassGen classGen )
+    { return impl.checkInterfaces( classGen ); }
 /*--------------------------------------------------------------------------*/
 
 
@@ -221,6 +222,7 @@ public class Parser {
 			superInterfaceName = identifier();
 			if(superInterfaceName.equals(interfaceName)) SemErr("cannot self-inherit");
 			isPresent(superInterfaceName);
+			if (impl.interfaces.get(superInterfaceName)==null) SemErr(superInterfaceName+" is not an interface");
 		}
 		ClassGen classGen = new ClassGen(
 		   interfaceName, 
@@ -245,6 +247,7 @@ public class Parser {
 			superName = identifier();
 			if(superName.equals(className)) SemErr("cannot self-inherit");
 			  isPresent(superName);
+			  if (impl.classes.get(superName)==null) SemErr(superName+" is not a class"); 
 		}
 		String interfaceName = null;
 		if (la.kind == 13) {
@@ -252,6 +255,7 @@ public class Parser {
 			interfaceName = identifier();
 			if(interfaceName.equals(className)) SemErr("cannot self-implement");
 			  isPresent(interfaceName);
+			  if (impl.interfaces.get(interfaceName)==null) SemErr(interfaceName+" is not an interface");
 		}
 		ClassGen classGen = new ClassGen(
 		   className, 
@@ -266,6 +270,7 @@ public class Parser {
 		classGen.addEmptyConstructor( Constants.ACC_PUBLIC );
 		log("class "+className+" created");
 		classBody(classGen);
+		checkInterfaces(classGen);
 		try{ classGen.getJavaClass().dump( filePath+"/"+className+".class" ); }
 		catch(Exception e){e.printStackTrace();}
 	}
@@ -397,6 +402,8 @@ public class Parser {
 			         null, // instructions list
 			         classGen.getConstantPool()
 			);
+			methodGen.setMaxStack();
+			      classGen.addMethod(methodGen.getMethod()); 
 		}
 		Expect(5);
 	}

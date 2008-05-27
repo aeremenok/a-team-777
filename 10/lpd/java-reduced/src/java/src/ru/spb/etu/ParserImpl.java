@@ -81,12 +81,8 @@ public class ParserImpl
         ClassGen classGen )
     {
         for ( Method method : classGen.getMethods() )
-        {
             if ( method.getName().equals( name ) && deepInstanceOf( method.getArgumentTypes(), argTypes ) )
-            {
                 return new MethodParams( method, classGen.getClassName() );
-            }
-        }
 
         String superclassName = classGen.getSuperclassName();
         if ( !superclassName.equals( "<null>" ) )
@@ -94,9 +90,7 @@ public class ParserImpl
             ClassGen superClass = classes.get( superclassName );
             MethodParams mp = getMethod( name, argTypes, superClass );
             if ( mp != null )
-            {
                 return mp;
-            }
         }
         return null;
     }
@@ -115,14 +109,10 @@ public class ParserImpl
         // todo if ( ancestor.toString().equals( "java.lang.String" ) )
         // return false;
         if ( ancestor.equals( Type.OBJECT ) )
-        {
             return true;
-        }
 
         if ( ancestor.equals( child ) )
-        {
             return true;
-        }
 
         if ( ancestor instanceof ObjectType )
         {
@@ -131,19 +121,13 @@ public class ParserImpl
             {
                 ObjectType objChild = (ObjectType) child;
                 if ( objAncestor.getClassName().equals( objChild.getClassName() ) )
-                {
                     return true;
-                }
             }
             else
-            {
                 return false;
-            }
         }
         else
-        {
             return false;
-        }
 
         return instance_of( ancestor, superType( child ) );
     }
@@ -171,17 +155,11 @@ public class ParserImpl
         Type[] types2 )
     {
         if ( types1 == null || types2 == null )
-        {
             return false;
-        }
         if ( types1 == types2 )
-        {
             return true;
-        }
         if ( types1.length != types2.length )
-        {
             return false;
-        }
 
         boolean res = true;
         int i = 0;
@@ -207,13 +185,9 @@ public class ParserImpl
     {
         InstructionFactory factory = new InstructionFactory( cw.classGen );
         if ( argTypes.length == 1 )
-        {
             cw.append( factory.createInvoke( "java.io.PrintStream", method, Type.VOID, argTypes, INVOKEVIRTUAL ) );
-        }
         else
-        {
             parser.SemErr( "sysout requires 1 parameter" );
-        }
     }
 
     /**
@@ -226,12 +200,8 @@ public class ParserImpl
         MethodGen methodGen )
     {
         for ( LocalVariableGen var : methodGen.getLocalVariables() )
-        {
             if ( var.getName().equals( name ) )
-            {
                 return var;
-            }
-        }
         return null;
     }
 
@@ -245,12 +215,8 @@ public class ParserImpl
         ClassGen classGen )
     {
         for ( Field var : classGen.getFields() )
-        {
             if ( var.getName().equals( name ) )
-            {
                 return var;
-            }
-        }
         return null;
     }
 
@@ -259,6 +225,7 @@ public class ParserImpl
      * @return есть ли уже такой
      */
     public boolean isPresent(
+        // todo это название - обман пользователя. зарефакторить
         String typeName )
     {
         if ( types.get( typeName ) == null )
@@ -295,25 +262,15 @@ public class ParserImpl
     {
         Instruction instr = null;
         if ( type.equals( Type.VOID ) )
-        {
             parser.SemErr( "invalid variable type void" );
-        }
         else if ( type.equals( Type.INT ) || type.equals( Type.BOOLEAN ) )
-        {
             instr = new ISTORE( index );
-        }
         else if ( type.equals( Type.FLOAT ) )
-        {
             instr = new FSTORE( index );
-        }
         else if ( type instanceof ObjectType )
-        {
             instr = new ASTORE( index );
-        }
         else
-        {
             parser.SemErr( "unexpected variable type" + type );
-        }
         return instr;
     }
 
@@ -328,25 +285,15 @@ public class ParserImpl
     {
         Instruction instr = null;
         if ( type.equals( Type.VOID ) )
-        {
             parser.SemErr( "invalid variable type void" );
-        }
         else if ( type.equals( Type.INT ) || type.equals( Type.BOOLEAN ) )
-        {
             instr = new ILOAD( index );
-        }
         else if ( type.equals( Type.FLOAT ) )
-        {
             instr = new FLOAD( index );
-        }
         else if ( type instanceof ObjectType )
-        {
             instr = new ALOAD( index );
-        }
         else
-        {
             parser.SemErr( "unexpected variable type" + type );
-        }
         return instr;
     }
 
@@ -402,9 +349,44 @@ public class ParserImpl
     {
         ClassGen classGen = types.get( name );
         if ( classGen == null )
-        {
             parser.SemErr( "no such type " + name );
-        }
         return classGen;
+    }
+
+    public boolean checkInterfaces(
+        ClassGen classGen )
+    {
+        boolean res = true;
+
+        String[] interfaceNames = classGen.getInterfaceNames();
+        while ( interfaceNames != null && interfaceNames.length > 0 )
+        {
+            ClassGen iGen = interfaces.get( interfaceNames[0] );
+            if ( !isPresent( interfaceNames[0] ) )
+                res = checkMethods( classGen, res, iGen );
+            interfaceNames = iGen.getInterfaceNames();
+        }
+
+        return res;
+    }
+
+    private boolean checkMethods(
+        ClassGen classGen,
+        boolean res,
+        ClassGen iGen )
+    {
+        Method[] methods = iGen.getMethods();
+        for ( int j = 0; j < methods.length; j++ )
+        {
+            Method method = methods[j];
+            MethodParams methodParams = getMethod( method.getName(), method.getArgumentTypes(), classGen );
+            if ( methodParams == null )
+            {
+                System.out.println( classGen.getClassName() + " must implement " + iGen.getClassName() + "#" +
+                                    method.getName() );
+                res = false;
+            }
+        }
+        return res;
     }
 }

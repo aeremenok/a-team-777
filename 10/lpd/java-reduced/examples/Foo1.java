@@ -1,17 +1,25 @@
 public 
-class Bar{
-    void bar(){
-        System.out.println("asdfas");
-    }    
+interface Bar2{
+    void bar();
+}
+public 
+interface Bar1 extends Bar2 {
+    void bar();
 }
 
-public class Foo1 extends Bar{
+public 
+interface Bar extends Bar1{
+    void bar();
+}
+
+public class Foo1 implements Bar{
     void bar(){
-        super.bar();//System.out.println("78978454");
+        System.out.println("78978454");
     }    
     
     void foo(boolean d)
     {
+        bar();
     }
 
     //public static void main(String[] args){ new Foo1().main(); }
@@ -20,7 +28,8 @@ public class Foo1 extends Bar{
     {
         Foo1 foo1 = new Foo1();
         Foo1 foo2 = foo1;
-        boolean b = foo1.equals(foo2);
+        boolean b = true;
+        //b = foo1.equals(foo2);
         System.out.println(b);
     }
 
