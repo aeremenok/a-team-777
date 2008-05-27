@@ -831,7 +831,7 @@ public class Parser {
 		     mp.className,
 		     mp.method.getName(),
 		     selType,
-		     argTypes, 
+		     mp.method.getArgumentTypes(), 
 		     Constants.INVOKEVIRTUAL
 		 ) );
 		} 
