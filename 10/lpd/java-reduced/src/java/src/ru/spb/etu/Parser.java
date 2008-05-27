@@ -1,60 +1,43 @@
 package ru.spb.etu;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.apache.bcel.Constants;
-
-import org.apache.bcel.generic.ClassGen;
-import org.apache.bcel.generic.MethodGen;
-import org.apache.bcel.generic.FieldGen;
-import org.apache.bcel.generic.LocalVariableGen;
-
-import org.apache.bcel.generic.Type;
-import org.apache.bcel.generic.ObjectType;
-import org.apache.bcel.generic.ArrayType;
-
-import org.apache.bcel.generic.InstructionList;
-import org.apache.bcel.generic.InstructionConstants;
-import org.apache.bcel.generic.InstructionFactory;
-import org.apache.bcel.generic.InstructionHandle;
-
-import org.apache.bcel.generic.Instruction;
-import org.apache.bcel.generic.ALOAD;
-import org.apache.bcel.generic.FLOAD;
-import org.apache.bcel.generic.ILOAD;
-
+import org.apache.bcel.classfile.Field;
 import org.apache.bcel.generic.ACONST_NULL;
-
-import org.apache.bcel.generic.StoreInstruction;
-import org.apache.bcel.generic.ASTORE;
-import org.apache.bcel.generic.FSTORE;
-import org.apache.bcel.generic.ISTORE;
-
+import org.apache.bcel.generic.ALOAD;
 import org.apache.bcel.generic.ArithmeticInstruction;
+import org.apache.bcel.generic.ArrayType;
+import org.apache.bcel.generic.ClassGen;
 import org.apache.bcel.generic.FADD;
 import org.apache.bcel.generic.FDIV;
 import org.apache.bcel.generic.FMUL;
+import org.apache.bcel.generic.FREM;
 import org.apache.bcel.generic.FSUB;
+import org.apache.bcel.generic.FieldGen;
+import org.apache.bcel.generic.GOTO;
 import org.apache.bcel.generic.IADD;
 import org.apache.bcel.generic.IAND;
+import org.apache.bcel.generic.ICONST;
 import org.apache.bcel.generic.IDIV;
-import org.apache.bcel.generic.IMUL;
-import org.apache.bcel.generic.IOR;
-import org.apache.bcel.generic.ISUB;
-import org.apache.bcel.generic.IREM;
-import org.apache.bcel.generic.FREM;
-
-import org.apache.bcel.generic.IfInstruction;
 import org.apache.bcel.generic.IFEQ;
 import org.apache.bcel.generic.IFNE;
-import org.apache.bcel.generic.ICONST;
+import org.apache.bcel.generic.IMUL;
+import org.apache.bcel.generic.IOR;
+import org.apache.bcel.generic.IREM;
+import org.apache.bcel.generic.ISUB;
+import org.apache.bcel.generic.IfInstruction;
+import org.apache.bcel.generic.Instruction;
+import org.apache.bcel.generic.InstructionConstants;
+import org.apache.bcel.generic.InstructionFactory;
+import org.apache.bcel.generic.InstructionHandle;
+import org.apache.bcel.generic.InstructionList;
+import org.apache.bcel.generic.LocalVariableGen;
+import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.NOP;
-import org.apache.bcel.generic.GOTO;
-
-import org.apache.bcel.classfile.Method;
-import org.apache.bcel.classfile.Field;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Arrays;
+import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.Type;
 
 public class Parser {
 	static final int _EOF = 0;
@@ -91,293 +74,50 @@ public class Parser {
     public static String filePath;
 	
     // ????????? ??????
-    public static HashMap<String, ClassGen> types = new HashMap<String, ClassGen>();
-    public static HashMap<String, ClassGen> classes = new HashMap<String, ClassGen>();
-    public static HashMap<String, ClassGen> interfaces = new HashMap<String, ClassGen>();
-    
-    // ??????? ?????????? ??????????
-    public class Args
-    {
-        Type[] argTypes = null;
-        String[] argNames = null;
-    }
+    public ParserImpl impl = new ParserImpl(this); 
     
     // ??????
     public void log(String msg)
-    {
-        System.err.println(msg);        
-    }
-    
-    // ??????? ?????????? ???? (?????????? ?? ?????? ???? ??????????? ? ??????????. ????? ????????? ???-?????? ???)
-    class CodeWrapper
-    {
-        InstructionList     il;
-        InstructionHandle   last; // ??? ?????????
-        ClassGen            classGen;
-        MethodGen           methodGen;
-
-        public CodeWrapper(
-            ClassGen classGen,
-            InstructionList il,
-            MethodGen methodGen
-        )
-        {
-            this.il = il;
-            this.classGen = classGen;
-            this.methodGen = methodGen; 
-        }
-        
-        public InstructionHandle append(Instruction instr)
-        {
-            last = il.append(instr);
-            return last;
-        }
-    }
+    { System.err.println(msg); }
     
     // ?????
-    class MethodParams
-    {
-        Method method;
-        String className;
+    public MethodParams getMethod( String name, Type[] argTypes, ClassGen classGen )
+    { return impl.getMethod(name, argTypes, classGen );}
 
-        public MethodParams(
-            Method method,
-            String className )
-        {
-            super();
-            this.method = method;
-            this.className = className;
-        }
-    }
-
-    public MethodParams getMethod(
-        String name,
-        Type[] argTypes,
-        ClassGen classGen )
-    {
-        for ( Method method : classGen.getMethods() )
-            if ( method.getName().equals( name ) && deepInstanceOf( method.getArgumentTypes(), argTypes ) )
-                return new MethodParams( method, classGen.getClassName() );
-                
-        String superclassName = classGen.getSuperclassName();
-        if ( !superclassName.equals( "<null>" ) )
-        {
-            ClassGen superClass = classes.get( superclassName );
-            MethodParams mp = getMethod( name, argTypes, superClass );
-            if ( mp != null )
-                return mp;
-        }
-        return null;
-    }
-
-    public LocalVariableGen getVarGen(
-        String name,
-        MethodGen methodGen )
-    {   
-        for ( LocalVariableGen var : methodGen.getLocalVariables() )
-			if ( var.getName().equals( name ) )
-			    return var;
-        return null;
-    }
+    public LocalVariableGen getVarGen( String name, MethodGen methodGen )
+    { return impl.getVarGen(name,methodGen ); }
     
-    public Field getFieldGen(
-        String name,
-        ClassGen classGen )
-    {   
-        for ( Field var : classGen.getFields() )
-			if ( var.getName().equals( name ) )
-			    return var;
-        return null;
-    }
+    public Field getFieldGen( String name, ClassGen classGen )
+    { return impl.getFieldGen( name,classGen ); }
     
-    public boolean isPresent(String typeName){
-       if (types.get(typeName)==null){
-           SemErr("no such type "+typeName);
-           return true;
-       }
-       return false;
-    }
+    public boolean isPresent(String typeName)
+    { return impl.isPresent(typeName); }
     
-    public boolean isDuplicate(String typeName){
-       if (types.get(typeName)!=null){
-           SemErr("duplicate type "+typeName);
-           return true;
-       }        
-       return false;
-    }
+    public boolean isDuplicate(String typeName)
+    { return impl.isDuplicate(typeName); }
     
     public Instruction getStoreInstruction(Type type, int index)
-    {
-        Instruction instr = null;
-       if (type.equals(Type.VOID))
-            SemErr("invalid variable type void");
-       else if ( type.equals(Type.INT) ||
-            type.equals(Type.BOOLEAN) )
-           instr = new ISTORE(index);
-       else if (type.equals(Type.FLOAT))
-           instr = new FSTORE(index);
-       else if (type instanceof ObjectType)
-           instr = new ASTORE(index);
-       else
-           SemErr("unexpected variable type"+type);
-       return instr;    
-    }
+    { return impl.getStoreInstruction(type, index); }
     
-    public Instruction getLoadInstruction(
-        Type type,
-        int index )
-    {
-        Instruction instr = null;
-       if (type.equals(Type.VOID))
-            SemErr("invalid variable type void");
-	   else if ( type.equals(Type.INT) ||
-	        type.equals(Type.BOOLEAN) )
-	       instr = new ILOAD(index);
-	   else if (type.equals(Type.FLOAT))
-	       instr = new FLOAD(index);
-	   else if (type instanceof ObjectType)
-	       instr = new ALOAD(index);
-	   else
-	       SemErr("unexpected variable type"+type);
-       return instr;
-    }
+    public Instruction getLoadInstruction( Type type, int index )
+    { return impl.getLoadInstruction( type, index ); }
     
     public void preparePrintStream(CodeWrapper cw)
-    {
-        InstructionFactory factory = new InstructionFactory( cw.classGen );
-        cw.append( factory.createFieldAccess(
-                    "java.lang.System", 
-                    "out", 
-                    new ObjectType( "java.io.PrintStream" ),
-                    Constants.GETSTATIC
-                ) );    
-    }
+    { impl.preparePrintStream(cw); }
     
     public void callPrintMethod(CodeWrapper cw, String method, Type[] argTypes)
-    {
-        InstructionFactory factory = new InstructionFactory( cw.classGen );
-        if(argTypes.length==1) {
-                cw.append( factory.createInvoke( 
-                        "java.io.PrintStream", 
-                        "println", 
-                        Type.VOID, 
-                        argTypes,
-                        Constants.INVOKEVIRTUAL
-                    ) );
-        } else SemErr("sysout requires 1 parameter");    
-    }
+    { impl.callPrintMethod(cw, method, argTypes); }
     
+    public void addClass( String name, ClassGen classGen )
+    { impl.addClass( name, classGen ); }
     
-    static class MyClassGen
-        extends ClassGen
-        implements
-            Constants
-    {
-        public MyClassGen(
-            String class_name,
-            String super_class_name )
-        {
-            super( class_name, super_class_name, null, ACC_PUBLIC | ACC_SUPER, null );
-        }
-
-        public MethodGen createMethod(
-            String methodName,
-            Type retType,
-            Type[] argTypes,
-            String[] argNames )
-        {
-            InstructionList il = new InstructionList();
-            MethodGen methodGen =
-                                  new MethodGen( ACC_PUBLIC, retType, argTypes, argNames, methodName, getClassName(),
-                                                 il, getConstantPool() );
-            il.append(InstructionConstants.RETURN);
-            methodGen.setMaxStack();
-            addMethod( methodGen.getMethod() );
-            return methodGen;
-        }
-    }
+    public void addInterface( String name, ClassGen classGen )
+    { impl.addInterface( name, classGen ); }
     
-    static{
-        MyClassGen vector = new MyClassGen("java.util.Vector", "java.lang.Object");
-        classes.put("java.util.Vector", vector);
-        types.put("java.util.Vector", vector);
-        vector.createMethod("<init>", Type.VOID, null, null );
-        vector.createMethod("add", Type.INT, new Type[]{Type.OBJECT}, new String[]{"e"} );
-        vector.createMethod("get", Type.OBJECT, new Type[]{Type.INT}, new String[]{"index"} );
-        vector.createMethod("size", Type.INT, new Type[]{}, new String[]{} );
-        vector.createMethod("indexOf", Type.INT, new Type[]{Type.OBJECT}, new String[]{"o"} );
-        
-        MyClassGen string = new MyClassGen("java.lang.String", "java.lang.Object");
-        classes.put("java.lang.String", string);
-        types.put("java.lang.String", string);
-        // todo ??????? ???? ?? ????        
-
-        MyClassGen object = new MyClassGen("java.lang.Object", "<null>");
-        classes.put("java.lang.Object", object);
-        types.put("java.lang.Object", object);
-        object.createMethod("<init>", Type.VOID, new Type[]{}, new String[]{} );
-        object.createMethod("equals", Type.BOOLEAN, new Type[]{Type.OBJECT}, new String[]{"obj"} );        
-        MethodGen m = object.createMethod("hashCode", Type.INT, new Type[]{}, new String[]{} );
-        m.setModifiers( m.getModifiers() | Constants.ACC_NATIVE | Constants.ACC_FINAL );
-    }
+    public ClassGen getType( String name )
+    { return impl.getType(name); }
     
-    public boolean instance_of(
-        Type ancestor,
-        Type child )
-    {
-        // todo if ( ancestor.toString().equals( "java.lang.String" ) )
-        // return false;
-        if ( ancestor.equals( Type.OBJECT ) )
-            return true;
 
-        if ( ancestor.equals( child ) )
-            return true;
-
-        if ( ancestor instanceof ObjectType )
-        {
-            ObjectType objAncestor = (ObjectType) ancestor;
-            if ( child instanceof ObjectType )
-            {
-                ObjectType objChild = (ObjectType) child;
-                if ( objAncestor.getClassName().equals( objChild.getClassName() ) )
-                    return true;
-            }
-            else
-                return false;
-        }
-        else
-            return false;
-
-        return instance_of( ancestor, superType( child ) );
-    }
-
-    public Type superType(
-        Type type )
-    {
-        ClassGen classGen = types.get( type.toString() );
-        return new ObjectType( classGen.getSuperclassName() );
-    }
-    
-    public boolean deepInstanceOf(
-        Type[] types1,
-        Type[] types2 )
-    {
-        if (types1 == null || types2 == null)
-            return false;
-        if ( types1 == types2 )
-            return true;
-        if ( types1.length != types2.length )
-            return false;
-        
-        boolean res = true;
-        int i = 0;
-        while ( res && i < types1.length )
-        {
-            res &= instance_of( types1[i], types2[i] );
-            i++;
-        }
-        return res;
-    }
 /*--------------------------------------------------------------------------*/
 
 
@@ -490,10 +230,8 @@ public class Parser {
 		   superInterfaceName==null ? null : new String[]{superInterfaceName} 
 		);
 		    
-		   if (!isDuplicate(interfaceName)){	       
-		    types.put(interfaceName, classGen);
-		    interfaces.put(interfaceName, classGen);
-		}
+		   addInterface(interfaceName, classGen);
+		   
 		log("interface "+interfaceName+" created");
 		interfaceBody(classGen);
 		try{
@@ -525,10 +263,7 @@ public class Parser {
 		   modifier,
 		   interfaceName==null ? null : new String[]{interfaceName} );
 		   
-		if (!isDuplicate(className)){
-		       types.put(className, classGen);
-		       classes.put(className, classGen);
-		   }
+		addClass(className, classGen);
 		       
 		// todo ????? ????? =)
 		classGen.addEmptyConstructor( Constants.ACC_PUBLIC );
@@ -1090,7 +825,7 @@ public class Parser {
 		Type[] argTypes = Arguments(cw);
 		InstructionFactory factory = new InstructionFactory( cw.classGen );
 		
-		MethodParams mp = getMethod(method, argTypes, types.get(className) );
+		MethodParams mp = getMethod(method, argTypes, getType(className) );
 		if (mp==null) SemErr("no such method "+method);
 		else {
 		    selType = mp.method.getReturnType();
@@ -1115,7 +850,7 @@ public class Parser {
 			Field fg = null;
 			  LocalVariableGen lg = getVarGen(var, cw.methodGen);
 			if (lg==null) {
-			    fg = getFieldGen(var, types.get(className));
+			    fg = getFieldGen(var, getType(className));
 			    if( fg == null ) SemErr("no such variable or field "+var);
 			    else  { // ??? ????
 			        selType = fg.getType();
