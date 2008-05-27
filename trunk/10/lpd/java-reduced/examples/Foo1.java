@@ -35,8 +35,8 @@ implements Bar{
     public void main()
     {
         Foo1 foo1 = new Foo1();
-        Bar foo2 = foo1;
-        boolean b = true;
+        A foo2 = foo1;
+        boolean b = !foo1.equals(foo2);
         foo2.bar();
         foo2.aaa(); // xxx работает, а не должно. бага
         System.out.println(b);

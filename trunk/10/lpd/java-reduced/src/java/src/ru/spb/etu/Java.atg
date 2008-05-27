@@ -567,7 +567,7 @@ call<out Type selType, CodeWrapper cw, String className>
 		        mp.className,
 		        mp.method.getName(),
 		        selType,
-		        argTypes, 
+		        mp.method.getArgumentTypes(), 
 		        Constants.INVOKEVIRTUAL
 		    ) );
 		} .)
