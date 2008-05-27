@@ -460,11 +460,7 @@ LocalVariableDeclaration<CodeWrapper cw>
 = 
 (.  InstructionFactory factory = new InstructionFactory( cw.classGen );
     Type typeLiteral = null; .)
-(   type<out typeLiteral>  
-    (. if (typeLiteral instanceof ObjectType){
-            cw.append( factory.createNew( typeLiteral.toString() ) );
-	        cw.append( InstructionConstants.DUP );
-	   }.) )
+type<out typeLiteral>  
 identifier<out String varName>
 (.
     if (getVarGen(varName, cw.methodGen)!=null)
@@ -479,6 +475,7 @@ identifier<out String varName>
 	    else {   
 			Instruction store = getStoreInstruction(typeLiteral, lg.getIndex());
 			lg.setStart( cw.append( store ) );
+			lg.setEnd(null);
 		}
     }.) ] 
 .
@@ -547,7 +544,7 @@ Selector<out Type selType, CodeWrapper cw, String className, int objIndex>
 (
 	(
 	    IF(next(_openRoundBracket))
-	       // забрасываем в стек this и вызываем метод
+	       // забрасываем в стек объект и вызываем его метод
 	       (.cw.append(new ALOAD(objIndex));.)
 	       call<out selType, cw, className>
 	)
@@ -607,7 +604,6 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 		           SemErr("incompatible types: expected "+selType+", got "+exprType);
 		        else {
 		            if (lg!=null) {
-		                // todo hashMap
 			            Instruction store = getStoreInstruction(selType, lg.getIndex());
 			            cw.append( store );
 			            if (lg.getStart()==null) // переменная еще не инициализирована
@@ -677,12 +673,14 @@ Literal<out Type exprType, CodeWrapper cw> (.exprType = null;.)
 Creator<out Type createdType, CodeWrapper cw>
 = 
 (.String className=null;.)
-("Vector" (.className="java.util.Vector";.)| identifier<out className>) Arguments<out Type[] argTypes, cw>
+identifier<out className> Arguments<out Type[] argTypes, cw>
 (.  // в стеке лежат значения аргументов, вызываем метод
     if (isPresent(className))
         createdType = null;
     else {
 	    InstructionFactory factory = new InstructionFactory( cw.classGen );
+        cw.append( factory.createNew( className ) );
+        cw.append( InstructionConstants.DUP );
 	    cw.append( factory.createInvoke(
 	        className,
 	        "<init>",
@@ -699,17 +697,6 @@ AssignmentOperator<CodeWrapper cw>
 = 
 (.log("assgmnt");.)
   ("=")
-/*
-//todo при наличии времени реализовать упрощённые присвоения, указанные ниже
-| ("+=")
-| ("-=")
-| ("*=")
-| ("/=")
-| ("&=")
-| ("|=")
-| ("^=")
-| ("%=")
-*/
 .
 /*---------------------------------------------------------------------------*/
 // бинарная операция

@@ -651,10 +651,6 @@ public class Parser {
 		InstructionFactory factory = new InstructionFactory( cw.classGen );
 		Type typeLiteral = null; 
 		typeLiteral = type();
-		if (typeLiteral instanceof ObjectType){
-		    cw.append( factory.createNew( typeLiteral.toString() ) );
-		 cw.append( InstructionConstants.DUP );
-		}
 		String varName = identifier();
 		if (getVarGen(varName, cw.methodGen)!=null)
 		   SemErr("duplicate local variable "+varName);
@@ -670,6 +666,7 @@ public class Parser {
 			else {   
 			Instruction store = getStoreInstruction(typeLiteral, lg.getIndex());
 			lg.setStart( cw.append( store ) );
+			lg.setEnd(null);
 			}
 			  }
 		}
@@ -696,17 +693,14 @@ public class Parser {
 	Type  Creator(CodeWrapper cw) {
 		Type  createdType;
 		String className=null;
-		if (la.kind == 21) {
-			Get();
-			className="java.util.Vector";
-		} else if (la.kind == 1) {
-			className = identifier();
-		} else SynErr(54);
+		className = identifier();
 		Type[] argTypes = Arguments(cw);
 		if (isPresent(className))
 		   createdType = null;
 		else {
 		 InstructionFactory factory = new InstructionFactory( cw.classGen );
+		    cw.append( factory.createNew( className ) );
+		    cw.append( InstructionConstants.DUP );
 		 cw.append( factory.createInvoke(
 		     className,
 		     "<init>",
@@ -746,7 +740,7 @@ public class Parser {
 		} else if (la.kind == 36) {
 			Get();
 			exprType = Type.NULL; cw.append( new ACONST_NULL());
-		} else SynErr(55);
+		} else SynErr(54);
 		return exprType;
 	}
 
@@ -801,7 +795,7 @@ public class Parser {
 			else SemErr("cannot apply % to "+exprType); 
 			break;
 		}
-		default: SynErr(56); break;
+		default: SynErr(55); break;
 		}
 		return instr;
 	}
@@ -814,7 +808,7 @@ public class Parser {
 			selType = call(cw, className);
 		} else if (la.kind == 1) {
 			selType = var(cw, className, objIndex);
-		} else SynErr(57);
+		} else SynErr(56);
 		return selType;
 	}
 
@@ -866,7 +860,6 @@ public class Parser {
 			     SemErr("incompatible types: expected "+selType+", got "+exprType);
 			  else {
 			      if (lg!=null) {
-			          // todo hashMap
 			       Instruction store = getStoreInstruction(selType, lg.getIndex());
 			       cw.append( store );
 			       if (lg.getStart()==null) // ?????????? ??? ?? ????????????????
@@ -880,7 +873,7 @@ public class Parser {
 			   }
 		} else if (la.kind == 1) {
 			selType = access(cw, className);
-		} else SynErr(58);
+		} else SynErr(57);
 		return selType;
 	}
 
@@ -1012,11 +1005,10 @@ class Errors {
 			case 51: s = "invalid Expression"; break;
 			case 52: s = "invalid Expression"; break;
 			case 53: s = "invalid BlockStatement"; break;
-			case 54: s = "invalid Creator"; break;
-			case 55: s = "invalid Literal"; break;
-			case 56: s = "invalid Infixop"; break;
-			case 57: s = "invalid Selector"; break;
-			case 58: s = "invalid var"; break;
+			case 54: s = "invalid Literal"; break;
+			case 55: s = "invalid Infixop"; break;
+			case 56: s = "invalid Selector"; break;
+			case 57: s = "invalid var"; break;
 			default: s = "error " + n; break;
 		}
 		printMsg(line, col, s);
