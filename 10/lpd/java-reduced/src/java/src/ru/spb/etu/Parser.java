@@ -379,9 +379,9 @@ public class Parser {
 			if (la.kind == 15) {
 				modifier = accessSpecifier();
 				if (modifier == Constants.ACC_PRIVATE || modifier == Constants.ACC_PROTECTED)
-				       SemErr("interface memebers ought to be public or default");
-				     modifier = Constants.ACC_PUBLIC;
+				       SemErr("interface memebers ought to be public or default"); 
 			}
+			modifier = Constants.ACC_PUBLIC;
 			Type typeLiteral = null;
 			typeLiteral = type();
 			String methodName = identifier();
@@ -624,7 +624,7 @@ public class Parser {
 					if (lg==null)
 					    SemErr("no such variable "+objVarName);
 					else
-					    className = lg.getType().toString();
+					    className = impl.realType(lg).toString();
 					log("className="+className);
 					
 					objIndex = lg.getIndex();
@@ -664,12 +664,14 @@ public class Parser {
 			Get();
 			Type exprType = Expression(cw);
 			log("init");
-			if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) ) // todo ???????????
+			if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) 
+			     && !impl.instance_of(typeLiteral, exprType) ) // todo ???????????
 			    SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
 			else {   
 			Instruction store = getStoreInstruction(typeLiteral, lg.getIndex());
 			lg.setStart( cw.append( store ) );
 			lg.setEnd(null);
+			impl.update(lg, exprType);
 			}
 			  }
 		}
@@ -830,9 +832,7 @@ public class Parser {
 		     mp.method.getName(),
 		     selType,
 		     argTypes, 
-		     (cw.classGen.getClassName().equals(className))?
-		                   Constants.INVOKEVIRTUAL:
-		                   Constants.INVOKESPECIAL 
+		     Constants.INVOKEVIRTUAL
 		 ) );
 		} 
 		return selType;
@@ -863,6 +863,7 @@ public class Parser {
 			      if (lg!=null) {
 			       Instruction store = getStoreInstruction(selType, lg.getIndex());
 			       cw.append( store );
+			       impl.update(lg, exprType);
 			       if (lg.getStart()==null) // ?????????? ??? ?? ????????????????
 			                    lg.setStart( cw.last );
 			      } else if (fg!=null)
