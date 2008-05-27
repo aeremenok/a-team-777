@@ -382,9 +382,9 @@ interfaceBody<ClassGen classGen> =
         (.int modifier = 0;.)
 		[accessSpecifier<out modifier>
 			(.if (modifier == Constants.ACC_PRIVATE || modifier == Constants.ACC_PROTECTED)
-	            SemErr("interface memebers ought to be public or default");
-	          modifier = Constants.ACC_PUBLIC;.)]
-		(.Type typeLiteral = null;.)
+	            SemErr("interface memebers ought to be public or default"); .)]
+		(.modifier = Constants.ACC_PUBLIC;
+		  Type typeLiteral = null;.)
 		type<out typeLiteral>
 		identifier<out String methodName>	
 		(.Args args = new Args();.)
@@ -466,12 +466,14 @@ identifier<out String varName>
         LocalVariableGen lg = cw.methodGen.addLocalVariable(varName, typeLiteral, null, null); .)
 ["=" Expression<out Type exprType, cw> // здесь нам оставят результат на верхушке стека. мы его сохраняем в переменную 
 (.      log("init");
-	    if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) ) // todo полиморфизм
+	    if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) 
+	         && !impl.instance_of(typeLiteral, exprType) ) // todo полиморфизм
 	        SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
 	    else {   
 			Instruction store = getStoreInstruction(typeLiteral, lg.getIndex());
 			lg.setStart( cw.append( store ) );
 			lg.setEnd(null);
+			impl.update(lg, exprType);
 		}
     }.) ] 
 .
@@ -522,7 +524,7 @@ Expression<out Type exprType, CodeWrapper cw>
                     if (lg==null)
                         SemErr("no such variable "+objVarName);
                     else
-                        className = lg.getType().toString();
+                        className = impl.realType(lg).toString();
                     log("className="+className);
                     
                     objIndex = lg.getIndex();.)
@@ -566,9 +568,7 @@ call<out Type selType, CodeWrapper cw, String className>
 		        mp.method.getName(),
 		        selType,
 		        argTypes, 
-		        (cw.classGen.getClassName().equals(className))?
-                        Constants.INVOKEVIRTUAL:
-                        Constants.INVOKESPECIAL 
+		        Constants.INVOKEVIRTUAL
 		    ) );
 		} .)
 .
@@ -600,6 +600,7 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 		            if (lg!=null) {
 			            Instruction store = getStoreInstruction(selType, lg.getIndex());
 			            cw.append( store );
+			            impl.update(lg, exprType);
 			            if (lg.getStart()==null) // переменная еще не инициализирована
                             lg.setStart( cw.last );
 		            } else if (fg!=null)

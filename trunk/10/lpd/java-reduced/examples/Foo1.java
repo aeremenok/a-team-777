@@ -12,7 +12,15 @@ interface Bar extends Bar1{
     void bar();
 }
 
-public class Foo1 implements Bar{
+public class A{
+    void aaa(){
+        System.out.println("aaa");
+    }
+}
+
+public class Foo1 
+extends A
+implements Bar{
     void bar(){
         System.out.println("78978454");
     }    
@@ -27,9 +35,10 @@ public class Foo1 implements Bar{
     public void main()
     {
         Foo1 foo1 = new Foo1();
-        Foo1 foo2 = foo1;
+        Bar foo2 = foo1;
         boolean b = true;
-        //b = foo1.equals(foo2);
+        foo2.bar();
+        foo2.aaa(); // xxx работает, а не должно. бага
         System.out.println(b);
     }
 
