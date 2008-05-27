@@ -1,7 +1,10 @@
 package ru.spb.etu.server.util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 import ru.spb.etu.client.serializable.Artist;
 import ru.spb.etu.client.serializable.Genre;
@@ -18,6 +21,11 @@ import ru.spb.etu.server.model.DbSculpture;
 
 public class ObjectsConverter
 {
+    protected static Logger log = Logger.getLogger( ObjectsConverter.class );
+    static
+    {
+        log.setLevel( org.apache.log4j.Level.ALL );
+    }
 
     // ======================================================================================================================
     // Actors
@@ -63,10 +71,27 @@ public class ObjectsConverter
     public static Artist convertArtist(
         DbArtist a )
     {
-        Artist b = new Artist( a.getBirthdate(), a.getCountry(), a.getDescription(), a.getName(), a.getImageUrl() );
-        Integer i = a.getId();
-        // System.out.println( "Artist i=" + i );
-        b.setId( i );
+        Artist b = new Artist();
+        if ( a.getImageUrl() != null )
+            b.setImageUrl( a.getImageUrl() );
+        if ( a.getBirthdate() != null )
+            b.setBirthDate( a.getBirthdate() );
+        if ( a.getCountry() != null )
+            b.setCountry( a.getCountry() );
+        if ( a.getDescription() != null )
+            b.setDescription( a.getDescription() );
+        if ( a.getName() != null )
+            b.setName( a.getName() );
+        b.setId( a.getId() );
+
+        try
+        {
+            ru.spb.etu.server.FileUploadServlet.writeBytes( a.getImageUrl(), a.getPicture() );
+        }
+        catch ( IOException e )
+        {
+            log.error( "Con not create img for DbArtist:" + a.getId() + "." );
+        }
         return b;
     }
 
@@ -114,9 +139,26 @@ public class ObjectsConverter
     public static MasterPiece convertMasterpiece(
         DbMasterpiece a )
     {
+        MasterPiece b = new MasterPiece();
+
         int year = (a.getCreationYear() == null) ? 0 : a.getCreationYear();
-        MasterPiece b = new MasterPiece( year, a.getImageURL(), a.getTitle(), a.getDescription() );
+        b.setCreationYear( year );
+        if ( a.getImageURL() != null )
+            b.setImageUrl( a.getImageURL() );
+        if ( a.getTitle() != null )
+            b.setTitle( a.getTitle() );
+        if ( a.getDescription() != null )
+            b.setDescription( a.getDescription() );
         b.setId( a.getId() );
+
+        try
+        {
+            ru.spb.etu.server.FileUploadServlet.writeBytes( a.getImageURL(), a.getPicture() );
+        }
+        catch ( IOException e )
+        {
+            log.error( "Con not create img for DbMasterpiece:" + a.getId() + "." );
+        }
         return b;
     }
 
@@ -164,8 +206,23 @@ public class ObjectsConverter
     public static Museum convertMuseum(
         DbMuseum a )
     {
-        Museum b = new Museum( a.getDescription(), a.getName(), a.getImageURL() );
+        Museum b = new Museum();
+        if ( a.getDescription() != null )
+            b.setDescription( a.getDescription() );
+        if ( a.getName() != null )
+            b.setName( a.getName() );
+        if ( a.getImageURL() != null )
+            b.setImageUrl( a.getImageURL() );
         b.setId( a.getId() );
+
+        try
+        {
+            ru.spb.etu.server.FileUploadServlet.writeBytes( a.getImageURL(), a.getPicture() );
+        }
+        catch ( IOException e )
+        {
+            log.error( "Con not create img for DbMuseum:" + a.getId() + "." );
+        }
         return b;
     }
 
@@ -213,8 +270,24 @@ public class ObjectsConverter
     public static Genre convertGenre(
         DbGenre a )
     {
-        Genre b = new Genre( a.getName(), a.getImageURL(), a.getDescrption() );
+        Genre b = new Genre();
+
+        if ( a.getDescrption() != null )
+            b.setDescription( a.getDescrption() );
+        if ( a.getImageURL() != null )
+            b.setImageUrl( a.getImageURL() );
+        if ( a.getName() != null )
+            b.setName( a.getName() );
         b.setId( a.getId() );
+
+        try
+        {
+            ru.spb.etu.server.FileUploadServlet.writeBytes( a.getImageURL(), a.getPicture() );
+        }
+        catch ( IOException e )
+        {
+            log.error( "Con not create img for DbGenre:" + a.getId() + "." );
+        }
         return b;
     }
 
@@ -264,15 +337,26 @@ public class ObjectsConverter
     {
         Painting b = new Painting();
         b.setArtist( convertArtist( a.getMyArtist() ) );
-        b.setDescription( a.getDescription() );
+        if ( a.getDescription() != null )
+            b.setDescription( a.getDescription() );
         b.setCreationYear( a.getCreationYear() == null ? 0 : a.getCreationYear() );
         b.setGenre( convertGenre( a.getMyGenre() ) );
         b.setHeight( a.getHeight() == null ? 0 : a.getHeight() );
-        b.setImageUrl( a.getImageURL() );
+        if ( a.getImageURL() != null )
+            b.setImageUrl( a.getImageURL() );
         b.setMuseum( convertMuseum( a.getMyMuseum() ) );
-        b.setTitle( a.getTitle() );
+        if ( a.getTitle() != null )
+            b.setTitle( a.getTitle() );
         b.setWidth( a.getWidth() == null ? 0 : a.getWidth() );
         b.setId( a.getId() );
+        try
+        {
+            ru.spb.etu.server.FileUploadServlet.writeBytes( a.getImageURL(), a.getPicture() );
+        }
+        catch ( IOException e )
+        {
+            log.error( "Con not create img for DbPainting:" + a.getId() + "." );
+        }
         return b;
     }
 
@@ -322,16 +406,27 @@ public class ObjectsConverter
     {
         Sculpture b = new Sculpture();
         b.setArtist( convertArtist( a.getMyArtist() ) );
-        b.setDescription( a.getDescription() );
+        if ( a.getDescription() != null )
+            b.setDescription( a.getDescription() );
         b.setCreationYear( a.getCreationYear() == null ? 0 : a.getCreationYear() );
         b.setGenre( convertGenre( a.getMyGenre() ) );
-        b.setImageUrl( a.getImageURL() );
+        if ( a.getImageURL() != null )
+            b.setImageUrl( a.getImageURL() );
         b.setMuseum( convertMuseum( a.getMyMuseum() ) );
-        b.setTitle( a.getTitle() );
+        if ( a.getTitle() != null )
+            b.setTitle( a.getTitle() );
         b.setMass( a.getMass() == null ? 0 : a.getMass() );
-        b.setMaterial( a.getMaterial() );
+        if ( a.getMaterial() != null )
+            b.setMaterial( a.getMaterial() );
         b.setId( a.getId() );
+        try
+        {
+            ru.spb.etu.server.FileUploadServlet.writeBytes( a.getImageURL(), a.getPicture() );
+        }
+        catch ( IOException e )
+        {
+            log.error( "Con not create img for DbSculpture:" + a.getId() + "." );
+        }
         return b;
     }
-
 }

@@ -59,11 +59,31 @@ public class EntityBackuperImpl
                 }
 
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-                a.setBirthdate( simpleDateFormat.parse( e.getBirthDate().toString() ) );
+                if ( e.getBirthDate() != null && !"".equals( e.getBirthDate() ) )
+                    try
+                    {
+                        a.setBirthdate( simpleDateFormat.parse( e.getBirthDate().toString() ) );
+                    }
+                    catch ( Exception ex )
+                    {
+                        log.error( "can not parse BirthDate (" + e.getBirthDate().toString() + ")" );
+                        a.setDateOfBirthString( e.getBirthDate().toString() );
+                        log.error( "BirthDate  is " + a.getBirthdate().toString() + "." );
+                    }
+
                 a.setCountry( e.getCountry().toString() );
                 a.setDescription( e.getDescription().toString() );
                 a.setImageUrl( e.getImageUrl() );
                 a.setName( e.getName().toString() );
+
+                try
+                {
+                    a.setPicture( ru.spb.etu.server.FileUploadServlet.readBytes( e.getImageUrl() ) );
+                }
+                catch ( Exception e1 )
+                {
+                    log.error( "Can not set bytes for DbArtist id:" + e.getId() );
+                }
 
                 context.commitChanges();
 
@@ -91,6 +111,15 @@ public class EntityBackuperImpl
                 a.setDescription( e.getDescription().toString() );
                 a.setImageURL( e.getImageUrl() );
 
+                try
+                {
+                    a.setPicture( ru.spb.etu.server.FileUploadServlet.readBytes( e.getImageUrl() ) );
+                }
+                catch ( Exception e1 )
+                {
+                    log.error( "Can not set bytes for DbMuseum id:" + e.getId() );
+                }
+
                 context.commitChanges();
 
                 log.info( " Updated! " );
@@ -116,6 +145,15 @@ public class EntityBackuperImpl
                 a.setDescrption( e.getDescription().toString() );
                 a.setImageURL( e.getImageUrl() );
                 a.setName( e.getName().toString() );
+
+                try
+                {
+                    a.setPicture( ru.spb.etu.server.FileUploadServlet.readBytes( e.getImageUrl() ) );
+                }
+                catch ( Exception e1 )
+                {
+                    log.error( "Can not set bytes for DbGenre id:" + e.getId() );
+                }
 
                 context.commitChanges();
 
@@ -227,6 +265,15 @@ public class EntityBackuperImpl
                 }
                 a.setMyArtist( ar );
 
+                try
+                {
+                    a.setPicture( ru.spb.etu.server.FileUploadServlet.readBytes( e.getImageUrl() ) );
+                }
+                catch ( Exception e1 )
+                {
+                    log.error( "Can not set bytes for DbPainting id:" + e.getId() );
+                }
+
                 context.commitChanges();
                 log.info( " updated ! " );
                 return a.getId();
@@ -322,6 +369,15 @@ public class EntityBackuperImpl
                     return 0;
                 }
                 a.setMyArtist( ar );
+
+                try
+                {
+                    a.setPicture( ru.spb.etu.server.FileUploadServlet.readBytes( e.getImageUrl() ) );
+                }
+                catch ( Exception e1 )
+                {
+                    log.error( "Can not set bytes for DbSculpture id:" + e.getId() );
+                }
 
                 context.commitChanges();
                 log.info( " updated ! " );
@@ -431,9 +487,7 @@ public class EntityBackuperImpl
                 DbPainting picasso = null;
                 if ( entityWrapper.getId() != null && entityWrapper.getId() > 0 )
                 {
-                    picasso =
-                              (DbPainting) DataObjectUtils.objectForPK( context, DbPainting.class,
-                                                                        entityWrapper.getId() );
+                    picasso = (DbPainting) DataObjectUtils.objectForPK( context, DbPainting.class, entityWrapper.getId() );
                 }
 
                 if ( picasso != null )
@@ -451,9 +505,7 @@ public class EntityBackuperImpl
                 DbSculpture picasso = null;
                 if ( entityWrapper.getId() != null && entityWrapper.getId() > 0 )
                 {
-                    picasso =
-                              (DbSculpture) DataObjectUtils.objectForPK( context, DbSculpture.class,
-                                                                         entityWrapper.getId() );
+                    picasso = (DbSculpture) DataObjectUtils.objectForPK( context, DbSculpture.class, entityWrapper.getId() );
                 }
 
                 if ( picasso != null )

@@ -17,10 +17,19 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.log4j.Logger;
+
+import ru.spb.etu.server.util.EntityBackuperImpl;
 
 public class FileUploadServlet
     extends HttpServlet
 {
+    protected static Logger log = Logger.getLogger( EntityBackuperImpl.class );
+    static
+    {
+        log.setLevel( org.apache.log4j.Level.ALL );
+    }
+
     @Override
     protected void doPost(
         HttpServletRequest request,
@@ -97,8 +106,18 @@ public class FileUploadServlet
         byte[] bytes )
         throws IOException
     {
+        if ( imageUrl == null )
+        {
+            log.warn( " can not writeBytes: imageUrl is null" );
+            return;
+        }
+        if ( bytes == null || bytes.length == 0 )
+        {
+            log.warn( " can not writeBytes: no bytes" );
+            return;
+        }
         File file = new File( getModulePath() + "/" + imageUrl );
-        System.out.println( "writing file " + file.getCanonicalPath() );
+        log.info( " Writing file " + file.getCanonicalPath() + " (" + bytes.length + " bytes)" );
         new FileOutputStream( file ).write( bytes );
     }
 
@@ -113,8 +132,13 @@ public class FileUploadServlet
         String imageUrl )
         throws IOException
     {
+        if ( imageUrl == null )
+        {
+            log.warn( " can not readBytes: imageUrl is null" );
+            return null;
+        }
         File file = new File( getModulePath() + "/" + imageUrl );
-        System.out.println( "reading file " + file.getCanonicalPath() );
+        log.info( "Reading file " + file.getCanonicalPath() + " ( " + file.length() + " bytes )" );
 
         byte[] fileContent = new byte[(int) file.length()];
         new FileInputStream( file ).read( fileContent );

@@ -86,6 +86,11 @@ public class Artist
     public void setBirthDate(
         Date birthDate )
     {
+        if ( birthDate == null )
+        {
+            this.birthDate = new ReflectiveString( this );
+            return;
+        }
         this.birthDate.setString( birthDate.toString() );
     }
 
