@@ -93,7 +93,8 @@ boolean next(int i)
     public ClassGen getType( String name )
     { return impl.getType(name); }
     
-
+    public boolean checkInterfaces( ClassGen classGen )
+    { return impl.checkInterfaces( classGen ); }
 /*--------------------------------------------------------------------------*/
 CHARACTERS
   tab           = '\u0009'. /*  9 = tabulator */
@@ -183,13 +184,15 @@ classDeclaration<int modifier> =
 	[  "extends" identifier<out superName>
 	   // проверка типов
 	   (.  if(superName.equals(className)) SemErr("cannot self-inherit");
-           isPresent(superName);.) ]
+           isPresent(superName);
+           if (impl.classes.get(superName)==null) SemErr(superName+" is not a class"); .) ]
            
 	(.String interfaceName = null;.)
 	[  "implements"identifier<out interfaceName>
 	   // проверка типов
 	   (.   if(interfaceName.equals(className)) SemErr("cannot self-implement");
-            isPresent(interfaceName);.) ]
+            isPresent(interfaceName);
+            if (impl.interfaces.get(interfaceName)==null) SemErr(interfaceName+" is not an interface");.) ]
             
 	(. ClassGen classGen = new ClassGen(
 	       className, 
@@ -206,7 +209,8 @@ classDeclaration<int modifier> =
 	   
 	classBody<classGen>
 	
-    (.  try{ classGen.getJavaClass().dump( filePath+"/"+className+".class" ); }
+    (.  checkInterfaces(classGen);
+        try{ classGen.getJavaClass().dump( filePath+"/"+className+".class" ); }
         catch(Exception e){e.printStackTrace();}.)
 .
 /*----------------------------------interfaceDeclaration----------------------------------*/
@@ -217,7 +221,8 @@ interfaceDeclaration<int modifier> =
 	(.String superInterfaceName = null;.)
     [  "extends" identifier<out superInterfaceName>
         (.  if(superInterfaceName.equals(interfaceName)) SemErr("cannot self-inherit");
-            isPresent(superInterfaceName);.) ]
+            isPresent(superInterfaceName);
+            if (impl.interfaces.get(superInterfaceName)==null) SemErr(superInterfaceName+" is not an interface");.) ]
             
 	(. ClassGen classGen = new ClassGen(
 	       interfaceName, 
@@ -393,7 +398,9 @@ interfaceBody<ClassGen classGen> =
               classGen.getClassName(),
               null, // instructions list
               classGen.getConstantPool()
-		  );.)
+		  );
+		  methodGen.setMaxStack();
+          classGen.addMethod(methodGen.getMethod()); .)
 	}'}'
 .
 
