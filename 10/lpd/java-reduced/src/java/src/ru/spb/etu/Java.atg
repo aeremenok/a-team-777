@@ -102,10 +102,8 @@ CHARACTERS
   
   zero          = '0'.
   zeroToThree   = zero + "123".
-  octalDigit    = zero + "1234567". 
   nonZeroDigit  = "123456789".
   digit         = '0' + nonZeroDigit.
-  hexDigit      = digit + "ABCDEFabcdef".
   letter        = 'A' .. 'Z' + 'a' .. 'z' + '_' + '$'.
   new           = "new".
 
@@ -126,8 +124,6 @@ TOKENS
 	    ( 
 	          zero
 	        | nonZeroDigit { digit }
-	        | ( "0x" | "0X" ) hexDigit { hexDigit }
-	        | '0' octalDigit { octalDigit }
 	    ) [ "l" | "L" ].
     /*-------------------------------------------------------------------------*/
     floatLit =
@@ -144,13 +140,8 @@ TOKENS
     /*-------------------------------------------------------------------------*/
     stringLit = 
         "\"" {
-            stringChar
-            | "\\" (
-                  "b" | "t" | "n" | "f" | "r" | "\"" | "\'" | "\\" | "u" { "u" }
-                  hexDigit hexDigit hexDigit hexDigit
-                | zeroToThree [ octalDigit ] [ octalDigit ]
-                | octalDigit [ octalDigit ]
-            )
+              stringChar
+            | "\\" ( "b" | "t" | "n" | "f" | "r" | "\"" | "\'" | "\\" )
          } "\"".
 
 COMMENTS FROM "/*" TO "*/" NESTED
@@ -215,9 +206,8 @@ classDeclaration<int modifier> =
 	   
 	classBody<classGen>
 	
-    (. try{
-           classGen.getJavaClass().dump( filePath+"/"+className+".class" );
-       }catch(Exception e){e.printStackTrace();}.)
+    (.  try{ classGen.getJavaClass().dump( filePath+"/"+className+".class" ); }
+        catch(Exception e){e.printStackTrace();}.)
 .
 /*----------------------------------interfaceDeclaration----------------------------------*/
 interfaceDeclaration<int modifier> =
@@ -236,16 +226,13 @@ interfaceDeclaration<int modifier> =
 	       Constants.ACC_INTERFACE | Constants.ACC_ABSTRACT,
 	       superInterfaceName==null ? null : new String[]{superInterfaceName} 
 	   );
-	       
        addInterface(interfaceName, classGen);
-       
 	   log("interface "+interfaceName+" created");.)
 	      
 	interfaceBody<classGen>
 	
-	(. try{
-	       classGen.getJavaClass().dump( filePath+"/"+interfaceName+".class" );
-	   }catch(Exception e){e.printStackTrace();}.)
+	(. try{ classGen.getJavaClass().dump( filePath+"/"+interfaceName+".class" ); }
+	   catch(Exception e){e.printStackTrace();}.)
 .
 /*----------------------------------accessSpecifier----------------------------------*/
 accessSpecifier<out int specifier> =
@@ -298,12 +285,12 @@ classBody<ClassGen classGen> =
 			        (.  if (!methodName.equals(classGen.getClassName())) SemErr("wrong constructor name "+methodName);
                         else {
                             Args args = new Args(); .)
-			        openRoundBracket [formalParameterList<args>] closeRoundBracket
+			        '(' [formalParameterList<args>] ')'
 			        (.   	if (getMethod(methodName, args.argTypes, classGen)==null) {
 								InstructionList il = new InstructionList();
 								MethodGen methodGen = new MethodGen(
 									modifier,
-									new ObjectType(classGen.getClassName()), // todo сохранить
+									new ObjectType(classGen.getClassName()),
 									args.argTypes,
 									args.argNames,
 									"<init>",
@@ -330,7 +317,7 @@ classBody<ClassGen classGen> =
                 (
                     ( // это метод
                         (.Args args = new Args();.)
-                        openRoundBracket [formalParameterList<args>] closeRoundBracket
+                        '(' [formalParameterList<args>] ')'
                         (.  if (getMethod(member, args.argTypes, classGen)==null) {
 	                            if (member.equals("main")) { // наш "main"
 	                                if ( args.argTypes != null ) SemErr("too many args in main");
@@ -437,8 +424,11 @@ Statement<CodeWrapper cw>
 	Statement<cw> 
 	(. GOTO g = new GOTO(begin); cw.append(g);
 	   InstructionHandle end = cw.append(new NOP()); ifinstr.setTarget(end); .)
+	   
 | "return" [ Expression<out Type exprType, cw> (.cw.append( InstructionConstants.RETURN );.) ] ";"
+
 | ";"
+
 | Expression<out Type exprType, cw> ';'  
 .
 /*---------------------------------------------------------------------------*/
@@ -462,8 +452,7 @@ LocalVariableDeclaration<CodeWrapper cw>
     Type typeLiteral = null; .)
 type<out typeLiteral>  
 identifier<out String varName>
-(.
-    if (getVarGen(varName, cw.methodGen)!=null)
+(.  if (getVarGen(varName, cw.methodGen)!=null)
         SemErr("duplicate local variable "+varName);
     else if (typeLiteral!=null)
     {
@@ -479,6 +468,7 @@ identifier<out String varName>
 		}
     }.) ] 
 .
+
 /*---------------------------------------------------------------------------*
  *---------------------------- Expressions ----------------------------------*
  *---------------------------------------------------------------------------*/
@@ -488,9 +478,9 @@ Expression<out Type exprType, CodeWrapper cw>
 (.exprType = null;.)
 (       // заглушки
       ( "System.out.println"                (.preparePrintStream(cw);.)
-         Arguments<out Type[] argTypes, cw> (.  callPrintMethod(cw, "println", argTypes); .) )
+         Arguments<out Type[] argTypes, cw> (.callPrintMethod(cw, "println", argTypes); .) )
     | ( "System.out.print"                  (.preparePrintStream(cw);.)
-         Arguments<out Type[] argTypes, cw> (.  callPrintMethod(cw, "print", argTypes); .) )     
+         Arguments<out Type[] argTypes, cw> (.callPrintMethod(cw, "print", argTypes); .) )     
     | ( "new" Creator<out exprType, cw> )
     | Literal<out exprType, cw>
     | ( '!' Expression<out exprType, cw>    
@@ -556,13 +546,12 @@ Selector<out Type selType, CodeWrapper cw, String className, int objIndex>
 call<out Type selType, CodeWrapper cw, String className>
 =
     identifier<out String method>
-    (.selType = null;.) 
     Arguments<out Type[] argTypes, cw>
 	(.  // в стеке лежат значения аргументов, вызываем метод
 	    InstructionFactory factory = new InstructionFactory( cw.classGen );
 	    
 	    MethodParams mp = getMethod(method, argTypes, getType(className) );
-	    if (mp==null) SemErr("no such method "+method);
+	    if (mp==null) {SemErr("no such method "+method); selType=null;}
 	    else {
 	        selType = mp.method.getReturnType();
 		    cw.append( factory.createInvoke(
@@ -595,10 +584,8 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 	                   cw.append(new ALOAD(objIndex));
 	               }
 	           }
-	           else selType = lg.getType();  // это переменная
-	        .)
-	        AssignmentOperator<cw> 
-	        Expression<out Type exprType, cw>
+	           else selType = lg.getType();  /* это переменная */ .)
+	        '=' Expression<out Type exprType, cw>
 			(.  InstructionFactory factory = new InstructionFactory( cw.classGen );
 		        if (!selType.equals(exprType) && !exprType.equals(Type.NULL))
 		           SemErr("incompatible types: expected "+selType+", got "+exprType);
@@ -624,11 +611,10 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 access<out Type selType, CodeWrapper cw, String className>
 =
 identifier<out String var>
-(. selType = null;
-   LocalVariableGen lg = getVarGen(var, cw.methodGen);
+(. LocalVariableGen lg = getVarGen(var, cw.methodGen);
    if (lg==null) {
        Field fg = getFieldGen(var, cw.classGen);
-       if( fg == null ) SemErr("no such variable or field "+var);
+       if( fg == null ) { SemErr("no such variable or field "+var); selType = null;}
        else { // это поле
            selType = fg.getType();
            InstructionFactory factory = new InstructionFactory( cw.classGen );
@@ -690,13 +676,6 @@ identifier<out className> Arguments<out Type[] argTypes, cw>
 	    ) );
 	    createdType = new ObjectType(className);
     } .)
-.
-/*---------------------------------------------------------------------------*/
-// присвоение
-AssignmentOperator<CodeWrapper cw>
-= 
-(.log("assgmnt");.)
-  ("=")
 .
 /*---------------------------------------------------------------------------*/
 // бинарная операция

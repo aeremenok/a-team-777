@@ -229,14 +229,11 @@ public class Parser {
 		   Constants.ACC_INTERFACE | Constants.ACC_ABSTRACT,
 		   superInterfaceName==null ? null : new String[]{superInterfaceName} 
 		);
-		    
 		   addInterface(interfaceName, classGen);
-		   
 		log("interface "+interfaceName+" created");
 		interfaceBody(classGen);
-		try{
-		   classGen.getJavaClass().dump( filePath+"/"+interfaceName+".class" );
-		}catch(Exception e){e.printStackTrace();}
+		try{ classGen.getJavaClass().dump( filePath+"/"+interfaceName+".class" ); }
+		catch(Exception e){e.printStackTrace();}
 	}
 
 	void classDeclaration(int modifier) {
@@ -269,9 +266,8 @@ public class Parser {
 		classGen.addEmptyConstructor( Constants.ACC_PUBLIC );
 		log("class "+className+" created");
 		classBody(classGen);
-		try{
-		   classGen.getJavaClass().dump( filePath+"/"+className+".class" );
-		}catch(Exception e){e.printStackTrace();}
+		try{ classGen.getJavaClass().dump( filePath+"/"+className+".class" ); }
+		catch(Exception e){e.printStackTrace();}
 	}
 
 	void classBody(ClassGen classGen) {
@@ -295,7 +291,7 @@ public class Parser {
 				InstructionList il = new InstructionList();
 				MethodGen methodGen = new MethodGen(
 					modifier,
-					new ObjectType(classGen.getClassName()), // todo ?????????
+					new ObjectType(classGen.getClassName()),
 					args.argTypes,
 					args.argNames,
 					"<init>",
@@ -815,12 +811,11 @@ public class Parser {
 	Type  call(CodeWrapper cw, String className) {
 		Type  selType;
 		String method = identifier();
-		selType = null;
 		Type[] argTypes = Arguments(cw);
 		InstructionFactory factory = new InstructionFactory( cw.classGen );
 		
 		MethodParams mp = getMethod(method, argTypes, getType(className) );
-		if (mp==null) SemErr("no such method "+method);
+		if (mp==null) {SemErr("no such method "+method); selType=null;}
 		else {
 		    selType = mp.method.getReturnType();
 		 cw.append( factory.createInvoke(
@@ -851,9 +846,8 @@ public class Parser {
 			        cw.append(new ALOAD(objIndex));
 			    }
 			}
-			else selType = lg.getType();  // ??? ??????????
-			
-			AssignmentOperator(cw);
+			else selType = lg.getType();  /* ??? ?????????? */ 
+			Expect(7);
 			Type exprType = Expression(cw);
 			InstructionFactory factory = new InstructionFactory( cw.classGen );
 			  if (!selType.equals(exprType) && !exprType.equals(Type.NULL))
@@ -877,19 +871,13 @@ public class Parser {
 		return selType;
 	}
 
-	void AssignmentOperator(CodeWrapper cw) {
-		log("assgmnt");
-		Expect(7);
-	}
-
 	Type  access(CodeWrapper cw, String className) {
 		Type  selType;
 		String var = identifier();
-		selType = null;
 		LocalVariableGen lg = getVarGen(var, cw.methodGen);
 		if (lg==null) {
 		    Field fg = getFieldGen(var, cw.classGen);
-		    if( fg == null ) SemErr("no such variable or field "+var);
+		    if( fg == null ) { SemErr("no such variable or field "+var); selType = null;}
 		    else { // ??? ????
 		        selType = fg.getType();
 		        InstructionFactory factory = new InstructionFactory( cw.classGen );
