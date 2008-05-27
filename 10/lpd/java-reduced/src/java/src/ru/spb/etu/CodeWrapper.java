@@ -6,7 +6,11 @@ import org.apache.bcel.generic.InstructionHandle;
 import org.apache.bcel.generic.InstructionList;
 import org.apache.bcel.generic.MethodGen;
 
-// обертка параметров кода (передается по ссылке всем инструкциям и выражениям. можно дополнить чем-нибудь еще)
+/**
+ * обертка параметров кода (передается по ссылке всем инструкциям и выражениям. можно дополнить чем-нибудь еще)
+ * 
+ * @author eav
+ */
 class CodeWrapper
 {
     InstructionList   il;

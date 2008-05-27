@@ -7,6 +7,11 @@ import org.apache.bcel.generic.InstructionList;
 import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.Type;
 
+/**
+ * генератор классов с некоторыми общими свойствами
+ * 
+ * @author eav
+ */
 public class MyClassGen
     extends ClassGen
     implements

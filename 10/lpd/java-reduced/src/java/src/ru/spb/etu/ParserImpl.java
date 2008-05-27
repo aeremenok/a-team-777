@@ -24,10 +24,22 @@ public class ParserImpl
         Constants
 {
     // созданные классы
+    /**
+     * все созданные типы
+     */
     public HashMap<String, ClassGen> types      = new HashMap<String, ClassGen>();
+    /**
+     * только классы
+     */
     public HashMap<String, ClassGen> classes    = new HashMap<String, ClassGen>();
+    /**
+     * только интерфейсы
+     */
     public HashMap<String, ClassGen> interfaces = new HashMap<String, ClassGen>();
 
+    /**
+     * кому принадлежим
+     */
     private Parser                   parser;
 
     public ParserImpl(
@@ -57,6 +69,12 @@ public class ParserImpl
         m.setModifiers( m.getModifiers() | ACC_NATIVE | ACC_FINAL );
     }
 
+    /**
+     * @param name имя метода
+     * @param argTypes типы аргументов
+     * @param classGen генератор класса для поиска
+     * @return метод и имя класса, его реализующего
+     */
     public MethodParams getMethod(
         String name,
         Type[] argTypes,
@@ -83,6 +101,13 @@ public class ParserImpl
         return null;
     }
 
+    /**
+     * статический instance_of
+     * 
+     * @param ancestor потенциальный тип-предок
+     * @param child потенциальный тип-потомок
+     * @return состоят ли в родстве
+     */
     public boolean instance_of(
         Type ancestor,
         Type child )
@@ -123,6 +148,10 @@ public class ParserImpl
         return instance_of( ancestor, superType( child ) );
     }
 
+    /**
+     * @param type тип
+     * @return его предок
+     */
     public Type superType(
         Type type )
     {
@@ -130,6 +159,13 @@ public class ParserImpl
         return new ObjectType( classGen.getSuperclassName() );
     }
 
+    /**
+     * статический instance_of для массивов
+     * 
+     * @param types1 одни типы
+     * @param types2 другие типы
+     * @return родственны ли поголовно
+     */
     public boolean deepInstanceOf(
         Type[] types1,
         Type[] types2 )
@@ -157,6 +193,13 @@ public class ParserImpl
         return res;
     }
 
+    /**
+     * вызывает методы PrintStream
+     * 
+     * @param cw код
+     * @param method имя метода
+     * @param argTypes что печатать
+     */
     public void callPrintMethod(
         CodeWrapper cw,
         String method,
@@ -165,7 +208,7 @@ public class ParserImpl
         InstructionFactory factory = new InstructionFactory( cw.classGen );
         if ( argTypes.length == 1 )
         {
-            cw.append( factory.createInvoke( "java.io.PrintStream", "println", Type.VOID, argTypes, INVOKEVIRTUAL ) );
+            cw.append( factory.createInvoke( "java.io.PrintStream", method, Type.VOID, argTypes, INVOKEVIRTUAL ) );
         }
         else
         {
@@ -173,6 +216,11 @@ public class ParserImpl
         }
     }
 
+    /**
+     * @param name имя переменной
+     * @param methodGen метод
+     * @return генератор переменной
+     */
     public LocalVariableGen getVarGen(
         String name,
         MethodGen methodGen )
@@ -187,6 +235,11 @@ public class ParserImpl
         return null;
     }
 
+    /**
+     * @param name имя поля
+     * @param classGen класс
+     * @return поле
+     */
     public Field getFieldGen(
         String name,
         ClassGen classGen )
@@ -201,6 +254,10 @@ public class ParserImpl
         return null;
     }
 
+    /**
+     * @param typeName тип
+     * @return есть ли уже такой
+     */
     public boolean isPresent(
         String typeName )
     {
@@ -212,6 +269,10 @@ public class ParserImpl
         return false;
     }
 
+    /**
+     * @param typeName тип
+     * @return нет ли уже такого =)
+     */
     public boolean isDuplicate(
         String typeName )
     {
@@ -223,6 +284,11 @@ public class ParserImpl
         return false;
     }
 
+    /**
+     * @param type тип
+     * @param index координата переменной
+     * @return инструкция сохранения значения в переменную
+     */
     public Instruction getStoreInstruction(
         Type type,
         int index )
@@ -251,6 +317,11 @@ public class ParserImpl
         return instr;
     }
 
+    /**
+     * @param type тип
+     * @param index координата переменной
+     * @return инструкция загрузки значения из переменной
+     */
     public Instruction getLoadInstruction(
         Type type,
         int index )
@@ -279,6 +350,11 @@ public class ParserImpl
         return instr;
     }
 
+    /**
+     * загрузить системный поток вывода
+     * 
+     * @param cw код
+     */
     public void preparePrintStream(
         CodeWrapper cw )
     {
@@ -287,6 +363,10 @@ public class ParserImpl
         cw.append( factory.createFieldAccess( "java.lang.System", "out", pStream, GETSTATIC ) );
     }
 
+    /**
+     * @param name добавить класс, если такого нет
+     * @param classGen класс
+     */
     public void addClass(
         String name,
         ClassGen classGen )
@@ -298,6 +378,10 @@ public class ParserImpl
         }
     }
 
+    /**
+     * @param name добавить интерфейс, если такого нет
+     * @param classGen интерфейс
+     */
     public void addInterface(
         String name,
         ClassGen classGen )
@@ -309,9 +393,18 @@ public class ParserImpl
         }
     }
 
+    /**
+     * @param name имя типа
+     * @return тип
+     */
     public ClassGen getType(
         String name )
     {
-        return types.get( name );
+        ClassGen classGen = types.get( name );
+        if ( classGen == null )
+        {
+            parser.SemErr( "no such type " + name );
+        }
+        return classGen;
     }
 }
