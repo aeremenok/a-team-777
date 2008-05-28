@@ -16,10 +16,14 @@ import org.apache.bcel.generic.ILOAD;
 import org.apache.bcel.generic.ISTORE;
 import org.apache.bcel.generic.IfInstruction;
 import org.apache.bcel.generic.Instruction;
+import org.apache.bcel.generic.InstructionConstants;
 import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.ReturnInstruction;
 import org.apache.bcel.generic.Type;
 
 public class InstructionProvider
+    implements
+        InstructionConstants
 {
     private Parser parser;
 
@@ -42,7 +46,7 @@ public class InstructionProvider
             parser.SemErr( "float comparison unsupported" );
         }
         else if ( exprType instanceof ObjectType )
-        { // сравниваем ссылки на объекты
+        {
             ifInstruction = new IF_ACMPNE( null );
         }
         return ifInstruction;
@@ -61,7 +65,7 @@ public class InstructionProvider
             parser.SemErr( "float comparison unsupported" );
         }
         else if ( exprType instanceof ObjectType )
-        { // сравниваем ссылки на объекты
+        {
             ifInstruction = new IF_ACMPEQ( null );
         }
         return ifInstruction;
@@ -201,6 +205,33 @@ public class InstructionProvider
         else if ( type instanceof ObjectType )
         {
             instr = new ALOAD( index );
+        }
+        else
+        {
+            parser.SemErr( "unexpected variable type" + type );
+        }
+        return instr;
+    }
+
+    public ReturnInstruction getReturnInstruction(
+        Type type )
+    {
+        ReturnInstruction instr = null;
+        if ( type.equals( Type.VOID ) )
+        {
+            instr = RETURN;
+        }
+        else if ( type.equals( Type.INT ) || type.equals( Type.BOOLEAN ) )
+        {
+            instr = IRETURN;
+        }
+        else if ( type.equals( Type.FLOAT ) )
+        {
+            instr = FRETURN;
+        }
+        else if ( type instanceof ObjectType )
+        {
+            instr = ARETURN;
         }
         else
         {

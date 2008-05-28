@@ -106,13 +106,14 @@ CHARACTERS
   nonZeroDigit  = "123456789".
   digit         = '0' + nonZeroDigit.
   letter        = 'A' .. 'Z' + 'a' .. 'z' + '_' + '$'.
-  new           = "new".
 
   char          = ANY - "'" - '\\' - cr - lf.
   stringChar    = ANY - "\"" - '\\' - cr - lf. 
 
 TOKENS
 	id                 = letter { letter | digit }.
+    return             = "return".
+    new                = "new".
 	openRoundBracket   = '('.
 	closeRoundBracket  = ')'.
 	openCurlyBracket   = '{'.
@@ -122,10 +123,7 @@ TOKENS
 	
     /*-------------------------------------------------------------------------*/
     intLit = 
-	    ( 
-	          zero
-	        | nonZeroDigit { digit }
-	    ) [ "l" | "L" ].
+	    ( zero | nonZeroDigit { digit } ).
     /*-------------------------------------------------------------------------*/
     floatLit =
         "." digit {digit} 
@@ -410,9 +408,9 @@ interfaceBody<ClassGen classGen> =
 // инструкци€
 Statement<CodeWrapper cw>
 =
-  Block<cw>
+Block<cw>
   
-| "if" '(' (.IfInstruction ifinstr = new IFEQ(null);.)
+| ( "if" '(' (.IfInstruction ifinstr = new IFEQ(null);.)
            ['!' (.ifinstr = new IFNE(null);.)]
            Expression<out Type exprType, cw> ')' 
     (.cw.il.append(ifinstr);.) 
@@ -421,22 +419,18 @@ Statement<CodeWrapper cw>
         Statement<cw>  ] 
     (.  InstructionHandle elseEndH = cw.append(new NOP()); 
         g.setTarget(elseEndH);
-        if (ifinstr.getTarget()==null) ifinstr.setTarget(elseEndH); .)
+        if (ifinstr.getTarget()==null) ifinstr.setTarget(elseEndH); .) )
 
-| "while" '(' (.IfInstruction ifinstr = new IFEQ(null);.)
+| ( "while" '(' (.IfInstruction ifinstr = new IFEQ(null);.)
               ['!' (.ifinstr = new IFNE(null);.) ]
               Expression<out Type exprType, cw> ')' 
     (. InstructionHandle begin = cw.last; // перевычисление выражени€ todo проверить со сложными 
        cw.append(ifinstr); .) 
 	Statement<cw> 
 	(. GOTO g = new GOTO(begin); cw.append(g);
-	   InstructionHandle end = cw.append(new NOP()); ifinstr.setTarget(end); .)
-	   
-| "return" [ Expression<out Type exprType, cw> (.cw.append( InstructionConstants.RETURN );.) ] ";"
+	   InstructionHandle end = cw.append(new NOP()); ifinstr.setTarget(end); .) )
 
-| ";"
-
-| Expression<out Type exprType, cw> ';'  
+| ( Expression<out Type exprType, cw> ';' )  
 .
 /*---------------------------------------------------------------------------*/
 // блок кода
@@ -447,9 +441,14 @@ Block<CodeWrapper cw>
 // код состоит из объ€влений и инструкций
 BlockStatement<CodeWrapper cw>
 =
+  ( "return" (.Type exprType = Type.VOID;.) [Expression<out exprType, cw> ]
+    (.cw.append( impl.getReturnInstruction(exprType) );.) ";" )
+  |
+  (
     (   IF(next(_id))
             LocalVariableDeclaration<cw> ";" )
 |   (   Statement<cw> )
+)
 .
 /*---------------------------------------------------------------------------*/
 // объ€вление переменной
