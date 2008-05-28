@@ -5,13 +5,8 @@ import java.util.HashMap;
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.Method;
-import org.apache.bcel.generic.ALOAD;
-import org.apache.bcel.generic.ASTORE;
 import org.apache.bcel.generic.ClassGen;
-import org.apache.bcel.generic.FLOAD;
-import org.apache.bcel.generic.FSTORE;
-import org.apache.bcel.generic.ILOAD;
-import org.apache.bcel.generic.ISTORE;
+import org.apache.bcel.generic.IfInstruction;
 import org.apache.bcel.generic.Instruction;
 import org.apache.bcel.generic.InstructionFactory;
 import org.apache.bcel.generic.LocalVariableGen;
@@ -26,25 +21,27 @@ public class ParserImpl
     /**
      * только классы
      */
-    public HashMap<String, ClassGen>       classes    = new HashMap<String, ClassGen>();
+    public HashMap<String, ClassGen>       classes             = new HashMap<String, ClassGen>();
     /**
      * только интерфейсы
      */
-    public HashMap<String, ClassGen>       interfaces = new HashMap<String, ClassGen>();
+    public HashMap<String, ClassGen>       interfaces          = new HashMap<String, ClassGen>();
     /**
      * типы значений, наход€ихс€ в переменных
      */
-    public HashMap<LocalVariableGen, Type> realTypes  = new HashMap<LocalVariableGen, Type>();
+    public HashMap<LocalVariableGen, Type> realTypes           = new HashMap<LocalVariableGen, Type>();
 
     /**
      * все созданные типы
      */
-    public HashMap<String, ClassGen>       types      = new HashMap<String, ClassGen>();
+    public HashMap<String, ClassGen>       types               = new HashMap<String, ClassGen>();
 
     /**
      * кому принадлежим
      */
     private Parser                         parser;
+
+    InstructionProvider                    instructionProvider = new InstructionProvider( parser );
 
     public ParserImpl(
         Parser parser )
@@ -117,9 +114,13 @@ public class ParserImpl
     {
         InstructionFactory factory = new InstructionFactory( cw.classGen );
         if ( argTypes.length == 1 )
+        {
             cw.append( factory.createInvoke( "java.io.PrintStream", method, Type.VOID, argTypes, INVOKEVIRTUAL ) );
+        }
         else
+        {
             parser.SemErr( "sysout requires 1 parameter" );
+        }
     }
 
     public boolean checkInterfaces(
@@ -132,7 +133,9 @@ public class ParserImpl
         {
             ClassGen iGen = interfaces.get( interfaceNames[0] );
             if ( !isPresent( interfaceNames[0] ) )
+            {
                 res = checkMethods( classGen, res, iGen );
+            }
             interfaceNames = iGen.getInterfaceNames();
         }
 
@@ -151,11 +154,17 @@ public class ParserImpl
         Type[] types2 )
     {
         if ( types1 == null || types2 == null )
+        {
             return false;
+        }
         if ( types1 == types2 )
+        {
             return true;
+        }
         if ( types1.length != types2.length )
+        {
             return false;
+        }
 
         boolean res = true;
         int i = 0;
@@ -177,32 +186,32 @@ public class ParserImpl
         ClassGen classGen )
     {
         for ( Field var : classGen.getFields() )
+        {
             if ( var.getName().equals( name ) )
+            {
                 return var;
+            }
+        }
         return null;
     }
 
-    /**
-     * @param type тип
-     * @param index координата переменной
-     * @return инструкци€ загрузки значени€ из переменной
-     */
+    public IfInstruction getIFCMPEQ(
+        Type exprType )
+    {
+        return instructionProvider.getIFCMPEQ( exprType );
+    }
+
+    public IfInstruction getIFCMPNE(
+        Type exprType )
+    {
+        return instructionProvider.getIFCMPNE( exprType );
+    }
+
     public Instruction getLoadInstruction(
         Type type,
         int index )
     {
-        Instruction instr = null;
-        if ( type.equals( Type.VOID ) )
-            parser.SemErr( "invalid variable type void" );
-        else if ( type.equals( Type.INT ) || type.equals( Type.BOOLEAN ) )
-            instr = new ILOAD( index );
-        else if ( type.equals( Type.FLOAT ) )
-            instr = new FLOAD( index );
-        else if ( type instanceof ObjectType )
-            instr = new ALOAD( index );
-        else
-            parser.SemErr( "unexpected variable type" + type );
-        return instr;
+        return instructionProvider.getLoadInstruction( type, index );
     }
 
     /**
@@ -217,8 +226,12 @@ public class ParserImpl
         ClassGen classGen )
     {
         for ( Method method : classGen.getMethods() )
+        {
             if ( method.getName().equals( name ) && deepInstanceOf( method.getArgumentTypes(), argTypes ) )
+            {
                 return new MethodParams( method, classGen.getClassName() );
+            }
+        }
 
         String superclassName = classGen.getSuperclassName();
         if ( !superclassName.equals( "<null>" ) )
@@ -226,32 +239,18 @@ public class ParserImpl
             ClassGen superClass = classes.get( superclassName );
             MethodParams mp = getMethod( name, argTypes, superClass );
             if ( mp != null )
+            {
                 return mp;
+            }
         }
         return null;
     }
 
-    /**
-     * @param type тип
-     * @param index координата переменной
-     * @return инструкци€ сохранени€ значени€ в переменную
-     */
     public Instruction getStoreInstruction(
         Type type,
         int index )
     {
-        Instruction instr = null;
-        if ( type.equals( Type.VOID ) )
-            parser.SemErr( "invalid variable type void" );
-        else if ( type.equals( Type.INT ) || type.equals( Type.BOOLEAN ) )
-            instr = new ISTORE( index );
-        else if ( type.equals( Type.FLOAT ) )
-            instr = new FSTORE( index );
-        else if ( type instanceof ObjectType )
-            instr = new ASTORE( index );
-        else
-            parser.SemErr( "unexpected variable type" + type );
-        return instr;
+        return instructionProvider.getStoreInstruction( type, index );
     }
 
     /**
@@ -263,7 +262,9 @@ public class ParserImpl
     {
         ClassGen classGen = types.get( name );
         if ( classGen == null )
+        {
             parser.SemErr( "no such type " + name );
+        }
         return classGen;
     }
 
@@ -277,8 +278,12 @@ public class ParserImpl
         MethodGen methodGen )
     {
         for ( LocalVariableGen var : methodGen.getLocalVariables() )
+        {
             if ( var.getName().equals( name ) )
+            {
                 return var;
+            }
+        }
         return null;
     }
 
@@ -296,10 +301,14 @@ public class ParserImpl
         // todo if ( ancestor.toString().equals( "java.lang.String" ) )
         // return false;
         if ( ancestor.equals( Type.OBJECT ) )
+        {
             return true;
+        }
 
         if ( ancestor.equals( child ) )
+        {
             return true;
+        }
 
         if ( ancestor instanceof ObjectType )
         {
@@ -308,59 +317,21 @@ public class ParserImpl
             {
                 ObjectType objChild = (ObjectType) child;
                 if ( objAncestor.getClassName().equals( objChild.getClassName() ) )
+                {
                     return true;
+                }
 
                 return instanceOfClass( objAncestor, objChild ) || instanceOfInterface( objAncestor, objChild );
             }
             else
+            {
                 return false;
+            }
         }
         else
+        {
             return false;
-    }
-
-    private boolean instanceOfInterface(
-        ObjectType objAncestor,
-        ObjectType objChild )
-    {
-        ClassGen iGen = interfaces.get( objAncestor.toString() );
-        if ( iGen != null )
-        { // предок - интерфейс
-            // подымаемс€ на интерфейс от потомка
-            String[] interfaceNames = types.get( objChild.toString() ).getInterfaceNames();
-            while ( interfaceNames != null && interfaceNames.length > 0 )
-            {
-                ClassGen childInterface = interfaces.get( interfaceNames[0] );
-                if ( childInterface.getClassName().equals( iGen.getClassName() ) )
-                    return true;
-
-                // подымаемс€ еще на интерфейс от потомка
-                interfaceNames = childInterface.getInterfaceNames();
-            }
         }
-        return false;
-    }
-
-    private boolean instanceOfClass(
-        ObjectType objAncestor,
-        ObjectType objChild )
-    {
-        ClassGen iGen = classes.get( objAncestor.toString() );
-        if ( iGen != null )
-        { // предок - класс
-            // подымаемс€ на класс от потомка
-            String superclassName = types.get( objChild.toString() ).getSuperclassName();
-            while ( !superclassName.equals( Type.OBJECT.toString() ) )
-            {
-                ClassGen childSuper = classes.get( superclassName );
-                if ( childSuper.getClassName().equals( iGen.getClassName() ) )
-                    return true;
-
-                // подымаемс€ еще на класс от потомка
-                superclassName = childSuper.getSuperclassName();
-            }
-        }
-        return false;
     }
 
     /**
@@ -449,7 +420,55 @@ public class ParserImpl
                 res = false;
             }
         }
+
         return res;
     }
 
+    private boolean instanceOfClass(
+        ObjectType objAncestor,
+        ObjectType objChild )
+    {
+        ClassGen iGen = classes.get( objAncestor.toString() );
+        if ( iGen != null )
+        { // предок - класс
+            // подымаемс€ на класс от потомка
+            String superclassName = types.get( objChild.toString() ).getSuperclassName();
+            while ( !superclassName.equals( Type.OBJECT.toString() ) )
+            {
+                ClassGen childSuper = classes.get( superclassName );
+                if ( childSuper.getClassName().equals( iGen.getClassName() ) )
+                {
+                    return true;
+                }
+
+                // подымаемс€ еще на класс от потомка
+                superclassName = childSuper.getSuperclassName();
+            }
+        }
+        return false;
+    }
+
+    private boolean instanceOfInterface(
+        ObjectType objAncestor,
+        ObjectType objChild )
+    {
+        ClassGen iGen = interfaces.get( objAncestor.toString() );
+        if ( iGen != null )
+        { // предок - интерфейс
+            // подымаемс€ на интерфейс от потомка
+            String[] interfaceNames = types.get( objChild.toString() ).getInterfaceNames();
+            while ( interfaceNames != null && interfaceNames.length > 0 )
+            {
+                ClassGen childInterface = interfaces.get( interfaceNames[0] );
+                if ( childInterface.getClassName().equals( iGen.getClassName() ) )
+                {
+                    return true;
+                }
+
+                // подымаемс€ еще на интерфейс от потомка
+                interfaceNames = childInterface.getInterfaceNames();
+            }
+        }
+        return false;
+    }
 }
