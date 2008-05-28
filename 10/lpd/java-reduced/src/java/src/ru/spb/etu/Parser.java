@@ -183,8 +183,7 @@ public class Parser {
 		String  value;
 		Expect(1);
 		value = t.val;
-		log("id="+t.val);
-		if (value.equals("new")) SemErr("\"new\" is not a valid id"); 
+		log("id="+t.val); 
 		return value;
 	}
 
@@ -658,7 +657,7 @@ public class Parser {
 			Type exprType = Expression(cw);
 			log("init");
 			if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) 
-			     && !impl.instance_of(typeLiteral, exprType) ) // todo ???????????
+			     && !impl.instance_of(typeLiteral, exprType) )
 			    SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
 			else {   
 			Instruction store = getStoreInstruction(typeLiteral, lg.getIndex());
@@ -850,8 +849,10 @@ public class Parser {
 
 	Type  Selector(CodeWrapper cw, String className, int objIndex) {
 		Type  selType;
-		selType = null;
+		selType = null; 
 		if (next(_openRoundBracket)) {
+			if (cw.methodGen.isStatic() && objIndex==0)
+			       SemErr("no enclosing instance of "+cw.classGen.getClassName());
 			cw.append(new ALOAD(objIndex));
 			selType = call(cw, className);
 		} else if (la.kind == 1) {
@@ -900,7 +901,7 @@ public class Parser {
 			Expect(9);
 			Type exprType = Expression(cw);
 			InstructionFactory factory = new InstructionFactory( cw.classGen );
-			  if (!selType.equals(exprType) && !exprType.equals(Type.NULL))
+			  if (!selType.equals(exprType) && !exprType.equals(Type.NULL) )
 			     SemErr("incompatible types: expected "+selType+", got "+exprType);
 			  else {
 			      if (lg!=null) {
@@ -917,12 +918,12 @@ public class Parser {
 			                                                Constants.PUTFIELD ) );
 			   }
 		} else if (la.kind == 1) {
-			selType = access(cw, className);
+			selType = access(cw, className, objIndex);
 		} else SynErr(65);
 		return selType;
 	}
 
-	Type  access(CodeWrapper cw, String className) {
+	Type  access(CodeWrapper cw, String className, int objIndex) {
 		Type  selType;
 		String var = identifier();
 		LocalVariableGen lg = getVarGen(var, cw.methodGen);
@@ -931,6 +932,11 @@ public class Parser {
 		    if( fg == null ) { SemErr("no such variable or field "+var); selType = null;}
 		    else { // ??? ????
 		        selType = fg.getType();
+		        
+		if (cw.methodGen.isStatic() && objIndex==0)
+		    SemErr("no enclosing instance of "+cw.classGen.getClassName());
+		cw.append(new ALOAD(objIndex));
+		        
 		        InstructionFactory factory = new InstructionFactory( cw.classGen );
 		        cw.append( factory.createFieldAccess( 
 		                     className, 

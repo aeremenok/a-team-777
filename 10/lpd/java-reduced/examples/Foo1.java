@@ -1,17 +1,18 @@
 public class Foo1 
 {
+    int i;
     int foo(){
-        int i = 0;
-        return 0;
+        i = 7;
+        System.out.println(i);
     }
     //public static void main(String[] args){ new Foo1().main(); }
     
     public void main()
     {
         Foo1 f = new Foo1();
-        int b = f.foo();
+        int i = f.foo();
 
-        System.out.println(b);
+        System.out.println(i);
     }
 
 }
