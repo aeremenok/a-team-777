@@ -303,7 +303,7 @@ classBody<ClassGen classGen> =
 								log("method "+methodName+" created");
 								CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);	.) 
 			        Statement<cw>
-			        (.       	if (cw.il.getLength()==0) 
+			        (.       	if (cw.il.getLength()==0)
 								    cw.append( InstructionConstants.RETURN );
 								    
 								cw.methodGen.setMaxStack();
@@ -345,8 +345,10 @@ classBody<ClassGen classGen> =
 	                            CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);
                         .) 
                         Statement<cw>
-                        (.      if (cw.il.getLength()==0 || typeLiteral.equals(Type.VOID) )                            
+                        (.      if (cw.il.getLength()==0 || typeLiteral.equals(Type.VOID) )
                                     cw.append( InstructionConstants.RETURN );
+                                if ( !typeLiteral.equals(Type.VOID) && !cw.returned )
+                                    SemErr(member+" must return a value");
 
                                 cw.methodGen.setMaxStack();
                                 classGen.addMethod(cw.methodGen.getMethod());
@@ -441,7 +443,10 @@ Block<CodeWrapper cw>
 BlockStatement<CodeWrapper cw>
 =
   ( "return" (.Type exprType = Type.VOID;.) [Expression<out exprType, cw> ]
-    (.cw.append( impl.getReturnInstruction(exprType) );.) ";" )
+    (.  if (!cw.returned){
+            cw.append( impl.getReturnInstruction(exprType) );
+            cw.returned = true;
+        } else SemErr("only 1 return statement is allowed");.) ";" )
   |
   (
     (   IF(next(_id))

@@ -14,9 +14,10 @@ import org.apache.bcel.generic.MethodGen;
 class CodeWrapper
 {
     InstructionList   il;
-    InstructionHandle last;     // для ветвлений
+    InstructionHandle last;            // для ветвлений
     ClassGen          classGen;
     MethodGen         methodGen;
+    boolean           returned = false;
 
     public CodeWrapper(
         ClassGen classGen,
