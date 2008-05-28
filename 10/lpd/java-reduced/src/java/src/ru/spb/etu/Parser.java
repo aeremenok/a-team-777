@@ -308,7 +308,7 @@ public class Parser {
 				log("method "+methodName+" created");
 				CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);	
 				Statement(cw);
-				if (cw.il.getLength()==0) 
+				if (cw.il.getLength()==0)
 				cw.append( InstructionConstants.RETURN );
 				
 				cw.methodGen.setMaxStack();
@@ -351,9 +351,11 @@ public class Parser {
 					                     CodeWrapper cw = new CodeWrapper(classGen, il, methodGen);
 					                
 					Statement(cw);
-					if (cw.il.getLength()==0 || typeLiteral.equals(Type.VOID) )                            
+					if (cw.il.getLength()==0 || typeLiteral.equals(Type.VOID) )
 					   cw.append( InstructionConstants.RETURN );
-					 cw.methodGen.setMaxStack();
+					if ( !typeLiteral.equals(Type.VOID) && !cw.returned )
+					    SemErr(member+" must return a value");
+					  cw.methodGen.setMaxStack();
 					classGen.addMethod(cw.methodGen.getMethod());
 					} else SemErr("duplicate method "+member); 
 				} else if (la.kind == 25) {
@@ -630,7 +632,10 @@ public class Parser {
 			if (StartOf(4)) {
 				exprType = Expression(cw);
 			}
-			cw.append( impl.getReturnInstruction(exprType) );
+			if (!cw.returned){
+			   cw.append( impl.getReturnInstruction(exprType) );
+			   cw.returned = true;
+			} else SemErr("only 1 return statement is allowed");
 			Expect(25);
 		} else if (StartOf(8)) {
 			if (next(_id)) {
