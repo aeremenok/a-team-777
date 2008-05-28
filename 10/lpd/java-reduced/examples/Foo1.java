@@ -7,7 +7,7 @@ public class Foo1
         boolean b = false;
         int a = 5;
         int c = 4;
-        if ( (a != c) )
+        if ( (a < c) )
             b = true;
 
         System.out.println(b);

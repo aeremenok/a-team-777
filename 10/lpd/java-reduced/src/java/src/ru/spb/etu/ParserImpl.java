@@ -201,6 +201,30 @@ public class ParserImpl
         return instructionProvider.getIFCMPEQ( exprType );
     }
 
+    public IfInstruction getIFCMPGE(
+        Type exprType )
+    {
+        return instructionProvider.getIFCMPGE( exprType );
+    }
+
+    public IfInstruction getIFCMPGT(
+        Type exprType )
+    {
+        return instructionProvider.getIFCMPGT( exprType );
+    }
+
+    public IfInstruction getIFCMPLE(
+        Type exprType )
+    {
+        return instructionProvider.getIFCMPLE( exprType );
+    }
+
+    public IfInstruction getIFCMPLT(
+        Type exprType )
+    {
+        return instructionProvider.getIFCMPLT( exprType );
+    }
+
     public IfInstruction getIFCMPNE(
         Type exprType )
     {
@@ -471,4 +495,5 @@ public class ParserImpl
         }
         return false;
     }
+
 }

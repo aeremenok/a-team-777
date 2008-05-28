@@ -718,31 +718,26 @@ Infixop<out InstructionList il, Type exprType>
 (.if (instr != null) il.append(instr);.)
 .
 /*---------------------------------------------------------------------------*/
-Relational<out InstructionList il, Type exprType> (.il = new InstructionList();.)
+Relational<out InstructionList il, Type exprType> 
+  (.il = new InstructionList();
+  IfInstruction ifinstr = null; .)
 =
-  ("==") 
-  (.IfInstruction ifinstr = impl.getIFCMPNE(exprType);
-    il.append(ifinstr);
-    il.append(new ICONST(1));
-    GOTO g = new GOTO(null);
-    il.append(g);
-    ifinstr.setTarget( il.append(new ICONST(0)) );
-    g.setTarget( il.append(new NOP()) ); .)
-    
-| ("!=")
-  (.IfInstruction ifinstr = impl.getIFCMPEQ(exprType);
-    il.append(ifinstr);
-    il.append(new ICONST(1));
-    GOTO g = new GOTO(null);
-    il.append(g);
-    ifinstr.setTarget( il.append(new ICONST(0)) );
-    g.setTarget( il.append(new NOP()) ); .)
-    /*
-| ("<")
-| (">")
-| ("<=")
-| (">=")
-*/
+(
+  ("==") (.ifinstr = impl.getIFCMPNE(exprType);.)
+| ("!=") (.ifinstr = impl.getIFCMPEQ(exprType);.)
+| ("<")  (.ifinstr = impl.getIFCMPGT(exprType);.)
+| (">")  (.ifinstr = impl.getIFCMPLT(exprType);.)
+| ("<=") (.ifinstr = impl.getIFCMPLE(exprType);.)
+| (">=") (.ifinstr = impl.getIFCMPGE(exprType);.)
+)
+  (. if (ifinstr!=null){
+	    il.append(ifinstr);
+	    il.append(new ICONST(1));
+	    GOTO g = new GOTO(null);
+	    il.append(g);
+	    ifinstr.setTarget( il.append(new ICONST(0)) );
+	    g.setTarget( il.append(new NOP()) ); 
+    } .)
 .
 /*---------------------------------------------------------------------------*/
 END CompilationUnit.
