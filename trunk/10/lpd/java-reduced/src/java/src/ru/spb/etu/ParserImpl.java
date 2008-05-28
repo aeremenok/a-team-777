@@ -12,6 +12,7 @@ import org.apache.bcel.generic.InstructionFactory;
 import org.apache.bcel.generic.LocalVariableGen;
 import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.ReturnInstruction;
 import org.apache.bcel.generic.Type;
 
 public class ParserImpl
@@ -440,7 +441,7 @@ public class ParserImpl
             if ( methodParams == null )
             {
                 System.out.println( classGen.getClassName() + " must implement " + iGen.getClassName() + "#" +
-                                    method.getName() );
+                    method.getName() );
                 res = false;
             }
         }
@@ -494,6 +495,12 @@ public class ParserImpl
             }
         }
         return false;
+    }
+
+    public ReturnInstruction getReturnInstruction(
+        Type type )
+    {
+        return instructionProvider.getReturnInstruction( type );
     }
 
 }
