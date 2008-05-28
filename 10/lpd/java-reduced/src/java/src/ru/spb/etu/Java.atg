@@ -503,13 +503,16 @@ Expression<out Type exprType, CodeWrapper cw>
                 cw.il.append( new ICONST(0) ) 
                 );
             g.setTarget( cw.il.append(new NOP()) ); .) )
-    | ( '(' Expression<out exprType, cw>  
-            Infixop<out ArithmeticInstruction instr, exprType> 
+    | ( '(' Expression<out exprType, cw> (.InstructionList il = null;.)
+            ( 
+                Infixop<out il, exprType> 
+                |
+                Relational<out il, exprType>
+            ) 
             Expression<out Type exprTypeRight, cw> ')'
         (.  if (exprType == null || !exprType.equals(exprTypeRight))
                 SemErr("operand types mismatch "+exprType+" != "+exprTypeRight);
-            else
-                cw.append(instr);.) )
+            else cw.il.append(il);.) )
     |
     (. String className= cw.classGen.getClassName();
        int objIndex = -1;.)
@@ -687,9 +690,10 @@ identifier<out className> Arguments<out Type[] argTypes, cw>
 .
 /*---------------------------------------------------------------------------*/
 // бинарная операция
-Infixop<out ArithmeticInstruction instr, Type exprType>
+Infixop<out InstructionList il, Type exprType>
+(. il = new InstructionList();
+   ArithmeticInstruction instr = null;.)
 = 
-(.instr = null;.)
 (
 	  ("||" (. if (exprType.equals(Type.BOOLEAN)) instr = new IOR();
 		       else SemErr("cannot apply || to "+exprType); .) )
@@ -711,18 +715,34 @@ Infixop<out ArithmeticInstruction instr, Type exprType>
 	           else if (exprType.equals(Type.FLOAT) ) instr = new FREM();
 	           else SemErr("cannot apply % to "+exprType); .) )
 )
+(.if (instr != null) il.append(instr);.)
 .
 /*---------------------------------------------------------------------------*/
-/*
-Relational<out ArithmeticInstruction instr, Type exprType>
+Relational<out InstructionList il, Type exprType> (.il = new InstructionList();.)
 =
-  ("==")
+  ("==") 
+  (.IfInstruction ifinstr = impl.getIFCMPNE(exprType);
+    il.append(ifinstr);
+    il.append(new ICONST(1));
+    GOTO g = new GOTO(null);
+    il.append(g);
+    ifinstr.setTarget( il.append(new ICONST(0)) );
+    g.setTarget( il.append(new NOP()) ); .)
+    
 | ("!=")
+  (.IfInstruction ifinstr = impl.getIFCMPEQ(exprType);
+    il.append(ifinstr);
+    il.append(new ICONST(1));
+    GOTO g = new GOTO(null);
+    il.append(g);
+    ifinstr.setTarget( il.append(new ICONST(0)) );
+    g.setTarget( il.append(new NOP()) ); .)
+    /*
 | ("<")
 | (">")
 | ("<=")
 | (">=")
-.
 */
+.
 /*---------------------------------------------------------------------------*/
 END CompilationUnit.
