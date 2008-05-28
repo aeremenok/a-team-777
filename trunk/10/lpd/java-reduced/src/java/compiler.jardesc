@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="WINDOWS-1251" standalone="no"?>
+<jardesc>
+    <jar path="D:/leti/sem_10/repo/lpd/java-reduced/bin/compiler.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/java/compiler.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="false" mainClassHandleIdentifier="=java/src&lt;ru.spb.etu{Compiler.java[Compiler" manifestLocation="/java/META-INF/MANIFEST.MF" manifestVersion="1.0" reuseManifest="false" saveManifest="true" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+        <file path="/java/src/ru/spb/etu/Scanner.frame"/>
+        <javaElement handleIdentifier="=java/src&lt;ru.spb.etu{Scanner.java"/>
+        <javaElement handleIdentifier="=java/src&lt;ru.spb.etu{ParserImpl.java"/>
+        <javaElement handleIdentifier="=java/src&lt;ru.spb.etu{MethodParams.java"/>
+        <file path="/java/src/ru/spb/etu/Parser.frame"/>
+        <javaElement handleIdentifier="=java/src&lt;ru.spb.etu{CodeWrapper.java"/>
+        <javaElement handleIdentifier="=java/src&lt;ru.spb.etu{Parser.java"/>
+        <javaElement handleIdentifier="=java/src&lt;ru.spb.etu{Args.java"/>
+        <javaElement handleIdentifier="=java/src&lt;ru.spb.etu{MyClassGen.java"/>
+        <file path="/java/src/ru/spb/etu/Java.atg"/>
+        <javaElement handleIdentifier="=java/src&lt;ru.spb.etu{Compiler.java"/>
+        <javaElement handleIdentifier="=java/src&lt;ru.spb.etu{InstructionProvider.java"/>
+    </selectedElements>
+</jardesc>
