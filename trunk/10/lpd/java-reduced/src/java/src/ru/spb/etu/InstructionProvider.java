@@ -7,6 +7,10 @@ import org.apache.bcel.generic.FSTORE;
 import org.apache.bcel.generic.IF_ACMPEQ;
 import org.apache.bcel.generic.IF_ACMPNE;
 import org.apache.bcel.generic.IF_ICMPEQ;
+import org.apache.bcel.generic.IF_ICMPGE;
+import org.apache.bcel.generic.IF_ICMPGT;
+import org.apache.bcel.generic.IF_ICMPLE;
+import org.apache.bcel.generic.IF_ICMPLT;
 import org.apache.bcel.generic.IF_ICMPNE;
 import org.apache.bcel.generic.ILOAD;
 import org.apache.bcel.generic.ISTORE;
@@ -59,6 +63,82 @@ public class InstructionProvider
         else if ( exprType instanceof ObjectType )
         { // сравниваем ссылки на объекты
             ifInstruction = new IF_ACMPEQ( null );
+        }
+        return ifInstruction;
+    }
+
+    public IfInstruction getIFCMPGT(
+        Type exprType )
+    {
+        IfInstruction ifInstruction = null;
+        if ( exprType.equals( Type.INT ) || exprType.equals( Type.BOOLEAN ) )
+        {
+            ifInstruction = new IF_ICMPGT( null );
+        }
+        else if ( exprType.equals( Type.FLOAT ) )
+        {
+            parser.SemErr( "float comparison unsupported" );
+        }
+        else if ( exprType instanceof ObjectType )
+        {
+            parser.SemErr( "'>' for object unsupported" );
+        }
+        return ifInstruction;
+    }
+
+    public IfInstruction getIFCMPGE(
+        Type exprType )
+    {
+        IfInstruction ifInstruction = null;
+        if ( exprType.equals( Type.INT ) || exprType.equals( Type.BOOLEAN ) )
+        {
+            ifInstruction = new IF_ICMPGE( null );
+        }
+        else if ( exprType.equals( Type.FLOAT ) )
+        {
+            parser.SemErr( "float comparison unsupported" );
+        }
+        else if ( exprType instanceof ObjectType )
+        {
+            parser.SemErr( "'>=' for object unsupported" );
+        }
+        return ifInstruction;
+    }
+
+    public IfInstruction getIFCMPLT(
+        Type exprType )
+    {
+        IfInstruction ifInstruction = null;
+        if ( exprType.equals( Type.INT ) || exprType.equals( Type.BOOLEAN ) )
+        {
+            ifInstruction = new IF_ICMPLT( null );
+        }
+        else if ( exprType.equals( Type.FLOAT ) )
+        {
+            parser.SemErr( "float comparison unsupported" );
+        }
+        else if ( exprType instanceof ObjectType )
+        {
+            parser.SemErr( "'<' for object unsupported" );
+        }
+        return ifInstruction;
+    }
+
+    public IfInstruction getIFCMPLE(
+        Type exprType )
+    {
+        IfInstruction ifInstruction = null;
+        if ( exprType.equals( Type.INT ) || exprType.equals( Type.BOOLEAN ) )
+        {
+            ifInstruction = new IF_ICMPLE( null );
+        }
+        else if ( exprType.equals( Type.FLOAT ) )
+        {
+            parser.SemErr( "float comparison unsupported" );
+        }
+        else if ( exprType instanceof ObjectType )
+        {
+            parser.SemErr( "'<=' for object unsupported" );
         }
         return ifInstruction;
     }
