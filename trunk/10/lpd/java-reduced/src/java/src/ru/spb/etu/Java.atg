@@ -128,13 +128,13 @@ TOKENS
     floatLit =
         "." digit {digit} 
         [ ("e" | "E") ["+" | "-"] digit {digit} ] 
-        [ "F" | "f" | "D" | "d" ]
+        [ "F" | "f"  ]
         | digit {digit} 
         (
             "." {digit} 
-              [("e" | "E" ) ["+" | "-"] digit {digit} ] [ "F" | "f" | "D" | "d" ]
-            | ("e" | "E") ["+" | "-"] digit {digit} [ "F" | "f" | "D" | "d" ]
-            | "F" | "f" | "D" | "d"
+              [("e" | "E" ) ["+" | "-"] digit {digit} ] [ "F" | "f" ]
+            | ("e" | "E") ["+" | "-"] digit {digit} [ "F" | "f" ]
+            | "F" | "f"
         ).  
     /*-------------------------------------------------------------------------*/
     stringLit = 
@@ -155,8 +155,7 @@ identifier<out String value>
 = 
 id
 (.  value = t.val;
-    log("id="+t.val);
-    if (value.equals("new")) SemErr("\"new\" is not a valid id"); .)
+    log("id="+t.val); .)
 .
 /*----------------------------------CompilationUnit----------------------------------*/
 CompilationUnit = 
@@ -466,7 +465,7 @@ identifier<out String varName>
 ["=" Expression<out Type exprType, cw> // здесь нам оставят результат на верхушке стека. мы его сохраняем в переменную 
 (.      log("init");
 	    if ( !typeLiteral.equals(exprType) && !exprType.equals(Type.NULL) 
-	         && !impl.instance_of(typeLiteral, exprType) ) // todo полиморфизм
+	         && !impl.instance_of(typeLiteral, exprType) )
 	        SemErr("incompatible types: expected "+typeLiteral+", got "+exprType);
 	    else {   
 			Instruction store = getStoreInstruction(typeLiteral, lg.getIndex());
@@ -540,13 +539,16 @@ Expression<out Type exprType, CodeWrapper cw>
 .
 /*---------------------------------------------------------------------------*/
 Selector<out Type selType, CodeWrapper cw, String className, int objIndex>
+(.  selType = null; .)
 =
-(.selType = null;.)
 (
 	(
 	    IF(next(_openRoundBracket))
 	       // забрасываем в стек объект и вызываем его метод
-	       (.cw.append(new ALOAD(objIndex));.)
+	       (.
+	           if (cw.methodGen.isStatic() && objIndex==0)
+                    SemErr("no enclosing instance of "+cw.classGen.getClassName());
+	           cw.append(new ALOAD(objIndex));.)
 	       call<out selType, cw, className>
 	)
 	|
@@ -596,7 +598,7 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 	           else selType = lg.getType();  /* это переменная */ .)
 	        '=' Expression<out Type exprType, cw>
 			(.  InstructionFactory factory = new InstructionFactory( cw.classGen );
-		        if (!selType.equals(exprType) && !exprType.equals(Type.NULL))
+		        if (!selType.equals(exprType) && !exprType.equals(Type.NULL) )
 		           SemErr("incompatible types: expected "+selType+", got "+exprType);
 		        else {
 		            if (lg!=null) {
@@ -614,11 +616,11 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 		         }.)
 	)
 	|
-	( access<out selType, cw, className> ) // иначе - взятие значения
+	( access<out selType, cw, className, objIndex> ) // иначе - взятие значения
 )
 .
 /*---------------------------------------------------------------------------*/
-access<out Type selType, CodeWrapper cw, String className>
+access<out Type selType, CodeWrapper cw, String className, int objIndex>
 =
 identifier<out String var>
 (. LocalVariableGen lg = getVarGen(var, cw.methodGen);
@@ -627,6 +629,11 @@ identifier<out String var>
        if( fg == null ) { SemErr("no such variable or field "+var); selType = null;}
        else { // это поле
            selType = fg.getType();
+           
+			if (cw.methodGen.isStatic() && objIndex==0)
+			    SemErr("no enclosing instance of "+cw.classGen.getClassName());
+			cw.append(new ALOAD(objIndex));
+           
            InstructionFactory factory = new InstructionFactory( cw.classGen );
            cw.append( factory.createFieldAccess( 
                         className, 

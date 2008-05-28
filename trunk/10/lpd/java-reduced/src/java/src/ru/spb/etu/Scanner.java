@@ -445,7 +445,7 @@ public class Scanner {
 					{t.kind = 7; done = true; break;}
 				case 6:
 					if (ch >= '0' && ch <= '9') {tval[tlen++] = (char)ch; NextCh(); state = 6; break;}
-					else if (ch == 'D' || ch == 'F' || ch == 'd' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
+					else if (ch == 'F' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
 					else if (ch == 'E' || ch == 'e') {tval[tlen++] = (char)ch; NextCh(); state = 7; break;}
 					else {t.kind = 11; done = true; break;}
 				case 7:
@@ -457,17 +457,17 @@ public class Scanner {
 					else {t.kind = noSym; done = true; break;}
 				case 9:
 					if (ch >= '0' && ch <= '9') {tval[tlen++] = (char)ch; NextCh(); state = 9; break;}
-					else if (ch == 'D' || ch == 'F' || ch == 'd' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
+					else if (ch == 'F' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
 					else {t.kind = 11; done = true; break;}
 				case 10:
 					if (ch >= '0' && ch <= '9') {tval[tlen++] = (char)ch; NextCh(); state = 10; break;}
 					else if (ch == '.') {tval[tlen++] = (char)ch; NextCh(); state = 11; break;}
 					else if (ch == 'E' || ch == 'e') {tval[tlen++] = (char)ch; NextCh(); state = 15; break;}
-					else if (ch == 'D' || ch == 'F' || ch == 'd' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
+					else if (ch == 'F' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
 					else {t.kind = noSym; done = true; break;}
 				case 11:
 					if (ch >= '0' && ch <= '9') {tval[tlen++] = (char)ch; NextCh(); state = 11; break;}
-					else if (ch == 'D' || ch == 'F' || ch == 'd' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
+					else if (ch == 'F' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
 					else if (ch == 'E' || ch == 'e') {tval[tlen++] = (char)ch; NextCh(); state = 12; break;}
 					else {t.kind = 11; done = true; break;}
 				case 12:
@@ -479,7 +479,7 @@ public class Scanner {
 					else {t.kind = noSym; done = true; break;}
 				case 14:
 					if (ch >= '0' && ch <= '9') {tval[tlen++] = (char)ch; NextCh(); state = 14; break;}
-					else if (ch == 'D' || ch == 'F' || ch == 'd' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
+					else if (ch == 'F' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
 					else {t.kind = 11; done = true; break;}
 				case 15:
 					if (ch >= '0' && ch <= '9') {tval[tlen++] = (char)ch; NextCh(); state = 17; break;}
@@ -490,7 +490,7 @@ public class Scanner {
 					else {t.kind = noSym; done = true; break;}
 				case 17:
 					if (ch >= '0' && ch <= '9') {tval[tlen++] = (char)ch; NextCh(); state = 17; break;}
-					else if (ch == 'D' || ch == 'F' || ch == 'd' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
+					else if (ch == 'F' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
 					else {t.kind = 11; done = true; break;}
 				case 18:
 					{t.kind = 11; done = true; break;}
@@ -508,13 +508,13 @@ public class Scanner {
 					if (ch >= '0' && ch <= '9') {tval[tlen++] = (char)ch; NextCh(); state = 10; break;}
 					else if (ch == '.') {tval[tlen++] = (char)ch; NextCh(); state = 11; break;}
 					else if (ch == 'E' || ch == 'e') {tval[tlen++] = (char)ch; NextCh(); state = 15; break;}
-					else if (ch == 'D' || ch == 'F' || ch == 'd' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
+					else if (ch == 'F' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
 					else {t.kind = 10; done = true; break;}
 				case 23:
 					if (ch >= '0' && ch <= '9') {tval[tlen++] = (char)ch; NextCh(); state = 23; break;}
 					else if (ch == '.') {tval[tlen++] = (char)ch; NextCh(); state = 11; break;}
 					else if (ch == 'E' || ch == 'e') {tval[tlen++] = (char)ch; NextCh(); state = 15; break;}
-					else if (ch == 'D' || ch == 'F' || ch == 'd' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
+					else if (ch == 'F' || ch == 'f') {tval[tlen++] = (char)ch; NextCh(); state = 18; break;}
 					else {t.kind = 10; done = true; break;}
 				case 24:
 					if (ch >= '0' && ch <= '9') {tval[tlen++] = (char)ch; NextCh(); state = 6; break;}
