@@ -609,11 +609,18 @@ public class Parser {
 				Expect(8);
 				exprType = Selector(cw, className, objIndex);
 			} else {
-				exprType = Selector(cw, className, 0);
+				if (la.kind == 31) {
+					Get();
+					exprType = new ObjectType(cw.classGen.getClassName());
+					if (cw.methodGen.isStatic()) SemErr("no enclosing instance");
+					else cw.append(new ALOAD(0)); 
+				} else if (la.kind == 1) {
+					exprType = Selector(cw, className, 0);
+				} else SynErr(58);
 			}
 			break;
 		}
-		default: SynErr(58); break;
+		default: SynErr(59); break;
 		}
 		return exprType;
 	}
@@ -637,7 +644,7 @@ public class Parser {
 			} else {
 				Statement(cw);
 			}
-		} else SynErr(59);
+		} else SynErr(60);
 	}
 
 	void LocalVariableDeclaration(CodeWrapper cw) {
@@ -735,7 +742,7 @@ public class Parser {
 		} else if (la.kind == 35) {
 			Get();
 			exprType = Type.NULL; cw.append( new ACONST_NULL());
-		} else SynErr(60);
+		} else SynErr(61);
 		return exprType;
 	}
 
@@ -791,7 +798,7 @@ public class Parser {
 			else SemErr("cannot apply % to "+exprType); 
 			break;
 		}
-		default: SynErr(61); break;
+		default: SynErr(62); break;
 		}
 		if (instr != null) il.append(instr);
 		return il;
@@ -832,7 +839,7 @@ public class Parser {
 			ifinstr = impl.getIFCMPGE(exprType);
 			break;
 		}
-		default: SynErr(62); break;
+		default: SynErr(63); break;
 		}
 		if (ifinstr!=null){
 		il.append(ifinstr);
@@ -855,7 +862,7 @@ public class Parser {
 			selType = call(cw, className);
 		} else if (la.kind == 1) {
 			selType = var(cw, className, objIndex);
-		} else SynErr(63);
+		} else SynErr(64);
 		return selType;
 	}
 
@@ -917,7 +924,7 @@ public class Parser {
 			   }
 		} else if (la.kind == 1) {
 			selType = access(cw, className, objIndex);
-		} else SynErr(64);
+		} else SynErr(65);
 		return selType;
 	}
 
@@ -1055,12 +1062,13 @@ class Errors {
 			case 56: s = "invalid Expression"; break;
 			case 57: s = "invalid Expression"; break;
 			case 58: s = "invalid Expression"; break;
-			case 59: s = "invalid BlockStatement"; break;
-			case 60: s = "invalid Literal"; break;
-			case 61: s = "invalid Infixop"; break;
-			case 62: s = "invalid Relational"; break;
-			case 63: s = "invalid Selector"; break;
-			case 64: s = "invalid var"; break;
+			case 59: s = "invalid Expression"; break;
+			case 60: s = "invalid BlockStatement"; break;
+			case 61: s = "invalid Literal"; break;
+			case 62: s = "invalid Infixop"; break;
+			case 63: s = "invalid Relational"; break;
+			case 64: s = "invalid Selector"; break;
+			case 65: s = "invalid var"; break;
 			default: s = "error " + n; break;
 		}
 		printMsg(line, col, s);

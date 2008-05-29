@@ -119,7 +119,8 @@ public class ParserImpl
         if ( argTypes.length == 1 )
         {
             Type[] commonTypes = argTypes;
-            if ( argTypes[0].toString().equals( "Object" ) )
+            if ( argTypes[0] instanceof ObjectType && !argTypes[0].toString().equals( "String" ) &&
+                !argTypes[0].toString().equals( "java.lang.String" ) )
             {
                 commonTypes = new Type[] { new ObjectType( "java.lang.Object" ) };
             }
@@ -487,7 +488,7 @@ public class ParserImpl
             if ( methodParams == null )
             {
                 System.out.println( classGen.getClassName() + " must implement " + iGen.getClassName() + "#" +
-                                    method.getName() );
+                    method.getName() );
                 res = false;
             }
         }
