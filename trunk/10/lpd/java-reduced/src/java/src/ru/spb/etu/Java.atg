@@ -361,10 +361,11 @@ classBody<ClassGen classGen> =
                                 typeLiteral,
                                 member,
                                 classGen.getConstantPool() ); 
-                            if ( Arrays.asList(classGen.getFields()).contains(fieldGen.getField()) )
-                                SemErr("duplicate field "+member);
-                            else  
-                                classGen.addField( fieldGen.getField() ); .)
+                            if ( Arrays.asList(classGen.getFields()).contains(fieldGen.getField()) ) SemErr("duplicate field "+member);
+                            else {
+                                classGen.addField( fieldGen.getField() ); 
+                                log("created field "+member);
+                            }.)
                         // запрещаем инициализировать поля сразу, т.к. это требует неявного создания к-ра
                         // пусть польз-ль сам пишет к-р и делает там, что хочет =)
                         ';'
@@ -484,9 +485,8 @@ identifier<out String varName>
 /*---------------------------------------------------------------------------*
  *---------------------------- Expressions ----------------------------------*
  *---------------------------------------------------------------------------*/
-Expression<out Type exprType, CodeWrapper cw>
+Expression<out Type exprType, CodeWrapper cw> =
 // цель - оставить что-то на верхушке стека
-= 
 (.exprType = null;.)
 (       // заглушки
       ( "System.out.println"                (.preparePrintStream(cw);.)
@@ -527,53 +527,35 @@ Expression<out Type exprType, CodeWrapper cw>
                 SemErr("operand types mismatch "+exprType+" != "+exprTypeRight);
             else cw.il.append(il);.) )
     |
-    (. String className= cw.classGen.getClassName();
+    (. String className = cw.classGen.getClassName();
        int objIndex = -1;.)
-    ( // операции с объектами
-        (
-            IF(next(_dot))
-                (
-                    "this"  (.objIndex = 0;.)  
-                  | "super" (.objIndex = 0; className = cw.classGen.getSuperclassName();.)
-                  | identifier<out String objVarName>
-                  (.LocalVariableGen lg = getVarGen(objVarName, cw.methodGen);
-                    if (lg==null)
-                        SemErr("no such variable "+objVarName);
-                    else
-                        className = impl.realType(lg).toString();
-                    log("className="+className);
-                    
-                    objIndex = lg.getIndex();.)
-                ) "."
-                Selector<out exprType, cw, className, objIndex>
-        )
-        |
-        (
-              "this" 
-              (. exprType = new ObjectType(cw.classGen.getClassName());
-                 if (cw.methodGen.isStatic()) SemErr("no enclosing instance");
-                 else cw.append(new ALOAD(0)); .)
-            | Selector<out exprType, cw, className, 0>
-        ) 
-    )
+    (
+            ( "super" "." 
+                (.  className = cw.classGen.getSuperclassName();
+                    if (cw.methodGen.isStatic()) SemErr("no enclosing instance");
+                    else cw.append(new ALOAD(0)); .)
+                Selector<out exprType, cw, className> {"." Selector<out exprType, cw, className>} )
+        |   ( "this"
+                (.  if (cw.methodGen.isStatic()) SemErr("no enclosing instance");
+                    else cw.append(new ALOAD(0));
+                    exprType = new ObjectType(cw.classGen.getClassName()); .)
+                {"." Selector<out exprType, cw, className>} )
+        |   ( (. if (!cw.methodGen.isStatic()) cw.append(new ALOAD(0)); .)
+            Selector<out exprType, cw, className> {"." Selector<out exprType, cw, className>} )
+     )
 )
 .
 /*---------------------------------------------------------------------------*/
-Selector<out Type selType, CodeWrapper cw, String className, int objIndex>
+Selector<out Type selType, CodeWrapper cw, String className>
 (.  selType = null; .)
 =
 (
 	(
 	    IF(next(_openRoundBracket))
-	       // забрасываем в стек объект и вызываем его метод
-	       (.
-	           if (cw.methodGen.isStatic() && objIndex==0)
-                    SemErr("no enclosing instance of "+cw.classGen.getClassName());
-	           cw.append(new ALOAD(objIndex));.)
 	       call<out selType, cw, className>
 	)
 	|
-	( var<out selType, cw, className, objIndex> ) // иначе - присвоение левой части - значения
+	( var<out selType, cw, className> ) // иначе - присвоение левой части - значения
 )
 .
 /*---------------------------------------------------------------------------*/
@@ -598,7 +580,7 @@ call<out Type selType, CodeWrapper cw, String className>
 		} .)
 .
 /*---------------------------------------------------------------------------*/
-var<out Type selType, CodeWrapper cw, String className, int objIndex>
+var<out Type selType, CodeWrapper cw, String className>
 =
 (.selType = null;.)
 (
@@ -613,7 +595,6 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 	               if( fg == null ) SemErr("no such variable or field "+var);
 	               else  { // это поле
 	                   selType = fg.getType();
-	                   cw.append(new ALOAD(objIndex));
 	               }
 	           }
 	           else selType = lg.getType();  /* это переменная */ .)
@@ -637,11 +618,11 @@ var<out Type selType, CodeWrapper cw, String className, int objIndex>
 		         }.)
 	)
 	|
-	( access<out selType, cw, className, objIndex> ) // иначе - взятие значения
+	( access<out selType, cw, className> ) // иначе - взятие значения
 )
 .
 /*---------------------------------------------------------------------------*/
-access<out Type selType, CodeWrapper cw, String className, int objIndex>
+access<out Type selType, CodeWrapper cw, String className>
 =
 identifier<out String var>
 (. LocalVariableGen lg = getVarGen(var, cw.methodGen);
@@ -650,10 +631,6 @@ identifier<out String var>
        if( fg == null ) { SemErr("no such variable or field "+var); selType = null;}
        else { // это поле
            selType = fg.getType();
-           
-			if (cw.methodGen.isStatic() && objIndex==0)
-			    SemErr("no enclosing instance of "+cw.classGen.getClassName());
-			cw.append(new ALOAD(objIndex));
            
            InstructionFactory factory = new InstructionFactory( cw.classGen );
            cw.append( factory.createFieldAccess( 

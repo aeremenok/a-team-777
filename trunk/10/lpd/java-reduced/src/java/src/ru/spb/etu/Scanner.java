@@ -402,8 +402,8 @@ public class Scanner {
 		else if (lit.compareTo("if") == 0) t.kind = 25;
 		else if (lit.compareTo("else") == 0) t.kind = 27;
 		else if (lit.compareTo("while") == 0) t.kind = 28;
-		else if (lit.compareTo("this") == 0) t.kind = 31;
-		else if (lit.compareTo("super") == 0) t.kind = 32;
+		else if (lit.compareTo("super") == 0) t.kind = 31;
+		else if (lit.compareTo("this") == 0) t.kind = 32;
 		else if (lit.compareTo("true") == 0) t.kind = 33;
 		else if (lit.compareTo("false") == 0) t.kind = 34;
 		else if (lit.compareTo("null") == 0) t.kind = 35;
