@@ -577,6 +577,8 @@ public class Parser {
 			       (exprTypeRight instanceof ObjectType) && (exprType.equals(Type.NULL))
 			   )
 			   &&
+			   !((exprType instanceof ObjectType) && (exprTypeRight instanceof ObjectType))
+			   &&
 			   (exprType == null || !exprType.equals(exprTypeRight))
 			   )
 			   SemErr("operand types mismatch "+exprType+" != "+exprTypeRight);

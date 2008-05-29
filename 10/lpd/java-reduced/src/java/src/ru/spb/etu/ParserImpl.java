@@ -118,7 +118,12 @@ public class ParserImpl
         InstructionFactory factory = new InstructionFactory( cw.classGen );
         if ( argTypes.length == 1 )
         {
-            cw.append( factory.createInvoke( "java.io.PrintStream", method, Type.VOID, argTypes, INVOKEVIRTUAL ) );
+            Type[] commonTypes = argTypes;
+            if ( argTypes[0].toString().equals( "Object" ) )
+            {
+                commonTypes = new Type[] { new ObjectType( "java.lang.Object" ) };
+            }
+            cw.append( factory.createInvoke( "java.io.PrintStream", method, Type.VOID, commonTypes, INVOKEVIRTUAL ) );
         }
         else
         {
@@ -482,7 +487,7 @@ public class ParserImpl
             if ( methodParams == null )
             {
                 System.out.println( classGen.getClassName() + " must implement " + iGen.getClassName() + "#" +
-                    method.getName() );
+                                    method.getName() );
                 res = false;
             }
         }
