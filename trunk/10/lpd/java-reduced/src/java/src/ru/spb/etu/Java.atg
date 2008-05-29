@@ -251,7 +251,7 @@ basicType<out Type typeLiteral> =
 	   |   ("float"     (.typeLiteral = Type.FLOAT;.))
 	   |   ("void"      (.typeLiteral = Type.VOID;.))
 	   |   ("String"    (.typeLiteral = new ObjectType("java.lang.String");.))
-	   |   ("Vector"    (.typeLiteral = new ObjectType("java.util.Vector");.))
+	   //|   ("Vector"    (.typeLiteral = new ObjectType("java.util.Vector");.))
 	)
 .
 /*----------------------------------type----------------------------------*/
@@ -513,7 +513,15 @@ Expression<out Type exprType, CodeWrapper cw>
                 Relational<out il, exprType>
             ) 
             Expression<out Type exprTypeRight, cw> ')'
-        (.  if (exprType == null || !exprType.equals(exprTypeRight))
+        (.  if (
+                !(
+                    (exprType instanceof ObjectType) && (exprTypeRight.equals(Type.NULL))
+                    ||
+                    (exprTypeRight instanceof ObjectType) && (exprType.equals(Type.NULL))
+                )
+                &&
+                (exprType == null || !exprType.equals(exprTypeRight))
+                )
                 SemErr("operand types mismatch "+exprType+" != "+exprTypeRight);
             else cw.il.append(il);.) )
     |
@@ -573,7 +581,7 @@ call<out Type selType, CodeWrapper cw, String className>
 	    else {
 	        selType = mp.method.getReturnType();
 		    cw.append( factory.createInvoke(
-		        mp.className,
+		        getType(mp.className).getClassName(),
 		        mp.method.getName(),
 		        selType,
 		        mp.method.getArgumentTypes(), 
@@ -687,10 +695,10 @@ identifier<out className> Arguments<out Type[] argTypes, cw>
         createdType = null;
     else {
 	    InstructionFactory factory = new InstructionFactory( cw.classGen );
-        cw.append( factory.createNew( className ) );
+        cw.append( factory.createNew( getType(className).getClassName() ) );
         cw.append( InstructionConstants.DUP );
 	    cw.append( factory.createInvoke(
-	        className,
+	        getType(className).getClassName(),
 	        "<init>",
 	        Type.VOID,
 	        argTypes, 

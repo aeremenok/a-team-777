@@ -48,6 +48,7 @@ public class ParserImpl
         Parser parser )
     {
         this.parser = parser;
+        /*
         MyClassGen vector = new MyClassGen( "java.util.Vector", "java.lang.Object" );
         classes.put( "java.util.Vector", vector );
         types.put( "java.util.Vector", vector );
@@ -56,6 +57,7 @@ public class ParserImpl
         vector.createMethod( "get", Type.OBJECT, new Type[] { Type.INT }, new String[] { "index" } );
         vector.createMethod( "size", Type.INT, new Type[] {}, new String[] {} );
         vector.createMethod( "indexOf", Type.INT, new Type[] { Type.OBJECT }, new String[] { "o" } );
+        */
 
         MyClassGen string = new MyClassGen( "java.lang.String", "java.lang.Object" );
         classes.put( "java.lang.String", string );
@@ -285,6 +287,18 @@ public class ParserImpl
     public ClassGen getType(
         String name )
     {
+        if ( name.equals( "Vector" ) )
+        {
+            name = "java.util.Vector";
+        }
+        else if ( name.equals( "String" ) )
+        {
+            name = "java.lang.String";
+        }
+        else if ( name.equals( "Object" ) )
+        {
+            name = "java.lang.Object";
+        }
         ClassGen classGen = types.get( name );
         if ( classGen == null )
         {
@@ -366,6 +380,18 @@ public class ParserImpl
     public boolean isDuplicate(
         String typeName )
     {
+        if ( typeName.equals( "Vector" ) )
+        {
+            typeName = "java.util.Vector";
+        }
+        else if ( typeName.equals( "String" ) )
+        {
+            typeName = "java.lang.String";
+        }
+        else if ( typeName.equals( "Object" ) )
+        {
+            typeName = "java.lang.Object";
+        }
         if ( types.get( typeName ) != null )
         {
             parser.SemErr( "duplicate type " + typeName );
@@ -382,6 +408,18 @@ public class ParserImpl
         // todo это название - обман пользователя. зарефакторить
         String typeName )
     {
+        if ( typeName.equals( "Vector" ) )
+        {
+            typeName = "java.util.Vector";
+        }
+        else if ( typeName.equals( "String" ) )
+        {
+            typeName = "java.lang.String";
+        }
+        else if ( typeName.equals( "Object" ) )
+        {
+            typeName = "java.lang.Object";
+        }
         if ( types.get( typeName ) == null )
         {
             parser.SemErr( "no such type " + typeName );
