@@ -45,6 +45,19 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
+                                            Средняя скорость передачи: <xsl:value-of select="@speed"/>
+                                            <img>
+                                                <xsl:attribute name="src">
+                                                    <xsl:choose>
+                                                        <xsl:when test="@speed&gt;10000">images\fast.jpg</xsl:when>
+                                                        <xsl:otherwise>images\slow.gif</xsl:otherwise>
+                                                    </xsl:choose>
+                                                </xsl:attribute>
+                                            </img>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
                                             <xsl:value-of select="./description"/>
                                         </td>
                                     </tr>

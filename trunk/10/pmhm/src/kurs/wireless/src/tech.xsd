@@ -45,6 +45,7 @@
         </xsd:sequence>
         <xsd:attribute name="name" type="xsd:string" use="required"/>
         <xsd:attribute name="created" type="xsd:date"/>
+        <xsd:attribute name="speed" type="xsd:int"/>
     </xsd:complexType>
     
     <xsd:complexType name="device">
