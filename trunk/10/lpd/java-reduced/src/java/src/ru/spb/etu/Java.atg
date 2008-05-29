@@ -548,7 +548,13 @@ Expression<out Type exprType, CodeWrapper cw>
                 Selector<out exprType, cw, className, objIndex>
         )
         |
-        ( Selector<out exprType, cw, className, 0> ) 
+        (
+              "this" 
+              (. exprType = new ObjectType(cw.classGen.getClassName());
+                 if (cw.methodGen.isStatic()) SemErr("no enclosing instance");
+                 else cw.append(new ALOAD(0)); .)
+            | Selector<out exprType, cw, className, 0>
+        ) 
     )
 )
 .
