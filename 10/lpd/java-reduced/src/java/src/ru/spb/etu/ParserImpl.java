@@ -287,11 +287,12 @@ public class ParserImpl
     public ClassGen getType(
         String name )
     {
-        if ( name.equals( "Vector" ) )
-        {
-            name = "java.util.Vector";
-        }
-        else if ( name.equals( "String" ) )
+        // if ( name.equals( "Vector" ) )
+        // {
+        // name = "java.util.Vector";
+        // }
+        // else
+        if ( name.equals( "String" ) )
         {
             name = "java.lang.String";
         }
@@ -380,11 +381,12 @@ public class ParserImpl
     public boolean isDuplicate(
         String typeName )
     {
-        if ( typeName.equals( "Vector" ) )
-        {
-            typeName = "java.util.Vector";
-        }
-        else if ( typeName.equals( "String" ) )
+        // if ( typeName.equals( "Vector" ) )
+        // {
+        // typeName = "java.util.Vector";
+        // }
+        // else
+        if ( typeName.equals( "String" ) )
         {
             typeName = "java.lang.String";
         }
@@ -408,11 +410,12 @@ public class ParserImpl
         // todo это название - обман пользователя. зарефакторить
         String typeName )
     {
-        if ( typeName.equals( "Vector" ) )
-        {
-            typeName = "java.util.Vector";
-        }
-        else if ( typeName.equals( "String" ) )
+        // if ( typeName.equals( "Vector" ) )
+        // {
+        // typeName = "java.util.Vector";
+        // }
+        // else
+        if ( typeName.equals( "String" ) )
         {
             typeName = "java.lang.String";
         }
