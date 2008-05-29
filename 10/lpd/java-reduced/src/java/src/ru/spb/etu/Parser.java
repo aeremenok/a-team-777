@@ -364,10 +364,11 @@ public class Parser {
 					   typeLiteral,
 					   member,
 					   classGen.getConstantPool() ); 
-					if ( Arrays.asList(classGen.getFields()).contains(fieldGen.getField()) )
-					    SemErr("duplicate field "+member);
-					else  
+					if ( Arrays.asList(classGen.getFields()).contains(fieldGen.getField()) ) SemErr("duplicate field "+member);
+					else {
 					    classGen.addField( fieldGen.getField() ); 
+					    log("created field "+member);
+					}
 					Get();
 				} else SynErr(51);
 			} else SynErr(52);
@@ -586,41 +587,39 @@ public class Parser {
 			break;
 		}
 		case 1: case 31: case 32: {
-			String className= cw.classGen.getClassName();
+			String className = cw.classGen.getClassName();
 			int objIndex = -1;
-			if (next(_dot)) {
-				if (la.kind == 31) {
-					Get();
-					objIndex = 0;
-				} else if (la.kind == 32) {
-					Get();
-					objIndex = 0; className = cw.classGen.getSuperclassName();
-				} else if (la.kind == 1) {
-					String objVarName = identifier();
-					LocalVariableGen lg = getVarGen(objVarName, cw.methodGen);
-					if (lg==null)
-					    SemErr("no such variable "+objVarName);
-					else
-					    className = impl.realType(lg).toString();
-					log("className="+className);
-					
-					objIndex = lg.getIndex();
-				} else SynErr(57);
+			if (la.kind == 31) {
+				Get();
 				Expect(8);
-				exprType = Selector(cw, className, objIndex);
-			} else {
-				if (la.kind == 31) {
+				className = cw.classGen.getSuperclassName();
+				if (cw.methodGen.isStatic()) SemErr("no enclosing instance");
+				else cw.append(new ALOAD(0)); 
+				exprType = Selector(cw, className);
+				while (la.kind == 8) {
 					Get();
-					exprType = new ObjectType(cw.classGen.getClassName());
-					if (cw.methodGen.isStatic()) SemErr("no enclosing instance");
-					else cw.append(new ALOAD(0)); 
-				} else if (la.kind == 1) {
-					exprType = Selector(cw, className, 0);
-				} else SynErr(58);
+					exprType = Selector(cw, className);
+				}
+			} else if (la.kind == 32) {
+				Get();
+				if (cw.methodGen.isStatic()) SemErr("no enclosing instance");
+				else cw.append(new ALOAD(0));
+				exprType = new ObjectType(cw.classGen.getClassName()); 
+				while (la.kind == 8) {
+					Get();
+					exprType = Selector(cw, className);
+				}
+			} else {
+				if (!cw.methodGen.isStatic()) cw.append(new ALOAD(0)); 
+				exprType = Selector(cw, className);
+				while (la.kind == 8) {
+					Get();
+					exprType = Selector(cw, className);
+				}
 			}
 			break;
 		}
-		default: SynErr(59); break;
+		default: SynErr(57); break;
 		}
 		return exprType;
 	}
@@ -644,7 +643,7 @@ public class Parser {
 			} else {
 				Statement(cw);
 			}
-		} else SynErr(60);
+		} else SynErr(58);
 	}
 
 	void LocalVariableDeclaration(CodeWrapper cw) {
@@ -742,7 +741,7 @@ public class Parser {
 		} else if (la.kind == 35) {
 			Get();
 			exprType = Type.NULL; cw.append( new ACONST_NULL());
-		} else SynErr(61);
+		} else SynErr(59);
 		return exprType;
 	}
 
@@ -798,7 +797,7 @@ public class Parser {
 			else SemErr("cannot apply % to "+exprType); 
 			break;
 		}
-		default: SynErr(62); break;
+		default: SynErr(60); break;
 		}
 		if (instr != null) il.append(instr);
 		return il;
@@ -839,7 +838,7 @@ public class Parser {
 			ifinstr = impl.getIFCMPGE(exprType);
 			break;
 		}
-		default: SynErr(63); break;
+		default: SynErr(61); break;
 		}
 		if (ifinstr!=null){
 		il.append(ifinstr);
@@ -852,17 +851,14 @@ public class Parser {
 		return il;
 	}
 
-	Type  Selector(CodeWrapper cw, String className, int objIndex) {
+	Type  Selector(CodeWrapper cw, String className) {
 		Type  selType;
 		selType = null; 
 		if (next(_openRoundBracket)) {
-			if (cw.methodGen.isStatic() && objIndex==0)
-			       SemErr("no enclosing instance of "+cw.classGen.getClassName());
-			cw.append(new ALOAD(objIndex));
 			selType = call(cw, className);
 		} else if (la.kind == 1) {
-			selType = var(cw, className, objIndex);
-		} else SynErr(64);
+			selType = var(cw, className);
+		} else SynErr(62);
 		return selType;
 	}
 
@@ -887,7 +883,7 @@ public class Parser {
 		return selType;
 	}
 
-	Type  var(CodeWrapper cw, String className, int objIndex) {
+	Type  var(CodeWrapper cw, String className) {
 		Type  selType;
 		selType = null;
 		if (next(_isequal)) {
@@ -899,7 +895,6 @@ public class Parser {
 			    if( fg == null ) SemErr("no such variable or field "+var);
 			    else  { // ??? ????
 			        selType = fg.getType();
-			        cw.append(new ALOAD(objIndex));
 			    }
 			}
 			else selType = lg.getType();  /* ??? ?????????? */ 
@@ -923,12 +918,12 @@ public class Parser {
 			                                                Constants.PUTFIELD ) );
 			   }
 		} else if (la.kind == 1) {
-			selType = access(cw, className, objIndex);
-		} else SynErr(65);
+			selType = access(cw, className);
+		} else SynErr(63);
 		return selType;
 	}
 
-	Type  access(CodeWrapper cw, String className, int objIndex) {
+	Type  access(CodeWrapper cw, String className) {
 		Type  selType;
 		String var = identifier();
 		LocalVariableGen lg = getVarGen(var, cw.methodGen);
@@ -937,10 +932,6 @@ public class Parser {
 		    if( fg == null ) { SemErr("no such variable or field "+var); selType = null;}
 		    else { // ??? ????
 		        selType = fg.getType();
-		        
-		if (cw.methodGen.isStatic() && objIndex==0)
-		    SemErr("no enclosing instance of "+cw.classGen.getClassName());
-		cw.append(new ALOAD(objIndex));
 		        
 		        InstructionFactory factory = new InstructionFactory( cw.classGen );
 		        cw.append( factory.createFieldAccess( 
@@ -1034,8 +1025,8 @@ class Errors {
 			case 28: s = "\"while\" expected"; break;
 			case 29: s = "\"System.out.println\" expected"; break;
 			case 30: s = "\"System.out.print\" expected"; break;
-			case 31: s = "\"this\" expected"; break;
-			case 32: s = "\"super\" expected"; break;
+			case 31: s = "\"super\" expected"; break;
+			case 32: s = "\"this\" expected"; break;
 			case 33: s = "\"true\" expected"; break;
 			case 34: s = "\"false\" expected"; break;
 			case 35: s = "\"null\" expected"; break;
@@ -1061,14 +1052,12 @@ class Errors {
 			case 55: s = "invalid Statement"; break;
 			case 56: s = "invalid Expression"; break;
 			case 57: s = "invalid Expression"; break;
-			case 58: s = "invalid Expression"; break;
-			case 59: s = "invalid Expression"; break;
-			case 60: s = "invalid BlockStatement"; break;
-			case 61: s = "invalid Literal"; break;
-			case 62: s = "invalid Infixop"; break;
-			case 63: s = "invalid Relational"; break;
-			case 64: s = "invalid Selector"; break;
-			case 65: s = "invalid var"; break;
+			case 58: s = "invalid BlockStatement"; break;
+			case 59: s = "invalid Literal"; break;
+			case 60: s = "invalid Infixop"; break;
+			case 61: s = "invalid Relational"; break;
+			case 62: s = "invalid Selector"; break;
+			case 63: s = "invalid var"; break;
 			default: s = "error " + n; break;
 		}
 		printMsg(line, col, s);
