@@ -229,7 +229,7 @@ public class InstructionProvider
         {
             instr = FRETURN;
         }
-        else if ( type instanceof ObjectType )
+        else if ( type instanceof ObjectType || type.equals( Type.NULL ) )
         {
             instr = ARETURN;
         }
