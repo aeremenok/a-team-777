@@ -1,0 +1,57 @@
+MyId=0, prevId is 2, nextId is 1.
+MyId=1, prevId is 0, nextId is 3.
+MyId=2, prevId is 3, nextId is 0.
+MyId=3, prevId is 1, nextId is 2.
+Input message text : hello
+MyId=0. empty: hello
+Input message text : ,
+MyId=0. not empty: , 
+MyId=0. Sending message: hello
+MyId=0. My body is: ,
+MyId=1, got message: hello
+MyId=1. I was empty!
+MyId=1. My body is: hello
+MyId=1. Sending status message: FIFO is not complete
+MyId=3, got message: FIFO is not complete
+MyId=3, sending status message FIFO is not complete
+MyId=2, got message: FIFO is not complete
+MyId=2, sending status message FIFO is not complete
+MyId=0. Status message received: FIFO is not complete.
+Input message text : world
+MyId=0. not empty: world
+MyId=0. Sending message: ,
+MyId=0. My body is: world
+MyId=1, got message: ,
+MyId=1. I was not empty, my body was:hello
+MyId=1. Sending message: hello
+MyId=1. My body is: ,
+MyId=3, got message: hello
+MyId=3. I was empty!
+MyId=3. My body is: hello
+MyId=3. Sending status message: FIFO is not complete
+MyId=2, got message: FIFO is not complete
+MyId=2, sending status message FIFO is not complete
+MyId=0. Status message received: FIFO is not complete.
+Input message text : !
+MyId=0. not empty: !
+MyId=0. Sending message: world
+MyId=0. My body is: !
+MyId=1, got message: world
+MyId=1. I was not empty, my body was: ,
+MyId=1. Sending message: ,
+MyId=1. My body is: world
+MyId=3, got message: ,
+MyId=3. I was not empty, my body was:hello
+MyId=3. Sending message: hello
+MyId=3. My body is: ,
+MyId=2, got message: hello
+MyId=2. I was empty!
+MyId=2. My body is: hello
+MyId=0. Status message received: FIFO is complete 
+MyId=0, sending status message: FIFO is complete
+MyId=1, got message: FIFO is complete
+MyId=1, sending status message FIFO is complete
+MyId=3, got message: FIFO is complete
+MyId=3, sending status message FIFO is complete
+MyId=2, got message: FIFO is complete
+MyId=2, sending status message FIFO is complete
