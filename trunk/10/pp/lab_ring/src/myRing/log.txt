@@ -1,0 +1,156 @@
+START
+dimX=4 dimY=1
+
+
+
+===== TEST =====
+
+[0] myX=0 myY=0  AND left=3 right=1
+[1] myX=1 myY=0  AND left=0 right=2
+[2] myX=2 myY=0  AND left=1 right=3
+[3] myX=3 myY=0  AND left=2 right=0
+
+
+===== CHAIN RIGHT=1 =====
+
+START: 0 -> 1 -> 2 -> 3 -> 0 -> END
+
+
+===== CHAIN RIGHT=0 =====
+
+START: 0 -> 3 -> 2 -> 1 -> 0 -> END
+
+====================================================
+====================================================
+====================================================
+
+START
+dimX=4 dimY=2
+
+
+
+===== TEST =====
+
+[0] myX=0 myY=0  AND left=4 right=1
+[1] myX=1 myY=0  AND left=0 right=2
+[2] myX=2 myY=0  AND left=1 right=3
+[3] myX=3 myY=0  AND left=2 right=7
+[4] myX=0 myY=1  AND left=5 right=0
+[5] myX=1 myY=1  AND left=6 right=4
+[6] myX=2 myY=1  AND left=7 right=5
+[7] myX=3 myY=1  AND left=3 right=6
+
+
+===== CHAIN RIGHT=1 =====
+
+START: 0 -> 1 -> 2 -> 3 -> 7 -> 6 -> 5 -> 4 -> 0 -> END
+
+
+===== CHAIN RIGHT=0 =====
+
+START: 0 -> 4 -> 5 -> 6 -> 7 -> 3 -> 2 -> 1 -> 0 -> END
+
+====================================================
+====================================================
+====================================================
+
+START
+dimX=4 dimY=3
+
+
+
+===== TEST =====
+
+[0] myX=0 myY=0  AND left=4 right=1
+[1] myX=1 myY=0  AND left=0 right=2
+[2] myX=2 myY=0  AND left=1 right=3
+[3] myX=3 myY=0  AND left=2 right=7
+[4] myX=0 myY=1  AND left=8 right=0
+[5] myX=1 myY=1  AND left=6 right=9
+[6] myX=2 myY=1  AND left=10 right=5
+[7] myX=3 myY=1  AND left=3 right=11
+[8] myX=0 myY=2  AND left=9 right=4
+[9] myX=1 myY=2  AND left=5 right=8
+[10] myX=2 myY=2  AND left=11 right=6
+[11] myX=3 myY=2  AND left=7 right=10
+
+
+===== CHAIN RIGHT=1 =====
+
+START: 0 -> 1 -> 2 -> 3 -> 7 -> 11 -> 10 -> 6 -> 5 -> 9 -> 8 -> 4 -> 0 -> END
+
+
+===== CHAIN RIGHT=0 =====
+
+START: 0 -> 4 -> 8 -> 9 -> 5 -> 6 -> 10 -> 11 -> 7 -> 3 -> 2 -> 1 -> 0 -> END
+
+====================================================
+====================================================
+====================================================
+
+START
+dimX=4 dimY=4
+
+
+
+===== TEST =====
+
+[0] myX=0 myY=0  AND left=4 right=1
+[1] myX=1 myY=0  AND left=0 right=2
+[2] myX=2 myY=0  AND left=1 right=3
+[3] myX=3 myY=0  AND left=2 right=7
+[4] myX=0 myY=1  AND left=8 right=0
+[5] myX=1 myY=1  AND left=6 right=9
+[6] myX=2 myY=1  AND left=10 right=5
+[7] myX=3 myY=1  AND left=3 right=11
+[8] myX=0 myY=2  AND left=12 right=4
+[9] myX=1 myY=2  AND left=5 right=13
+[10] myX=2 myY=2  AND left=14 right=6
+[11] myX=3 myY=2  AND left=7 right=15
+[12] myX=0 myY=3  AND left=13 right=8
+[13] myX=1 myY=3  AND left=9 right=12
+[14] myX=2 myY=3  AND left=15 right=10
+[15] myX=3 myY=3  AND left=11 right=14
+
+
+===== CHAIN RIGHT=1 =====
+
+START: 0 -> 1 -> 2 -> 3 -> 7 -> 11 -> 15 -> 14 -> 10 -> 6 -> 5 -> 9 -> 13 -> 12 -> 8 -> 4 -> 0 -> END
+
+
+===== CHAIN RIGHT=0 =====
+
+START: 0 -> 4 -> 8 -> 12 -> 13 -> 9 -> 5 -> 6 -> 10 -> 14 -> 15 -> 11 -> 7 -> 3 -> 2 -> 1 -> 0 -> END
+
+====================================================
+====================================================
+====================================================
+
+
+
+START
+dimX=3 dimY=3
+
+
+
+===== TEST =====
+
+[0] myX=0 myY=0  AND left=4 right=1
+[1] myX=1 myY=0  AND left=0 right=2
+[2] myX=2 myY=0  AND left=1 right=5
+[3] myX=0 myY=1  AND left=6 right=4
+[4] myX=1 myY=1  AND left=3 right=0
+[5] myX=2 myY=1  AND left=2 right=8
+[6] myX=0 myY=2  AND left=7 right=3
+[7] myX=1 myY=2  AND left=8 right=6
+[8] myX=2 myY=2  AND left=5 right=7
+
+
+===== CHAIN RIGHT=1 =====
+
+START: 0 -> 1 -> 2 -> 5 -> 8 -> 7 -> 6 -> 3 -> 4 -> 0 -> END
+
+
+===== CHAIN RIGHT=0 =====
+
+START: 0 -> 4 -> 3 -> 6 -> 7 -> 8 -> 5 -> 2 -> 1 -> 0 -> END
