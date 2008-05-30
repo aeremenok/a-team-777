@@ -57,40 +57,12 @@ int getLeft()
 
     if ( dimY == 2)
     {
-        if ( myY == 0 )
-        {
-            if ( myX == 0 ) return getProcId( myX, myY+1 );
-            if ( myX == dimX - 1 ) return  getProcId( myX - 1, myY );
-            return getProcId( myX-1, myY );
-        }
-        else
-            if ( myY == 1 )
-            {
-                if ( myX == 0 ) return getProcId( myX+1, myY );
-                if ( myX == dimX - 1 ) return  getProcId( myX, myY-1 );
-                return getProcId( myX+1, myY );
-            }
-        printf("BUG! dimY==2 and myY!=0/1!");
-        return 0;
+        return getLeftByCoord(myY, myX, dimY, dimX);
     }
 
     if ( dimX == 2)
     {
-        if ( myX == 0 )
-        {
-            if ( myY == 0 ) return getProcId( myX, myY+1 );
-            if ( myY == dimY - 1 ) return  getProcId( myX+1, myY );
-            return getProcId( myX, myY+1 );
-        }
-        else
-            if ( myX == 1 )
-            {
-                if ( myY == 0 ) return getProcId( myX-1, myY );
-                if ( myY == dimY - 1 ) return  getProcId( myX, myY-1 );
-                return getProcId( myX, myY-1 );
-            }
-        printf("BUG! dimX==2 and myX!=0/1!");
-        return 0;
+        return getLeftByCoord(myX, myY, dimX, dimY);
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -214,6 +186,44 @@ int getLeft()
     return id;
 }
 
+int getRightByCoord(int my1, int my2, int dim1, int dim2)
+{
+    if ( my1 == 0 )
+    {
+        if ( my2 == 0 ) return getProcId( my2+1, my1 );
+        if ( my2 == dim2 - 1 ) return  getProcId( my2, my1+1 );
+        return getProcId( my2+1, my1 );
+    }
+    else
+        if ( my1 == 1 )
+        {
+            if ( my2 == 0 ) return getProcId( my2, my1-1 );
+            if ( my2 == dim2 - 1 ) return  getProcId( my2-1, my1 );
+            return getProcId( my2-1, my1 );
+        }
+    printf("BUG! dim1==2 and my1!=0/1!");
+    return 0;
+}
+
+int getLeftByCoord(int my1, int my2, int dim1, int dim2)
+{
+    if ( my1 == 0 )
+    {
+        if ( my2 == 0 ) return getProcId( my2, my1+1 );
+        if ( my2 == dim2 - 1 ) return  getProcId( my2 - 1, my1 );
+        return getProcId( my2-1, my1 );
+    }
+    else
+        if ( my1 == 1 )
+        {
+            if ( my2 == 0 ) return getProcId( my2+1, my1 );
+            if ( my2 == dim2 - 1 ) return  getProcId( my2, my1-1 );
+            return getProcId( my2+1, my1 );
+        }
+    printf("BUG! dimY==2 and my1!=0/1!");
+    return 0;
+}
+
 int getRight()
 {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,40 +251,12 @@ int getRight()
 
     if ( dimY == 2)
     {
-        if ( myY == 0 )
-        {
-            if ( myX == 0 ) return getProcId( myX+1, myY );
-            if ( myX == dimX - 1 ) return  getProcId( myX, myY+1 );
-            return getProcId( myX+1, myY );
-        }
-        else
-            if ( myY == 1 )
-            {
-                if ( myX == 0 ) return getProcId( myX, myY-1 );
-                if ( myX == dimX - 1 ) return  getProcId( myX-1, myY );
-                return getProcId( myX-1, myY );
-            }
-        printf("BUG! dimY==2 and myY!=0/1!");
-        return 0;
+        return getRightByCoord(myY, myX, dimY, dimX);
     }
 
     if ( dimX == 2)
     {
-        if ( myX == 0 )
-        {
-            if ( myY == 0 ) return getProcId( myX+1, myY );
-            if ( myY == dimY - 1 ) return  getProcId( myX, myY-1 );
-            return getProcId( myX, myY-1 );
-        }
-        else
-            if ( myX == 1 )
-            {
-                if ( myY == 0 ) return getProcId( myX, myY+1 );
-                if ( myY == dimY - 1 ) return  getProcId( myX-1, myY );
-                return getProcId( myX, myY+1 );
-            }
-        printf("BUG! dimX==2 and myX!=0/1!");
-        return 0;
+        return getRightByCoord(myX, myY, dimX, dimY);
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
