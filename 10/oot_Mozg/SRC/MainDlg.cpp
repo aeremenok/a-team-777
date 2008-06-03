@@ -366,15 +366,15 @@ void CMainDlg::ActivateButtons(bool act)
 }
 void CMainDlg::ActivateSave(bool act)
 {
-   m_tbar.EnableButton(TBCMD_SAVE, act);
+   m_tbar.EnableButton(ID_CMD_SAVE, act);
 }
 void CMainDlg::ActivateOpen(bool act)
 {
-   m_tbar.EnableButton(TBCMD_OPEN, act);
+   m_tbar.EnableButton(ID_CMD_OPEN, act);
 }
 void CMainDlg::ActivateReset(bool act)
 {
-   m_tbar.EnableButton(TBCMD_RESET, act);
+   m_tbar.EnableButton(ID_CMD_RESET, act);
 }
 void CMainDlg::ActivateClose(bool act)
 {
