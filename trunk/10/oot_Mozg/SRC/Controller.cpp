@@ -195,6 +195,7 @@ void Controller::makeStep(int hole)
          //! Деактивируем кнопки и элемент меню сохранить
          mainDlg->ActivateButtons(FALSE);
          mainDlg->ActivateSave(FALSE);
+         mainDlg->ActivateNew(TRUE);
          mainDlg->ActivateClose(TRUE);
          mainDlg->ActivateReset(TRUE);
          mainDlg->ActivateOpen(TRUE);
