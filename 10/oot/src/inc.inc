@@ -4,6 +4,6 @@ INC += -I./inc -I${ROOT}/inc -I${ROOT}/../inc \
        -I${ROOT}/core/inc 
 
 LIBADD += ${ROOT}/oot.a
-LDADD += -lini
+LDADD +=
 
 DEFS += -D_GNU_SOURCE=1
