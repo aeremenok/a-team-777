@@ -17,11 +17,17 @@ inline PetriNet<MT>::PetriNet(TRANSITION maxFired)
 template <typename MT>
 inline void PetriNet<MT>::Clear()
 {
+   CONFIRM ( m_positions >= 0 && m_transitions >= 0 );
+
    m_positions = 0;
    m_transitions = 0;
    m_Input.clear();
    m_Output.clear();
    m_Marking.clear();
+
+   CONFIRM ( m_positions == 0 && m_transitions == 0 &&
+             m_Input.size() == 0 && m_Output.size() == 0 &&
+             m_Marking.size() == 0 );
 }
 
 // ==========================================================================
@@ -29,6 +35,8 @@ inline void PetriNet<MT>::Clear()
 template <typename MT>
 inline void PetriNet<MT>::SetPositionsNumber(POSITION number)
 {
+   CONFIRM ( m_positions >= 0 && m_transitions >= 0 );
+
    // еякх вхякн онгхжхи опефмее, мхвецн ме декюрэ
    if ( GetPositionsNumber() == number )
       return;
@@ -42,6 +50,11 @@ inline void PetriNet<MT>::SetPositionsNumber(POSITION number)
    m_Marking.resize(number, false);
    m_Input.resize(GetTransitionsNumber());
    m_Output.resize(GetTransitionsNumber());
+
+   CONFIRM ( m_positions == number && m_transitions >= 0 &&
+             m_Input.size() == m_transitions &&
+             m_Output.size() == m_transitions &&
+             m_Marking.size() == m_positions );
 }
 
 // ==========================================================================
@@ -49,6 +62,8 @@ inline void PetriNet<MT>::SetPositionsNumber(POSITION number)
 template <typename MT>
 inline void PetriNet<MT>::SetTransitionsNumber(TRANSITION number)
 {
+   CONFIRM ( m_positions >= 0 && m_transitions >= 0 );
+
    // еякх вхякн оепеунднб опефмее, мхвецн ме декюрэ
    if ( GetTransitionsNumber() == number )
       return;
@@ -60,6 +75,10 @@ inline void PetriNet<MT>::SetTransitionsNumber(TRANSITION number)
    m_transitions = number;
    m_Input.resize(number);
    m_Output.resize(number);
+
+   CONFIRM ( m_positions >= 0 && m_transitions == number &&
+             m_Input.size() == number &&
+             m_Output.size() == number );
 }
 
 // ==========================================================================
