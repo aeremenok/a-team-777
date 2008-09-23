@@ -14,8 +14,10 @@ public class LifeRunnable
     {
         synchronized ( fields )
         {
-            while ( true )
+            while ( !Thread.currentThread().isInterrupted() )
             {
+                System.out.println( Thread.currentThread().getName() + " got the processor!" );
+
                 for ( int i = 0; i < fields.length; i++ )
                 {
                     for ( int j = 0; j < fields[i].length; j++ )
@@ -30,7 +32,7 @@ public class LifeRunnable
                 {
                     fields.wait();
                 }
-                catch ( InterruptedException e1 )
+                catch ( InterruptedException e )
                 {
                     Thread.currentThread().interrupt();
                 }
