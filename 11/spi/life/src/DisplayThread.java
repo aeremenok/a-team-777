@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -10,9 +11,10 @@ import org.eclipse.swt.widgets.Shell;
 public class DisplayThread
     extends Thread
 {
-    private boolean[][] fields;
-    private Shell       shell;
-    private Display     display;
+    private boolean[][]       fields;
+    private Shell             shell;
+    private Display           display;
+    private ArrayList<Thread> lifeThreads = new ArrayList<Thread>();
 
     public static void main(
         String args[] )
@@ -23,11 +25,15 @@ public class DisplayThread
             new boolean[][] { { false, true, false, false }, { false, true, true, true }, { false, true, true, false },
                             { false, true, false, false } };
 
-        new DisplayThread( fields ).start();
+        DisplayThread displayThread = new DisplayThread( fields );
+        displayThread.start();
 
-        Thread lifeThread = new Thread( new LifeRunnable( fields ), "Life Thread" );
-        lifeThread.setDaemon( true );
-        lifeThread.start();
+        for ( int i = 0; i < 5; i++ )
+        {
+            Thread t = new Thread( new LifeRunnable( fields ), "Life Thread " + i );
+            displayThread.getLifeThreads().add( t );
+            t.start();
+        }
     }
 
     public DisplayThread(
@@ -82,6 +88,8 @@ public class DisplayThread
         {
             while ( !shell.isDisposed() )
             {
+                System.out.println( "!!! REDRAWING !!!" );
+
                 shell.redraw();
 
                 fields.notifyAll();
@@ -100,6 +108,16 @@ public class DisplayThread
                 }
             }
             display.dispose();
+
+            for ( Thread t : lifeThreads )
+            {
+                t.interrupt();
+            }
         }
+    }
+
+    private ArrayList<Thread> getLifeThreads()
+    {
+        return lifeThreads;
     };
 }
