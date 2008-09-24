@@ -26,9 +26,9 @@ public class LifeRunnable
 
     public void run()
     {
-        synchronized ( data )
+        while ( !Thread.currentThread().isInterrupted() )
         {
-            while ( !Thread.currentThread().isInterrupted() )
+            synchronized ( data )
             {
                 while ( data.isChanged() )
                 {
@@ -83,6 +83,15 @@ public class LifeRunnable
 
                 data.setChanged( true );
                 data.notifyAll();
+
+                try
+                {
+                    Thread.sleep( 300 );
+                }
+                catch ( InterruptedException e )
+                {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
     }
