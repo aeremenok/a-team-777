@@ -1,7 +1,6 @@
 package life;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -13,10 +12,9 @@ import org.eclipse.swt.widgets.Shell;
 public class DisplayThread
     extends Thread
 {
-    private Shell             shell;
-    private Display           display;
-    private ArrayList<Thread> lifeThreads = new ArrayList<Thread>();
-    private LifeData          data;
+    private Shell    shell;
+    private Display  display;
+    private LifeData data;
 
     public static void main(
         String args[] )
@@ -32,6 +30,7 @@ public class DisplayThread
 
         // создаём поток отображения
         DisplayThread displayThread = new DisplayThread( data );
+        displayThread.start();
 
         // создаём потоки, иммитирующие "жизнь"
         for ( int i = 0; i < data.getFields().length; i++ )
@@ -39,16 +38,9 @@ public class DisplayThread
             for ( int j = 0; j < data.getFields()[i].length; j++ )
             {
                 Thread t = new Thread( new LifeRunnable( data, i, j ), "Life Thread ( " + i + ", " + j + " )" );
-                displayThread.getLifeThreads().add( t );
+                t.setDaemon( true );
+                t.start();
             }
-        }
-
-        // запускаем созданные потоки
-        displayThread.start();
-
-        for ( Thread t : displayThread.getLifeThreads() )
-        {
-            t.start();
         }
     }
 
@@ -103,9 +95,9 @@ public class DisplayThread
         shell.setMinimumSize( 80, 150 );
         shell.open();
 
+        // перерисовка
         while ( !shell.isDisposed() && !currentThread().isInterrupted() )
         {
-            // перерисовка
             synchronized ( data )
             {
                 while ( !data.isChanged() )
@@ -125,25 +117,14 @@ public class DisplayThread
                 shell.update();
 
                 data.setChanged( false );
-
                 data.notifyAll();
-            }
 
-            if ( !display.readAndDispatch() )
-            {
-                display.sleep();
+                if ( !display.readAndDispatch() )
+                {
+                    display.sleep();
+                }
             }
         }
         display.dispose();
-
-        for ( Thread t : lifeThreads )
-        {
-            t.interrupt();
-        }
     }
-
-    private ArrayList<Thread> getLifeThreads()
-    {
-        return lifeThreads;
-    };
 }
