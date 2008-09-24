@@ -1,7 +1,11 @@
 package life;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Image;
@@ -12,25 +16,32 @@ import org.eclipse.swt.widgets.Shell;
 public class DisplayThread
     extends Thread
 {
-    private Shell    shell;
-    private Display  display;
-    private LifeData data;
+    private ArrayList<Thread> lifeThreads = new ArrayList<Thread>();
+    private Shell             shell;
+    private Display           display;
+    private LifeData          data;
+    private MouseListener     mouseListener;
+    private boolean           work        = false;
 
     public static void main(
         String args[] )
         throws IOException
     {
+        // создаём и запускаем поток отображения
+        DisplayThread displayThread = new DisplayThread();
+        displayThread.start();
+    }
+
+    public DisplayThread()
+    {
+        this.setName( "Display Thread" );
+
         // формируем начальное состояние
-        // todo загружать начальную конфигурацию из файла
         boolean[][] fields =
             new boolean[][] { { true, true, true, true }, { true, true, true, true }, { true, true, true, true },
                             { true, true, true, true } };
 
-        LifeData data = new LifeData( fields );
-
-        // создаём поток отображения
-        DisplayThread displayThread = new DisplayThread( data );
-        displayThread.start();
+        data = new LifeData( fields );
 
         // создаём потоки, иммитирующие "жизнь"
         for ( int i = 0; i < data.getFields().length; i++ )
@@ -39,16 +50,9 @@ public class DisplayThread
             {
                 Thread t = new Thread( new LifeRunnable( data, i, j ), "Life Thread ( " + i + ", " + j + " )" );
                 t.setDaemon( true );
-                t.start();
+                lifeThreads.add( t );
             }
         }
-    }
-
-    public DisplayThread(
-        final LifeData data )
-    {
-        this.setName( "Display Thread" );
-        this.data = data;
     }
 
     @Override
@@ -88,11 +92,38 @@ public class DisplayThread
             }
         } );
 
-        shell.pack();
+        this.mouseListener = new MouseAdapter()
+        {
+            @Override
+            public void mouseDown(
+                MouseEvent e )
+            {
+                if ( e.button == 1 )
+                {
+                    int row = e.y / 20;
+                    int col = e.x / 20;
+
+                    boolean[][] fields = data.getFields();
+                    if ( fields.length > row && fields[row].length > col )
+                    {
+                        fields[row][col] = !fields[row][col];
+                    }
+
+                    shell.redraw();
+                    shell.update();
+                }
+                else
+                {
+                    go();
+                }
+                ;
+            }
+        };
+        shell.addMouseListener( mouseListener );
 
         // todo разобраться с размерами окна
-        // shell.setMinimumSize( fields[0].length * width, fields.length * height );
-        shell.setMinimumSize( 80, 150 );
+        shell.setMinimumSize( 100, 120 );
+        shell.pack();
         shell.open();
 
         // перерисовка
@@ -100,19 +131,23 @@ public class DisplayThread
         {
             synchronized ( data )
             {
-                while ( !data.isChanged() )
+                if ( work )
                 {
-                    try
+                    while ( !data.isChanged() )
                     {
-                        data.wait();
-                    }
-                    catch ( InterruptedException e )
-                    {
-                        currentThread().interrupt();
+                        try
+                        {
+                            data.wait();
+                        }
+                        catch ( InterruptedException e )
+                        {
+                            currentThread().interrupt();
+                        }
+
+                        System.out.println( "\nDISPLAY THREAD executes!\n" );
                     }
                 }
 
-                System.out.println( "!!! REDRAWING !!!" );
                 shell.redraw();
                 shell.update();
 
@@ -126,5 +161,15 @@ public class DisplayThread
             }
         }
         display.dispose();
+    }
+
+    private void go()
+    {
+        shell.removeMouseListener( mouseListener );
+        work = true;
+        for ( Thread t : lifeThreads )
+        {
+            t.start();
+        }
     }
 }
