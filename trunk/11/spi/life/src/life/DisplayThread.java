@@ -37,22 +37,10 @@ public class DisplayThread
         this.setName( "Display Thread" );
 
         // формируем начальное состояние
-        boolean[][] fields =
-            new boolean[][] { { true, true, true, true }, { true, true, true, true }, { true, true, true, true },
-                            { true, true, true, true } };
+        final int SIZE = 10;
+        boolean[][] fields = new boolean[SIZE][SIZE];
 
         data = new LifeData( fields );
-
-        // создаём потоки, иммитирующие "жизнь"
-        for ( int i = 0; i < data.getFields().length; i++ )
-        {
-            for ( int j = 0; j < data.getFields()[i].length; j++ )
-            {
-                Thread t = new Thread( new LifeRunnable( data, i, j ), "Life Thread ( " + i + ", " + j + " )" );
-                t.setDaemon( true );
-                lifeThreads.add( t );
-            }
-        }
     }
 
     @Override
@@ -122,7 +110,7 @@ public class DisplayThread
         shell.addMouseListener( mouseListener );
 
         // todo разобраться с размерами окна
-        shell.setMinimumSize( 100, 120 );
+        shell.setMinimumSize( 300, 300 );
         shell.pack();
         shell.open();
 
@@ -165,11 +153,28 @@ public class DisplayThread
 
     private void go()
     {
-        shell.removeMouseListener( mouseListener );
-        work = true;
-        for ( Thread t : lifeThreads )
+        work = !work;
+
+        if ( work )
         {
-            t.start();
+            // создаём потоки, иммитирующие "жизнь"
+            for ( int i = 0; i < data.getFields().length; i++ )
+            {
+                for ( int j = 0; j < data.getFields()[i].length; j++ )
+                {
+                    Thread t = new Thread( new LifeRunnable( data, i, j ), "Life Thread ( " + i + ", " + j + " )" );
+                    lifeThreads.add( t );
+                    t.start();
+                }
+            }
+        }
+        else
+        {
+            for ( Thread t : lifeThreads )
+            {
+                t.interrupt();
+            }
+            lifeThreads.clear();
         }
     }
 }

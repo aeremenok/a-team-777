@@ -87,14 +87,14 @@ public class LifeRunnable
 
                 System.out.println( info );
 
-                try
-                {
-                    Thread.sleep( 500 );
-                }
-                catch ( InterruptedException e )
-                {
-                    Thread.currentThread().interrupt();
-                }
+                // try
+                // {
+                // Thread.sleep( 500 );
+                // }
+                // catch ( InterruptedException e )
+                // {
+                // Thread.currentThread().interrupt();
+                // }
 
                 data.setChanged( true );
                 data.notifyAll();
