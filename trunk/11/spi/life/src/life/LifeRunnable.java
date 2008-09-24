@@ -42,8 +42,6 @@ public class LifeRunnable
                     }
                 }
 
-                System.out.println( Thread.currentThread().getName() + " executes!" );
-
                 boolean[][] fields = data.getFields();
 
                 // считаем соседей нашей клетки
@@ -52,10 +50,10 @@ public class LifeRunnable
                 {
                     for ( int j = col - 1; j < col + 2; j++ )
                     {
-                        if ( i != row || j != col )
-                        {// если это не центральная клетка
-                            if ( i >= 0 && i < fields.length && j >= 0 && j < fields[i].length )
-                            {// и клетка принадлежит рассматриваемому полю
+                        if ( i >= 0 && i < fields.length && j >= 0 && j < fields[i].length )
+                        {// если клетка принадлежит полю
+                            if ( i != row || j != col )
+                            {// и это не центральная клетка
                                 if ( fields[i][j] )
                                 {// и клетка - жилая
                                     neighbours++;
@@ -65,11 +63,16 @@ public class LifeRunnable
                     }
                 }
 
+                StringBuffer info = new StringBuffer();
+                info.append( "cell ( " + row + ", " + col + " )\t" + (fields[row][col] ? "ALIVE" : "DEAD") +
+                    "\tneighbours = " + neighbours + "\t" );
+
                 // логика игры
                 if ( !fields[row][col] )
                 {// клетка мертва
                     if ( neighbours == 3 )
                     {// клетка мертва и имеет 3 соседа - оживает
+                        info.append( "DEAD CELL REVIVES!" );
                         fields[row][col] = true;
                     }
                 }
@@ -77,21 +80,24 @@ public class LifeRunnable
                 {// клетка жива
                     if ( neighbours < 2 || neighbours > 3 )
                     {// клетка помрёт от одиночества/перенаселения
+                        info.append( "LIVING CELL DIES!" );
                         fields[row][col] = false;
                     }
                 }
 
-                data.setChanged( true );
-                data.notifyAll();
+                System.out.println( info );
 
                 try
                 {
-                    Thread.sleep( 300 );
+                    Thread.sleep( 500 );
                 }
                 catch ( InterruptedException e )
                 {
                     Thread.currentThread().interrupt();
                 }
+
+                data.setChanged( true );
+                data.notifyAll();
             }
         }
     }
