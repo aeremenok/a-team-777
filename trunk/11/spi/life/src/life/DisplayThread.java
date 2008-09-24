@@ -1,3 +1,5 @@
+package life;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -11,10 +13,10 @@ import org.eclipse.swt.widgets.Shell;
 public class DisplayThread
     extends Thread
 {
-    private boolean[][]       fields;
     private Shell             shell;
     private Display           display;
     private ArrayList<Thread> lifeThreads = new ArrayList<Thread>();
+    private LifeData          data;
 
     public static void main(
         String args[] )
@@ -26,22 +28,24 @@ public class DisplayThread
             new boolean[][] { { true, true, true, true }, { true, true, true, true }, { true, true, true, true },
                             { true, true, true, true } };
 
-        // запускаем поток отображения
-        DisplayThread displayThread = new DisplayThread( fields );
-        displayThread.start();
+        LifeData data = new LifeData( fields );
+
+        // создаём поток отображения
+        DisplayThread displayThread = new DisplayThread( data );
 
         // создаём потоки, иммитирующие "жизнь"
-        for ( int i = 0; i < fields.length; i++ )
+        for ( int i = 0; i < data.getFields().length; i++ )
         {
-            for ( int j = 0; j < fields[i].length; j++ )
+            for ( int j = 0; j < data.getFields()[i].length; j++ )
             {
-                Thread t = new Thread( new LifeRunnable( fields, i, j ), "Life Thread ( " + i + ", " + j + " )" );
-                t.setPriority( MIN_PRIORITY );
+                Thread t = new Thread( new LifeRunnable( data, i, j ), "Life Thread ( " + i + ", " + j + " )" );
                 displayThread.getLifeThreads().add( t );
             }
         }
 
         // запускаем созданные потоки
+        displayThread.start();
+
         for ( Thread t : displayThread.getLifeThreads() )
         {
             t.start();
@@ -49,11 +53,10 @@ public class DisplayThread
     }
 
     public DisplayThread(
-        final boolean[][] fields )
+        final LifeData data )
     {
         this.setName( "Display Thread" );
-        this.fields = fields;
-        setPriority( MAX_PRIORITY );
+        this.data = data;
     }
 
     @Override
@@ -78,6 +81,7 @@ public class DisplayThread
                 int wDiff = 0;
                 int hDiff = 0;
 
+                boolean[][] fields = data.getFields();
                 for ( int i = 0; i < fields.length; i++ )
                 {
                     wDiff = 0;
@@ -99,13 +103,31 @@ public class DisplayThread
         shell.setMinimumSize( 80, 150 );
         shell.open();
 
-        while ( !shell.isDisposed() )
+        while ( !shell.isDisposed() && !currentThread().isInterrupted() )
         {
-            System.out.println( "!!! REDRAWING !!!" );
-
             // перерисовка
-            shell.redraw();
-            shell.update();
+            synchronized ( data )
+            {
+                while ( !data.isChanged() )
+                {
+                    try
+                    {
+                        data.wait();
+                    }
+                    catch ( InterruptedException e )
+                    {
+                        currentThread().interrupt();
+                    }
+                }
+
+                System.out.println( "!!! REDRAWING !!!" );
+                shell.redraw();
+                shell.update();
+
+                data.setChanged( false );
+
+                data.notifyAll();
+            }
 
             if ( !display.readAndDispatch() )
             {

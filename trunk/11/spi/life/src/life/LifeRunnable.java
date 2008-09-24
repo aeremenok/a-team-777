@@ -1,3 +1,5 @@
+package life;
+
 /**
  * Поток, иммитирующий "жизнь" в одной из клеток поля. Правила игры "Жизнь" смотреть тут:
  * http://ru.wikipedia.org/wiki/%D0%98%D0%B3%D1%80%D0%B0_%D0%B6%D0%B8%D0%B7%D0%BD%D1%8C
@@ -8,27 +10,41 @@ public class LifeRunnable
     implements
         Runnable
 {
-    private boolean[][] fields;
-    private int         row;
-    private int         col;
+    private LifeData data;
+    private int      row;
+    private int      col;
 
     LifeRunnable(
-        boolean[][] fields,
+        LifeData data,
         int i,
         int j )
     {
-        this.fields = fields;
+        this.data = data;
         this.row = i;
         this.col = j;
     }
 
     public void run()
     {
-        synchronized ( fields )
+        synchronized ( data )
         {
             while ( !Thread.currentThread().isInterrupted() )
             {
+                while ( data.isChanged() )
+                {
+                    try
+                    {
+                        data.wait();
+                    }
+                    catch ( InterruptedException e )
+                    {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+
                 System.out.println( Thread.currentThread().getName() + " executes!" );
+
+                boolean[][] fields = data.getFields();
 
                 // считаем соседей нашей клетки
                 int neighbours = 0;
@@ -65,17 +81,8 @@ public class LifeRunnable
                     }
                 }
 
-                fields.notifyAll();
-
-                try
-                {
-                    Thread.sleep( 500 );
-                    fields.wait();
-                }
-                catch ( InterruptedException e )
-                {
-                    Thread.currentThread().interrupt();
-                }
+                data.setChanged( true );
+                data.notifyAll();
             }
         }
     }
