@@ -36,13 +36,14 @@ public class LifeRunnable
                 {
                     for ( int j = col - 1; j < col + 2; j++ )
                     {
-                        // если клетка принадлежит рассматриваемому полю и не является текущей
-                        if ( i != row && j != col && i > 0 && i < fields.length && j > 0 && j < fields[i].length )
-                        {
-                            if ( fields[i][j] )
-                            {
-                                // эта соседняя клетка - жилая
-                                neighbours++;
+                        if ( i != row || j != col )
+                        {// если это не центральная клетка
+                            if ( i >= 0 && i < fields.length && j >= 0 && j < fields[i].length )
+                            {// и клетка принадлежит рассматриваемому полю
+                                if ( fields[i][j] )
+                                {// и клетка - жилая
+                                    neighbours++;
+                                }
                             }
                         }
                     }
@@ -68,7 +69,7 @@ public class LifeRunnable
 
                 try
                 {
-                    Thread.sleep( 200 );
+                    Thread.sleep( 500 );
                     fields.wait();
                 }
                 catch ( InterruptedException e )
