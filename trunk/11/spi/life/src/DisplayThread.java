@@ -20,18 +20,30 @@ public class DisplayThread
         String args[] )
         throws IOException
     {
+        // формируем начальное состояние
         // todo загружать начальную конфигурацию из файла
         boolean[][] fields =
-            new boolean[][] { { false, true, false, false }, { false, true, true, true }, { false, true, true, false },
-                            { false, true, false, false } };
+            new boolean[][] { { true, true, true, true }, { true, true, true, true }, { true, true, true, true },
+                            { true, true, true, true } };
 
+        // запускаем поток отображения
         DisplayThread displayThread = new DisplayThread( fields );
         displayThread.start();
 
-        for ( int i = 0; i < 5; i++ )
+        // создаём потоки, иммитирующие "жизнь"
+        for ( int i = 0; i < fields.length; i++ )
         {
-            Thread t = new Thread( new LifeRunnable( fields ), "Life Thread " + i );
-            displayThread.getLifeThreads().add( t );
+            for ( int j = 0; j < fields[i].length; j++ )
+            {
+                Thread t = new Thread( new LifeRunnable( fields, i, j ), "Life Thread ( " + i + ", " + j + " )" );
+                t.setPriority( MIN_PRIORITY );
+                displayThread.getLifeThreads().add( t );
+            }
+        }
+
+        // запускаем созданные потоки
+        for ( Thread t : displayThread.getLifeThreads() )
+        {
             t.start();
         }
     }
@@ -41,11 +53,13 @@ public class DisplayThread
     {
         this.setName( "Display Thread" );
         this.fields = fields;
+        setPriority( MAX_PRIORITY );
     }
 
     @Override
     public void run()
     {
+        // инициализация SWT
         display = new Display();
         shell = new Shell( display );
         shell.setLayout( new RowLayout() );
@@ -80,39 +94,29 @@ public class DisplayThread
 
         shell.pack();
 
+        // todo разобраться с размерами окна
         // shell.setMinimumSize( fields[0].length * width, fields.length * height );
         shell.setMinimumSize( 80, 150 );
         shell.open();
 
-        synchronized ( fields )
+        while ( !shell.isDisposed() )
         {
-            while ( !shell.isDisposed() )
+            System.out.println( "!!! REDRAWING !!!" );
+
+            // перерисовка
+            shell.redraw();
+            shell.update();
+
+            if ( !display.readAndDispatch() )
             {
-                System.out.println( "!!! REDRAWING !!!" );
-
-                shell.redraw();
-
-                fields.notifyAll();
-                try
-                {
-                    fields.wait();
-                }
-                catch ( InterruptedException e )
-                {
-                    Thread.currentThread().interrupt();
-                }
-
-                if ( !display.readAndDispatch() )
-                {
-                    display.sleep();
-                }
+                display.sleep();
             }
-            display.dispose();
+        }
+        display.dispose();
 
-            for ( Thread t : lifeThreads )
-            {
-                t.interrupt();
-            }
+        for ( Thread t : lifeThreads )
+        {
+            t.interrupt();
         }
     }
 
