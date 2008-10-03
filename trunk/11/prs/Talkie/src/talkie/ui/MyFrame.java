@@ -1,18 +1,15 @@
 package talkie.ui;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Event;
-import java.awt.Frame;
-import java.awt.HeadlessException;
+
+import javax.swing.JFrame;
 
 public class MyFrame
-    extends Frame
+    extends JFrame
 {
     public MyFrame()
-        throws HeadlessException
     {
-        setLayout( new BorderLayout() );
+        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
 
     /**
@@ -33,19 +30,5 @@ public class MyFrame
         pack();
         center();
         setVisible( true );
-    }
-
-    @Override
-    public boolean handleEvent(
-        Event evt )
-    {
-        switch ( evt.id )
-        {
-            case Event.WINDOW_DESTROY:
-                System.exit( NORMAL );
-                return false;
-            default:
-                return false;
-        }
     }
 }

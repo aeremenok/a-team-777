@@ -1,18 +1,20 @@
 package talkie.ui;
 
-import java.awt.Dialog;
 import java.awt.Dimension;
-import java.awt.Event;
-import java.awt.Frame;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 public class MyDialog
-    extends Dialog
+    extends JDialog
 {
     public MyDialog(
-        Frame owner )
+        JFrame owner )
     {
         super( owner );
         setModal( true );
+        setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
     }
 
     public void display()
@@ -20,21 +22,6 @@ public class MyDialog
         pack();
         center();
         setVisible( true );
-    }
-
-    @Override
-    public boolean handleEvent(
-        Event evt )
-    {
-        switch ( evt.id )
-        {
-            case Event.WINDOW_DESTROY:
-                System.exit( 0 );
-                return true;
-
-            default:
-                return false;
-        }
     }
 
     private void center()

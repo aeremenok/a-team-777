@@ -1,11 +1,12 @@
 package talkie.ui.widgets;
 
-import java.awt.TextField;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+import javax.swing.JTextField;
+
 public class SelectableTextField
-    extends TextField
+    extends JTextField
 {
     private FocusAdapter focusListener = new FocusAdapter()
                                        {

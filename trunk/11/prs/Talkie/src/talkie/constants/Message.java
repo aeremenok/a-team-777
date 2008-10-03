@@ -1,11 +1,12 @@
 package talkie.constants;
 
+
 /**
  * константы типов сообщений
  * 
  * @author ssv
  */
-public interface Message
+public abstract class Message
 {
     /**
      * авторизация

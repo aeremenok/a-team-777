@@ -32,10 +32,11 @@ public class ClientHandler
     {
         this.server = server;
         this.socket = new DatagramSocket();
-        this.socket.setSoTimeout( Talkie.UDP_TIMEOUT );
         this.clientAddress = inPacket.getAddress();
         this.clientPort = inPacket.getPort();
         this.firstPacketData = inPacket.getData();
+
+        this.socket.setSoTimeout( Talkie.UDP_TIMEOUT );
 
         processPacket( inPacket );
     }

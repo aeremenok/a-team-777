@@ -1,7 +1,8 @@
 package talkie.ui.dialogs;
 
-import java.awt.Frame;
-import java.awt.Label;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import talkie.ui.MyDialog;
 
@@ -9,13 +10,13 @@ public class FatalErrorDialog
     extends MyDialog
 {
     public FatalErrorDialog(
-        Frame owner,
+        JFrame owner,
         String string )
     {
         super( owner );
         setTitle( "Œÿ»¡ ¿!" );
 
-        Label label = new Label( string, Label.CENTER );
+        JLabel label = new JLabel( string, SwingConstants.CENTER );
         add( "Center", label );
     }
 }

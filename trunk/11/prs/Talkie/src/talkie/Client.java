@@ -1,11 +1,14 @@
 package talkie;
 
-import java.awt.Button;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
+import javax.swing.JButton;
+import javax.swing.JTextArea;
 
 import talkie.connect.Connection;
 import talkie.connect.UDPConnection;
@@ -15,8 +18,11 @@ import talkie.ui.dialogs.LoginDialog;
 public class Client
     extends MyFrame
 {
-    private Connection connection = null;
-    private TextArea   textArea   = null;
+    private Connection connection  = null;
+    private JTextArea  textArea    = null;
+    private JTextArea  contactList = null;
+    private JTextArea  input       = null;
+    private JButton    btnSend     = null;
 
     {
         try
@@ -44,11 +50,32 @@ public class Client
         throws HeadlessException
     {
         super();
+        setLayout( new GridBagLayout() );
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
 
-        textArea = new TextArea( "enter text", 5, 40 );
-        add( "Center", textArea );
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 2;
+        contactList = new JTextArea( "contact list", 10, 10 );
+        add( contactList, c );
 
-        Button btnSend = new Button( "Send" );
+        textArea = new JTextArea( "enter text", 15, 40 );
+        c.gridheight = 1;
+        c.gridwidth = 2;
+        c.gridx = 1;
+        add( textArea, c );
+
+        input = new JTextArea( "input some text", 3, 30 );
+        c.gridwidth = 1;
+        c.gridy = 1;
+        add( input, c );
+
+        btnSend = new JButton( "Send" );
+        c.fill = GridBagConstraints.NONE;
+        c.gridx = 2;
+        c.weightx = 0.5;
         btnSend.addActionListener( new ActionListener()
         {
             public void actionPerformed(
@@ -57,7 +84,7 @@ public class Client
                 send( textArea.getText() );
             }
         } );
-        add( "South", btnSend );
+        add( btnSend, c );
     }
 
     public Connection getConnection()

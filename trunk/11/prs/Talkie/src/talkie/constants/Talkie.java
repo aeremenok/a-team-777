@@ -15,5 +15,5 @@ public interface Talkie
     /**
      * время в миллисекундах, по истечении которого UDP-клиент будет считаться "отвалившимся" и сервер на него забьёт
      */
-    public static final int UDP_TIMEOUT = 5000;
+    public static final int UDP_TIMEOUT = 300000;
 }
