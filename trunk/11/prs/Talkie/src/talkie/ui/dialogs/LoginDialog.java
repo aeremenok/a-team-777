@@ -15,13 +15,13 @@ import talkie.connect.Connection;
 import talkie.ui.MyDialog;
 import talkie.ui.widgets.SelectableTextField;
 
-public class AuthentificationDialog
+public class LoginDialog
     extends MyDialog
 {
     private Label                lblFailed;
     private ArrayList<Component> toLock = new ArrayList<Component>();
 
-    public AuthentificationDialog(
+    public LoginDialog(
         final Client owner )
     {
         super( owner );
@@ -63,8 +63,8 @@ public class AuthentificationDialog
                 }
                 else
                 {
-                    AuthentificationDialog.this.lblFailed.setVisible( true );
-                    AuthentificationDialog.this.display();
+                    LoginDialog.this.lblFailed.setVisible( true );
+                    LoginDialog.this.display();
                 }
             }
         } );

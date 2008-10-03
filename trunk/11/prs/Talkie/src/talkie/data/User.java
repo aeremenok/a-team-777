@@ -2,13 +2,13 @@ package talkie.data;
 
 import java.util.ArrayList;
 
-import talkie.Talkie;
+import talkie.constants.Status;
 
 public class User
 {
     private String  login   = "";
     private String  pass    = "";
-    private int     status  = Talkie.AWAY;
+    private int     status  = Status.AWAY;
     ArrayList<User> friends = new ArrayList<User>();
 
     public User(

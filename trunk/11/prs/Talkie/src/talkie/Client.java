@@ -10,7 +10,7 @@ import java.io.IOException;
 import talkie.connect.Connection;
 import talkie.connect.UDPConnection;
 import talkie.ui.MyFrame;
-import talkie.ui.dialogs.AuthentificationDialog;
+import talkie.ui.dialogs.LoginDialog;
 
 public class Client
     extends MyFrame
@@ -37,7 +37,7 @@ public class Client
         String[] args )
     {
         Client client = new Client();
-        new AuthentificationDialog( client ).display();
+        new LoginDialog( client ).display();
     }
 
     public Client()
@@ -68,6 +68,6 @@ public class Client
     private void send(
         String text )
     {
-        connection.process( text );
+        connection.splitAndSend( text );
     }
 }

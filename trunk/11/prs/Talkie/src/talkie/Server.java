@@ -1,13 +1,13 @@
 package talkie;
 
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
+import talkie.constants.Talkie;
 import talkie.data.User;
+import talkie.process.ClientHandler;
 
 public class Server
 {
@@ -55,47 +55,15 @@ public class Server
                 DatagramPacket inPacket = new DatagramPacket( inBuf, inBuf.length );
                 socket.receive( inPacket );
 
-                String inMsg = new String( inPacket.getData() );
-
-                StringTokenizer tokenizer = new StringTokenizer( inMsg, " " );
-                if ( tokenizer.countTokens() > 0 )
+                try
                 {
-                    String operation = tokenizer.nextToken();
-
-                    if ( Talkie.LOGIN.equalsIgnoreCase( operation ) )
-                    {
-                        boolean success = false;
-                        String login = tokenizer.hasMoreTokens() ? tokenizer.nextToken() : "";
-                        String pass = tokenizer.hasMoreTokens() ? tokenizer.nextToken() : "";
-
-                        System.out.println( "login attempt detected, login='" + login + "', pass='" + pass + "'" );
-                        User user = server.getUsers().get( login );
-                        if ( user != null && pass.equals( user.getPass() ) )
-                        {
-                            success = true;
-                        }
-
-                        String outMsg = "" + success + " ";
-                        System.out.println( "\tvalid: " + outMsg.toUpperCase() );
-
-                        byte[] outBuf = outMsg.getBytes();
-                        InetAddress clientAddress = inPacket.getAddress();
-                        int clientPort = inPacket.getPort();
-                        DatagramPacket outPacket =
-                            new DatagramPacket( outBuf, outBuf.length, clientAddress, clientPort );
-
-                        synchronized ( socket )
-                        {
-                            try
-                            {
-                                socket.send( outPacket );
-                            }
-                            catch ( IOException e )
-                            {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+                    ClientHandler target = new ClientHandler( server, inPacket );
+                    new Thread( target ).start();
+                }
+                catch ( SocketException e )
+                {
+                    System.err.println( "Не удалось создать сокет для работы с новым клиентом" );
+                    e.printStackTrace();
                 }
             }
         }
