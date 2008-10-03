@@ -1,9 +1,8 @@
 package talkie.connect;
 
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
-import talkie.Talkie;
+import talkie.constants.Talkie;
 
 /**
  * Обобщённое соединение между сервером и клиентом Talkie
@@ -22,20 +21,7 @@ public abstract class Connection
         String pass )
     {
         String s = "l " + login + " " + pass + " ";
-        send( s.getBytes() );
-
-        String result = receive();
-        if ( result == null )
-        {
-            return false;
-        }
-        StringTokenizer st = new StringTokenizer( result, " " );
-        if ( st.countTokens() == 0 )
-        {
-            return false;
-        }
-
-        return Boolean.parseBoolean( st.nextToken() );
+        return establish( s.getBytes() );
     }
 
     /**
@@ -43,7 +29,7 @@ public abstract class Connection
      * 
      * @param text
      */
-    public void process(
+    public void splitAndSend(
         String text )
     {
         byte[] buffer = text.getBytes();
@@ -66,7 +52,25 @@ public abstract class Connection
         }
     }
 
+    /**
+     * установка соединения
+     * 
+     * @param bytes
+     */
+    abstract protected boolean establish(
+        byte[] bytes );
+
+    /**
+     * @return ответ с сервера
+     */
     abstract protected String receive();
+
+    /**
+     * @param millis максимальный срок ожидания
+     * @return ответ с сервера
+     */
+    abstract protected String receive(
+        int millis );
 
     /**
      * отправить массив байт (зависит от реализации)
