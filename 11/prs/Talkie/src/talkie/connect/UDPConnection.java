@@ -110,12 +110,6 @@ public class UDPConnection
             e.printStackTrace();
         }
 
-        if ( result )
-        {
-            // соединение успешно, запускаем фоновый процесс, посылающий пустые сообщения - дабы сервер про нас помнил
-            // todo подумать, нужно ли?
-        }
-
         return result;
     }
 
