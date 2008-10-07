@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 
 import talkie.Client;
 import talkie.connect.Connection;
+import talkie.process.ClientListener;
 import talkie.ui.MyDialog;
 import talkie.ui.widgets.SelectableTextField;
 
@@ -22,11 +23,22 @@ public class LoginDialog
 {
     private JLabel               lblFailed;
     private ArrayList<Component> toLock = new ArrayList<Component>();
+    private ClientListener       clientListener;
 
     public LoginDialog(
         final Client owner )
     {
         super( owner );
+
+        clientListener = new ClientListener( owner );
+
+        initInterface( owner, clientListener );
+    }
+
+    private void initInterface(
+        final Client owner,
+        final ClientListener clientListener )
+    {
         setLayout( new GridLayout( 4, 1 ) );
 
         final JTextField tbLogin = new SelectableTextField( 10 );
@@ -34,7 +46,6 @@ public class LoginDialog
         toLock.add( tbLogin );
 
         final JTextField tbPass = new SelectableTextField( 10 );
-        // todo tbPass.setEchoChar( '*' );
         add( tbPass );
         toLock.add( tbPass );
 
@@ -55,17 +66,22 @@ public class LoginDialog
                 String pass = tbPass.getText();
 
                 lock();
+
                 boolean success = connection.login( login, pass );
-                unlock();
+
+                // todo поток-слушатель
 
                 if ( success )
                 {
+                    new Thread( clientListener ).start();
+                    unlock();
                     setVisible( false );
                     owner.setTitle( login );
                     owner.display();
                 }
                 else
                 {
+                    unlock();
                     LoginDialog.this.lblFailed.setVisible( true );
                     LoginDialog.this.display();
                 }
