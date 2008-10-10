@@ -17,9 +17,9 @@ import talkie.server.ui.ServerUI;
 public class Server
 {
     private static final String USERS_PROPERTIES = "users.properties";
-
     private static final String LOG4J_PROPERTIES = "log4j.properties";
     private static Logger       log              = Logger.getLogger( Server.class );
+    private String              userFileName     = USERS_PROPERTIES;
     private Properties          users            = new Properties();
 
     /**
@@ -56,19 +56,16 @@ public class Server
         loadUsers();
     }
 
-    /**
-     * загрузить список пользователей из файла конфигурации
-     */
-    private void loadUsers()
+    public void loadUsers(
+        String fileName )
     {
         try
         {
-            users.load( new FileInputStream( USERS_PROPERTIES ) );
+            users.load( new FileInputStream( fileName ) );
         }
         catch ( IOException e )
         {
-            log.warn( "Missing configuration file '" + USERS_PROPERTIES +
-                "', starting without any preconfigured users!" );
+            log.warn( "Error loading users from file: " + fileName );
         }
     }
 
@@ -78,11 +75,25 @@ public class Server
      * @throws IOException
      * @throws FileNotFoundException
      */
-    private void saveUsers()
+    public void saveUsers()
         throws IOException,
             FileNotFoundException
     {
-        users.store( new FileOutputStream( USERS_PROPERTIES ), "" );
+        users.store( new FileOutputStream( userFileName ), "" );
+    }
+
+    public void setUserFilePath(
+        String fileName )
+    {
+        this.userFileName = fileName;
+    }
+
+    /**
+     * загрузить список пользователей из файла конфигурации
+     */
+    private void loadUsers()
+    {
+        loadUsers( USERS_PROPERTIES );
     }
 
     @Override
