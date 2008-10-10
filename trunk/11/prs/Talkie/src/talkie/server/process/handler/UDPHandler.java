@@ -1,4 +1,4 @@
-package talkie.server.process;
+package talkie.server.process.handler;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -10,39 +10,45 @@ import java.util.StringTokenizer;
 import talkie.common.constants.Message;
 import talkie.common.constants.Status;
 import talkie.common.constants.Talkie;
+import talkie.server.Server;
 import talkie.server.data.User;
 
-public class ClientHandler
+public class UDPHandler
     implements
         Runnable
 {
-    private DatagramSocket socket          = null;
-    private InetAddress    clientAddress   = null;
-    private int            clientPort      = -1;
-    private byte[]         firstPacketData = null;
-    // private Server server = null;
-    private boolean        work            = true;
-    private User           user            = null;
+    /**
+     * время в миллисекундах, по истечении которого UDP-клиент будет считаться "отвалившимся" и сервер на него забьёт
+     */
+    public static final int UDP_TIMEOUT     = 300000;
 
-    public ClientHandler(
-        // Server server,
+    private DatagramSocket  socket          = null;
+    private InetAddress     clientAddress   = null;
+    private int             clientPort      = -1;
+    private byte[]          firstPacketData = null;
+    private Server          server          = null;
+    private boolean         work            = true;
+    private User            user            = null;
+
+    public UDPHandler(
+        Server server,
         DatagramPacket inPacket )
         throws SocketException
     {
-        // this.server = server;
+        this.server = server;
         this.socket = new DatagramSocket();
         this.clientAddress = inPacket.getAddress();
         this.clientPort = inPacket.getPort();
         this.firstPacketData = inPacket.getData();
 
-        this.socket.setSoTimeout( Talkie.UDP_TIMEOUT );
+        this.socket.setSoTimeout( UDP_TIMEOUT );
 
         processPacket( inPacket );
     }
 
     public void run()
     {
-        while ( work )
+        while ( !Thread.currentThread().isInterrupted() )
         {
             byte[] data = new byte[Talkie.MSG_SIZE];
             DatagramPacket inPacket = new DatagramPacket( data, data.length );
@@ -54,7 +60,7 @@ public class ClientHandler
             catch ( IOException e )
             {
                 // клиент отвалился
-                work = false;
+                Thread.currentThread().interrupt();
                 socket.close();
                 synchronized ( user )
                 {
@@ -75,7 +81,7 @@ public class ClientHandler
 
         System.out.println( "login attempt detected, login='" + login + "', pass='" + pass + "'" );
 
-        // synchronized ( server )
+        synchronized ( server )
         {
             // user = server.getUsers().get( login );
         }
