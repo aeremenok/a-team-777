@@ -1,32 +1,23 @@
 package talkie.server;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
-import java.util.HashMap;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 
-import talkie.common.constants.Talkie;
-import talkie.server.data.User;
-import talkie.server.process.ClientHandler;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+import talkie.server.ui.ServerUI;
 
 public class Server
 {
-    private HashMap<String, User> users = new HashMap<String, User>();
+    private static final String USERS_PROPERTIES = "users.properties";
 
-    {
-        User root = new User( "root", "123" );
-        User ssv = new User( "ssv", "123" );
-        User eav = new User( "eav", "123" );
-        User epa = new User( "epa", "123" );
-
-        ssv.addFriend( eav );
-        ssv.addFriend( epa );
-
-        users.put( "root", root );
-        users.put( "ssv", ssv );
-        users.put( "eav", eav );
-        users.put( "epa", epa );
-    }
+    private static final String LOG4J_PROPERTIES = "log4j.properties";
+    private Logger              log              = Logger.getLogger( Server.class );
+    private Properties          users            = new Properties();
 
     /**
      * @param args
@@ -35,54 +26,57 @@ public class Server
     public static void main(
         String[] args )
     {
-        if ( args.length != 1 )
-        {
-            System.err.println( "need port number" );
-            System.exit( 0 );
-        }
+        // конфигурируем логгер
+        PropertyConfigurator.configureAndWatch( LOG4J_PROPERTIES );
 
+        // считываем информацию о пользователях
         Server server = new Server();
-        int port = Integer.parseInt( args[0] );
-        System.out.println( "Server started on port: " + port );
 
-        DatagramSocket socket = null;
-        try
-        {
-            socket = new DatagramSocket( port );
-            while ( true )
-            {
-                byte[] inBuf = new byte[Talkie.MSG_SIZE];
-                DatagramPacket inPacket = new DatagramPacket( inBuf, inBuf.length );
-                socket.receive( inPacket );
-
-                try
-                {
-                    ClientHandler target = new ClientHandler( server, inPacket );
-                    new Thread( target ).start();
-                }
-                catch ( SocketException e )
-                {
-                    System.err.println( "Не удалось создать сокет для работы с новым клиентом" );
-                    e.printStackTrace();
-                }
-            }
-        }
-        catch ( Exception e )
-        {
-            e.printStackTrace();
-            if ( socket != null )
-            {
-                socket.close();
-            }
-        }
+        // запускаем интерфейс
+        new Thread( new ServerUI( server ) ).start();
     }
 
     public Server()
     {
+        loadUsers();
     }
 
-    public HashMap<String, User> getUsers()
+    /**
+     * загрузить список пользователей из файла конфигурации
+     */
+    private void loadUsers()
     {
-        return users;
+        try
+        {
+            users.load( new FileInputStream( USERS_PROPERTIES ) );
+        }
+        catch ( IOException e )
+        {
+            log.warn( "Missing configuration file '" + USERS_PROPERTIES +
+                "', starting without any preconfigured users!" );
+        }
+    }
+
+    /**
+     * сохранить список пользователей в файл конфигурации
+     * 
+     * @throws IOException
+     * @throws FileNotFoundException
+     */
+    private void saveUsers()
+        throws IOException,
+            FileNotFoundException
+    {
+        users.store( new FileOutputStream( USERS_PROPERTIES ), "" );
+    }
+
+    @Override
+    protected void finalize()
+        throws Throwable
+    {
+        // перед смертью сервер сохраняет своих пользователей
+        saveUsers();
+
+        super.finalize();
     }
 }

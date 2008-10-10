@@ -78,7 +78,7 @@ public class ClientHandler
 
         synchronized ( server )
         {
-            user = server.getUsers().get( login );
+            // user = server.getUsers().get( login );
         }
 
         synchronized ( user )
