@@ -27,7 +27,6 @@ public class MyFrame
      */
     public void display()
     {
-        pack();
         center();
         setVisible( true );
     }

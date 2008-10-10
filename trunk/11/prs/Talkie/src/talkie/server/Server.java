@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.UIManager;
@@ -30,6 +31,8 @@ public class Server
     {
         // конфигурируем логгер
         PropertyConfigurator.configureAndWatch( LOG4J_PROPERTIES );
+
+        log.fatal( "\n\nTALKIE SERVER STARTED:" + new Date().toString() );
 
         // считываем информацию о пользователях
         Server server = new Server();

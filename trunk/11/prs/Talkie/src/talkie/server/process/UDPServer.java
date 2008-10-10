@@ -1,25 +1,20 @@
 package talkie.server.process;
 
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.SocketException;
 
-import talkie.common.constants.Talkie;
 import talkie.server.Server;
 
 public class UDPServer
     implements
         Runnable
 {
-    private final int    port;
-    private final Server server;
+    private final int    port   = 0;
+    private final Server server = null;
 
-    public UDPServer(
-        Server server,
-        int port )
+    public UDPServer()
     {
-        this.server = server;
-        this.port = port;
+        // this.server = server;
+        // this.port = port;
     }
 
     public void run()
@@ -28,22 +23,24 @@ public class UDPServer
         try
         {
             socket = new DatagramSocket( port );
-            while ( true )
+            while ( !Thread.currentThread().isInterrupted() )
             {
-                byte[] inBuf = new byte[Talkie.MSG_SIZE];
-                DatagramPacket inPacket = new DatagramPacket( inBuf, inBuf.length );
-                socket.receive( inPacket );
-
-                try
-                {
-                    ClientHandler target = new ClientHandler( server, inPacket );
-                    new Thread( target ).start();
-                }
-                catch ( SocketException e )
-                {
-                    System.err.println( "Не удалось создать сокет для работы с новым клиентом" );
-                    e.printStackTrace();
-                }
+                System.out.println( "udp server is running..." );
+                Thread.sleep( 1000 );
+                // byte[] inBuf = new byte[Talkie.MSG_SIZE];
+                // DatagramPacket inPacket = new DatagramPacket( inBuf, inBuf.length );
+                // socket.receive( inPacket );
+                //
+                // try
+                // {
+                // ClientHandler target = new ClientHandler( server, inPacket );
+                // new Thread( target ).start();
+                // }
+                // catch ( SocketException e )
+                // {
+                // System.err.println( "Не удалось создать сокет для работы с новым клиентом" );
+                // e.printStackTrace();
+                // }
             }
         }
         catch ( Exception e )

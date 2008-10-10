@@ -1,10 +1,20 @@
 package talkie.server.ui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.Set;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
+import org.apache.log4j.Logger;
 
 import talkie.common.ui.MyFrame;
 import talkie.server.Server;
@@ -12,20 +22,106 @@ import talkie.server.Server;
 public class ServerUI
     extends MyFrame
     implements
-        Runnable
+        Runnable,
+        ActionListener
 {
-    private static final String EXIT = "exit";
-    private final Server        server;
+    private static final int                    EXIT          = 0;
+    private Logger                              log           = Logger.getLogger( ServerUI.class );
+    private final Server                        server;
+    private Properties                          protNames     = new Properties();
+    private HashMap<Integer, JCheckBoxMenuItem> protActions   = new HashMap<Integer, JCheckBoxMenuItem>();
+    private HashMap<String, Runnable>           protInstances = new HashMap<String, Runnable>();
+    private HashMap<String, Thread>             protRunning   = new HashMap<String, Thread>();
 
     public ServerUI(
         Server server )
     {
         this.server = server;
+
+        try
+        {
+            protNames.load( new FileInputStream( "protocols.properties" ) );
+        }
+        catch ( IOException e )
+        {
+            log.warn( "Unable to load protocols, will continue without them!", e );
+        }
+
+        // загрузка доступных протоколов
+        for ( String key : protNames.stringPropertyNames() )
+        {
+            try
+            {
+                String clazzName = protNames.getProperty( key );
+                if ( clazzName.length() == 0 )
+                {
+                    clazzName = "talkie.server.process." + key + "Server";
+                }
+                Class clazz = Class.forName( clazzName );
+                Object object = clazz.newInstance();
+                if ( object instanceof Runnable )
+                {
+                    protInstances.put( key, (Runnable) object );
+                }
+                else
+                {
+                    log.error( "Protocol is not runnable: " + key );
+                }
+            }
+            catch ( ClassNotFoundException e )
+            {
+                log.error( "Protocol is not available on server: " + key );
+            }
+            catch ( InstantiationException e )
+            {
+                log.error( "Protocol cannot be instantiated: " + key );
+            }
+            catch ( IllegalAccessException e )
+            {
+                log.error( "Protocol cannot be instantiated: " + key );
+            }
+        }
+    }
+
+    public void actionPerformed(
+        ActionEvent e )
+    {
+        int command = Integer.parseInt( e.getActionCommand() );
+
+        switch ( command )
+        {
+            case EXIT:
+                System.exit( 0 );
+                break;
+            default:
+                // сюда попадут в том числе все протоколы
+                JCheckBoxMenuItem item = protActions.get( command );
+                if ( item != null )
+                {// если это протокол, а не что-то иное
+                    String name = item.getText();
+                    if ( item.isSelected() )
+                    {// запускаем протокол
+                        Thread runner = new Thread( protInstances.get( name ) );
+                        protRunning.put( name, runner );
+                        runner.start();
+                    }
+                    else
+                    {// останавливаем протокол
+                        Thread runner = protRunning.get( name );
+                        if ( runner != null && !runner.isInterrupted() )
+                        {
+                            runner.interrupt();
+                        }
+                    }
+                }
+                break;
+        }
     }
 
     public void run()
     {
         setLayout( new BorderLayout() );
+        setSize( 500, 300 );
         initMenuBar();
 
         display();
@@ -37,24 +133,36 @@ public class ServerUI
         JMenu mFile = new JMenu( "Файл" );
 
         JMenuItem mFileExit = new JMenuItem( "Выход" );
+
+        mFileExit.setActionCommand( "" + EXIT );
+        mFileExit.addActionListener( this );
         mFile.add( mFileExit );
 
         // Протоколы
         JMenu mProtocols = new JMenu( "Протоколы" );
-        JMenuItem mProtUdp = new JMenuItem( "UDP" );
-        JMenuItem mProtTcp = new JMenuItem( "TCP" );
-        JMenuItem mProtRmi = new JMenuItem( "RMI" );
-        JMenuItem mProtCorba = new JMenuItem( "CORBA" );
-        mProtocols.add( mProtUdp );
-        mProtocols.add( mProtTcp );
-        mProtocols.add( mProtRmi );
-        mProtocols.add( mProtCorba );
+
+        int i = 1000;
+        Set<String> keys = protNames.stringPropertyNames();
+        for ( String key : keys )
+        {
+            i++;
+            JCheckBoxMenuItem item = new JCheckBoxMenuItem( key );
+            item.setActionCommand( "" + i );
+            item.setEnabled( protInstances.get( key ) != null );
+            item.addActionListener( this );
+
+            protActions.put( i, item );
+
+            mProtocols.add( item );
+        }
 
         // Помощь
         JMenu mHelp = new JMenu( "Помощь" );
+
         JMenuItem mHelpAbout = new JMenuItem( "О программе..." );
         mHelp.add( mHelpAbout );
 
+        // Меню
         JMenuBar bar = new JMenuBar();
         setJMenuBar( bar );
 
