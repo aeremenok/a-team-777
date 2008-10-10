@@ -3,6 +3,7 @@ package talkie.server.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,9 +11,11 @@ import java.util.Properties;
 import java.util.Set;
 
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Logger;
 
@@ -26,6 +29,10 @@ public class ServerUI
         ActionListener
 {
     private static final int                    EXIT          = 0;
+    private static final int                    OPEN          = 1;
+    private static final int                    SAVE          = 2;
+    private static final int                    SAVE_AS       = 3;
+
     private Logger                              log           = Logger.getLogger( ServerUI.class );
     private final Server                        server;
     private Properties                          protNames     = new Properties();
@@ -93,6 +100,58 @@ public class ServerUI
             case EXIT:
                 System.exit( 0 );
                 break;
+
+            case OPEN:
+                String userDir = System.getProperty( "user.dir" );
+                JFileChooser openDialog = new JFileChooser( new File( userDir ) );
+                FileNameExtensionFilter filter = new FileNameExtensionFilter( "Property Files", "properties" );
+                openDialog.setFileFilter( filter );
+                int returnVal = openDialog.showOpenDialog( getContentPane() );
+                if ( returnVal == JFileChooser.APPROVE_OPTION )
+                {
+                    String fileName = openDialog.getSelectedFile().getName();
+                    server.setUserFilePath( fileName );
+                    server.loadUsers( fileName );
+                }
+                break;
+
+            case SAVE:
+                try
+                {
+                    server.saveUsers();
+                }
+                catch ( IOException e1 )
+                {
+                    // todo вывести сообщение в виде MessageBox
+                }
+                break;
+
+            case SAVE_AS:
+                String userDir1 = System.getProperty( "user.dir" );
+                JFileChooser saveDialog = new JFileChooser( userDir1 );
+                FileNameExtensionFilter filter1 = new FileNameExtensionFilter( "Property Files", "properties" );
+                saveDialog.setFileFilter( filter1 );
+                int returnVal1 = saveDialog.showSaveDialog( getContentPane() );
+                if ( returnVal1 == JFileChooser.APPROVE_OPTION )
+                {
+                    String absolutePath = saveDialog.getSelectedFile().getAbsolutePath();
+                    StringBuffer toSave = new StringBuffer( absolutePath );
+                    if ( !absolutePath.endsWith( ".properties" ) )
+                    {
+                        toSave.append( ".properties" );
+                        server.setUserFilePath( toSave.toString() );
+                        try
+                        {
+                            server.saveUsers();
+                        }
+                        catch ( IOException e1 )
+                        {
+                            // todo вывести сообщение в виде MessageBox
+                        }
+                    }
+                }
+                break;
+
             default:
                 // сюда попадут в том числе все протоколы
                 JCheckBoxMenuItem item = protActions.get( command );
@@ -132,8 +191,24 @@ public class ServerUI
         // Файл
         JMenu mFile = new JMenu( "Файл" );
 
-        JMenuItem mFileExit = new JMenuItem( "Выход" );
+        JMenuItem mFileOpen = new JMenuItem( "Открыть..." );
+        mFileOpen.setActionCommand( "" + OPEN );
+        mFileOpen.addActionListener( this );
+        mFile.add( mFileOpen );
 
+        JMenuItem mFileSave = new JMenuItem( "Сохранить" );
+        mFileSave.setActionCommand( "" + SAVE );
+        mFileSave.addActionListener( this );
+        mFile.add( mFileSave );
+
+        JMenuItem mFileSaveAs = new JMenuItem( "Сохранить как..." );
+        mFileSaveAs.setActionCommand( "" + SAVE_AS );
+        mFileSaveAs.addActionListener( this );
+        mFile.add( mFileSaveAs );
+
+        mFile.addSeparator();
+
+        JMenuItem mFileExit = new JMenuItem( "Выход" );
         mFileExit.setActionCommand( "" + EXIT );
         mFileExit.addActionListener( this );
         mFile.add( mFileExit );
