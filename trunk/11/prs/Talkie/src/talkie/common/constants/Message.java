@@ -1,4 +1,4 @@
-package talkie.constants;
+package talkie.common.constants;
 
 
 /**

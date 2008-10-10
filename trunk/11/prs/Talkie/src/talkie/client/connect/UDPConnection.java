@@ -1,4 +1,4 @@
-package talkie.connect;
+package talkie.client.connect;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -6,7 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.StringTokenizer;
 
-import talkie.constants.Talkie;
+import talkie.common.constants.Talkie;
 
 /**
  * Соединение, основанное на UDP пакетах

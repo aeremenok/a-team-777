@@ -1,4 +1,4 @@
-package talkie.ui.dialogs;
+package talkie.client.ui;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -12,11 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import talkie.Client;
-import talkie.connect.Connection;
-import talkie.process.ClientListener;
-import talkie.ui.MyDialog;
-import talkie.ui.widgets.SelectableTextField;
+import talkie.client.Client;
+import talkie.client.connect.Connection;
+import talkie.client.process.ClientListener;
+import talkie.common.ui.MyDialog;
+import talkie.common.ui.SelectableTextField;
 
 public class LoginDialog
     extends MyDialog
