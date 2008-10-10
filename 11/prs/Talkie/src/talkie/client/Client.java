@@ -1,4 +1,4 @@
-package talkie;
+package talkie.client;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,10 +10,10 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
-import talkie.connect.Connection;
-import talkie.connect.UDPConnection;
-import talkie.ui.MyFrame;
-import talkie.ui.dialogs.LoginDialog;
+import talkie.client.connect.Connection;
+import talkie.client.connect.UDPConnection;
+import talkie.client.ui.LoginDialog;
+import talkie.common.ui.MyFrame;
 
 public class Client
     extends MyFrame

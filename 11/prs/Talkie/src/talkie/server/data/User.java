@@ -1,8 +1,8 @@
-package talkie.data;
+package talkie.server.data;
 
 import java.util.ArrayList;
 
-import talkie.constants.Status;
+import talkie.common.constants.Status;
 
 public class User
 {

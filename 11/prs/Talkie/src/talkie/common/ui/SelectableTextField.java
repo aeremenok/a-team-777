@@ -1,4 +1,4 @@
-package talkie.ui.widgets;
+package talkie.common.ui;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;

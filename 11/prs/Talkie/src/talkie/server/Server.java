@@ -1,13 +1,13 @@
-package talkie;
+package talkie.server;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.HashMap;
 
-import talkie.constants.Talkie;
-import talkie.data.User;
-import talkie.process.ClientHandler;
+import talkie.common.constants.Talkie;
+import talkie.server.data.User;
+import talkie.server.process.ClientHandler;
 
 public class Server
 {

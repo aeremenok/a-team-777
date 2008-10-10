@@ -1,8 +1,8 @@
-package talkie.connect;
+package talkie.client.connect;
 
 import java.util.ArrayList;
 
-import talkie.constants.Talkie;
+import talkie.common.constants.Talkie;
 
 /**
  * Обобщённое соединение между сервером и клиентом Talkie

@@ -1,4 +1,4 @@
-package talkie.process;
+package talkie.server.process;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -7,11 +7,11 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.StringTokenizer;
 
-import talkie.Server;
-import talkie.constants.Message;
-import talkie.constants.Status;
-import talkie.constants.Talkie;
-import talkie.data.User;
+import talkie.common.constants.Message;
+import talkie.common.constants.Status;
+import talkie.common.constants.Talkie;
+import talkie.server.Server;
+import talkie.server.data.User;
 
 public class ClientHandler
     implements

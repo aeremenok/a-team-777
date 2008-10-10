@@ -1,4 +1,4 @@
-package talkie.ui;
+package talkie.common.ui;
 
 import java.awt.Dimension;
 

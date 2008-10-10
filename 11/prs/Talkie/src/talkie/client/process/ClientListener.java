@@ -1,12 +1,12 @@
-package talkie.process;
+package talkie.client.process;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import talkie.Client;
-import talkie.constants.Talkie;
+import talkie.client.Client;
+import talkie.common.constants.Talkie;
 
 public class ClientListener
     implements
