@@ -29,66 +29,32 @@ public class ServerUI
         Runnable,
         ActionListener
 {
-    private static final int                    EXIT          = 0;
-    private static final int                    OPEN          = 1;
-    private static final int                    SAVE          = 2;
-    private static final int                    SAVE_AS       = 3;
+    private static final String                 PROTOCOLS_PROPERTIES = "protocols.properties";
+    private static final int                    EXIT                 = 0;
+    private static final int                    OPEN                 = 1;
+    private static final int                    SAVE                 = 2;
+    private static final int                    SAVE_AS              = 3;
 
-    private Logger                              log           = Logger.getLogger( ServerUI.class );
+    private Logger                              log                  = Logger.getLogger( ServerUI.class );
     private final Server                        server;
-    private Properties                          protNames     = new Properties();
-    private HashMap<Integer, JCheckBoxMenuItem> protActions   = new HashMap<Integer, JCheckBoxMenuItem>();
-    private HashMap<String, Runnable>           protInstances = new HashMap<String, Runnable>();
-    private HashMap<String, Thread>             protRunning   = new HashMap<String, Thread>();
+    private HashMap<Integer, JCheckBoxMenuItem> protActions          = new HashMap<Integer, JCheckBoxMenuItem>();
+    private HashMap<String, Runnable>           protInstances        = new HashMap<String, Runnable>();
+    private HashMap<String, Thread>             protRunning          = new HashMap<String, Thread>();
 
     public ServerUI(
         Server server )
     {
         this.server = server;
 
-        try
-        {
-            protNames.load( new FileInputStream( "protocols.properties" ) );
-        }
-        catch ( IOException e )
-        {
-            log.warn( "Unable to load protocols, will continue without them!", e );
-        }
-
         // загрузка доступных протоколов
-        for ( String key : protNames.stringPropertyNames() )
-        {
-            try
-            {
-                String clazzName = protNames.getProperty( key );
-                if ( clazzName.length() == 0 )
-                {
-                    clazzName = "talkie.server.process." + key + "Server";
-                }
-                Class clazz = Class.forName( clazzName );
-                Object object = clazz.newInstance();
-                if ( object instanceof Runnable )
-                {
-                    protInstances.put( key, (Runnable) object );
-                }
-                else
-                {
-                    log.error( "Protocol is not runnable: " + key );
-                }
-            }
-            catch ( ClassNotFoundException e )
-            {
-                log.error( "Protocol is not available on server: " + key );
-            }
-            catch ( InstantiationException e )
-            {
-                log.error( "Protocol cannot be instantiated: " + key );
-            }
-            catch ( IllegalAccessException e )
-            {
-                log.error( "Protocol cannot be instantiated: " + key );
-            }
-        }
+        loadProtocols();
+
+        // инициализируем меню
+        initMenuBar();
+
+        // настройки окна
+        setLayout( new BorderLayout() );
+        setSize( 500, 300 );
     }
 
     public void actionPerformed(
@@ -182,10 +148,6 @@ public class ServerUI
 
     public void run()
     {
-        setLayout( new BorderLayout() );
-        setSize( 500, 300 );
-        initMenuBar();
-
         display();
     }
 
@@ -220,7 +182,7 @@ public class ServerUI
         JMenu mProtocols = new JMenu( "Протоколы" );
 
         int i = 1000;
-        Set<String> keys = protNames.stringPropertyNames();
+        Set<String> keys = protInstances.keySet();
         for ( String key : keys )
         {
             i++;
@@ -247,5 +209,57 @@ public class ServerUI
         bar.add( mFile );
         bar.add( mProtocols );
         bar.add( mHelp );
+    }
+
+    /**
+     * Загрузить имена протоколов и пути к классам реализации
+     */
+    private void loadProtocols()
+    {
+        Properties protNames = new Properties();
+        try
+        {
+            FileInputStream inStream = new FileInputStream( PROTOCOLS_PROPERTIES );
+            protNames.load( inStream );
+            inStream.close();
+        }
+        catch ( IOException e )
+        {
+            log.warn( "Unable to load protocols, will continue without them!", e );
+        }
+
+        for ( String key : protNames.stringPropertyNames() )
+        {
+            try
+            {
+                String clazzName = protNames.getProperty( key );
+                if ( clazzName.length() == 0 )
+                {
+                    clazzName = "talkie.server.process." + key + "Server";
+                }
+                Class clazz = Class.forName( clazzName );
+                Object object = clazz.newInstance();
+                if ( object instanceof Runnable )
+                {
+                    protInstances.put( key, (Runnable) object );
+                }
+                else
+                {
+                    log.error( "Protocol is not runnable: " + key );
+                }
+            }
+            catch ( ClassNotFoundException e )
+            {
+                log.error( "Protocol is not available on server: " + key );
+            }
+            catch ( InstantiationException e )
+            {
+                log.error( "Protocol cannot be instantiated: " + key );
+            }
+            catch ( IllegalAccessException e )
+            {
+                log.error( "Protocol cannot be instantiated: " + key );
+            }
+        }
     }
 }
