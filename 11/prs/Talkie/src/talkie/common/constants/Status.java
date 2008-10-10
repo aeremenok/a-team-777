@@ -1,18 +1,18 @@
 package talkie.common.constants;
 
 /**
- * Константы статусов
+ * РљРѕРЅСЃС‚Р°РЅС‚С‹ СЃС‚Р°С‚СѓСЃРѕРІ
  * 
  * @author ssv
  */
 public interface Status
 {
     /**
-     * пользователя нет в сети
+     * РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅРµС‚ РІ СЃРµС‚Рё
      */
     public static final int AWAY   = 0;
     /**
-     * пользователь в сети
+     * РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІ СЃРµС‚Рё
      */
     public static final int ONLINE = 1;
 }

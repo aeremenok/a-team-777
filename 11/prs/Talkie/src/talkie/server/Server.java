@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.swing.UIManager;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -16,7 +18,7 @@ public class Server
     private static final String USERS_PROPERTIES = "users.properties";
 
     private static final String LOG4J_PROPERTIES = "log4j.properties";
-    private Logger              log              = Logger.getLogger( Server.class );
+    private static Logger       log              = Logger.getLogger( Server.class );
     private Properties          users            = new Properties();
 
     /**
@@ -26,13 +28,23 @@ public class Server
     public static void main(
         String[] args )
     {
-        // конфигурируем логгер
+        // РєРѕРЅС„РёРіСѓСЂРёСЂСѓРµРј Р»РѕРіРіРµСЂ
         PropertyConfigurator.configureAndWatch( LOG4J_PROPERTIES );
 
-        // считываем информацию о пользователях
+        // СЃС‡РёС‚С‹РІР°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏС…
         Server server = new Server();
 
-        // запускаем интерфейс
+        // РєРѕРЅС„РёРіСѓСЂРёСЂСѓРµРј РІРЅРµС€РЅРёР№ РІРёРґ Swing РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
+        try
+        {
+            UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+        }
+        catch ( Exception e )
+        {
+            log.warn( "Unable to set System native look and feel, using default JVM look and feel!", e );
+        }
+
+        // Р·Р°РїСѓСЃРєР°РµРј РёРЅС‚РµСЂС„РµР№СЃ
         new Thread( new ServerUI( server ) ).start();
     }
 
@@ -42,7 +54,7 @@ public class Server
     }
 
     /**
-     * загрузить список пользователей из файла конфигурации
+     * Р·Р°РіСЂСѓР·РёС‚СЊ СЃРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ РёР· С„Р°Р№Р»Р° РєРѕРЅС„РёРіСѓСЂР°С†РёРё
      */
     private void loadUsers()
     {
@@ -58,7 +70,7 @@ public class Server
     }
 
     /**
-     * сохранить список пользователей в файл конфигурации
+     * СЃРѕС…СЂР°РЅРёС‚СЊ СЃРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ РІ С„Р°Р№Р» РєРѕРЅС„РёРіСѓСЂР°С†РёРё
      * 
      * @throws IOException
      * @throws FileNotFoundException
@@ -74,7 +86,7 @@ public class Server
     protected void finalize()
         throws Throwable
     {
-        // перед смертью сервер сохраняет своих пользователей
+        // РїРµСЂРµРґ СЃРјРµСЂС‚СЊСЋ СЃРµСЂРІРµСЂ СЃРѕС…СЂР°РЅСЏРµС‚ СЃРІРѕРёС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
         saveUsers();
 
         super.finalize();

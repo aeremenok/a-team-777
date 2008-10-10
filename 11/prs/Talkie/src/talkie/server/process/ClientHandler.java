@@ -54,7 +54,7 @@ public class ClientHandler
             }
             catch ( IOException e )
             {
-                // клиент отвалился
+                // РєР»РёРµРЅС‚ РѕС‚РІР°Р»РёР»СЃСЏ
                 work = false;
                 socket.close();
                 synchronized ( user )

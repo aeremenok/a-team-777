@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 import talkie.common.constants.Talkie;
 
 /**
- * Соединение, основанное на UDP пакетах
+ * РЎРѕРµРґРёРЅРµРЅРёРµ, РѕСЃРЅРѕРІР°РЅРЅРѕРµ РЅР° UDP РїР°РєРµС‚Р°С…
  * 
  * @author ssv
  */
@@ -17,23 +17,23 @@ public class UDPConnection
     extends Connection
 {
     /**
-     * адрес сервера диспетчеризации
+     * Р°РґСЂРµСЃ СЃРµСЂРІРµСЂР° РґРёСЃРїРµС‚С‡РµСЂРёР·Р°С†РёРё
      */
     private InetAddress    initServerAddress = null;
     /**
-     * порт сервера диспетчеризации
+     * РїРѕСЂС‚ СЃРµСЂРІРµСЂР° РґРёСЃРїРµС‚С‡РµСЂРёР·Р°С†РёРё
      */
     private int            initServerPort    = -1;
     /**
-     * клиентский сокет
+     * РєР»РёРµРЅС‚СЃРєРёР№ СЃРѕРєРµС‚
      */
     private DatagramSocket socket            = null;
     /**
-     * адрес сервера после установки "соединения"
+     * Р°РґСЂРµСЃ СЃРµСЂРІРµСЂР° РїРѕСЃР»Рµ СѓСЃС‚Р°РЅРѕРІРєРё "СЃРѕРµРґРёРЅРµРЅРёСЏ"
      */
     protected InetAddress  serverAddress     = null;
     /**
-     * порт сервера после установки "соединения"
+     * РїРѕСЂС‚ СЃРµСЂРІРµСЂР° РїРѕСЃР»Рµ СѓСЃС‚Р°РЅРѕРІРєРё "СЃРѕРµРґРёРЅРµРЅРёСЏ"
      */
     protected int          serverPort        = -1;
 
@@ -69,7 +69,7 @@ public class UDPConnection
     {
         boolean result = false;
 
-        // послылаем сообщение диспетчеру
+        // РїРѕСЃР»С‹Р»Р°РµРј СЃРѕРѕР±С‰РµРЅРёРµ РґРёСЃРїРµС‚С‡РµСЂСѓ
         DatagramPacket outPacket = new DatagramPacket( bytes, bytes.length, initServerAddress, initServerPort );
         try
         {
@@ -80,7 +80,7 @@ public class UDPConnection
             e.printStackTrace();
         }
 
-        // принимаем ответ
+        // РїСЂРёРЅРёРјР°РµРј РѕС‚РІРµС‚
         byte[] data = new byte[Talkie.MSG_SIZE];
         DatagramPacket inPacket = new DatagramPacket( data, data.length );
 
@@ -91,7 +91,7 @@ public class UDPConnection
             socket.receive( inPacket );
             socket.setSoTimeout( soTimeout );
 
-            // ответ принят, сохраняем параметры сокета, с которым будем общаться дальше
+            // РѕС‚РІРµС‚ РїСЂРёРЅСЏС‚, СЃРѕС…СЂР°РЅСЏРµРј РїР°СЂР°РјРµС‚СЂС‹ СЃРѕРєРµС‚Р°, СЃ РєРѕС‚РѕСЂС‹Рј Р±СѓРґРµРј РѕР±С‰Р°С‚СЊСЃСЏ РґР°Р»СЊС€Рµ
             serverAddress = inPacket.getAddress();
             serverPort = inPacket.getPort();
             data = inPacket.getData();

@@ -1,5 +1,9 @@
 package talkie.server.ui;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JMenuBar;
+
 import talkie.common.ui.MyFrame;
 import talkie.server.Server;
 
@@ -7,17 +11,21 @@ public class ServerUI
     implements
         Runnable
 {
-    private MyFrame frame;
+    private MyFrame      frame = new MyFrame();
+    private final Server server;
 
     public ServerUI(
         Server server )
     {
-        // todo Auto-generated constructor stub
+        this.server = server;
     }
 
     public void run()
     {
-        this.frame = new MyFrame();
+        frame.setLayout( new BorderLayout() );
+
+        JMenuBar mb = new JMenuBar();
+        frame.setJMenuBar( mb );
 
     }
 }

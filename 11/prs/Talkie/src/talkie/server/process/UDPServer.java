@@ -41,7 +41,7 @@ public class UDPServer
                 }
                 catch ( SocketException e )
                 {
-                    System.err.println( "Не удалось создать сокет для работы с новым клиентом" );
+                    System.err.println( "РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕР·РґР°С‚СЊ СЃРѕРєРµС‚ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РЅРѕРІС‹Рј РєР»РёРµРЅС‚РѕРј" );
                     e.printStackTrace();
                 }
             }
