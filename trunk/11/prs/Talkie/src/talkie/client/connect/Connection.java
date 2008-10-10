@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import talkie.common.constants.Talkie;
 
 /**
- * Обобщённое соединение между сервером и клиентом Talkie
+ * РћР±РѕР±С‰С‘РЅРЅРѕРµ СЃРѕРµРґРёРЅРµРЅРёРµ РјРµР¶РґСѓ СЃРµСЂРІРµСЂРѕРј Рё РєР»РёРµРЅС‚РѕРј Talkie
  * 
  * @author ssv
  */
 public abstract class Connection
 {
     /**
-     * @param login логин (имя пользователя)
-     * @param pass пароль пользователя
-     * @return true, если пользователь существует, false - иначе
+     * @param login Р»РѕРіРёРЅ (РёРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ)
+     * @param pass РїР°СЂРѕР»СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+     * @return true, РµСЃР»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃСѓС‰РµСЃС‚РІСѓРµС‚, false - РёРЅР°С‡Рµ
      */
     public boolean login(
         String login,
@@ -25,7 +25,7 @@ public abstract class Connection
     }
 
     /**
-     * обработать сообщение
+     * РѕР±СЂР°Р±РѕС‚Р°С‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ
      * 
      * @param text
      */
@@ -53,7 +53,7 @@ public abstract class Connection
     }
 
     /**
-     * установка соединения
+     * СѓСЃС‚Р°РЅРѕРІРєР° СЃРѕРµРґРёРЅРµРЅРёСЏ
      * 
      * @param bytes
      */
@@ -61,19 +61,19 @@ public abstract class Connection
         byte[] bytes );
 
     /**
-     * @return ответ с сервера
+     * @return РѕС‚РІРµС‚ СЃ СЃРµСЂРІРµСЂР°
      */
     abstract protected String receive();
 
     /**
-     * @param millis максимальный срок ожидания
-     * @return ответ с сервера
+     * @param millis РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЃСЂРѕРє РѕР¶РёРґР°РЅРёСЏ
+     * @return РѕС‚РІРµС‚ СЃ СЃРµСЂРІРµСЂР°
      */
     abstract protected String receive(
         int millis );
 
     /**
-     * отправить массив байт (зависит от реализации)
+     * РѕС‚РїСЂР°РІРёС‚СЊ РјР°СЃСЃРёРІ Р±Р°Р№С‚ (Р·Р°РІРёСЃРёС‚ РѕС‚ СЂРµР°Р»РёР·Р°С†РёРё)
      * 
      * @param bytes
      */

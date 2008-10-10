@@ -2,22 +2,22 @@ package talkie.common.constants;
 
 
 /**
- * константы типов сообщений
+ * РєРѕРЅСЃС‚Р°РЅС‚С‹ С‚РёРїРѕРІ СЃРѕРѕР±С‰РµРЅРёР№
  * 
  * @author ssv
  */
 public abstract class Message
 {
     /**
-     * авторизация
+     * Р°РІС‚РѕСЂРёР·Р°С†РёСЏ
      */
     public static final String LOGIN   = "l";
     /**
-     * получение списка контактов
+     * РїРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РєРѕРЅС‚Р°РєС‚РѕРІ
      */
     public static final String LIST    = "i";
     /**
-     * сообщение
+     * СЃРѕРѕР±С‰РµРЅРёРµ
      */
     public static final String MESSAGE = "m";
 }

@@ -49,12 +49,12 @@ public class LoginDialog
         add( tbPass );
         toLock.add( tbPass );
 
-        lblFailed = new JLabel( "Аутентификация не удалась, проверьте логин и пароль", SwingConstants.CENTER );
+        lblFailed = new JLabel( "РђСѓС‚РµРЅС‚РёС„РёРєР°С†РёСЏ РЅРµ СѓРґР°Р»Р°СЃСЊ, РїСЂРѕРІРµСЂСЊС‚Рµ Р»РѕРіРёРЅ Рё РїР°СЂРѕР»СЊ", SwingConstants.CENTER );
         lblFailed.setForeground( Color.RED );
         lblFailed.setVisible( false );
         add( lblFailed );
 
-        JButton btnLogin = new JButton( "Вход" );
+        JButton btnLogin = new JButton( "Р’С…РѕРґ" );
         btnLogin.addActionListener( new ActionListener()
         {
             public void actionPerformed(
@@ -69,7 +69,7 @@ public class LoginDialog
 
                 boolean success = connection.login( login, pass );
 
-                // todo поток-слушатель
+                // todo РїРѕС‚РѕРє-СЃР»СѓС€Р°С‚РµР»СЊ
 
                 if ( success )
                 {
