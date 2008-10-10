@@ -1,15 +1,13 @@
 package talkie.server.data;
 
-import java.util.ArrayList;
-
 import talkie.common.constants.Status;
 
 public class User
 {
-    private String  login   = "";
-    private String  pass    = "";
-    private int     status  = Status.AWAY;
-    ArrayList<User> friends = new ArrayList<User>();
+    private UserStatusListenerCollection listenerCollection = null;
+    private String                       login              = "";
+    private String                       pass               = "";
+    private int                          status             = Status.AWAY;
 
     public User(
         String login,
@@ -19,18 +17,11 @@ public class User
         this.pass = pass;
     }
 
-    public boolean addFriend(
-        User user )
+    public void addStatusListener(
+        UserStatusListener listener )
     {
-        if ( friends.contains( user ) )
-        {
-            return false;
-        }
-        else
-        {
-            friends.add( user );
-        }
-        return true;
+        initListenerCollection();
+        listenerCollection.add( listener );
     }
 
     public String getLogin()
@@ -48,12 +39,6 @@ public class User
         return status;
     }
 
-    public boolean hasFriend(
-        User user )
-    {
-        return friends.contains( user );
-    }
-
     public void setLogin(
         String login )
     {
@@ -69,6 +54,20 @@ public class User
     public void setStatus(
         int status )
     {
+        int oldStatus = this.status;
         this.status = status;
+
+        if ( oldStatus != status )
+        {
+            listenerCollection.fire( this );
+        }
+    }
+
+    private void initListenerCollection()
+    {
+        if ( listenerCollection == null )
+        {
+            listenerCollection = new UserStatusListenerCollection();
+        }
     }
 }

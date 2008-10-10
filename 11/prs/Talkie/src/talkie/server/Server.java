@@ -28,6 +28,8 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import talkie.common.ui.MyFrame;
+import talkie.server.data.User;
+import talkie.server.process.protocol.TalkieProtocol;
 import talkie.server.ui.UserTableModel;
 
 public class Server
@@ -48,14 +50,15 @@ public class Server
     private static final int                    OPEN                 = 1;
     private static final int                    SAVE                 = 2;
     private static final int                    SAVE_AS              = 3;
+    private static final int                    ABOUT                = 4;
 
     // пользователи
     private String                              userFileName         = USERS_PROPERTIES;
-    private Properties                          users                = new Properties();
+    private HashMap<String, User>               users                = null;
 
     // протоколы
     private HashMap<Integer, JCheckBoxMenuItem> protActions          = new HashMap<Integer, JCheckBoxMenuItem>();
-    private HashMap<String, Runnable>           protInstances        = new HashMap<String, Runnable>();
+    private HashMap<String, TalkieProtocol>     protInstances        = new HashMap<String, TalkieProtocol>();
     private HashMap<String, Thread>             protRunning          = new HashMap<String, Thread>();
 
     // виджеты
@@ -99,7 +102,7 @@ public class Server
         initMenuBar();
 
         // инициализируем таблицу редактирования пользователей
-        UserTableModel utm = new UserTableModel( users );
+        UserTableModel utm = new UserTableModel( mapToProps( users ) );
         usersTable = new JTable( utm );
         JScrollPane scrollPane = new JScrollPane( usersTable );
         usersTable.setFillsViewportHeight( true );
@@ -115,6 +118,14 @@ public class Server
         switch ( command )
         {
             case EXIT:
+                try
+                {
+                    saveUsers();
+                }
+                catch ( IOException e2 )
+                {
+                    log.error( "Unable to save users on exit!", e2 );
+                }
                 System.exit( 0 );
                 break;
 
@@ -171,6 +182,13 @@ public class Server
                 }
                 break;
 
+            case ABOUT:
+                JOptionPane
+                    .showMessageDialog(
+                        this,
+                        "Программа TalkieServer (c), версия 0.1 от 10.10.2008.\nВсе права защищены.\n\nАвтор: Свириденко С.В.\nstas.sviridenko@gmail.com",
+                        "О программе TalkieServer...", JOptionPane.INFORMATION_MESSAGE );
+
             default:
                 // сюда попадут в том числе все протоколы
                 JCheckBoxMenuItem item = protActions.get( command );
@@ -202,8 +220,11 @@ public class Server
         try
         {
             FileInputStream inStream = new FileInputStream( fileName );
-            users.load( inStream );
+            Properties props = new Properties();
+            props.load( inStream );
             inStream.close();
+
+            users = propsToMap( props );
         }
         catch ( IOException e )
         {
@@ -227,7 +248,7 @@ public class Server
             FileNotFoundException
     {
         FileOutputStream out = new FileOutputStream( userFileName );
-        users.store( out, "" );
+        mapToProps( users ).store( out, "" );
         out.close();
     }
 
@@ -286,6 +307,8 @@ public class Server
         JMenu mHelp = new JMenu( "Помощь" );
 
         JMenuItem mHelpAbout = new JMenuItem( "О программе..." );
+        mHelpAbout.setActionCommand( "" + ABOUT );
+        mHelpAbout.addActionListener( this );
         mHelp.add( mHelpAbout );
 
         // Меню
@@ -321,17 +344,19 @@ public class Server
                 String clazzName = protNames.getProperty( key );
                 if ( clazzName.length() == 0 )
                 {
-                    clazzName = "talkie.server.process." + key + "Server";
+                    clazzName = "talkie.server.process.protocol." + key;
                 }
                 Class clazz = Class.forName( clazzName );
                 Object object = clazz.newInstance();
-                if ( object instanceof Runnable )
+                if ( object instanceof TalkieProtocol )
                 {
-                    protInstances.put( key, (Runnable) object );
+                    TalkieProtocol server = (TalkieProtocol) object;
+                    server.setServer( this );
+                    protInstances.put( key, server );
                 }
                 else
                 {
-                    log.error( "Protocol is not runnable: " + key );
+                    log.error( "Protocol is not a Talkie protocol: " + key );
                 }
             }
             catch ( ClassNotFoundException e )
@@ -355,6 +380,50 @@ public class Server
     private void loadUsers()
     {
         loadUsers( USERS_PROPERTIES );
+    }
+
+    private Properties mapToProps(
+        HashMap<String, User> map )
+    {
+        Properties props = new Properties();
+
+        for ( String login : map.keySet() )
+        {
+            String pass = map.get( login ).getPass();
+            props.setProperty( login, pass );
+        }
+
+        return props;
+    }
+
+    private HashMap<String, User> propsToMap(
+        Properties props )
+    {
+        HashMap<String, User> result = new HashMap<String, User>();
+
+        for ( String login : props.stringPropertyNames() )
+        {
+            String pass = props.getProperty( login );
+
+            if ( login.length() != 0 )
+            {
+                String validLogin = login;
+                if ( login.length() > 10 )
+                {
+                    validLogin = login.substring( 0, 10 );
+                }
+
+                String validPass = pass;
+                if ( pass.length() > 10 )
+                {
+                    validPass = pass.substring( 0, 10 );
+                }
+
+                result.put( validLogin, new User( validLogin, validPass ) );
+            }
+        }
+
+        return result;
     }
 
     @Override
