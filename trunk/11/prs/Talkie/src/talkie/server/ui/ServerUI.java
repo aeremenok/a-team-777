@@ -15,6 +15,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Logger;
@@ -122,7 +123,8 @@ public class ServerUI
                 }
                 catch ( IOException e1 )
                 {
-                    // todo вывести сообщение в виде MessageBox
+                    JOptionPane.showMessageDialog( this, "Error during save:\n" + e1.getMessage(), "Ошибка",
+                        JOptionPane.ERROR_MESSAGE );
                 }
                 break;
 
@@ -146,7 +148,8 @@ public class ServerUI
                         }
                         catch ( IOException e1 )
                         {
-                            // todo вывести сообщение в виде MessageBox
+                            JOptionPane.showMessageDialog( this, "Error during save:\n" + e1.getMessage(), "Ошибка",
+                                JOptionPane.ERROR_MESSAGE );
                         }
                     }
                 }

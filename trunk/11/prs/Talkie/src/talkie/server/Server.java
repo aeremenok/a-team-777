@@ -61,7 +61,9 @@ public class Server
     {
         try
         {
-            users.load( new FileInputStream( fileName ) );
+            FileInputStream inStream = new FileInputStream( fileName );
+            users.load( inStream );
+            inStream.close();
         }
         catch ( IOException e )
         {
@@ -79,7 +81,9 @@ public class Server
         throws IOException,
             FileNotFoundException
     {
-        users.store( new FileOutputStream( userFileName ), "" );
+        FileOutputStream out = new FileOutputStream( userFileName );
+        users.store( out, "" );
+        out.close();
     }
 
     public void setUserFilePath(
