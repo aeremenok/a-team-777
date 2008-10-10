@@ -10,7 +10,6 @@ import java.util.StringTokenizer;
 import talkie.common.constants.Message;
 import talkie.common.constants.Status;
 import talkie.common.constants.Talkie;
-import talkie.server.Server;
 import talkie.server.data.User;
 
 public class ClientHandler
@@ -21,16 +20,16 @@ public class ClientHandler
     private InetAddress    clientAddress   = null;
     private int            clientPort      = -1;
     private byte[]         firstPacketData = null;
-    private Server         server          = null;
+    // private Server server = null;
     private boolean        work            = true;
     private User           user            = null;
 
     public ClientHandler(
-        Server server,
+        // Server server,
         DatagramPacket inPacket )
         throws SocketException
     {
-        this.server = server;
+        // this.server = server;
         this.socket = new DatagramSocket();
         this.clientAddress = inPacket.getAddress();
         this.clientPort = inPacket.getPort();
@@ -76,7 +75,7 @@ public class ClientHandler
 
         System.out.println( "login attempt detected, login='" + login + "', pass='" + pass + "'" );
 
-        synchronized ( server )
+        // synchronized ( server )
         {
             // user = server.getUsers().get( login );
         }

@@ -2,14 +2,13 @@ package talkie.server.process;
 
 import java.net.DatagramSocket;
 
-import talkie.server.Server;
-
 public class UDPServer
     implements
         Runnable
 {
-    private final int    port   = 0;
-    private final Server server = null;
+    private final int port = 0;
+
+    // private final Server server = null;
 
     public UDPServer()
     {
