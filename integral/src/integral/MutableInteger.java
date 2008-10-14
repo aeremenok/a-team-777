@@ -1,5 +1,10 @@
 package integral;
 
+/**
+ * Integer, значение которого можно изменять
+ * 
+ * @author ssv
+ */
 public class MutableInteger
 {
     private int value;

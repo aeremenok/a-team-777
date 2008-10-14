@@ -1,5 +1,10 @@
 package integral;
 
+/**
+ * Double, значение которого можно изменять
+ * 
+ * @author ssv
+ */
 public class MutableDouble
 {
     private double value;

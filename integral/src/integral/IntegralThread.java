@@ -1,5 +1,10 @@
 package integral;
 
+/**
+ * поток для подсчёта значения интеграла
+ * 
+ * @author ssv
+ */
 public class IntegralThread
     implements
         Runnable
