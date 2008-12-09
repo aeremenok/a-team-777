@@ -1,5 +1,7 @@
 package talkie.client.connect;
 
+import talkie.common.constants.Message;
+
 /**
  * Обобщённое соединение между сервером и клиентом Talkie
  * 
@@ -8,19 +10,6 @@ package talkie.client.connect;
 public abstract class Connection
 {
     /**
-     * @param login логин (имя пользователя)
-     * @param pass пароль пользователя
-     * @return true, если пользователь существует, false - иначе
-     */
-    public boolean login(
-        String login,
-        String pass )
-    {
-        String s = "l " + login + " " + pass + " ";
-        return establish( s.getBytes() );
-    }
-
-    /**
      * обработать сообщение
      * 
      * @param text
@@ -28,16 +17,15 @@ public abstract class Connection
     public void sendText(
         String text )
     {
-        send( text );
+        if ( !Message.LIST.equals( text ) )
+        {
+            send( Message.MESSAGE + " " + text );
+        }
+        else
+        {
+            send( text );
+        }
     }
-
-    /**
-     * установка соединения
-     * 
-     * @param bytes
-     */
-    abstract protected boolean establish(
-        byte[] bytes );
 
     /**
      * @return ответ с сервера

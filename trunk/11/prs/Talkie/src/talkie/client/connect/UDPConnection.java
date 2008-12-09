@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.StringTokenizer;
 
 import talkie.common.constants.Talkie;
 
@@ -63,54 +62,16 @@ public class UDPConnection
         }
     }
 
-    @Override
-    protected boolean establish(
-        byte[] bytes )
+    public void setAddress(
+        InetAddress address )
     {
-        boolean result = false;
+        this.serverAddress = address;
+    }
 
-        // послылаем сообщение диспетчеру
-        DatagramPacket outPacket = new DatagramPacket( bytes, bytes.length, initServerAddress, initServerPort );
-        try
-        {
-            socket.send( outPacket );
-        }
-        catch ( IOException e )
-        {
-            e.printStackTrace();
-        }
-
-        // принимаем ответ
-        byte[] data = new byte[Talkie.MSG_SIZE];
-        DatagramPacket inPacket = new DatagramPacket( data, data.length );
-
-        try
-        {
-            int soTimeout = socket.getSoTimeout();
-            socket.setSoTimeout( 5000 );
-            socket.receive( inPacket );
-            socket.setSoTimeout( soTimeout );
-
-            // ответ принят, сохраняем параметры сокета, с которым будем общаться дальше
-            serverAddress = inPacket.getAddress();
-            serverPort = inPacket.getPort();
-            data = inPacket.getData();
-
-            String sData = new String( inPacket.getData(), 0, inPacket.getLength() );
-            StringTokenizer st = new StringTokenizer( sData, " " );
-            if ( st.countTokens() == 0 )
-            {
-                return false;
-            }
-
-            return Boolean.parseBoolean( st.nextToken() );
-        }
-        catch ( IOException e )
-        {
-            e.printStackTrace();
-        }
-
-        return result;
+    public void setPort(
+        int port )
+    {
+        this.serverPort = port;
     }
 
     @Override

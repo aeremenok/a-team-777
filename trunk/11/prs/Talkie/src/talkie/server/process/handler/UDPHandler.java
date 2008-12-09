@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import talkie.common.constants.Message;
@@ -72,7 +73,7 @@ public class UDPHandler
         }
     }
 
-    private void doLogin(
+    private boolean doLogin(
         StringTokenizer tokenizer )
     {
         boolean success = false;
@@ -92,6 +93,7 @@ public class UDPHandler
             {
                 success = true;
                 user.setStatus( Status.ONLINE );
+                user.setHandler( this );
             }
         }
 
@@ -118,6 +120,8 @@ public class UDPHandler
             socket.close();
             Thread.currentThread().interrupt();
         }
+
+        return success;
     }
 
     private void processPacket(
@@ -132,19 +136,81 @@ public class UDPHandler
 
             if ( Message.LOGIN.equalsIgnoreCase( operation ) )
             {
-                doLogin( tokenizer );
+                boolean yes = doLogin( tokenizer );
+                if ( yes )
+                {
+                    HashMap<String, User> users = server.getUsers();
+                    for ( String key : users.keySet() )
+                    {
+                        User u = users.get( key );
+                        if ( u.getStatus() == Status.ONLINE )
+                        {
+                            u.getHandler().sendMessage( "В чат приходит пользователь " + user.getLogin() );
+                        }
+                    }
+                }
             }
             else if ( Message.LIST.equalsIgnoreCase( operation ) )
             {
-                // todo
+                String toSend = "Сейчас в чате: " + user.getLogin();
+                HashMap<String, User> users = server.getUsers();
+                for ( String key : users.keySet() )
+                {
+                    User u = users.get( key );
+                    if ( u.getStatus() == Status.ONLINE && u != user )
+                    {
+                        toSend += ", " + u.getLogin();
+                    }
+                }
+                sendMessage( toSend );
             }
             else if ( Message.MESSAGE.equalsIgnoreCase( operation ) )
             {
-                // todo
+                HashMap<String, User> users = server.getUsers();
+                for ( String key : users.keySet() )
+                {
+                    User u = users.get( key );
+                    if ( u.getStatus() == Status.ONLINE )
+                    {
+                        String toSend = u.getLogin() + " говорит:\n" + inMsg.substring( 2 );
+                        u.getHandler().sendMessage( toSend );
+                    }
+                }
             }
-            else if ( Message.MESSAGE.equalsIgnoreCase( operation ) )
+            else if ( Message.LOGOUT.equalsIgnoreCase( operation ) )
             {
-                // todo
+                synchronized ( user )
+                {
+                    user.setHandler( null );
+                    user.setStatus( Status.AWAY );
+                    HashMap<String, User> users = server.getUsers();
+                    for ( String key : users.keySet() )
+                    {
+                        User u = users.get( key );
+                        if ( u.getStatus() == Status.ONLINE )
+                        {
+                            u.getHandler().sendMessage( "Пользователь " + user.getLogin() + " покинул чат!" );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void sendMessage(
+        String toSend )
+    {
+        byte[] buf = toSend.getBytes();
+        DatagramPacket outP = new DatagramPacket( buf, buf.length, clientAddress, clientPort );
+        synchronized ( socket )
+        {
+            try
+            {
+                socket.send( outP );
+            }
+            catch ( IOException e )
+            {
+                e.printStackTrace();
             }
         }
     }

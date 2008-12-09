@@ -1,6 +1,7 @@
 package talkie.server.data;
 
 import talkie.common.constants.Status;
+import talkie.server.process.handler.UDPHandler;
 
 public class User
 {
@@ -8,6 +9,7 @@ public class User
     private String                       login              = "";
     private String                       pass               = "";
     private int                          status             = Status.AWAY;
+    private UDPHandler                   handler            = null;
 
     public User(
         String login,
@@ -24,6 +26,11 @@ public class User
         listenerCollection.add( listener );
     }
 
+    public UDPHandler getHandler()
+    {
+        return handler;
+    }
+
     public String getLogin()
     {
         return login;
@@ -37,6 +44,12 @@ public class User
     public int getStatus()
     {
         return status;
+    }
+
+    public void setHandler(
+        UDPHandler handler )
+    {
+        this.handler = handler;
     }
 
     public void setLogin(
