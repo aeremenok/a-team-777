@@ -173,8 +173,8 @@ public class ClientListener
     private void processMsg(
         String msg )
     {
-        String content = client.getTextArea().getText();
-        client.getTextArea().setText( content + msg + "\n----------\n" );
+        client.getTextArea().append( msg + "\n----------\n" );
+        client.getTextArea().setCaretPosition( client.getTextArea().getText().length() );
     }
 
     @Override
