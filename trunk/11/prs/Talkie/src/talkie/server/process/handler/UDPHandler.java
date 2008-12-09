@@ -21,15 +21,13 @@ public class UDPHandler
     /**
      * время в миллисекундах, по истечении которого UDP-клиент будет считаться "отвалившимся" и сервер на него забьёт
      */
-    public static final int UDP_TIMEOUT     = 300000;
-
-    private DatagramSocket  socket          = null;
-    private InetAddress     clientAddress   = null;
-    private int             clientPort      = -1;
-    private byte[]          firstPacketData = null;
-    private Server          server          = null;
-    private boolean         work            = true;
-    private User            user            = null;
+    public static final int UDP_TIMEOUT   = 300000;
+    private DatagramSocket  socket        = null;
+    private InetAddress     clientAddress = null;
+    private int             clientPort    = -1;
+    private Server          server        = null;
+    private boolean         work          = true;
+    private User            user          = null;
 
     public UDPHandler(
         Server server,
@@ -40,16 +38,13 @@ public class UDPHandler
         this.socket = new DatagramSocket();
         this.clientAddress = inPacket.getAddress();
         this.clientPort = inPacket.getPort();
-        this.firstPacketData = inPacket.getData();
-
         this.socket.setSoTimeout( UDP_TIMEOUT );
-
         processPacket( inPacket );
     }
 
     public void run()
     {
-        while ( !Thread.currentThread().isInterrupted() )
+        while ( !Thread.currentThread().isInterrupted() && work )
         {
             byte[] data = new byte[Talkie.MSG_SIZE];
             DatagramPacket inPacket = new DatagramPacket( data, data.length );
@@ -76,7 +71,8 @@ public class UDPHandler
     private boolean doLogin(
         StringTokenizer tokenizer )
     {
-        boolean success = false;
+        work = false;
+
         String login = tokenizer.hasMoreTokens() ? tokenizer.nextToken() : "";
         String pass = tokenizer.hasMoreTokens() ? tokenizer.nextToken() : "";
 
@@ -91,13 +87,13 @@ public class UDPHandler
         {
             if ( user != null && pass.equals( user.getPass() ) )
             {
-                success = true;
+                work = true;
                 user.setStatus( Status.ONLINE );
                 user.setHandler( this );
             }
         }
 
-        String outMsg = String.valueOf( success );
+        String outMsg = String.valueOf( work );
         System.out.println( "\tvalid: " + outMsg.toUpperCase() );
 
         byte[] outBuf = outMsg.getBytes();
@@ -115,13 +111,7 @@ public class UDPHandler
             }
         }
 
-        if ( !success )
-        {
-            socket.close();
-            Thread.currentThread().interrupt();
-        }
-
-        return success;
+        return work;
     }
 
     private void processPacket(
@@ -172,7 +162,7 @@ public class UDPHandler
                     User u = users.get( key );
                     if ( u.getStatus() == Status.ONLINE )
                     {
-                        String toSend = u.getLogin() + " говорит:\n" + inMsg.substring( 2 );
+                        String toSend = user.getLogin() + " говорит:\n" + inMsg.substring( 3 );
                         u.getHandler().sendMessage( toSend );
                     }
                 }
@@ -183,14 +173,14 @@ public class UDPHandler
                 {
                     user.setHandler( null );
                     user.setStatus( Status.AWAY );
-                    HashMap<String, User> users = server.getUsers();
-                    for ( String key : users.keySet() )
+                }
+                HashMap<String, User> users = server.getUsers();
+                for ( String key : users.keySet() )
+                {
+                    User u = users.get( key );
+                    if ( u.getStatus() == Status.ONLINE )
                     {
-                        User u = users.get( key );
-                        if ( u.getStatus() == Status.ONLINE )
-                        {
-                            u.getHandler().sendMessage( "Пользователь " + user.getLogin() + " покинул чат!" );
-                        }
+                        u.getHandler().sendMessage( "Пользователь " + user.getLogin() + " покинул чат!" );
                     }
                 }
             }
@@ -202,16 +192,13 @@ public class UDPHandler
     {
         byte[] buf = toSend.getBytes();
         DatagramPacket outP = new DatagramPacket( buf, buf.length, clientAddress, clientPort );
-        synchronized ( socket )
+        try
         {
-            try
-            {
-                socket.send( outP );
-            }
-            catch ( IOException e )
-            {
-                e.printStackTrace();
-            }
+            socket.send( outP );
+        }
+        catch ( IOException e )
+        {
+            e.printStackTrace();
         }
     }
 }

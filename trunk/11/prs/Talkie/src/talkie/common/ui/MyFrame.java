@@ -3,13 +3,14 @@ package talkie.common.ui;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 public class MyFrame
     extends JFrame
 {
     public MyFrame()
     {
-        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
     }
 
     /**
