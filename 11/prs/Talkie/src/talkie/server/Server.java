@@ -44,22 +44,23 @@ public class Server
     private static final String                 USERS_PROPERTIES     = "users.properties";
 
     private static final String                 LOG4J_PROPERTIES     = "log4j.properties";
+
     private static final String                 PROTOCOLS_PROPERTIES = "protocols.properties";
     // действия
     private static final int                    EXIT                 = 0;
-
     private static final int                    OPEN                 = 1;
+
     private static final int                    SAVE                 = 2;
     private static final int                    SAVE_AS              = 3;
     private static final int                    ABOUT                = 4;
     // пользователи
     private String                              userFileName         = USERS_PROPERTIES;
-
     private HashMap<String, User>               users                = null;
+
     // протоколы
     private HashMap<Integer, JCheckBoxMenuItem> protActions          = new HashMap<Integer, JCheckBoxMenuItem>();
-
     private HashMap<String, TalkieProtocol>     protInstances        = new HashMap<String, TalkieProtocol>();
+
     private HashMap<String, Thread>             protRunning          = new HashMap<String, Thread>();
     // виджеты
     private JTable                              usersTable           = null;
@@ -212,6 +213,26 @@ public class Server
                 }
                 break;
         }
+    }
+
+    @Override
+    public void dispose()
+    {
+        for ( Thread t : protRunning.values() )
+        {
+            if ( t != null && !t.isInterrupted() )
+            {
+                t.interrupt();
+            }
+        }
+        try
+        {
+            saveUsers();
+        }
+        catch ( IOException e )
+        {
+        }
+        super.dispose();
     }
 
     public HashMap<String, User> getUsers()
@@ -431,13 +452,4 @@ public class Server
         return result;
     }
 
-    @Override
-    protected void finalize()
-        throws Throwable
-    {
-        // перед смертью сервер сохраняет своих пользователей
-        saveUsers();
-
-        super.finalize();
-    }
 }
