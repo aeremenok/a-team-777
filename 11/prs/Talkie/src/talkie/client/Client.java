@@ -19,9 +19,7 @@ public class Client
     extends MyFrame
 {
     private Connection     connection     = null;
-
     private TextArea       textArea       = null;
-    private TextArea       contactList    = null;
     private TextArea       input          = null;
     private Button         btnSend        = null;
     private ClientListener clientListener = new ClientListener( this );
@@ -79,7 +77,7 @@ public class Client
             public void actionPerformed(
                 ActionEvent e )
             {
-                connection.sendText( textArea.getText() );
+                connection.sendText( input.getText() );
             }
         } );
         add( btnSend, c );
@@ -98,6 +96,11 @@ public class Client
     public LoginDialog getLoginDialog()
     {
         return loginDialog;
+    }
+
+    public TextArea getTextArea()
+    {
+        return textArea;
     }
 
     public void setClientListener(

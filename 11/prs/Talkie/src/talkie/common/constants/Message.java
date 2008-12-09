@@ -14,7 +14,7 @@ public abstract class Message
     /**
      * получение списка подключенных пользователей
      */
-    public static final String LIST    = "i";
+    public static final String LIST    = "/w";
     /**
      * сообщение
      */
