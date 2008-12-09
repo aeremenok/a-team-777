@@ -57,14 +57,14 @@ public class Client
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
 
-        textArea = new TextArea( "", 20, 40 );
+        textArea = new TextArea( "", 20, 40, TextArea.SCROLLBARS_VERTICAL_ONLY );
         c.gridx = 0;
         c.gridy = 0;
         c.gridheight = 1;
         c.gridwidth = 2;
         add( textArea, c );
 
-        input = new TextArea( "", 2, 50 );
+        input = new TextArea( "", 2, 50, TextArea.SCROLLBARS_NONE );
         c.gridwidth = 1;
         c.gridy = 1;
         add( input, c );
