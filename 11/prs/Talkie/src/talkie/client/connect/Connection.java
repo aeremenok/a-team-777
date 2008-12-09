@@ -17,13 +17,17 @@ public abstract class Connection
     public void sendText(
         String text )
     {
-        if ( !Message.LIST.equals( text ) )
+        if ( Message.LOGOUT.equals( text ) )
         {
-            send( Message.MESSAGE + " " + text );
+            send( text );
+        }
+        else if ( Message.LIST.equals( text ) )
+        {
+            send( text );
         }
         else
         {
-            send( text );
+            send( Message.MESSAGE + " " + text );
         }
     }
 

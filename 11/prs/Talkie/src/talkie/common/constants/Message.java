@@ -10,7 +10,7 @@ public abstract class Message
     /**
      * авторизация
      */
-    public static final String LOGIN   = "l";
+    public static final String LOGIN   = "/l";
     /**
      * получение списка подключенных пользователей
      */
@@ -18,9 +18,9 @@ public abstract class Message
     /**
      * сообщение
      */
-    public static final String MESSAGE = "m";
+    public static final String MESSAGE = "/m";
     /**
      * выход
      */
-    public static final String LOGOUT  = "o";
+    public static final String LOGOUT  = "/o";
 }

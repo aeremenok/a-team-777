@@ -50,7 +50,18 @@ public class LoginDialog
     private void initInterface(
         final Client owner )
     {
-        setLayout( new GridLayout( 4, 1 ) );
+        setLayout( new GridLayout( 7, 1 ) );
+
+        final Label lblServer = new Label( "Имя сервера" );
+        add( lblServer );
+
+        final TextField tfServer = new TextField( 10 );
+        tfServer.setText( "localhost" );
+        add( tfServer );
+        toLock.add( tfServer );
+
+        final Label lblUser = new Label( "Данные пользователя" );
+        add( lblUser );
 
         final TextField tbLogin = new TextField( 10 );
         add( tbLogin );
@@ -72,6 +83,7 @@ public class LoginDialog
             public void actionPerformed(
                 ActionEvent e )
             {
+                owner.getClientListener().setServerName( tfServer.getText() );
                 owner.getClientListener().setLoginAndPass( tbLogin.getText(), tbPass.getText() );
                 if ( owner.getClientListener().attemptToLogin() )
                 {

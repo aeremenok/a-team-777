@@ -21,6 +21,7 @@ public class ClientListener
     private DatagramSocket socket;
     private String         login;
     private String         pass;
+    private String         serverName;
 
     public ClientListener(
         Client client )
@@ -68,16 +69,15 @@ public class ClientListener
         String s = Message.LOGIN + " " + login + " " + pass;
         byte[] bytes = s.getBytes();
 
-        // послылаем сообщение диспетчеру
-
+        // посылаем сообщение диспетчеру
         InetAddress dispatch = null;
         try
         {
-            dispatch = InetAddress.getByName( "localhost" );
+            dispatch = InetAddress.getByName( serverName );
         }
         catch ( UnknownHostException e1 )
         {
-            System.out.println( "no server found with name '" + "localhost" + "'" );
+            System.out.println( "no server found with name '" + serverName + "'" );
             return false;
         }
         DatagramPacket outPacket = new DatagramPacket( bytes, bytes.length, dispatch, 7777 );
@@ -123,6 +123,11 @@ public class ClientListener
         return result;
     }
 
+    public String getLogin()
+    {
+        return login;
+    }
+
     public DatagramSocket getSocket()
     {
         return socket;
@@ -139,7 +144,6 @@ public class ClientListener
                 socket.receive( inPacket );
 
                 String msg = new String( inPacket.getData(), 0, inPacket.getLength() );
-                System.out.println( "client received '" + msg + "' from server" );
                 synchronized ( client )
                 {
                     processMsg( msg );
@@ -158,6 +162,12 @@ public class ClientListener
     {
         this.login = login;
         this.pass = pass;
+    }
+
+    public void setServerName(
+        String serverName )
+    {
+        this.serverName = serverName;
     }
 
     private void processMsg(

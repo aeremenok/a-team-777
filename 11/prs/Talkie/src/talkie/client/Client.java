@@ -13,6 +13,7 @@ import talkie.client.connect.Connection;
 import talkie.client.connect.UDPConnection;
 import talkie.client.process.ClientListener;
 import talkie.client.ui.LoginDialog;
+import talkie.common.constants.Message;
 import talkie.common.ui.MyFrame;
 
 public class Client
@@ -77,10 +78,22 @@ public class Client
             public void actionPerformed(
                 ActionEvent e )
             {
-                connection.sendText( input.getText() );
+                String sent = input.getText().trim();
+                input.setText( "" );
+                if ( !"".equals( sent ) && !Message.LOGOUT.equals( sent ) )
+                {
+                    connection.sendText( sent );
+                }
             }
         } );
         add( btnSend, c );
+    }
+
+    @Override
+    public void dispose()
+    {
+        connection.sendText( Message.LOGOUT );
+        super.dispose();
     }
 
     public ClientListener getClientListener()
