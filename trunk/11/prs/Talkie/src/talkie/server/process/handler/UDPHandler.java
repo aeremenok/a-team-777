@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
@@ -129,13 +131,15 @@ public class UDPHandler
                 boolean yes = doLogin( tokenizer );
                 if ( yes )
                 {
+                    String date = DateFormat.getDateTimeInstance().format( new Date() );
                     HashMap<String, User> users = server.getUsers();
                     for ( String key : users.keySet() )
                     {
                         User u = users.get( key );
                         if ( u.getStatus() == Status.ONLINE )
                         {
-                            u.getHandler().sendMessage( "В чат приходит пользователь " + user.getLogin() );
+                            u.getHandler()
+                                .sendMessage( "[" + date + "] В чат приходит пользователь " + user.getLogin() );
                         }
                     }
                 }
@@ -157,12 +161,13 @@ public class UDPHandler
             else if ( Message.MESSAGE.equalsIgnoreCase( operation ) )
             {
                 HashMap<String, User> users = server.getUsers();
+                String date = DateFormat.getDateTimeInstance().format( new Date() );
                 for ( String key : users.keySet() )
                 {
                     User u = users.get( key );
                     if ( u.getStatus() == Status.ONLINE )
                     {
-                        String toSend = user.getLogin() + " говорит:\n" + inMsg.substring( 3 );
+                        String toSend = "[" + date + "] " + user.getLogin() + " говорит: " + inMsg.substring( 3 );
                         u.getHandler().sendMessage( toSend );
                     }
                 }
@@ -174,13 +179,15 @@ public class UDPHandler
                     user.setHandler( null );
                     user.setStatus( Status.AWAY );
                 }
+                String date = DateFormat.getDateTimeInstance().format( new Date() );
                 HashMap<String, User> users = server.getUsers();
                 for ( String key : users.keySet() )
                 {
+
                     User u = users.get( key );
                     if ( u.getStatus() == Status.ONLINE )
                     {
-                        u.getHandler().sendMessage( "Пользователь " + user.getLogin() + " покинул чат!" );
+                        u.getHandler().sendMessage( "[" + date + "] Пользователь " + user.getLogin() + " покинул чат!" );
                     }
                 }
             }
