@@ -59,6 +59,7 @@ public class User
 
         if ( oldStatus != status )
         {
+            initListenerCollection();
             listenerCollection.fire( this );
         }
     }

@@ -42,25 +42,25 @@ public class Server
 
     // файлы
     private static final String                 USERS_PROPERTIES     = "users.properties";
+
     private static final String                 LOG4J_PROPERTIES     = "log4j.properties";
     private static final String                 PROTOCOLS_PROPERTIES = "protocols.properties";
-
     // действия
     private static final int                    EXIT                 = 0;
+
     private static final int                    OPEN                 = 1;
     private static final int                    SAVE                 = 2;
     private static final int                    SAVE_AS              = 3;
     private static final int                    ABOUT                = 4;
-
     // пользователи
     private String                              userFileName         = USERS_PROPERTIES;
-    private HashMap<String, User>               users                = null;
 
+    private HashMap<String, User>               users                = null;
     // протоколы
     private HashMap<Integer, JCheckBoxMenuItem> protActions          = new HashMap<Integer, JCheckBoxMenuItem>();
+
     private HashMap<String, TalkieProtocol>     protInstances        = new HashMap<String, TalkieProtocol>();
     private HashMap<String, Thread>             protRunning          = new HashMap<String, Thread>();
-
     // виджеты
     private JTable                              usersTable           = null;
 
@@ -101,7 +101,7 @@ public class Server
         // инициализируем меню
         initMenuBar();
 
-        // инициализируем таблицу редактирования пользователей
+        // инициализируем таблицу просмотра пользователей
         UserTableModel utm = new UserTableModel( mapToProps( users ) );
         usersTable = new JTable( utm );
         JScrollPane scrollPane = new JScrollPane( usersTable );
@@ -212,6 +212,11 @@ public class Server
                 }
                 break;
         }
+    }
+
+    public HashMap<String, User> getUsers()
+    {
+        return users;
     }
 
     public void loadUsers(

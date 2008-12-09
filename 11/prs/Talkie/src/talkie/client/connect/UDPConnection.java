@@ -42,7 +42,6 @@ public class UDPConnection
         int port )
         throws IOException
     {
-        DatagramSocket socket;
         this.socket = new DatagramSocket();
         this.initServerAddress = InetAddress.getByName( host );
         this.initServerPort = port;
@@ -50,8 +49,9 @@ public class UDPConnection
 
     @Override
     public void send(
-        byte[] bytes )
+        String message )
     {
+        byte[] bytes = message.getBytes();
         DatagramPacket packet = new DatagramPacket( bytes, bytes.length, serverAddress, serverPort );
         try
         {
@@ -96,7 +96,7 @@ public class UDPConnection
             serverPort = inPacket.getPort();
             data = inPacket.getData();
 
-            String sData = new String( data );
+            String sData = new String( inPacket.getData(), 0, inPacket.getLength() );
             StringTokenizer st = new StringTokenizer( sData, " " );
             if ( st.countTokens() == 0 )
             {
@@ -120,11 +120,8 @@ public class UDPConnection
         DatagramPacket packet = new DatagramPacket( data, data.length );
         try
         {
-            int soTimeout = socket.getSoTimeout();
             socket.receive( packet );
-
-            data = packet.getData();
-            return new String( data );
+            return new String( packet.getData(), 0, packet.getLength() );
         }
         catch ( IOException e )
         {
@@ -145,9 +142,7 @@ public class UDPConnection
             socket.setSoTimeout( millis );
             socket.receive( packet );
             socket.setSoTimeout( soTimeout );
-
-            data = packet.getData();
-            return new String( data );
+            return new String( packet.getData(), 0, packet.getLength() );
         }
         catch ( IOException e )
         {

@@ -1,97 +1,37 @@
 package talkie.client.ui;
 
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import talkie.client.Client;
-import talkie.client.connect.Connection;
-import talkie.client.process.ClientListener;
 import talkie.common.ui.MyDialog;
-import talkie.common.ui.SelectableTextField;
 
 public class LoginDialog
     extends MyDialog
 {
-    private JLabel               lblFailed;
+    private Label                lblFailed;
     private ArrayList<Component> toLock = new ArrayList<Component>();
-    private ClientListener       clientListener;
 
     public LoginDialog(
         final Client owner )
     {
         super( owner );
-
-        clientListener = new ClientListener( owner );
-
-        initInterface( owner, clientListener );
+        initInterface( owner );
     }
 
-    private void initInterface(
-        final Client owner,
-        final ClientListener clientListener )
+    public Label getFailedLabel()
     {
-        setLayout( new GridLayout( 4, 1 ) );
-
-        final JTextField tbLogin = new SelectableTextField( 10 );
-        add( tbLogin );
-        toLock.add( tbLogin );
-
-        final JTextField tbPass = new SelectableTextField( 10 );
-        add( tbPass );
-        toLock.add( tbPass );
-
-        lblFailed = new JLabel( "Аутентификация не удалась, проверьте логин и пароль", SwingConstants.CENTER );
-        lblFailed.setForeground( Color.RED );
-        lblFailed.setVisible( false );
-        add( lblFailed );
-
-        JButton btnLogin = new JButton( "Вход" );
-        btnLogin.addActionListener( new ActionListener()
-        {
-            public void actionPerformed(
-                ActionEvent e )
-            {
-                Connection connection = owner.getConnection();
-
-                String login = tbLogin.getText().replaceAll( " ", "_" );
-                String pass = tbPass.getText();
-
-                lock();
-
-                boolean success = connection.login( login, pass );
-
-                // todo поток-слушатель
-
-                if ( success )
-                {
-                    new Thread( clientListener ).start();
-                    unlock();
-                    setVisible( false );
-                    owner.setTitle( login );
-                    owner.display();
-                }
-                else
-                {
-                    unlock();
-                    LoginDialog.this.lblFailed.setVisible( true );
-                    LoginDialog.this.display();
-                }
-            }
-        } );
-        add( btnLogin );
-        toLock.add( btnLogin );
+        return lblFailed;
     }
 
-    private void lock()
+    public void lock()
     {
         for ( Component comp : toLock )
         {
@@ -99,11 +39,47 @@ public class LoginDialog
         }
     }
 
-    private void unlock()
+    public void unlock()
     {
         for ( Component comp : toLock )
         {
             comp.setEnabled( true );
         }
+    }
+
+    private void initInterface(
+        final Client owner )
+    {
+        setLayout( new GridLayout( 4, 1 ) );
+
+        final TextField tbLogin = new TextField( 10 );
+        add( tbLogin );
+        toLock.add( tbLogin );
+
+        final TextField tbPass = new TextField( 10 );
+        tbPass.setEchoChar( '*' );
+        add( tbPass );
+        toLock.add( tbPass );
+
+        lblFailed = new Label( "Аутентификация не удалась, проверьте логин и пароль" );
+        lblFailed.setForeground( Color.RED );
+        lblFailed.setVisible( false );
+        add( lblFailed );
+
+        Button btnLogin = new Button( "Вход" );
+        btnLogin.addActionListener( new ActionListener()
+        {
+            public void actionPerformed(
+                ActionEvent e )
+            {
+                owner.getClientListener().setLoginAndPass( tbLogin.getText(), tbPass.getText() );
+                if ( owner.getClientListener().attemptToLogin() )
+                {
+                    new Thread( owner.getClientListener() ).start();
+                }
+            }
+        } );
+        add( btnLogin );
+        toLock.add( btnLogin );
     }
 }
