@@ -60,12 +60,12 @@ public class UDPHandler
             catch ( IOException e )
             {
                 // клиент отвалился
-                Thread.currentThread().interrupt();
                 socket.close();
                 synchronized ( user )
                 {
                     user.setStatus( Status.AWAY );
                 }
+                Thread.currentThread().interrupt();
             }
 
             processPacket( inPacket );
@@ -83,7 +83,7 @@ public class UDPHandler
 
         synchronized ( server )
         {
-            // user = server.getUsers().get( login );
+            user = server.getUsers().get( login );
         }
 
         synchronized ( user )
@@ -95,7 +95,7 @@ public class UDPHandler
             }
         }
 
-        String outMsg = "" + success + " ";
+        String outMsg = String.valueOf( success );
         System.out.println( "\tvalid: " + outMsg.toUpperCase() );
 
         byte[] outBuf = outMsg.getBytes();
@@ -112,12 +112,18 @@ public class UDPHandler
                 e.printStackTrace();
             }
         }
+
+        if ( !success )
+        {
+            socket.close();
+            Thread.currentThread().interrupt();
+        }
     }
 
     private void processPacket(
         DatagramPacket packet )
     {
-        String inMsg = new String( packet.getData() );
+        String inMsg = new String( packet.getData(), 0, packet.getLength() );
 
         StringTokenizer tokenizer = new StringTokenizer( inMsg, " " );
         if ( tokenizer.countTokens() > 0 )
@@ -129,6 +135,10 @@ public class UDPHandler
                 doLogin( tokenizer );
             }
             else if ( Message.LIST.equalsIgnoreCase( operation ) )
+            {
+                // todo
+            }
+            else if ( Message.MESSAGE.equalsIgnoreCase( operation ) )
             {
                 // todo
             }

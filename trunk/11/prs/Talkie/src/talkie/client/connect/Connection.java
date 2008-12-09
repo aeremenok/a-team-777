@@ -1,9 +1,5 @@
 package talkie.client.connect;
 
-import java.util.ArrayList;
-
-import talkie.common.constants.Talkie;
-
 /**
  * Обобщённое соединение между сервером и клиентом Talkie
  * 
@@ -29,27 +25,10 @@ public abstract class Connection
      * 
      * @param text
      */
-    public void splitAndSend(
+    public void sendText(
         String text )
     {
-        byte[] buffer = text.getBytes();
-
-        ArrayList<byte[]> msgs = new ArrayList<byte[]>();
-        int fullMsgNumber = buffer.length / Talkie.MSG_SIZE;
-        int lastMsgLen = buffer.length % Talkie.MSG_SIZE;
-        int msgNumber = fullMsgNumber + (lastMsgLen > 0 ? 1 : 0);
-        for ( int i = 0; i < msgNumber; i++ )
-        {
-            int length = i == msgNumber - 1 ? lastMsgLen : Talkie.MSG_SIZE;
-            byte[] buf = new byte[length];
-            System.arraycopy( buffer, i * Talkie.MSG_SIZE, buf, 0, length );
-            msgs.add( buf );
-        }
-
-        for ( byte[] msg : msgs )
-        {
-            send( msg );
-        }
+        send( text );
     }
 
     /**
@@ -75,8 +54,8 @@ public abstract class Connection
     /**
      * отправить массив байт (зависит от реализации)
      * 
-     * @param bytes
+     * @param message
      */
     abstract protected void send(
-        byte[] bytes );
+        String message );
 }
