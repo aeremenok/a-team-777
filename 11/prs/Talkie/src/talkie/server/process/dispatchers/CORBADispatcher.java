@@ -1,10 +1,10 @@
-package talkie.server.process.protocol;
+package talkie.server.process.dispatchers;
 
 import talkie.server.Server;
 
-public class CORBA
+public class CORBADispatcher
     implements
-        TalkieProtocol
+        DispatchProtocol
 {
     private Server server;
 

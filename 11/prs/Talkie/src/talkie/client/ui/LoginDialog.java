@@ -1,10 +1,13 @@
 package talkie.client.ui;
 
 import java.awt.Button;
+import java.awt.Checkbox;
+import java.awt.CheckboxGroup;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.Panel;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +22,7 @@ public class LoginDialog
     private Label                lblFailed;
     private ArrayList<Component> toLock = new ArrayList<Component>();
     private Client               owner;
+    private TextField            tfServer;
 
     public LoginDialog(
         final Client owner )
@@ -59,16 +63,7 @@ public class LoginDialog
     private void initInterface(
         final Client owner )
     {
-        setLayout( new GridLayout( 7, 1 ) );
-
-        final Label lblServer = new Label( "Имя сервера" );
-        add( lblServer );
-
-        final TextField tfServer = new TextField( 10 );
-        tfServer.setText( "localhost" );
-        tfServer.setFocusTraversalKeysEnabled( true );
-        add( tfServer );
-        toLock.add( tfServer );
+        setLayout( new GridLayout( 8, 1 ) );
 
         final Label lblUser = new Label( "Данные пользователя" );
         add( lblUser );
@@ -95,15 +90,39 @@ public class LoginDialog
             public void actionPerformed(
                 ActionEvent e )
             {
-                owner.getClientListener().setServerName( tfServer.getText() );
-                owner.getClientListener().setLoginAndPass( tbLogin.getText(), tbPass.getText() );
-                if ( owner.getClientListener().attemptToLogin() )
+                owner.getListener().setServerName( tfServer.getText() );
+                owner.getListener().setLoginAndPass( tbLogin.getText(), tbPass.getText() );
+                if ( owner.getListener().attemptToLogin() )
                 {
-                    new Thread( owner.getClientListener() ).start();
+                    new Thread( owner.getListener() ).start();
                 }
             }
         } );
         add( btnLogin );
         toLock.add( btnLogin );
+
+        final Label lblServer = new Label( "Имя сервера" );
+        add( lblServer );
+
+        tfServer = new TextField( 10 );
+        tfServer.setText( "localhost" );
+        tfServer.setFocusTraversalKeysEnabled( true );
+        add( tfServer );
+        toLock.add( tfServer );
+
+        Panel p = new Panel();
+        add( p );
+        CheckboxGroup cbg = new CheckboxGroup();
+        Checkbox udp = new Checkbox( "UDP", cbg, true );
+        Checkbox tcp = new Checkbox( "TCP", cbg, false );
+        Checkbox rmi = new Checkbox( "RMI", cbg, false );
+        Checkbox corba = new Checkbox( "CORBA", cbg, false );
+        p.add( udp );
+        p.add( tcp );
+        p.add( rmi );
+        p.add( corba );
+
+        rmi.setEnabled( false );
+        corba.setEnabled( false );
     }
 }

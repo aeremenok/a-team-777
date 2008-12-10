@@ -1,4 +1,4 @@
-package talkie.server.process.protocol;
+package talkie.server.process.dispatchers;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -8,17 +8,17 @@ import org.apache.log4j.Logger;
 
 import talkie.common.constants.Talkie;
 import talkie.server.Server;
-import talkie.server.process.handler.UDPHandler;
+import talkie.server.process.listeners.UDPServerListener;
 
-public class UDP
+public class UDPDispatcher
     implements
-        TalkieProtocol
+        DispatchProtocol
 {
-    private Logger log = Logger.getLogger( UDP.class );
+    private Logger log = Logger.getLogger( UDPDispatcher.class );
 
     private Server server;
 
-    public UDP()
+    public UDPDispatcher()
     {
     }
 
@@ -36,7 +36,7 @@ public class UDP
 
                 try
                 {
-                    UDPHandler target = new UDPHandler( server, inPacket );
+                    UDPServerListener target = new UDPServerListener( server, inPacket );
                     new Thread( target ).start();
                 }
                 catch ( SocketException e )

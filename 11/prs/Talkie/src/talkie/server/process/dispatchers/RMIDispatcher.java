@@ -1,10 +1,10 @@
-package talkie.server.process.protocol;
+package talkie.server.process.dispatchers;
 
 import talkie.server.Server;
 
-public class RMI
+public class RMIDispatcher
     implements
-        TalkieProtocol
+        DispatchProtocol
 {
     private Server server;
 

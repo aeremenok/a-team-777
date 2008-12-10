@@ -1,17 +1,17 @@
-package talkie.server.process.protocol;
+package talkie.server.process.dispatchers;
 
 import org.apache.log4j.Logger;
 
 import talkie.server.Server;
 
-public class TCP
+public class TCPDispatcher
     implements
-        TalkieProtocol
+        DispatchProtocol
 {
-    private Logger log = Logger.getLogger( TCP.class );
+    private Logger log = Logger.getLogger( TCPDispatcher.class );
     private Server server;
 
-    public TCP()
+    public TCPDispatcher()
     {
     }
 
