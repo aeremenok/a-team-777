@@ -57,6 +57,7 @@ public class LoginDialog
 
         final TextField tfServer = new TextField( 10 );
         tfServer.setText( "localhost" );
+        tfServer.setFocusTraversalKeysEnabled( true );
         add( tfServer );
         toLock.add( tfServer );
 
@@ -65,10 +66,12 @@ public class LoginDialog
 
         final TextField tbLogin = new TextField( 10 );
         add( tbLogin );
+        tbLogin.setFocusTraversalKeysEnabled( true );
         toLock.add( tbLogin );
 
         final TextField tbPass = new TextField( 10 );
         tbPass.setEchoChar( '*' );
+        tbPass.setFocusTraversalKeysEnabled( true );
         add( tbPass );
         toLock.add( tbPass );
 

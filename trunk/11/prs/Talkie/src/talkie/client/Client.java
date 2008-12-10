@@ -58,6 +58,7 @@ public class Client
         c.fill = GridBagConstraints.BOTH;
 
         textArea = new TextArea( "", 20, 40, TextArea.SCROLLBARS_VERTICAL_ONLY );
+        textArea.setFocusable( false );
         c.gridx = 0;
         c.gridy = 0;
         c.gridheight = 1;
@@ -65,11 +66,13 @@ public class Client
         add( textArea, c );
 
         input = new TextArea( "", 2, 50, TextArea.SCROLLBARS_NONE );
+        input.setFocusTraversalKeysEnabled( true );
         c.gridwidth = 1;
         c.gridy = 1;
         add( input, c );
 
         btnSend = new Button( "Send" );
+        btnSend.setFocusTraversalKeysEnabled( true );
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.weightx = 0.5;

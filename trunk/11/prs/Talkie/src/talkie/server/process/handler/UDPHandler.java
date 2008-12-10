@@ -87,7 +87,7 @@ public class UDPHandler
 
         synchronized ( user )
         {
-            if ( user != null && pass.equals( user.getPass() ) )
+            if ( user != null && pass.equals( user.getPass() ) && user.getStatus() != Status.ONLINE )
             {
                 work = true;
                 user.setStatus( Status.ONLINE );
