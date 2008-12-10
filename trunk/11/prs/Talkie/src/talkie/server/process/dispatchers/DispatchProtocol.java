@@ -1,8 +1,8 @@
-package talkie.server.process.protocol;
+package talkie.server.process.dispatchers;
 
 import talkie.server.Server;
 
-public interface TalkieProtocol
+public interface DispatchProtocol
     extends
         Runnable
 {

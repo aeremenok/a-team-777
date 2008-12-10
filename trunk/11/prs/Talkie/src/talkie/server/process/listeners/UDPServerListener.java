@@ -1,4 +1,4 @@
-package talkie.server.process.handler;
+package talkie.server.process.listeners;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -16,35 +16,38 @@ import talkie.common.constants.Talkie;
 import talkie.server.Server;
 import talkie.server.data.User;
 
-public class UDPHandler
-    implements
-        Runnable
+public class UDPServerListener
+    extends ServerListener
 {
     /**
-     * время в миллисекундах, по истечении которого UDP-клиент будет считаться "отвалившимся" и сервер на него забьёт
+     * через 5 минут молчания клиент считается отвалившимся
      */
     public static final int UDP_TIMEOUT   = 300000;
     private DatagramSocket  socket        = null;
     private InetAddress     clientAddress = null;
     private int             clientPort    = -1;
     private Server          server        = null;
-    private boolean         work          = true;
+    private boolean         valid         = true;
     private User            user          = null;
 
-    public UDPHandler(
+    public UDPServerListener(
         Server server,
         DatagramPacket inPacket )
         throws SocketException
     {
-        this.server = server;
+        super( server );
+
         this.socket = new DatagramSocket();
         this.clientAddress = inPacket.getAddress();
         this.clientPort = inPacket.getPort();
         this.socket.setSoTimeout( UDP_TIMEOUT );
-        processPacket( inPacket );
+
+        String first = new String( inPacket.getData(), 0, inPacket.getLength() );
+        processMessage( first );
     }
 
-    public void doLogout()
+    @Override
+    public void logout()
     {
         byte[] logout = Message.LOGOUT.getBytes();
         DatagramPacket outP = new DatagramPacket( logout, logout.length, clientAddress, clientPort );
@@ -61,7 +64,7 @@ public class UDPHandler
 
     public void run()
     {
-        while ( !Thread.currentThread().isInterrupted() && work )
+        while ( !Thread.currentThread().isInterrupted() && valid )
         {
             byte[] data = new byte[Talkie.MSG_SIZE];
             DatagramPacket inPacket = new DatagramPacket( data, data.length );
@@ -81,38 +84,30 @@ public class UDPHandler
                 Thread.currentThread().interrupt();
             }
 
-            processPacket( inPacket );
+            String message = new String( inPacket.getData(), 0, inPacket.getLength() );
+            processMessage( message );
         }
     }
 
-    private boolean doLogin(
-        StringTokenizer tokenizer )
+    private boolean login(
+        String login,
+        String pass )
     {
-        work = false;
+        valid = false;
 
-        String login = tokenizer.hasMoreTokens() ? tokenizer.nextToken() : "";
-        String pass = tokenizer.hasMoreTokens() ? tokenizer.nextToken() : "";
+        user = server.getUsers().get( login );
 
-        System.out.println( "login attempt detected, login='" + login + "', pass='" + pass + "'" );
-
-        synchronized ( server )
+        if ( user != null && pass.equals( user.getPass() ) && user.getStatus() != Status.ONLINE )
         {
-            user = server.getUsers().get( login );
-        }
-
-        synchronized ( user )
-        {
-            if ( user != null && pass.equals( user.getPass() ) && user.getStatus() != Status.ONLINE )
+            synchronized ( user )
             {
-                work = true;
+                valid = true;
                 user.setStatus( Status.ONLINE );
                 user.setHandler( this );
             }
         }
 
-        String outMsg = String.valueOf( work );
-        System.out.println( "\tvalid: " + outMsg.toUpperCase() );
-
+        String outMsg = String.valueOf( valid );
         byte[] outBuf = outMsg.getBytes();
         DatagramPacket outPacket = new DatagramPacket( outBuf, outBuf.length, clientAddress, clientPort );
 
@@ -128,22 +123,22 @@ public class UDPHandler
             }
         }
 
-        return work;
+        return valid;
     }
 
-    private void processPacket(
-        DatagramPacket packet )
+    private void processMessage(
+        String message )
     {
-        String inMsg = new String( packet.getData(), 0, packet.getLength() );
-
-        StringTokenizer tokenizer = new StringTokenizer( inMsg, " " );
+        StringTokenizer tokenizer = new StringTokenizer( message, " " );
         if ( tokenizer.countTokens() > 0 )
         {
             String operation = tokenizer.nextToken();
 
             if ( Message.LOGIN.equalsIgnoreCase( operation ) )
             {
-                boolean yes = doLogin( tokenizer );
+                String login = tokenizer.hasMoreTokens() ? tokenizer.nextToken() : "";
+                String pass = tokenizer.hasMoreTokens() ? tokenizer.nextToken() : "";
+                boolean yes = login( login, pass );
                 if ( yes )
                 {
                     String date = DateFormat.getDateTimeInstance().format( new Date() );
@@ -182,7 +177,7 @@ public class UDPHandler
                     User u = users.get( key );
                     if ( u.getStatus() == Status.ONLINE )
                     {
-                        String toSend = "[" + date + "] " + user.getLogin() + " говорит: " + inMsg.substring( 3 );
+                        String toSend = "[" + date + "] " + user.getLogin() + " говорит: " + message.substring( 3 );
                         u.getHandler().sendMessage( toSend );
                     }
                 }

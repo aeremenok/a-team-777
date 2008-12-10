@@ -1,4 +1,4 @@
-package talkie.client.connect;
+package talkie.client.speakers;
 
 import talkie.common.constants.Message;
 
@@ -7,9 +7,11 @@ import talkie.common.constants.Message;
  * 
  * @author ssv
  */
-public abstract class Connection
+public abstract class ClientSpeaker
 {
     protected boolean active = false;
+
+    abstract public void close();
 
     public boolean isActive()
     {

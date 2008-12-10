@@ -30,7 +30,7 @@ import org.apache.log4j.PropertyConfigurator;
 import talkie.common.constants.Status;
 import talkie.common.ui.MyFrame;
 import talkie.server.data.User;
-import talkie.server.process.protocol.TalkieProtocol;
+import talkie.server.process.dispatchers.DispatchProtocol;
 import talkie.server.ui.UserTableModel;
 
 public class Server
@@ -60,7 +60,7 @@ public class Server
 
     // протоколы
     private HashMap<Integer, JCheckBoxMenuItem> protActions          = new HashMap<Integer, JCheckBoxMenuItem>();
-    private HashMap<String, TalkieProtocol>     protInstances        = new HashMap<String, TalkieProtocol>();
+    private HashMap<String, DispatchProtocol>   protInstances        = new HashMap<String, DispatchProtocol>();
 
     private HashMap<String, Thread>             protRunning          = new HashMap<String, Thread>();
     // виджеты
@@ -350,13 +350,13 @@ public class Server
                 String clazzName = protNames.getProperty( key );
                 if ( clazzName.length() == 0 )
                 {
-                    clazzName = "talkie.server.process.protocol." + key;
+                    clazzName = "talkie.server.process.dispatchers." + key;
                 }
                 Class clazz = Class.forName( clazzName );
                 Object object = clazz.newInstance();
-                if ( object instanceof TalkieProtocol )
+                if ( object instanceof DispatchProtocol )
                 {
-                    TalkieProtocol server = (TalkieProtocol) object;
+                    DispatchProtocol server = (DispatchProtocol) object;
                     server.setServer( this );
                     protInstances.put( key, server );
                 }
@@ -418,7 +418,7 @@ public class Server
         {
             if ( u.getStatus() == Status.ONLINE && u.getHandler() != null )
             {
-                u.getHandler().doLogout();
+                u.getHandler().logout();
             }
         }
 

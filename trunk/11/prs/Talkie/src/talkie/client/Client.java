@@ -9,9 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import talkie.client.connect.Connection;
-import talkie.client.connect.UDPConnection;
-import talkie.client.process.ClientListener;
+import talkie.client.listeners.ClientListener;
+import talkie.client.listeners.UDPListener;
+import talkie.client.speakers.ClientSpeaker;
+import talkie.client.speakers.UDPSpeaker;
 import talkie.client.ui.LoginDialog;
 import talkie.common.constants.Message;
 import talkie.common.ui.MyFrame;
@@ -19,16 +20,17 @@ import talkie.common.ui.MyFrame;
 public class Client
     extends MyFrame
 {
-    private Connection     connection     = null;
-    private TextArea       textArea       = null;
-    private TextArea       input          = null;
-    private Button         btnSend        = null;
-    private ClientListener clientListener = new ClientListener( this );
-    private LoginDialog    loginDialog    = null;
+    private ClientSpeaker  speaker     = null;
+    private ClientListener listener    = null;
+    private TextArea       textArea    = null;
+    private TextArea       input       = null;
+    private Button         btnSend     = null;
+    private LoginDialog    loginDialog = null;
     {
         try
         {
-            connection = new UDPConnection( "localhost", 7777 );
+            speaker = new UDPSpeaker( "localhost", 7777 );
+            listener = new UDPListener( this );
         }
         catch ( IOException e )
         {
@@ -85,7 +87,7 @@ public class Client
                 input.setText( "" );
                 if ( !"".equals( sent ) && !Message.LOGOUT.equals( sent ) )
                 {
-                    connection.sendText( sent );
+                    speaker.sendText( sent );
                 }
             }
         } );
@@ -99,14 +101,14 @@ public class Client
         super.dispose();
     }
 
-    public ClientListener getClientListener()
+    public ClientSpeaker getSpeaker()
     {
-        return clientListener;
+        return speaker;
     }
 
-    public Connection getConnection()
+    public ClientListener getListener()
     {
-        return connection;
+        return listener;
     }
 
     public LoginDialog getLoginDialog()
@@ -121,17 +123,19 @@ public class Client
 
     public void onExit()
     {
-        if ( connection.isActive() )
+        if ( speaker.isActive() )
         {
-            connection.sendText( Message.LOGOUT );
+            speaker.sendText( Message.LOGOUT );
+            speaker.close();
         }
-        clientListener.interruptIfRunning();
+        listener.interruptIfRunning();
+        listener.close();
         System.exit( 0 );
     }
 
     public void setClientListener(
-        ClientListener clientListener )
+        UDPListener clientListener )
     {
-        this.clientListener = clientListener;
+        this.listener = clientListener;
     }
 }

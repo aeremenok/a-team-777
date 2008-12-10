@@ -1,4 +1,4 @@
-package talkie.client.process;
+package talkie.client.listeners;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -9,25 +9,19 @@ import java.net.UnknownHostException;
 import java.util.StringTokenizer;
 
 import talkie.client.Client;
-import talkie.client.connect.UDPConnection;
+import talkie.client.speakers.UDPSpeaker;
 import talkie.common.constants.Message;
 import talkie.common.constants.Talkie;
 
-public class ClientListener
-    implements
-        Runnable
+public class UDPListener
+    extends ClientListener
 {
-    private final Client   client;
-    private DatagramSocket socket;
-    private String         login;
-    private String         pass;
-    private String         serverName;
-    private boolean        isRunning = false;
+    DatagramSocket socket;
 
-    public ClientListener(
+    public UDPListener(
         Client client )
     {
-        this.client = client;
+        super( client );
 
         try
         {
@@ -41,29 +35,14 @@ public class ClientListener
         }
     }
 
-    public boolean attemptToLogin()
+    public void close()
     {
-        client.getLoginDialog().lock();
-
-        boolean result = establishConnection();
-
-        if ( result )
-        {
-            client.getLoginDialog().unlock();
-            client.getLoginDialog().setVisible( false );
-            client.setTitle( login );
-            client.display();
-            return true;
-        }
-        else
-        {
-            client.getLoginDialog().unlock();
-            client.getLoginDialog().getFailedLabel().setVisible( true );
-            return false;
-        }
+        socket.close();
     }
 
+    @Override
     public boolean establishConnection()
+
     {
         boolean result = false;
 
@@ -103,7 +82,7 @@ public class ClientListener
             socket.setSoTimeout( soTimeout );
 
             // ответ принят, сохраняем параметры сокета, с которым будем общаться дальше
-            UDPConnection connection = (UDPConnection) client.getConnection();
+            UDPSpeaker connection = (UDPSpeaker) getClient().getSpeaker();
             connection.setAddress( inPacket.getAddress() );
             connection.setPort( inPacket.getPort() );
             data = inPacket.getData();
@@ -130,22 +109,9 @@ public class ClientListener
         return result;
     }
 
-    public String getLogin()
-    {
-        return login;
-    }
-
     public DatagramSocket getSocket()
     {
         return socket;
-    }
-
-    public void interruptIfRunning()
-    {
-        if ( isRunning )
-        {
-            Thread.currentThread().interrupt();
-        }
     }
 
     public void run()
@@ -160,7 +126,7 @@ public class ClientListener
                 socket.receive( inPacket );
 
                 String msg = new String( inPacket.getData(), 0, inPacket.getLength() );
-                synchronized ( client )
+                synchronized ( getClient() )
                 {
                     processMsg( msg );
                 }
@@ -171,43 +137,5 @@ public class ClientListener
             }
         }
         isRunning = false;
-    }
-
-    public void setLoginAndPass(
-        String login,
-        String pass )
-    {
-        this.login = login;
-        this.pass = pass;
-    }
-
-    public void setServerName(
-        String serverName )
-    {
-        this.serverName = serverName;
-    }
-
-    private void processMsg(
-        String msg )
-    {
-        if ( msg.startsWith( Message.LOGOUT ) )
-        {
-            client.setVisible( false );
-            client.getTextArea().setText( "" );
-            client.getLoginDialog().setVisible( true );
-        }
-        else
-        {
-            client.getTextArea().append( msg + "\n" );
-            client.getTextArea().setCaretPosition( client.getTextArea().getText().length() );
-        }
-    }
-
-    @Override
-    protected void finalize()
-        throws Throwable
-    {
-        socket.close();
-        super.finalize();
     }
 }
