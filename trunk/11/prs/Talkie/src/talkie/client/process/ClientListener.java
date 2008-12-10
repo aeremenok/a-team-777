@@ -22,6 +22,7 @@ public class ClientListener
     private String         login;
     private String         pass;
     private String         serverName;
+    private boolean        isRunning = false;
 
     public ClientListener(
         Client client )
@@ -109,12 +110,18 @@ public class ClientListener
 
             String sData = new String( inPacket.getData(), 0, inPacket.getLength() );
             StringTokenizer st = new StringTokenizer( sData, " " );
-            if ( st.countTokens() == 0 )
+
+            if ( st.countTokens() != 0 )
             {
-                return false;
+                result = Boolean.parseBoolean( st.nextToken() );
             }
 
-            return Boolean.parseBoolean( st.nextToken() );
+            if ( result )
+            {
+                connection.setActive( true );
+            }
+
+            return result;
         }
         catch ( IOException e )
         {
@@ -133,8 +140,17 @@ public class ClientListener
         return socket;
     }
 
+    public void interruptIfRunning()
+    {
+        if ( isRunning )
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     public void run()
     {
+        isRunning = true;
         while ( !Thread.currentThread().isInterrupted() )
         {
             try
@@ -154,6 +170,7 @@ public class ClientListener
                 e.printStackTrace();
             }
         }
+        isRunning = false;
     }
 
     public void setLoginAndPass(
@@ -173,8 +190,17 @@ public class ClientListener
     private void processMsg(
         String msg )
     {
-        client.getTextArea().append( msg + "\n" );
-        client.getTextArea().setCaretPosition( client.getTextArea().getText().length() );
+        if ( msg.startsWith( Message.LOGOUT ) )
+        {
+            client.setVisible( false );
+            client.getTextArea().setText( "" );
+            client.getLoginDialog().setVisible( true );
+        }
+        else
+        {
+            client.getTextArea().append( msg + "\n" );
+            client.getTextArea().setCaretPosition( client.getTextArea().getText().length() );
+        }
     }
 
     @Override

@@ -9,6 +9,13 @@ import talkie.common.constants.Message;
  */
 public abstract class Connection
 {
+    protected boolean active = false;
+
+    public boolean isActive()
+    {
+        return active;
+    }
+
     /**
      * обработать сообщение
      * 
@@ -29,6 +36,12 @@ public abstract class Connection
         {
             send( Message.MESSAGE + " " + text );
         }
+    }
+
+    public void setActive(
+        boolean active )
+    {
+        this.active = active;
     }
 
     /**

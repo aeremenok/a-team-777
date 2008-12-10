@@ -95,7 +95,7 @@ public class Client
     @Override
     public void dispose()
     {
-        connection.sendText( Message.LOGOUT );
+        onExit();
         super.dispose();
     }
 
@@ -117,6 +117,16 @@ public class Client
     public TextArea getTextArea()
     {
         return textArea;
+    }
+
+    public void onExit()
+    {
+        if ( connection.isActive() )
+        {
+            connection.sendText( Message.LOGOUT );
+        }
+        clientListener.interruptIfRunning();
+        System.exit( 0 );
     }
 
     public void setClientListener(

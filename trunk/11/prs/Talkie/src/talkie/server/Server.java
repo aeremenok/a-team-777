@@ -27,6 +27,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import talkie.common.constants.Status;
 import talkie.common.ui.MyFrame;
 import talkie.server.data.User;
 import talkie.server.process.protocol.TalkieProtocol;
@@ -119,15 +120,7 @@ public class Server
         switch ( command )
         {
             case EXIT:
-                try
-                {
-                    saveUsers();
-                }
-                catch ( IOException e2 )
-                {
-                    log.error( "Unable to save users on exit!", e2 );
-                }
-                System.exit( 0 );
+                onExit();
                 break;
 
             case OPEN:
@@ -218,20 +211,7 @@ public class Server
     @Override
     public void dispose()
     {
-        for ( Thread t : protRunning.values() )
-        {
-            if ( t != null && !t.isInterrupted() )
-            {
-                t.interrupt();
-            }
-        }
-        try
-        {
-            saveUsers();
-        }
-        catch ( IOException e )
-        {
-        }
+        onExit();
         super.dispose();
     }
 
@@ -420,6 +400,38 @@ public class Server
         }
 
         return props;
+    }
+
+    private void onExit()
+    {
+        // отключаем диспетчеры соединений
+        for ( Thread t : protRunning.values() )
+        {
+            if ( t != null && !t.isInterrupted() )
+            {
+                t.interrupt();
+            }
+        }
+
+        // отключаем существующие соединения
+        for ( User u : users.values() )
+        {
+            if ( u.getStatus() == Status.ONLINE && u.getHandler() != null )
+            {
+                u.getHandler().doLogout();
+            }
+        }
+
+        // пытаемся сохранить информацию о пользователях
+        try
+        {
+            saveUsers();
+        }
+        catch ( IOException e )
+        {
+        }
+
+        System.exit( 0 );
     }
 
     private HashMap<String, User> propsToMap(
