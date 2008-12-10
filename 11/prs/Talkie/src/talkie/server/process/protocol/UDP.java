@@ -34,7 +34,6 @@ public class UDP
                 DatagramPacket inPacket = new DatagramPacket( inBuf, inBuf.length );
                 socket.receive( inPacket );
 
-                System.out.println( "new client!!!" );
                 try
                 {
                     UDPHandler target = new UDPHandler( server, inPacket );

@@ -18,12 +18,21 @@ public class LoginDialog
 {
     private Label                lblFailed;
     private ArrayList<Component> toLock = new ArrayList<Component>();
+    private Client               owner;
 
     public LoginDialog(
         final Client owner )
     {
         super( owner );
+        this.owner = owner;
         initInterface( owner );
+    }
+
+    @Override
+    public void dispose()
+    {
+        owner.onExit();
+        super.dispose();
     }
 
     public Label getFailedLabel()

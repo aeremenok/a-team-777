@@ -44,6 +44,21 @@ public class UDPHandler
         processPacket( inPacket );
     }
 
+    public void doLogout()
+    {
+        byte[] logout = Message.LOGOUT.getBytes();
+        DatagramPacket outP = new DatagramPacket( logout, logout.length, clientAddress, clientPort );
+        try
+        {
+            socket.send( outP );
+        }
+        catch ( IOException e )
+        {
+            e.printStackTrace();
+        }
+        Thread.currentThread().interrupt();
+    }
+
     public void run()
     {
         while ( !Thread.currentThread().isInterrupted() && work )
