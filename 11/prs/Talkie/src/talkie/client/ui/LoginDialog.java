@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import talkie.client.Client;
+import talkie.client.listeners.TCPConnector;
+import talkie.client.listeners.UDPConnector;
 import talkie.common.ui.MyDialog;
 
 public class LoginDialog
@@ -23,6 +25,7 @@ public class LoginDialog
     private ArrayList<Component> toLock = new ArrayList<Component>();
     private Client               owner;
     private TextField            tfServer;
+    private CheckboxGroup        protocolsGroup;
 
     public LoginDialog(
         final Client owner )
@@ -90,11 +93,29 @@ public class LoginDialog
             public void actionPerformed(
                 ActionEvent e )
             {
-                owner.getListener().setServerName( tfServer.getText() );
-                owner.getListener().setLoginAndPass( tbLogin.getText(), tbPass.getText() );
-                if ( owner.getListener().attemptToLogin() )
+                Checkbox protocol = protocolsGroup.getSelectedCheckbox();
+                String label = protocol.getLabel();
+                if ( "UDP".equalsIgnoreCase( label ) )
                 {
-                    new Thread( owner.getListener() ).start();
+                    owner.setConnector( new UDPConnector( owner ) );
+                }
+                else if ( "TCP".equalsIgnoreCase( label ) )
+                {
+                    owner.setConnector( new TCPConnector( owner ) );
+                }
+                else if ( "RMI".equalsIgnoreCase( label ) )
+                {
+                    // owner.setConnector( new RMIConnector( owner ) );
+                }
+                else if ( "CORBA".equalsIgnoreCase( label ) )
+                {
+                    // owner.setConnector( new CORBAConnector( owner ) );
+                }
+                owner.getConnector().setServerName( tfServer.getText() );
+                owner.getConnector().setLoginAndPass( tbLogin.getText(), tbPass.getText() );
+                if ( owner.getConnector().attemptToLogin() )
+                {
+                    new Thread( owner.getConnector() ).start();
                 }
             }
         } );
@@ -112,11 +133,11 @@ public class LoginDialog
 
         Panel p = new Panel();
         add( p );
-        CheckboxGroup cbg = new CheckboxGroup();
-        Checkbox udp = new Checkbox( "UDP", cbg, true );
-        Checkbox tcp = new Checkbox( "TCP", cbg, false );
-        Checkbox rmi = new Checkbox( "RMI", cbg, false );
-        Checkbox corba = new Checkbox( "CORBA", cbg, false );
+        protocolsGroup = new CheckboxGroup();
+        Checkbox udp = new Checkbox( "UDP", protocolsGroup, true );
+        Checkbox tcp = new Checkbox( "TCP", protocolsGroup, false );
+        Checkbox rmi = new Checkbox( "RMI", protocolsGroup, false );
+        Checkbox corba = new Checkbox( "CORBA", protocolsGroup, false );
         p.add( udp );
         p.add( tcp );
         p.add( rmi );

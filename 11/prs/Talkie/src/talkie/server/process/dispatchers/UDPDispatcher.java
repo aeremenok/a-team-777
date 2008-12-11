@@ -2,21 +2,17 @@ package talkie.server.process.dispatchers;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.SocketException;
 
 import org.apache.log4j.Logger;
 
 import talkie.common.constants.Talkie;
-import talkie.server.Server;
-import talkie.server.process.listeners.UDPServerListener;
+import talkie.server.process.listeners.ServerConnector;
+import talkie.server.process.listeners.UDPServerConnector;
 
 public class UDPDispatcher
-    implements
-        DispatchProtocol
+    extends DispatchProtocol
 {
     private Logger log = Logger.getLogger( UDPDispatcher.class );
-
-    private Server server;
 
     public UDPDispatcher()
     {
@@ -34,15 +30,8 @@ public class UDPDispatcher
                 DatagramPacket inPacket = new DatagramPacket( inBuf, inBuf.length );
                 socket.receive( inPacket );
 
-                try
-                {
-                    UDPServerListener target = new UDPServerListener( server, inPacket );
-                    new Thread( target ).start();
-                }
-                catch ( SocketException e )
-                {
-                    log.error( "Не удалось создать UDP-сокет для работы с новым клиентом", e );
-                }
+                ServerConnector target = new UDPServerConnector( server, inPacket );
+                new Thread( target ).start();
             }
         }
         catch ( Exception e )
@@ -54,11 +43,5 @@ public class UDPDispatcher
         {
             socket.close();
         }
-    }
-
-    public void setServer(
-        Server server )
-    {
-        this.server = server;
     }
 }

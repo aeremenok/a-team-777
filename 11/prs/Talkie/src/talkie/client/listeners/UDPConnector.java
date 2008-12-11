@@ -13,12 +13,13 @@ import talkie.client.speakers.UDPSpeaker;
 import talkie.common.constants.Message;
 import talkie.common.constants.Talkie;
 
-public class UDPListener
-    extends ClientListener
+public class UDPConnector
+    extends ClientConnector
 {
-    DatagramSocket socket;
+    private DatagramSocket socket;
+    private UDPSpeaker     speaker;
 
-    public UDPListener(
+    public UDPConnector(
         Client client )
     {
         super( client );
@@ -26,10 +27,10 @@ public class UDPListener
         try
         {
             socket = new DatagramSocket();
+            speaker = new UDPSpeaker();
         }
         catch ( SocketException e )
         {
-            System.out.println( "Unable to start listener for client" );
             e.printStackTrace();
             System.exit( 0 );
         }
@@ -38,16 +39,15 @@ public class UDPListener
     @Override
     public void close()
     {
-        interruptIfRunning();
+        send( Message.LOGOUT );
+        speaker.close();
         socket.close();
+        Thread.currentThread().interrupt();
     }
 
     @Override
     public boolean establishConnection()
-
     {
-        boolean result = false;
-
         String s = Message.LOGIN + " " + login + " " + pass;
         byte[] bytes = s.getBytes();
 
@@ -60,7 +60,8 @@ public class UDPListener
         catch ( UnknownHostException e1 )
         {
             System.out.println( "no server found with name '" + serverName + "'" );
-            return false;
+            valid = false;
+            return valid;
         }
         DatagramPacket outPacket = new DatagramPacket( bytes, bytes.length, dispatch, 7777 );
         try
@@ -84,9 +85,8 @@ public class UDPListener
             socket.setSoTimeout( soTimeout );
 
             // ответ принят, сохраняем параметры сокета, с которым будем общаться дальше
-            UDPSpeaker connection = (UDPSpeaker) getClient().getSpeaker();
-            connection.setAddress( inPacket.getAddress() );
-            connection.setPort( inPacket.getPort() );
+            speaker.setAddress( inPacket.getAddress() );
+            speaker.setPort( inPacket.getPort() );
             data = inPacket.getData();
 
             String sData = new String( inPacket.getData(), 0, inPacket.getLength() );
@@ -94,50 +94,42 @@ public class UDPListener
 
             if ( st.countTokens() != 0 )
             {
-                result = Boolean.parseBoolean( st.nextToken() );
+                valid = Boolean.parseBoolean( st.nextToken() );
             }
+        }
+        catch ( IOException e )
+        {
+            e.printStackTrace();
+            valid = false;
+        }
+        return valid;
+    }
 
-            if ( result )
+    @Override
+    public void send(
+        String message )
+    {
+        speaker.send( message );
+    }
+
+    @Override
+    protected void mainLoopStep()
+    {
+        try
+        {
+            byte[] data = new byte[Talkie.MSG_SIZE];
+            DatagramPacket inPacket = new DatagramPacket( data, data.length );
+            socket.receive( inPacket );
+
+            String msg = new String( inPacket.getData(), 0, inPacket.getLength() );
+            synchronized ( getClient() )
             {
-                connection.setActive( true );
+                process( msg );
             }
-
-            return result;
         }
         catch ( IOException e )
         {
             e.printStackTrace();
         }
-        return result;
-    }
-
-    public DatagramSocket getSocket()
-    {
-        return socket;
-    }
-
-    public void run()
-    {
-        isRunning = true;
-        while ( !Thread.currentThread().isInterrupted() )
-        {
-            try
-            {
-                byte[] data = new byte[Talkie.MSG_SIZE];
-                DatagramPacket inPacket = new DatagramPacket( data, data.length );
-                socket.receive( inPacket );
-
-                String msg = new String( inPacket.getData(), 0, inPacket.getLength() );
-                synchronized ( getClient() )
-                {
-                    processMsg( msg );
-                }
-            }
-            catch ( IOException e )
-            {
-                e.printStackTrace();
-            }
-        }
-        isRunning = false;
     }
 }
