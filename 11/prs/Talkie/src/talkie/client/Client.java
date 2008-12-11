@@ -23,11 +23,6 @@ public class Client
     private Button          btnSend     = null;
     private LoginDialog     loginDialog = null;
 
-    {
-        // todo remove
-        // connector = new UDPConnector( this );
-    }
-
     /**
      * @param args
      * @throws IOException
@@ -112,6 +107,7 @@ public class Client
 
     public void onExit()
     {
+        connector.send( Message.LOGOUT );
         connector.close();
         System.exit( 0 );
     }
