@@ -26,7 +26,6 @@ public class UDPServerListener
     private DatagramSocket  socket        = null;
     private InetAddress     clientAddress = null;
     private int             clientPort    = -1;
-    private Server          server        = null;
     private boolean         valid         = true;
     private User            user          = null;
 

@@ -6,7 +6,7 @@ public abstract class ServerListener
     implements
         Runnable
 {
-    private final Server server;
+    protected final Server server;
 
     public ServerListener(
         Server server )
