@@ -3,8 +3,7 @@ package talkie.server.process.dispatchers;
 import talkie.server.Server;
 
 public class CORBADispatcher
-    implements
-        DispatchProtocol
+    extends DispatchProtocol
 {
     private Server server;
 
@@ -12,6 +11,7 @@ public class CORBADispatcher
     {
     }
 
+    @Override
     public void setServer(
         Server server )
     {

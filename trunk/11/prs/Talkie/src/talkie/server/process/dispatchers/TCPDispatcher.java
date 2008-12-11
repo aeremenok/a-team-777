@@ -1,15 +1,17 @@
 package talkie.server.process.dispatchers;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import org.apache.log4j.Logger;
 
-import talkie.server.Server;
+import talkie.server.process.listeners.TCPServerConnector;
 
 public class TCPDispatcher
-    implements
-        DispatchProtocol
+    extends DispatchProtocol
 {
     private Logger log = Logger.getLogger( TCPDispatcher.class );
-    private Server server;
 
     public TCPDispatcher()
     {
@@ -17,24 +19,35 @@ public class TCPDispatcher
 
     public void run()
     {
+        ServerSocket serverSocket = null;
+
+        try
+        {
+            serverSocket = new ServerSocket( 7778 );
+        }
+        catch ( IOException e1 )
+        {
+            log.error( "accepting connection failed", e1 );
+            Thread.currentThread().interrupt();
+        }
+
         while ( !Thread.currentThread().isInterrupted() )
         {
-            System.out.println( "TCP server is running!" );
-
+            Socket socket;
             try
             {
-                Thread.sleep( 1000 );
+                socket = serverSocket.accept();
             }
-            catch ( InterruptedException e )
+            catch ( IOException e )
             {
-                Thread.currentThread().interrupt();
+                e.printStackTrace();
+                socket = null;
+            }
+            if ( socket != null )
+            {
+                TCPServerConnector target = new TCPServerConnector( server, socket );
+                new Thread( target ).start();
             }
         }
-    }
-
-    public void setServer(
-        Server server )
-    {
-        this.server = server;
     }
 }

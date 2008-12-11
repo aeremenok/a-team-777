@@ -3,17 +3,17 @@ package talkie.client.listeners;
 import talkie.client.Client;
 import talkie.common.constants.Message;
 
-public abstract class ClientListener
+public abstract class ClientConnector
     implements
         Runnable
 {
     private final Client client;
     protected String     serverName;
-    protected boolean    isRunning = false;
     protected String     login;
     protected String     pass;
+    protected boolean    valid = false;
 
-    public ClientListener(
+    public ClientConnector(
         Client client )
     {
         this.client = client;
@@ -55,13 +55,16 @@ public abstract class ClientListener
         return login;
     }
 
-    public void interruptIfRunning()
+    public void run()
     {
-        if ( isRunning )
+        while ( !Thread.currentThread().isInterrupted() && valid )
         {
-            Thread.currentThread().interrupt();
+            mainLoopStep();
         }
     }
+
+    public abstract void send(
+        String message );
 
     public void setLoginAndPass(
         String login,
@@ -77,7 +80,9 @@ public abstract class ClientListener
         this.serverName = serverName;
     }
 
-    protected void processMsg(
+    protected abstract void mainLoopStep();
+
+    protected void process(
         String msg )
     {
         if ( msg.startsWith( Message.LOGOUT ) )

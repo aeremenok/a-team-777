@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 
 import talkie.common.constants.Talkie;
 
@@ -15,34 +16,27 @@ import talkie.common.constants.Talkie;
 public class UDPSpeaker
     extends ClientSpeaker
 {
-    /**
-     * клиентский сокет
-     */
     private DatagramSocket socket        = null;
-    /**
-     * адрес сервера после установки "соединения"
-     */
     protected InetAddress  serverAddress = null;
-    /**
-     * порт сервера после установки "соединения"
-     */
     protected int          serverPort    = -1;
 
-    public UDPSpeaker(
-        String host,
-        int port )
-        throws IOException
+    public UDPSpeaker()
     {
-        this.socket = new DatagramSocket();
+        try
+        {
+            this.socket = new DatagramSocket();
+        }
+        catch ( SocketException e )
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void close()
     {
-        if ( socket != null )
-        {
-            socket.close();
-        }
+        socket.close();
+        Thread.currentThread().interrupt();
     }
 
     @Override

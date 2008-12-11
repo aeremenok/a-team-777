@@ -3,8 +3,7 @@ package talkie.server.process.dispatchers;
 import talkie.server.Server;
 
 public class RMIDispatcher
-    implements
-        DispatchProtocol
+    extends DispatchProtocol
 {
     private Server server;
 
@@ -12,6 +11,7 @@ public class RMIDispatcher
     {
     }
 
+    @Override
     public void setServer(
         Server server )
     {

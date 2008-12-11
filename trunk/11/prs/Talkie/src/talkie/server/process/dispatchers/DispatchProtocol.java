@@ -2,10 +2,20 @@ package talkie.server.process.dispatchers;
 
 import talkie.server.Server;
 
-public interface DispatchProtocol
-    extends
+public abstract class DispatchProtocol
+    implements
         Runnable
 {
-    void setServer(
-        Server server );
+    protected Server server;
+
+    public Server getServer()
+    {
+        return server;
+    }
+
+    public void setServer(
+        Server server )
+    {
+        this.server = server;
+    }
 }
