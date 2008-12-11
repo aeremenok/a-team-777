@@ -350,7 +350,7 @@ public class Server
                 String clazzName = protNames.getProperty( key );
                 if ( clazzName.length() == 0 )
                 {
-                    clazzName = "talkie.server.process.dispatchers." + key;
+                    clazzName = "talkie.server.process.dispatchers." + key + "Dispatcher";
                 }
                 Class clazz = Class.forName( clazzName );
                 Object object = clazz.newInstance();

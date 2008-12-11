@@ -35,8 +35,10 @@ public class UDPListener
         }
     }
 
+    @Override
     public void close()
     {
+        interruptIfRunning();
         socket.close();
     }
 
