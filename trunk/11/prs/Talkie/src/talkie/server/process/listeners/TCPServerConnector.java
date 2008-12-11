@@ -12,7 +12,6 @@ public class TCPServerConnector
 {
     private DataOutputStream ostream = null;
     private DataInputStream  istream = null;
-    private boolean          valid   = false;
     private final Socket     socket;
 
     public TCPServerConnector(
@@ -30,6 +29,7 @@ public class TCPServerConnector
         {
             e.printStackTrace();
         }
+        valid = true;
     }
 
     @Override

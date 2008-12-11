@@ -73,6 +73,7 @@ public abstract class ServerConnector
                 boolean yes = login( login, pass );
                 if ( yes )
                 {
+                    valid = true;
                     String date = DateFormat.getDateTimeInstance().format( new Date() );
                     HashMap<String, User> users = server.getUsers();
                     for ( String key : users.keySet() )
@@ -83,6 +84,10 @@ public abstract class ServerConnector
                             u.getHandler().send( "[" + date + "] В чат приходит пользователь " + user.getLogin() );
                         }
                     }
+                }
+                else
+                {
+                    valid = false;
                 }
             }
             else if ( Message.LIST.equalsIgnoreCase( operation ) )

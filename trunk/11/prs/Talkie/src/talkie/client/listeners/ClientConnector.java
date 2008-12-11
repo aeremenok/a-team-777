@@ -75,7 +75,7 @@ public abstract class ClientConnector
     }
 
     public void setServerName(
-        String text )
+        String serverName )
     {
         this.serverName = serverName;
     }

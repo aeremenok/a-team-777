@@ -39,7 +39,6 @@ public class UDPConnector
     @Override
     public void close()
     {
-        send( Message.LOGOUT );
         speaker.close();
         socket.close();
         Thread.currentThread().interrupt();
