@@ -48,7 +48,6 @@ public class TCPConnector
         {
             e.printStackTrace();
         }
-        Thread.currentThread().interrupt();
     }
 
     @Override
