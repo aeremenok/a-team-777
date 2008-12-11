@@ -16,7 +16,7 @@ public abstract class ServerConnector
 {
     protected Server  server = null;
     protected User    user   = null;
-    protected boolean valid  = false;
+    protected boolean valid  = true;
 
     public ServerConnector(
         Server server )
@@ -56,6 +56,13 @@ public abstract class ServerConnector
         }
     }
 
+    public final void stop()
+    {
+        valid = false;
+        close();
+        Thread.currentThread().interrupt();
+    }
+
     protected abstract void mainLoopStep();
 
     protected void process(
@@ -73,7 +80,6 @@ public abstract class ServerConnector
                 boolean yes = login( login, pass );
                 if ( yes )
                 {
-                    valid = true;
                     String date = DateFormat.getDateTimeInstance().format( new Date() );
                     HashMap<String, User> users = server.getUsers();
                     for ( String key : users.keySet() )
@@ -84,10 +90,6 @@ public abstract class ServerConnector
                             u.getHandler().send( "[" + date + "] В чат приходит пользователь " + user.getLogin() );
                         }
                     }
-                }
-                else
-                {
-                    valid = false;
                 }
             }
             else if ( Message.LIST.equalsIgnoreCase( operation ) )
@@ -136,6 +138,7 @@ public abstract class ServerConnector
                         u.getHandler().send( "[" + date + "] Пользователь " + user.getLogin() + " покинул чат!" );
                     }
                 }
+                stop();
             }
         }
     }

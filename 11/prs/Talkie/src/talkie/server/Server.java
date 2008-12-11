@@ -418,7 +418,7 @@ public class Server
         {
             if ( u.getStatus() == Status.ONLINE && u.getHandler() != null )
             {
-                u.getHandler().close();
+                u.getHandler().stop();
             }
         }
 
