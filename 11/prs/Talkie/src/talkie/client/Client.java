@@ -73,12 +73,15 @@ public class Client
             public void actionPerformed(
                 ActionEvent e )
             {
-                String sent = input.getText().trim();
+                String toSend = input.getText().trim();
                 input.setText( "" );
-                // клиент сам не может послать запрос на отключение - пусть жмёт крестик у окошка =)
-                if ( !"".equals( sent ) && !Message.LOGOUT.equals( sent ) )
+                if ( !"".equals( toSend ) && !Message.LOGOUT.equals( toSend ) )
                 {
-                    connector.send( sent );
+                    if ( !Message.LIST.equalsIgnoreCase( toSend ) )
+                    {
+                        toSend = Message.MESSAGE + " " + toSend;
+                    }
+                    connector.send( toSend );
                 }
             }
         } );
