@@ -29,7 +29,6 @@ public class TCPServerConnector
         {
             e.printStackTrace();
         }
-        valid = true;
     }
 
     @Override
