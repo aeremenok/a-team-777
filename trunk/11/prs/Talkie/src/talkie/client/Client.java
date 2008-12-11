@@ -108,7 +108,7 @@ public class Client
     public void onExit()
     {
         connector.send( Message.LOGOUT );
-        connector.close();
+        connector.stop();
         System.exit( 0 );
     }
 

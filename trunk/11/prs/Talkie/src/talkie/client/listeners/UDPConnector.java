@@ -41,7 +41,6 @@ public class UDPConnector
     {
         speaker.close();
         socket.close();
-        Thread.currentThread().interrupt();
     }
 
     @Override

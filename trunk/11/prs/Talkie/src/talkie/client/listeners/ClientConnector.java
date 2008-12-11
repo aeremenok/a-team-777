@@ -11,7 +11,7 @@ public abstract class ClientConnector
     protected String     serverName;
     protected String     login;
     protected String     pass;
-    protected boolean    valid = false;
+    protected boolean    valid = true;
 
     public ClientConnector(
         Client client )
@@ -23,22 +23,23 @@ public abstract class ClientConnector
     {
         getClient().getLoginDialog().lock();
 
-        boolean result = establishConnection();
-
-        if ( result )
+        if ( establishConnection() )
         {
+            valid = true;
             getClient().getLoginDialog().unlock();
             getClient().getLoginDialog().setVisible( false );
             getClient().setTitle( getLogin() );
             getClient().display();
-            return true;
+
         }
         else
         {
+            valid = false;
             getClient().getLoginDialog().unlock();
             getClient().getLoginDialog().getFailedLabel().setVisible( true );
-            return false;
         }
+
+        return valid;
     }
 
     public abstract void close();
@@ -80,6 +81,13 @@ public abstract class ClientConnector
         this.serverName = serverName;
     }
 
+    public final void stop()
+    {
+        valid = false;
+        close();
+        Thread.currentThread().interrupt();
+    }
+
     protected abstract void mainLoopStep();
 
     protected void process(
@@ -90,6 +98,7 @@ public abstract class ClientConnector
             getClient().setVisible( false );
             getClient().getTextArea().setText( "" );
             getClient().getLoginDialog().setVisible( true );
+            stop();
         }
         else
         {
