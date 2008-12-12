@@ -53,13 +53,15 @@ public class IDLTalkieServerImpl
         IDLTalkieClient client )
     {
         CORBAServerConnector conn = new CORBAServerConnector( server, this );
-        boolean result = conn.login( client.getLogin(), client.getPass() );
-        if ( result )
+        String login = client.getLogin();
+        String pass = client.getPass();
+        conn.process( Message.LOGIN + " " + login + " " + pass );
+        if ( conn.isValid() )
         {
-            connectors.put( client.getLogin(), conn );
-            clients.put( client.getLogin(), client );
+            connectors.put( login, conn );
+            clients.put( login, client );
         }
-        return result;
+        return conn.isValid();
     }
 
     public void logout(
@@ -101,12 +103,11 @@ public class IDLTalkieServerImpl
             org.omg.CosNaming.NamingContextPackage.InvalidName,
             InvalidName
     {
-        String corbaName = "TalkieServer";
         String params[] = new String[] { "-ORBInitialPort", "1050" };
         ORB orb = ORB.init( params, null );
         org.omg.CORBA.Object corbaObject = orb.resolve_initial_references( "NameService" );
         NamingContext naming = NamingContextHelper.narrow( corbaObject );
-        NameComponent nameComponent = new NameComponent( corbaName, "" );
+        NameComponent nameComponent = new NameComponent( "TalkieServer", "" );
         NameComponent path[] = { nameComponent };
         naming.unbind( path );
     }

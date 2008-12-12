@@ -73,9 +73,6 @@ public class MyRMIConnector
     @Override
     protected void mainLoopStep()
     {
-        while ( !Thread.currentThread().isInterrupted() && valid )
-        {
-            Thread.yield();
-        }
+        Thread.yield();
     }
 }
