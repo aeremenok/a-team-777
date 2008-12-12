@@ -1,20 +1,15 @@
 package talkie.server.process.dispatchers;
 
-import talkie.server.Server;
-
 public class CORBADispatcher
     extends DispatchProtocol
 {
-    private Server server;
-
     public void run()
     {
     }
 
     @Override
-    public void setServer(
-        Server server )
+    protected void close()
     {
-        this.server = server;
+        // todo Auto-generated method stub
     }
 }

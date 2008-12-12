@@ -12,7 +12,8 @@ import talkie.server.process.listeners.UDPServerConnector;
 public class UDPDispatcher
     extends DispatchProtocol
 {
-    private Logger log = Logger.getLogger( UDPDispatcher.class );
+    private Logger         log = Logger.getLogger( UDPDispatcher.class );
+    private DatagramSocket socket;
 
     public UDPDispatcher()
     {
@@ -20,11 +21,10 @@ public class UDPDispatcher
 
     public void run()
     {
-        DatagramSocket socket = null;
         try
         {
             socket = new DatagramSocket( 7777 );
-            while ( !Thread.currentThread().isInterrupted() )
+            while ( !Thread.currentThread().isInterrupted() && valid )
             {
                 byte[] inBuf = new byte[Talkie.MSG_SIZE];
                 DatagramPacket inPacket = new DatagramPacket( inBuf, inBuf.length );
@@ -38,10 +38,11 @@ public class UDPDispatcher
         {
             log.error( "", e );
         }
+    }
 
-        if ( socket != null )
-        {
-            socket.close();
-        }
+    @Override
+    protected void close()
+    {
+        socket.close();
     }
 }

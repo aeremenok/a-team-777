@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import talkie.client.listeners.ClientConnector;
+import talkie.client.connectors.ClientConnector;
 import talkie.client.ui.LoginDialog;
 import talkie.common.constants.Message;
 import talkie.common.ui.MyFrame;

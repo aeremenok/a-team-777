@@ -40,30 +40,19 @@ public class Server
         ActionListener
 {
     private static Logger                       log                  = Logger.getLogger( Server.class );
-
-    // файлы
     private static final String                 USERS_PROPERTIES     = "users.properties";
-
     private static final String                 LOG4J_PROPERTIES     = "log4j.properties";
-
     private static final String                 PROTOCOLS_PROPERTIES = "protocols.properties";
-    // действия
     private static final int                    EXIT                 = 0;
     private static final int                    OPEN                 = 1;
-
     private static final int                    SAVE                 = 2;
     private static final int                    SAVE_AS              = 3;
     private static final int                    ABOUT                = 4;
-    // пользователи
     private String                              userFileName         = USERS_PROPERTIES;
     private HashMap<String, User>               users                = null;
-
-    // протоколы
     private HashMap<Integer, JCheckBoxMenuItem> protActions          = new HashMap<Integer, JCheckBoxMenuItem>();
-    private HashMap<String, DispatchProtocol>   protInstances        = new HashMap<String, DispatchProtocol>();
-
-    private HashMap<String, Thread>             protRunning          = new HashMap<String, Thread>();
-    // виджеты
+    private HashMap<String, DispatchProtocol>   dispatchInstances    = new HashMap<String, DispatchProtocol>();
+    private HashMap<String, DispatchProtocol>   dispatchActive       = new HashMap<String, DispatchProtocol>();
     private JTable                              usersTable           = null;
 
     public static void main(
@@ -191,16 +180,16 @@ public class Server
                     String name = item.getText();
                     if ( item.isSelected() )
                     {// запускаем протокол
-                        Thread runner = new Thread( protInstances.get( name ) );
-                        protRunning.put( name, runner );
+                        dispatchActive.put( name, dispatchInstances.get( name ) );
+                        Thread runner = new Thread( dispatchInstances.get( name ) );
                         runner.start();
                     }
                     else
                     {// останавливаем протокол
-                        Thread runner = protRunning.get( name );
-                        if ( runner != null && !runner.isInterrupted() )
+                        DispatchProtocol protocol = dispatchActive.get( name );
+                        if ( protocol != null )
                         {
-                            runner.interrupt();
+                            protocol.stop();
                         }
                     }
                 }
@@ -295,13 +284,13 @@ public class Server
         JMenu mProtocols = new JMenu( "Протоколы" );
 
         int i = 1000;
-        Set<String> keys = protInstances.keySet();
+        Set<String> keys = dispatchInstances.keySet();
         for ( String key : keys )
         {
             i++;
             JCheckBoxMenuItem item = new JCheckBoxMenuItem( key );
             item.setActionCommand( "" + i );
-            item.setEnabled( protInstances.get( key ) != null );
+            item.setEnabled( dispatchInstances.get( key ) != null );
             item.addActionListener( this );
 
             protActions.put( i, item );
@@ -358,7 +347,7 @@ public class Server
                 {
                     DispatchProtocol server = (DispatchProtocol) object;
                     server.setServer( this );
-                    protInstances.put( key, server );
+                    dispatchInstances.put( key, server );
                 }
                 else
                 {
@@ -405,12 +394,9 @@ public class Server
     private void onExit()
     {
         // отключаем диспетчеры соединений
-        for ( Thread t : protRunning.values() )
+        for ( DispatchProtocol p : dispatchActive.values() )
         {
-            if ( t != null && !t.isInterrupted() )
-            {
-                t.interrupt();
-            }
+            p.stop();
         }
 
         // отключаем существующие соединения

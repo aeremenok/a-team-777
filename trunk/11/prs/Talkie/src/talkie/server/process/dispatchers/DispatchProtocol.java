@@ -6,7 +6,8 @@ public abstract class DispatchProtocol
     implements
         Runnable
 {
-    protected Server server;
+    protected Server  server;
+    protected boolean valid = true;
 
     public Server getServer()
     {
@@ -18,4 +19,13 @@ public abstract class DispatchProtocol
     {
         this.server = server;
     }
+
+    public void stop()
+    {
+        valid = false;
+        close();
+        Thread.currentThread().interrupt();
+    }
+
+    protected abstract void close();
 }

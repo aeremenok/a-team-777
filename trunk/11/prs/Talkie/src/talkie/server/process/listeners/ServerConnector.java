@@ -48,24 +48,7 @@ public abstract class ServerConnector
         return valid;
     }
 
-    public void run()
-    {
-        while ( !Thread.currentThread().isInterrupted() && valid )
-        {
-            mainLoopStep();
-        }
-    }
-
-    public final void stop()
-    {
-        valid = false;
-        close();
-        Thread.currentThread().interrupt();
-    }
-
-    protected abstract void mainLoopStep();
-
-    protected void process(
+    public void process(
         String message )
     {
         StringTokenizer tokenizer = new StringTokenizer( message, " " );
@@ -143,6 +126,23 @@ public abstract class ServerConnector
         }
     }
 
-    abstract protected void send(
+    public void run()
+    {
+        while ( !Thread.currentThread().isInterrupted() && valid )
+        {
+            mainLoopStep();
+        }
+    }
+
+    public final void stop()
+    {
+        valid = false;
+        close();
+        Thread.currentThread().interrupt();
+    }
+
+    protected abstract void mainLoopStep();
+
+    protected abstract void send(
         String string );
 }
