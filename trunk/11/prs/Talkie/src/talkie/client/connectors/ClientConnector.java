@@ -56,6 +56,28 @@ public abstract class ClientConnector
         return login;
     }
 
+    public String getPass()
+    {
+        return pass;
+    }
+
+    public void process(
+        String msg )
+    {
+        if ( msg.startsWith( Message.LOGOUT ) )
+        {
+            getClient().setVisible( false );
+            getClient().getTextArea().setText( "" );
+            getClient().getLoginDialog().setVisible( true );
+            stop();
+        }
+        else
+        {
+            getClient().getTextArea().append( msg + "\n" );
+            getClient().getTextArea().setCaretPosition( getClient().getTextArea().getText().length() );
+        }
+    }
+
     public void run()
     {
         while ( !Thread.currentThread().isInterrupted() && valid )
@@ -89,21 +111,4 @@ public abstract class ClientConnector
     }
 
     protected abstract void mainLoopStep();
-
-    protected void process(
-        String msg )
-    {
-        if ( msg.startsWith( Message.LOGOUT ) )
-        {
-            getClient().setVisible( false );
-            getClient().getTextArea().setText( "" );
-            getClient().getLoginDialog().setVisible( true );
-            stop();
-        }
-        else
-        {
-            getClient().getTextArea().append( msg + "\n" );
-            getClient().getTextArea().setCaretPosition( getClient().getTextArea().getText().length() );
-        }
-    }
 }
