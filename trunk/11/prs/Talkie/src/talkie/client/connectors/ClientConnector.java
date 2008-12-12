@@ -61,6 +61,10 @@ public abstract class ClientConnector
         return pass;
     }
 
+    public abstract void logout();
+
+    public abstract boolean needsRunning();
+
     public void process(
         String msg )
     {
@@ -106,15 +110,12 @@ public abstract class ClientConnector
     public final void stop()
     {
         valid = false;
-        try
+        logout();
+        close();
+        if ( needsRunning() )
         {
-            close();
+            Thread.currentThread().interrupt();
         }
-        catch ( Exception e )
-        {
-            e.printStackTrace();
-        }
-        Thread.currentThread().interrupt();
     }
 
     protected abstract void mainLoopStep();

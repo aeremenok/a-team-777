@@ -57,6 +57,25 @@ public class MyRMIConnector
     }
 
     @Override
+    public void logout()
+    {
+        try
+        {
+            talkieServer.logout( talkieClientImpl );
+        }
+        catch ( RemoteException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean needsRunning()
+    {
+        return false;
+    }
+
+    @Override
     public void send(
         String message )
     {

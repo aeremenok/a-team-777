@@ -1,14 +1,14 @@
 module corba {
     interface IDLTalkieClient {
-        string getLogin();
-        string getPass();
+        wstring getLogin();
+        wstring getPass();
         void deliverMessage(in wstring message);
     };
 
     interface IDLTalkieServer {
         boolean login(in IDLTalkieClient client);
-        void logout(in string login);
-        void postMessage(in string login, in string message);
-        void whoIsHere(in string login);
+        void logout(in wstring login);
+        void postMessage(in wstring login, in wstring message);
+        void whoIsHere(in wstring login);
     };
 };
