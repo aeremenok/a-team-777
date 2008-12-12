@@ -7,13 +7,13 @@ import talkie.client.Client;
 import talkie.client.connectors.rmi.TalkieClientImpl;
 import talkie.server.dispatchers.rmi.TalkieServer;
 
-public class RMIConnector
+public class MyRMIConnector
     extends ClientConnector
 {
     private TalkieServer     talkieServer;
     private TalkieClientImpl talkieClientImpl;
 
-    public RMIConnector(
+    public MyRMIConnector(
         Client client )
     {
         super( client );
@@ -73,5 +73,9 @@ public class RMIConnector
     @Override
     protected void mainLoopStep()
     {
+        while ( !Thread.currentThread().isInterrupted() && valid )
+        {
+            Thread.yield();
+        }
     }
 }
