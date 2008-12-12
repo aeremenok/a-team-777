@@ -18,14 +18,6 @@ public class MyRMIConnector
         Client client )
     {
         super( client );
-        try
-        {
-            talkieClientImpl = new TalkieClientImpl( this );
-        }
-        catch ( RemoteException e )
-        {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -87,6 +79,22 @@ public class MyRMIConnector
         try
         {
             talkieServer.postMessage( talkieClientImpl, message );
+        }
+        catch ( RemoteException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setLoginAndPass(
+        String login,
+        String pass )
+    {
+        super.setLoginAndPass( login, pass );
+        try
+        {
+            talkieClientImpl = new TalkieClientImpl( this );
         }
         catch ( RemoteException e )
         {
