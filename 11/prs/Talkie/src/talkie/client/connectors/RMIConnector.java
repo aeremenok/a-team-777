@@ -17,7 +17,14 @@ public class RMIConnector
         Client client )
     {
         super( client );
-        talkieClientImpl = new TalkieClientImpl( this );
+        try
+        {
+            talkieClientImpl = new TalkieClientImpl( this );
+        }
+        catch ( RemoteException e )
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
