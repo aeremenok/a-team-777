@@ -137,7 +137,14 @@ public abstract class ServerConnector
     public final void stop()
     {
         valid = false;
-        close();
+        try
+        {
+            close();
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+        }
         Thread.currentThread().interrupt();
     }
 

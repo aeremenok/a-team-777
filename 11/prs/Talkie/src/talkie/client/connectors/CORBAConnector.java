@@ -9,13 +9,14 @@ import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import talkie.client.Client;
-import talkie.server.dispatchers.corba.IDLTalkieServer;
-import talkie.server.dispatchers.corba.IDLTalkieServerHelper;
+import talkie.common.corba.IDLTalkieServer;
+import talkie.common.corba.IDLTalkieServerHelper;
 
 public class CORBAConnector
     extends ClientConnector
 {
-    private IDLTalkieServer talkieServer;
+    private IDLTalkieServer     talkieServer;
+    private IDLTalkieClientImpl talkieClient;
 
     public CORBAConnector(
         Client client )
@@ -40,7 +41,7 @@ public class CORBAConnector
     @Override
     public boolean establishConnection()
     {
-        return talkieServer.login( login, pass );
+        return talkieServer.login( talkieClient );
     }
 
     @Override
@@ -69,6 +70,7 @@ public class CORBAConnector
     @Override
     protected void mainLoopStep()
     {
+        talkieClient = new IDLTalkieClientImpl( this );
         while ( !Thread.currentThread().isInterrupted() && valid )
         {
             Thread.yield();

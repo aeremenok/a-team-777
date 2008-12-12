@@ -1,4 +1,4 @@
-package talkie.server.dispatchers.corba;
+package talkie.server.dispatchers;
 
 import java.util.HashMap;
 
@@ -11,6 +11,8 @@ import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import talkie.common.constants.Message;
+import talkie.common.corba.IDLTalkieClient;
+import talkie.common.corba._IDLTalkieServerImplBase;
 import talkie.server.Server;
 import talkie.server.connectors.CORBAServerConnector;
 import talkie.server.data.User;
@@ -18,9 +20,10 @@ import talkie.server.data.User;
 public class IDLTalkieServerImpl
     extends _IDLTalkieServerImplBase
 {
-    HashMap<String, CORBAServerConnector> connectors = new HashMap<String, CORBAServerConnector>();
-    static private IDLTalkieServerImpl    instance   = null;
-    private final Server                  server;
+    private HashMap<String, CORBAServerConnector> connectors = new HashMap<String, CORBAServerConnector>();
+    private HashMap<String, IDLTalkieClient>      clients    = new HashMap<String, IDLTalkieClient>();
+    static private IDLTalkieServerImpl            instance   = null;
+    private final Server                          server;
 
     static public IDLTalkieServerImpl getInstance(
         Server server )
@@ -47,14 +50,14 @@ public class IDLTalkieServerImpl
     }
 
     public boolean login(
-        String login,
-        String pass )
+        IDLTalkieClient client )
     {
         CORBAServerConnector conn = new CORBAServerConnector( server, this );
-        boolean result = conn.login( login, pass );
+        boolean result = conn.login( client.getLogin(), client.getPass() );
         if ( result )
         {
-            connectors.put( login, conn );
+            connectors.put( client.getLogin(), conn );
+            clients.put( client.getLogin(), client );
         }
         return result;
     }
@@ -68,6 +71,7 @@ public class IDLTalkieServerImpl
             conn.process( Message.LOGOUT );
             conn.stop();
             connectors.remove( login );
+            clients.remove( login );
         }
     }
 
@@ -82,8 +86,13 @@ public class IDLTalkieServerImpl
     public void send(
         User user,
         String string )
+        throws Exception
     {
-        // todo
+        IDLTalkieClient client = clients.get( user.getLogin() );
+        if ( client != null )
+        {
+            client.deliverMessage( string );
+        }
     }
 
     public void unregister()

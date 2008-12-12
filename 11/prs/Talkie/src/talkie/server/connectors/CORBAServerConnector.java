@@ -1,7 +1,7 @@
 package talkie.server.connectors;
 
 import talkie.server.Server;
-import talkie.server.dispatchers.corba.IDLTalkieServerImpl;
+import talkie.server.dispatchers.IDLTalkieServerImpl;
 
 public class CORBAServerConnector
     extends ServerConnector
@@ -19,12 +19,20 @@ public class CORBAServerConnector
     @Override
     protected void mainLoopStep()
     {
+        Thread.yield();
     }
 
     @Override
     protected void send(
         String string )
     {
-        talkieServerImpl.send( user, string );
+        try
+        {
+            talkieServerImpl.send( user, string );
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+        }
     }
 }
