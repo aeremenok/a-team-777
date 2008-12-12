@@ -70,9 +70,13 @@ public class MyRMIConnector
     }
 
     @Override
-    public boolean needsRunning()
+    public boolean needsStopping()
     {
         return false;
+    }
+
+    public void run()
+    {
     }
 
     @Override
@@ -87,11 +91,5 @@ public class MyRMIConnector
         {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void mainLoopStep()
-    {
-        Thread.yield();
     }
 }

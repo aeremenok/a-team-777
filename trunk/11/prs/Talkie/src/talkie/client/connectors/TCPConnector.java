@@ -116,9 +116,26 @@ public class TCPConnector
     }
 
     @Override
-    public boolean needsRunning()
+    public boolean needsStopping()
     {
         return true;
+    }
+
+    public void run()
+    {
+        while ( !Thread.currentThread().isInterrupted() && valid )
+        {
+            String msg = "";
+            try
+            {
+                msg = istream.readUTF();
+            }
+            catch ( IOException e )
+            {
+                e.printStackTrace();
+            }
+            process( msg );
+        }
     }
 
     @Override
@@ -134,20 +151,5 @@ public class TCPConnector
         {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void mainLoopStep()
-    {
-        String msg = "";
-        try
-        {
-            msg = istream.readUTF();
-        }
-        catch ( IOException e )
-        {
-            e.printStackTrace();
-        }
-        process( msg );
     }
 }
