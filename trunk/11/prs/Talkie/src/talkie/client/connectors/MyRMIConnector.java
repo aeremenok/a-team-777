@@ -4,14 +4,15 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 import talkie.client.Client;
+import talkie.client.connectors.rmi.TalkieClient;
 import talkie.client.connectors.rmi.TalkieClientImpl;
 import talkie.server.dispatchers.rmi.TalkieServer;
 
 public class MyRMIConnector
     extends ClientConnector
 {
-    private TalkieServer     talkieServer;
-    private TalkieClientImpl talkieClientImpl;
+    private TalkieServer talkieServer;
+    private TalkieClient talkieClientImpl;
 
     public MyRMIConnector(
         Client client )
