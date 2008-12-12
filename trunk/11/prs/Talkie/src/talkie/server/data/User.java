@@ -1,7 +1,7 @@
 package talkie.server.data;
 
 import talkie.common.constants.Status;
-import talkie.server.process.listeners.ServerConnector;
+import talkie.server.connectors.ServerConnector;
 
 public class User
 {

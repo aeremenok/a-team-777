@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 
 import talkie.client.Client;
 import talkie.client.connectors.rmi.TalkieClientImpl;
-import talkie.server.process.dispatchers.rmi.TalkieServer;
+import talkie.server.dispatchers.rmi.TalkieServer;
 
 public class RMIConnector
     extends ClientConnector

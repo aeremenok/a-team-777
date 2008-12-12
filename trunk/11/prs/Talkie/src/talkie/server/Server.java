@@ -30,7 +30,7 @@ import org.apache.log4j.PropertyConfigurator;
 import talkie.common.constants.Status;
 import talkie.common.ui.MyFrame;
 import talkie.server.data.User;
-import talkie.server.process.dispatchers.DispatchProtocol;
+import talkie.server.dispatchers.DispatchProtocol;
 import talkie.server.ui.UserTableModel;
 
 public class Server
@@ -339,7 +339,7 @@ public class Server
                 String clazzName = protNames.getProperty( key );
                 if ( clazzName.length() == 0 )
                 {
-                    clazzName = "talkie.server.process.dispatchers." + key + "Dispatcher";
+                    clazzName = "talkie.server.dispatchers." + key + "Dispatcher";
                 }
                 Class clazz = Class.forName( clazzName );
                 Object object = clazz.newInstance();

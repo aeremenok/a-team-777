@@ -1,4 +1,4 @@
-package talkie.server.process.dispatchers;
+package talkie.server.dispatchers;
 
 import talkie.server.Server;
 

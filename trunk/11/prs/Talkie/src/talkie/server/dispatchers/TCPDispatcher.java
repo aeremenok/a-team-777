@@ -1,4 +1,4 @@
-package talkie.server.process.dispatchers;
+package talkie.server.dispatchers;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -6,7 +6,7 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
-import talkie.server.process.listeners.TCPServerConnector;
+import talkie.server.connectors.TCPServerConnector;
 
 public class TCPDispatcher
     extends DispatchProtocol
