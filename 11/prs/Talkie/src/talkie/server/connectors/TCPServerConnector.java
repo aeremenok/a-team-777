@@ -62,6 +62,16 @@ public class TCPServerConnector
     }
 
     @Override
+    public boolean login(
+        String login,
+        String pass )
+    {
+        boolean b = super.login( login, pass );
+        send( String.valueOf( b ) );
+        return b;
+    }
+
+    @Override
     protected void mainLoopStep()
     {
         String msg = "";

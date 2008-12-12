@@ -1,7 +1,5 @@
 package talkie.client.connectors;
 
-import java.util.Properties;
-
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.CosNaming.NameComponent;
@@ -24,6 +22,7 @@ public class CORBAConnector
         Client client )
     {
         super( client );
+        talkieClient = new IDLTalkieClientImpl( this );
         try
         {
             connect();
@@ -59,11 +58,8 @@ public class CORBAConnector
             CannotProceed,
             org.omg.CosNaming.NamingContextPackage.InvalidName
     {
-        String params[] = new String[] {};
-        Properties props = System.getProperties();
-        props.put( "org.omg.CORBA.ORBInitialPort", "1050" );
-        props.put( "org.omg.CORBA.ORBInitialHost", serverName );
-        ORB orb = ORB.init( params, props );
+        String params[] = new String[] { "-ORBInitialPort", "1050", "-ORBInitialHost", serverName };
+        ORB orb = ORB.init( params, null );
         org.omg.CORBA.Object corbaObject = orb.resolve_initial_references( "NameService" );
         NamingContext naming = NamingContextHelper.narrow( corbaObject );
         NameComponent nameComponent = new NameComponent( "TalkieServer", "" );
@@ -75,10 +71,6 @@ public class CORBAConnector
     @Override
     protected void mainLoopStep()
     {
-        talkieClient = new IDLTalkieClientImpl( this );
-        while ( !Thread.currentThread().isInterrupted() && valid )
-        {
-            Thread.yield();
-        }
+        Thread.yield();
     }
 }

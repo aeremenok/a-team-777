@@ -45,6 +45,16 @@ public class UDPServerConnector
     }
 
     @Override
+    public boolean login(
+        String login,
+        String pass )
+    {
+        boolean b = super.login( login, pass );
+        send( String.valueOf( b ) );
+        return b;
+    }
+
+    @Override
     protected void mainLoopStep()
     {
         byte[] data = new byte[Talkie.MSG_SIZE];

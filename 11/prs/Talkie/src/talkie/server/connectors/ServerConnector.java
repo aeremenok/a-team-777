@@ -16,7 +16,7 @@ public abstract class ServerConnector
 {
     protected Server  server = null;
     protected User    user   = null;
-    protected boolean valid  = true;
+    private boolean valid  = true;
 
     public ServerConnector(
         Server server )
@@ -33,19 +33,18 @@ public abstract class ServerConnector
         String login,
         String pass )
     {
-        valid = false;
+        setValid( false );
         user = server.getUsers().get( login );
         if ( user != null && pass.equals( user.getPass() ) )
         {
             synchronized ( user )
             {
-                valid = true;
+                setValid( true );
                 user.setStatus( Status.ONLINE );
                 user.setHandler( this );
             }
         }
-        send( String.valueOf( valid ) );
-        return valid;
+        return isValid();
     }
 
     public void process(
@@ -128,7 +127,7 @@ public abstract class ServerConnector
 
     public void run()
     {
-        while ( !Thread.currentThread().isInterrupted() && valid )
+        while ( !Thread.currentThread().isInterrupted() && isValid() )
         {
             mainLoopStep();
         }
@@ -136,7 +135,7 @@ public abstract class ServerConnector
 
     public final void stop()
     {
-        valid = false;
+        setValid( false );
         try
         {
             close();
@@ -152,4 +151,15 @@ public abstract class ServerConnector
 
     protected abstract void send(
         String string );
+
+    public void setValid(
+        boolean valid )
+    {
+        this.valid = valid;
+    }
+
+    public boolean isValid()
+    {
+        return valid;
+    }
 }
