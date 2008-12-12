@@ -38,9 +38,10 @@ public class UDPServerConnector
     }
 
     @Override
-    public void close()
+    public void close(
+        boolean informOtherSide )
     {
-        super.close();
+        super.close( informOtherSide );
         socket.close();
     }
 
@@ -55,28 +56,36 @@ public class UDPServerConnector
     }
 
     @Override
-    protected void mainLoopStep()
+    public boolean needsStopping()
     {
-        byte[] data = new byte[Talkie.MSG_SIZE];
-        DatagramPacket inPacket = new DatagramPacket( data, data.length );
+        return true;
+    }
 
-        try
+    public void run()
+    {
+        while ( !Thread.currentThread().isInterrupted() && isValid() )
         {
-            socket.receive( inPacket );
-        }
-        catch ( IOException e )
-        {
-            // клиент отвалился
-            close();
-            synchronized ( user )
+            byte[] data = new byte[Talkie.MSG_SIZE];
+            DatagramPacket inPacket = new DatagramPacket( data, data.length );
+
+            try
             {
-                user.setStatus( Status.AWAY );
+                socket.receive( inPacket );
             }
-            Thread.currentThread().interrupt();
-        }
+            catch ( IOException e )
+            {
+                // клиент отвалился
+                close( false );
+                synchronized ( user )
+                {
+                    user.setStatus( Status.AWAY );
+                }
+                Thread.currentThread().interrupt();
+            }
 
-        String message = new String( inPacket.getData(), 0, inPacket.getLength() );
-        process( message );
+            String message = new String( inPacket.getData(), 0, inPacket.getLength() );
+            process( message );
+        }
     }
 
     @Override

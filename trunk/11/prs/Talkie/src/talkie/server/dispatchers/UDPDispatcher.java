@@ -19,6 +19,12 @@ public class UDPDispatcher
     {
     }
 
+    @Override
+    public boolean needsStopping()
+    {
+        return true;
+    }
+
     public void run()
     {
         try

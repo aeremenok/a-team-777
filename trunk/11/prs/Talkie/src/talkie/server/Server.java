@@ -406,7 +406,7 @@ public class Server
         {
             if ( u.getStatus() == Status.ONLINE && u.getHandler() != null )
             {
-                u.getHandler().stop();
+                u.getHandler().stop( true );
             }
         }
 

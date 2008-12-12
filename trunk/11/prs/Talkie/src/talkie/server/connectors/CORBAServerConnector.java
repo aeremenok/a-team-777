@@ -17,9 +17,13 @@ public class CORBAServerConnector
     }
 
     @Override
-    protected void mainLoopStep()
+    public boolean needsStopping()
     {
-        Thread.yield();
+        return false;
+    }
+
+    public void run()
+    {
     }
 
     @Override

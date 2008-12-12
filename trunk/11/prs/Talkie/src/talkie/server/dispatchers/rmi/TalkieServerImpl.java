@@ -51,7 +51,7 @@ public class TalkieServerImpl
         if ( serverConnector != null )
         {
             serverConnector.process( Message.LOGOUT );
-            serverConnector.stop();
+            serverConnector.stop( false );
             connectors.remove( client.getLogin() );
             clients.remove( client.getLogin() );
         }
