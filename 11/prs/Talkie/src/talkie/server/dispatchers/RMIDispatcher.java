@@ -15,6 +15,12 @@ public class RMIDispatcher
     {
     }
 
+    @Override
+    public boolean needsStopping()
+    {
+        return false;
+    }
+
     public void run()
     {
         try
@@ -34,11 +40,6 @@ public class RMIDispatcher
         catch ( Exception e )
         {
             e.printStackTrace();
-        }
-
-        while ( !Thread.currentThread().isInterrupted() && valid )
-        {
-            Thread.yield();
         }
     }
 

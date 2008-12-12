@@ -32,9 +32,10 @@ public class TCPServerConnector
     }
 
     @Override
-    public void close()
+    public void close(
+        boolean informOtherSide )
     {
-        super.close();
+        super.close( informOtherSide );
         try
         {
             istream.close();
@@ -72,19 +73,27 @@ public class TCPServerConnector
     }
 
     @Override
-    protected void mainLoopStep()
+    public boolean needsStopping()
     {
-        String msg = "";
-        try
-        {
-            msg = istream.readUTF();
-        }
-        catch ( IOException e )
-        {
-            e.printStackTrace();
-        }
+        return true;
+    }
 
-        process( msg );
+    public void run()
+    {
+        while ( !Thread.currentThread().isInterrupted() && isValid() )
+        {
+            String msg = "";
+            try
+            {
+                msg = istream.readUTF();
+            }
+            catch ( IOException e )
+            {
+                e.printStackTrace();
+            }
+
+            process( msg );
+        }
     }
 
     @Override

@@ -1,6 +1,5 @@
 package talkie.server.dispatchers;
 
-
 public class CORBADispatcher
     extends DispatchProtocol
 {
@@ -10,13 +9,15 @@ public class CORBADispatcher
     {
     }
 
+    @Override
+    public boolean needsStopping()
+    {
+        return false;
+    }
+
     public void run()
     {
         talkieServerImpl = IDLTalkieServerImpl.getInstance( server );
-        while ( !Thread.currentThread().isInterrupted() && valid )
-        {
-            Thread.yield();
-        }
     }
 
     @Override

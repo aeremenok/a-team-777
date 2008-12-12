@@ -109,22 +109,7 @@ public class Client
     {
         if ( connector != null )
         {
-            try
-            {
-                connector.logout();
-            }
-            catch ( Throwable e )
-            {
-                e.printStackTrace();
-            }
-            try
-            {
-                connector.stop();
-            }
-            catch ( Throwable e )
-            {
-                e.printStackTrace();
-            }
+            connector.stop();
         }
         System.exit( 0 );
     }

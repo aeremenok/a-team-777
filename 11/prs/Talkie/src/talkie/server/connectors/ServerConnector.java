@@ -14,9 +14,9 @@ public abstract class ServerConnector
     implements
         Runnable
 {
-    protected Server  server = null;
-    protected User    user   = null;
-    private boolean valid  = true;
+    protected Server server = null;
+    protected User   user   = null;
+    private boolean  valid  = true;
 
     public ServerConnector(
         Server server )
@@ -24,9 +24,18 @@ public abstract class ServerConnector
         this.server = server;
     }
 
-    public void close()
+    public void close(
+        boolean informOtherSide )
     {
-        send( Message.LOGOUT );
+        if ( informOtherSide )
+        {
+            send( Message.LOGOUT );
+        }
+    }
+
+    public boolean isValid()
+    {
+        return valid;
     }
 
     public boolean login(
@@ -46,6 +55,8 @@ public abstract class ServerConnector
         }
         return isValid();
     }
+
+    public abstract boolean needsStopping();
 
     public void process(
         String message )
@@ -120,37 +131,10 @@ public abstract class ServerConnector
                         u.getHandler().send( "[" + date + "] Пользователь " + user.getLogin() + " покинул чат!" );
                     }
                 }
-                stop();
+                stop( false );
             }
         }
     }
-
-    public void run()
-    {
-        while ( !Thread.currentThread().isInterrupted() && isValid() )
-        {
-            mainLoopStep();
-        }
-    }
-
-    public final void stop()
-    {
-        setValid( false );
-        try
-        {
-            close();
-        }
-        catch ( Exception e )
-        {
-            e.printStackTrace();
-        }
-        Thread.currentThread().interrupt();
-    }
-
-    protected abstract void mainLoopStep();
-
-    protected abstract void send(
-        String string );
 
     public void setValid(
         boolean valid )
@@ -158,8 +142,17 @@ public abstract class ServerConnector
         this.valid = valid;
     }
 
-    public boolean isValid()
+    public final void stop(
+        boolean informOtherSide )
     {
-        return valid;
+        setValid( false );
+        close( informOtherSide );
+        if ( needsStopping() )
+        {
+            Thread.currentThread().interrupt();
+        }
     }
+
+    protected abstract void send(
+        String string );
 }

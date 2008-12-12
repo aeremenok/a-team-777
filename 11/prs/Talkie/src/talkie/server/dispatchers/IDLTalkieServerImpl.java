@@ -25,7 +25,7 @@ public class IDLTalkieServerImpl
     static private IDLTalkieServerImpl            instance   = null;
     private final Server                          server;
 
-    static public IDLTalkieServerImpl getInstance(
+    static synchronized public IDLTalkieServerImpl getInstance(
         Server server )
     {
         if ( instance == null )
@@ -58,8 +58,11 @@ public class IDLTalkieServerImpl
         conn.process( Message.LOGIN + " " + login + " " + pass );
         if ( conn.isValid() )
         {
-            connectors.put( login, conn );
-            clients.put( login, client );
+            synchronized ( connectors )
+            {
+                connectors.put( login, conn );
+                clients.put( login, client );
+            }
         }
         return conn.isValid();
     }
@@ -70,10 +73,13 @@ public class IDLTalkieServerImpl
         CORBAServerConnector conn = connectors.get( login );
         if ( conn != null )
         {
+            synchronized ( connectors )
+            {
+                connectors.remove( login );
+                clients.remove( login );
+            }
             conn.process( Message.LOGOUT );
-            conn.stop();
-            connectors.remove( login );
-            clients.remove( login );
+            conn.stop( false );
         }
     }
 

@@ -14,6 +14,8 @@ public abstract class DispatchProtocol
         return server;
     }
 
+    public abstract boolean needsStopping();
+
     public void setServer(
         Server server )
     {
@@ -24,7 +26,10 @@ public abstract class DispatchProtocol
     {
         valid = false;
         close();
-        Thread.currentThread().interrupt();
+        if ( needsStopping() )
+        {
+            Thread.currentThread().interrupt();
+        }
     }
 
     protected abstract void close();
