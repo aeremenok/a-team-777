@@ -1,1 +1,1 @@
-tnameserv
+tnameserv -ORBInitialPort 1050
