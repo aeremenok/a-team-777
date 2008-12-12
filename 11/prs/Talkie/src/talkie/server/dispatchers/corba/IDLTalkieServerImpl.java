@@ -93,8 +93,8 @@ public class IDLTalkieServerImpl
             InvalidName
     {
         String corbaName = "TalkieServer";
-        ORB orb = ORB.init();
-        orb.connect( this );
+        String params[] = new String[] { "-ORBInitialPort", "1050" };
+        ORB orb = ORB.init( params, null );
         org.omg.CORBA.Object corbaObject = orb.resolve_initial_references( "NameService" );
         NamingContext naming = NamingContextHelper.narrow( corbaObject );
         NameComponent nameComponent = new NameComponent( corbaName, "" );
@@ -119,7 +119,8 @@ public class IDLTalkieServerImpl
             org.omg.CosNaming.NamingContextPackage.InvalidName
     {
         String corbaName = "TalkieServer";
-        ORB orb = ORB.init();
+        String params[] = new String[] { "-ORBInitialPort", "1050" };
+        ORB orb = ORB.init( params, null );
         orb.connect( this );
         org.omg.CORBA.Object corbaObject = orb.resolve_initial_references( "NameService" );
         NamingContext naming = NamingContextHelper.narrow( corbaObject );

@@ -56,7 +56,8 @@ public class CORBAConnector
             CannotProceed,
             org.omg.CosNaming.NamingContextPackage.InvalidName
     {
-        ORB orb = ORB.init();
+        String params[] = new String[] { "-ORBInitialPort", "1050" };
+        ORB orb = ORB.init( params, null );
         org.omg.CORBA.Object corbaObject = orb.resolve_initial_references( "NameService" );
         NamingContext naming = NamingContextHelper.narrow( corbaObject );
         NameComponent nameComponent = new NameComponent( "TalkieServer", "" );
