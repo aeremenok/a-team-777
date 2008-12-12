@@ -9,11 +9,11 @@ public class CORBADispatcher
 
     public CORBADispatcher()
     {
-        talkieServerImpl = IDLTalkieServerImpl.getInstance( server );
     }
 
     public void run()
     {
+        talkieServerImpl = IDLTalkieServerImpl.getInstance( server );
         while ( !Thread.currentThread().isInterrupted() && valid )
         {
             Thread.yield();
