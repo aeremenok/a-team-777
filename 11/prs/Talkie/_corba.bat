@@ -1,0 +1,1 @@
+idlj -td .\src -pkgPrefix corba talkie.server.dispatchers -fall talkie.idl

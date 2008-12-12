@@ -1,8 +1,8 @@
-module talkie {
+module corba {
     interface IDLTalkieServer {
-        boolean login(String login, String pass);
-        void logout(String login);
-        void postMessage(String login, String message);
-        void whoIsHere(String login);
+        boolean login(in string login, in string pass);
+        void logout(in string login);
+        void postMessage(in string login, in string message);
+        void whoIsHere(in string login);
     };
 };
