@@ -19,6 +19,7 @@ public class RMIServerConnector
     @Override
     protected void mainLoopStep()
     {
+        Thread.yield();
     }
 
     @Override

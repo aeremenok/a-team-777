@@ -1,6 +1,5 @@
 package talkie.server.dispatchers;
 
-import talkie.server.dispatchers.corba.IDLTalkieServerImpl;
 
 public class CORBADispatcher
     extends DispatchProtocol

@@ -106,7 +106,14 @@ public abstract class ClientConnector
     public final void stop()
     {
         valid = false;
-        close();
+        try
+        {
+            close();
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+        }
         Thread.currentThread().interrupt();
     }
 
