@@ -2,7 +2,7 @@ module corba {
     interface IDLTalkieClient {
         string getLogin();
         string getPass();
-        void deliverMessage(in string message);
+        void deliverMessage(in wstring message);
     };
 
     interface IDLTalkieServer {
