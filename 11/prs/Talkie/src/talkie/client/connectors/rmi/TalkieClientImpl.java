@@ -1,5 +1,6 @@
 package talkie.client.connectors.rmi;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -8,10 +9,11 @@ import talkie.client.connectors.MyRMIConnector;
 public class TalkieClientImpl
     extends UnicastRemoteObject
     implements
-        TalkieClient
+        TalkieClient,
+        Serializable
 {
-    private String             login;
-    private String             pass;
+    private String               login;
+    private String               pass;
     private final MyRMIConnector connector;
 
     public TalkieClientImpl(
