@@ -3,7 +3,7 @@ package talkie.client.connectors.rmi;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import talkie.client.connectors.RMIConnector;
+import talkie.client.connectors.MyRMIConnector;
 
 public class TalkieClientImpl
     extends UnicastRemoteObject
@@ -12,10 +12,10 @@ public class TalkieClientImpl
 {
     private String             login;
     private String             pass;
-    private final RMIConnector connector;
+    private final MyRMIConnector connector;
 
     public TalkieClientImpl(
-        RMIConnector connector )
+        MyRMIConnector connector )
         throws RemoteException
     {
         super();

@@ -1,6 +1,5 @@
 package talkie.server.dispatchers;
 
-import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
@@ -13,10 +12,6 @@ public class RMIDispatcher
     private String   name;
 
     public RMIDispatcher()
-    {
-    }
-
-    public void run()
     {
         try
         {
@@ -32,15 +27,17 @@ public class RMIDispatcher
         {
             Naming.rebind( name, talkie );
         }
-        catch ( RemoteException e )
+        catch ( Exception e )
         {
             e.printStackTrace();
-            stop();
         }
-        catch ( MalformedURLException e )
+    }
+
+    public void run()
+    {
+        while ( !Thread.currentThread().isInterrupted() && valid )
         {
-            e.printStackTrace();
-            stop();
+            Thread.yield();
         }
     }
 
