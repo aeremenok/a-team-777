@@ -3,13 +3,14 @@ package talkie.server.dispatchers;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
+import talkie.server.dispatchers.rmi.TalkieServer;
 import talkie.server.dispatchers.rmi.TalkieServerImpl;
 
 public class RMIDispatcher
     extends DispatchProtocol
 {
-    TalkieServerImpl talkie;
-    private String   name;
+    TalkieServer   talkie;
+    private String name;
 
     public RMIDispatcher()
     {
@@ -23,6 +24,7 @@ public class RMIDispatcher
 
     public void run()
     {
+        // System.setSecurityManager( new RMISecurityManager() );
         try
         {
             talkie = new TalkieServerImpl( server );

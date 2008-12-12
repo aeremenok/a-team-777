@@ -1,1 +1,1 @@
-rmiregistry
+start rmiregistry
