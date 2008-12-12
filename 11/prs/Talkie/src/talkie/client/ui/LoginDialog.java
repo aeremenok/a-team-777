@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import talkie.client.Client;
+import talkie.client.connectors.CORBAConnector;
 import talkie.client.connectors.MyRMIConnector;
 import talkie.client.connectors.TCPConnector;
 import talkie.client.connectors.UDPConnector;
@@ -110,7 +111,7 @@ public class LoginDialog
                 }
                 else if ( "CORBA".equalsIgnoreCase( label ) )
                 {
-                    // owner.setConnector( new CORBAConnector( owner ) );
+                    owner.setConnector( new CORBAConnector( owner ) );
                 }
                 owner.getConnector().setServerName( tfServer.getText() );
                 owner.getConnector().setLoginAndPass( tbLogin.getText(), tbPass.getText() );
@@ -143,7 +144,5 @@ public class LoginDialog
         p.add( tcp );
         p.add( rmi );
         p.add( corba );
-
-        corba.setEnabled( false );
     }
 }
