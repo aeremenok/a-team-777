@@ -31,16 +31,24 @@ public class TalkieServerImpl
         TalkieClient client )
         throws RemoteException
     {
+        RMIServerConnector connector = new RMIServerConnector( server, this );
         String login = client.getLogin();
         String pass = client.getPass();
-        RMIServerConnector connector = new RMIServerConnector( server, this );
-        boolean result = connector.login( login, pass );
-        if ( result )
+        synchronized ( connectors )
         {
             connectors.put( login, connector );
             clients.put( login, client );
         }
-        return result;
+        connector.process( Message.LOGIN + " " + login + " " + pass );
+        if ( !connector.isValid() )
+        {
+            synchronized ( connectors )
+            {
+                connectors.remove( login );
+                clients.remove( login );
+            }
+        }
+        return connector.isValid();
     }
 
     public void logout(
@@ -50,10 +58,13 @@ public class TalkieServerImpl
         RMIServerConnector serverConnector = connectors.get( client.getLogin() );
         if ( serverConnector != null )
         {
+            synchronized ( connectors )
+            {
+                connectors.remove( client.getLogin() );
+                clients.remove( client.getLogin() );
+            }
             serverConnector.process( Message.LOGOUT );
             serverConnector.stop( false );
-            connectors.remove( client.getLogin() );
-            clients.remove( client.getLogin() );
         }
     }
 
