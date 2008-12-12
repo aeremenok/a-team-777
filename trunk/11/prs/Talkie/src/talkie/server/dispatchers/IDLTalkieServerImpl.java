@@ -55,13 +55,18 @@ public class IDLTalkieServerImpl
         CORBAServerConnector conn = new CORBAServerConnector( server, this );
         String login = client.getLogin();
         String pass = client.getPass();
+        synchronized ( connectors )
+        {
+            connectors.put( login, conn );
+            clients.put( login, client );
+        }
         conn.process( Message.LOGIN + " " + login + " " + pass );
-        if ( conn.isValid() )
+        if ( !conn.isValid() )
         {
             synchronized ( connectors )
             {
-                connectors.put( login, conn );
-                clients.put( login, client );
+                connectors.remove( login );
+                clients.remove( login );
             }
         }
         return conn.isValid();
