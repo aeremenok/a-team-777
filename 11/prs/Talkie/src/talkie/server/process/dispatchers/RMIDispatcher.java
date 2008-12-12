@@ -35,7 +35,7 @@ public class RMIDispatcher
         catch ( RemoteException e )
         {
             e.printStackTrace();
-            close();
+            stop();
         }
         catch ( MalformedURLException e )
         {
