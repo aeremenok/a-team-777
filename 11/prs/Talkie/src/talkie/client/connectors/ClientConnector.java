@@ -1,4 +1,4 @@
-package talkie.client.listeners;
+package talkie.client.connectors;
 
 import talkie.client.Client;
 import talkie.common.constants.Message;

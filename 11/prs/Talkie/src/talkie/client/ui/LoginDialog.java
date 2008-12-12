@@ -14,8 +14,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import talkie.client.Client;
-import talkie.client.listeners.TCPConnector;
-import talkie.client.listeners.UDPConnector;
+import talkie.client.connectors.TCPConnector;
+import talkie.client.connectors.UDPConnector;
 import talkie.common.ui.MyDialog;
 
 public class LoginDialog

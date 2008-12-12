@@ -11,7 +11,8 @@ import talkie.server.process.listeners.TCPServerConnector;
 public class TCPDispatcher
     extends DispatchProtocol
 {
-    private Logger log = Logger.getLogger( TCPDispatcher.class );
+    private Logger       log = Logger.getLogger( TCPDispatcher.class );
+    private ServerSocket serverSocket;
 
     public TCPDispatcher()
     {
@@ -19,8 +20,6 @@ public class TCPDispatcher
 
     public void run()
     {
-        ServerSocket serverSocket = null;
-
         try
         {
             serverSocket = new ServerSocket( 7778 );
@@ -48,6 +47,19 @@ public class TCPDispatcher
                 TCPServerConnector target = new TCPServerConnector( server, socket );
                 new Thread( target ).start();
             }
+        }
+    }
+
+    @Override
+    protected void close()
+    {
+        try
+        {
+            serverSocket.close();
+        }
+        catch ( IOException e )
+        {
+            e.printStackTrace();
         }
     }
 }

@@ -9,7 +9,7 @@ public class User
     private String                       login              = "";
     private String                       pass               = "";
     private int                          status             = Status.AWAY;
-    private ServerConnector                   handler            = null;
+    private ServerConnector              handler            = null;
 
     public User(
         String login,

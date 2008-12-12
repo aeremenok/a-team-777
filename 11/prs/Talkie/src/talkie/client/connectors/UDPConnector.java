@@ -1,4 +1,4 @@
-package talkie.client.listeners;
+package talkie.client.connectors;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
