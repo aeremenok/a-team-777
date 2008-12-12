@@ -13,6 +13,10 @@ public class RMIDispatcher
 
     public RMIDispatcher()
     {
+    }
+
+    public void run()
+    {
         try
         {
             talkie = new TalkieServerImpl( server );
@@ -31,10 +35,7 @@ public class RMIDispatcher
         {
             e.printStackTrace();
         }
-    }
 
-    public void run()
-    {
         while ( !Thread.currentThread().isInterrupted() && valid )
         {
             Thread.yield();

@@ -30,7 +30,7 @@ public class TCPDispatcher
             Thread.currentThread().interrupt();
         }
 
-        while ( !Thread.currentThread().isInterrupted() )
+        while ( !Thread.currentThread().isInterrupted() && valid )
         {
             Socket socket;
             try
