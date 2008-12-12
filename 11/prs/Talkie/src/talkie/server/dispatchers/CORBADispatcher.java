@@ -1,4 +1,4 @@
-package talkie.server.process.dispatchers;
+package talkie.server.dispatchers;
 
 public class CORBADispatcher
     extends DispatchProtocol

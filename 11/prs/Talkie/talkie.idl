@@ -1,0 +1,8 @@
+module talkie {
+    interface IDLTalkieServer {
+        boolean login(String login, String pass);
+        void logout(String login);
+        void postMessage(String login, String message);
+        void whoIsHere(String login);
+    };
+};

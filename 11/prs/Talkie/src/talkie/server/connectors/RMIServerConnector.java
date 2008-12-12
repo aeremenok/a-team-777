@@ -1,7 +1,7 @@
-package talkie.server.process.listeners;
+package talkie.server.connectors;
 
 import talkie.server.Server;
-import talkie.server.process.dispatchers.rmi.TalkieServerImpl;
+import talkie.server.dispatchers.rmi.TalkieServerImpl;
 
 public class RMIServerConnector
     extends ServerConnector

@@ -1,4 +1,4 @@
-package talkie.server.process.dispatchers.rmi;
+package talkie.server.dispatchers.rmi;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -7,8 +7,8 @@ import java.util.HashMap;
 import talkie.client.connectors.rmi.TalkieClient;
 import talkie.common.constants.Message;
 import talkie.server.Server;
+import talkie.server.connectors.RMIServerConnector;
 import talkie.server.data.User;
-import talkie.server.process.listeners.RMIServerConnector;
 
 public class TalkieServerImpl
     extends UnicastRemoteObject

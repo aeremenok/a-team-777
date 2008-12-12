@@ -1,4 +1,4 @@
-package talkie.server.process.dispatchers;
+package talkie.server.dispatchers;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -6,8 +6,8 @@ import java.net.DatagramSocket;
 import org.apache.log4j.Logger;
 
 import talkie.common.constants.Talkie;
-import talkie.server.process.listeners.ServerConnector;
-import talkie.server.process.listeners.UDPServerConnector;
+import talkie.server.connectors.ServerConnector;
+import talkie.server.connectors.UDPServerConnector;
 
 public class UDPDispatcher
     extends DispatchProtocol

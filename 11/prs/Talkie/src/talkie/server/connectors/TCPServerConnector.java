@@ -1,4 +1,4 @@
-package talkie.server.process.listeners;
+package talkie.server.connectors;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

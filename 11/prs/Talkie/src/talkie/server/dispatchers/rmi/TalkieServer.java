@@ -1,4 +1,4 @@
-package talkie.server.process.dispatchers.rmi;
+package talkie.server.dispatchers.rmi;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

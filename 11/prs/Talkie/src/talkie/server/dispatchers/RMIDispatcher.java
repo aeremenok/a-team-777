@@ -1,10 +1,10 @@
-package talkie.server.process.dispatchers;
+package talkie.server.dispatchers;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-import talkie.server.process.dispatchers.rmi.TalkieServerImpl;
+import talkie.server.dispatchers.rmi.TalkieServerImpl;
 
 public class RMIDispatcher
     extends DispatchProtocol
