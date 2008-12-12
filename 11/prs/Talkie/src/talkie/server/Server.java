@@ -40,9 +40,9 @@ public class Server
         ActionListener
 {
     private static Logger                       log                  = Logger.getLogger( Server.class );
-    private static final String                 USERS_PROPERTIES     = "..\users.properties";
-    private static final String                 LOG4J_PROPERTIES     = "..\log4j.properties";
-    private static final String                 PROTOCOLS_PROPERTIES = "..\protocols.properties";
+    private static final String                 USERS_PROPERTIES     = "..\\users.properties";
+    private static final String                 LOG4J_PROPERTIES     = "..\\log4j.properties";
+    private static final String                 PROTOCOLS_PROPERTIES = "..\\protocols.properties";
     private static final int                    EXIT                 = 0;
     private static final int                    OPEN                 = 1;
     private static final int                    SAVE                 = 2;
