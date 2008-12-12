@@ -110,9 +110,32 @@ public class UDPConnector
     }
 
     @Override
-    public boolean needsRunning()
+    public boolean needsStopping()
     {
         return true;
+    }
+
+    public void run()
+    {
+        while ( !Thread.currentThread().isInterrupted() && valid )
+        {
+            try
+            {
+                byte[] data = new byte[Talkie.MSG_SIZE];
+                DatagramPacket inPacket = new DatagramPacket( data, data.length );
+                socket.receive( inPacket );
+
+                String msg = new String( inPacket.getData(), 0, inPacket.getLength() );
+                synchronized ( getClient() )
+                {
+                    process( msg );
+                }
+            }
+            catch ( IOException e )
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -120,26 +143,5 @@ public class UDPConnector
         String message )
     {
         speaker.send( message );
-    }
-
-    @Override
-    protected void mainLoopStep()
-    {
-        try
-        {
-            byte[] data = new byte[Talkie.MSG_SIZE];
-            DatagramPacket inPacket = new DatagramPacket( data, data.length );
-            socket.receive( inPacket );
-
-            String msg = new String( inPacket.getData(), 0, inPacket.getLength() );
-            synchronized ( getClient() )
-            {
-                process( msg );
-            }
-        }
-        catch ( IOException e )
-        {
-            e.printStackTrace();
-        }
     }
 }

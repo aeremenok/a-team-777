@@ -51,9 +51,13 @@ public class CORBAConnector
     }
 
     @Override
-    public boolean needsRunning()
+    public boolean needsStopping()
     {
         return false;
+    }
+
+    public void run()
+    {
     }
 
     @Override
@@ -77,11 +81,5 @@ public class CORBAConnector
         NameComponent path[] = { nameComponent };
         corbaObject = naming.resolve( path );
         talkieServer = IDLTalkieServerHelper.narrow( corbaObject );
-    }
-
-    @Override
-    protected void mainLoopStep()
-    {
-        Thread.yield();
     }
 }

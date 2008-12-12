@@ -63,7 +63,7 @@ public abstract class ClientConnector
 
     public abstract void logout();
 
-    public abstract boolean needsRunning();
+    public abstract boolean needsStopping();
 
     public void process(
         String msg )
@@ -79,14 +79,6 @@ public abstract class ClientConnector
         {
             getClient().getTextArea().append( msg + "\n" );
             getClient().getTextArea().setCaretPosition( getClient().getTextArea().getText().length() );
-        }
-    }
-
-    public void run()
-    {
-        while ( !Thread.currentThread().isInterrupted() && valid )
-        {
-            mainLoopStep();
         }
     }
 
@@ -112,11 +104,9 @@ public abstract class ClientConnector
         valid = false;
         logout();
         close();
-        if ( needsRunning() )
+        if ( needsStopping() )
         {
             Thread.currentThread().interrupt();
         }
     }
-
-    protected abstract void mainLoopStep();
 }
