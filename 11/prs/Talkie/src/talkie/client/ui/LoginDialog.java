@@ -115,7 +115,7 @@ public class LoginDialog
                 }
                 owner.getConnector().setServerName( tfServer.getText() );
                 owner.getConnector().setLoginAndPass( tbLogin.getText(), tbPass.getText() );
-                if ( owner.getConnector().attemptToLogin() )
+                if ( owner.getConnector().attemptToLogin() && owner.getConnector().needsRunning() )
                 {
                     new Thread( owner.getConnector() ).start();
                 }

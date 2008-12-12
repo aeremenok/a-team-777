@@ -36,13 +36,24 @@ public class CORBAConnector
     @Override
     public void close()
     {
-        talkieServer.logout( login );
     }
 
     @Override
     public boolean establishConnection()
     {
         return talkieServer.login( talkieClient );
+    }
+
+    @Override
+    public void logout()
+    {
+        talkieServer.logout( login );
+    }
+
+    @Override
+    public boolean needsRunning()
+    {
+        return false;
     }
 
     @Override

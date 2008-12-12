@@ -110,6 +110,18 @@ public class TCPConnector
     }
 
     @Override
+    public void logout()
+    {
+        send( Message.LOGOUT );
+    }
+
+    @Override
+    public boolean needsRunning()
+    {
+        return true;
+    }
+
+    @Override
     public void send(
         String message )
     {
