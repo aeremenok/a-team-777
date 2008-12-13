@@ -9,7 +9,6 @@ import java.net.UnknownHostException;
 import java.util.StringTokenizer;
 
 import talkie.client.Client;
-import talkie.client.speakers.UDPSpeaker;
 import talkie.common.constants.Message;
 import talkie.common.constants.Talkie;
 
@@ -17,7 +16,8 @@ public class UDPConnector
     extends ClientConnector
 {
     private DatagramSocket socket;
-    private UDPSpeaker     speaker;
+    private int            port;
+    private InetAddress    address;
 
     public UDPConnector(
         Client client )
@@ -27,7 +27,6 @@ public class UDPConnector
         try
         {
             socket = new DatagramSocket();
-            speaker = new UDPSpeaker();
         }
         catch ( SocketException e )
         {
@@ -39,7 +38,6 @@ public class UDPConnector
     @Override
     public void close()
     {
-        speaker.close();
         socket.close();
     }
 
@@ -82,9 +80,8 @@ public class UDPConnector
             socket.receive( inPacket );
             socket.setSoTimeout( soTimeout );
 
-            // ответ принят, сохраняем параметры сокета, с которым будем общаться дальше
-            speaker.setAddress( inPacket.getAddress() );
-            speaker.setPort( inPacket.getPort() );
+            address = inPacket.getAddress();
+            port = inPacket.getPort();
             data = inPacket.getData();
 
             String sData = new String( inPacket.getData(), 0, inPacket.getLength() );
@@ -142,6 +139,15 @@ public class UDPConnector
     public void send(
         String message )
     {
-        speaker.send( message );
+        byte[] bytes = message.getBytes();
+        DatagramPacket packet = new DatagramPacket( bytes, bytes.length, address, port );
+        try
+        {
+            socket.send( packet );
+        }
+        catch ( IOException e )
+        {
+            e.printStackTrace();
+        }
     }
 }
