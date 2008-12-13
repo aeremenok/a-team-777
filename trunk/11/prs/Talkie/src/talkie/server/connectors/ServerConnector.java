@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
+
 import talkie.common.constants.Message;
 import talkie.common.constants.Status;
 import talkie.server.Server;
@@ -14,6 +16,7 @@ public abstract class ServerConnector
     implements
         Runnable
 {
+    private Logger   log    = Logger.getLogger( ServerConnector.class );
     protected Server server = null;
     protected User   user   = null;
     private boolean  valid  = true;
@@ -61,6 +64,7 @@ public abstract class ServerConnector
     public void process(
         String message )
     {
+        log.fatal( "processing message" );
         StringTokenizer tokenizer = new StringTokenizer( message, " " );
         if ( tokenizer.countTokens() > 0 )
         {
