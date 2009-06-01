@@ -1,9 +1,0 @@
-z39.05 - network protocol
-
-MARC, USMARC, UKMARK, RUSMARC, UNIMARC - data presentation format
-
-WAIS - z39.05-inspired protocol for searching information in Gopher
-
-ARCHIE - ftp-searching tool
-
-
