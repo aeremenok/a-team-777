@@ -1,9 +1,17 @@
 Программы автоматизации библиотечной деятельности
 
 Протоколы 
-    Z39.50
+    Z39.50, CQL (Common Query Language)
+        SRU/SRW (REST/SOAP)
     HTTP
 
 Бесплатные библиографические базы данных
 
 Стандарты
+
+Подходы:
+    HTML + XML
+    автономные агенты
+    объекты + RMI
+
+    OAI Protocol for Metadata Harvesting
